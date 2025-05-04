@@ -58,7 +58,7 @@ public partial class Camera : Camera3D
 
     public override void _Input(InputEvent @event)
     {
-        return;
+        //return;
         if (@event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
         {
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)

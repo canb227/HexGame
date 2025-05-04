@@ -1,0 +1,8 @@
+res://HexTest.tscn
+res://Camera.cs
+res://graphics/GraphicUnit.cs
+res://graphics/GraphicGameBoard.cs
+res://graphics/GraphicObject.cs
+res://Global.cs
+res://HexTest.cs
+res://Main.cs

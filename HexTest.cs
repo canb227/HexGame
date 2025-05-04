@@ -8,360 +8,208 @@ public partial class HexTest : Node3D
 {
     Game game;
 
-    List<Hex> hexSubset;
-
+    GraphicManager graphicManager;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
-        Dictionary<int, Player> playerDictionary = new();
-        TeamManager teamManager = new TeamManager();
-        TurnManager turnManager = new TurnManager();
-
-        //game = new Game("hex/sample");
-
-
+        Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
+        Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
 
         game = GameTests.MapLoadTest();
-       
-        hexSubset = game.mainGameBoard.gameHexDict.Keys.ToList();
-        Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
-        Global.layout = pointy;
-        Global.game = game;
-
-
-        MeshInstance3D triangles = new MeshInstance3D();
-        triangles.Mesh = GenerateHexTriangles(hexSubset, pointy);
+        graphicManager = new GraphicManager(game, pointy);
+        AddChild(graphicManager);
 
 
 
-        StandardMaterial3D material = new StandardMaterial3D();
-        material.VertexColorUseAsAlbedo = true;
-        triangles.SetSurfaceOverrideMaterial(0, material);
-        AddChild(triangles);
 
-        MeshInstance3D lines = new MeshInstance3D();
-        lines.Mesh = GenerateHexLines(hexSubset, pointy);
-        AddChild(lines);
 
-        AddHexTemperature(game.mainGameBoard, pointy);
-        AddHexFeatures(game.mainGameBoard,pointy);
-        AddHexUnits(game.mainGameBoard, pointy);
-        AddHexType(game.mainGameBoard, pointy);
-        AddHexDistrictsAndCities(game.mainGameBoard, pointy);
-        AddHexCoords(game.mainGameBoard, pointy);
-        AddHexYields(game.mainGameBoard, pointy);
+
+        //new age shit
+        /*        Image terrainTypeImage = GenerateHexImage(game.mainGameBoard, pointyReal);
+                Image mapImage;
+                FastNoiseLite noise = new FastNoiseLite();
+                noise.Frequency = 0.0005f;
+                noise.Seed = 1;
+                noise.FractalType = FastNoiseLite.FractalTypeEnum.None;
+                noise.DomainWarpEnabled = false;
+                mapImage = noise.GetImage(terrainTypeImage.GetWidth(), terrainTypeImage.GetHeight());
+                mapImage.SavePng("testnoise.png");
+                float heightScale = 400.0f;
+                int x_axis = (int)(2 * pointyReal.size.x * (game.mainGameBoard.right - game.mainGameBoard.left)) + (int)((game.mainGameBoard.bottom - game.mainGameBoard.top) * pointyReal.size.x);
+                int y_axis = (int)(2 * pointyReal.size.y * (game.mainGameBoard.bottom - game.mainGameBoard.top));
+                //GD.Print(x_axis + " " + y_axis);
+                BuildMesh((mapImage, terrainTypeImage), heightScale, x_axis, y_axis, new Vector3(0.0f, 0.0f, 0.0f), 1);*/
     }
 
-    private void AddHexYields(GameBoard mainGameBoard, Layout layout)
+
+
+    private void UpdateBoard(Game game, Layout pointy)
     {
-        foreach (Hex hex in hexSubset)
-        {
-            Point point = layout.HexToPixel(hex);
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y, .5f, (float)point.x -3);
-            lbl.Text = hex.q.ToString() + "," + hex.r.ToString() + "," + hex.s.ToString();
-            AddChild(lbl);
-        }
+        
     }
 
+
+
+    Image GenerateHexImage(GameBoard gameBoard, Layout layout)
+    {
+        double xsize = Math.Abs(layout.size.x* (((double)gameBoard.right - (double)gameBoard.left) + ((double)gameBoard.bottom - (double)gameBoard.top)/2));
+        double ysize = Math.Abs(layout.size.y *((double)(gameBoard.bottom - gameBoard.top)));
+        Image terrainImage = Image.Create((int)Math.Ceiling(xsize*2), (int)Math.Ceiling(ysize *2), false, Image.Format.Rgba8);
+        terrainImage.Fill(new Godot.Color(0.5f, 0.5f, 0.5f, 1f));
+        List<Vector2I> hexagonPixels = new List<Vector2I>();
+
+        for(double x = -layout.size.x; x < layout.size.x; x += 0.2f)
+        {
+            for(double y = -layout.size.y; y < layout.size.y; y += 0.2f)
+            {
+                Hex hex = layout.PixelToHex(new Point(x, y)).HexRound();
+                if (hex.q == 0 && hex.r == 0 && hex.s == 0)
+                {
+                    hexagonPixels.Add(new Vector2I((int)x, (int)y));
+                }
+            }
+        }
+
+
+        foreach (Hex hex in gameBoard.gameHexDict.Keys.ToList())
+        {
+            
+            Godot.Color color;
+            switch (game.mainGameBoard.gameHexDict[hex].terrainType)
+            {
+                case TerrainType.Rough:
+                    //50% of noise map
+                    color = new Godot.Color(0.5f, 0.5f, 0.5f, 1f);
+                    //List<Point> points = layout.PolygonCorners(hex);
+                    break;
+                case TerrainType.Mountain:
+                    //~100% of noise map
+                    color = new Godot.Color(1.0f, 1.0f, 1.0f, 1f);
+                    break;
+                default:
+                    color = new Godot.Color(0.0f, 0.0f, 0.0f, 1f);
+                    break;
+            }
+            Point hexPoint = layout.HexToPixel(hex);
+            int hexX = (int)hexPoint.x;
+            int hexY = (int)hexPoint.y;
+            foreach (Vector2I vec in hexagonPixels)
+            {
+                int pixX = vec.X + hexX + (int)layout.size.x;
+                int pixY = vec.Y + hexY + (int)layout.size.y;
+                if (pixX > 0 && pixY > 0)
+                {
+                    terrainImage.SetPixel(pixX, pixY, color);
+                }
+            }
+        }
+
+        terrainImage.SavePng("test.png");
+        Image blurredImage = ApplyGausBlur(terrainImage, 2);
+        blurredImage.SavePng("testblur.png");
+        return blurredImage;
+        
+    }
+
+    Image ApplyGausBlur(Image img, int radius)
+    {
+        int width = img.GetWidth();
+        int height = img.GetHeight();
+
+        Image blurredImg = (Image)img.Duplicate();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Godot.Color avgColor = new Godot.Color(0, 0, 0, 0);
+                int count = 0;
+
+                for (int dx = -radius; dx <= radius; dx++)
+                {
+                    for (int dy = -radius; dy <= radius; dy++)
+                    {
+                        int nx = x + dx;
+                        int ny = y + dy;
+
+                        if (nx >= 0 && ny >= 0 && nx < width && ny < height)
+                        {
+                            avgColor += img.GetPixel(nx, ny);
+                            count++;
+                        }
+                    }
+                }
+
+                avgColor /= count;
+                blurredImg.SetPixel(x, y, avgColor);
+            }
+        }
+
+        return blurredImg;
+    }
+
+    private Rid BuildMesh((Image heightMap, Image terrainTypeMap) maps, float heightScale, int width, int depth, Vector3 globalPosition, int resolution)
+    {
+        //myGlobalPosition = globalPosition;
+        // Create an array for the vertices
+
+        width = (width / resolution) + 1;
+        depth = (depth / resolution) + 1;
+        Vector3[] p_vertices = new Vector3[width * depth];
+        GD.Print(width + " " + depth);
+
+        // Populate the vertices array
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < depth; j++)
+            {
+                int index = i * depth + j;
+                p_vertices[index] = new Vector3(i * resolution * 4, 0.0f, j * resolution * 4);
+            }
+        }
+
+        // Create an array for the indices
+        int[] p_indices = new int[(width - 1) * (depth - 1) * 6];
+
+        // Populate the indices array
+        for (int i = 0; i < width - 1; i++)
+        {
+            for (int j = 0; j < depth - 1; j++)
+            {
+                int index = i * (depth - 1) + j;
+                p_indices[index * 6 + 0] = i * width + j;
+                p_indices[index * 6 + 1] = (i + 1) * width + j;
+                p_indices[index * 6 + 2] = i * width + j + 1;
+                p_indices[index * 6 + 3] = (i + 1) * width + j;
+                p_indices[index * 6 + 4] = (i + 1) * width + j + 1;
+                p_indices[index * 6 + 5] = i * width + j + 1;
+            }
+        }
+
+        // Create the AABB
+        Aabb p_aabb = new Aabb(new Vector3(0, -2000.0f, 0), new Vector3(width * resolution * 4, 4000.0f, depth * resolution * 4)); // Adjust the height as needed
+
+        // Create an array for the mesh data
+        Godot.Collections.Array arrays = new Godot.Collections.Array();
+        arrays.Resize((int)RenderingServer.ArrayType.Max);
+
+        // Set the vertices and indices
+        arrays[(int)RenderingServer.ArrayType.Vertex] = p_vertices;
+        arrays[(int)RenderingServer.ArrayType.Index] = p_indices;
+
+        //heightMapTexture = ImageTexture.CreateFromImage(maps.heightMap);
+        //terrainTypeMapTexture = ImageTexture.CreateFromImage(maps.terrainTypeMap);
+
+        // Create the mesh
+        Rid meshRid = RenderingServer.MeshCreate();
+        RenderingServer.MeshAddSurfaceFromArrays(meshRid, RenderingServer.PrimitiveType.Triangles, arrays);
+        // Set the custom AABB
+        RenderingServer.MeshSetCustomAabb(meshRid, p_aabb);
+        return meshRid;
+    }
     public override void _Process(double delta)
     {
-        
-    }
 
-
-
-    private void AddHexCoords(GameBoard mainGameBoard, Layout layout)
-    {
-        foreach (Hex hex in hexSubset)
-        {
-            Point point = layout.HexToPixel(hex);
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y, .5f, (float)point.x + 3);
-
-            Yields yields = game.mainGameBoard.gameHexDict[hex].yields;
-
-            lbl.Text = "Yields: " + yields.food + "F," + yields.production + "P," + yields.gold + "G," + yields.science + "S," + yields.culture + "C," + yields.happiness + "H";
-            //lbl.Text = "Yields: 1F, 1P, 1G, 1S, 1C, 1F";
-            AddChild(lbl);
-        }
-    }
-
-    private void AddHexType(GameBoard mainGameBoard, Layout layout)
-    {
-        foreach (Hex hex in hexSubset)
-        {
-            Point point = layout.HexToPixel(hex);
-            TerrainTemperature temp = game.mainGameBoard.gameHexDict[hex].terrainTemp;
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y + 2, 1f, (float)point.x - 1);
-            switch (game.mainGameBoard.gameHexDict[hex].terrainType)
-            {
-                case TerrainType.Flat:
-                    lbl.Text = "Type: Flat";
-                    break;
-                case TerrainType.Rough:
-                    lbl.Text = "Type: Rough";
-                    break;
-                case TerrainType.Mountain:
-                    lbl.Text = "Type: Mountain";
-                    break;
-                case TerrainType.Coast:
-                    lbl.Text = "Type: Coast";
-                    break;
-                case TerrainType.Ocean:
-                    lbl.Text = "Type: Ocean";
-                    break;
-                default:
-                    break;
-
-         
-            }
-            AddChild(lbl);
-        }
-    }
-
-    private void AddHexDistrictsAndCities(GameBoard board, Layout layout)
-    {
-        foreach (Hex hex in hexSubset)
-        {
-            Point point = layout.HexToPixel(hex);
-            Label3D districtLabel = new Label3D();
-            districtLabel.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            districtLabel.FontSize = 100;
-            districtLabel.Position = new Vector3((float)point.y, 1f, (float)point.x);
-            if (game.mainGameBoard.gameHexDict[hex].district != null)
-            {
-                GD.Print("District found");
-                if (game.mainGameBoard.gameHexDict[hex].district.isCityCenter)
-                {
-                    districtLabel.Text = "City: " + game.mainGameBoard.gameHexDict[hex].district.city.name;
-                }
-                else
-                {
-                    districtLabel.Text = "District: " + game.mainGameBoard.gameHexDict[hex].district.city.name;
-                }
-                AddChild(districtLabel);
-            }
-        }
-    }
-
-    private void AddHexUnits(GameBoard board, Layout layout)
-    {
-        foreach (Hex hex in hexSubset)
-        {
-            Point point = layout.HexToPixel(hex);
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y - 2, 1f, (float)point.x + 1);
-            foreach (Unit unit in game.mainGameBoard.gameHexDict[hex].unitsList)
-            {
-                lbl.Text += unit.name + " ";
-            }
-            AddChild(lbl);
-        }
-
-
-    }
-
-    private void AddHexFeatures(GameBoard board,Layout layout)
-    {
-        foreach (Hex hex in hexSubset)
-        {
-            Point point = layout.HexToPixel(hex);
-            TerrainTemperature temp = game.mainGameBoard.gameHexDict[hex].terrainTemp;
-            int xoffset = 1;
-            foreach (FeatureType feature in game.mainGameBoard.gameHexDict[hex].featureSet)
-            {
-                GD.Print("ding:");
-                Label3D lbl = new Label3D();
-                lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-                lbl.FontSize = 100;
-                lbl.Position = new Vector3((float)point.y - 2, 1f, (float)point.x - 2);
-                lbl.Position = new Vector3((float)point.y - 2, 1f, (float)point.x - 2 + xoffset++);
-                switch (feature)
-                {
-                    case FeatureType.Forest:
-                        lbl.Text = "Forest";
-                        break;
-                    case FeatureType.River:
-                        lbl.Text = "River";
-                        break;
-                    case FeatureType.Road:
-                        lbl.Text = "Road";
-                        break;
-                    case FeatureType.Coral:
-                        lbl.Text = "Coral";
-                        break;
-                    default:
-                        break;
-                }
-                AddChild(lbl);
-            }
-        }
-    }
-
-    private void AddHexTemperature(GameBoard board,Layout layout)
-    {
-
-        foreach (Hex hex in hexSubset)
-        {
-            Point point = layout.HexToPixel(hex);
-            TerrainTemperature temp = game.mainGameBoard.gameHexDict[hex].terrainTemp;
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y + 2, 1f, (float)point.x + 2);
-            switch (temp)
-            {
-                case TerrainTemperature.Desert:
-                    lbl.Text = "Temp: Desert";
-                    break;
-                case TerrainTemperature.Grassland:
-                    lbl.Text = "Temp: Grasslands";
-                    break;
-                case TerrainTemperature.Plains:
-                    lbl.Text = "Temp: Plains";
-                    break;
-                case TerrainTemperature.Tundra:
-                    lbl.Text = "Temp: Tundra";
-                    break;
-                case TerrainTemperature.Arctic:
-                    lbl.Text = "Temp: Arctic";
-                    break;
-                default:
-                    break;
-            }
-            AddChild(lbl);
-        }
-        
-    }
-
-
-
-
-    ArrayMesh GenerateHexLines(List<Hex> hexes, Layout layout)
-    {
-      
-        SurfaceTool st = new SurfaceTool();
-        
-        st.Begin(Mesh.PrimitiveType.Lines);
-
-        foreach (Hex hex in hexSubset)
-        {
-            List<Point> points = layout.PolygonCorners(hex);
-            st.AddVertex(new Vector3((float)points[0].y, 0.01f, (float)points[0].x));
-            foreach (Point point in points)
-            {
-                Vector3 temp = new Vector3((float)point.y, 0.01f, (float)point.x);
-                //GD.Print(temp);
-                st.AddVertex(temp);
-                st.AddVertex(temp);
-
-            }
-            st.AddVertex(new Vector3((float)points[0].y, 0.01f, (float)points[0].x));
-        }
-        //st.GenerateNormals();
-        return st.Commit();
-    }
-
-    ArrayMesh GenerateHexTriangles(List<Hex> hexes, Layout layout)
-    {
-        SurfaceTool st = new SurfaceTool();
-        st.Begin(Mesh.PrimitiveType.Triangles);
-
-
-        foreach (Hex hex in hexSubset)
-        {
-            if (game == null)
-            {
-                GD.Print("Game is null");
-            }
-            if (game.mainGameBoard == null)
-            {
-                GD.Print("Game board is null");
-            }
-            if (game.mainGameBoard.gameHexDict == null)
-            {
-                GD.Print("Game hex dict is null");
-            }   
-            if (game.mainGameBoard.gameHexDict[hex] == null)
-            {
-                GD.Print("Hex is null");
-            }
-
-            switch (game.mainGameBoard.gameHexDict[hex].terrainType)
-            {
-                case TerrainType.Flat:
-                    st.SetColor(Godot.Colors.ForestGreen);
-                    break;
-                case TerrainType.Rough:
-                    st.SetColor(Godot.Colors.SaddleBrown);
-                    break;
-                case TerrainType.Mountain:
-                    st.SetColor(Godot.Colors.Black);
-                    break;
-                case TerrainType.Coast:
-                    st.SetColor(Godot.Colors.LightBlue);
-                    break;
-                case TerrainType.Ocean:
-                    st.SetColor(Godot.Colors.DarkBlue);
-                    break;
-                default:
-                    break;
-
-            }
-            
-            List<Point> points = layout.PolygonCorners(hex);
-
-            Vector3 origin = new Vector3((float)points[0].y, 0, (float)points[0].x);
-            for (int i = 1; i < 6; i++)
-            {
-                st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
-                
-                Vector3 pointTwo = new Vector3((float)points[i ].y, 0, (float)points[i ].x); // Get the next point in the polygon
-                st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
-
-                Vector3 pointThree = new Vector3((float)points[i -1].y, 0, (float)points[i -1].x);
-                st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
-            }
-
-            /*
-            foreach (Point point in points)
-            {
-                
-                //GD.Print(temp);
-                st.AddVertex(temp);
-            }
-
-            Vector3 one = new Vector3((float)points[0].y, 0, (float)points[0].x);
-            Vector3 two = new Vector3((float)points[2].y, 0, (float)points[2].x);
-            Vector3 three = new Vector3((float)points[3].y, 0, (float)points[3].x);
-            
-            st.AddVertex(one);
-            st.AddVertex(two);
-            st.AddVertex(three);
-
-            one = new Vector3((float)points[0].y, 0, (float)points[0].x);
-            two = new Vector3((float)points[3].y, 0, (float)points[3].x);
-            three = new Vector3((float)points[5].y, 0, (float)points[5].x);
-            st.AddVertex(one);
-            st.AddVertex(two);
-            st.AddVertex(three);
-            */
-        }
-        st.GenerateNormals();
-       
-        return st.Commit();
-        
     }
 }

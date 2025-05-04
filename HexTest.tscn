@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://b04k7i5sjy21u"]
+[gd_scene load_steps=9 format=3 uid="uid://b04k7i5sjy21u"]
 
 [ext_resource type="Script" uid="uid://3ekqygmjoqt2" path="res://HexTest.cs" id="1_r3umj"]
 [ext_resource type="Script" uid="uid://cu04fpkqvynd4" path="res://Camera.cs" id="2_n23of"]
+[ext_resource type="PackedScene" uid="uid://dwicy487evfxs" path="res://graphics/models/baseperson_remesh3.glb" id="3_qjyro"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_r3umj"]
 
@@ -47,3 +48,6 @@ anchor_right = 1.00174
 anchor_bottom = 0.996914
 text = "Next Turn"
 metadata/_edit_use_anchors_ = true
+
+[node name="baseperson_remesh3" parent="." instance=ExtResource("3_qjyro")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.67466, -0.233437, -1.5995)
