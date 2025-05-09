@@ -15,12 +15,21 @@ public partial class Camera : Camera3D
 
     Layout layout;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
+    Game game;
+    GraphicManager graphicManager;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+
+
+    public void SetGame(Game game)
+    {
+        this.game = game;
+    }
+
+    public void SetGraphicManager(GraphicManager manager)
+    {
+        this.graphicManager = manager;
+    }
+
 	public override void _Process(double delta)
 	{
         Vector2 input = Input.GetVector("CameraMoveLeft", "CameraMoveRight", "CameraMoveUp", "CameraMoveDown");
@@ -61,28 +70,27 @@ public partial class Camera : Camera3D
         //return;
         if (@event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
         {
+            Vector2 mouse_pos = GetViewport().GetMousePosition();
+            Vector3 origin = this.ProjectRayOrigin(mouse_pos);
+            Vector3 direction = this.ProjectRayNormal(mouse_pos);
+            float distance = -origin.Y / direction.Y;
+            Vector3 position = origin + direction * distance;
+            Point point = new Point(position.Z, position.X);
+            FractionalHex fHex = Global.layout.PixelToHex(point);
+            Hex hex = fHex.HexRound();
+
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
-                Vector2 mouse_pos = GetViewport().GetMousePosition();
-                Vector3 origin = this.ProjectRayOrigin(mouse_pos);
-                Vector3 direction = this.ProjectRayNormal(mouse_pos);
-                float distance = -origin.Y / direction.Y;
-                Vector3 position = origin + direction * distance;
-
                 GD.Print("You just clicked!");
-                
-                Point point = new Point(position.Z, position.X);
                 GD.Print("    Mouse position: " + point.x + "," + point.y);
-
-                FractionalHex fHex = Global.layout.PixelToHex(point);
-                Hex hex = fHex.HexRound();
                 GD.Print("    Hex position: " + hex.q + "," + hex.r + "," + hex.s);
+                ProcessHexLeftClick(hex);
 
             }
             else if (mouseButtonEvent.ButtonIndex == MouseButton.Right)
             {
-                // Handle right mouse button click
                 GD.Print("Right mouse button clicked");
+                ProcessHexRightClick(hex);
             }
         }
         if (@event is InputEventMouseMotion mouseMotionEvent)
@@ -92,5 +100,36 @@ public partial class Camera : Camera3D
             //GD.Print($"Mouse moved to position: {mousePosition}");
         }
        
+    }
+
+    private void ProcessHexLeftClick(Hex hex)
+    {
+        GameHex gameHex = game.mainGameBoard.gameHexDict[hex];
+        if (gameHex.district != null && graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.district.id])
+        {
+            foreach(Building building in gameHex.district.buildings)
+            {
+                graphicManager.ChangeSelectedObject(building.district.id, graphicManager.graphicObjectDictionary[building.district.id]);
+                return;
+
+                if (building.buildingType == BuildingType.Palace || building.buildingType == BuildingType.CityCenter)
+                {
+                    
+                }
+            }
+        }
+        else if (gameHex.unitsList.Count != 0)
+        {
+            if(graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.unitsList[0].id])
+            {
+                graphicManager.ChangeSelectedObject(gameHex.unitsList[0].id, graphicManager.graphicObjectDictionary[gameHex.unitsList[0].id]);
+                return;
+            }
+        }
+    }
+
+    private void ProcessHexRightClick(Hex hex)
+    {
+
     }
 }

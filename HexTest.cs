@@ -15,9 +15,16 @@ public partial class HexTest : Node3D
     {
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
-
+        Global.layout = pointy;
         game = GameTests.MapLoadTest();
         graphicManager = new GraphicManager(game, pointy);
+        game = GameTests.TestMassScoutBuild(game);
+        Camera3D camera3D = GetChild<Camera3D>(0);//TODO
+        Camera cameraScript = camera3D as Camera;
+        cameraScript.SetGame(game);
+        cameraScript.SetGraphicManager(graphicManager);
+        
+
         AddChild(graphicManager);
 
 

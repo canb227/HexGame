@@ -1,10 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b04k7i5sjy21u"]
+[gd_scene load_steps=6 format=3 uid="uid://b04k7i5sjy21u"]
 
 [ext_resource type="Script" uid="uid://3ekqygmjoqt2" path="res://HexTest.cs" id="1_r3umj"]
 [ext_resource type="Script" uid="uid://cu04fpkqvynd4" path="res://Camera.cs" id="2_n23of"]
-[ext_resource type="PackedScene" uid="uid://dwicy487evfxs" path="res://graphics/models/baseperson_remesh3.glb" id="3_qjyro"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_r3umj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r3umj"]
 sky_top_color = Color(0.190233, 0.395889, 0.920235, 1)
@@ -16,15 +13,8 @@ sky_material = SubResource("ProceduralSkyMaterial_r3umj")
 background_mode = 2
 sky = SubResource("Sky_n23of")
 
-[sub_resource type="PrismMesh" id="PrismMesh_r3umj"]
-lightmap_size_hint = Vector2i(14, 21)
-
 [node name="HexTest" type="Node3D"]
 script = ExtResource("1_r3umj")
-
-[node name="Node3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.07568, 0, 0)
-mesh = SubResource("CapsuleMesh_r3umj")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, -0.766044, 0.642788, 0, 0.642788, 0.766044, -1, 3.34849e-08, -2.80971e-08, 14.7468, 20, -18.1225)
@@ -32,10 +22,6 @@ script = ExtResource("2_n23of")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qjyro")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0958567, -0.0700161, 0.042933)
-mesh = SubResource("PrismMesh_r3umj")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.479182, 0.877715, 0, -0.877715, 0.479182, 0, 9.99781, 0)
@@ -48,6 +34,3 @@ anchor_right = 1.00174
 anchor_bottom = 0.996914
 text = "Next Turn"
 metadata/_edit_use_anchors_ = true
-
-[node name="baseperson_remesh3" parent="." instance=ExtResource("3_qjyro")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.67466, -0.233437, -1.5995)

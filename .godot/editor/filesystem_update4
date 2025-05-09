@@ -6,3 +6,6 @@ res://graphics/GraphicObject.cs
 res://Global.cs
 res://HexTest.cs
 res://Main.cs
+res://graphics/GraphicDistrict.cs
+res://graphics/GraphicBuilding.cs
+res://graphics/GraphicsManager.cs

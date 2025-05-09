@@ -8,8 +8,10 @@ public partial class GraphicGameBoard : GraphicObject
 {
     public GameBoard gameBoard;
     Layout layout;
-    public GraphicGameBoard(GameBoard gameBoard, Layout layout)
+    private GraphicManager graphicManager;
+    public GraphicGameBoard(GameBoard gameBoard, GraphicManager graphicManager, Layout layout)
     {
+        this.graphicManager = graphicManager;
         this.gameBoard = gameBoard;
         this.layout = layout;
         DrawBoard(layout);
@@ -18,14 +20,25 @@ public partial class GraphicGameBoard : GraphicObject
     {
         
     }
-    public override void UpdateGraphic()
-    {
 
+    public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
+    {
+        //placeholder
+        SimpleRedrawBoard(layout);
+    }
+
+    //super simple just delete all our children and redraw the board using the current state of gameboard
+    private void SimpleRedrawBoard(Layout pointy)
+    {
+        //foreach (Node child in this.GetChildren())
+        //{
+        //    child.QueueFree();
+        //}
+        //DrawBoard(pointy);
     }
 
     private void DrawBoard(Layout pointy)
     {
-        GD.Print("DRAW BOARD");
         MeshInstance3D triangles = new MeshInstance3D();
         triangles.Mesh = GenerateHexTriangles(pointy);
         StandardMaterial3D material = new StandardMaterial3D();
@@ -37,13 +50,13 @@ public partial class GraphicGameBoard : GraphicObject
         lines.Mesh = GenerateHexLines(pointy);
         AddChild(lines);
 
-        AddHexTemperature(pointy);
-        AddHexFeatures(pointy);
+        //AddHexTemperature(pointy);
+        //AddHexFeatures(pointy);
         AddHexUnits(pointy);
-        AddHexType(pointy);
+        //AddHexType(pointy);
         AddHexDistrictsAndCities(pointy);
-        AddHexCoords(pointy);
-        AddHexYields(pointy);
+        //AddHexCoords(pointy);
+        //AddHexYields(pointy);
     }
 
     private void AddHexYields(Layout layout)
@@ -118,22 +131,15 @@ public partial class GraphicGameBoard : GraphicObject
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
         {
-            Point point = layout.HexToPixel(hex);
-            Label3D districtLabel = new Label3D();
-            districtLabel.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            districtLabel.FontSize = 100;
-            districtLabel.Position = new Vector3((float)point.y, 1f, (float)point.x);
+            /*            Point point = layout.HexToPixel(hex);
+                        Label3D districtLabel = new Label3D();
+                        districtLabel.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
+                        districtLabel.FontSize = 100;
+                        districtLabel.Position = new Vector3((float)point.y, 1f, (float)point.x);*/
+            
             if (gameBoard.gameHexDict[hex].district != null)
             {
-                if (gameBoard.gameHexDict[hex].district.isCityCenter)
-                {
-                    districtLabel.Text = "City: " + gameBoard.gameHexDict[hex].district.city.name;
-                }
-                else
-                {
-                    districtLabel.Text = "District: " + gameBoard.gameHexDict[hex].district.city.name;
-                }
-                AddChild(districtLabel);
+                graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
             }
         }
     }
@@ -142,19 +148,11 @@ public partial class GraphicGameBoard : GraphicObject
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
         {
-            Point point = layout.HexToPixel(hex);
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y - 2, 1f, (float)point.x + 1);
             foreach (Unit unit in gameBoard.gameHexDict[hex].unitsList)
             {
-                lbl.Text += unit.name + " ";
+                graphicManager.NewUnit(unit);
             }
-            AddChild(lbl);
         }
-
-
     }
 
     private void AddHexFeatures(Layout layout)
@@ -299,6 +297,16 @@ public partial class GraphicGameBoard : GraphicObject
         st.GenerateNormals();
 
         return st.Commit();
+    }
+
+    public override void Unselected()
+    {
+        GD.PushWarning("NOT IMPLEMENTED");
+    }
+
+    public override void Selected()
+    {
+        GD.PushWarning("NOT IMPLEMENTED");
     }
 
     public override void _Process(double delta)
