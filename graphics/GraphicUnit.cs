@@ -11,6 +11,8 @@ public partial class GraphicUnit : GraphicObject
     public Node3D node3D;
     public Layout layout;
     public Label3D healthNumber;
+    public Label3D movementNumber;
+    public Label3D attacksNumber;
     public GraphicUnit(Unit unit, Layout layout)
     {
         this.unit = unit;
@@ -35,7 +37,9 @@ public partial class GraphicUnit : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Update)
         {
-            healthNumber.Text = unit.health.ToString();
+            healthNumber.Text = "Health: " + unit.health.ToString();
+            movementNumber.Text = "Movement Left: " + unit.remainingMovement.ToString();
+            attacksNumber.Text = "Attacks Left: " + unit.attacksLeft.ToString();
         }
     }
 
@@ -55,14 +59,35 @@ public partial class GraphicUnit : GraphicObject
 
     private void InstantiateUnitUI(Unit unit)
     {
+        //health
         healthNumber = new Label3D();
-        healthNumber.Text = unit.health.ToString();
+        healthNumber.Text = "Health: " + unit.health.ToString();
         healthNumber.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
 
         Transform3D newTransform = healthNumber.Transform;
         newTransform.Origin = new Vector3(0, 11, 0);
         healthNumber.Transform = newTransform;
         node3D.AddChild(healthNumber);
+
+        //movement
+        movementNumber = new Label3D();
+        movementNumber.Text = "Movement Left: " + unit.remainingMovement.ToString();
+        movementNumber.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
+
+        newTransform = movementNumber.Transform;
+        newTransform.Origin = new Vector3(0, 11.5f, 0);
+        movementNumber.Transform = newTransform;
+        node3D.AddChild(movementNumber);
+
+        //attacks
+        attacksNumber = new Label3D();
+        attacksNumber.Text = "Attacks Left: " + unit.attacksLeft.ToString();
+        attacksNumber.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
+
+        newTransform = attacksNumber.Transform;
+        newTransform.Origin = new Vector3(0, 12, 0);
+        attacksNumber.Transform = newTransform;
+        node3D.AddChild(attacksNumber);
     }
 
     public override void Unselected()
@@ -88,7 +113,7 @@ public partial class GraphicUnit : GraphicObject
     {
         Transform3D newTransform = node3D.Transform;
         Point hexPoint = layout.HexToPixel(unit.gameHex.hex);
-        newTransform.Origin = new Vector3((float)hexPoint.y, 10, (float)hexPoint.x);
+        newTransform.Origin = new Vector3((float)hexPoint.y, 2, (float)hexPoint.x);
         node3D.Transform = newTransform;
         GenerateHexLines();
         GenerateHexTriangles();
