@@ -65,7 +65,7 @@ public partial class Camera : Camera3D
         this.zoomAmount = Mathf.Lerp(this.zoomAmount, 0f, 0.5f);
     }
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         //return;
         if (@event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
@@ -81,15 +81,15 @@ public partial class Camera : Camera3D
 
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
-                GD.Print("You just clicked!");
+               /* GD.Print("You just clicked!");
                 GD.Print("    Mouse position: " + point.x + "," + point.y);
-                GD.Print("    Hex position: " + hex.q + "," + hex.r + "," + hex.s);
+                GD.Print("    Hex position: " + hex.q + "," + hex.r + "," + hex.s);*/
                 ProcessHexLeftClick(hex);
 
             }
             else if (mouseButtonEvent.ButtonIndex == MouseButton.Right)
             {
-                GD.Print("Right mouse button clicked");
+                /*GD.Print("Right mouse button clicked");*/
                 ProcessHexRightClick(hex);
             }
         }
@@ -130,6 +130,6 @@ public partial class Camera : Camera3D
 
     private void ProcessHexRightClick(Hex hex)
     {
-
+        graphicManager.selectedObject.ProcessRightClick(hex);
     }
 }

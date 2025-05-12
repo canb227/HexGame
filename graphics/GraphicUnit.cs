@@ -10,19 +10,21 @@ public partial class GraphicUnit : GraphicObject
     public Unit unit;
     public Node3D node3D;
     public Layout layout;
+    public Label3D healthNumber;
     public GraphicUnit(Unit unit, Layout layout)
     {
         this.unit = unit;
         this.layout = layout;
         node3D = new Node3D();
         InstantiateUnit(unit);
+        InstantiateUnitUI(unit);
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
         if (graphicUpdateType == GraphicUpdateType.Remove)
         {
-            QueueFree();
+            Free();
         }
         else if (graphicUpdateType == GraphicUpdateType.Move)
         {
@@ -30,6 +32,10 @@ public partial class GraphicUnit : GraphicObject
             Point hexPoint = layout.HexToPixel(unit.gameHex.hex);
             newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
             node3D.Transform = newTransform;
+        }
+        else if (graphicUpdateType == GraphicUpdateType.Update)
+        {
+            healthNumber.Text = unit.health.ToString();
         }
     }
 
@@ -43,10 +49,20 @@ public partial class GraphicUnit : GraphicObject
         Transform3D newTransform = node3D.Transform;
         Point hexPoint = layout.HexToPixel(unit.gameHex.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
-        GD.Print("Made Unit: " + newTransform.Origin);
         node3D.Transform = newTransform;
-
         AddChild(node3D);
+    }
+
+    private void InstantiateUnitUI(Unit unit)
+    {
+        healthNumber = new Label3D();
+        healthNumber.Text = unit.health.ToString();
+        healthNumber.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
+
+        Transform3D newTransform = healthNumber.Transform;
+        newTransform.Origin = new Vector3(0, 11, 0);
+        healthNumber.Transform = newTransform;
+        node3D.AddChild(healthNumber);
     }
 
     public override void Unselected()
@@ -55,9 +71,17 @@ public partial class GraphicUnit : GraphicObject
         Point hexPoint = layout.HexToPixel(unit.gameHex.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
-        FindChild("MovementRangeHexes").QueueFree();
-        FindChild("MovementRangeLines").QueueFree(); //CHILD NOT FOUND TODO
-        GD.PushWarning("NOT IMPLEMENTED");
+        foreach (Node3D child in GetChildren())
+        {
+            if(child.Name == "MovementRangeHexes")
+            {
+                child.Free();
+            }
+            else if(child.Name == "MovementRangeLines")
+            {
+                child.Free(); 
+            }
+        }
     }
 
     public override void Selected()
@@ -68,8 +92,20 @@ public partial class GraphicUnit : GraphicObject
         node3D.Transform = newTransform;
         GenerateHexLines();
         GenerateHexTriangles();
-        GD.PushWarning("NOT IMPLEMENTED");
     }
+
+    public override void ProcessRightClick(Hex hex)
+    {
+        unit.MoveTowards(unit.gameHex.gameBoard.gameHexDict[hex], unit.gameHex.gameBoard.game.teamManager, unit.gameHex.gameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
+        Transform3D newTransform = node3D.Transform;
+        Point hexPoint = layout.HexToPixel(unit.gameHex.hex);
+        newTransform.Origin = new Vector3((float)hexPoint.y, 10, (float)hexPoint.x);
+        node3D.Transform = newTransform;
+        Unselected();
+        Selected();
+    }
+
+
 
 
     private void GenerateHexLines()
@@ -113,7 +149,14 @@ public partial class GraphicUnit : GraphicObject
 
         foreach (Hex hex in unit.MovementRange().Keys)
         {
-
+            if(unit.gameHex.gameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum))
+            {
+                st.SetColor(Godot.Colors.Red);
+            }
+            else
+            {
+                st.SetColor(Godot.Colors.Gold);
+            }
             List<Point> points = layout.PolygonCorners(hex);
 
             Vector3 origin = new Vector3((float)points[0].y, 0.05f, (float)points[0].x);

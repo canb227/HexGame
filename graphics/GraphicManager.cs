@@ -11,11 +11,14 @@ public partial class GraphicManager : Node3D
     public Layout layout;
     public GraphicObject selectedObject;
     public int selectedObjectID;
+    public UIManager uiManager;
     public GraphicManager(Game game, Layout layout)
     {
         graphicObjectDictionary = new();
         this.game = game;
         this.layout = layout;
+        uiManager = new UIManager(this, game, layout);
+        AddChild(uiManager);
         game.graphicManager = this;
         if (game.mainGameBoard != null)
         {
@@ -60,6 +63,15 @@ public partial class GraphicManager : Node3D
         else
         {
             GD.Print("No Graphic Object Associated With That ID");
+        }
+    }
+
+    public void StartNewTurn()
+    {
+        if(selectedObject != null)
+        {
+            selectedObject.Unselected();
+            selectedObject = null;
         }
     }
 

@@ -51,7 +51,7 @@ public partial class GraphicGameBoard : GraphicObject
         AddChild(lines);
 
         //AddHexTemperature(pointy);
-        //AddHexFeatures(pointy);
+        AddHexFeatures(pointy);
         AddHexUnits(pointy);
         //AddHexType(pointy);
         AddHexDistrictsAndCities(pointy);
@@ -305,6 +305,11 @@ public partial class GraphicGameBoard : GraphicObject
     }
 
     public override void Selected()
+    {
+        GD.PushWarning("NOT IMPLEMENTED");
+    }
+
+    public override void ProcessRightClick(Hex hex)
     {
         GD.PushWarning("NOT IMPLEMENTED");
     }

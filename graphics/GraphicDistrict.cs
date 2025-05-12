@@ -46,6 +46,11 @@ public partial class GraphicDistrict : GraphicObject
         GD.PushWarning("NOT IMPLEMENTED");
     }
 
+    public override void ProcessRightClick(Hex hex)
+    {
+        GD.PushWarning("NOT IMPLEMENTED");
+    }
+
     public override void _Process(double delta)
     {
 

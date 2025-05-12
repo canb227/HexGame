@@ -39,6 +39,8 @@ public abstract partial class GraphicObject : Node3D
     public abstract void Unselected();
     public abstract void Selected();
 
+    public abstract void ProcessRightClick(Hex hex);
+
     public override void _Process(double delta)
     {
 

@@ -18,21 +18,15 @@ public partial class HexTest : Node3D
         Global.layout = pointy;
         game = GameTests.MapLoadTest();
         graphicManager = new GraphicManager(game, pointy);
-        game = GameTests.TestMassScoutBuild(game);
+        //game = GameTests.TestMassScoutBuild(game);
+        game = GameTests.TestScoutMovementCombat(game);
         Camera3D camera3D = GetChild<Camera3D>(0);//TODO
         Camera cameraScript = camera3D as Camera;
         cameraScript.SetGame(game);
         cameraScript.SetGraphicManager(graphicManager);
-        
-
         AddChild(graphicManager);
 
-
-
-
-
-
-        //new age shit
+        //new age shit ignore it
         /*        Image terrainTypeImage = GenerateHexImage(game.mainGameBoard, pointyReal);
                 Image mapImage;
                 FastNoiseLite noise = new FastNoiseLite();
@@ -49,6 +43,22 @@ public partial class HexTest : Node3D
                 BuildMesh((mapImage, terrainTypeImage), heightScale, x_axis, y_axis, new Vector3(0.0f, 0.0f, 0.0f), 1);*/
     }
 
+    public override void _PhysicsProcess(double delta)
+    {
+        game.turnManager.EndCurrentTurn(0);
+        game.turnManager.EndCurrentTurn(2);
+        List<int> waitingForPlayerList = game.turnManager.CheckTurnStatus();
+        if (!waitingForPlayerList.Any())
+        {
+            game.turnManager.StartNewTurn();
+            graphicManager.StartNewTurn();
+        }
+        else
+        {
+            //push waitingForPlayerList to UI
+        }
+    }
+
 
 
     private void UpdateBoard(Game game, Layout pointy)
@@ -62,7 +72,7 @@ public partial class HexTest : Node3D
     {
         double xsize = Math.Abs(layout.size.x* (((double)gameBoard.right - (double)gameBoard.left) + ((double)gameBoard.bottom - (double)gameBoard.top)/2));
         double ysize = Math.Abs(layout.size.y *((double)(gameBoard.bottom - gameBoard.top)));
-        Image terrainImage = Image.Create((int)Math.Ceiling(xsize*2), (int)Math.Ceiling(ysize *2), false, Image.Format.Rgba8);
+        Image terrainImage = Image.CreateEmpty((int)Math.Ceiling(xsize*2), (int)Math.Ceiling(ysize *2), false, Image.Format.Rgba8);
         terrainImage.Fill(new Godot.Color(0.5f, 0.5f, 0.5f, 1f));
         List<Vector2I> hexagonPixels = new List<Vector2I>();
 
@@ -215,8 +225,5 @@ public partial class HexTest : Node3D
         RenderingServer.MeshSetCustomAabb(meshRid, p_aabb);
         return meshRid;
     }
-    public override void _Process(double delta)
-    {
 
-    }
 }

@@ -7,36 +7,72 @@
       "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicunit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicgameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicgameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hextest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hextest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\city.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\city.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\district.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\district.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\gamehex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\gamehex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\uniteffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\uniteffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\hex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\hex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\hex\\turnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:hex\\turnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\ui\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\ui\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicgameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicgameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicdistrict.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicdistrict.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicbuilding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicbuilding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicdistrict.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicdistrict.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|c:\\users\\jeffe\\desktop\\stuff\\hexgame\\graphics\\graphicobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1780FCB-02A5-4166-A402-BC287B884E0D}|HexGame.csproj|solutionrelative:graphics\\graphicobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,8 +82,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 214,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 14,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UnitEffect.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\UnitEffect.cs",
+              "RelativeDocumentMoniker": "hex\\UnitEffect.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\UnitEffect.cs",
+              "RelativeToolTip": "hex\\UnitEffect.cs",
+              "ViewState": "AQIAALYAAAAAAAAAAAAqwMgAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T20:46:41.418Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 5,
@@ -56,59 +105,163 @@
               "RelativeDocumentMoniker": "hex\\District.cs",
               "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\District.cs",
               "RelativeToolTip": "hex\\District.cs",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAawEQAAAAgAAAA",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAMwE4AAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T20:07:03.534Z",
+              "WhenOpened": "2025-05-11T20:46:40.76Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 9,
+              "Title": "Game.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\Game.cs",
+              "RelativeDocumentMoniker": "hex\\Game.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\Game.cs",
+              "RelativeToolTip": "hex\\Game.cs",
+              "ViewState": "AQIAAK8BAAAAAAAAAAAAAMkBAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T20:42:32.744Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GameHex.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\GameHex.cs",
+              "RelativeDocumentMoniker": "hex\\GameHex.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\GameHex.cs",
+              "RelativeToolTip": "hex\\GameHex.cs",
+              "ViewState": "AQIAAMUAAAAAAAAAAAAqwOIAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T20:30:30.408Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Hex.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\Hex.cs",
+              "RelativeDocumentMoniker": "hex\\Hex.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\Hex.cs",
+              "RelativeToolTip": "hex\\Hex.cs",
+              "ViewState": "AQIAAFsAAAAAAAAAAAAAwHgAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T18:38:23.766Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\Player.cs",
+              "RelativeDocumentMoniker": "hex\\Player.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\Player.cs",
+              "RelativeToolTip": "hex\\Player.cs",
+              "ViewState": "AQIAAEcAAAAAAAAAAAAAAF4AAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T21:04:18.933Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TurnManager.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\TurnManager.cs",
+              "RelativeDocumentMoniker": "hex\\TurnManager.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\TurnManager.cs",
+              "RelativeToolTip": "hex\\TurnManager.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAYwCkAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T21:02:22.483Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HexTest.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\HexTest.cs",
+              "RelativeDocumentMoniker": "HexTest.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\HexTest.cs",
+              "RelativeToolTip": "HexTest.cs",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAwDUAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T19:24:38.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "City.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\City.cs",
+              "RelativeDocumentMoniker": "hex\\City.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\City.cs",
+              "RelativeToolTip": "hex\\City.cs",
+              "ViewState": "AQIAAEwBAAAAAAAAAAAhwGkBAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T18:12:29.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Unit.cs",
               "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\Unit.cs",
               "RelativeDocumentMoniker": "hex\\Unit.cs",
               "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\hex\\Unit.cs",
               "RelativeToolTip": "hex\\Unit.cs",
-              "ViewState": "AQIAAIkBAAAAAAAAAAAawJsBAAANAAAA",
+              "ViewState": "AQIAAJABAAAAAAAAAAAAwI8BAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-07T20:06:49.552Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GraphicsManager.cs",
-              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicsManager.cs",
-              "RelativeDocumentMoniker": "graphics\\GraphicsManager.cs",
-              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicsManager.cs",
-              "RelativeToolTip": "graphics\\GraphicsManager.cs",
-              "ViewState": "AQIAACkAAAAAAAAAAAAmwEkAAAAWAAAA",
+              "DocumentIndex": 12,
+              "Title": "UIManager.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\ui\\UIManager.cs",
+              "RelativeDocumentMoniker": "graphics\\ui\\UIManager.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\ui\\UIManager.cs",
+              "RelativeToolTip": "graphics\\ui\\UIManager.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAACIAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T18:36:28.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GraphicManager.cs",
+              "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicManager.cs",
+              "RelativeDocumentMoniker": "graphics\\GraphicManager.cs",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicManager.cs",
+              "RelativeToolTip": "graphics\\GraphicManager.cs",
+              "ViewState": "AQIAADMAAAAAAAAAAAAowEoAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-06T15:45:34.689Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 14,
               "Title": "GraphicGameBoard.cs",
               "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicGameBoard.cs",
               "RelativeDocumentMoniker": "graphics\\GraphicGameBoard.cs",
               "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicGameBoard.cs",
               "RelativeToolTip": "graphics\\GraphicGameBoard.cs",
-              "ViewState": "AQIAAB8AAAAAAAAAAAASwC8AAAAAAAAA",
+              "ViewState": "AQIAAB4BAAAAAAAAAAAAADoBAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-26T20:53:08.813Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 17,
               "Title": "GraphicObject.cs",
               "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicObject.cs",
               "RelativeDocumentMoniker": "graphics\\GraphicObject.cs",
               "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicObject.cs",
               "RelativeToolTip": "graphics\\GraphicObject.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAQwCcAAAAkAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAAwCkAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-26T20:48:07.542Z",
               "EditorCaption": ""
@@ -119,48 +272,48 @@
               "Title": "GraphicUnit.cs",
               "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicUnit.cs",
               "RelativeDocumentMoniker": "graphics\\GraphicUnit.cs",
-              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicUnit.cs",
-              "RelativeToolTip": "graphics\\GraphicUnit.cs",
-              "ViewState": "AQIAACcAAAAAAAAAAAAuwDoAAABLAAAA",
+              "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicUnit.cs*",
+              "RelativeToolTip": "graphics\\GraphicUnit.cs*",
+              "ViewState": "AQIAACQAAAAAAAAAAAAYwDoAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-26T20:41:05.586Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "GraphicDistrict.cs",
               "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicDistrict.cs",
               "RelativeDocumentMoniker": "graphics\\GraphicDistrict.cs",
               "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicDistrict.cs",
               "RelativeToolTip": "graphics\\GraphicDistrict.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAQwC0AAAAqAAAA",
+              "ViewState": "AQIAABMAAAAAAAAAAAAQwDAAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-06T16:12:43.461Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 16,
               "Title": "GraphicBuilding.cs",
               "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicBuilding.cs",
               "RelativeDocumentMoniker": "graphics\\GraphicBuilding.cs",
               "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\graphics\\GraphicBuilding.cs",
               "RelativeToolTip": "graphics\\GraphicBuilding.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAuwDUAAAAFAAAA",
+              "ViewState": "AQIAABsAAAAAAAAAAAAuwDcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-06T19:10:03.196Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "Camera.cs",
               "DocumentMoniker": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\Camera.cs",
               "RelativeDocumentMoniker": "Camera.cs",
               "ToolTip": "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\Camera.cs",
               "RelativeToolTip": "Camera.cs",
-              "ViewState": "AQIAAFMAAAAAAAAAAAAAAHEAAAAAAAAA",
+              "ViewState": "AQIAABoAAAAAAAAAAADgv0MAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-04T17:41:53.169Z",
               "EditorCaption": ""
