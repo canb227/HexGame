@@ -27,11 +27,11 @@ public partial class GraphicBuilding : GraphicObject
 
     private void InitBuilding(Building building)
     {
-        if (building.buildingType == BuildingType.CityCenter)
+        if (building.buildingType == "CityCenter")
         {
             node3D = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/huts.glb").Instantiate<Node3D>();
         }
-        if (building.buildingType == BuildingType.Palace)
+        if (building.buildingType == "Palace")
         {
             node3D = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/huts.glb").Instantiate<Node3D>();
         }

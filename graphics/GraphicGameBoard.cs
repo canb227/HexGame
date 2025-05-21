@@ -139,7 +139,14 @@ public partial class GraphicGameBoard : GraphicObject
             
             if (gameBoard.gameHexDict[hex].district != null)
             {
-                graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
+                if (gameBoard.gameHexDict[hex].district.isCityCenter)
+                {
+                    graphicManager.NewCity(gameBoard.gameHexDict[hex].district.city, gameBoard.gameHexDict[hex].district);
+                }
+                else
+                {
+                    graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
+                }
             }
         }
     }
@@ -148,7 +155,7 @@ public partial class GraphicGameBoard : GraphicObject
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
         {
-            foreach (Unit unit in gameBoard.gameHexDict[hex].unitsList)
+            foreach (Unit unit in gameBoard.gameHexDict[hex].units)
             {
                 graphicManager.NewUnit(unit);
             }

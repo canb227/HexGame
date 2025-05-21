@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3 uid="uid://dv6ndm3res703"]
+
+[ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_8alkx"]
+[ext_resource type="Texture2D" uid="uid://bc5l3kr1mfa7d" path="res://graphics/models/baseperson_settler_manface_pix.png" id="2_gnjtk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ltrvr"]
+bg_color = Color(0.118581, 0.118581, 0.118581, 1)
+
+[sub_resource type="Theme" id="Theme_i43v1"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ltrvr")
+
+[node name="ProductionItemPanel" type="PanelContainer"]
+theme = SubResource("Theme_i43v1")
+
+[node name="ProductionButton" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 96)
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="ProductionButton"]
+layout_mode = 2
+anchor_left = 0.512
+anchor_top = 1.0
+anchor_right = 0.512
+anchor_bottom = 1.0
+offset_left = -58.536
+offset_top = -29.0
+offset_right = 58.464
+offset_bottom = -2.0
+value = 56.19
+show_percentage = false
+
+[node name="TurnsLeft" type="Label" parent="ProductionButton"]
+layout_mode = 2
+anchor_left = 1.0
+anchor_top = 0.443
+anchor_right = 1.0
+anchor_bottom = 0.443
+offset_left = -66.0
+offset_top = -11.528
+offset_right = -2.0
+offset_bottom = 11.472
+text = "5 Turns"
+horizontal_alignment = 1
+
+[node name="CancelProduction" type="Button" parent="ProductionButton"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -16.0
+offset_top = -6.0
+offset_right = 7.0
+offset_bottom = 17.0
+grow_horizontal = 0
+icon = ExtResource("1_8alkx")
+icon_alignment = 2
+vertical_icon_alignment = 2
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="ProductionButton"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 5.0
+offset_right = 69.0
+offset_bottom = 65.0
+texture = ExtResource("2_gnjtk")
+expand_mode = 2
+stretch_mode = 5

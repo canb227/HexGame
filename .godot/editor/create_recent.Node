@@ -1,2 +1,14 @@
-SubViewport
-Sprite3D
+Label
+ScrollContainer
+TextureRect
+Button
+HBoxContainer
+Control
+VBoxContainer
+TabContainer
+TabBar
+BoxContainer
+PanelContainer
+ProgressBar
+Container
+Node3D

@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dmmipwkp8plkf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xt0oc"]
+
+[resource]
+Button/styles/focus = SubResource("StyleBoxEmpty_xt0oc")
+HBoxContainer/constants/separation = 4
+VBoxContainer/constants/separation = 16

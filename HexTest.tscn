@@ -12,6 +12,10 @@ sky_material = SubResource("ProceduralSkyMaterial_r3umj")
 [sub_resource type="Environment" id="Environment_qjyro"]
 background_mode = 2
 sky = SubResource("Sky_n23of")
+sdfgi_enabled = true
+sdfgi_read_sky_light = false
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.001
 
 [node name="HexTest" type="Node3D"]
 script = ExtResource("1_r3umj")

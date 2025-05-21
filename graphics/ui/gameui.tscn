@@ -1,0 +1,174 @@
+[gd_scene load_steps=9 format=3 uid="uid://cqwb0y8pf7hny"]
+
+[ext_resource type="Theme" uid="uid://dmmipwkp8plkf" path="res://graphics/ui/new_theme.tres" id="1_eb0es"]
+[ext_resource type="Texture2D" uid="uid://b7ulvuy1yq2v6" path="res://graphics/ui/flask.png" id="2_k1wrm"]
+[ext_resource type="Texture2D" uid="uid://ckv7gvxbnnhgk" path="res://graphics/ui/culture.png" id="3_eb0es"]
+[ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="4_n5e1u"]
+[ext_resource type="Texture2D" uid="uid://bf2s0ji0womei" path="res://graphics/ui/influence.png" id="5_e1iin"]
+[ext_resource type="Texture2D" uid="uid://c31okc6ehvj7p" path="res://graphics/ui/skipturn.png" id="9_6wqba"]
+[ext_resource type="Texture2D" uid="uid://pwd0uh0isihw" path="res://graphics/ui/icons/goldcoin2face.png" id="9_q6whi"]
+
+[sub_resource type="Theme" id="Theme_n5e1u"]
+default_font_size = 24
+
+[node name="ScreenUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 728.0
+offset_bottom = 85.0
+mouse_filter = 2
+theme = ExtResource("1_eb0es")
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme = SubResource("Theme_n5e1u")
+
+[node name="TopBar" type="HSplitContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+mouse_filter = 0
+drag_area_highlight_in_editor = true
+
+[node name="Resources" type="HBoxContainer" parent="VBoxContainer/PanelContainer/TopBar"]
+layout_mode = 2
+
+[node name="GoldIcon" type="TextureRect" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+layout_mode = 2
+texture = ExtResource("9_q6whi")
+expand_mode = 2
+
+[node name="GoldLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+text = "Gold"
+
+[node name="GoldPerTurnLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+text = "Gold"
+
+[node name="ScienceIcon" type="TextureRect" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+layout_mode = 2
+texture = ExtResource("2_k1wrm")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="SciencePerTurnLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+text = "Science"
+
+[node name="CultureIcon" type="TextureRect" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+layout_mode = 2
+texture = ExtResource("3_eb0es")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="CulturePerTurnLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+text = "Culture"
+
+[node name="HappinessIcon" type="TextureRect" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+layout_mode = 2
+texture = ExtResource("4_n5e1u")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="HappinessLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+text = "Happiness"
+
+[node name="HappinessPerTurnLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+text = "Happiness"
+
+[node name="InfluenceIcon" type="TextureRect" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+layout_mode = 2
+texture = ExtResource("5_e1iin")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="InfluenceLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+text = "Influence"
+
+[node name="InfluencePerTurnLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+text = "Influence"
+
+[node name="GameInfo" type="HBoxContainer" parent="VBoxContainer/PanelContainer/TopBar"]
+layout_mode = 2
+
+[node name="TurnTitle" type="Label" parent="VBoxContainer/PanelContainer/TopBar/GameInfo"]
+z_index = 1
+layout_mode = 2
+text = "Turn: "
+
+[node name="TurnLabel" type="Label" parent="VBoxContainer/PanelContainer/TopBar/GameInfo"]
+z_index = 1
+layout_mode = 2
+text = "0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "       "
+
+[node name="ScienceTree" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+keep_pressed_outside = true
+text = "     "
+icon = ExtResource("2_k1wrm")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "       "
+
+[node name="CultureTree" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+keep_pressed_outside = true
+text = "     "
+icon = ExtResource("3_eb0es")
+icon_alignment = 1
+expand_icon = true
+
+[node name="EndTurnButton" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.933
+anchor_top = 0.884
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -63.816
+offset_top = -63.832
+offset_right = -13.0
+offset_bottom = -11.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(64, 64)
+icon = ExtResource("9_6wqba")
+icon_alignment = 1
+expand_icon = true

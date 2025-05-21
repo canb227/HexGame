@@ -12,12 +12,16 @@ public partial class GraphicManager : Node3D
     public GraphicObject selectedObject;
     public int selectedObjectID;
     public UIManager uiManager;
+    private bool waitForTargeting = false;
+    public UnitAbility waitingAbility;
+
     public GraphicManager(Game game, Layout layout)
     {
         graphicObjectDictionary = new();
         this.game = game;
         this.layout = layout;
         uiManager = new UIManager(this, game, layout);
+        uiManager.Name = "UIManager";
         AddChild(uiManager);
         game.graphicManager = this;
         if (game.mainGameBoard != null)
@@ -35,7 +39,7 @@ public partial class GraphicManager : Node3D
 
     public void NewUnit(Unit unit)
     {
-        GraphicUnit graphicUnit = new GraphicUnit(unit, layout);
+        GraphicUnit graphicUnit = new GraphicUnit(unit, this);
         AddChild(graphicUnit);
         graphicObjectDictionary.Add(graphicUnit.unit.id, graphicUnit);
     }
@@ -54,6 +58,13 @@ public partial class GraphicManager : Node3D
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
     }
 
+    public void NewCity(City city, District district)
+    {
+        NewDistrict(district);
+        GraphicCity graphicCity = new GraphicCity(city, layout, this);
+        AddChild(graphicCity);
+        graphicObjectDictionary.Add(graphicCity.city.id, graphicCity);
+    }
     public void UpdateGraphic(int id, GraphicUpdateType graphicUpdateType)
     {
         if (graphicObjectDictionary.ContainsKey(id))
@@ -62,8 +73,13 @@ public partial class GraphicManager : Node3D
         }
         else
         {
-            GD.Print("No Graphic Object Associated With That ID");
+            GD.Print("No Graphic Object Associated With ID of: " + id);
         }
+    }
+
+    public void Update2DUI(UIElement element)
+    {
+        uiManager.Update(element);
     }
 
     public void StartNewTurn()
@@ -84,6 +100,30 @@ public partial class GraphicManager : Node3D
         selectedObject = newSelectedObject;
         selectedObjectID = newID;
         selectedObject.Selected();
-        GD.Print("Changing SelectedObject");
+    }
+
+    public void UnselectObject()
+    {
+        if (selectedObject != null)
+        {
+            selectedObject.Unselected();
+        }
+        selectedObject = null;
+        selectedObjectID = 0;
+    }
+
+    public void SetWaitForTargeting(bool waitForTargeting)
+    {
+        //if we were waiting and now arent, update UI stuff
+        if (this.waitForTargeting && !waitForTargeting)
+        {
+            ((GraphicUnit)graphicObjectDictionary[waitingAbility.usingUnit.id]).RemoveTargetingPrompt();
+        }
+        this.waitForTargeting = waitForTargeting;
+    }
+
+    public bool GetWaitForTargeting()
+    {
+        return waitForTargeting;
     }
 }

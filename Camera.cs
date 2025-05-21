@@ -104,28 +104,50 @@ public partial class Camera : Camera3D
 
     private void ProcessHexLeftClick(Hex hex)
     {
-        GameHex gameHex = game.mainGameBoard.gameHexDict[hex];
-        if (gameHex.district != null && graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.district.id])
+        GameHex gameHex;
+        game.mainGameBoard.gameHexDict.TryGetValue(hex, out gameHex);
+        if(gameHex == null)
+        {
+            if(graphicManager.GetWaitForTargeting())
+            {
+                graphicManager.SetWaitForTargeting(false);
+                graphicManager.waitingAbility = null;
+            }
+        }
+        else if (graphicManager.GetWaitForTargeting())
+        {
+            if (graphicManager.waitingAbility.validTargetTypes.IsHexValidTarget(gameHex.gameBoard.gameHexDict[hex], graphicManager.waitingAbility.usingUnit))
+            {
+                graphicManager.waitingAbility.ActivateAbility(gameHex.gameBoard.gameHexDict[hex]);
+            }
+            else
+            {
+                graphicManager.SetWaitForTargeting(false);
+                graphicManager.waitingAbility = null;
+            }
+        }
+        else if (gameHex.units.Count != 0)
+        {
+            if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.units[0].id])
+            {
+                graphicManager.ChangeSelectedObject(gameHex.units[0].id, graphicManager.graphicObjectDictionary[gameHex.units[0].id]);
+                return;
+            }
+        }
+        else if (gameHex.district != null && graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.district.id])
         {
             foreach(Building building in gameHex.district.buildings)
             {
                 graphicManager.ChangeSelectedObject(building.district.id, graphicManager.graphicObjectDictionary[building.district.id]);
                 return;
 
-                if (building.buildingType == BuildingType.Palace || building.buildingType == BuildingType.CityCenter)
+                if (building.buildingType == "Palace" || building.buildingType == "CityCenter")
                 {
                     
                 }
             }
         }
-        else if (gameHex.unitsList.Count != 0)
-        {
-            if(graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.unitsList[0].id])
-            {
-                graphicManager.ChangeSelectedObject(gameHex.unitsList[0].id, graphicManager.graphicObjectDictionary[gameHex.unitsList[0].id]);
-                return;
-            }
-        }
+        
     }
 
     private void ProcessHexRightClick(Hex hex)
