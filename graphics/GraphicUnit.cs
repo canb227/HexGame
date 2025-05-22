@@ -123,6 +123,8 @@ public partial class GraphicUnit : GraphicObject
         Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 2, (float)hexPoint.x);
         node3D.Transform = newTransform;
+        //TODO SHIT BROKEN
+        throw new Exception("SHIT BROKEN");
         GenerateHexLines(unit.MovementRange());
         GenerateHexTriangles(unit.MovementRange());
         graphicManager.uiManager.UnitSelected(unit);

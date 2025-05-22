@@ -43,13 +43,10 @@ public partial class GraphicDistrict : GraphicObject
 
     public override void Selected()
     {
-        GD.PushWarning("TEMP PUSH TO CITY");
-        graphicManager.ChangeSelectedObject(district.city.id, graphicManager.graphicObjectDictionary[district.city.id]);
     }
 
     public override void ProcessRightClick(Hex hex)
     {
-        GD.PushWarning("NOT IMPLEMENTED");
     }
 
     public override void _Process(double delta)

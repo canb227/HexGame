@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://coj0wdscrlhca"]
+[gd_scene load_steps=10 format=3 uid="uid://coj0wdscrlhca"]
 
+[ext_resource type="Texture2D" uid="uid://bc5l3kr1mfa7d" path="res://graphics/models/baseperson_settler_manface_pix.png" id="1_qnqfw"]
 [ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="2_1novo"]
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="3_4f77d"]
 
@@ -9,8 +10,19 @@ bg_color = Color(0.0823529, 0.0823529, 0.0823529, 0.862745)
 [sub_resource type="Theme" id="Theme_qnqfw"]
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_skgj6")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_skgj6"]
+[sub_resource type="QuadMesh" id="QuadMesh_skgj6"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qnqfw"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1novo"]
+resource_local_to_scene = true
+transparency = 1
+no_depth_test = true
+albedo_texture = SubResource("ViewportTexture_qnqfw")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4f77d"]
+points = PackedVector3Array(0.5, 0.5, 0, 0.5, -0.5, 0, -0.5, 0.5, 0, -0.5, -0.5, 0)
 
 [node name="Node3D" type="Node3D"]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
@@ -18,18 +30,16 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
 transparent_bg = true
-size = Vector2i(400, 200)
+size = Vector2i(305, 115)
 
 [node name="CityWorldUI" type="PanelContainer" parent="SubViewport"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -139.5
-offset_top = -76.5
-offset_right = 139.5
-offset_bottom = 76.5
+anchors_preset = -1
+anchor_left = 0.13
+anchor_right = 0.13
+offset_left = -30.0
+offset_top = 9.125
+offset_right = 251.0
+offset_bottom = 105.125
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_qnqfw")
@@ -37,62 +47,89 @@ theme = SubResource("Theme_qnqfw")
 [node name="Button" type="Button" parent="SubViewport/CityWorldUI"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SubViewport/CityWorldUI"]
-layout_mode = 2
-
-[node name="CitySizeBox" type="HSplitContainer" parent="SubViewport/CityWorldUI/VBoxContainer"]
-layout_mode = 2
-drag_area_highlight_in_editor = true
-
-[node name="CitySizeLabel" type="Label" parent="SubViewport/CityWorldUI/VBoxContainer/CitySizeBox"]
-layout_mode = 2
-
-[node name="CityGrowth" type="ProgressBar" parent="SubViewport/CityWorldUI/VBoxContainer/CitySizeBox"]
+[node name="CityGrowth" type="ProgressBar" parent="SubViewport/CityWorldUI/Button"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+offset_left = 48.0
+offset_top = 34.0
+offset_right = 268.0
+offset_bottom = 61.0
 
-[node name="ProductionBox" type="HSplitContainer" parent="SubViewport/CityWorldUI/VBoxContainer"]
+[node name="ProductionIcon" type="TextureRect" parent="SubViewport/CityWorldUI/Button"]
 layout_mode = 2
-drag_area_highlight_in_editor = true
-
-[node name="ProductionIcon" type="TextureRect" parent="SubViewport/CityWorldUI/VBoxContainer/ProductionBox"]
-layout_mode = 2
+offset_left = 2.0
+offset_top = 63.0
+offset_right = 29.0
+offset_bottom = 90.0
+texture = ExtResource("1_qnqfw")
 expand_mode = 2
 
-[node name="HSplitContainer" type="HSplitContainer" parent="SubViewport/CityWorldUI/VBoxContainer/ProductionBox"]
+[node name="ProductionTurnsLeft" type="Label" parent="SubViewport/CityWorldUI/Button"]
 layout_mode = 2
+offset_left = 33.0
+offset_top = 65.0
+offset_right = 43.0
+offset_bottom = 88.0
+text = "1"
 
-[node name="ProductionTurnsLeft" type="Label" parent="SubViewport/CityWorldUI/VBoxContainer/ProductionBox/HSplitContainer"]
-layout_mode = 2
-
-[node name="ProductionBar" type="ProgressBar" parent="SubViewport/CityWorldUI/VBoxContainer/ProductionBox/HSplitContainer"]
+[node name="ProductionBar" type="ProgressBar" parent="SubViewport/CityWorldUI/Button"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+offset_left = 48.0
+offset_top = 64.0
+offset_right = 268.0
+offset_bottom = 91.0
 
-[node name="CityName" type="Label" parent="SubViewport/CityWorldUI/VBoxContainer"]
+[node name="CityName" type="Label" parent="SubViewport/CityWorldUI/Button"]
 layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.03
+anchor_right = 0.5
+anchor_bottom = 0.03
+offset_left = -139.5
+offset_top = -4.59
+offset_right = 139.5
+offset_bottom = 18.41
 text = "CityName"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SubViewport/CityWorldUI/VBoxContainer"]
+[node name="HappinessIcon" type="TextureRect" parent="SubViewport/CityWorldUI/Button"]
 layout_mode = 2
-alignment = 1
-
-[node name="TeamLabel" type="Label" parent="SubViewport/CityWorldUI/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "(Team -)"
-
-[node name="HappinessIcon" type="TextureRect" parent="SubViewport/CityWorldUI/VBoxContainer/HBoxContainer"]
-layout_mode = 2
+offset_left = 247.0
+offset_top = -14.0
+offset_right = 287.0
+offset_bottom = 26.0
 texture = ExtResource("2_1novo")
 expand_mode = 2
+stretch_mode = 5
 
-[node name="CityIcon" type="TextureRect" parent="SubViewport/CityWorldUI/VBoxContainer/HBoxContainer"]
+[node name="CityIcon" type="TextureRect" parent="SubViewport/CityWorldUI/Button"]
 layout_mode = 2
+offset_left = -11.0
+offset_top = -15.0
+offset_right = 27.0
+offset_bottom = 23.0
 texture = ExtResource("3_4f77d")
+expand_mode = 2
+stretch_mode = 5
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
-billboard = 1
-double_sided = false
-no_depth_test = true
-texture = SubResource("ViewportTexture_skgj6")
+[node name="CitySizeLabel" type="Label" parent="SubViewport/CityWorldUI/Button"]
+layout_mode = 2
+offset_left = 4.0
+offset_top = 35.0
+offset_right = 41.0
+offset_bottom = 58.0
+text = "99"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.31134e-07, -0.954312, 0.555795, 0, 0.668216, 0.793758, -3, 4.17143e-08, -2.42946e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_skgj6")
+skeleton = NodePath("Area3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_1novo")
+
+[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, -0.819152, 0.573576, 3.58063e-08, 0.573576, 0.819152, -2.50718e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
+transform = Transform3D(-4.38977e-08, -0.822643, 0.576021, 7.10543e-15, 0.576021, 0.822643, -1.00426, 3.59589e-08, -2.51787e-08, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_4f77d")

@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://u42mrfvmc63x"]
+
+[ext_resource type="Texture2D" uid="uid://bc8h3f1phl6d2" path="res://graphics/ui/icons/house.png" id="1_bkivv"]
+[ext_resource type="Texture2D" uid="uid://pwd0uh0isihw" path="res://graphics/ui/icons/goldcoin2face.png" id="2_123qm"]
+
+[node name="ConstructionItem" type="Button"]
+custom_minimum_size = Vector2(0, 64)
+
+[node name="ObjectIcon" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 62.0
+offset_bottom = 63.0
+texture = ExtResource("1_bkivv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ObjectName" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 68.0
+offset_top = 1.0
+offset_right = 178.0
+offset_bottom = 50.0
+text = "BuildingName"
+
+[node name="CostBox" type="HBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 0
+offset_left = 65.0
+offset_top = 25.0
+offset_right = 308.0
+offset_bottom = 65.0
+
+[node name="SingleCostBox" type="HBoxContainer" parent="CostBox"]
+layout_mode = 2
+
+[node name="CostIcon" type="TextureRect" parent="CostBox/SingleCostBox"]
+layout_mode = 2
+texture = ExtResource("2_123qm")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="CostValue" type="Label" parent="CostBox/SingleCostBox"]
+layout_mode = 2
+text = "20"

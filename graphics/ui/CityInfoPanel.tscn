@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://2kpluj2xkar6"]
+[gd_scene load_steps=14 format=3 uid="uid://2kpluj2xkar6"]
 
 [ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_6gxb0"]
 [ext_resource type="Texture2D" uid="uid://b68ru2845nau3" path="res://graphics/ui/icons/quill.png" id="2_ganh1"]
@@ -9,8 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://ckv7gvxbnnhgk" path="res://graphics/ui/culture.png" id="7_r01fo"]
 [ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="8_tk2uu"]
 [ext_resource type="Texture2D" uid="uid://bf2s0ji0womei" path="res://graphics/ui/influence.png" id="9_k3ngi"]
-[ext_resource type="Texture2D" uid="uid://bc8h3f1phl6d2" path="res://graphics/ui/icons/house.png" id="10_u2rxq"]
-[ext_resource type="PackedScene" uid="uid://dv6ndm3res703" path="res://graphics/ui/ProductionQueueItem.tscn" id="11_fx1mv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1iin"]
 bg_color = Color(0.117647, 0.117647, 0.117647, 1)
@@ -25,6 +23,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_pepai")
 
 [node name="CityUI" type="HBoxContainer"]
+z_index = 1
 anchors_preset = -1
 anchor_right = 0.159
 anchor_bottom = 0.994
@@ -42,11 +41,11 @@ theme = SubResource("Theme_6wqba")
 [node name="CityInfoBox" type="VBoxContainer" parent="CityInfoPanel"]
 layout_mode = 2
 
-[node name="ClostCityInfoBox" type="HBoxContainer" parent="CityInfoPanel/CityInfoBox"]
+[node name="CloseCityInfoBox" type="HBoxContainer" parent="CityInfoPanel/CityInfoBox"]
 layout_mode = 2
 alignment = 2
 
-[node name="CloseCityInfoButton" type="Button" parent="CityInfoPanel/CityInfoBox/ClostCityInfoBox"]
+[node name="CloseCityInfoButton" type="Button" parent="CityInfoPanel/CityInfoBox/CloseCityInfoBox"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("1_6gxb0")
@@ -220,66 +219,6 @@ metadata/_tab_index = 0
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ObjectButton" type="Button" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox"]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-
-[node name="ObjectIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/ObjectButton"]
-layout_mode = 2
-offset_left = 5.0
-offset_top = 4.0
-offset_right = 62.0
-offset_bottom = 63.0
-texture = ExtResource("10_u2rxq")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ObjectName" type="Label" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/ObjectButton"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 68.0
-offset_top = 1.0
-offset_right = 178.0
-offset_bottom = 50.0
-text = "BuildingName"
-
-[node name="TurnsToBuild" type="Label" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/ObjectButton"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -180.0
-offset_top = -27.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Turns to build"
-horizontal_alignment = 2
-
-[node name="EffectListBox" type="HBoxContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/ObjectButton"]
-clip_contents = true
-layout_mode = 0
-offset_left = 65.0
-offset_top = 25.0
-offset_right = 308.0
-offset_bottom = 65.0
-
-[node name="SingleEffectBox" type="HBoxContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/ObjectButton/EffectListBox"]
-layout_mode = 2
-
-[node name="EffectIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/ObjectButton/EffectListBox/SingleEffectBox"]
-layout_mode = 2
-texture = ExtResource("4_qflql")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="EffectValue" type="Label" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/ObjectButton/EffectListBox/SingleEffectBox"]
-layout_mode = 2
-text = "+2"
-
 [node name="Purchase" type="ScrollContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox"]
 layout_mode = 2
 follow_focus = true
@@ -290,50 +229,6 @@ metadata/_tab_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ObjectButton" type="Button" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox"]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-
-[node name="ObjectIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox/ObjectButton"]
-layout_mode = 2
-offset_left = 5.0
-offset_top = 4.0
-offset_right = 62.0
-offset_bottom = 63.0
-texture = ExtResource("10_u2rxq")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ObjectName" type="Label" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox/ObjectButton"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 68.0
-offset_top = 1.0
-offset_right = 178.0
-offset_bottom = 50.0
-text = "BuildingName"
-
-[node name="CostBox" type="HBoxContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox/ObjectButton"]
-clip_contents = true
-layout_mode = 0
-offset_left = 65.0
-offset_top = 25.0
-offset_right = 308.0
-offset_bottom = 65.0
-
-[node name="SingleCostBox" type="HBoxContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox/ObjectButton/CostBox"]
-layout_mode = 2
-
-[node name="CostIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox/ObjectButton/CostBox/SingleCostBox"]
-layout_mode = 2
-texture = ExtResource("5_gfdqc")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="CostValue" type="Label" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox/ObjectButton/CostBox/SingleCostBox"]
-layout_mode = 2
-text = "20"
-
 [node name="ProductionQueuePanel" type="PanelContainer" parent="."]
 layout_mode = 2
 theme = SubResource("Theme_4wkif")
@@ -343,7 +238,4 @@ custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 
 [node name="OffsetLabel" type="Label" parent="ProductionQueuePanel/ProductionQueue"]
-layout_mode = 2
-
-[node name="ProductionItemPanel" parent="ProductionQueuePanel/ProductionQueue" instance=ExtResource("11_fx1mv")]
 layout_mode = 2

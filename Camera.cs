@@ -18,6 +18,8 @@ public partial class Camera : Camera3D
     Game game;
     GraphicManager graphicManager;
 
+    public bool blockClick = false;
+
 
 
     public void SetGame(Game game)
@@ -68,7 +70,7 @@ public partial class Camera : Camera3D
     public override void _UnhandledInput(InputEvent @event)
     {
         //return;
-        if (@event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
+        if (!blockClick && @event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
         {
             Vector2 mouse_pos = GetViewport().GetMousePosition();
             Vector3 origin = this.ProjectRayOrigin(mouse_pos);
@@ -136,7 +138,7 @@ public partial class Camera : Camera3D
         }
         else if (gameHex.district != null && graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.district.id])
         {
-            foreach(Building building in gameHex.district.buildings)
+            /*foreach(Building building in gameHex.district.buildings)
             {
                 graphicManager.ChangeSelectedObject(building.district.id, graphicManager.graphicObjectDictionary[building.district.id]);
                 return;
@@ -145,7 +147,7 @@ public partial class Camera : Camera3D
                 {
                     
                 }
-            }
+            }*/
         }
         
     }

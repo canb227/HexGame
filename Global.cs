@@ -4,8 +4,8 @@ using System.Diagnostics;
 
 public partial class Global : Node
 {
-    public static Game game;
     public static Layout layout;
+    public static Camera camera;
 
     public static Global instance;
 

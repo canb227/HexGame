@@ -39,12 +39,12 @@ public partial class GraphicCity : GraphicObject
 
     public override void Unselected()
     {
-        GD.PushWarning("NOT IMPLEMENTED UNSELECT CITY");
+        graphicManager.uiManager.cityInfoPanel.CityUnselected(city);
     }
 
     public override void Selected()
     {
-        GD.PushWarning("NOT IMPLEMENTED SELECT CITY");
+        graphicManager.uiManager.cityInfoPanel.CitySelected(city);
     }
 
     public override void ProcessRightClick(Hex hex)

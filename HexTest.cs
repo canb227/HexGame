@@ -24,9 +24,9 @@ public partial class HexTest : Node3D
         //game = GameTests.TestMassScoutBuild(game);
         //game = GameTests.TestScoutMovementCombat(game);
         Camera3D camera3D = GetChild<Camera3D>(0);//TODO
-        Camera cameraScript = camera3D as Camera;
-        cameraScript.SetGame(game);
-        cameraScript.SetGraphicManager(graphicManager);
+        Global.camera = camera3D as Camera;
+        Global.camera.SetGame(game);
+        Global.camera.SetGraphicManager(graphicManager);
         AddChild(graphicManager);
 
         //new age shit ignore it

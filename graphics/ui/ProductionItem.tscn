@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://biggt2r4jwdw"]
+
+[ext_resource type="Texture2D" uid="uid://bc8h3f1phl6d2" path="res://graphics/ui/icons/house.png" id="1_xgynx"]
+[ext_resource type="Texture2D" uid="uid://cb3r2h5cvpaus" path="res://graphics/ui/icons/gears.png" id="2_p1qpr"]
+
+[node name="ProductionItem" type="Button"]
+custom_minimum_size = Vector2(0, 64)
+
+[node name="ObjectIcon" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 62.0
+offset_bottom = 63.0
+texture = ExtResource("1_xgynx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ObjectName" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 68.0
+offset_top = 1.0
+offset_right = 178.0
+offset_bottom = 50.0
+text = "BuildingName"
+
+[node name="TurnsToBuild" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -27.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Turns to build"
+horizontal_alignment = 2
+
+[node name="EffectListBox" type="HBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 0
+offset_left = 65.0
+offset_top = 25.0
+offset_right = 308.0
+offset_bottom = 65.0
+
+[node name="SingleEffectBox" type="HBoxContainer" parent="EffectListBox"]
+layout_mode = 2
+
+[node name="EffectIcon" type="TextureRect" parent="EffectListBox/SingleEffectBox"]
+layout_mode = 2
+texture = ExtResource("2_p1qpr")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="EffectValue" type="Label" parent="EffectListBox/SingleEffectBox"]
+layout_mode = 2
+text = "+2"

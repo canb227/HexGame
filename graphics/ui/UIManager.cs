@@ -76,7 +76,7 @@ public partial class UIManager : Node3D
         cityInfoPanel = new CityInfoPanel(graphicManager, game);
         cityInfoPanel.Name = "CityInfoPanel";
         AddChild(cityInfoPanel);
-        cityInfoPanel.Visible = true;
+        cityInfoPanel.cityInfoPanel.Visible = false;
 
         AddChild(screenUI);
     }

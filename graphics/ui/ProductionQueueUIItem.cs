@@ -3,51 +3,52 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 
 public partial class ProductionQueueUIItem : Node3D
 {
-    private Game game;
     private GraphicManager graphicManager;
     public City city;
+    private ProductionQueueType productionQueueItem;
 
     public PanelContainer productionQueueUIItem;
+    private Button ProductionButton;
+    private ProgressBar ProgressBar;
+    private Label TurnsLeft;
+    private Button CancelProduction;
+    private TextureRect TextureRect;
 
-    public ProductionQueueUIItem(GraphicManager graphicManager, Game game)
+    private int queueIndex;
+
+    public ProductionQueueUIItem(GraphicManager graphicManager, City city, int index)
     {
-        this.game = game;
+        this.city = city;
         this.graphicManager = graphicManager;
         productionQueueUIItem = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ProductionQueueUIItem.tscn").Instantiate<PanelContainer>();
+        ProductionButton = productionQueueUIItem.GetNode<Button>("ProductionButton");
+        ProgressBar = ProductionButton.GetNode<ProgressBar>("ProgressBar");
+        TurnsLeft = ProductionButton.GetNode<Label>("TurnsLeft");
+        CancelProduction = ProductionButton.GetNode<Button>("CancelProduction");
+        TextureRect = ProductionButton.GetNode<TextureRect>("TextureRect");
 
+        productionQueueItem = city.productionQueue[index];
+        CancelProduction.Pressed += () => city.RemoveFromQueue(index);
+
+        TextureRect = productionQueueItem.productionIcon;
 
         AddChild(productionQueueUIItem);
     }
 
-
-    public void Update(UIElement element)
+    public void UpdateProgress()
     {
-
+        ProgressBar.Value = (productionQueueItem.productionLeft/ productionQueueItem.productionCost) * 100.0f;
+        TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / city.yields.production).ToString();
     }
 
-    public void CitySelected(City city)
+    public void UpdateIndex(int newIndex)
     {
-        this.city = city;
-        productionQueueUIItem.Visible = true;
-        UpdateCityPanelInfo();
+        productionQueueItem = city.productionQueue[newIndex];
+        CancelProduction.Pressed += () => city.RemoveFromQueue(newIndex);
     }
-
-    public void CityUnselected(City city)
-    {
-        this.city = null;
-        productionQueueUIItem.Visible = false;
-    }
-
-    public void UpdateCityPanelInfo()
-    {
-        if (productionQueueUIItem.Visible && city != null)
-        {
-            //update the ui stuff
-        }
-    }
-
 }
 

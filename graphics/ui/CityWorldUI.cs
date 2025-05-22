@@ -13,17 +13,17 @@ public partial class CityWorldUI : Node3D
     private SubViewport subViewPort;
     private Sprite3D sprite;
 
+    private Area3D area;
+    private CollisionShape3D collisionShape;
+
     public PanelContainer cityWorldUI;
-    private SplitContainer citySizeBox;
     private Label citySizeLabel;
     private ProgressBar cityGrowthBar;
 
-    private SplitContainer productionBox;
     private TextureRect productionIcon;
     private Label productionTurnsLeft;
     private ProgressBar productionBar;
 
-    private Label teamLabel;
     private TextureRect happinessIcon;
     private TextureRect cityIcon;
     private Label cityName;
@@ -34,24 +34,27 @@ public partial class CityWorldUI : Node3D
 
         node = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityWorldUI.tscn").Instantiate<Node3D>();
         subViewPort = node.GetNode<SubViewport>("SubViewport");
-        sprite = node.GetNode<Sprite3D>("Sprite3D");
+
+        area = node.GetNode<Area3D>("MeshInstance3D/Area3D");
+        collisionShape = node.GetNode<CollisionShape3D>("MeshInstance3D/Area3D/CollisionShape3D");
+        area.InputRayPickable = true;
+        area.InputEvent += CityWorldUIEvent;
+        area.MouseEntered += CityWorldUIEntered;
+        area.MouseExited += CityWorldUIExited;
 
 
         cityWorldUI = node.GetNode<PanelContainer>("SubViewport/CityWorldUI");
 
-        citySizeBox = cityWorldUI.GetNode<SplitContainer>("VBoxContainer/CitySizeBox");
-        citySizeLabel = cityWorldUI.GetNode<Label>("VBoxContainer/CitySizeBox/CitySizeLabel");
-        cityGrowthBar = cityWorldUI.GetNode<ProgressBar>("VBoxContainer/CitySizeBox/CityGrowth");
+        citySizeLabel = cityWorldUI.GetNode<Label>("Button/CitySizeLabel");
+        cityGrowthBar = cityWorldUI.GetNode<ProgressBar>("Button/CityGrowth");
 
-        productionBox = cityWorldUI.GetNode<SplitContainer>("VBoxContainer/ProductionBox");
-        productionIcon = cityWorldUI.GetNode<TextureRect>("VBoxContainer/ProductionBox/ProductionIcon");
-        productionTurnsLeft = cityWorldUI.GetNode<Label>("VBoxContainer/ProductionBox/HSplitContainer/ProductionTurnsLeft");
-        productionBar = cityWorldUI.GetNode<ProgressBar>("VBoxContainer/ProductionBox/HSplitContainer/ProductionBar");
+        productionIcon = cityWorldUI.GetNode<TextureRect>("Button/ProductionIcon");
+        productionTurnsLeft = cityWorldUI.GetNode<Label>("Button/ProductionTurnsLeft");
+        productionBar = cityWorldUI.GetNode<ProgressBar>("Button/ProductionBar");
 
-        teamLabel = cityWorldUI.GetNode<Label>("VBoxContainer/HBoxContainer/TeamLabel");
-        happinessIcon = cityWorldUI.GetNode<TextureRect>("VBoxContainer/HBoxContainer/HappinessIcon");
-        cityIcon = cityWorldUI.GetNode<TextureRect>("VBoxContainer/HBoxContainer/CityIcon");
-        cityName = cityWorldUI.GetNode<Label>("VBoxContainer/CityName");
+        happinessIcon = cityWorldUI.GetNode<TextureRect>("Button/HappinessIcon");
+        cityIcon = cityWorldUI.GetNode<TextureRect>("Button/CityIcon");
+        cityName = cityWorldUI.GetNode<Label>("Button/CityName");
         AddChild(node);
         Transform3D newTransform = Transform;
         Point hexPoint = graphicManager.layout.HexToPixel(city.gameHex.hex);
@@ -60,14 +63,35 @@ public partial class CityWorldUI : Node3D
         Update();
     }
 
-    public override void _Input(InputEvent IEvent)
+    private void CityWorldUIEvent(Node camera, InputEvent IEvent, Vector3 eventPosition, Vector3 normal, long shapeIdx)
     {
         if (IEvent is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
         {
-            GD.Print("hello");
-            subViewPort.SetInputAsHandled();
-            cityWorldUI.AcceptEvent();
+            if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
+            {
+                if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[city.id])
+                {
+                    graphicManager.ChangeSelectedObject(city.id, graphicManager.graphicObjectDictionary[city.id]);
+                    return;
+                }
+            }
+            //city clicked on
         }
+    }
+
+    private void CityWorldUIExited()
+    {
+        Global.camera.blockClick = false;
+    }
+
+    private void CityWorldUIEntered()
+    {
+        Global.camera.blockClick = true;
+    }
+
+    public void Selected()
+    {
+
     }
 
     public void Update()
@@ -83,7 +107,6 @@ public partial class CityWorldUI : Node3D
         }
         
 
-        teamLabel.Text = "Team " + city.teamNum.ToString();
         if (city.isCapital)
         {
             cityIcon = new TextureRect();
