@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Diagnostics;
+using Steamworks;
 
 public partial class Global : Node
 {
@@ -12,5 +13,6 @@ public partial class Global : Node
     public override void _Ready()
     {
         Global instance = this;
+        SteamClient.Init(480, true);
     }
 }
