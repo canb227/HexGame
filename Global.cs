@@ -34,15 +34,15 @@ public partial class Global : Node
         {
             return;
         }
-        SteamClient.Init(STEAM_APP_ID, true);
-        if (SteamClient.IsValid)
+        
+        if (SteamAPI.Init())
         {
-            steamID = SteamClient.SteamId.Value;
-            Global.DebugLog("Steam ID: " + steamID);
+            clientID = SteamUser.GetSteamID().m_SteamID;
+            Global.debugLog("Steam ID: " + clientID);
         }
         else
         {
-            Global.DebugLog("Steam not initialized");
+            Global.debugLog("Steam not initialized");
         }
     }
 
