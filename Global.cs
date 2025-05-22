@@ -6,8 +6,9 @@ using Steamworks;
 public partial class Global : Node
 {
     //Steam stuff
-    public static uint STEAM_APP_ID = 480;
-    public static ulong steamID = 0;
+    public const uint STEAM_APP_ID = 480;
+    public const bool DISABLE_STEAM_DEBUG = false;
+    public static ulong clientID = 0;
 
     //Abusing singletons
     public static Global instance;
@@ -29,20 +30,49 @@ public partial class Global : Node
 
     public void SteamInit()
     {
+        if (DISABLE_STEAM_DEBUG)
+        {
+            return;
+        }
         SteamClient.Init(STEAM_APP_ID, true);
         if (SteamClient.IsValid)
         {
             steamID = SteamClient.SteamId.Value;
-            GD.Print("Steam ID: " + steamID);
+            Global.DebugLog("Steam ID: " + steamID);
         }
         else
         {
-            GD.Print("Steam not initialized");
+            Global.DebugLog("Steam not initialized");
         }
     }
 
-    public void Log(string message)
+    public static void networkLog(string message, ulong timestamp, bool server )
     {
-        GD.Print(message);
+        if(server)
+        {
+           GD.Print("[SERVER][" + timestamp + "] " + message);
+        }
+        else
+        {
+           GD.Print("[CLIENT][" + timestamp + "] " + message);
+        }
+    }
+
+    public static void debugLog(string message, bool addTimestamp = true)
+    {
+        if (addTimestamp)
+        {
+            GD.Print("[DEBUG][" + Time.GetTimeStringFromSystem() + "] " + message);
+        }
+        else
+        {
+            GD.Print("[DEBUG] " + message);
+        }
+
+    }
+
+    internal static ulong getTick()
+    {
+        return Time.GetTicksMsec();
     }
 }

@@ -3,3 +3,10 @@
 *.uid
 *.vsidx
 *.md5
+.godot/**
+.editorconfig
+.gitattributes
+.godot/mono/*
+.godot/editor/*
+.godot/
+
