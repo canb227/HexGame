@@ -141,7 +141,7 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 if (gameBoard.gameHexDict[hex].district.isCityCenter)
                 {
-                    graphicManager.NewCity(gameBoard.gameHexDict[hex].district.city, gameBoard.gameHexDict[hex].district);
+                    graphicManager.NewCity(gameBoard.gameHexDict[hex].district.city);
                 }
                 else
                 {

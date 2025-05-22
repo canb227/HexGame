@@ -97,15 +97,22 @@ public partial class CityWorldUI : Node3D
     public void Update()
     {
         citySizeLabel.Text = city.citySize.ToString() + "(" + Math.Ceiling(((city.foodToGrow - city.foodStockpile) / city.yields.food)).ToString() + ")";
-        cityGrowthBar.Value = (city.foodStockpile / city.foodToGrow) * 100.0f;
+        cityGrowthBar.Value = (city.foodStockpile / city.foodToGrow * 100.0f);
 
         if (city.productionQueue.Count > 0)
         {
-            productionIcon = city.productionQueue.First().productionIcon;
+            productionIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + city.productionQueue.First().productionIconPath);
+            productionIcon.Visible = true;
             productionTurnsLeft.Text = Math.Ceiling(city.productionQueue.First().productionLeft / city.yields.production).ToString();
-            productionBar.Value = (city.productionQueue.First().productionLeft / city.productionQueue.First().productionCost)*100.0f;
+            productionBar.Value = 100.0f - ((city.productionQueue.First().productionLeft / city.productionQueue.First().productionCost) * 100.0f);
         }
-        
+        else
+        {
+            productionIcon.Visible = false;
+            productionTurnsLeft.Text = "0";
+            productionBar.Value = 0.0f;
+        }
+
 
         if (city.isCapital)
         {

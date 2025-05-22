@@ -51,7 +51,7 @@ public partial class CityInfoPanel : Node3D
 
 
 
-    //private List<ConstructionItem> constructionItems;
+    private List<ConstructionItem> constructionItems;
     //private List<PurchaseItem> purchaseItems;
     private List<ProductionQueueUIItem> productionQueueUIItems;
 
@@ -97,8 +97,8 @@ public partial class CityInfoPanel : Node3D
         Purchase = cityUI.GetNode<ScrollContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase");
         PurchaseBox = cityUI.GetNode<VBoxContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox");
         ProductionQueuePanel = cityUI.GetNode<PanelContainer>("ProductionQueuePanel");
-        ProductionQueue = cityUI.GetNode<VBoxContainer>("ProductionQueuePanel/ProductionQueue");
-        OffsetLabel = cityUI.GetNode<Label>("ProductionQueuePanel/ProductionQueue/OffsetLabel");
+        ProductionQueue = ProductionQueuePanel.GetNode<VBoxContainer>("ScrollContainer/ProductionQueue");
+        OffsetLabel = ProductionQueuePanel.GetNode<Label>("ScrollContainer/ProductionQueue/OffsetLabel");
 
         CloseCityInfoButton.Pressed += () => graphicManager.UnselectObject();
         RenameCityButton.Pressed += () => RenameCity();
@@ -120,6 +120,13 @@ public partial class CityInfoPanel : Node3D
     {
         this.city = null;
         cityInfoPanel.Visible = false;
+        foreach (Control child in ProductionQueue.GetChildren())
+        {
+            if (child.Name != "OffsetLabel")
+            {
+                child.Free();
+            }
+        }
     }
 
     public void UpdateCityPanelInfo()
@@ -135,26 +142,43 @@ public partial class CityInfoPanel : Node3D
             HappinessYield.Text = city.yields.happiness.ToString();
             InfluenceYield.Text = city.yields.influence.ToString();
 
-            /*            foreach(ConstructionItem item in constructionItems)
-                        {
-                            ProductionBox.AddChild(item);
-                        }
-                        foreach (PurchaseItem item in purchaseItems)
-                        {
-                            PurchaseBox.AddChild(item);
-                        }*/
-            
-            foreach (Node3D child in ProductionQueue.GetChildren())
+            foreach(Control child in ProductionBox.GetChildren())
+            {
+                child.QueueFree();
+            }
+            foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedUnits)
+            {
+                if(itemName != "")
+                {
+                    ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, false, true);
+                    ProductionBox.AddChild(item);
+                }
+            }
+            foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedBuildings)
+            {
+                if (itemName != "")
+                {
+                    ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, true, false);
+                    ProductionBox.AddChild(item);
+                }
+            }
+            /*foreach (PurchaseItem item in purchaseItems)
+            {
+                PurchaseBox.AddChild(item);
+            }*/
+
+            foreach (Control child in ProductionQueue.GetChildren())
             {
                 if(child.Name != "OffsetLabel")
                 {
-                    child.Free();
+                    child.QueueFree();
                 }
             }
             for (int i = 0; i < city.productionQueue.Count; i++)
             {
                 ProductionQueue.AddChild(new ProductionQueueUIItem(graphicManager, city, i));
             }
+
             //update the ui stuff
         }
     }

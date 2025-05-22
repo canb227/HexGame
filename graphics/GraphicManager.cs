@@ -40,30 +40,29 @@ public partial class GraphicManager : Node3D
     public void NewUnit(Unit unit)
     {
         GraphicUnit graphicUnit = new GraphicUnit(unit, this);
-        AddChild(graphicUnit);
         graphicObjectDictionary.Add(graphicUnit.unit.id, graphicUnit);
+        AddChild(graphicUnit);
     }
 
     public void NewDistrict(District district)
     {
         GraphicDistrict graphicDistrict = new GraphicDistrict(district, layout, this);
-        AddChild(graphicDistrict);
         graphicObjectDictionary.Add(graphicDistrict.district.id, graphicDistrict);
+        AddChild(graphicDistrict);
     }
 
     public void NewBuilding(Building building)
     {
         GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout);
-        AddChild(graphicBuilding);
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
+        AddChild(graphicBuilding);
     }
 
-    public void NewCity(City city, District district)
+    public void NewCity(City city)
     {
-        NewDistrict(district);
         GraphicCity graphicCity = new GraphicCity(city, layout, this);
-        AddChild(graphicCity);
         graphicObjectDictionary.Add(graphicCity.city.id, graphicCity);
+        AddChild(graphicCity);
     }
     public void UpdateGraphic(int id, GraphicUpdateType graphicUpdateType)
     {
@@ -73,7 +72,7 @@ public partial class GraphicManager : Node3D
         }
         else
         {
-            GD.Print("No Graphic Object Associated With ID of: " + id);
+            throw new Exception("No Graphic Object Associated With ID of: " + id);
         }
     }
 

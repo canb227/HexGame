@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://biggt2r4jwdw"]
 
 [ext_resource type="Texture2D" uid="uid://bc8h3f1phl6d2" path="res://graphics/ui/icons/house.png" id="1_xgynx"]
-[ext_resource type="Texture2D" uid="uid://cb3r2h5cvpaus" path="res://graphics/ui/icons/gears.png" id="2_p1qpr"]
+[ext_resource type="PackedScene" uid="uid://2vjbcjnc07cx" path="res://graphics/ui/EffectBox.tscn" id="2_xgynx"]
 
 [node name="ProductionItem" type="Button"]
 custom_minimum_size = Vector2(0, 64)
@@ -49,15 +49,5 @@ offset_top = 25.0
 offset_right = 308.0
 offset_bottom = 65.0
 
-[node name="SingleEffectBox" type="HBoxContainer" parent="EffectListBox"]
+[node name="SingleEffectBox" parent="EffectListBox" instance=ExtResource("2_xgynx")]
 layout_mode = 2
-
-[node name="EffectIcon" type="TextureRect" parent="EffectListBox/SingleEffectBox"]
-layout_mode = 2
-texture = ExtResource("2_p1qpr")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="EffectValue" type="Label" parent="EffectListBox/SingleEffectBox"]
-layout_mode = 2
-text = "+2"

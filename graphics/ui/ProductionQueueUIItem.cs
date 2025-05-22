@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 
-public partial class ProductionQueueUIItem : Node3D
+public partial class ProductionQueueUIItem : PanelContainer
 {
     private GraphicManager graphicManager;
     public City city;
@@ -24,7 +24,7 @@ public partial class ProductionQueueUIItem : Node3D
     {
         this.city = city;
         this.graphicManager = graphicManager;
-        productionQueueUIItem = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ProductionQueueUIItem.tscn").Instantiate<PanelContainer>();
+        productionQueueUIItem = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ProductionQueueItem.tscn").Instantiate<PanelContainer>();
         ProductionButton = productionQueueUIItem.GetNode<Button>("ProductionButton");
         ProgressBar = ProductionButton.GetNode<ProgressBar>("ProgressBar");
         TurnsLeft = ProductionButton.GetNode<Label>("TurnsLeft");
@@ -32,16 +32,16 @@ public partial class ProductionQueueUIItem : Node3D
         TextureRect = ProductionButton.GetNode<TextureRect>("TextureRect");
 
         productionQueueItem = city.productionQueue[index];
-        CancelProduction.Pressed += () => city.RemoveFromQueue(index);
+        CancelProduction.Pressed += () => RemoveFromQueue(index);
 
-        TextureRect = productionQueueItem.productionIcon;
-
+        TextureRect.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + productionQueueItem.productionIconPath);
+        UpdateProgress();
         AddChild(productionQueueUIItem);
     }
 
     public void UpdateProgress()
     {
-        ProgressBar.Value = (productionQueueItem.productionLeft/ productionQueueItem.productionCost) * 100.0f;
+        ProgressBar.Value = 100.0f - ((productionQueueItem.productionLeft / productionQueueItem.productionCost) * 100.0f);
         TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / city.yields.production).ToString();
     }
 
@@ -49,6 +49,12 @@ public partial class ProductionQueueUIItem : Node3D
     {
         productionQueueItem = city.productionQueue[newIndex];
         CancelProduction.Pressed += () => city.RemoveFromQueue(newIndex);
+    }
+
+    public void RemoveFromQueue(int index)
+    {
+        city.RemoveFromQueue(index);
+        QueueFree();
     }
 }
 

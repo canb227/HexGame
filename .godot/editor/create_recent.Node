@@ -1,14 +1,14 @@
+ScrollContainer
+PanelContainer
 Control
 MeshInstance3D
 Area3D
 CollisionShape3D
 StaticBody3D
 Label
-ScrollContainer
 TextureRect
 Button
 HBoxContainer
 VBoxContainer
 TabContainer
 TabBar
-BoxContainer

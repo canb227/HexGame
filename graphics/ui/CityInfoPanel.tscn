@@ -233,9 +233,15 @@ size_flags_horizontal = 3
 layout_mode = 2
 theme = SubResource("Theme_4wkif")
 
-[node name="ProductionQueue" type="VBoxContainer" parent="ProductionQueuePanel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="ProductionQueuePanel"]
+custom_minimum_size = Vector2(138.73, 0)
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="ProductionQueue" type="VBoxContainer" parent="ProductionQueuePanel/ScrollContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 
-[node name="OffsetLabel" type="Label" parent="ProductionQueuePanel/ProductionQueue"]
+[node name="OffsetLabel" type="Label" parent="ProductionQueuePanel/ScrollContainer/ProductionQueue"]
 layout_mode = 2

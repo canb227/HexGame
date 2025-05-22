@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://2vjbcjnc07cx"]
+
+[ext_resource type="Texture2D" uid="uid://cb3r2h5cvpaus" path="res://graphics/ui/icons/gears.png" id="1_m1jh4"]
+
+[node name="SingleEffectBox" type="HBoxContainer"]
+
+[node name="EffectIcon" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_m1jh4")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="EffectValue" type="Label" parent="."]
+layout_mode = 2
+text = "+2"

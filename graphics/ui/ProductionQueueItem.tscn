@@ -39,7 +39,7 @@ offset_left = -66.0
 offset_top = -11.528
 offset_right = -2.0
 offset_bottom = 11.472
-text = "5 Turns"
+text = "-1"
 horizontal_alignment = 1
 
 [node name="CancelProduction" type="Button" parent="ProductionButton"]

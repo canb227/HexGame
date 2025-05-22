@@ -27,6 +27,7 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
+          "C:\\Users\\jeffe\\Desktop\\Stuff\\HexGame\\lib": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -61,6 +62,10 @@
             "GodotSharpEditor": {
               "target": "Package",
               "version": "[4.4.1, )"
+            },
+            "Google.Protobuf": {
+              "target": "Package",
+              "version": "[3.31.0, )"
             }
           },
           "imports": [

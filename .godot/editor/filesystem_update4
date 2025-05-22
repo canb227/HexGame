@@ -21,3 +21,11 @@ res://graphics/ui/CityInfoPanel.cs
 res://Global.cs
 res://Main.cs
 res://graphics/ui/ConstructionItem.tscn
+res://hex/City.cs
+res://game/Camera.cs
+res://game/Global.cs
+res://game/HexTest.cs
+res://graphics/ui/ProductionItem.tscn
+res://graphics/ui/ConstructionItem.cs
+res://network/NetworkPeer.cs
+res://hex/UnitEffect.cs
