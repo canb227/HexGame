@@ -52,6 +52,36 @@ public partial class GraphicCity : GraphicObject
         GD.PushWarning("NOT IMPLEMENTED");
     }
 
+    public override void RemoveTargetingPrompt()
+    {
+        foreach (Node3D child in GetChildren())
+        {
+            GD.Print(child.Name);
+            if (child.Name == "TargetingLines")
+            {
+                child.Free();
+            }
+            else if (child.Name == "TargetHexes")
+            {
+                child.Free();
+            }
+        }
+    }
+
+    public void GenerateBuildingTargetingPrompt(String buildingName)
+    {
+        BuildingInfo buildingInfo = BuildingLoader.buildingsDict[buildingName];
+        List<Hex> hexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes);
+        if (hexes.Count > 0)
+        {
+            graphicManager.SetWaitForTargeting(true);
+            graphicManager.waitingCity = city;
+            graphicManager.waitingBuildingName = buildingName;
+            AddChild(graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold));
+            AddChild(graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen));
+        }
+    }
+
     public override void _Process(double delta)
     {
 

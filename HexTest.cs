@@ -16,9 +16,9 @@ public partial class HexTest : Node3D
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
-        game = GameTests.GameStartTest();
+        //game = GameTests.GameStartTest();
         //game = GameTests.MapLoadTest();
-        //game = GameTests.TestSlingerCombat();
+        game = GameTests.TestSlingerCombat();
         graphicManager = new GraphicManager(game, pointy);
         graphicManager.Name = "GraphicManager";
         //game = GameTests.TestMassScoutBuild(game);

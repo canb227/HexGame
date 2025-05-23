@@ -1,3 +1,5 @@
+HBoxContainer
+TextureRect
 ScrollContainer
 PanelContainer
 Control
@@ -6,9 +8,7 @@ Area3D
 CollisionShape3D
 StaticBody3D
 Label
-TextureRect
 Button
-HBoxContainer
 VBoxContainer
 TabContainer
 TabBar

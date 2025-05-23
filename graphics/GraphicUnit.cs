@@ -106,11 +106,11 @@ public partial class GraphicUnit : GraphicObject
             {
                 child.Free(); 
             }
-            else if (child.Name == "AbilityTargetingLines")
+            else if (child.Name == "TargetingLines")
             {
                 child.Free();
             }
-            else if (child.Name == "AbilityTargetHexes")
+            else if (child.Name == "TargetHexes")
             {
                 child.Free();
             }
@@ -193,20 +193,20 @@ public partial class GraphicUnit : GraphicObject
         {
             graphicManager.SetWaitForTargeting(true);
             graphicManager.waitingAbility = ability;
-            GenerateHexSelectionLines(hexes);
-            GenerateHexSelectionTriangles(hexes);
+            AddChild(graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold));
+            AddChild(graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.BlueViolet));
         }
     }
 
-    public void RemoveTargetingPrompt()
+    public override void RemoveTargetingPrompt()
     {
         foreach (Node3D child in GetChildren())
         {
-            if (child.Name == "AbilityTargetingLines")
+            if (child.Name == "TargetingLines")
             {
                 child.Free();
             }
-            else if (child.Name == "AbilityTargetHexes")
+            else if (child.Name == "TargetHexes")
             {
                 child.Free();
             }
@@ -294,74 +294,6 @@ public partial class GraphicUnit : GraphicObject
         triangles.SetSurfaceOverrideMaterial(0, material);
         triangles.Name = "MovementRangeHexes";
         AddChild(triangles);
-    }
-
-    private void GenerateHexSelectionLines(List<Hex> hexes)
-    {
-        MeshInstance3D lines = new MeshInstance3D();
-
-        SurfaceTool st = new SurfaceTool();
-
-        st.Begin(Mesh.PrimitiveType.Lines);
-        st.SetColor(Godot.Colors.Gold);
-
-
-        foreach (Hex hex in hexes)
-        {
-            List<Point> points = graphicManager.layout.PolygonCorners(hex);
-            st.AddVertex(new Vector3((float)points[0].y, 0.1f, (float)points[0].x));
-            foreach (Point point in points)
-            {
-                Vector3 temp = new Vector3((float)point.y, 0.1f, (float)point.x);
-                //GD.Print(temp);
-                st.AddVertex(temp);
-                st.AddVertex(temp);
-
-            }
-            st.AddVertex(new Vector3((float)points[0].y, 0.1f, (float)points[0].x));
-        }
-        //st.GenerateNormals();
-        lines.Mesh = st.Commit();
-        lines.Name = "AbilityTargetingLines";
-        AddChild(lines);
-    }
-
-    private void GenerateHexSelectionTriangles(List<Hex> hexes)
-    {
-        MeshInstance3D triangles = new MeshInstance3D();
-
-        SurfaceTool st = new SurfaceTool();
-        st.Begin(Mesh.PrimitiveType.Triangles);
-        st.SetColor(Godot.Colors.BlueViolet);
-
-
-        foreach (Hex hex in hexes)
-        {
-            List<Point> points = graphicManager.layout.PolygonCorners(hex);
-
-            Vector3 origin = new Vector3((float)points[0].y, 0.15f, (float)points[0].x);
-            for (int i = 1; i < 6; i++)
-            {
-                st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
-
-                Vector3 pointTwo = new Vector3((float)points[i].y, 0.15f, (float)points[i].x); // Get the next point in the polygon
-                st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
-
-                Vector3 pointThree = new Vector3((float)points[i - 1].y, 0.15f, (float)points[i - 1].x);
-                st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
-            }
-        }
-        st.GenerateNormals();
-
-        triangles.Mesh = st.Commit();
-        StandardMaterial3D material = new StandardMaterial3D();
-        material.VertexColorUseAsAlbedo = true;
-        if (triangles.GetSurfaceOverrideMaterialCount() != 0)
-        {
-            triangles.SetSurfaceOverrideMaterial(0, material);
-            triangles.Name = "AbilityTargetHexes";
-            AddChild(triangles);
-        }
     }
 
     public override void _Process(double delta)

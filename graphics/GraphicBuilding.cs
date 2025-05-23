@@ -62,4 +62,8 @@ public partial class GraphicBuilding : GraphicObject
     {
 
     }
+    public override void RemoveTargetingPrompt()
+    {
+        GD.PushWarning("NOT IMPLEMENTED");
+    }
 }

@@ -142,6 +142,7 @@ public partial class GraphicGameBoard : GraphicObject
                 if (gameBoard.gameHexDict[hex].district.isCityCenter)
                 {
                     graphicManager.NewCity(gameBoard.gameHexDict[hex].district.city);
+                    graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
                 }
                 else
                 {
@@ -324,5 +325,9 @@ public partial class GraphicGameBoard : GraphicObject
     public override void _Process(double delta)
     {
 
+    }
+    public override void RemoveTargetingPrompt()
+    {
+        GD.PushWarning("NOT IMPLEMENTED");
     }
 }

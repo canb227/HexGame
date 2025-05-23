@@ -53,4 +53,8 @@ public partial class GraphicDistrict : GraphicObject
     {
 
     }
+    public override void RemoveTargetingPrompt()
+    {
+        GD.PushWarning("NOT IMPLEMENTED");
+    }
 }

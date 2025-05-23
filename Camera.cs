@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Camera : Camera3D
 {
@@ -112,20 +113,31 @@ public partial class Camera : Camera3D
         {
             if(graphicManager.GetWaitForTargeting())
             {
-                graphicManager.SetWaitForTargeting(false);
-                graphicManager.waitingAbility = null;
+                graphicManager.ClearWaitForTarget();
             }
         }
         else if (graphicManager.GetWaitForTargeting())
         {
-            if (graphicManager.waitingAbility.validTargetTypes.IsHexValidTarget(gameHex.gameBoard.gameHexDict[hex], graphicManager.waitingAbility.usingUnit))
+            if (graphicManager.waitingAbility != null)
             {
-                graphicManager.waitingAbility.ActivateAbility(gameHex.gameBoard.gameHexDict[hex]);
+                if (graphicManager.waitingAbility.validTargetTypes.IsHexValidTarget(gameHex.gameBoard.gameHexDict[hex], graphicManager.waitingAbility.usingUnit))
+                {
+                    graphicManager.waitingAbility.ActivateAbility(gameHex.gameBoard.gameHexDict[hex]);
+                    graphicManager.ClearWaitForTarget();
+                }
+            }
+            else if(graphicManager.waitingCity != null)
+            {
+                List<Hex> hexes = graphicManager.waitingCity.ValidUrbanBuildHexes(BuildingLoader.buildingsDict[graphicManager.waitingBuildingName].TerrainTypes);
+                if (hexes.Count > 0 && hexes.Contains(hex))
+                {
+                    graphicManager.waitingCity.BuildOnHex(hex, graphicManager.waitingBuildingName);
+                    graphicManager.ClearWaitForTarget();
+                }
             }
             else
             {
-                graphicManager.SetWaitForTargeting(false);
-                graphicManager.waitingAbility = null;
+                graphicManager.ClearWaitForTarget();
             }
         }
         else if (gameHex.units.Count != 0)

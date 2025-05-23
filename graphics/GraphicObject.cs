@@ -36,6 +36,8 @@ public abstract partial class GraphicObject : Node3D
 
     public abstract void UpdateGraphic(GraphicUpdateType graphicUpdateType);
 
+    public abstract void RemoveTargetingPrompt();
+
     public abstract void Unselected();
     public abstract void Selected();
 

@@ -148,7 +148,8 @@ public partial class CityInfoPanel : Node3D
             }
             foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedUnits)
             {
-                if(itemName != "")
+                GD.Print(itemName);
+                if (itemName != "")
                 {
                     ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, false, true);
                     ProductionBox.AddChild(item);

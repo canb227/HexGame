@@ -14,6 +14,8 @@ public partial class GraphicManager : Node3D
     public UIManager uiManager;
     private bool waitForTargeting = false;
     public UnitAbility waitingAbility;
+    public City waitingCity;
+    public String waitingBuildingName;
 
     public GraphicManager(Game game, Layout layout)
     {
@@ -116,7 +118,7 @@ public partial class GraphicManager : Node3D
         //if we were waiting and now arent, update UI stuff
         if (this.waitForTargeting && !waitForTargeting)
         {
-            ((GraphicUnit)graphicObjectDictionary[waitingAbility.usingUnit.id]).RemoveTargetingPrompt();
+            selectedObject.RemoveTargetingPrompt();
         }
         this.waitForTargeting = waitForTargeting;
     }
@@ -124,5 +126,85 @@ public partial class GraphicManager : Node3D
     public bool GetWaitForTargeting()
     {
         return waitForTargeting;
+    }
+
+    public void ClearWaitForTarget()
+    {
+        waitingAbility = null;
+        waitingCity = null;
+        waitingBuildingName = null;
+        SetWaitForTargeting(false);
+    }
+
+    public MeshInstance3D GenerateHexSelectionLines(List<Hex> hexes, Godot.Color color)
+    {
+        MeshInstance3D lines = new MeshInstance3D();
+
+        SurfaceTool st = new SurfaceTool();
+
+        st.Begin(Mesh.PrimitiveType.Lines);
+        st.SetColor(color);
+
+
+        foreach (Hex hex in hexes)
+        {
+            List<Point> points = layout.PolygonCorners(hex);
+            st.AddVertex(new Vector3((float)points[0].y, 0.1f, (float)points[0].x));
+            foreach (Point point in points)
+            {
+                Vector3 temp = new Vector3((float)point.y, 0.1f, (float)point.x);
+                //GD.Print(temp);
+                st.AddVertex(temp);
+                st.AddVertex(temp);
+
+            }
+            st.AddVertex(new Vector3((float)points[0].y, 0.1f, (float)points[0].x));
+        }
+        //st.GenerateNormals();
+        lines.Mesh = st.Commit();
+        lines.Name = "TargetingLines";
+        return lines;
+    }
+
+    public MeshInstance3D GenerateHexSelectionTriangles(List<Hex> hexes, Godot.Color color)
+    {
+        MeshInstance3D triangles = new MeshInstance3D();
+
+        SurfaceTool st = new SurfaceTool();
+        st.Begin(Mesh.PrimitiveType.Triangles);
+        st.SetColor(color);
+
+
+        foreach (Hex hex in hexes)
+        {
+            List<Point> points = layout.PolygonCorners(hex);
+
+            Vector3 origin = new Vector3((float)points[0].y, 0.15f, (float)points[0].x);
+            for (int i = 1; i < 6; i++)
+            {
+                st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
+
+                Vector3 pointTwo = new Vector3((float)points[i].y, 0.15f, (float)points[i].x); // Get the next point in the polygon
+                st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
+
+                Vector3 pointThree = new Vector3((float)points[i - 1].y, 0.15f, (float)points[i - 1].x);
+                st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
+            }
+        }
+        st.GenerateNormals();
+
+        triangles.Mesh = st.Commit();
+        StandardMaterial3D material = new StandardMaterial3D();
+        material.VertexColorUseAsAlbedo = true;
+        if (triangles.GetSurfaceOverrideMaterialCount() != 0)
+        {
+            triangles.SetSurfaceOverrideMaterial(0, material);
+            triangles.Name = "TargetHexes";
+            return triangles;
+        }
+        else
+        {
+            return null;
+        }
     }
 }
