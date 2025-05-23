@@ -68,6 +68,8 @@ public partial class NetworkPeer : Node
     // This is a Godot node, so it needs to be in the scenetree to work. There is no reason for this other than I thought it was neat.
     public override void _Ready()
     {
+        Global.networkPeer = this;
+
         //Registers the automagical callback with the function to call when a message is received. See the Steamworks API
         MessageRequest = Callback<SteamNetworkingMessagesSessionRequest_t>.Create(OnMessageRequest);
 
@@ -334,28 +336,8 @@ public partial class NetworkPeer : Node
     ///////////////////////////////////////////////////////////////////////////////////
     /// COMMAND MANAGER
 
-    private void OnCommandMessageReceived(Command command)
+    public void CommandAllPeers(Command cmd)
     {
-        Global.debugLog("Command received from: " + command.Sender);
-        switch (command.Command_)
-        {
-            case "startgame":
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void CommandAllPeers(string command, List<string> commandParams)
-    {
-        Command cmd = new Command() { Command_ = command, Sender = Global.clientID };
-        if (commandParams != null)
-        {
-            foreach (string param in commandParams)
-            {
-                cmd.Params.Add(param);
-            }
-        }
         CommandMessageReceivedEvent?.Invoke(cmd);
         MessageAllPeers(cmd, COMMAND_CHANNEL);
     }

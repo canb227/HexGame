@@ -17,14 +17,15 @@ public partial class Global : Node
     //If the compiler gives you trouble with Global.[varname], try using Global.instance.[varname]
     public static Layout layout;
     public static Camera camera;
-
+    public static GameManager gameManager;
+    public static NetworkPeer networkPeer;
 
     //This ready codeblock is the first non-engine code to run anywhere in the game, since Global is autoloaded by Godot before anything else
     public override void _Ready()
     {
         //also abusing singletons
         Global instance = this;
-
+        gameManager = new GameManager();
         SteamInit();
     }
 
