@@ -103,7 +103,7 @@ public partial class CityWorldUI : Node3D
         {
             productionIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + city.productionQueue.First().productionIconPath);
             productionIcon.Visible = true;
-            productionTurnsLeft.Text = Math.Ceiling(city.productionQueue.First().productionLeft / city.yields.production).ToString();
+            productionTurnsLeft.Text = Math.Ceiling(city.productionQueue.First().productionLeft / (city.yields.production + city.productionOverflow)).ToString();
             productionBar.Value = 100.0f - ((city.productionQueue.First().productionLeft / city.productionQueue.First().productionCost) * 100.0f);
         }
         else

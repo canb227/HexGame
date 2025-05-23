@@ -24,6 +24,7 @@ public partial class ProductionQueueUIItem : PanelContainer
     {
         this.city = city;
         this.graphicManager = graphicManager;
+        queueIndex = index;
         productionQueueUIItem = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ProductionQueueItem.tscn").Instantiate<PanelContainer>();
         ProductionButton = productionQueueUIItem.GetNode<Button>("ProductionButton");
         ProgressBar = ProductionButton.GetNode<ProgressBar>("ProgressBar");
@@ -31,6 +32,7 @@ public partial class ProductionQueueUIItem : PanelContainer
         CancelProduction = ProductionButton.GetNode<Button>("CancelProduction");
         TextureRect = ProductionButton.GetNode<TextureRect>("TextureRect");
 
+        ProductionButton.Pressed += () => MoveToFrontOfQueue();
         productionQueueItem = city.productionQueue[index];
         CancelProduction.Pressed += () => RemoveFromQueue(index);
 
@@ -42,13 +44,26 @@ public partial class ProductionQueueUIItem : PanelContainer
     public void UpdateProgress()
     {
         ProgressBar.Value = 100.0f - ((productionQueueItem.productionLeft / productionQueueItem.productionCost) * 100.0f);
-        TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / city.yields.production).ToString();
+        if(queueIndex == 0)
+        {
+            TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / (city.yields.production + city.productionOverflow)).ToString();
+        }
+        else
+        {
+            TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / city.yields.production).ToString();
+        }
     }
 
     public void UpdateIndex(int newIndex)
     {
+        queueIndex = newIndex;
         productionQueueItem = city.productionQueue[newIndex];
         CancelProduction.Pressed += () => city.RemoveFromQueue(newIndex);
+    }
+
+    public void MoveToFrontOfQueue()
+    {
+        city.MoveToFrontOfProductionQueue(queueIndex);
     }
 
     public void RemoveFromQueue(int index)
