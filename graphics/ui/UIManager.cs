@@ -17,7 +17,8 @@ public enum UIElement
     culturePerTurn,
     happinessPerTurn,
     influencePerTurn,
-    unitDisplay
+    unitDisplay,
+    endTurnButton
 }
 
 public partial class UIManager : Node3D
@@ -37,8 +38,15 @@ public partial class UIManager : Node3D
     public Label influencePerTurnLabel;
     public Label turnNumberLabel;
 
+    public Button scienceButton;
+    public Button cultureButton;
+
     public UnitInfoPanel unitInfoPanel;
     public CityInfoPanel cityInfoPanel;
+
+    public City targetCity;
+
+    public bool readyToGrow;
 
     public UIManager(GraphicManager graphicManager, Game game, Layout layout)
     {
@@ -57,6 +65,11 @@ public partial class UIManager : Node3D
         influencePerTurnLabel = screenUI.GetNode<Label>("VBoxContainer/PanelContainer/TopBar/Resources/InfluencePerTurnLabel");
         turnNumberLabel = screenUI.GetNode<Label>("VBoxContainer/PanelContainer/TopBar/GameInfo/TurnLabel");
 
+        scienceButton = screenUI.GetNode<Button>("VBoxContainer/HBoxContainer/ScienceTree");
+        cultureButton = screenUI.GetNode<Button>("VBoxContainer/HBoxContainer/CultureTree");
+
+        scienceButton.Pressed += () => ScienceTreeButtonPressed();
+        cultureButton.Pressed += () => CultureTreeButtonPressed();
 
         goldLabel.Text = "0 ";
         goldPerTurnLabel.Text = "(+0) ";
@@ -78,6 +91,7 @@ public partial class UIManager : Node3D
         AddChild(cityInfoPanel);
         cityInfoPanel.cityInfoPanel.Visible = false;
 
+        UpdateAll();
         AddChild(screenUI);
     }
 
@@ -87,17 +101,47 @@ public partial class UIManager : Node3D
         endTurnButton.Pressed += endTurnButtonPressed;
     }
 
+    public void HideGenericUIForTargeting()
+    {
+        endTurnButton.Visible = false;
+        scienceButton.Visible = false;
+        cultureButton.Visible = false;
+    }
+
+    public void ShowGenericUIAfterTargeting()
+    {
+        endTurnButton.Visible = true;
+        scienceButton.Visible = true;
+        cultureButton.Visible = true;
+    }
+
+    public void UpdateAll()
+    {
+        goldLabel.Text = game.playerDictionary[game.localPlayerTeamNum].GetGoldTotal().ToString() + " ";
+        goldPerTurnLabel.Text = "(+" + game.playerDictionary[game.localPlayerTeamNum].GetGoldPerTurn().ToString() + ")  ";
+        sciencePerTurnLabel.Text = " +" + game.playerDictionary[game.localPlayerTeamNum].GetSciencePerTurn().ToString() + "  ";
+        culturePerTurnLabel.Text = " +" + game.playerDictionary[game.localPlayerTeamNum].GetCulturePerTurn().ToString() + "  ";
+        happinessLabel.Text = game.playerDictionary[game.localPlayerTeamNum].GetHappinessTotal().ToString() + " ";
+        happinessPerTurnLabel.Text = "(+" + game.playerDictionary[game.localPlayerTeamNum].GetHappinessPerTurn().ToString() + ")  ";
+        influenceLabel.Text = game.playerDictionary[game.localPlayerTeamNum].GetInfluenceTotal().ToString() + " ";
+        influencePerTurnLabel.Text = "(+" + game.playerDictionary[game.localPlayerTeamNum].GetInfluencePerTurn().ToString() + ")  ";
+        turnNumberLabel.Text = " " + game.turnManager.currentTurn;
+
+        UpdateUnitUIDisplay();
+        UpdateEndTurnButton();
+    }
+
     public void Update(UIElement element)
-    { 
-        if(element == UIElement.gold)
+    {
+        if (element == UIElement.gold)
         {
             goldLabel.Text = game.playerDictionary[game.localPlayerTeamNum].GetGoldTotal().ToString() + " ";
         }
         else if (element == UIElement.goldPerTurn)
         {
-            goldPerTurnLabel.Text = "(+"+game.playerDictionary[game.localPlayerTeamNum].GetGoldPerTurn().ToString() + ")  ";
+            goldPerTurnLabel.Text = "(+" + game.playerDictionary[game.localPlayerTeamNum].GetGoldPerTurn().ToString() + ")  ";
         }
-        else if(element == UIElement.sciencePerTurn)
+        else if (element == UIElement.sciencePerTurn)
         {
             sciencePerTurnLabel.Text = " +" + game.playerDictionary[game.localPlayerTeamNum].GetSciencePerTurn().ToString() + "  ";
         }
@@ -119,15 +163,19 @@ public partial class UIManager : Node3D
         }
         else if (element == UIElement.influencePerTurn)
         {
-            influencePerTurnLabel.Text = "(+" + game.playerDictionary[game.localPlayerTeamNum].GetInfluencePerTurn().ToString() +")  ";
+            influencePerTurnLabel.Text = "(+" + game.playerDictionary[game.localPlayerTeamNum].GetInfluencePerTurn().ToString() + ")  ";
         }
         else if (element == UIElement.turnNumber)
         {
             turnNumberLabel.Text = " " + game.turnManager.currentTurn;
         }
-        else if(element == UIElement.unitDisplay)
+        else if (element == UIElement.unitDisplay)
         {
             UpdateUnitUIDisplay();
+        }
+        else if (element == UIElement.endTurnButton)
+        {
+            UpdateEndTurnButton();
         }
     }
 
@@ -148,6 +196,50 @@ public partial class UIManager : Node3D
 
     private void endTurnButtonPressed()
     {
-        game.turnManager.EndCurrentTurn(game.localPlayerTeamNum);
+        if (readyToGrow)
+        {
+            ((GraphicCity)graphicManager.graphicObjectDictionary[targetCity.id]).GenerateGrowthTargetingPrompt();
+        }
+        else
+        {
+            game.turnManager.EndCurrentTurn(game.localPlayerTeamNum);
+        }
+    }
+    
+    private void UpdateEndTurnButton()
+    {
+        bool cityReadyToGrow = false;
+        City foundCity = null;
+        foreach(City city in game.playerDictionary[game.localPlayerTeamNum].cityList)
+        {
+            if (city.readyToExpand > 0)
+            {
+                foundCity = city;
+                cityReadyToGrow = true;
+                break;
+            }
+        }
+        if (cityReadyToGrow)
+        {
+            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/house.png");
+            readyToGrow = true;
+            targetCity = foundCity;
+        }
+        else
+        {
+            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/skipturn.png");
+            readyToGrow = false;
+            targetCity = null;
+        }
+    }
+
+    public void ScienceTreeButtonPressed()
+    {
+
+    }
+
+    public void CultureTreeButtonPressed()
+    {
+
     }
 }

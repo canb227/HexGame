@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3 uid="uid://ki38tut7gbgp"]
+
+[ext_resource type="Texture2D" uid="uid://b4dxstmrdx682" path="res://graphics/ui/icons/shoe.png" id="1_dymly"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skgj6"]
+bg_color = Color(0.0823529, 0.0823529, 0.0823529, 0.862745)
+
+[sub_resource type="Theme" id="Theme_qnqfw"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_skgj6")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dymly"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.777077, 0.221635, 0.224273, 1)
+
+[sub_resource type="Theme" id="Theme_wsn6k"]
+Panel/styles/panel = SubResource("StyleBoxFlat_dymly")
+
+[sub_resource type="QuadMesh" id="QuadMesh_skgj6"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qnqfw"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1novo"]
+resource_local_to_scene = true
+transparency = 1
+no_depth_test = true
+albedo_texture = SubResource("ViewportTexture_qnqfw")
+texture_filter = 0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4f77d"]
+points = PackedVector3Array(0.5, 0.5, 0, 0.5, -0.5, 0, -0.5, 0.5, 0, -0.5, -0.5, 0)
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(50, 60)
+
+[node name="UnitWorldUI" type="PanelContainer" parent="SubViewport"]
+offset_right = 50.0
+offset_bottom = 60.0
+theme = SubResource("Theme_qnqfw")
+
+[node name="Button" type="Button" parent="SubViewport/UnitWorldUI"]
+layout_mode = 2
+
+[node name="UnitHealthBar" type="ProgressBar" parent="SubViewport/UnitWorldUI/Button"]
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 27.0
+scale = Vector2(1, 0.38)
+show_percentage = false
+
+[node name="UnitIcon" type="TextureRect" parent="SubViewport/UnitWorldUI/Button"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -50.0
+offset_right = 25.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("1_dymly")
+expand_mode = 2
+
+[node name="EnemyBorder" type="Panel" parent="SubViewport/UnitWorldUI"]
+layout_mode = 2
+theme = SubResource("Theme_wsn6k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.74846e-08, -0.393193, 0.458861, 0, 0.275317, 0.655322, -0.4, 1.7187e-08, -2.00574e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_skgj6")
+skeleton = NodePath("Area3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_1novo")
+
+[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, -0.819152, 0.573576, 3.58063e-08, 0.573576, 0.819152, -2.50718e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
+transform = Transform3D(-4.38977e-08, -0.822643, 0.576021, 7.10543e-15, 0.576021, 0.822643, -1.00426, 3.59589e-08, -2.51787e-08, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_4f77d")

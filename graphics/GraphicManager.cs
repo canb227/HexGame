@@ -3,22 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Xml.Linq;
 
 public partial class GraphicManager : Node3D
 {
     public Dictionary<int, GraphicObject> graphicObjectDictionary;
+    public Dictionary<int, GraphicObject> toBeDeleted;
     public Game game;
     public Layout layout;
     public GraphicObject selectedObject;
     public int selectedObjectID;
     public UIManager uiManager;
     private bool waitForTargeting = false;
-    public UnitAbility waitingAbility;
-    public City waitingCity;
-    public String waitingBuildingName;
 
     public GraphicManager(Game game, Layout layout)
     {
+        toBeDeleted = new();
         graphicObjectDictionary = new();
         this.game = game;
         this.layout = layout;
@@ -55,6 +55,8 @@ public partial class GraphicManager : Node3D
 
     public void NewBuilding(Building building)
     {
+        GD.Print(building.name);
+        GD.Print(building.district.gameHex.hex);
         GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout);
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
         AddChild(graphicBuilding);
@@ -90,17 +92,24 @@ public partial class GraphicManager : Node3D
             selectedObject.Unselected();
             selectedObject = null;
         }
+        foreach(int id in toBeDeleted.Keys)
+        {
+            graphicObjectDictionary[id].QueueFree();
+            graphicObjectDictionary.Remove(id);
+        }
     }
 
     public void ChangeSelectedObject(int newID, GraphicObject newSelectedObject)
     {
         if(selectedObject != null)
         {
+            ClearWaitForTarget();
             selectedObject.Unselected();
         }
         selectedObject = newSelectedObject;
         selectedObjectID = newID;
         selectedObject.Selected();
+
     }
 
     public void UnselectObject()
@@ -116,7 +125,7 @@ public partial class GraphicManager : Node3D
     public void SetWaitForTargeting(bool waitForTargeting)
     {
         //if we were waiting and now arent, update UI stuff
-        if (this.waitForTargeting && !waitForTargeting)
+        if (this.waitForTargeting && !waitForTargeting && selectedObject != null)
         {
             selectedObject.RemoveTargetingPrompt();
         }
@@ -130,13 +139,10 @@ public partial class GraphicManager : Node3D
 
     public void ClearWaitForTarget()
     {
-        waitingAbility = null;
-        waitingCity = null;
-        waitingBuildingName = null;
         SetWaitForTargeting(false);
     }
 
-    public MeshInstance3D GenerateHexSelectionLines(List<Hex> hexes, Godot.Color color)
+    public MeshInstance3D GenerateHexSelectionLines(List<Hex> hexes, Godot.Color color, string name)
     {
         MeshInstance3D lines = new MeshInstance3D();
 
@@ -162,11 +168,11 @@ public partial class GraphicManager : Node3D
         }
         //st.GenerateNormals();
         lines.Mesh = st.Commit();
-        lines.Name = "TargetingLines";
+        lines.Name = "TargetingLines" + name;
         return lines;
     }
 
-    public MeshInstance3D GenerateHexSelectionTriangles(List<Hex> hexes, Godot.Color color)
+    public MeshInstance3D GenerateHexSelectionTriangles(List<Hex> hexes, Godot.Color color, string name)
     {
         MeshInstance3D triangles = new MeshInstance3D();
 
@@ -199,12 +205,74 @@ public partial class GraphicManager : Node3D
         if (triangles.GetSurfaceOverrideMaterialCount() != 0)
         {
             triangles.SetSurfaceOverrideMaterial(0, material);
-            triangles.Name = "TargetHexes";
+            triangles.Name = "TargetHexes"+name;
             return triangles;
         }
         else
         {
             return null;
+        }
+    }
+
+    public void ShowAllWorldUI()
+    {
+        foreach (GraphicObject tempObject in graphicObjectDictionary.Values)
+        {
+            if (tempObject is GraphicCity)
+            {
+                ((GraphicCity)tempObject).SetWorldUIVisibility(true);
+            }
+            if (tempObject is GraphicUnit)
+            {
+                ((GraphicUnit)tempObject).SetWorldUIVisibility(true);
+            }
+        }
+    }
+
+    public void HideAllWorldUI()
+    {
+        foreach (GraphicObject tempObject in graphicObjectDictionary.Values)
+        {
+            if (tempObject is GraphicCity)
+            {
+                ((GraphicCity)tempObject).SetWorldUIVisibility(false);
+            }
+            if (tempObject is GraphicUnit)
+            {
+                ((GraphicUnit)tempObject).SetWorldUIVisibility(false);
+            }
+        }
+    }
+
+    public void HideAllWorldUIBut(int id)
+    {
+        foreach(GraphicObject tempObject in graphicObjectDictionary.Values)
+        {
+            if(tempObject is GraphicCity)
+            {
+                if(((GraphicCity)tempObject).city.id != id)
+                {
+                    ((GraphicCity)tempObject).SetWorldUIVisibility(false);
+                }
+            }
+            if(tempObject is GraphicUnit)
+            {
+                if (((GraphicUnit)tempObject).unit.id != id)
+                {
+                    ((GraphicUnit)tempObject).SetWorldUIVisibility(false);
+                }
+            }
+        }
+    }
+
+    public void HideAllCityWorldUI()
+    {
+        foreach (GraphicObject tempObject in graphicObjectDictionary.Values)
+        {
+            if (tempObject is GraphicCity)
+            {
+                ((GraphicCity)tempObject).SetWorldUIVisibility(false);
+            }
         }
     }
 }

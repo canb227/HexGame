@@ -8,6 +8,7 @@ public partial class CityWorldUI : Node3D
 {
     private GraphicManager graphicManager;
     private City city;
+    private District cityCenter;
 
     private Node3D node;
     private SubViewport subViewPort;
@@ -27,6 +28,7 @@ public partial class CityWorldUI : Node3D
     private TextureRect happinessIcon;
     private TextureRect cityIcon;
     private Label cityName;
+    private ProgressBar cityHealth;
     public CityWorldUI(GraphicManager graphicManager, City city)
     {
         this.graphicManager = graphicManager;
@@ -55,6 +57,17 @@ public partial class CityWorldUI : Node3D
         happinessIcon = cityWorldUI.GetNode<TextureRect>("Button/HappinessIcon");
         cityIcon = cityWorldUI.GetNode<TextureRect>("Button/CityIcon");
         cityName = cityWorldUI.GetNode<Label>("Button/CityName");
+        cityHealth = cityWorldUI.GetNode<ProgressBar>("Button/CityHealth");
+        
+        foreach(District district in city.districts)
+        {
+            if(district.isCityCenter)
+            {
+                cityCenter = district;
+            }
+        }
+        cityHealth.Value = cityCenter.health;
+        
         AddChild(node);
         Transform3D newTransform = Transform;
         Point hexPoint = graphicManager.layout.HexToPixel(city.gameHex.hex);
@@ -96,10 +109,19 @@ public partial class CityWorldUI : Node3D
 
     public void Update()
     {
-        citySizeLabel.Text = city.citySize.ToString() + "(" + Math.Ceiling(((city.foodToGrow - city.foodStockpile) / city.yields.food)).ToString() + ")";
+        citySizeLabel.Text = city.naturalPopulation.ToString() + "(" + Math.Ceiling(((city.foodToGrow - city.foodStockpile) / city.yields.food)).ToString() + ")";
         cityGrowthBar.Value = (city.foodStockpile / city.foodToGrow * 100.0f);
-
-        if (city.productionQueue.Count > 0)
+        cityHealth.Value = cityCenter.health; //TODO add update to when we take damage
+        GD.Print(cityCenter.health);
+        if (city.teamNum != graphicManager.game.localPlayerTeamNum)
+        {
+            productionIcon.Visible = false;
+            productionTurnsLeft.Visible = false;
+            productionBar.Visible = false;
+            cityGrowthBar.Visible = false;
+            citySizeLabel.Text = city.naturalPopulation.ToString();
+        }
+        else if (city.productionQueue.Count > 0)
         {
             productionIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + city.productionQueue.First().productionIconPath);
             productionIcon.Visible = true;

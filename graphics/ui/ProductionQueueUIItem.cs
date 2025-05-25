@@ -31,10 +31,12 @@ public partial class ProductionQueueUIItem : PanelContainer
         TurnsLeft = ProductionButton.GetNode<Label>("TurnsLeft");
         CancelProduction = ProductionButton.GetNode<Button>("CancelProduction");
         TextureRect = ProductionButton.GetNode<TextureRect>("TextureRect");
-
-        ProductionButton.Pressed += () => MoveToFrontOfQueue();
-        productionQueueItem = city.productionQueue[index];
-        CancelProduction.Pressed += () => RemoveFromQueue(index);
+        if(city.teamNum == graphicManager.game.localPlayerTeamNum)
+        {
+            ProductionButton.Pressed += () => MoveToFrontOfQueue();
+            productionQueueItem = city.productionQueue[index];
+            CancelProduction.Pressed += () => RemoveFromQueue(index);
+        }
 
         TextureRect.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + productionQueueItem.productionIconPath);
         UpdateProgress();

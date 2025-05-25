@@ -68,10 +68,23 @@ public partial class Camera : Camera3D
         this.zoomAmount = Mathf.Lerp(this.zoomAmount, 0f, 0.5f);
     }
 
-    public override void _UnhandledInput(InputEvent @event)
+    public override void _UnhandledInput(InputEvent iEvent)
     {
-        //return;
-        if (!blockClick && @event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
+        if (iEvent is InputEventKey eventKey && eventKey.Pressed)
+        {
+            if (eventKey.Keycode == Key.Escape) // In Godot 4, use Keycode instead of Scancode
+            {
+                if (graphicManager.GetWaitForTargeting())
+                {
+                    graphicManager.ClearWaitForTarget();
+                }
+                else
+                {
+                    graphicManager.UnselectObject();
+                }
+            }
+        }
+        if (!blockClick && iEvent is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
         {
             Vector2 mouse_pos = GetViewport().GetMousePosition();
             Vector3 origin = this.ProjectRayOrigin(mouse_pos);
@@ -96,7 +109,7 @@ public partial class Camera : Camera3D
                 ProcessHexRightClick(hex);
             }
         }
-        if (@event is InputEventMouseMotion mouseMotionEvent)
+        if (iEvent is InputEventMouseMotion mouseMotionEvent)
         {
             // Handle mouse movement
             Vector2 mousePosition = mouseMotionEvent.Position;
@@ -118,21 +131,42 @@ public partial class Camera : Camera3D
         }
         else if (graphicManager.GetWaitForTargeting())
         {
-            if (graphicManager.waitingAbility != null)
+            if (graphicManager.selectedObject is GraphicUnit)
             {
-                if (graphicManager.waitingAbility.validTargetTypes.IsHexValidTarget(gameHex.gameBoard.gameHexDict[hex], graphicManager.waitingAbility.usingUnit))
+                if (((GraphicUnit)graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(gameHex.gameBoard.gameHexDict[hex], ((GraphicUnit)graphicManager.selectedObject).waitingAbility.usingUnit))
                 {
-                    graphicManager.waitingAbility.ActivateAbility(gameHex.gameBoard.gameHexDict[hex]);
+                    ((GraphicUnit)graphicManager.selectedObject).waitingAbility.ActivateAbility(gameHex.gameBoard.gameHexDict[hex]);
                     graphicManager.ClearWaitForTarget();
                 }
             }
-            else if(graphicManager.waitingCity != null)
+            else if(graphicManager.selectedObject is GraphicCity)
             {
-                List<Hex> hexes = graphicManager.waitingCity.ValidUrbanBuildHexes(BuildingLoader.buildingsDict[graphicManager.waitingBuildingName].TerrainTypes);
-                if (hexes.Count > 0 && hexes.Contains(hex))
+                GraphicCity graphicCity = ((GraphicCity)graphicManager.selectedObject);
+                if (graphicCity.waitingToGrow)
                 {
-                    graphicManager.waitingCity.BuildOnHex(hex, graphicManager.waitingBuildingName);
-                    graphicManager.ClearWaitForTarget();
+                    if (graphicCity.city.ValidExpandHex(new List<TerrainType>(), gameHex.gameBoard.gameHexDict[hex]))
+                    {
+                        graphicCity.city.ExpandToHex(hex);
+                        graphicCity.waitingToGrow = false;
+                        graphicManager.Update2DUI(UIElement.endTurnButton);
+                        graphicManager.ClearWaitForTarget();
+                    }
+                    else if(graphicCity.city.ValidUrbanExpandHex(new List<TerrainType>(), gameHex.gameBoard.gameHexDict[hex]))
+                    {
+                        graphicCity.city.DevelopDistrict(hex);
+                        graphicCity.waitingToGrow = false;
+                        graphicManager.Update2DUI(UIElement.endTurnButton);
+                        graphicManager.ClearWaitForTarget();
+                    }
+                }
+                else if(graphicCity.waitingBuildingName != "")
+                {
+                    if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, gameHex.gameBoard.gameHexDict[hex]))
+                    {
+                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, game.mainGameBoard.gameHexDict[hex]);
+                        graphicCity.waitingBuildingName = "";
+                        graphicManager.ClearWaitForTarget();
+                    }
                 }
             }
             else
@@ -144,7 +178,10 @@ public partial class Camera : Camera3D
         {
             if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.units[0].id])
             {
-                graphicManager.ChangeSelectedObject(gameHex.units[0].id, graphicManager.graphicObjectDictionary[gameHex.units[0].id]);
+                if(gameHex.units[0].teamNum == game.localPlayerTeamNum)
+                {
+                    graphicManager.ChangeSelectedObject(gameHex.units[0].id, graphicManager.graphicObjectDictionary[gameHex.units[0].id]);
+                }
                 return;
             }
         }

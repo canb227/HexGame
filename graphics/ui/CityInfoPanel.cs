@@ -99,9 +99,9 @@ public partial class CityInfoPanel : Node3D
         ProductionQueuePanel = cityUI.GetNode<PanelContainer>("ProductionQueuePanel");
         ProductionQueue = ProductionQueuePanel.GetNode<VBoxContainer>("ScrollContainer/ProductionQueue");
         OffsetLabel = ProductionQueuePanel.GetNode<Label>("ScrollContainer/ProductionQueue/OffsetLabel");
-
-        CloseCityInfoButton.Pressed += () => graphicManager.UnselectObject();
+        
         RenameCityButton.Pressed += () => RenameCity();
+        CloseCityInfoButton.Pressed += () => graphicManager.UnselectObject();
     }
 
 
@@ -112,13 +112,23 @@ public partial class CityInfoPanel : Node3D
     public void CitySelected(City city)
     {
         this.city = city;
+        ShowCityInfoPanel();
+    }
+
+    public void ShowCityInfoPanel()
+    {
         cityInfoPanel.Visible = true;
         UpdateCityPanelInfo();
     }
 
-    public void CityUnselected(City city)
+    public void CityUnselected()
     {
         this.city = null;
+        HideCityInfoPanel();
+    }
+
+    public void HideCityInfoPanel()
+    {
         cityInfoPanel.Visible = false;
         foreach (Control child in ProductionQueue.GetChildren())
         {
@@ -146,22 +156,29 @@ public partial class CityInfoPanel : Node3D
             {
                 child.QueueFree();
             }
-            foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedUnits)
+            if (city.teamNum == game.localPlayerTeamNum)
             {
-                GD.Print(itemName);
-                if (itemName != "")
+                RenameCityButton.Disabled = false;
+                foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedUnits)
                 {
-                    ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, false, true);
-                    ProductionBox.AddChild(item);
+                    if (itemName != "")
+                    {
+                        ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, false, true);
+                        ProductionBox.AddChild(item);
+                    }
+                }
+                foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedBuildings)
+                {
+                    if (itemName != "")
+                    {
+                        ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, true, false);
+                        ProductionBox.AddChild(item);
+                    }
                 }
             }
-            foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedBuildings)
+            else
             {
-                if (itemName != "")
-                {
-                    ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, true, false);
-                    ProductionBox.AddChild(item);
-                }
+                RenameCityButton.Disabled = true;
             }
             /*foreach (PurchaseItem item in purchaseItems)
             {
@@ -186,6 +203,9 @@ public partial class CityInfoPanel : Node3D
 
     public void RenameCity()
     {
-        throw new NotImplementedException();
+        if (city.teamNum == game.localPlayerTeamNum)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

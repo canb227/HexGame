@@ -1,3 +1,5 @@
+ProgressBar
+Panel
 HBoxContainer
 TextureRect
 ScrollContainer
@@ -11,4 +13,3 @@ Label
 Button
 VBoxContainer
 TabContainer
-TabBar

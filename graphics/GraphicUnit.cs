@@ -11,24 +11,30 @@ public partial class GraphicUnit : GraphicObject
     public Unit unit;
     public Node3D node3D;
     public GraphicManager graphicManager;
-    public Label3D healthNumber;
-    public Label3D movementNumber;
-    public Label3D attacksNumber;
+    public UnitAbility waitingAbility;
+    public UnitWorldUI unitWorldUI;
     public GraphicUnit(Unit unit, GraphicManager graphicManager)
     {
         this.unit = unit;
         this.graphicManager = graphicManager;
         node3D = new Node3D();
         InstantiateUnit(unit);
-        InstantiateUnitUI(unit);
+        //InstantiateUnitUI(unit);
+        unitWorldUI = new UnitWorldUI(graphicManager, unit);
+        AddChild(unitWorldUI);
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
         if (graphicUpdateType == GraphicUpdateType.Remove)
         {
-            graphicManager.UnselectObject();
-            Free();
+            if(graphicManager.selectedObjectID == unit.id)
+            {
+                graphicManager.UnselectObject();
+            }
+            Visible = false;
+            graphicManager.toBeDeleted.Add(unit.id, this);
+            //Free();
         }
         else if (graphicUpdateType == GraphicUpdateType.Move)
         {
@@ -36,13 +42,12 @@ public partial class GraphicUnit : GraphicObject
             Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
             newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
             node3D.Transform = newTransform;
+            unitWorldUI.Update();
         }
         else if (graphicUpdateType == GraphicUpdateType.Update)
         {
-            healthNumber.Text = "Health: " + unit.health.ToString();
-            movementNumber.Text = "Movement Left: " + unit.remainingMovement.ToString();
-            attacksNumber.Text = "Attacks Left: " + unit.attacksLeft.ToString();
             UpdateMovementGraphics();
+            unitWorldUI.Update();
         }
     }
 
@@ -59,43 +64,10 @@ public partial class GraphicUnit : GraphicObject
 
     private void InstantiateUnitUI(Unit unit)
     {
-        //health
-        healthNumber = new Label3D();
-        healthNumber.Text = "Health: " + unit.health.ToString();
-        healthNumber.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-
-        Transform3D newTransform = healthNumber.Transform;
-        newTransform.Origin = new Vector3(0, 8, 0);
-        healthNumber.Transform = newTransform;
-        node3D.AddChild(healthNumber);
-
-        //movement
-        movementNumber = new Label3D();
-        movementNumber.Text = "Movement Left: " + unit.remainingMovement.ToString();
-        movementNumber.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-
-        newTransform = movementNumber.Transform;
-        newTransform.Origin = new Vector3(0, 8.3f, 0);
-        movementNumber.Transform = newTransform;
-        node3D.AddChild(movementNumber);
-
-        //attacks
-        attacksNumber = new Label3D();
-        attacksNumber.Text = "Attacks Left: " + unit.attacksLeft.ToString();
-        attacksNumber.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-
-        newTransform = attacksNumber.Transform;
-        newTransform.Origin = new Vector3(0, 8.6f, 0);
-        attacksNumber.Transform = newTransform;
-        node3D.AddChild(attacksNumber);
     }
 
     public override void Unselected()
     {
-        Transform3D newTransform = node3D.Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
-        newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
-        node3D.Transform = newTransform;
         foreach (Node3D child in GetChildren())
         {
             if(child.Name == "MovementRangeHexes")
@@ -106,11 +78,7 @@ public partial class GraphicUnit : GraphicObject
             {
                 child.Free(); 
             }
-            else if (child.Name == "TargetingLines")
-            {
-                child.Free();
-            }
-            else if (child.Name == "TargetHexes")
+            else if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
             {
                 child.Free();
             }
@@ -120,12 +88,6 @@ public partial class GraphicUnit : GraphicObject
 
     public override void Selected()
     {
-        Transform3D newTransform = node3D.Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
-        newTransform.Origin = new Vector3((float)hexPoint.y, 2, (float)hexPoint.x);
-        node3D.Transform = newTransform;
-
-        //GD.PushWarning("Bugged");
         GenerateHexLines(unit.MovementRange());
         GenerateHexTriangles(unit.MovementRange());
         graphicManager.uiManager.UnitSelected(unit);
@@ -147,14 +109,6 @@ public partial class GraphicUnit : GraphicObject
                 hadMovementRangeLines = true;
                 child.Free();
             }
-/*            else if (child.Name == "AbilityTargetingLines")
-            {
-                child.Free();
-            }
-            else if (child.Name == "AbilityTargetHexes")
-            {
-                child.Free();
-            }*/
         }
         if(hadMovementRangeLines)
         {
@@ -170,10 +124,7 @@ public partial class GraphicUnit : GraphicObject
     public override void ProcessRightClick(Hex hex)
     {
         unit.MoveTowards(unit.gameHex.gameBoard.gameHexDict[hex], unit.gameHex.gameBoard.game.teamManager, unit.gameHex.gameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
-        Transform3D newTransform = node3D.Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
-        newTransform.Origin = new Vector3((float)hexPoint.y, 10, (float)hexPoint.x);
-        node3D.Transform = newTransform;
+        UpdateGraphic(GraphicUpdateType.Move);
         Unselected();
         Selected();
     }
@@ -192,21 +143,21 @@ public partial class GraphicUnit : GraphicObject
         if(hexes.Count > 0)
         {
             graphicManager.SetWaitForTargeting(true);
-            graphicManager.waitingAbility = ability;
-            AddChild(graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold));
-            AddChild(graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.BlueViolet));
+            graphicManager.uiManager.HideGenericUIForTargeting();
+            graphicManager.HideAllCityWorldUI();
+            waitingAbility = ability;
+            AddChild(graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "UnitMove"));
+            AddChild(graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.BlueViolet, "UnitMove"));
         }
     }
 
     public override void RemoveTargetingPrompt()
     {
+        graphicManager.uiManager.ShowGenericUIAfterTargeting();
+        graphicManager.ShowAllWorldUI();
         foreach (Node3D child in GetChildren())
         {
-            if (child.Name == "TargetingLines")
-            {
-                child.Free();
-            }
-            else if (child.Name == "TargetHexes")
+            if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
             {
                 child.Free();
             }
@@ -294,6 +245,11 @@ public partial class GraphicUnit : GraphicObject
         triangles.SetSurfaceOverrideMaterial(0, material);
         triangles.Name = "MovementRangeHexes";
         AddChild(triangles);
+    }
+
+    public void SetWorldUIVisibility(bool visible)
+    {
+        //unitWorldUI.Visible = visible;
     }
 
     public override void _Process(double delta)

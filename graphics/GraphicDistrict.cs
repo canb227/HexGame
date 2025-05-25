@@ -31,6 +31,7 @@ public partial class GraphicDistrict : GraphicObject
         //TODO rework for multiple buildings
         foreach(Building building in district.buildings)
         {
+            GD.Print(building.name + " | " + building.id);
             graphicManager.NewBuilding(building);
         }
         //district doesnt have its own mesh currently

@@ -91,7 +91,7 @@ public partial class ConstructionItem : PanelContainer
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + buildingInfo.IconPath);
         objectName.Text = name;
         turnsToBuild.Text = Math.Ceiling(buildingInfo.ProductionCost / (city.yields.production + city.productionOverflow)).ToString();
-        
+        ProductionCost.Text = buildingInfo.ProductionCost.ToString();
         System.Type yieldType = buildingInfo.yields.GetType();
 
         foreach (FieldInfo field in yieldType.GetFields())

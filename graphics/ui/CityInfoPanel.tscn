@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b68ru2845nau3" path="res://graphics/ui/icons/quill.png" id="2_ganh1"]
 [ext_resource type="Texture2D" uid="uid://8sieeeac3bqy" path="res://graphics/ui/icons/food.png" id="3_yewga"]
 [ext_resource type="Texture2D" uid="uid://cb3r2h5cvpaus" path="res://graphics/ui/icons/gears.png" id="4_qflql"]
-[ext_resource type="Texture2D" uid="uid://pwd0uh0isihw" path="res://graphics/ui/icons/goldcoin2face.png" id="5_gfdqc"]
+[ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="5_rvxag"]
 [ext_resource type="Texture2D" uid="uid://b7ulvuy1yq2v6" path="res://graphics/ui/flask.png" id="6_14t2c"]
 [ext_resource type="Texture2D" uid="uid://ckv7gvxbnnhgk" path="res://graphics/ui/culture.png" id="7_r01fo"]
 [ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="8_tk2uu"]
@@ -118,7 +118,7 @@ layout_mode = 2
 
 [node name="GoldIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/Yields/GoldYieldBox"]
 layout_mode = 2
-texture = ExtResource("5_gfdqc")
+texture = ExtResource("5_rvxag")
 expand_mode = 4
 stretch_mode = 5
 
