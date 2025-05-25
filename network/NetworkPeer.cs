@@ -14,6 +14,7 @@ using static Godot.HttpRequest;
 using static Godot.WebSocketPeer;
 using State = NetworkMessages.State;
 
+[GlobalClass]
 public partial class NetworkPeer : Node
 {
     //The maximum number of network messages to attempt to process per frame. If we have this many messages waiting for us, don't delay frame processing any more, just delay processing on the messages over the limit till next frame.

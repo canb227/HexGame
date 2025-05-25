@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b04k7i5sjy21u"]
 
-[ext_resource type="Script" uid="uid://dp5lw4iqrwdx0" path="res://HexTest.cs" id="1_r3umj"]
-[ext_resource type="Script" uid="uid://d3tbp3a4djb7" path="res://Camera.cs" id="2_n23of"]
+[ext_resource type="Script" uid="uid://bch3jqk5oavgb" path="res://HexTest.cs" id="1_r3umj"]
+[ext_resource type="Script" uid="uid://kaqhbwper16d" path="res://Camera.cs" id="2_n23of"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r3umj"]
 sky_top_color = Color(0.190233, 0.395889, 0.920235, 1)
