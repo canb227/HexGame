@@ -58,15 +58,7 @@ public partial class CityWorldUI : Node3D
         cityIcon = cityWorldUI.GetNode<TextureRect>("Button/CityIcon");
         cityName = cityWorldUI.GetNode<Label>("Button/CityName");
         cityHealth = cityWorldUI.GetNode<ProgressBar>("Button/CityHealth");
-        
-        foreach(District district in city.districts)
-        {
-            if(district.isCityCenter)
-            {
-                cityCenter = district;
-            }
-        }
-        cityHealth.Value = cityCenter.health;
+       
         
         AddChild(node);
         Transform3D newTransform = Transform;
@@ -109,10 +101,22 @@ public partial class CityWorldUI : Node3D
 
     public void Update()
     {
+        if(cityCenter == null)
+        {
+            foreach (District district in city.districts)
+            {
+                if (district.isCityCenter)
+                {
+                    cityCenter = district;
+                }
+            }
+        }
         citySizeLabel.Text = city.naturalPopulation.ToString() + "(" + Math.Ceiling(((city.foodToGrow - city.foodStockpile) / city.yields.food)).ToString() + ")";
         cityGrowthBar.Value = (city.foodStockpile / city.foodToGrow * 100.0f);
-        cityHealth.Value = cityCenter.health; //TODO add update to when we take damage
-        GD.Print(cityCenter.health);
+        if (cityCenter != null)
+        {
+            cityHealth.Value = (cityCenter.health / cityCenter.maxHealth) * 100.0f; //TODO add update to when we take damage
+        }
         if (city.teamNum != graphicManager.game.localPlayerTeamNum)
         {
             productionIcon.Visible = false;

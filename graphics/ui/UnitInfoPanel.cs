@@ -148,6 +148,16 @@ public partial class UnitInfoPanel : Node3D
                         hexes.Add(hex);
                     }
                 }
+                if(ability.effect.functionName == "SettleCityAbility" || ability.effect.functionName == "SettleCapitalAbility")
+                {
+                    foreach (Hex hex in unit.gameHex.hex.WrappingRange(3, unit.gameHex.gameBoard.left, unit.gameHex.gameBoard.right, unit.gameHex.gameBoard.top, unit.gameHex.gameBoard.bottom))
+                    {
+                        if (unit.gameHex.gameBoard.gameHexDict[hex].district != null && unit.gameHex.gameBoard.gameHexDict[hex].district.isCityCenter)
+                        {
+                            abilityButton.Disabled = true;
+                        }
+                    }
+                }
 
                 if (hexes.Count <= 0)
                 {

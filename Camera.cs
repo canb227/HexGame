@@ -144,14 +144,14 @@ public partial class Camera : Camera3D
                 GraphicCity graphicCity = ((GraphicCity)graphicManager.selectedObject);
                 if (graphicCity.waitingToGrow)
                 {
-                    if (graphicCity.city.ValidExpandHex(new List<TerrainType>(), gameHex.gameBoard.gameHexDict[hex]))
+                    if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, gameHex.gameBoard.gameHexDict[hex]))
                     {
                         graphicCity.city.ExpandToHex(hex);
                         graphicCity.waitingToGrow = false;
                         graphicManager.Update2DUI(UIElement.endTurnButton);
                         graphicManager.ClearWaitForTarget();
                     }
-                    else if(graphicCity.city.ValidUrbanExpandHex(new List<TerrainType>(), gameHex.gameBoard.gameHexDict[hex]))
+                    else if(graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, gameHex.gameBoard.gameHexDict[hex]))
                     {
                         graphicCity.city.DevelopDistrict(hex);
                         graphicCity.waitingToGrow = false;

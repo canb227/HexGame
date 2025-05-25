@@ -7,11 +7,13 @@ using System.Linq;
 public partial class GraphicBuilding : GraphicObject
 {
     public Building building;
+    private GraphicManager graphicManager;
     public Node3D node3D;
     public Layout layout;
-    public GraphicBuilding(Building building, Layout layout)
+    public GraphicBuilding(Building building, Layout layout, GraphicManager graphicManager)
     {
         this.building = building;
+        this.graphicManager = graphicManager;
         this.layout = layout;
         node3D = new Node3D();
         InitBuilding(building);
@@ -23,6 +25,17 @@ public partial class GraphicBuilding : GraphicObject
         {
             QueueFree();
         }
+        else if (graphicUpdateType == GraphicUpdateType.Visibility)
+        {
+            if (graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(building.district.gameHex.hex))
+            {
+                this.Visible = true;
+            }
+            else
+            {
+                this.Visible = false;
+            }
+        }
     }
 
     private void InitBuilding(Building building)
@@ -32,6 +45,8 @@ public partial class GraphicBuilding : GraphicObject
         Point hexPoint = layout.HexToPixel(building.district.gameHex.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
+
+        graphicManager.hexObjectDictionary[building.district.gameHex.hex].Add(this);
 
         AddChild(node3D);
     }

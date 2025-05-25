@@ -8,6 +8,7 @@ using System.Xml.Linq;
 public partial class GraphicManager : Node3D
 {
     public Dictionary<int, GraphicObject> graphicObjectDictionary;
+    public Dictionary<Hex, List<GraphicObject>> hexObjectDictionary;
     public Dictionary<int, GraphicObject> toBeDeleted;
     public Game game;
     public Layout layout;
@@ -20,6 +21,11 @@ public partial class GraphicManager : Node3D
     {
         toBeDeleted = new();
         graphicObjectDictionary = new();
+        hexObjectDictionary = new();
+        foreach(Hex hex in game.mainGameBoard.gameHexDict.Keys)
+        {
+            hexObjectDictionary.Add(hex, new List<GraphicObject>());
+        }
         this.game = game;
         this.layout = layout;
         uiManager = new UIManager(this, game, layout);
@@ -57,7 +63,7 @@ public partial class GraphicManager : Node3D
     {
         GD.Print(building.name);
         GD.Print(building.district.gameHex.hex);
-        GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout);
+        GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout, this);
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
         AddChild(graphicBuilding);
     }
@@ -80,23 +86,47 @@ public partial class GraphicManager : Node3D
         }
     }
 
+    public void UpdateHexObjectDictionary(Hex previousHex, GraphicObject graphicObj, Hex newHex)
+    {
+        hexObjectDictionary[previousHex].Remove(graphicObj);
+        graphicObj.previousHex = newHex;
+        hexObjectDictionary[newHex].Add(graphicObj);
+    }
+
     public void Update2DUI(UIElement element)
     {
         uiManager.Update(element);
     }
 
+    public void UpdateVisibility()
+    {
+        foreach(Hex hex in game.playerDictionary[game.localPlayerTeamNum].visibilityChangedList)
+        {
+            foreach(GraphicObject graphicObj in hexObjectDictionary[hex])
+            {
+                graphicObj.UpdateGraphic(GraphicUpdateType.Visibility);
+            }
+        }
+        game.playerDictionary[game.localPlayerTeamNum].visibilityChangedList.Clear();
+    }
+
     public void StartNewTurn()
     {
-        if(selectedObject != null)
+        graphicObjectDictionary[game.mainGameBoard.id].UpdateGraphic(GraphicUpdateType.Update);
+        if (selectedObject != null)
         {
             selectedObject.Unselected();
             selectedObject = null;
         }
         foreach(int id in toBeDeleted.Keys)
         {
-            graphicObjectDictionary[id].QueueFree();
+            if(graphicObjectDictionary[id] != null)
+            {
+                graphicObjectDictionary[id].QueueFree();
+            }
             graphicObjectDictionary.Remove(id);
         }
+        toBeDeleted.Clear();
     }
 
     public void ChangeSelectedObject(int newID, GraphicObject newSelectedObject)

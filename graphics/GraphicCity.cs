@@ -31,11 +31,25 @@ public partial class GraphicCity : GraphicObject
         {
             cityWorldUI.Update();
         }
+        else if (graphicUpdateType == GraphicUpdateType.Visibility)
+        {
+            if (graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(city.gameHex.hex) || graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(city.gameHex.hex))
+            {
+                this.Visible = true;
+                cityWorldUI.Visible = true;
+            }
+            else
+            {
+                this.Visible = false;
+                cityWorldUI.Visible = false;
+            }
+        }
     }
 
     private void InitCity(City city)
     {
         cityWorldUI = new CityWorldUI(graphicManager, city);
+        graphicManager.hexObjectDictionary[city.gameHex.hex].Add(this);
         AddChild(cityWorldUI);
     }
 
@@ -88,8 +102,8 @@ public partial class GraphicCity : GraphicObject
 
     public void GenerateGrowthTargetingPrompt()
     {
-        List<Hex> hexes = city.ValidExpandHexes(new List<TerrainType>());
-        List<Hex> urbanhexes = city.ValidUrbanExpandHexes(new List<TerrainType>());
+        List<Hex> hexes = city.ValidExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
+        List<Hex> urbanhexes = city.ValidUrbanExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
         //rural hexes
         if(hexes.Count > 0 || urbanhexes.Count > 0)
         {

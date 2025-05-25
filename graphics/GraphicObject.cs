@@ -10,13 +10,15 @@ public enum GraphicUpdateType
     Remove,
     Update,
     Move,
-    Attack
+    Attack,
+    Visibility
 }
 public abstract partial class GraphicObject : Node3D
 {
-    public int logicalID;
-    public Mesh myMesh;
-    public Rid meshInstance;
+
+
+    public Hex previousHex;
+
     public override void _Ready()
     {
         // Create a visual instance (for 3D).

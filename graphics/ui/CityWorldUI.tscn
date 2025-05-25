@@ -107,6 +107,7 @@ pivot_offset = Vector2(100, 0)
 show_percentage = false
 
 [node name="HappinessIcon" type="TextureRect" parent="SubViewport/CityWorldUI/Button"]
+visible = false
 layout_mode = 2
 offset_left = 247.0
 offset_top = -14.0

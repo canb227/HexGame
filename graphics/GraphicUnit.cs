@@ -43,11 +43,28 @@ public partial class GraphicUnit : GraphicObject
             newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
             node3D.Transform = newTransform;
             unitWorldUI.Update();
+
+            graphicManager.UpdateHexObjectDictionary(previousHex, this, unit.gameHex.hex);
+
+
         }
         else if (graphicUpdateType == GraphicUpdateType.Update)
         {
             UpdateMovementGraphics();
             unitWorldUI.Update();
+        }
+        else if (graphicUpdateType == GraphicUpdateType.Visibility)
+        {
+            if (graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(unit.gameHex.hex))
+            {
+                this.Visible = true;
+                unitWorldUI.Visible = true;
+            }
+            else
+            {
+                this.Visible = false;
+                unitWorldUI.Visible = false;
+            }
         }
     }
 
@@ -59,6 +76,7 @@ public partial class GraphicUnit : GraphicObject
         Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
+        graphicManager.hexObjectDictionary[unit.gameHex.hex].Add(this);
         AddChild(node3D);
     }
 

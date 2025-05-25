@@ -30,25 +30,41 @@ public partial class GraphicGameBoard : GraphicObject
     //super simple just delete all our children and redraw the board using the current state of gameboard
     private void SimpleRedrawBoard(Layout pointy)
     {
-        //foreach (Node child in this.GetChildren())
-        //{
-        //    child.QueueFree();
-        //}
-        //DrawBoard(pointy);
+        foreach (Node child in this.GetChildren())
+        {
+            if(child.Name == "GameBoardTerrain" || child.Name == "GameBoardTerrainLines" || child.Name == "GameBoardTerrainFog2" || child.Name == "GameBoardTerrainFog")
+            {
+                child.Free();
+            }
+        }
+        List<Hex> seen = gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
+        List<Hex> visible = gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
+
+        HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
+        List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
+
+        List<Hex> seenButNotVisible = seen.Except(visible).ToList();
+        AddBoard(gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), pointy, 0);
+        AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
+        graphicManager.UpdateVisibility();
     }
 
     private void DrawBoard(Layout pointy)
     {
-        MeshInstance3D triangles = new MeshInstance3D();
-        triangles.Mesh = GenerateHexTriangles(pointy);
-        StandardMaterial3D material = new StandardMaterial3D();
-        material.VertexColorUseAsAlbedo = true;
-        triangles.SetSurfaceOverrideMaterial(0, material);
-        AddChild(triangles);
+        List<Hex> seen = gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
+        List<Hex> visible = gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
 
-        MeshInstance3D lines = new MeshInstance3D();
-        lines.Mesh = GenerateHexLines(pointy);
-        AddChild(lines);
+        HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
+        List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
+
+        List<Hex> seenButNotVisible = seen.Except(visible).ToList();
+
+        AddBoard(seen, pointy, 0);
+        AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
+
+
 
         //AddHexTemperature(pointy);
         AddHexFeatures(pointy);
@@ -57,6 +73,42 @@ public partial class GraphicGameBoard : GraphicObject
         AddHexDistrictsAndCities(pointy);
         //AddHexCoords(pointy);
         //AddHexYields(pointy);
+    }
+
+    private void AddBoard(List<Hex> hexList, Layout pointy, float height)
+    {
+        MeshInstance3D triangles = new MeshInstance3D();
+        triangles.Mesh = GenerateHexTriangles(hexList, pointy, 0);
+        StandardMaterial3D material = new StandardMaterial3D();
+        material.VertexColorUseAsAlbedo = true;
+        triangles.SetSurfaceOverrideMaterial(0, material);
+        triangles.Name = "GameBoardTerrain";
+        AddChild(triangles);
+
+        MeshInstance3D lines = new MeshInstance3D();
+        lines.Mesh = GenerateHexLines(hexList, pointy, 0.01f);
+        lines.Name = "GameBoardTerrainLines";
+        AddChild(lines);
+    }
+
+    private void AddBoardFog(List<Hex> seenButNotVisible, List<Hex> nonSeenHexes, Layout pointy, float height)
+    {
+        MeshInstance3D triangles = new MeshInstance3D();
+        triangles.Mesh = GenerateHexTrianglesFog(seenButNotVisible, pointy, 0.5f, new Godot.Color(0.0f, 0.0f, 0.0f, 0.5f));
+        StandardMaterial3D material = new StandardMaterial3D();
+        material.VertexColorUseAsAlbedo = true;
+        material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
+        triangles.SetSurfaceOverrideMaterial(0, material);
+        triangles.Name = "GameBoardTerrainFog";
+        AddChild(triangles);
+
+        MeshInstance3D triangles2 = new MeshInstance3D();
+        triangles2.Mesh = GenerateHexTrianglesFog(nonSeenHexes, pointy, 0.5f, new Godot.Color(0.6f, 0.6f, 0.6f, 1.0f));
+        StandardMaterial3D material2 = new StandardMaterial3D();
+        material.VertexColorUseAsAlbedo = true;
+        triangles2.SetSurfaceOverrideMaterial(0, material2);
+        triangles2.Name = "GameBoardTerrainFog2";
+        AddChild(triangles2);
     }
 
     private void AddHexYields(Layout layout)
@@ -234,14 +286,14 @@ public partial class GraphicGameBoard : GraphicObject
         }
 
     }
-    ArrayMesh GenerateHexLines(Layout layout)
+    ArrayMesh GenerateHexLines(List<Hex> hexList, Layout layout, float height)
     {
 
         SurfaceTool st = new SurfaceTool();
 
         st.Begin(Mesh.PrimitiveType.Lines);
 
-        foreach (Hex hex in gameBoard.gameHexDict.Keys)
+        foreach (Hex hex in hexList)
         {
             List<Point> points = layout.PolygonCorners(hex);
             st.AddVertex(new Vector3((float)points[0].y, 0.01f, (float)points[0].x));
@@ -259,13 +311,13 @@ public partial class GraphicGameBoard : GraphicObject
         return st.Commit();
     }
 
-    ArrayMesh GenerateHexTriangles(Layout layout)
+    ArrayMesh GenerateHexTriangles(List<Hex> hexList, Layout layout, float height)
     {
         SurfaceTool st = new SurfaceTool();
         st.Begin(Mesh.PrimitiveType.Triangles);
 
 
-        foreach (Hex hex in gameBoard.gameHexDict.Keys)
+        foreach (Hex hex in hexList)
         {
             switch (gameBoard.gameHexDict[hex].terrainType)
             {
@@ -290,15 +342,45 @@ public partial class GraphicGameBoard : GraphicObject
 
             List<Point> points = layout.PolygonCorners(hex);
 
-            Vector3 origin = new Vector3((float)points[0].y, 0, (float)points[0].x);
+            Vector3 origin = new Vector3((float)points[0].y, height, (float)points[0].x);
             for (int i = 1; i < 6; i++)
             {
                 st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
 
-                Vector3 pointTwo = new Vector3((float)points[i].y, 0, (float)points[i].x); // Get the next point in the polygon
+                Vector3 pointTwo = new Vector3((float)points[i].y, height, (float)points[i].x); // Get the next point in the polygon
                 st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
 
-                Vector3 pointThree = new Vector3((float)points[i - 1].y, 0, (float)points[i - 1].x);
+                Vector3 pointThree = new Vector3((float)points[i - 1].y, height, (float)points[i - 1].x);
+                st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
+            }
+        }
+        st.GenerateNormals();
+
+        return st.Commit();
+    }
+
+
+    ArrayMesh GenerateHexTrianglesFog(List<Hex> hexList, Layout layout, float height, Godot.Color color)
+    {
+        SurfaceTool st = new SurfaceTool();
+        st.Begin(Mesh.PrimitiveType.Triangles);
+
+
+        foreach (Hex hex in hexList)
+        {
+            st.SetColor(color);
+
+            List<Point> points = layout.PolygonCorners(hex);
+
+            Vector3 origin = new Vector3((float)points[0].y, height, (float)points[0].x);
+            for (int i = 1; i < 6; i++)
+            {
+                st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
+
+                Vector3 pointTwo = new Vector3((float)points[i].y, height, (float)points[i].x); // Get the next point in the polygon
+                st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
+
+                Vector3 pointThree = new Vector3((float)points[i - 1].y, height, (float)points[i - 1].x);
                 st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
             }
         }
