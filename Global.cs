@@ -10,6 +10,9 @@ public partial class Global : Node
     public const bool DISABLE_STEAM_DEBUG = false;
     public static ulong clientID = 0;
 
+    //Steam Callbacks
+    protected Callback<GameRichPresenceJoinRequested_t> m_GameRichPresenceJoinRequested;
+
     //Abusing singletons
     public static Global instance;
 
@@ -20,6 +23,8 @@ public partial class Global : Node
     public static GameManager gameManager;
     public static NetworkPeer networkPeer;
 
+    //
+
     //This ready codeblock is the first non-engine code to run anywhere in the game, since Global is autoloaded by Godot before anything else
     public override void _Ready()
     {
@@ -27,6 +32,26 @@ public partial class Global : Node
         Global instance = this;
         gameManager = new GameManager();
         SteamInit();
+        
+        m_GameRichPresenceJoinRequested = Callback<GameRichPresenceJoinRequested_t>.Create(OnGameRichPresenceJoinRequested);
+
+        SteamApps.GetLaunchCommandLine(out string commandLine, 1024);
+        if (!string.IsNullOrEmpty(commandLine))
+        {
+            Global.debugLog("Launch Command Line: " + commandLine);
+        }
+        else
+        {
+            Global.debugLog("No Launch Command Line found");
+        }
+    }
+
+    public void OnGameRichPresenceJoinRequested(GameRichPresenceJoinRequested_t pCallback)
+    {
+        Global.debugLog("Game Rich Presence Join Requested: " + pCallback.m_rgchConnect);
+        string connectString = (pCallback.m_rgchConnect);
+        Global.debugLog("Connect String: " + connectString);
+        networkPeer.JoinToPeer(ulong.Parse(connectString));
     }
 
     public void SteamInit()
