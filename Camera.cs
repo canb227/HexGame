@@ -94,6 +94,7 @@ public partial class Camera : Camera3D
             Point point = new Point(position.Z, position.X);
             FractionalHex fHex = Global.layout.PixelToHex(point);
             Hex hex = fHex.HexRound();
+            hex = new Hex(hex.q % game.mainGameBoard.right, hex.r, hex.s);
 
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
