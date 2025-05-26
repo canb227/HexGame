@@ -1,4 +1,5 @@
 ﻿using Godot;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -141,18 +142,18 @@ public partial class UnitInfoPanel : Node3D
 
                 //check if there are any valid targets
                 List<Hex> hexes = new List<Hex>();
-                foreach (Hex hex in unit.gameHex.hex.WrappingRange(ability.range + 1, unit.gameHex.gameBoard.left, unit.gameHex.gameBoard.right, unit.gameHex.gameBoard.top, unit.gameHex.gameBoard.bottom))
+                foreach (Hex hex in unit.hex.WrappingRange(ability.range + 1, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
                 {
-                    if (ability.validTargetTypes.IsHexValidTarget(unit.gameHex.gameBoard.gameHexDict[hex], unit))
+                    if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], unit))
                     {
                         hexes.Add(hex);
                     }
                 }
                 if(ability.effect.functionName == "SettleCityAbility" || ability.effect.functionName == "SettleCapitalAbility")
                 {
-                    foreach (Hex hex in unit.gameHex.hex.WrappingRange(3, unit.gameHex.gameBoard.left, unit.gameHex.gameBoard.right, unit.gameHex.gameBoard.top, unit.gameHex.gameBoard.bottom))
+                    foreach (Hex hex in unit.hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
                     {
-                        if (unit.gameHex.gameBoard.gameHexDict[hex].district != null && unit.gameHex.gameBoard.gameHexDict[hex].district.isCityCenter)
+                        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isCityCenter)
                         {
                             abilityButton.Disabled = true;
                         }
@@ -175,7 +176,7 @@ public partial class UnitInfoPanel : Node3D
         }
         else if (ability.validTargetTypes.TargetSelf)
         {
-            if (ability.validTargetTypes.IsHexValidTarget(ability.usingUnit.gameHex, ability.usingUnit))
+            if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[Global.gameManager.game.unitDictionary[ability.usingUnitID].hex], Global.gameManager.game.unitDictionary[ability.usingUnitID]))
             {
                 ability.ActivateAbility();
             }

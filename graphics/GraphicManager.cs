@@ -62,7 +62,7 @@ public partial class GraphicManager : Node3D
     public void NewBuilding(Building building)
     {
         GD.Print(building.name);
-        GD.Print(building.district.gameHex.hex);
+        GD.Print(building.districtHex);
         GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout, this);
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
         AddChild(graphicBuilding);

@@ -39,12 +39,12 @@ public partial class GraphicUnit : GraphicObject
         else if (graphicUpdateType == GraphicUpdateType.Move)
         {
             Transform3D newTransform = node3D.Transform;
-            Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
+            Point hexPoint = graphicManager.layout.HexToPixel(unit.hex);
             newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
             node3D.Transform = newTransform;
             unitWorldUI.Update();
 
-            graphicManager.UpdateHexObjectDictionary(previousHex, this, unit.gameHex.hex);
+            graphicManager.UpdateHexObjectDictionary(previousHex, this, unit.hex);
 
 
         }
@@ -55,7 +55,7 @@ public partial class GraphicUnit : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(unit.gameHex.hex))
+            if (graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(unit.hex))
             {
                 this.Visible = true;
                 unitWorldUI.Visible = true;
@@ -73,10 +73,10 @@ public partial class GraphicUnit : GraphicObject
         UnitLoader.unitsDict.TryGetValue(unit.unitType, out UnitInfo unitInfo);
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + unitInfo.ModelPath).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
+        Point hexPoint = graphicManager.layout.HexToPixel(unit.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
-        graphicManager.hexObjectDictionary[unit.gameHex.hex].Add(this);
+        graphicManager.hexObjectDictionary[unit.hex].Add(this);
         AddChild(node3D);
     }
 
@@ -141,7 +141,7 @@ public partial class GraphicUnit : GraphicObject
 
     public override void ProcessRightClick(Hex hex)
     {
-        unit.MoveTowards(unit.gameHex.gameBoard.gameHexDict[hex], unit.gameHex.gameBoard.game.teamManager, unit.gameHex.gameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
+        unit.MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.teamManager, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
         UpdateGraphic(GraphicUpdateType.Move);
         Unselected();
         Selected();
@@ -150,9 +150,9 @@ public partial class GraphicUnit : GraphicObject
     public void GenerateTargetingPrompt(UnitAbility ability)
     {
         List<Hex> hexes = new List<Hex>();
-        foreach(Hex hex in unit.gameHex.hex.WrappingRange(ability.range+1, unit.gameHex.gameBoard.left, unit.gameHex.gameBoard.right, unit.gameHex.gameBoard.top, unit.gameHex.gameBoard.bottom))
+        foreach(Hex hex in unit.hex.WrappingRange(ability.range+1, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
-            if (ability.validTargetTypes.IsHexValidTarget(unit.gameHex.gameBoard.gameHexDict[hex], unit))
+            if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], unit))
             {
                 hexes.Add(hex);
             }
@@ -233,7 +233,7 @@ public partial class GraphicUnit : GraphicObject
 
         foreach (Hex hex in hexes)
         {
-            if(unit.gameHex.gameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum))
+            if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum))
             {
                 st.SetColor(Godot.Colors.Red);
             }

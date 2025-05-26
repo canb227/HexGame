@@ -48,7 +48,7 @@ public partial class UnitWorldUI : Node3D
 
         AddChild(node);
         Transform3D newTransform = Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
+        Point hexPoint = graphicManager.layout.HexToPixel(unit.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 12, (float)hexPoint.x);
         Transform = newTransform;
         Update();
@@ -97,7 +97,7 @@ public partial class UnitWorldUI : Node3D
         }
         unitHealthBar.Value = unit.health;
         Transform3D newTransform = Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.gameHex.hex);
+        Point hexPoint = graphicManager.layout.HexToPixel(unit.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         Transform = newTransform;
     }

@@ -70,6 +70,7 @@ public partial class Camera : Camera3D
 
     public override void _UnhandledInput(InputEvent iEvent)
     {
+
         if (iEvent is InputEventKey eventKey && eventKey.Pressed)
         {
             if (eventKey.Keycode == Key.Escape) // In Godot 4, use Keycode instead of Scancode
@@ -94,8 +95,6 @@ public partial class Camera : Camera3D
             Point point = new Point(position.Z, position.X);
             FractionalHex fHex = Global.layout.PixelToHex(point);
             Hex hex = fHex.HexRound();
-            hex = new Hex(hex.q % game.mainGameBoard.right, hex.r, hex.s);
-
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
                /* GD.Print("You just clicked!");
@@ -134,9 +133,9 @@ public partial class Camera : Camera3D
         {
             if (graphicManager.selectedObject is GraphicUnit)
             {
-                if (((GraphicUnit)graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(gameHex.gameBoard.gameHexDict[hex], ((GraphicUnit)graphicManager.selectedObject).waitingAbility.usingUnit))
+                if (((GraphicUnit)graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.unitDictionary[((GraphicUnit)graphicManager.selectedObject).waitingAbility.usingUnitID])) 
                 {
-                    ((GraphicUnit)graphicManager.selectedObject).waitingAbility.ActivateAbility(gameHex.gameBoard.gameHexDict[hex]);
+                    ((GraphicUnit)graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
                     graphicManager.ClearWaitForTarget();
                 }
             }
@@ -145,14 +144,14 @@ public partial class Camera : Camera3D
                 GraphicCity graphicCity = ((GraphicCity)graphicManager.selectedObject);
                 if (graphicCity.waitingToGrow)
                 {
-                    if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, gameHex.gameBoard.gameHexDict[hex]))
+                    if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
                     {
                         graphicCity.city.ExpandToHex(hex);
                         graphicCity.waitingToGrow = false;
                         graphicManager.Update2DUI(UIElement.endTurnButton);
                         graphicManager.ClearWaitForTarget();
                     }
-                    else if(graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, gameHex.gameBoard.gameHexDict[hex]))
+                    else if(graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
                     {
                         graphicCity.city.DevelopDistrict(hex);
                         graphicCity.waitingToGrow = false;
@@ -162,7 +161,7 @@ public partial class Camera : Camera3D
                 }
                 else if(graphicCity.waitingBuildingName != "")
                 {
-                    if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, gameHex.gameBoard.gameHexDict[hex]))
+                    if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
                     {
                         graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, game.mainGameBoard.gameHexDict[hex]);
                         graphicCity.waitingBuildingName = "";

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://2kpluj2xkar6"]
+[gd_scene load_steps=16 format=3 uid="uid://2kpluj2xkar6"]
 
 [ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_6gxb0"]
 [ext_resource type="Texture2D" uid="uid://b68ru2845nau3" path="res://graphics/ui/icons/quill.png" id="2_ganh1"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://ckv7gvxbnnhgk" path="res://graphics/ui/culture.png" id="7_r01fo"]
 [ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="8_tk2uu"]
 [ext_resource type="Texture2D" uid="uid://bf2s0ji0womei" path="res://graphics/ui/influence.png" id="9_k3ngi"]
+[ext_resource type="Texture2D" uid="uid://c6t5xhjvobkka" path="res://graphics/ui/icons/arrow.png" id="10_6a7cx"]
+[ext_resource type="PackedScene" uid="uid://biggt2r4jwdw" path="res://graphics/ui/ProductionItem.tscn" id="11_6gxb0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1iin"]
 bg_color = Color(0.117647, 0.117647, 0.117647, 1)
@@ -206,10 +208,9 @@ horizontal_alignment = 1
 [node name="ConstructionTabBox" type="TabContainer" parent="CityInfoPanel/CityInfoBox"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 1
+current_tab = 0
 
 [node name="Production" type="ScrollContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox"]
-visible = false
 layout_mode = 2
 follow_focus = true
 draw_focus_border = true
@@ -219,7 +220,60 @@ metadata/_tab_index = 0
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="UnitsButton" type="Button" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox"]
+layout_mode = 2
+text = "Units"
+
+[node name="UnitArrowImage" type="TextureRect" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/UnitsButton"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("10_6a7cx")
+expand_mode = 2
+
+[node name="UnitsBox" type="VBoxContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ProductionItem" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/UnitsBox" instance=ExtResource("11_6gxb0")]
+layout_mode = 2
+
+[node name="BuildingsButton" type="Button" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox"]
+layout_mode = 2
+text = "Buildings"
+
+[node name="BuildingArrowImage" type="TextureRect" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/BuildingsButton"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("10_6a7cx")
+expand_mode = 2
+
+[node name="BuildingsBox" type="VBoxContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ProductionItem" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/BuildingsBox" instance=ExtResource("11_6gxb0")]
+layout_mode = 2
+
 [node name="Purchase" type="ScrollContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox"]
+visible = false
 layout_mode = 2
 follow_focus = true
 draw_focus_border = true

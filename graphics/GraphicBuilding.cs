@@ -27,7 +27,7 @@ public partial class GraphicBuilding : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(building.district.gameHex.hex))
+            if (graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(building.districtHex))
             {
                 this.Visible = true;
             }
@@ -42,11 +42,12 @@ public partial class GraphicBuilding : GraphicObject
     {
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + BuildingLoader.buildingsDict[building.name].ModelPath).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
-        Point hexPoint = layout.HexToPixel(building.district.gameHex.hex);
+
+        Point hexPoint = layout.HexToPixel(building.districtHex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
 
-        graphicManager.hexObjectDictionary[building.district.gameHex.hex].Add(this);
+        graphicManager.hexObjectDictionary[building.districtHex].Add(this);
 
         AddChild(node3D);
     }

@@ -37,23 +37,23 @@ public partial class GraphicGameBoard : GraphicObject
                 child.Free();
             }
         }
-        List<Hex> seen = gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
-        List<Hex> visible = gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
+        List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
         List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
 
         HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
         List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
-        AddBoard(gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), pointy, 0);
+        AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), pointy, 0);
         AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
         graphicManager.UpdateVisibility();
     }
 
     private void DrawBoard(Layout pointy)
     {
-        List<Hex> seen = gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
-        List<Hex> visible = gameBoard.game.playerDictionary[gameBoard.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
+        List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
         List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
 
         HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
@@ -193,7 +193,7 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 if (gameBoard.gameHexDict[hex].district.isCityCenter)
                 {
-                    graphicManager.NewCity(gameBoard.gameHexDict[hex].district.city);
+                    graphicManager.NewCity(Global.gameManager.game.cityDictionary[gameBoard.gameHexDict[hex].district.cityID]);
                     graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
                 }
                 else

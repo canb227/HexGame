@@ -43,6 +43,12 @@ public partial class CityInfoPanel : Node3D
         private TabContainer ConstructionTabBox;
          private ScrollContainer Production;
           private VBoxContainer ProductionBox;
+            private Button UnitsButton;
+            private TextureRect UnitArrowImage;
+            private VBoxContainer UnitsBox;
+            private Button BuildingsButton;
+            private TextureRect BuildingArrowImage;
+            private VBoxContainer BuildingsBox;
          private ScrollContainer Purchase;
           private VBoxContainer PurchaseBox;
       private PanelContainer ProductionQueuePanel;
@@ -92,21 +98,44 @@ public partial class CityInfoPanel : Node3D
         InfluenceIcon = cityUI.GetNode<TextureRect>("CityInfoPanel/CityInfoBox/Yields/InfluenceYieldBox/InfluenceIcon");
         InfluenceYield = cityUI.GetNode<Label>("CityInfoPanel/CityInfoBox/Yields/InfluenceYieldBox/InfluenceYield");
         ConstructionTabBox = cityUI.GetNode<TabContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox");
+
         Production = cityUI.GetNode<ScrollContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Production");
         ProductionBox = cityUI.GetNode<VBoxContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox");
+        UnitsButton = cityUI.GetNode<Button>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/UnitsButton");
+        UnitArrowImage = cityUI.GetNode<TextureRect>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/UnitsButton/UnitArrowImage");
+        UnitsBox = cityUI.GetNode<VBoxContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/UnitsBox");
+        BuildingsButton = cityUI.GetNode<Button>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/BuildingsButton");
+        BuildingArrowImage = cityUI.GetNode<TextureRect>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/BuildingsButton/BuildingArrowImage");
+        BuildingsBox = cityUI.GetNode<VBoxContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/BuildingsBox");
+
         Purchase = cityUI.GetNode<ScrollContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase");
         PurchaseBox = cityUI.GetNode<VBoxContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox");
+
         ProductionQueuePanel = cityUI.GetNode<PanelContainer>("ProductionQueuePanel");
         ProductionQueue = ProductionQueuePanel.GetNode<VBoxContainer>("ScrollContainer/ProductionQueue");
         OffsetLabel = ProductionQueuePanel.GetNode<Label>("ScrollContainer/ProductionQueue/OffsetLabel");
         
         RenameCityButton.Pressed += () => RenameCity();
         CloseCityInfoButton.Pressed += () => graphicManager.UnselectObject();
+        BuildingsButton.Pressed += () => ToggleBuildingsBoxVisibility();
+        UnitsButton.Pressed += () => ToggleUnitBoxVisibility();
     }
 
 
     public void Update(UIElement element)
     {
+    }
+
+    public void ToggleBuildingsBoxVisibility()
+    {
+        BuildingsBox.Visible = !BuildingsBox.Visible;
+        BuildingArrowImage.FlipV = !BuildingArrowImage.FlipV;
+    }
+
+    public void ToggleUnitBoxVisibility()
+    {
+        UnitsBox.Visible = !UnitsBox.Visible;
+        UnitArrowImage.FlipV = !UnitArrowImage.FlipV;
     }
 
     public void CitySelected(City city)
@@ -152,27 +181,31 @@ public partial class CityInfoPanel : Node3D
             HappinessYield.Text = city.yields.happiness.ToString();
             InfluenceYield.Text = city.yields.influence.ToString();
 
-            foreach(Control child in ProductionBox.GetChildren())
-            {
-                child.QueueFree();
-            }
             if (city.teamNum == game.localPlayerTeamNum)
             {
+                foreach (Control child in UnitsBox.GetChildren())
+                {
+                    child.QueueFree();
+                }
+                foreach (Control child in BuildingsBox.GetChildren())
+                {
+                    child.QueueFree();
+                }
                 RenameCityButton.Disabled = false;
-                foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedUnits)
+                foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedUnits)
                 {
                     if (itemName != "")
                     {
                         ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, false, true);
-                        ProductionBox.AddChild(item);
+                        UnitsBox.AddChild(item);
                     }
                 }
-                foreach (String itemName in city.gameHex.gameBoard.game.playerDictionary[city.teamNum].allowedBuildings)
+                foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedBuildings)
                 {
                     if (itemName != "")
                     {
                         ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, true, false);
-                        ProductionBox.AddChild(item);
+                        BuildingsBox.AddChild(item);
                     }
                 }
             }
