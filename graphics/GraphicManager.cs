@@ -40,7 +40,7 @@ public partial class GraphicManager : Node3D
             NewGameBoard(game.mainGameBoard);
         }
 
-
+        
         EnviromentManager enviromentManager = new EnviromentManager();
         AddChild(enviromentManager);
         ConfigureAndAddCamera();
