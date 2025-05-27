@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bch3jqk5oavgb" path="res://HexTest.cs" id="1_r3umj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r3umj"]
-sky_top_color = Color(0.190233, 0.395889, 0.920235, 1)
 
 [sub_resource type="Sky" id="Sky_n23of"]
 sky_material = SubResource("ProceduralSkyMaterial_r3umj")

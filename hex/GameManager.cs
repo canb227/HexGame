@@ -66,6 +66,10 @@ public partial class GameManager: Node
 
     public override void _PhysicsProcess(double delta)
     {
+        if (game== null || game.turnManager == null)
+        {
+            return;
+        }
         game.turnManager.EndCurrentTurn(0);
         game.turnManager.EndCurrentTurn(2);
         List<int> waitingForPlayerList = game.turnManager.CheckTurnStatus();
