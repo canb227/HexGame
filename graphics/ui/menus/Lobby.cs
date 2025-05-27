@@ -9,7 +9,14 @@ public partial class Lobby : Control
 	{
 		SteamFriends.SetRichPresence("status", "In a lobby");
 		SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
+
+        NetworkPeer.PlayerJoinedEvent += OnPlayerJoinEvent;
 	}
+
+    private void OnPlayerJoinEvent(ulong playerID)
+    {
+        throw new NotImplementedException();
+    }
 
     public override void _ExitTree()
     {
@@ -31,6 +38,8 @@ public partial class Lobby : Control
     public void OnStartGameButtonPressed()
     {
         Global.debugLog("Start game button pressed");
+        Global.gameManager.startGame();
+        Global.menuManager.ClearMenus();
         
     }
 }

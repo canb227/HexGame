@@ -22,8 +22,9 @@ public partial class Global : Node
     public static Camera camera;
     public static GameManager gameManager;
     public static NetworkPeer networkPeer;
+    public static MenuManager menuManager;
 
-    //
+    
 
     //This ready codeblock is the first non-engine code to run anywhere in the game, since Global is autoloaded by Godot before anything else
     public override void _Ready()
@@ -31,6 +32,7 @@ public partial class Global : Node
         //also abusing singletons
         Global instance = this;
         gameManager = new GameManager();
+
         SteamInit();
         
         m_GameRichPresenceJoinRequested = Callback<GameRichPresenceJoinRequested_t>.Create(OnGameRichPresenceJoinRequested);

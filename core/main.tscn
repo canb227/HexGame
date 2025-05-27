@@ -1,7 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://bhg68s18q50f"]
+[gd_scene load_steps=8 format=3 uid="uid://bhg68s18q50f"]
 
+[ext_resource type="Script" uid="uid://c4ddlhq0rbls8" path="res://graphics/GraphicManager.cs" id="1_3gdo0"]
 [ext_resource type="Script" uid="uid://b1fdl0bx5xtlv" path="res://network/NetworkPeer.cs" id="1_xiose"]
 [ext_resource type="Script" uid="uid://om7sllrdrhje" path="res://graphics/ui/menus/MenuManager.cs" id="2_r77kf"]
+[ext_resource type="Script" uid="uid://kaqhbwper16d" path="res://Camera.cs" id="4_csopv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xa854"]
+sky_top_color = Color(0.190233, 0.395889, 0.920235, 1)
+
+[sub_resource type="Sky" id="Sky_n23of"]
+sky_material = SubResource("ProceduralSkyMaterial_xa854")
+
+[sub_resource type="Environment" id="Environment_kagtj"]
+background_mode = 2
+sky = SubResource("Sky_n23of")
+sdfgi_enabled = true
+sdfgi_read_sky_light = false
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.001
 
 [node name="Main" type="Node"]
 
@@ -17,3 +33,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_r77kf")
+
+[node name="GraphicManager" type="Node3D" parent="."]
+script = ExtResource("1_3gdo0")
+metadata/_custom_type_script = "uid://c4ddlhq0rbls8"
+
+[node name="Camera3D" type="Camera3D" parent="GraphicManager"]
+transform = Transform3D(-4.37114e-08, -0.766044, 0.642788, 0, 0.642788, 0.766044, -1, 3.34849e-08, -2.80972e-08, 144.486, 20, -151.878)
+script = ExtResource("4_csopv")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="GraphicManager"]
+environment = SubResource("Environment_kagtj")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="GraphicManager"]
+transform = Transform3D(1, 0, 0, 0, 0.479182, 0.877715, 0, -0.877715, 0.479182, 0, 9.99781, 0)

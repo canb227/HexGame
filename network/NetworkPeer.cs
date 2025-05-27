@@ -66,6 +66,12 @@ public partial class NetworkPeer : Node
     public delegate void HandshakeMessageReceived(Handshake handshake);
     public static event HandshakeMessageReceived HandshakeMessageReceivedEvent;
 
+    public delegate void PlayerJoined(ulong playerID);
+    public static event PlayerJoined PlayerJoinedEvent;
+
+    public delegate void PlayerLeft(ulong playerID);
+    public static event PlayerLeft PlayerLeftEvent;
+
     // This is a Godot node, so it needs to be in the scenetree to work. There is no reason for this other than I thought it was neat.
     public override void _Ready()
     {
@@ -291,6 +297,7 @@ public partial class NetworkPeer : Node
             case "JoinAccepted":
                 Global.debugLog("Join request accepted by: " + handshake.Sender);
                 remotePeers.Add(id);
+                PlayerJoinedEvent?.Invoke(handshake.Sender);
                 HandshakePeer(id, "PeersRequest");
                 break;
             case "PeersRequest":

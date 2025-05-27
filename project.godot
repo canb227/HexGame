@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="HexGame"
-run/main_scene="uid://b04k7i5sjy21u"
+run/main_scene="uid://bhg68s18q50f"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
