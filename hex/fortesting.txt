@@ -1,0 +1,8 @@
+-new map gen
+-district vision
+-unit vision
+-unit abilities (good luck xd)
+-resces (+fix the xml)
+
+TODO
+-add unit xml
