@@ -7,10 +7,12 @@ using System.IO;
 using Godot;
 using System.Linq;
 
-
+[GlobalClass]
 public partial class GameManager: Node
 {
     public static GameManager instance;
+    public GraphicManager graphicManager;
+    public HexGameCamera camera;
     public Game game;
     
 
@@ -43,22 +45,24 @@ public partial class GameManager: Node
 
     public void startGame()
     {
+        Global.debugLog("Starting Game");
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
-        //game = GameTests.GameStartTest();
-        //game = GameTests.MapLoadTest();
+
         game = GameTests.TestSlingerCombat();
-        Global.graphicManager = new GraphicManager(game, pointy);
-        Global.graphicManager.Name = "GraphicManager";
-        //game = GameTests.TestMassScoutBuild(game);
-        //game = GameTests.TestScoutMovementCombat(game);
-        Camera3D camera3D = GetChild<Camera3D>(0);//TODO
-        Global.camera = camera3D as Camera;
-        Global.camera.SetGame(game);
-        Global.camera.SetGraphicManager(Global.graphicManager);
-        AddSibling(Global.graphicManager);
+
+        InitGraphics(game, Global.layout);
     }
+
+    private void InitGraphics(Game game, Layout layout)
+    {
+        Global.debugLog("Initializing Graphics");
+        graphicManager = new GraphicManager(game, layout);
+        graphicManager.Name = "GraphicManager";
+        AddChild(graphicManager);
+    }
+
 
     public override void _PhysicsProcess(double delta)
     {
@@ -68,7 +72,7 @@ public partial class GameManager: Node
         if (!waitingForPlayerList.Any())
         {
             game.turnManager.StartNewTurn();
-            Global.graphicManager.StartNewTurn();
+            graphicManager.StartNewTurn();
         }
         else
         {

@@ -19,11 +19,10 @@ public partial class Global : Node
     //Register global variables here with "public static"
     //If the compiler gives you trouble with Global.[varname], try using Global.instance.[varname]
     public static Layout layout;
-    public static Camera camera;
     public static GameManager gameManager;
     public static NetworkPeer networkPeer;
     public static MenuManager menuManager;
-
+    public static HexGameCamera camera;
     
 
     //This ready codeblock is the first non-engine code to run anywhere in the game, since Global is autoloaded by Godot before anything else
@@ -31,7 +30,6 @@ public partial class Global : Node
     {
         //also abusing singletons
         Global instance = this;
-        gameManager = new GameManager();
 
         SteamInit();
         

@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +72,7 @@ public partial class UnitWorldUI : Node3D
 
     private void UnitWorldUIExited()
     {
-        Global.camera.blockClick = false;
+        Global.gameManager.graphicManager.camera.blockClick = false;
     }
 
     private void UnitWorldUIEntered()

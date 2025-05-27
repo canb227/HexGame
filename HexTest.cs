@@ -27,9 +27,9 @@ public partial class HexTest : Node3D
         graphicManager = new GraphicManager(game, pointy);
         graphicManager.Name = "GraphicManager";
         Camera3D camera3D = GetChild<Camera3D>(0);//TODO
-        Global.camera = camera3D as Camera;
-        Global.camera.SetGame(game);
-        Global.camera.SetGraphicManager(graphicManager);
+       // Global.gameManager.graphicManager.camera = camera3D as Camera;
+       // Global.camera.SetGame(game);
+       // Global.camera.SetGraphicManager(graphicManager);
         AddChild(graphicManager);
 
         //new age shit ignore it
