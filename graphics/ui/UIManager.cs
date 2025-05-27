@@ -24,12 +24,13 @@ public enum UIElement
 public partial class UIManager : Node3D
 {
     public Button endTurnButton;
+    public Button saveGameButton;
     private Game game;
     private Layout layout;
     private GraphicManager graphicManager;
     private Control screenUI;
-    public Label goldLabel;
-    public Label goldPerTurnLabel;
+    public Label goldLabel { get; set; }
+    public Label goldPerTurnLabel { get; set; }
     public Label sciencePerTurnLabel;
     public Label culturePerTurnLabel;
     public Label happinessLabel;
@@ -93,6 +94,8 @@ public partial class UIManager : Node3D
 
         UpdateAll();
         AddChild(screenUI);
+        saveGameButton = screenUI.GetNode<Button>("SaveGame");
+        saveGameButton.Pressed += () => Global.gameManager.SaveGame();
     }
 
     private void SetupTurnUI()

@@ -19,10 +19,13 @@ public partial class HexTest : Node3D
         //game = GameTests.GameStartTest();
         //game = GameTests.MapLoadTest();
         game = GameTests.TestSlingerCombat();
+
+        Global.gameManager.SaveGame();
+
+        //Game loadedGame = Global.gameManager.LoadGame("C:/Users/jeffe/Desktop/Stuff/HexGame/game_data.dat");
+        
         graphicManager = new GraphicManager(game, pointy);
         graphicManager.Name = "GraphicManager";
-        //game = GameTests.TestMassScoutBuild(game);
-        //game = GameTests.TestScoutMovementCombat(game);
         Camera3D camera3D = GetChild<Camera3D>(0);//TODO
         Global.camera = camera3D as Camera;
         Global.camera.SetGame(game);
