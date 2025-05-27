@@ -1,10 +1,9 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
-public partial class Camera : Camera3D
+[GlobalClass]
+public partial class HexGameCamera : Camera3D
 {
-
 
     float zoomSpeed = 0.5f;
     float moveSpeed = 0.5f;
@@ -33,8 +32,8 @@ public partial class Camera : Camera3D
         this.graphicManager = manager;
     }
 
-	public override void _Process(double delta)
-	{
+    public override void _Process(double delta)
+    {
         Vector2 input = Input.GetVector("CameraMoveLeft", "CameraMoveRight", "CameraMoveUp", "CameraMoveDown");
 
 
@@ -45,13 +44,13 @@ public partial class Camera : Camera3D
 
 
         zoomOffset = this.Position.Y;
-        if ( Input.IsActionJustPressed("CameraZoomIn")  )
+        if (Input.IsActionJustPressed("CameraZoomIn"))
         {
             if (zoomAmount < zoomMin)
             {
                 zoomAmount -= 1f;
             }
-            
+
         }
         else if (Input.IsActionJustPressed("CameraZoomOut"))
         {
@@ -61,7 +60,7 @@ public partial class Camera : Camera3D
             }
         }
 
-        
+
         //add mouse pan
 
         this.Position = new Vector3(this.Position.X + (float)input2.Z * moveSpeed, zoomOffset + zoomAmount, this.Position.Z + -(float)input2.X * moveSpeed);
@@ -97,9 +96,9 @@ public partial class Camera : Camera3D
             Hex hex = fHex.HexRound();
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
-               /* GD.Print("You just clicked!");
-                GD.Print("    Mouse position: " + point.x + "," + point.y);
-                GD.Print("    Hex position: " + hex.q + "," + hex.r + "," + hex.s);*/
+                /* GD.Print("You just clicked!");
+                 GD.Print("    Mouse position: " + point.x + "," + point.y);
+                 GD.Print("    Hex position: " + hex.q + "," + hex.r + "," + hex.s);*/
                 ProcessHexLeftClick(hex);
 
             }
@@ -115,16 +114,16 @@ public partial class Camera : Camera3D
             Vector2 mousePosition = mouseMotionEvent.Position;
             //GD.Print($"Mouse moved to position: {mousePosition}");
         }
-       
+
     }
 
     private void ProcessHexLeftClick(Hex hex)
     {
         GameHex gameHex;
         game.mainGameBoard.gameHexDict.TryGetValue(hex, out gameHex);
-        if(gameHex == null)
+        if (gameHex == null)
         {
-            if(graphicManager.GetWaitForTargeting())
+            if (graphicManager.GetWaitForTargeting())
             {
                 graphicManager.ClearWaitForTarget();
             }
@@ -133,13 +132,13 @@ public partial class Camera : Camera3D
         {
             if (graphicManager.selectedObject is GraphicUnit)
             {
-                if (((GraphicUnit)graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.unitDictionary[((GraphicUnit)graphicManager.selectedObject).waitingAbility.usingUnitID])) 
+                if (((GraphicUnit)graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.unitDictionary[((GraphicUnit)graphicManager.selectedObject).waitingAbility.usingUnitID]))
                 {
                     ((GraphicUnit)graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
                     graphicManager.ClearWaitForTarget();
                 }
             }
-            else if(graphicManager.selectedObject is GraphicCity)
+            else if (graphicManager.selectedObject is GraphicCity)
             {
                 GraphicCity graphicCity = ((GraphicCity)graphicManager.selectedObject);
                 if (graphicCity.waitingToGrow)
@@ -151,7 +150,7 @@ public partial class Camera : Camera3D
                         graphicManager.Update2DUI(UIElement.endTurnButton);
                         graphicManager.ClearWaitForTarget();
                     }
-                    else if(graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
+                    else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
                     {
                         graphicCity.city.DevelopDistrict(hex);
                         graphicCity.waitingToGrow = false;
@@ -159,7 +158,7 @@ public partial class Camera : Camera3D
                         graphicManager.ClearWaitForTarget();
                     }
                 }
-                else if(graphicCity.waitingBuildingName != "")
+                else if (graphicCity.waitingBuildingName != "")
                 {
                     if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
                     {
@@ -178,7 +177,7 @@ public partial class Camera : Camera3D
         {
             if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.units[0].id])
             {
-                if(gameHex.units[0].teamNum == game.localPlayerTeamNum)
+                if (gameHex.units[0].teamNum == game.localPlayerTeamNum)
                 {
                     graphicManager.ChangeSelectedObject(gameHex.units[0].id, graphicManager.graphicObjectDictionary[gameHex.units[0].id]);
                 }
@@ -198,7 +197,7 @@ public partial class Camera : Camera3D
                 }
             }*/
         }
-        
+
     }
 
     private void ProcessHexRightClick(Hex hex)

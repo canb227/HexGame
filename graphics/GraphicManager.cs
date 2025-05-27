@@ -1,8 +1,9 @@
-﻿using Godot;
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 
 public partial class GraphicManager : Node3D
@@ -11,12 +12,14 @@ public partial class GraphicManager : Node3D
     public Dictionary<Hex, List<GraphicObject>> hexObjectDictionary;
     public Dictionary<int, GraphicObject> toBeDeleted;
     public Game game;
+    public EnviromentManager enviroment;
     public Layout layout;
     public GraphicObject selectedObject;
     public int selectedObjectID;
     public UIManager uiManager;
     private bool waitForTargeting = false;
-
+    public HexGameCamera camera;
+    
     public GraphicManager(Game game, Layout layout)
     {
         toBeDeleted = new();
@@ -36,7 +39,29 @@ public partial class GraphicManager : Node3D
         {
             NewGameBoard(game.mainGameBoard);
         }
+
+
+        EnviromentManager enviromentManager = new EnviromentManager();
+        AddChild(enviromentManager);
+        ConfigureAndAddCamera();
     }
+
+
+    private void ConfigureAndAddCamera()
+    {
+        HexGameCamera camera = new HexGameCamera();
+        camera.Name = "HexGameCamera";
+        camera.SetGame(game);
+        camera.SetGraphicManager(this);
+
+        camera.Position = new Vector3(150, 20, -150);
+        camera.RotationDegrees = new Vector3(-50, 90, 0);
+
+        AddChild(camera);
+        Global.camera = camera;
+        this.camera = camera;
+    }
+
 
     public void NewGameBoard(GameBoard gameBoard)
     {
