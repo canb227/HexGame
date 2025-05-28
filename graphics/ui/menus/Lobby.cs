@@ -39,7 +39,7 @@ public partial class Lobby : Control
     {
         Global.debugLog("Start game button pressed");
         Global.gameManager.startGame();
-        Global.menuManager.ClearMenus();
+
         
     }
 }

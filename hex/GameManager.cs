@@ -59,6 +59,7 @@ public partial class GameManager: Node
         Game loadedgame = LoadGame("C:/Users/jeffe/Desktop/Stuff/HexGame/game_data.txt");
         InitGraphics(loadedgame, Global.layout);
         Global.menuManager.Hide();
+        Global.menuManager.ClearMenus();
     }
 
     private void InitGraphics(Game game, Layout layout)
