@@ -45,6 +45,7 @@ public partial class UIManager : Node3D
     public CityInfoPanel cityInfoPanel;
 
     public City targetCity;
+    public Unit targetUnit;
 
     public bool readyToGrow;
 
@@ -205,6 +206,7 @@ public partial class UIManager : Node3D
         else if(waitingForOrders)
         {
             //move camera to foundUnit.hex
+            graphicManager.ChangeSelectedObject(targetUnit.id , graphicManager.graphicObjectDictionary[targetUnit.id]);
         }
         else
         {
@@ -252,6 +254,7 @@ public partial class UIManager : Node3D
             readyToGrow = false;
             targetCity = null;
             waitingForOrders = true;
+            targetUnit = foundUnit;
             return;
         }
 
