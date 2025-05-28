@@ -322,18 +322,15 @@ public class City
         ProductionQueueType queueItem1;
         if(partialProductionDictionary.TryGetValue(name, out queueItem1))
         {
-            GD.Print("add to queue_");
             partialProductionDictionary.Remove(name);
             productionQueue.Add(new ProductionQueueType(name, buildingType, unitType, targetGameHex, queueItem1.productionCost, queueItem1.productionLeft));
         }
         else
         {
-            GD.Print("add to queue");
             productionQueue.Add(new ProductionQueueType(name, buildingType, unitType, targetGameHex, productionCost, productionCost));
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            GD.Print("update citypanel");
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
             manager.UpdateGraphic(id, GraphicUpdateType.Update);
         }

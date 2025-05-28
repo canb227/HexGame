@@ -31,7 +31,6 @@ public partial class ProductionQueueUIItem : PanelContainer
         TurnsLeft = ProductionButton.GetNode<Label>("TurnsLeft");
         CancelProduction = ProductionButton.GetNode<Button>("CancelProduction");
         TextureRect = ProductionButton.GetNode<TextureRect>("TextureRect");
-        GD.Print("teamnum: " + graphicManager.game.localPlayerTeamNum + " " +city.teamNum);
         if(city.teamNum == graphicManager.game.localPlayerTeamNum)
         {
             ProductionButton.Pressed += () => MoveToFrontOfQueue();

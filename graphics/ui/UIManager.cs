@@ -48,6 +48,8 @@ public partial class UIManager : Node3D
 
     public bool readyToGrow;
 
+    public bool waitingForOrders;
+
     public UIManager(GraphicManager graphicManager, Game game, Layout layout)
     {
         this.game = game;
@@ -200,6 +202,10 @@ public partial class UIManager : Node3D
         {
             ((GraphicCity)graphicManager.graphicObjectDictionary[targetCity.id]).GenerateGrowthTargetingPrompt();
         }
+        else if(waitingForOrders)
+        {
+            //move camera to foundUnit.hex
+        }
         else
         {
             game.turnManager.EndCurrentTurn(game.localPlayerTeamNum);
@@ -225,13 +231,34 @@ public partial class UIManager : Node3D
             endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/house.png");
             readyToGrow = true;
             targetCity = foundCity;
+            waitingForOrders = false;
+            return;
         }
-        else
+        bool unitNeedsOrders = false;
+        Unit foundUnit = null;
+        foreach (int unitID in game.playerDictionary[game.localPlayerTeamNum].unitList)
         {
-            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/skipturn.png");
+            Unit unit = Global.gameManager.game.unitDictionary[unitID];
+            if (unit.remainingMovement > 0 && unit.currentPath.Count == 0)
+            {
+                foundUnit = unit;
+                unitNeedsOrders = true;
+                break;
+            }
+        }
+        if (unitNeedsOrders)
+        {
+            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/moveicon.png");
             readyToGrow = false;
             targetCity = null;
+            waitingForOrders = true;
+            return;
         }
+
+        endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/skipturn.png");
+        readyToGrow = false;
+        targetCity = null;
+        waitingForOrders = false;
     }
 
     public void ScienceTreeButtonPressed()

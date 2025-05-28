@@ -144,7 +144,11 @@ public class Unit
     public void SetRemainingMovement(float remainingMovement)
     {
         this.remainingMovement = remainingMovement;
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            manager.Update2DUI(UIElement.endTurnButton);
+        }
     }
 
     public void RecalculateEffects()

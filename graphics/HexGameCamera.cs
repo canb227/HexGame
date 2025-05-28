@@ -104,8 +104,6 @@ public partial class HexGameCamera : Camera3D
 
     private void ProcessHexLeftClick(Hex hex)
     {
-        GD.Print(hex);
-
         GameHex gameHex;
         Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(hex, out gameHex);
         if (gameHex == null)
