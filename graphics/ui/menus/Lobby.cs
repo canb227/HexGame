@@ -11,7 +11,33 @@ public partial class Lobby : Control
 		SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
 
         NetworkPeer.PlayerJoinedEvent += OnPlayerJoinEvent;
+
+
 	}
+
+    public void OnLoadButtonPressed()
+    {
+        Godot.FileDialog dialog = new Godot.FileDialog();
+        dialog.Mode = Godot.FileDialog.ModeEnum.Windowed;
+        dialog.FileMode = FileDialog.FileModeEnum.OpenFile;
+        dialog.Title = "Load Game";
+        dialog.OkButtonText = "Load";
+        dialog.UseNativeDialog = true;
+        dialog.Show();
+        
+        AddChild(dialog);
+        dialog.MoveToCenter();
+        dialog.FileSelected += OnFileSelected;
+
+    }
+
+    private void OnFileSelected(string path)
+    {
+        string trimmedPath = path.Substring(path.LastIndexOf("/") + 1);
+        Global.debugLog("File selected: " + trimmedPath);
+        Global.gameManager.game = Global.gameManager.LoadGame(trimmedPath);
+        Global.gameManager.startGame();
+    }
 
     private void OnPlayerJoinEvent(ulong playerID)
     {

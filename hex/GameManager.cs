@@ -31,20 +31,25 @@ public partial class GameManager: Node
             Converters = { new HexJsonConverter() } 
         };
         string json = JsonSerializer.Serialize(game, options);
-        File.WriteAllText(filePath, json);
-        GD.Print("Game data saved!");
+        Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Write);
+        fileAccess.StorePascalString(json);
+        fileAccess.Close();
+        GD.Print("Game data saved to file: " + filePath);
     }
 
 
     public Game LoadGame(String filePath)
     {
-        StreamReader sr = new StreamReader(filePath);
+        Global.debugLog("Loading Game from file: " + filePath);
+        Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
         JsonSerializerOptions options = new JsonSerializerOptions
         {
             WriteIndented = true,
             Converters = { new HexJsonConverter() }
         };
-        return JsonSerializer.Deserialize<Game>(sr.ReadToEnd(), options);
+        Game retVal = JsonSerializer.Deserialize<Game>(fileAccess.GetPascalString(), options);
+        fileAccess.Close();
+        return retVal;
     }
 
     public void startGame()
@@ -54,10 +59,14 @@ public partial class GameManager: Node
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
 
-        game = GameTests.TestSlingerCombat();
-        SaveGame("C:/Users/jeffe/Desktop/Stuff/HexGame/game_data.txt");
-        Game loadedgame = LoadGame("C:/Users/jeffe/Desktop/Stuff/HexGame/game_data.txt");
-        InitGraphics(loadedgame, Global.layout);
+        if (game == null)
+        {
+            //game = GameTests.TestSlingerCombat();
+            //SaveGame("test.txt");
+            game = LoadGame("test.txt");
+        }
+
+        InitGraphics(game, Global.layout);
         Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
     }

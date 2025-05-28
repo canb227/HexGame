@@ -160,7 +160,7 @@ text = "Debug mode"
 
 [connection signal="pressed" from="b_invite" to="." method="OnInviteButtonPressed"]
 [connection signal="pressed" from="b_newgame" to="." method="OnStartGameButtonPressed"]
-[connection signal="pressed" from="b_loadgame" to="." method="_on_b_loadgame_pressed"]
+[connection signal="pressed" from="b_loadgame" to="." method="OnLoadButtonPressed"]
 [connection signal="item_selected" from="newgameoptions/worldgentype" to="." method="_on_worldgentype_item_selected"]
 [connection signal="item_selected" from="newgameoptions/worldgensize" to="." method="_on_worldgensize_item_selected"]
 [connection signal="drag_ended" from="newgameoptions/HSlider" to="." method="_on_h_slider_drag_ended"]
