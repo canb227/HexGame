@@ -37,11 +37,11 @@ public enum FeatureType
 [Serializable]
 public class GameHex
 {
-    public GameHex(Hex hex, int gameBoardID, TerrainType terrainType, TerrainTemperature terrainTemp, ResourceType resourceType, HashSet<FeatureType> featureSet, List<Unit> units, District district)
+    public GameHex(Hex hex, int gameBoardID, TerrainType terrainType, TerrainTemperature terrainTemp, ResourceType resourceType, HashSet<FeatureType> featureSet, List<int> units, District district)
     {
         this.hex = hex;
         this.gameBoardID = gameBoardID;
-        this.terrainType = terrainType;
+        this.terrainType = terrainType; 
         this.terrainTemp = terrainTemp;
         this.featureSet = featureSet;
         this.resourceType = resourceType;
@@ -59,25 +59,10 @@ public class GameHex
     public int ownedBy { get; set; }
     public int owningCityID { get; set; }
     public HashSet<FeatureType> featureSet { get; set; } = new();
-    public List<Unit> units { get; set; } = new();
+    public List<int> units { get; set; } = new();
     public District? district { get; set; }
 
     public Yields yields { get; set; }
-
-    public GameHex()
-    {
-    }
-
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static GameHex Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<GameHex>(reader);
-    }
-
 
     public void RecalculateYields()
     {
@@ -229,8 +214,9 @@ public class GameHex
     public bool IsEnemyPresent(int yourTeamNum)
     {
         bool isEnemy = false;
-        foreach (Unit targetHexUnit in Global.gameManager.game.mainGameBoard.gameHexDict[hex].units)
+        foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[hex].units)
         {
+            Unit targetHexUnit = Global.gameManager.game.unitDictionary[unitID];
             if (Global.gameManager.game.teamManager.GetEnemies(yourTeamNum).Contains(targetHexUnit.teamNum))
             {
                 isEnemy = true;
@@ -268,7 +254,7 @@ public class GameHex
         }
         else if(newUnit.movementCosts[(TerrainMoveType)terrainType] < 100)//if they cant stack and there aren't units or they can stack and units are/aren't there and the hex is valid for this unit
         {
-            units.Add(newUnit);
+            units.Add(newUnit.id);
             newUnit.SpawnSetup(this);
             return true;
         }

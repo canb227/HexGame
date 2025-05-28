@@ -19,34 +19,18 @@ public class GameBoard
         Random rnd = new Random();
         for (int r = 0; r <= bottom; r++){
             for (int q = 0; q <= right; q++){
-                gameHexDict.Add(new Hex(q, r, -q-r), new GameHex(new Hex(q, r, -q-r), this.id, (TerrainType)rnd.Next(0,3), TerrainTemperature.Grassland, (ResourceType)0, new HashSet<FeatureType>(), new List<Unit>(), null));
+                gameHexDict.Add(new Hex(q, r, -q-r), new GameHex(new Hex(q, r, -q-r), this.id, (TerrainType)rnd.Next(0,3), TerrainTemperature.Grassland, (ResourceType)0, new HashSet<FeatureType>(), new List<int>(), null));
             }
         }
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.NewGameBoard(this);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewGameBoard(this);
     }
 
     public int id { get; set; }
-    public Dictionary<Hex, GameHex> gameHexDict { get; set; }
+    public Dictionary<Hex, GameHex> gameHexDict { get; set; } = new();
     public int top { get; set; }
     public int bottom { get; set; }
     public int left { get; set; }
     public int right { get; set; }
-
-    public GameBoard()
-    {
-        //for loading
-    }
-
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static GameBoard Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<GameBoard>(reader);
-    }
-
 
     public void OnTurnStarted(int turnNumber)
     {

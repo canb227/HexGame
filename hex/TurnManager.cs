@@ -9,21 +9,11 @@ using System.IO;
 public class TurnManager
 {
     public int currentTurn { get; set; } = 1;
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static TurnManager Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<TurnManager>(reader);
-    }
-
 
     public void StartNewTurn()
     {
         currentTurn++;
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager))
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.Update2DUI(UIElement.turnNumber);
             manager.Update2DUI(UIElement.unitDisplay);

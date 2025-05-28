@@ -34,7 +34,6 @@ public partial class GraphicManager : Node3D
         uiManager = new UIManager(this, game, layout);
         uiManager.Name = "UIManager";
         AddChild(uiManager);
-        game.graphicManager = this;
         if (game.mainGameBoard != null)
         {
             NewGameBoard(game.mainGameBoard);
@@ -51,8 +50,6 @@ public partial class GraphicManager : Node3D
     {
         HexGameCamera camera = new HexGameCamera();
         camera.Name = "HexGameCamera";
-        camera.SetGame(game);
-        camera.SetGraphicManager(this);
 
         camera.Position = new Vector3(150, 20, -150);
         camera.RotationDegrees = new Vector3(-50, 90, 0);
@@ -86,8 +83,6 @@ public partial class GraphicManager : Node3D
 
     public void NewBuilding(Building building)
     {
-        GD.Print(building.name);
-        GD.Print(building.districtHex);
         GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout, this);
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
         AddChild(graphicBuilding);
@@ -214,7 +209,6 @@ public partial class GraphicManager : Node3D
             foreach (Point point in points)
             {
                 Vector3 temp = new Vector3((float)point.y, 0.1f, (float)point.x);
-                //GD.Print(temp);
                 st.AddVertex(temp);
                 st.AddVertex(temp);
 

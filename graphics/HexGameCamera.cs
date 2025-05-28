@@ -15,22 +15,7 @@ public partial class HexGameCamera : Camera3D
 
     Layout layout;
 
-    Game game;
-    GraphicManager graphicManager;
-
     public bool blockClick = false;
-
-
-
-    public void SetGame(Game game)
-    {
-        this.game = game;
-    }
-
-    public void SetGraphicManager(GraphicManager manager)
-    {
-        this.graphicManager = manager;
-    }
 
     public override void _Process(double delta)
     {
@@ -74,13 +59,13 @@ public partial class HexGameCamera : Camera3D
         {
             if (eventKey.Keycode == Key.Escape) // In Godot 4, use Keycode instead of Scancode
             {
-                if (graphicManager.GetWaitForTargeting())
+                if (Global.gameManager.graphicManager.GetWaitForTargeting())
                 {
-                    graphicManager.ClearWaitForTarget();
+                    Global.gameManager.graphicManager.ClearWaitForTarget();
                 }
                 else
                 {
-                    graphicManager.UnselectObject();
+                    Global.gameManager.graphicManager.UnselectObject();
                 }
             }
         }
@@ -119,76 +104,78 @@ public partial class HexGameCamera : Camera3D
 
     private void ProcessHexLeftClick(Hex hex)
     {
+        GD.Print(hex);
+
         GameHex gameHex;
-        game.mainGameBoard.gameHexDict.TryGetValue(hex, out gameHex);
+        Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(hex, out gameHex);
         if (gameHex == null)
         {
-            if (graphicManager.GetWaitForTargeting())
+            if (Global.gameManager.graphicManager.GetWaitForTargeting())
             {
-                graphicManager.ClearWaitForTarget();
+                Global.gameManager.graphicManager.ClearWaitForTarget();
             }
         }
-        else if (graphicManager.GetWaitForTargeting())
+        else if (Global.gameManager.graphicManager.GetWaitForTargeting())
         {
-            if (graphicManager.selectedObject is GraphicUnit)
+            if (Global.gameManager.graphicManager.selectedObject is GraphicUnit)
             {
-                if (((GraphicUnit)graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.unitDictionary[((GraphicUnit)graphicManager.selectedObject).waitingAbility.usingUnitID]))
+                if (((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.unitDictionary[((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.usingUnitID]))
                 {
-                    ((GraphicUnit)graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
-                    graphicManager.ClearWaitForTarget();
+                    ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
+                    Global.gameManager.graphicManager.ClearWaitForTarget();
                 }
             }
-            else if (graphicManager.selectedObject is GraphicCity)
+            else if (Global.gameManager.graphicManager.selectedObject is GraphicCity)
             {
-                GraphicCity graphicCity = ((GraphicCity)graphicManager.selectedObject);
+                GraphicCity graphicCity = ((GraphicCity)Global.gameManager.graphicManager.selectedObject);
                 if (graphicCity.waitingToGrow)
                 {
                     if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
                     {
                         graphicCity.city.ExpandToHex(hex);
                         graphicCity.waitingToGrow = false;
-                        graphicManager.Update2DUI(UIElement.endTurnButton);
-                        graphicManager.ClearWaitForTarget();
+                        Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
+                        Global.gameManager.graphicManager.ClearWaitForTarget();
                     }
                     else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
                     {
                         graphicCity.city.DevelopDistrict(hex);
                         graphicCity.waitingToGrow = false;
-                        graphicManager.Update2DUI(UIElement.endTurnButton);
-                        graphicManager.ClearWaitForTarget();
+                        Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
+                        Global.gameManager.graphicManager.ClearWaitForTarget();
                     }
                 }
                 else if (graphicCity.waitingBuildingName != "")
                 {
                     if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
                     {
-                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, game.mainGameBoard.gameHexDict[hex]);
+                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
                         graphicCity.waitingBuildingName = "";
-                        graphicManager.ClearWaitForTarget();
+                        Global.gameManager.graphicManager.ClearWaitForTarget();
                     }
                 }
             }
             else
             {
-                graphicManager.ClearWaitForTarget();
+                Global.gameManager.graphicManager.ClearWaitForTarget();
             }
         }
         else if (gameHex.units.Count != 0)
         {
-            if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.units[0].id])
+            if (Global.gameManager.graphicManager.selectedObject != Global.gameManager.graphicManager.graphicObjectDictionary[gameHex.units[0]])
             {
-                if (gameHex.units[0].teamNum == game.localPlayerTeamNum)
+                if (Global.gameManager.game.unitDictionary[gameHex.units[0]].teamNum == Global.gameManager.game.localPlayerTeamNum)
                 {
-                    graphicManager.ChangeSelectedObject(gameHex.units[0].id, graphicManager.graphicObjectDictionary[gameHex.units[0].id]);
+                    Global.gameManager.graphicManager.ChangeSelectedObject(gameHex.units[0], Global.gameManager.graphicManager.graphicObjectDictionary[gameHex.units[0]]);
                 }
                 return;
             }
         }
-        else if (gameHex.district != null && graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.district.id])
+        else if (gameHex.district != null && Global.gameManager.graphicManager.selectedObject != Global.gameManager.graphicManager.graphicObjectDictionary[gameHex.district.id])
         {
             /*foreach(Building building in gameHex.district.buildings)
             {
-                graphicManager.ChangeSelectedObject(building.district.id, graphicManager.graphicObjectDictionary[building.district.id]);
+                Global.gameManager.graphicManager.ChangeSelectedObject(building.district.id, Global.gameManager.graphicManager.graphicObjectDictionary[building.district.id]);
                 return;
 
                 if (building.buildingType == "Palace" || building.buildingType == "CityCenter")
@@ -202,6 +189,6 @@ public partial class HexGameCamera : Camera3D
 
     private void ProcessHexRightClick(Hex hex)
     {
-        graphicManager.selectedObject.ProcessRightClick(hex);
+        Global.gameManager.graphicManager.selectedObject.ProcessRightClick(hex);
     }
 }

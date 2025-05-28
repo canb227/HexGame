@@ -11,7 +11,7 @@ using System.IO;
 public class UnitAbility
 {
     public String name { get; set; }
-    public UnitEffect effect { get; set; }
+    private UnitEffect effect { get; set; }
     public int usingUnitID { get; set; }
     public float combatPower { get; set; }
     public int currentCharges { get; set; }
@@ -20,11 +20,11 @@ public class UnitAbility
     public String iconPath { get; set; }
     public TargetSpecification validTargetTypes { get; set; }
 
-    public UnitAbility(int usingUnitID, UnitEffect effect, float combatPower = 0.0f, int maxChargesPerTurn = 1, int range = 0, TargetSpecification validTargetTypes = null, String iconPath = "")
+    public UnitAbility(int usingUnitID, string abilityName, float combatPower = 0.0f, int maxChargesPerTurn = 1, int range = 0, TargetSpecification validTargetTypes = null, String iconPath = "")
     {
         this.usingUnitID = usingUnitID;
-        name = effect.functionName;
-        this.effect = effect;
+        this.effect = new UnitEffect(abilityName);
+        name = abilityName;
         this.iconPath = iconPath;
         this.combatPower = combatPower;
         this.maxChargesPerTurn = maxChargesPerTurn;
@@ -36,20 +36,11 @@ public class UnitAbility
         }
         this.validTargetTypes = validTargetTypes;
     }
+
     public UnitAbility()
     {
-    }
 
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
     }
-
-    public static UnitAbility Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<UnitAbility>(reader);
-    }
-
 
     public void ResetAbilityUses()
     {
@@ -59,12 +50,27 @@ public class UnitAbility
         }
     }
 
+    public UnitEffect GetUnitEffect()
+    {
+        if(this.effect == null)
+        {
+            this.effect = new UnitEffect(name);
+            name = effect.functionName;
+        }
+        return this.effect;
+    }
+
     public bool ActivateAbility(GameHex abilityTarget = null)
     {
-        if(currentCharges > 0)
+        if (this.effect == null)
+        {
+            this.effect = new UnitEffect(name);
+            name = effect.functionName;
+        }
+        if (currentCharges > 0)
         {
             currentCharges -= 1;
-            if(Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager))
+            if(Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
                 manager.Update2DUI(UIElement.unitDisplay);
             }

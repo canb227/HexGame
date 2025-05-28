@@ -23,24 +23,28 @@ public partial class GameManager: Node
     }
 
 
-    public void SaveGame()
+    public void SaveGame(String filePath)
     {
-        String filePath = "C:/Users/jeffe/Desktop/Stuff/HexGame/game_data.dat";
-        using (FileStream fs = new FileStream(filePath, FileMode.Create))
-        using (BinaryWriter writer = new BinaryWriter(fs))
-        {
-            game.Serialize(writer);
-        }
+        JsonSerializerOptions options = new JsonSerializerOptions 
+        { 
+            WriteIndented = true, 
+            Converters = { new HexJsonConverter() } 
+        };
+        string json = JsonSerializer.Serialize(game, options);
+        File.WriteAllText(filePath, json);
         GD.Print("Game data saved!");
     }
 
+
     public Game LoadGame(String filePath)
     {
-        using (FileStream fs = new FileStream(filePath, FileMode.Open))
-        using (BinaryReader reader = new BinaryReader(fs))
+        StreamReader sr = new StreamReader(filePath);
+        JsonSerializerOptions options = new JsonSerializerOptions
         {
-            return Game.Deserialize(reader);
-        }
+            WriteIndented = true,
+            Converters = { new HexJsonConverter() }
+        };
+        return JsonSerializer.Deserialize<Game>(sr.ReadToEnd(), options);
     }
 
     public void startGame()
@@ -51,10 +55,11 @@ public partial class GameManager: Node
         Global.layout = pointy;
 
         game = GameTests.TestSlingerCombat();
-
-        InitGraphics(game, Global.layout);
-        Global.menuManager.ClearMenus();
+        SaveGame("C:/Users/jeffe/Desktop/Stuff/HexGame/game_data.txt");
+        Game loadedgame = LoadGame("C:/Users/jeffe/Desktop/Stuff/HexGame/game_data.txt");
+        InitGraphics(loadedgame, Global.layout);
         Global.menuManager.Hide();
+        Global.menuManager.ClearMenus();
     }
 
     private void InitGraphics(Game game, Layout layout)
@@ -63,6 +68,17 @@ public partial class GameManager: Node
         graphicManager = new GraphicManager(game, layout);
         graphicManager.Name = "GraphicManager";
         AddChild(graphicManager);
+    }
+
+    public bool TryGetGraphicManager(out GraphicManager manager)
+    {
+        if (graphicManager != null)
+        {
+            manager = graphicManager;
+            return true;
+        }
+        manager = null;
+        return false;
     }
 
 
@@ -122,17 +138,14 @@ public partial class GameManager: Node
 
     private Unit SearchUnitByID(int unitID)
     {
-        foreach (Player player in game.playerDictionary.Values)
+        if (Global.gameManager.game.unitDictionary.TryGetValue(unitID, out Unit unit))
         {
-            foreach (Unit unit in player.unitList)
-            {
-                if (unit.id == unitID)
-                {
-                    return unit;
-                }
-            }
+            return unit;
         }
-        return null;
+        else
+        {
+            return null;
+        }
     }
 
     public void ActivateAbility(int unitID, string AbilityName, Hex Target, bool local = true) 

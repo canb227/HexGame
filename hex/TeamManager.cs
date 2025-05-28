@@ -5,18 +5,7 @@ using System.IO;
 [Serializable]
 public class TeamManager
 {
-    private Dictionary<int, Dictionary<int, int>> relationships { get; set; } = new Dictionary<int, Dictionary<int, int>>();
-
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static TeamManager Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<TeamManager>(reader);
-    }
-
+    public Dictionary<int, Dictionary<int, int>> relationships { get; set; } = new Dictionary<int, Dictionary<int, int>>();
 
     public void AddTeam(int newTeamNum, int defaultRelationship)
     {

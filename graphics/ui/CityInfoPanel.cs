@@ -225,8 +225,10 @@ public partial class CityInfoPanel : Node3D
                     child.QueueFree();
                 }
             }
+            GD.Print("------------------New CHECK---------");
             for (int i = 0; i < city.productionQueue.Count; i++)
             {
+                GD.Print(city.productionQueue[i].name);
                 ProductionQueue.AddChild(new ProductionQueueUIItem(graphicManager, city, i));
             }
 

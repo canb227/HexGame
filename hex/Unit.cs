@@ -55,7 +55,7 @@ public class Unit
     
         if (UnitLoader.unitsDict.TryGetValue(unitType, out UnitInfo unitInfo))
         {
-            Global.gameManager.game.unitDictionary.Add(id, this);
+            Global.gameManager.game.unitDictionary.TryAdd(id, this);
             this.unitClass = unitInfo.Class;
             this.movementCosts = unitInfo.MovementCosts;
             this.sightCosts = unitInfo.SightCosts;
@@ -94,9 +94,9 @@ public class Unit
             }
         }
         //Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this);
-        Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this);
+        Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
         AddVision(true);
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.NewUnit(this);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewUnit(this);
     }
 
 
@@ -134,7 +134,7 @@ public class Unit
                 ability.currentCharges = attacksLeft;
             }
         }
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager))
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.Update2DUI(UIElement.unitDisplay);
             manager.UpdateGraphic(id, GraphicUpdateType.Update);
@@ -144,7 +144,7 @@ public class Unit
     public void SetRemainingMovement(float remainingMovement)
     {
         this.remainingMovement = remainingMovement;
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Update);
     }
 
     public void RecalculateEffects()
@@ -190,7 +190,7 @@ public class Unit
 
     public void AddAbility(string abilityName, UnitInfo unitInfo)
     {
-        abilities.Add(new UnitAbility(id, new UnitEffect(abilityName), unitInfo.Abilities[abilityName].Item1, unitInfo.Abilities[abilityName].Item2, unitInfo.Abilities[abilityName].Item3, unitInfo.Abilities[abilityName].Item4, unitInfo.Abilities[abilityName].Item5));
+        abilities.Add(new UnitAbility(id, abilityName, unitInfo.Abilities[abilityName].Item1, unitInfo.Abilities[abilityName].Item2, unitInfo.Abilities[abilityName].Item3, unitInfo.Abilities[abilityName].Item4, unitInfo.Abilities[abilityName].Item5));
     }
 
     public void UseAbilities()
@@ -200,7 +200,7 @@ public class Unit
             var ability = abilities[i];
             if (ability.currentCharges >= 1)
             {
-                ability.effect.Apply(id);
+                ability.GetUnitEffect().Apply(id);
                 ability.currentCharges -= 1; // Update the tuple directly
                 abilities[i] = ability; // Write the modified tuple back to the list
             }
@@ -238,7 +238,7 @@ public class Unit
         }
         if (targetGameHex.units.Any())
         {
-            Unit unit = targetGameHex.units[0];
+            Unit unit = Global.gameManager.game.unitDictionary[targetGameHex.units[0]];
             if (teamManager.GetEnemies(teamNum).Contains(unit.teamNum))
             {
                 //combat math TODO
@@ -275,7 +275,7 @@ public class Unit
         if (targetGameHex.units.Any())
         {
             
-            Unit unit = targetGameHex.units[0];
+            Unit unit = Global.gameManager.game.unitDictionary[targetGameHex.units[0]];
             if (teamManager.GetEnemies(teamNum).Contains(unit.teamNum))
             {
                 //combat math TODO
@@ -295,7 +295,7 @@ public class Unit
     {
         health += amount;
         health = Math.Min(health, 100.0f);
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager))
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.Update2DUI(UIElement.unitDisplay);
             manager.UpdateGraphic(id, GraphicUpdateType.Update);
@@ -305,7 +305,7 @@ public class Unit
     public bool decreaseHealth(float amount)
     {
         health -= amount;
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.unitDisplay);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.unitDisplay);
         if (health <= 0.0f)
         {
             onDeathEffects();
@@ -313,24 +313,24 @@ public class Unit
         }
         else
         {
-            if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager2)) manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager.UpdateGraphic(id, GraphicUpdateType.Update);
             return false;
         }
     }
 
     public void onDeathEffects()
     {
-        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this);
-        Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this);
+        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
+        Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this.id);
         RemoveVision(true);
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Remove);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Remove);
     }
 
     public void UpdateVision()
     {
         RemoveVision(false);
         AddVision(false);
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
     }
 
     public void RemoveVision(bool updateGraphic)
@@ -352,7 +352,7 @@ public class Unit
             }
         }
         visibleHexes.Clear();
-        if (updateGraphic &&Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (updateGraphic &&Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
     }
 
     public void AddVision(bool updateGraphic)
@@ -372,7 +372,7 @@ public class Unit
                Global.gameManager.game.playerDictionary[teamNum].visibilityChangedList.Add(hex);
             }
         }
-        if (updateGraphic &&Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (updateGraphic &&Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
 
     }
 
@@ -506,7 +506,7 @@ public class Unit
     public bool SetGameHex(GameHex newGameHex)
     {
         hex = newGameHex.hex;
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
         return true;
     }
 
@@ -525,11 +525,11 @@ public class Unit
                 {
                     if (AttackTarget(targetGameHex, moveCost, teamManager))
                     {
-                        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this);
+                        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
                         hex = targetGameHex.hex;
-                        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this);
+                        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this.id);
                         UpdateVision();
-                        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
+                        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
                         return true;
                     }
                 }
@@ -537,11 +537,11 @@ public class Unit
             else if(!targetGameHex.units.Any())
             {
                 SetRemainingMovement(remainingMovement - moveCost);
-                Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this);
+                Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
                 hex = targetGameHex.hex;
-                Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this);
+                Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this.id);
                 UpdateVision();
-                if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
+                if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
                 return true;
             }
         }
@@ -550,11 +550,11 @@ public class Unit
 
     public bool MoveToGameHex(GameHex targetGameHex)
     {
-        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this);
+        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
         hex = targetGameHex.hex;
-        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this);
+        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this.id);
         UpdateVision();
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
         return true;
     }
 
@@ -686,8 +686,9 @@ public class Unit
         //check for units
         if(!ignoreUnits)
         {
-            foreach (Unit unit in secondHex.units)
+            foreach (int unitID in secondHex.units)
             {
+                Unit unit = Global.gameManager.game.unitDictionary[unitID];
                 if (isTargetEnemy && teamManager.GetEnemies(teamNum).Contains(unit.teamNum) && attacksLeft > 0)
                 {
                     break;
@@ -760,20 +761,4 @@ public class Unit
         //if the end is unreachable return an empty path
         return new List<Hex>();
     }
-
-    public Unit()
-    {
-        //used for loading
-    }
-
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static Unit Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<Unit>(reader);
-    }
-
 }

@@ -93,22 +93,30 @@ public partial class GraphicGameBoard : GraphicObject
 
     private void AddBoardFog(List<Hex> seenButNotVisible, List<Hex> nonSeenHexes, Layout pointy, float height)
     {
-        MeshInstance3D triangles = new MeshInstance3D();
-        triangles.Mesh = GenerateHexTrianglesFog(seenButNotVisible, pointy, 0.5f, new Godot.Color(0.0f, 0.0f, 0.0f, 0.5f));
-        StandardMaterial3D material = new StandardMaterial3D();
-        material.VertexColorUseAsAlbedo = true;
-        material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
-        triangles.SetSurfaceOverrideMaterial(0, material);
-        triangles.Name = "GameBoardTerrainFog";
-        AddChild(triangles);
+        if (seenButNotVisible.Count != 0)
+        {
+            MeshInstance3D triangles = new MeshInstance3D();
+            triangles.Mesh = GenerateHexTrianglesFog(seenButNotVisible, pointy, 0.5f, new Godot.Color(0.0f, 0.0f, 0.0f, 0.5f));
+            StandardMaterial3D material = new StandardMaterial3D();
+            material.VertexColorUseAsAlbedo = true;
+            material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
+            triangles.SetSurfaceOverrideMaterial(0, material);
+            triangles.Name = "GameBoardTerrainFog";
+            AddChild(triangles);
+        }
+        if (nonSeenHexes.Count != 0)
+        {
+            MeshInstance3D triangles = new MeshInstance3D();
+            triangles.Mesh = GenerateHexTrianglesFog(nonSeenHexes, pointy, 0.5f, new Godot.Color(0.6f, 0.6f, 0.6f, 1.0f));
+            StandardMaterial3D material = new StandardMaterial3D();
+            material.VertexColorUseAsAlbedo = true;
+            triangles.SetSurfaceOverrideMaterial(0, material);
+            triangles.Name = "GameBoardTerrainFog2";
+            AddChild(triangles);
+        }
+        
 
-        MeshInstance3D triangles2 = new MeshInstance3D();
-        triangles2.Mesh = GenerateHexTrianglesFog(nonSeenHexes, pointy, 0.5f, new Godot.Color(0.6f, 0.6f, 0.6f, 1.0f));
-        StandardMaterial3D material2 = new StandardMaterial3D();
-        material.VertexColorUseAsAlbedo = true;
-        triangles2.SetSurfaceOverrideMaterial(0, material2);
-        triangles2.Name = "GameBoardTerrainFog2";
-        AddChild(triangles2);
+        
     }
 
     private void AddHexYields(Layout layout)
@@ -208,8 +216,9 @@ public partial class GraphicGameBoard : GraphicObject
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
         {
-            foreach (Unit unit in gameBoard.gameHexDict[hex].units)
+            foreach (int unitID in gameBoard.gameHexDict[hex].units)
             {
+                Unit unit = Global.gameManager.game.unitDictionary[unitID];
                 graphicManager.NewUnit(unit);
             }
         }
@@ -300,7 +309,6 @@ public partial class GraphicGameBoard : GraphicObject
             foreach (Point point in points)
             {
                 Vector3 temp = new Vector3((float)point.y, 0.01f, (float)point.x);
-                //GD.Print(temp);
                 st.AddVertex(temp);
                 st.AddVertex(temp);
 
