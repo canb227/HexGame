@@ -53,6 +53,8 @@ public partial class GameManager: Node
         game = GameTests.TestSlingerCombat();
 
         InitGraphics(game, Global.layout);
+        Global.menuManager.ClearMenus();
+        Global.menuManager.Hide();
     }
 
     private void InitGraphics(Game game, Layout layout)
