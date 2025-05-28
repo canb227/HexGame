@@ -13,14 +13,14 @@ public partial class HexTest : Node3D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
+/*        Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
         //game = GameTests.GameStartTest();
         //game = GameTests.MapLoadTest();
         game = GameTests.TestSlingerCombat();
 
-        Global.gameManager.SaveGame();
+        //Global.gameManager.SaveGame();
 
         //Game loadedGame = Global.gameManager.LoadGame("C:/Users/jeffe/Desktop/Stuff/HexGame/game_data.dat");
         
@@ -30,7 +30,7 @@ public partial class HexTest : Node3D
        // Global.gameManager.graphicManager.camera = camera3D as Camera;
        // Global.camera.SetGame(game);
        // Global.camera.SetGraphicManager(graphicManager);
-        AddChild(graphicManager);
+        AddChild(graphicManager);*/
 
         //new age shit ignore it
         /*        Image terrainTypeImage = GenerateHexImage(game.mainGameBoard, pointyReal);
