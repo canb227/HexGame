@@ -20,6 +20,7 @@ public partial class GameManager: Node
     {
         instance = this;
         Global.gameManager = this;
+        game = new Game();
     }
 
 

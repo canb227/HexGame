@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Data;
 using System.IO;
+using Godot;
 
 public enum TerrainType
 {
@@ -69,6 +70,7 @@ public class GameHex
         yields = new();
         //if the district is urban the buildings will set our yields
         City temp;
+        
         if ((Global.gameManager.game.cityDictionary.TryGetValue(owningCityID, out temp) && district == null) || (district != null && !district.isUrban))
         {
             //calculate the rural value
