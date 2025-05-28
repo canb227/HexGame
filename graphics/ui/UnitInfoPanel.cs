@@ -149,7 +149,7 @@ public partial class UnitInfoPanel : Node3D
                         hexes.Add(hex);
                     }
                 }
-                if(ability.effect.functionName == "SettleCityAbility" || ability.effect.functionName == "SettleCapitalAbility")
+                if(ability.name == "SettleCityAbility" || ability.name == "SettleCapitalAbility")
                 {
                     foreach (Hex hex in unit.hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
                     {

@@ -43,6 +43,10 @@ public class BuildingEffect
     {
         this.functionName = functionName;
     }
+
+    public BuildingEffect()
+    {
+    }
     
     public BuildingEffectType effectType { get; set; }
     public EffectOperation effectOperation { get; set; }
@@ -156,7 +160,6 @@ public class BuildingEffect
         if(Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].terrainType == TerrainType.Coast ||Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].featureSet.Contains(FeatureType.River) 
                 || Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].featureSet.Contains(FeatureType.Wetland))
         {
-            GD.Print("water supply effect1 " + Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].hex);
             waterHappinessYield = 5.0f;
         }
         else
@@ -166,7 +169,6 @@ public class BuildingEffect
                 if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Coast || Global.gameManager.game.mainGameBoard.gameHexDict[hex].featureSet.Contains(FeatureType.River) 
                     || Global.gameManager.game.mainGameBoard.gameHexDict[hex].featureSet.Contains(FeatureType.Wetland))
                 {
-                    GD.Print("water supply effect2 " + Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].hex);
                     waterHappinessYield = 5.0f;
                     break;
                 }

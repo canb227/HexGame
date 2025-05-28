@@ -175,11 +175,11 @@ public partial class HexGameCamera : Camera3D
         }
         else if (gameHex.units.Count != 0)
         {
-            if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.units[0].id])
+            if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[gameHex.units[0]])
             {
-                if (gameHex.units[0].teamNum == game.localPlayerTeamNum)
+                if (Global.gameManager.game.unitDictionary[gameHex.units[0]].teamNum == game.localPlayerTeamNum)
                 {
-                    graphicManager.ChangeSelectedObject(gameHex.units[0].id, graphicManager.graphicObjectDictionary[gameHex.units[0].id]);
+                    graphicManager.ChangeSelectedObject(gameHex.units[0], graphicManager.graphicObjectDictionary[gameHex.units[0]]);
                 }
                 return;
             }

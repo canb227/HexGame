@@ -47,7 +47,7 @@ public class UnitEffect
         this.functionName = functionName;
     }
     
-    private UnitEffect()
+    public UnitEffect()
     {
         //used for loading
     }

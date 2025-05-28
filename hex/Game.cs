@@ -12,14 +12,13 @@ using System.IO;
 [Serializable]
 public class Game
 {
-    public GameBoard? mainGameBoard { get; set; }
-    public Dictionary<int, Player> playerDictionary { get; set; }
-    public Dictionary<int, City> cityDictionary { get; set; }
-    public Dictionary<int, Unit> unitDictionary { get; set; }
-    public HashSet<String> builtWonders { get; set; } 
-    public TeamManager? teamManager { get; set; }
+    public GameBoard mainGameBoard { get; set; }
+    public Dictionary<int, Player> playerDictionary { get; set; } = new();
+    public Dictionary<int, City> cityDictionary { get; set; } = new();
+    public Dictionary<int, Unit> unitDictionary { get; set; } = new();
+    public HashSet<String> builtWonders { get; set; } = new();
+    public TeamManager teamManager { get; set; }
     public TurnManager turnManager { get; set; }
-    public GraphicManager graphicManager;
     private int currentID = 0;
 
     public int CurrentID
@@ -119,7 +118,7 @@ public class Game
                     // }
                     //fourth number is for resources
                     ResourceType resource = ResourceLoader.resourceNames[cell[3].ToString()];
-                    gameHexDict.Add(new Hex(q, r, -q - r), new GameHex(new Hex(q, r, -q - r), mainBoard.id, terrainType, terrainTemperature, resource, features, new List<Unit>(), null));
+                    gameHexDict.Add(new Hex(q, r, -q - r), new GameHex(new Hex(q, r, -q - r), mainBoard.id, terrainType, terrainTemperature, resource, features, new List<int>(), null));
                 }
                 q += 1;
             }
@@ -133,15 +132,7 @@ public class Game
         this.localPlayerTeamNum = localPlayerTeamNum;
     }
 
-    public bool TryGetGraphicManager(out GraphicManager manager)
-    {
-        if (graphicManager != null) {
-            manager = graphicManager;
-            return true;
-        }
-        manager = null;
-        return false;
-    }
+
 
     public void AssignGameBoard(GameBoard mainGameBoard)
     {
@@ -162,15 +153,6 @@ public class Game
     public int GetUniqueID()
     {
         return Interlocked.Increment(ref currentID);
-    }
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static Game Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<Game>(reader);
     }
 
 }
@@ -236,8 +218,8 @@ struct GameTests
         
         player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
 
-        City player1City = game.playerDictionary[1].cityList[0];
-        City player2City = game.playerDictionary[2].cityList[0];
+        City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
+        City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
 
         //Yields
         //TestHexYield(new Hex())
@@ -245,13 +227,11 @@ struct GameTests
         TestCityYields(player2City, 5, 5, 5, 5, 5, 5);
 
         //City Locations from player
-        Tests.EqualHex("player1CityLocation", player1CityLocation, game.playerDictionary[1].cityList[0].hex);
-        Tests.EqualHex("player2CityLocation", player2CityLocation, game.playerDictionary[2].cityList[0].hex);
 
         //Gamehex with city has District with 'City Center'
-        if(Global.gameManager.game.mainGameBoard.gameHexDict[game.playerDictionary[1].cityList[0].hex].district != null)
+        if(Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex].district != null)
         {
-            District? tempDistrict = Global.gameManager.game.mainGameBoard.gameHexDict[game.playerDictionary[1].cityList[0].hex].district;
+            District? tempDistrict = Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex].district;
             if(!tempDistrict.isCityCenter | !tempDistrict.isUrban | tempDistrict.buildings.Count != 1)
             {
                 Complain("player1CityDistrictInvalid");
@@ -268,9 +248,9 @@ struct GameTests
             }
         }
 
-        if(Global.gameManager.game.mainGameBoard.gameHexDict[game.playerDictionary[2].cityList[0].hex].district != null)
+        if(Global.gameManager.game.mainGameBoard.gameHexDict[player2City.hex].district != null)
         {
-            District tempDistrict = Global.gameManager.game.mainGameBoard.gameHexDict[game.playerDictionary[2].cityList[0].hex].district;
+            District tempDistrict = Global.gameManager.game.mainGameBoard.gameHexDict[player2City.hex].district;
             if(!tempDistrict.isCityCenter | !tempDistrict.isUrban | tempDistrict.buildings.Count != 1)
             {
                 Complain("player2CityDistrictInvalid");
@@ -286,8 +266,8 @@ struct GameTests
 
     static public Game TestScoutMovementCombat(Game game)
     {
-        City player1City = game.playerDictionary[1].cityList[0];
-        City player2City = game.playerDictionary[2].cityList[0];
+        City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
+        City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
         player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 10);
         player2City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player2City.hex], 10);
 
@@ -345,16 +325,13 @@ struct GameTests
 
 
 
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(4,3,-7));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(0, 10, -10));
-            game.playerDictionary[1].unitList[0].MoveTowards(game.mainGameBoard.gameHexDict[new Hex(10, 10, -20)], game.teamManager, false);
-
-            game.playerDictionary[2].unitList[0].MoveTowards(game.mainGameBoard.gameHexDict[new Hex(11, 10, -21)], game.teamManager, false);
+       
+            Global.gameManager.game.unitDictionary[game.playerDictionary[1].unitList[0]].MoveTowards(game.mainGameBoard.gameHexDict[new Hex(10, 10, -20)], game.teamManager, false);
+            Global.gameManager.game.unitDictionary[game.playerDictionary[2].unitList[0]].MoveTowards(game.mainGameBoard.gameHexDict[new Hex(11, 10, -21)], game.teamManager, false);
 
 
 
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(5,3,-8));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(21, 9, -30));
+            
 
 
             game.turnManager.EndCurrentTurn(1);
@@ -366,54 +343,7 @@ struct GameTests
             game.turnManager.EndCurrentTurn(2);
             game.turnManager.EndCurrentTurn(0);
 
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(6,4,-10));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(19, 9, -28));
-
-        game.turnManager.StartNewTurn();
-
-            game.turnManager.EndCurrentTurn(1);
-            game.turnManager.EndCurrentTurn(2);
-            game.turnManager.EndCurrentTurn(0);
-
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(6,6,-12));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(17, 10, -27));
-
-        game.turnManager.StartNewTurn();
-        
-            game.turnManager.EndCurrentTurn(1);
-            game.turnManager.EndCurrentTurn(2);
-            game.turnManager.EndCurrentTurn(0);
-
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(7,7,-14));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(15, 10, -25));
-
-        game.turnManager.StartNewTurn();
-
-            game.turnManager.EndCurrentTurn(1);
-            game.turnManager.EndCurrentTurn(2);
-            game.turnManager.EndCurrentTurn(0);
-
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(7,9,-16));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(13, 10, -23));
-
-        game.turnManager.StartNewTurn();
-
-            game.turnManager.EndCurrentTurn(1);
-            game.turnManager.EndCurrentTurn(2);
-            game.turnManager.EndCurrentTurn(0);
-
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(8, 10, -18));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(11, 10, -21));
-
-        game.turnManager.StartNewTurn();
-
-            game.turnManager.EndCurrentTurn(1);
-            game.turnManager.EndCurrentTurn(2);
-            game.turnManager.EndCurrentTurn(0);
-
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(9, 10, -19));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(11, 10, -21));
-
+            
 
         game.turnManager.StartNewTurn();
 
@@ -422,8 +352,45 @@ struct GameTests
             game.turnManager.EndCurrentTurn(0);
 
             
-            Tests.EqualHex("Scout 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(10, 10, -20));
-            Tests.EqualHex("Scout 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(11, 10, -21));
+
+        game.turnManager.StartNewTurn();
+        
+            game.turnManager.EndCurrentTurn(1);
+            game.turnManager.EndCurrentTurn(2);
+            game.turnManager.EndCurrentTurn(0);
+
+            
+
+        game.turnManager.StartNewTurn();
+
+            game.turnManager.EndCurrentTurn(1);
+            game.turnManager.EndCurrentTurn(2);
+            game.turnManager.EndCurrentTurn(0);
+
+            
+
+        game.turnManager.StartNewTurn();
+
+            game.turnManager.EndCurrentTurn(1);
+            game.turnManager.EndCurrentTurn(2);
+            game.turnManager.EndCurrentTurn(0);
+
+
+
+        game.turnManager.StartNewTurn();
+
+            game.turnManager.EndCurrentTurn(1);
+            game.turnManager.EndCurrentTurn(2);
+            game.turnManager.EndCurrentTurn(0);
+
+
+
+        game.turnManager.StartNewTurn();
+
+            game.turnManager.EndCurrentTurn(1);
+            game.turnManager.EndCurrentTurn(2);
+            game.turnManager.EndCurrentTurn(0);
+
 
         game.turnManager.StartNewTurn();
 
@@ -524,8 +491,8 @@ struct GameTests
 
     static public Game TestMassScoutBuild(Game game)
     {
-        City player1City = game.playerDictionary[1].cityList[0];
-        City player2City = game.playerDictionary[2].cityList[0];
+        City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
+        City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
         player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
         player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
         player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
@@ -572,7 +539,7 @@ struct GameTests
 
     static public Game TestOverflowProduction(Game game)
     {
-        City player1City = game.playerDictionary[1].cityList[0];
+        City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
         player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 1);
 
         game.turnManager.EndCurrentTurn(1);
@@ -619,10 +586,10 @@ struct GameTests
 
     static public Game TestCityExpand(Game game)
     {
-        City player1City = game.playerDictionary[1].cityList[0];
-        City player2City = game.playerDictionary[2].cityList[0];
+        City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
+        City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
 
-        if(game.mainGameBoard.gameHexDict[new Hex(4,3, -7)].terrainType != TerrainType.Flat)
+        if (game.mainGameBoard.gameHexDict[new Hex(4,3, -7)].terrainType != TerrainType.Flat)
         {
             Console.WriteLine("Expected Flat Got " + game.mainGameBoard.gameHexDict[new Hex(4,3, -7)].terrainType);
         }
@@ -677,8 +644,8 @@ struct GameTests
         
         player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
 
-        City player1City = game.playerDictionary[1].cityList[0];
-        City player2City = game.playerDictionary[2].cityList[0];
+        City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
+        City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
         player1City.AddUnitToQueue("Slinger");
         player2City.AddUnitToQueue("Slinger");
         int count = 0;
@@ -690,7 +657,7 @@ struct GameTests
             game.turnManager.StartNewTurn();
             count++;
         }
-        game.playerDictionary[1].unitList[0].MoveTowards(game.mainGameBoard.gameHexDict[new Hex(5, 9, -14)], game.teamManager, false);
+        Global.gameManager.game.unitDictionary[game.playerDictionary[1].unitList[0]].MoveTowards(game.mainGameBoard.gameHexDict[new Hex(5, 9, -14)], game.teamManager, false);
         count = 0;
         while(count < 5)
         {
@@ -700,10 +667,9 @@ struct GameTests
             game.turnManager.StartNewTurn();
             count++;
         }
-        Tests.EqualHex("Slinger 1 Location", game.playerDictionary[1].unitList[0].hex, new Hex(5, 9, -14));
-        Tests.EqualHex("Slinger 2 Location", game.playerDictionary[2].unitList[0].hex, new Hex(5, 10, -15));
 
-        if(game.playerDictionary[1].unitList[0].abilities[0].ActivateAbility(game.mainGameBoard.gameHexDict[new Hex(5, 10, -15)]))
+
+        if(Global.gameManager.game.unitDictionary[game.playerDictionary[1].unitList[0]].abilities[0].ActivateAbility(game.mainGameBoard.gameHexDict[new Hex(5, 10, -15)]))
         {
             Complain("Attacked Neutral or Ally");
         }

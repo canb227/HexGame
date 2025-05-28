@@ -54,23 +54,13 @@ public class Building
             Global.gameManager.game.builtWonders.Add(buildingType);
         }
         id = Global.gameManager.game.GetUniqueID();
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.NewBuilding(this);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewBuilding(this);
     }
+
     public Building()
     {
+
     }
-
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static Building Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<Building>(reader);
-    }
-
-
     public void SwitchTeams()
     {
         RecalculateYields();

@@ -29,22 +29,6 @@ public class Player
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
         OnResearchComplete("Agriculture");
     }
-    public Player(int teamNum, Dictionary<Hex, int> visibleGameHexDict, Dictionary<Hex, bool> seenGameHexDict, List<Unit> unitList, List<City> cityList, float scienceTotal, float cultureTotal, float goldTotal, float happinessTotal)
-    {
-        this.teamNum = teamNum;
-        this.visibleGameHexDict = visibleGameHexDict;
-        this.seenGameHexDict = seenGameHexDict;
-        this.unitList = unitList;
-        this.cityList = cityList;
-        this.scienceTotal = scienceTotal;
-        this.cultureTotal = cultureTotal;
-        this.goldTotal = goldTotal;
-        this.happinessTotal = happinessTotal;
-        this.unassignedResources = new();
-        this.allowedBuildings = new();
-        this.allowedUnits = new();
-        Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
-    }
 
     public Player()
     {
@@ -57,8 +41,8 @@ public class Player
     public List<Hex> visibilityChangedList { get; set; } = new();
     public List<ResearchQueueType> queuedResearch { get; set; } = new();
     public Dictionary<String, ResearchQueueType> partialResearchDictionary { get; set; } = new();
-    public List<Unit> unitList { get; set; } = new();
-    public List<City> cityList { get; set; } = new();
+    public List<int> unitList { get; set; } = new();
+    public List<int> cityList { get; set; } = new();
     public List<(UnitEffect, UnitClass)> unitResearchEffects { get; set; } = new();
     public List<(BuildingEffect, String)> buildingResearchEffects { get; set; } = new();
     public HashSet<String> allowedBuildings { get; set; } = new();
@@ -78,7 +62,7 @@ public class Player
         this.goldTotal = goldTotal;
         if(teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.gold);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.gold);
         }
     }
 
@@ -92,7 +76,7 @@ public class Player
         this.scienceTotal = scienceTotal;
         if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.science);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.science);
         }
     }
 
@@ -106,7 +90,7 @@ public class Player
         this.cultureTotal = cultureTotal;
         if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.culture);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.culture);
         }
     }
 
@@ -120,7 +104,7 @@ public class Player
         this.happinessTotal = happinessTotal;
         if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.happiness);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.happiness);
         }
     }
 
@@ -134,7 +118,7 @@ public class Player
         this.influenceTotal = influenceTotal;
         if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.influence);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.influence);
         }
     }
 
@@ -146,8 +130,9 @@ public class Player
     public float GetGoldPerTurn()
     {
         float goldPerTurn = 0.0f;
-        foreach (City city in cityList)
+        foreach (int cityID in cityList)
         {
+            City city = Global.gameManager.game.cityDictionary[cityID];
             goldPerTurn += city.yields.gold;
         }
         return goldPerTurn;
@@ -156,8 +141,9 @@ public class Player
     public float GetSciencePerTurn()
     {
         float sciencePerTurn = 0.0f;
-        foreach(City city in cityList)
+        foreach(int cityID in cityList)
         {
+            City city = Global.gameManager.game.cityDictionary[cityID];
             sciencePerTurn += city.yields.science;
         }
         return sciencePerTurn;
@@ -166,8 +152,9 @@ public class Player
     public float GetCulturePerTurn()
     {
         float culturePerTurn = 0.0f;
-        foreach (City city in cityList)
+        foreach (int cityID in cityList)
         {
+            City city = Global.gameManager.game.cityDictionary[cityID];
             culturePerTurn += city.yields.culture;
         }
         return culturePerTurn;
@@ -176,8 +163,9 @@ public class Player
     public float GetHappinessPerTurn()
     {
         float happinessPerTurn = 0.0f;
-        foreach (City city in cityList)
+        foreach (int cityID in cityList)
         {
+            City city = Global.gameManager.game.cityDictionary[cityID];
             happinessPerTurn += city.yields.happiness;
         }
         return happinessPerTurn;
@@ -186,8 +174,9 @@ public class Player
     public float GetInfluencePerTurn()
     {
         float influencePerTurn = 0.0f;
-        foreach (City city in cityList)
+        foreach (int cityID in cityList)
         {
+            City city = Global.gameManager.game.cityDictionary[cityID];
             influencePerTurn += city.yields.influence;
         }
         return influencePerTurn;
@@ -196,12 +185,14 @@ public class Player
     public void OnTurnStarted(int turnNumber)
     {
         turnFinished = false;
-        foreach (Unit unit in unitList)
+        foreach (int unitID in unitList)
         {
+            Unit unit = Global.gameManager.game.unitDictionary[unitID];
             unit.OnTurnStarted(turnNumber);
         }
-        foreach (City city in cityList)
+        foreach (int cityID in cityList)
         {
+            City city = Global.gameManager.game.cityDictionary[cityID];
             city.OnTurnStarted(turnNumber);
         }
         if(queuedResearch.Any())
@@ -216,7 +207,7 @@ public class Player
                 queuedResearch.RemoveAt(0);
             }
         }
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager))
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.Update2DUI(UIElement.gold);
             manager.Update2DUI(UIElement.happiness);
@@ -226,12 +217,14 @@ public class Player
 
     public void OnTurnEnded(int turnNumber)
     {
-        foreach (Unit unit in unitList)
+        foreach (int unitID in unitList)
         {
+            Unit unit = Global.gameManager.game.unitDictionary[unitID];
             unit.OnTurnEnded(turnNumber);
         }
-        foreach (City city in cityList)
+        foreach (int cityID in cityList)
         {
+            City city = Global.gameManager.game.cityDictionary[cityID];
             city.OnTurnEnded(turnNumber);
         }
         turnFinished = true;
@@ -304,9 +297,10 @@ public class Player
 
     public bool RemoveResource(Hex hex)
     {
-        foreach(City city in cityList)
+        foreach (int cityID in cityList)
         {
-            if(city.heldResources.Keys.Contains(hex))
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            if (city.heldResources.Keys.Contains(hex))
             {
                 ResourceType temp = city.heldResources[hex];
                 city.heldResources.Remove(hex);
@@ -320,9 +314,10 @@ public class Player
     
     public bool RemoveLostResource(Hex hex)
     {
-        foreach(City city in cityList)
+        foreach (int cityID in cityList)
         {
-            if(city.heldResources.Remove(hex))
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            if (city.heldResources.Remove(hex))
             {
                 return true;
             }
@@ -350,17 +345,6 @@ public class Player
     {
         SetInfluenceTotal(GetInfluenceTotal() + influence);
     }
-
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static Player Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<Player>(reader);
-    }
-
 }
 
 public class ResearchQueueType
@@ -372,27 +356,8 @@ public class ResearchQueueType
         this.researchCost = researchCost;
         this.researchLeft = researchLeft;
     }
-    private ResearchQueueType()
-    {
-        //for loading
-    }
     public String researchType { get; set; }
     public int researchCost { get; set; }
     public int researchLeft { get; set; }
-    public void Serialize(BinaryWriter writer)
-    {
-        writer.Write(researchType);
-        writer.Write(researchCost);
-        writer.Write(researchLeft);
-    }
-
-    public static ResearchQueueType Deserialize(BinaryReader reader)
-    {
-        return new ResearchQueueType(
-            reader.ReadString(),
-            reader.ReadInt32(),
-            reader.ReadInt32()
-        );
-    }
 
 }

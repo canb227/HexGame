@@ -7,6 +7,7 @@ using System.Formats.Asn1;
 using Godot;
 using System.IO;
 
+[Serializable]
 public class TargetSpecification
 {
     public bool TargetUnits { get; set; } = false;
@@ -165,8 +166,9 @@ public class TargetSpecification
             bool validUnit = false;
             foreach (String unitType in ValidUnitTypes)
             {
-                foreach (Unit unit in gameHex.units)
+                foreach (int unitID in gameHex.units)
                 {
+                    Unit unit = Global.gameManager.game.unitDictionary[unitID];
                     if (unitType == unit.unitType)
                     {
                         validUnit = true;
@@ -193,9 +195,10 @@ public class TargetSpecification
         }
         if (TargetUnits)
         {
-            foreach (Unit unit in gameHex.units)
+            foreach (int unitID in gameHex.units)
             {
-                if(AllowsAlly)
+                Unit unit = Global.gameManager.game.unitDictionary[unitID];
+                if (AllowsAlly)
                 {
                     if (Global.gameManager.game.teamManager.GetAllies(castingUnit.teamNum).Contains(unit.teamNum))
                     {

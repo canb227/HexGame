@@ -29,18 +29,4 @@ public class Yields
             influence = a.influence + b.influence
         };
     }
-    public Yields()
-    {
-    }
-
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
-    }
-
-    public static Yields Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<Yields>(reader);
-    }
-
 }

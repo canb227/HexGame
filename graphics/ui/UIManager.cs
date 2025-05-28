@@ -24,7 +24,6 @@ public enum UIElement
 public partial class UIManager : Node3D
 {
     public Button endTurnButton;
-    public Button saveGameButton;
     private Game game;
     private Layout layout;
     private GraphicManager graphicManager;
@@ -94,8 +93,6 @@ public partial class UIManager : Node3D
 
         UpdateAll();
         AddChild(screenUI);
-        saveGameButton = screenUI.GetNode<Button>("SaveGame");
-        saveGameButton.Pressed += () => Global.gameManager.SaveGame();
     }
 
     private void SetupTurnUI()
@@ -213,8 +210,9 @@ public partial class UIManager : Node3D
     {
         bool cityReadyToGrow = false;
         City foundCity = null;
-        foreach(City city in game.playerDictionary[game.localPlayerTeamNum].cityList)
+        foreach(int cityID in game.playerDictionary[game.localPlayerTeamNum].cityList)
         {
+            City city = Global.gameManager.game.cityDictionary[cityID];
             if (city.readyToExpand > 0)
             {
                 foundCity = city;

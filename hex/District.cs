@@ -39,18 +39,8 @@ public class District
 
     public District()
     {
-    }
 
-    public void Serialize(BinaryWriter writer)
-    {
-        Serializer.Serialize(writer, this);
     }
-
-    public static District Deserialize(BinaryReader reader)
-    {
-        return Serializer.Deserialize<District>(reader);
-    }
-
     private void SetupDistrict(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID)
     {
         id = Global.gameManager.game.GetUniqueID();
@@ -73,7 +63,7 @@ public class District
         }
 
         this.isCityCenter = isCityCenter;
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager))
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.NewDistrict(this);
         }
@@ -149,8 +139,7 @@ public class District
     {
         health -= amount;
         health = Math.Max(0.0f, health);
-        GD.Print(Global.gameManager.game.cityDictionary[cityID].name + " | " + Global.gameManager.game.cityDictionary[cityID].id + " | " + health);
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager))
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.UpdateGraphic(Global.gameManager.game.cityDictionary[cityID].id, GraphicUpdateType.Update);
         }
@@ -200,7 +189,7 @@ public class District
         {
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Any())
             {
-                Unit unit = Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0];
+                Unit unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]];
                 if (Global.gameManager.game.teamManager.GetEnemies(Global.gameManager.game.cityDictionary[cityID].teamNum).Contains(unit.teamNum))
                 {
                     turnsUntilHealing += 1;
@@ -282,7 +271,7 @@ public class District
     {
         RemoveVision();
         AddVision();
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
     }
 
     public void RemoveVision()
@@ -304,7 +293,7 @@ public class District
             }
         }
         visibleHexes.Clear();
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
     }
     public void AddVision()
     {
@@ -343,7 +332,7 @@ public class District
                 }
             }
         }
-        if (Global.gameManager.game.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
     }
 
     public void AddResource()
