@@ -11,7 +11,6 @@ public partial class GraphicManager : Node3D
     public Dictionary<int, GraphicObject> graphicObjectDictionary;
     public Dictionary<Hex, List<GraphicObject>> hexObjectDictionary;
     public Dictionary<int, GraphicObject> toBeDeleted;
-    public Game game;
     public EnviromentManager enviroment;
     public Layout layout;
     public GraphicObject selectedObject;
@@ -20,25 +19,19 @@ public partial class GraphicManager : Node3D
     private bool waitForTargeting = false;
     public HexGameCamera camera;
     
-    public GraphicManager(Game game, Layout layout)
+    public GraphicManager(Layout layout)
     {
         toBeDeleted = new();
         graphicObjectDictionary = new();
         hexObjectDictionary = new();
-        foreach(Hex hex in game.mainGameBoard.gameHexDict.Keys)
+        foreach(Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
         {
             hexObjectDictionary.Add(hex, new List<GraphicObject>());
         }
-        this.game = game;
         this.layout = layout;
-        uiManager = new UIManager(this, game, layout);
+        uiManager = new UIManager(layout);
         uiManager.Name = "UIManager";
         AddChild(uiManager);
-        if (game.mainGameBoard != null)
-        {
-            NewGameBoard(game.mainGameBoard);
-        }
-
         
         EnviromentManager enviromentManager = new EnviromentManager();
         AddChild(enviromentManager);
@@ -62,35 +55,35 @@ public partial class GraphicManager : Node3D
 
     public void NewGameBoard(GameBoard gameBoard)
     {
-        GraphicGameBoard graphicGameBoard = new GraphicGameBoard(gameBoard, this, layout);
+        GraphicGameBoard graphicGameBoard = new GraphicGameBoard(gameBoard, layout);
         AddChild(graphicGameBoard);
         graphicObjectDictionary.Add(graphicGameBoard.gameBoard.id, graphicGameBoard);
     }
 
     public void NewUnit(Unit unit)
     {
-        GraphicUnit graphicUnit = new GraphicUnit(unit, this);
+        GraphicUnit graphicUnit = new GraphicUnit(unit);
         graphicObjectDictionary.Add(graphicUnit.unit.id, graphicUnit);
         AddChild(graphicUnit);
     }
 
     public void NewDistrict(District district)
     {
-        GraphicDistrict graphicDistrict = new GraphicDistrict(district, layout, this);
+        GraphicDistrict graphicDistrict = new GraphicDistrict(district, layout);
         graphicObjectDictionary.Add(graphicDistrict.district.id, graphicDistrict);
         AddChild(graphicDistrict);
     }
 
     public void NewBuilding(Building building)
     {
-        GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout, this);
+        GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout);
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
         AddChild(graphicBuilding);
     }
 
     public void NewCity(City city)
     {
-        GraphicCity graphicCity = new GraphicCity(city, layout, this);
+        GraphicCity graphicCity = new GraphicCity(city, layout);
         graphicObjectDictionary.Add(graphicCity.city.id, graphicCity);
         AddChild(graphicCity);
     }
@@ -120,19 +113,19 @@ public partial class GraphicManager : Node3D
 
     public void UpdateVisibility()
     {
-        foreach(Hex hex in game.playerDictionary[game.localPlayerTeamNum].visibilityChangedList)
+        foreach(Hex hex in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibilityChangedList)
         {
             foreach(GraphicObject graphicObj in hexObjectDictionary[hex])
             {
                 graphicObj.UpdateGraphic(GraphicUpdateType.Visibility);
             }
         }
-        game.playerDictionary[game.localPlayerTeamNum].visibilityChangedList.Clear();
+        Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibilityChangedList.Clear();
     }
 
     public void StartNewTurn()
     {
-        graphicObjectDictionary[game.mainGameBoard.id].UpdateGraphic(GraphicUpdateType.Update);
+        graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id].UpdateGraphic(GraphicUpdateType.Update);
         if (selectedObject != null)
         {
             selectedObject.Unselected();

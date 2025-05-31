@@ -262,5 +262,29 @@ public class GameHex
         }
         return false;
     }
-    
+
+    public bool ValidHexToSpawn(UnitInfo newUnitInfo, bool stackable, bool flexible)
+    {
+        if ((!stackable & units.Any()) | newUnitInfo.MovementCosts[(TerrainMoveType)terrainType] > 100) //if they cant stack and their are units or the hex is invalid for this unit
+        {
+            if (flexible)
+            {
+                foreach (Hex rangeHex in hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom).OrderBy(h => hex.Distance(h)))
+                {
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[rangeHex].ValidHexToSpawn(newUnitInfo, stackable, false))
+                    {
+                        return true;
+                    }
+                }
+                //if we still havent found a spot give up
+            }
+            return false;
+        }
+        else if (newUnitInfo.MovementCosts[(TerrainMoveType)terrainType] < 100)//if they cant stack and there aren't units or they can stack and units are/aren't there and the hex is valid for this unit
+        {
+            return true;
+        }
+        return false;
+    }
+
 }

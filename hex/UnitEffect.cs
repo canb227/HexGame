@@ -188,6 +188,11 @@ public class UnitEffect
             Fortify(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
+        else if (functionString == "Sleep")
+        {
+            Sleep(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
         throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in UnitEffect");
     }
     public bool SettleCapitalAbility(Unit unit, String cityName)
@@ -246,6 +251,14 @@ public class UnitEffect
     public bool Fortify(Unit unit)
     {
         GD.PushWarning("Fortify Not Implemented");
+        return false;
+    }
+    public bool Sleep(Unit unit)
+    {
+        GD.Print(unit.id + "is now sleeping");
+        unit.isSleeping = true;
+        unit.CancelMovement();
+        Global.gameManager.graphicManager.UnselectObject();
         return false;
     }
 }

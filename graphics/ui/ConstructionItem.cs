@@ -10,7 +10,6 @@ using System.Runtime;
 
 public partial class ConstructionItem : PanelContainer
 {
-    private GraphicManager graphicManager;
     public City city;
 
     public Button constructionItem;
@@ -23,10 +22,9 @@ public partial class ConstructionItem : PanelContainer
     
 
 
-    public ConstructionItem(GraphicManager graphicManager, City city, String name, bool isBuilding, bool isUnit)
+    public ConstructionItem(City city, String name, bool isBuilding, bool isUnit)
     {
         this.city = city;
-        this.graphicManager = graphicManager;
         constructionItem = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ProductionItem.tscn").Instantiate<Button>();
         objectIcon = constructionItem.GetNode<TextureRect>("ObjectIcon");
         objectName = constructionItem.GetNode<Label>("ObjectName");
@@ -54,6 +52,14 @@ public partial class ConstructionItem : PanelContainer
 
     public void UpdateUnitItem(UnitInfo unitInfo, String name)
     {
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[city.hex].ValidHexToSpawn(unitInfo, false, true))
+        {
+            constructionItem.Disabled = false;
+        }
+        else
+        {
+            constructionItem.Disabled = true;
+        }
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + unitInfo.IconPath);
         objectName.Text = name;
         turnsToBuild.Text = Math.Ceiling(unitInfo.ProductionCost / (city.yields.production + city.productionOverflow)).ToString();
@@ -118,7 +124,7 @@ public partial class ConstructionItem : PanelContainer
     {
         if(isBuilding)
         {
-            ((GraphicCity)graphicManager.graphicObjectDictionary[city.id]).GenerateBuildingTargetingPrompt(name);
+            ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[city.id]).GenerateBuildingTargetingPrompt(name);
         }
         if (isUnit)
         {

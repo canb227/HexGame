@@ -46,6 +46,7 @@ public class Unit
     public List<UnitEffect> effects { get; set; } = new();
     public List<UnitAbility> abilities { get; set; } = new();
     public bool isTargetEnemy { get; set; }
+    public bool isSleeping { get; set; }
     public Unit(String unitType, int id, int teamNum)
     {
         this.id = id;
@@ -74,6 +75,8 @@ public class Unit
             {
                 AddAbility(abilityName, unitInfo);
             }
+            //generic abilities
+            AddGenericAbility("Sleep", "graphics/ui/icons/sleep.png");
         }
         else
         {
@@ -197,6 +200,15 @@ public class Unit
         abilities.Add(new UnitAbility(id, abilityName, unitInfo.Abilities[abilityName].Item1, unitInfo.Abilities[abilityName].Item2, unitInfo.Abilities[abilityName].Item3, unitInfo.Abilities[abilityName].Item4, unitInfo.Abilities[abilityName].Item5));
     }
 
+    public void AddGenericAbility(string abilityName, string abilityIconPath)
+    {
+        TargetSpecification validTargetTypes = new TargetSpecification();
+        validTargetTypes.TargetSelf = true; validTargetTypes.AllowsAnyUnit = true; validTargetTypes.AllowsAnyBuilding = true;
+        validTargetTypes.AllowsAnyTerrain = true; validTargetTypes.AllowsAnyResource = true; validTargetTypes.AllowsAlly = true;
+        validTargetTypes.AllowsAnyFeature = true;
+        abilities.Add(new UnitAbility(id, abilityName , validTargetTypes: validTargetTypes, iconPath: abilityIconPath));
+    }
+
     public void UseAbilities()
     {
         for (int i = 0; i < abilities.Count; i++)
@@ -234,6 +246,7 @@ public class Unit
 
     public bool AttackTarget(GameHex targetGameHex, float moveCost, TeamManager teamManager)
     {
+        isSleeping = false;
         SetRemainingMovement(remainingMovement - moveCost); 
         if (targetGameHex.district != null && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum) && targetGameHex.district.health > 0.0f)
         {
@@ -270,6 +283,7 @@ public class Unit
 
     public bool RangedAttackTarget(GameHex targetGameHex, float rangedPower, TeamManager teamManager)
     {
+        isSleeping = false;
         //remainingMovement -= moveCost;
         if (targetGameHex.district != null && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum) && targetGameHex.district.health > 0.0f)
         {
@@ -308,6 +322,7 @@ public class Unit
 
     public bool decreaseHealth(float amount)
     {
+        isSleeping = false;
         health -= amount;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.unitDisplay);
         if (health <= 0.0f)
@@ -564,6 +579,7 @@ public class Unit
 
     public bool MoveTowards(GameHex targetGameHex, TeamManager teamManager, bool isTargetEnemy)
     {
+        isSleeping = false;
         this.isTargetEnemy = isTargetEnemy;
         
         currentPath = PathFind(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex,Global.gameManager.game.teamManager, movementCosts, movementSpeed);
@@ -579,7 +595,14 @@ public class Unit
         }
         return true;
     }
-    
+
+    public void CancelMovement()
+    {
+        currentPath.Clear();
+        isTargetEnemy = false;
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.endTurnButton);
+    }
+
     public float TravelCost(Hex first, Hex second, TeamManager teamManager, bool isTargetEnemy, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed, float costSoFar, bool ignoreUnits)
     {
         //cost for river, embark, disembark are custom (0 = end turn to enter, 1/2/3/4 = normal cost)\\

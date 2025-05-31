@@ -8,10 +8,8 @@ public partial class GraphicGameBoard : GraphicObject
 {
     public GameBoard gameBoard;
     Layout layout;
-    private GraphicManager graphicManager;
-    public GraphicGameBoard(GameBoard gameBoard, GraphicManager graphicManager, Layout layout)
+    public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
-        this.graphicManager = graphicManager;
         this.gameBoard = gameBoard;
         this.layout = layout;
         DrawBoard(layout);
@@ -47,7 +45,7 @@ public partial class GraphicGameBoard : GraphicObject
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
         AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), pointy, 0);
         AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
-        graphicManager.UpdateVisibility();
+        Global.gameManager.graphicManager.UpdateVisibility();
     }
 
     private void DrawBoard(Layout pointy)
@@ -201,12 +199,12 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 if (gameBoard.gameHexDict[hex].district.isCityCenter)
                 {
-                    graphicManager.NewCity(Global.gameManager.game.cityDictionary[gameBoard.gameHexDict[hex].district.cityID]);
-                    graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
+                    Global.gameManager.graphicManager.NewCity(Global.gameManager.game.cityDictionary[gameBoard.gameHexDict[hex].district.cityID]);
+                    Global.gameManager.graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
                 }
                 else
                 {
-                    graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
+                    Global.gameManager.graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
                 }
             }
         }
@@ -219,7 +217,7 @@ public partial class GraphicGameBoard : GraphicObject
             foreach (int unitID in gameBoard.gameHexDict[hex].units)
             {
                 Unit unit = Global.gameManager.game.unitDictionary[unitID];
-                graphicManager.NewUnit(unit);
+                Global.gameManager.graphicManager.NewUnit(unit);
             }
         }
     }

@@ -6,8 +6,6 @@ using System.Linq;
 
 public partial class CityInfoPanel : Node3D
 {
-    private Game game;
-    private GraphicManager graphicManager;
     public City city;
 
      public HBoxContainer cityUI;
@@ -61,10 +59,8 @@ public partial class CityInfoPanel : Node3D
     //private List<PurchaseItem> purchaseItems;
     private List<ProductionQueueUIItem> productionQueueUIItems;
 
-    public CityInfoPanel(GraphicManager graphicManager, Game game)
+    public CityInfoPanel()
     {
-        this.game = game;
-        this.graphicManager = graphicManager;
         cityUI = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityInfoPanel.tscn").Instantiate<HBoxContainer>();
         AddChild(cityUI);
 
@@ -116,7 +112,7 @@ public partial class CityInfoPanel : Node3D
         OffsetLabel = ProductionQueuePanel.GetNode<Label>("ScrollContainer/ProductionQueue/OffsetLabel");
         
         RenameCityButton.Pressed += () => RenameCity();
-        CloseCityInfoButton.Pressed += () => graphicManager.UnselectObject();
+        CloseCityInfoButton.Pressed += () => Global.gameManager.graphicManager.UnselectObject();
         BuildingsButton.Pressed += () => ToggleBuildingsBoxVisibility();
         UnitsButton.Pressed += () => ToggleUnitBoxVisibility();
     }
@@ -181,7 +177,7 @@ public partial class CityInfoPanel : Node3D
             HappinessYield.Text = city.yields.happiness.ToString();
             InfluenceYield.Text = city.yields.influence.ToString();
 
-            if (city.teamNum == game.localPlayerTeamNum)
+            if (city.teamNum == Global.gameManager.game.localPlayerTeamNum)
             {
                 foreach (Control child in UnitsBox.GetChildren())
                 {
@@ -196,7 +192,7 @@ public partial class CityInfoPanel : Node3D
                 {
                     if (itemName != "")
                     {
-                        ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, false, true);
+                        ConstructionItem item = new ConstructionItem(city, itemName, false, true);
                         UnitsBox.AddChild(item);
                     }
                 }
@@ -204,7 +200,7 @@ public partial class CityInfoPanel : Node3D
                 {
                     if (itemName != "")
                     {
-                        ConstructionItem item = new ConstructionItem(graphicManager, city, itemName, true, false);
+                        ConstructionItem item = new ConstructionItem(city, itemName, true, false);
                         BuildingsBox.AddChild(item);
                     }
                 }
@@ -227,7 +223,7 @@ public partial class CityInfoPanel : Node3D
             }
             for (int i = 0; i < city.productionQueue.Count; i++)
             {
-                ProductionQueue.AddChild(new ProductionQueueUIItem(graphicManager, city, i));
+                ProductionQueue.AddChild(new ProductionQueueUIItem(city, i));
             }
 
             //update the ui stuff
@@ -236,7 +232,7 @@ public partial class CityInfoPanel : Node3D
 
     public void RenameCity()
     {
-        if (city.teamNum == game.localPlayerTeamNum)
+        if (city.teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
             throw new NotImplementedException();
         }

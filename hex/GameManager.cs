@@ -21,6 +21,7 @@ public partial class GameManager: Node
         instance = this;
         Global.gameManager = this;
         game = new Game();
+        //startTerrainDemo();
     }
 
 
@@ -60,10 +61,29 @@ public partial class GameManager: Node
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
 
-        if (game == null)
+        if (game.mainGameBoard == null)
         {
-            //game = GameTests.TestSlingerCombat();
-            //SaveGame("test.txt");
+            game = GameTests.TestSlingerCombat();
+            SaveGame("test.txt");
+            game = LoadGame("test.txt");
+        }
+
+        InitGraphics(game, Global.layout);
+        Global.menuManager.Hide();
+        Global.menuManager.ClearMenus();
+    }
+
+    private void startTerrainDemo()
+    {
+        Global.debugLog("Starting Game");
+        Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
+        Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
+        Global.layout = pointy;
+
+        if (game.mainGameBoard == null)
+        {
+            game = GameTests.TestSlingerCombat();
+            SaveGame("test.txt");
             game = LoadGame("test.txt");
         }
 
@@ -75,7 +95,11 @@ public partial class GameManager: Node
     private void InitGraphics(Game game, Layout layout)
     {
         Global.debugLog("Initializing Graphics");
-        graphicManager = new GraphicManager(game, layout);
+        graphicManager = new GraphicManager(layout);
+        if (Global.gameManager.game.mainGameBoard != null)
+        {
+            graphicManager.NewGameBoard(Global.gameManager.game.mainGameBoard);
+        }
         graphicManager.Name = "GraphicManager";
         AddChild(graphicManager);
     }
@@ -137,6 +161,7 @@ public partial class GameManager: Node
 
         try
         {
+            //this is improper usage, TryMoveToGameHex will be made private soon
             unit.TryMoveToGameHex(target, game.teamManager);
         }
         catch (Exception e)

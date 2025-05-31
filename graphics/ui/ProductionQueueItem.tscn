@@ -10,6 +10,8 @@ bg_color = Color(0.118581, 0.118581, 0.118581, 1)
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ltrvr")
 
 [node name="ProductionItemPanel" type="PanelContainer"]
+offset_right = 128.0
+offset_bottom = 96.0
 theme = SubResource("Theme_i43v1")
 
 [node name="ProductionButton" type="Button" parent="."]

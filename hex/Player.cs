@@ -13,21 +13,10 @@ public class Player
     {
         this.teamNum = teamNum;
         this.goldTotal = goldTotal;
-        this.visibleGameHexDict = new();
-        this.seenGameHexDict = new();
-        this.visibilityChangedList = new();
-        this.unitList = new();
-        this.cityList = new();
-        this.unassignedResources = new();
-        this.allowedBuildings = new();
-        this.allowedUnits = new();
-        this.unitResearchEffects = new();
-        this.buildingResearchEffects = new();
-        this.queuedResearch = new();
-        this.partialResearchDictionary = new();
-        //SelectResearch(String.Agriculture);
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
         OnResearchComplete("Agriculture");
+        SelectResearch("Agriculture");
+        SelectCultureResearch("Tribal Dominion");
     }
 
     public Player()
@@ -41,6 +30,10 @@ public class Player
     public List<Hex> visibilityChangedList { get; set; } = new();
     public List<ResearchQueueType> queuedResearch { get; set; } = new();
     public Dictionary<String, ResearchQueueType> partialResearchDictionary { get; set; } = new();
+    public HashSet<String> completedResearches { get; set; } = new();
+    public List<ResearchQueueType> queuedCultureResearch { get; set; } = new();
+    public Dictionary<String, ResearchQueueType> partialCultureResearchDictionary { get; set; } = new();
+    public HashSet<String> completedCultureResearches { get; set; } = new();
     public List<int> unitList { get; set; } = new();
     public List<int> cityList { get; set; } = new();
     public List<(UnitEffect, UnitClass)> unitResearchEffects { get; set; } = new();
@@ -207,11 +200,24 @@ public class Player
                 queuedResearch.RemoveAt(0);
             }
         }
+        if (queuedCultureResearch.Any())
+        {
+            float cost = queuedCultureResearch[0].researchLeft;
+            queuedCultureResearch[0].researchLeft -= (int)Math.Round(cultureTotal);
+            cultureTotal -= cost;
+            cultureTotal = Math.Max(0.0f, cultureTotal);
+            if (queuedCultureResearch[0].researchLeft <= 0)
+            {
+                OnCultureResearchComplete(queuedCultureResearch[0].researchType);
+                queuedCultureResearch.RemoveAt(0);
+            }
+        }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.Update2DUI(UIElement.gold);
             manager.Update2DUI(UIElement.happiness);
             manager.Update2DUI(UIElement.influence);
+            manager.Update2DUI(UIElement.researchTree);
         }
     }
 
@@ -230,18 +236,20 @@ public class Player
         turnFinished = true;
     }
 
-    public List<ResearchQueueType> SelectResearch(String researchType)
+    public void SelectResearch(String researchType)
     {
         HashSet<String> visited = new();
         List<ResearchQueueType> queue = new();
         if(queuedResearch.Any())
         {
-            partialResearchDictionary[researchType] = queuedResearch[0];
+            partialResearchDictionary[queuedResearch[0].researchType] = queuedResearch[0];
         }
+        queuedResearch.Clear();
         void TopologicalSort(String researchType)
         {
-            if (visited.Contains(researchType))
+            if (visited.Contains(researchType) || completedResearches.Contains(researchType))
                 return; 
+
 
             visited.Add(researchType);
 
@@ -258,16 +266,21 @@ public class Player
             }
             else
             {
-                queuedResearch.Add(new ResearchQueueType(researchType, ResearchLoader.researchesDict[researchType].Tier, ResearchLoader.researchesDict[researchType].Tier)); //apply cost mod TODO
+                queuedResearch.Add(new ResearchQueueType(researchType, ResearchLoader.tierCostDict[ResearchLoader.researchesDict[researchType].Tier], ResearchLoader.tierCostDict[ResearchLoader.researchesDict[researchType].Tier])); //apply cost mod TODO
             }
         }
 
         TopologicalSort(researchType);
-        return queue;
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.Update2DUI(UIElement.endTurnButton);
     }
 
     public void OnResearchComplete(String researchType)
     {
+        completedResearches.Add(researchType);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.Update2DUI(UIElement.researchTree);
+        }
         foreach (String unitType in ResearchLoader.researchesDict[researchType].UnitUnlocks)
         {
             allowedUnits.Add(unitType);
@@ -280,6 +293,67 @@ public class Player
         {
             ResearchLoader.ProcessFunctionString(effect, this);
         }
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.Update2DUI(UIElement.endTurnButton);
+    }
+
+    public void SelectCultureResearch(String researchType)
+    {
+        HashSet<String> visited = new();
+        List<ResearchQueueType> queue = new();
+        if (queuedCultureResearch.Any())
+        {
+            partialCultureResearchDictionary[queuedCultureResearch[0].researchType] = queuedCultureResearch[0];
+        }
+        queuedCultureResearch.Clear();
+        void TopologicalSort(String researchType)
+        {
+            if (visited.Contains(researchType) || completedCultureResearches.Contains(researchType))
+                return;
+
+
+            visited.Add(researchType);
+
+            if (CultureResearchLoader.researchesDict.ContainsKey(researchType))
+            {
+                foreach (String requirement in CultureResearchLoader.researchesDict[researchType].Requirements)
+                {
+                    TopologicalSort(requirement);
+                }
+            }
+            if (partialCultureResearchDictionary.ContainsKey(researchType))
+            {
+                queuedCultureResearch.Add(partialCultureResearchDictionary[researchType]);
+            }
+            else
+            {
+                queuedCultureResearch.Add(new ResearchQueueType(researchType, CultureResearchLoader.tierCostDict[CultureResearchLoader.researchesDict[researchType].Tier], CultureResearchLoader.tierCostDict[CultureResearchLoader.researchesDict[researchType].Tier])); //apply cost mod TODO
+            }
+        }
+
+        TopologicalSort(researchType);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.Update2DUI(UIElement.endTurnButton);
+    }
+
+    public void OnCultureResearchComplete(String researchType)
+    {
+        completedCultureResearches.Add(researchType);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.Update2DUI(UIElement.researchTree);
+        }
+        foreach (String unitType in CultureResearchLoader.researchesDict[researchType].UnitUnlocks)
+        {
+            allowedUnits.Add(unitType);
+        }
+        foreach (String buildingType in CultureResearchLoader.researchesDict[researchType].BuildingUnlocks)
+        {
+            allowedBuildings.Add(buildingType);
+        }
+        foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)
+        {
+            CultureResearchLoader.ProcessFunctionString(effect, this);
+        }
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.Update2DUI(UIElement.endTurnButton);
     }
 
     public bool AddResource(Hex hex, ResourceType resourceType, City targetCity)

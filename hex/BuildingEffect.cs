@@ -140,6 +140,7 @@ public class BuildingEffect
             { "GardenEffect", GardenEffect },
             { "LibraryEffect", LibraryEffect },
             { "AncientWallEffect", AncientWallEffect },
+            { "AmpitheaterEffect", AmpitheaterEffect },
             { "StonehengeEffect", StonehengeEffect },
             { "CityCenterWallEffect", CityCenterWallEffect }
         };
@@ -219,6 +220,10 @@ public class BuildingEffect
         {
             Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.AddWalls(100.0f);
         }
+    }
+    void AmpitheaterEffect(Building building)
+    {
+
     }
     void StonehengeEffect(Building building)
     {

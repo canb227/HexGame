@@ -9,12 +9,10 @@ public partial class GraphicDistrict : GraphicObject
     public District district;
     public Layout layout;
     public List<GraphicBuilding> graphicBuildings;
-    private GraphicManager graphicManager;
-    public GraphicDistrict(District district, Layout layout, GraphicManager graphicManager)
+    public GraphicDistrict(District district, Layout layout)
     {
         this.district = district;
         this.layout = layout;
-        this.graphicManager = graphicManager;
         InitDistrict(district);
     }
 
@@ -31,8 +29,7 @@ public partial class GraphicDistrict : GraphicObject
         //TODO rework for multiple buildings
         foreach(Building building in district.buildings)
         {
-            GD.Print(building.name + " | " + building.id);
-            graphicManager.NewBuilding(building);
+            Global.gameManager.graphicManager.NewBuilding(building);
         }
         //district doesnt have its own mesh currently
     }

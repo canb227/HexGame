@@ -13,7 +13,7 @@ public class Building
     public int id { get; set; }
     public String buildingType { get; set; }
     public Hex districtHex { get; set; }
-    public List<BuildingEffect> buildingEffects { get; set; } 
+    private List<BuildingEffect> buildingEffects { get; set; } 
     public float baseProductionCost { get; set; }
     public float productionCost { get; set; }
     public float baseGoldCost { get; set; } 
@@ -91,6 +91,17 @@ public class Building
     {
         yields = baseYields;
         PriorityQueue<BuildingEffect, int> orderedEffects = new();
+        if (buildingEffects == null)
+        {
+            if (BuildingLoader.buildingsDict.TryGetValue(buildingType, out BuildingInfo buildingInfo))
+            {
+                buildingEffects = new();
+                foreach (String effectName in buildingInfo.Effects)
+                {
+                    AddEffect(new BuildingEffect(effectName));
+                }
+            }
+        }
         foreach(BuildingEffect effect1 in buildingEffects)
         {
             orderedEffects.Enqueue(effect1, effect1.priority);

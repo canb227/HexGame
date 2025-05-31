@@ -7,8 +7,6 @@ using System.Linq;
 
 public partial class UnitInfoPanel : Node3D
 {
-    private Game game;
-    private GraphicManager graphicManager;
     public Unit unit;
 
     public PanelContainer unitInfoPanel;
@@ -38,10 +36,8 @@ public partial class UnitInfoPanel : Node3D
 
     public FlowContainer abilityFlowContainer;
 
-    public UnitInfoPanel(GraphicManager graphicManager, Game game)
+    public UnitInfoPanel()
     {
-        this.game = game;
-        this.graphicManager = graphicManager;
         unitInfoPanel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/UnitInfoPanel.tscn").Instantiate<PanelContainer>();
 
         //unitInfoPanel.Visible = true;
@@ -172,7 +168,7 @@ public partial class UnitInfoPanel : Node3D
     {
         if (ability.validTargetTypes.TargetUnits || ability.validTargetTypes.TargetRuralBuildings || ability.validTargetTypes.TargetUrbanBuildings ||ability.validTargetTypes.TargetTiles)
         {
-            ((GraphicUnit)graphicManager.graphicObjectDictionary[unit.id]).GenerateTargetingPrompt(ability);
+            ((GraphicUnit)Global.gameManager.graphicManager.graphicObjectDictionary[unit.id]).GenerateTargetingPrompt(ability);
         }
         else if (ability.validTargetTypes.TargetSelf)
         {

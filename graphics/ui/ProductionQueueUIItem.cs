@@ -7,7 +7,6 @@ using System.Reflection;
 
 public partial class ProductionQueueUIItem : PanelContainer
 {
-    private GraphicManager graphicManager;
     public City city;
     private ProductionQueueType productionQueueItem;
 
@@ -20,10 +19,9 @@ public partial class ProductionQueueUIItem : PanelContainer
 
     private int queueIndex;
 
-    public ProductionQueueUIItem(GraphicManager graphicManager, City city, int index)
+    public ProductionQueueUIItem(City city, int index)
     {
         this.city = city;
-        this.graphicManager = graphicManager;
         queueIndex = index;
         productionQueueUIItem = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ProductionQueueItem.tscn").Instantiate<PanelContainer>();
         ProductionButton = productionQueueUIItem.GetNode<Button>("ProductionButton");
@@ -31,7 +29,7 @@ public partial class ProductionQueueUIItem : PanelContainer
         TurnsLeft = ProductionButton.GetNode<Label>("TurnsLeft");
         CancelProduction = ProductionButton.GetNode<Button>("CancelProduction");
         TextureRect = ProductionButton.GetNode<TextureRect>("TextureRect");
-        if(city.teamNum == graphicManager.game.localPlayerTeamNum)
+        if(city.teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
             ProductionButton.Pressed += () => MoveToFrontOfQueue();
             productionQueueItem = city.productionQueue[index];

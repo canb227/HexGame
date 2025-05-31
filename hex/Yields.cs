@@ -7,13 +7,13 @@ using System.IO;
 
 public class Yields
 {
-    public float food;
-    public float production;
-    public float gold;
-    public float science;
-    public float culture;
-    public float happiness;
-    public float influence;
+    public float food {get; set;}
+    public float production {get; set;}
+    public float gold {get; set;}
+    public float science {get; set;}
+    public float culture {get; set;}
+    public float happiness {get; set;}
+    public float influence {get; set;}
     
     // Overload the + operator
     public static Yields operator +(Yields a, Yields b)

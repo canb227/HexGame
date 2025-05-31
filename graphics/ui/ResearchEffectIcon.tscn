@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddeiq8fydf1d4"]
+
+[ext_resource type="Texture2D" uid="uid://dcc6q0l8asjgm" path="res://graphics/ui/icons/sword.png" id="1_7agq2"]
+[ext_resource type="Script" uid="uid://coqwnstoj346c" path="res://addons/tooltips_pro/scripts/tooltip_trigger.gd" id="2_hc6yt"]
+
+[node name="ResultIcon" type="TextureRect"]
+texture = ExtResource("1_7agq2")
+expand_mode = 3
+stretch_mode = 5
+script = ExtResource("2_hc6yt")
+tooltip_template_path = "res://graphics/ui/tooltips/tooltip_template_2d.tscn"

@@ -1,0 +1,33 @@
+<Researches> //'City Center' 'Farm' 'Mine' 'Hunting Camp' 'Fishing Boat' 'Whaling Ship'
+    <Research Name="Tribal Dominion" Tier="0" IconPath="graphics/ui/icons/sword.png">
+        <BuildingUnlocks>
+            <BuildingType Name="Monument" />
+        </BuildingUnlocks>
+        <UnitUnlocks>
+            <UnitType Name="Scout" />
+        </UnitUnlocks>
+        <Effects>
+            <Effect Name="TribalDominionEffect" />
+        </Effects>
+    </Research>
+    <Research Name="Songwriting" Tier="1" IconPath="graphics/ui/icons/happiness.png">
+        <Requirements>
+            <ResearchType>Tribal Dominion</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Ampitheater" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="SongwritingEffect" />
+        </Effects>
+    </Research>
+    <Research Name="FutureTech" Tier="18" IconPath="graphics/ui/icons/happiness.png">
+        <Requirements>
+            <ResearchType>Songwriting</ResearchType>
+            <ResearchType>Tribal Dominion</ResearchType>
+        </Requirements>
+        <Effects>
+            <Effect Name="FutureTechEffect" />
+        </Effects>
+    </Research>
+</Researches>

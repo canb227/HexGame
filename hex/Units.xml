@@ -151,7 +151,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Galley" Class="Combat, Naval" ProductionCost="75" GoldCost="300" MovementSpeed="3.0" SightRange="3.0" CombatPower="15.0" HealingFactor="5">
+  <Unit Name="Galley" Class="Combat, Naval" ProductionCost="75" GoldCost="300" MovementSpeed="3.0" SightRange="3.0" CombatPower="15.0" HealingFactor="5" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
       <TerrainMoveType Name="Rough" Value="9999" />

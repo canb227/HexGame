@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public partial class UnitWorldUI : Node3D
 {
-    private GraphicManager graphicManager;
     private Unit unit;
 
     private Node3D node;
@@ -23,9 +22,8 @@ public partial class UnitWorldUI : Node3D
 
     private Panel enemyBorder;
 
-    public UnitWorldUI(GraphicManager graphicManager, Unit unit)
+    public UnitWorldUI(Unit unit)
     {
-        this.graphicManager = graphicManager;
         this.unit = unit;
 
         node = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/UnitWorldUI.tscn").Instantiate<Node3D>();
@@ -48,7 +46,7 @@ public partial class UnitWorldUI : Node3D
 
         AddChild(node);
         Transform3D newTransform = Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.hex);
+        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 12, (float)hexPoint.x);
         Transform = newTransform;
         Update();
@@ -60,9 +58,9 @@ public partial class UnitWorldUI : Node3D
         {
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
-                if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[unit.id])
+                if (Global.gameManager.graphicManager.selectedObject != Global.gameManager.graphicManager.graphicObjectDictionary[unit.id])
                 {
-                    graphicManager.ChangeSelectedObject(unit.id, graphicManager.graphicObjectDictionary[unit.id]);
+                    Global.gameManager.graphicManager.ChangeSelectedObject(unit.id, Global.gameManager.graphicManager.graphicObjectDictionary[unit.id]);
                     return;
                 }
             }
@@ -87,7 +85,7 @@ public partial class UnitWorldUI : Node3D
 
     public void Update()
     {
-        if (graphicManager.game.teamManager.GetEnemies(graphicManager.game.localPlayerTeamNum).Contains(unit.id))
+        if (Global.gameManager.game.teamManager.GetEnemies(Global.gameManager.game.localPlayerTeamNum).Contains(unit.id))
         {
             enemyBorder.Visible = true;
         }
@@ -97,8 +95,16 @@ public partial class UnitWorldUI : Node3D
         }
         unitHealthBar.Value = unit.health;
         Transform3D newTransform = Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.hex);
+        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         Transform = newTransform;
+        if (unit.teamNum == Global.gameManager.game.localPlayerTeamNum && unit.remainingMovement > 0 && unit.currentPath.Count == 0 && !unit.isSleeping)
+        {
+            unitWorldUI.Modulate = new Color(1, 1, 1, 1.0f);
+        }
+        else
+        {
+            unitWorldUI.Modulate = new Color(1, 1, 1, 0.7f);
+        }
     }
 }

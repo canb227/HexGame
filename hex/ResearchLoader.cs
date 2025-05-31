@@ -6,6 +6,7 @@ using System.Xml.Linq;
 public struct ResearchInfo
 {
     public int Tier;
+    public string IconPath;
     public List<String> Requirements;
     public List<String> BuildingUnlocks;
     public List<String> UnitUnlocks;
@@ -15,11 +16,34 @@ public struct ResearchInfo
 public static class ResearchLoader
 {
     public static Dictionary<String, ResearchInfo> researchesDict;
-    
+    public static Dictionary<int, int> tierCostDict;
+
+
     static ResearchLoader()
     {
         string xmlPath = "hex/Researches.xml";
         researchesDict = LoadResearchData(xmlPath);
+        tierCostDict = new Dictionary<int, int>();
+        tierCostDict.Add(0, 0);
+        tierCostDict.Add(1, 25);
+        tierCostDict.Add(2, 50);
+        tierCostDict.Add(3, 80);
+        tierCostDict.Add(4, 120);
+        tierCostDict.Add(5, 200);
+        tierCostDict.Add(6, 300);
+        tierCostDict.Add(7, 390);
+        tierCostDict.Add(8, 600);
+        tierCostDict.Add(9, 730);
+        tierCostDict.Add(10, 930);
+        tierCostDict.Add(11, 1070);
+        tierCostDict.Add(12, 1250);
+        tierCostDict.Add(13, 1370);
+        tierCostDict.Add(14, 1480);
+        tierCostDict.Add(15, 1660);
+        tierCostDict.Add(16, 1850);
+        tierCostDict.Add(17, 2155);
+        tierCostDict.Add(18, 2500);
+
     }
         
     public static Dictionary<String, ResearchInfo> LoadResearchData(string xmlPath)
@@ -34,6 +58,7 @@ public static class ResearchLoader
                 r => new ResearchInfo
                 {
                     Tier = int.Parse(r.Attribute("Tier")?.Value ?? "0"),
+                    IconPath = r.Attribute("IconPath")?.Value ?? throw new InvalidOperationException("Missing 'IconPath' attribute"),
                     Requirements = r.Element("Requirements")?.Elements("ResearchType")
                         .Select(e => e.Value ?? throw new Exception("Invalid Stringy"))
                         .ToList() ?? new List<String>(),

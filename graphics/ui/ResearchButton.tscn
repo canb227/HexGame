@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://71afl3j6f0wv"]
+
+[ext_resource type="Texture2D" uid="uid://4d6apwd8mjye" path="res://graphics/ui/icons/researchButton.png" id="1_35km6"]
+[ext_resource type="Texture2D" uid="uid://brrh1cw1vxfxn" path="res://graphics/ui/icons/science.png" id="1_xf1ln"]
+[ext_resource type="Texture2D" uid="uid://dxyx7s8fwhyqg" path="res://graphics/ui/icons/circle.png" id="2_wtnm3"]
+
+[node name="ResearchButton" type="Button"]
+custom_minimum_size = Vector2(256, 64)
+focus_mode = 0
+icon = ExtResource("1_35km6")
+icon_alignment = 1
+
+[node name="ResearchQueue" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -21.0
+offset_top = -18.0
+offset_right = 19.0
+offset_bottom = 22.0
+texture = ExtResource("2_wtnm3")
+
+[node name="ResearchQueueValue" type="Label" parent="ResearchQueue"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResearchIcon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 11.0
+offset_right = -208.0
+offset_bottom = -13.0
+texture = ExtResource("1_xf1ln")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+
+[node name="ResearchName" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 47.0
+offset_top = 4.0
+offset_right = -7.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Research Name Here"
+fit_content = true
+scroll_active = false
+
+[node name="ResearchResultBox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 55.0
+offset_top = 28.0
+offset_right = -9.0
+offset_bottom = -6.0

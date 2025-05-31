@@ -10,17 +10,15 @@ public partial class GraphicUnit : GraphicObject
 {
     public Unit unit;
     public Node3D node3D;
-    public GraphicManager graphicManager;
     public UnitAbility waitingAbility;
     public UnitWorldUI unitWorldUI;
-    public GraphicUnit(Unit unit, GraphicManager graphicManager)
+    public GraphicUnit(Unit unit)
     {
         this.unit = unit;
-        this.graphicManager = graphicManager;
         node3D = new Node3D();
         InstantiateUnit(unit);
         //InstantiateUnitUI(unit);
-        unitWorldUI = new UnitWorldUI(graphicManager, unit);
+        unitWorldUI = new UnitWorldUI(unit);
         AddChild(unitWorldUI);
     }
 
@@ -28,23 +26,23 @@ public partial class GraphicUnit : GraphicObject
     {
         if (graphicUpdateType == GraphicUpdateType.Remove)
         {
-            if(graphicManager.selectedObjectID == unit.id)
+            if(Global.gameManager.graphicManager.selectedObjectID == unit.id)
             {
-                graphicManager.UnselectObject();
+                Global.gameManager.graphicManager.UnselectObject();
             }
             Visible = false;
-            graphicManager.toBeDeleted.Add(unit.id, this);
+            Global.gameManager.graphicManager.toBeDeleted.Add(unit.id, this);
             //Free();
         }
         else if (graphicUpdateType == GraphicUpdateType.Move)
         {
             Transform3D newTransform = node3D.Transform;
-            Point hexPoint = graphicManager.layout.HexToPixel(unit.hex);
+            Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
             newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
             node3D.Transform = newTransform;
             unitWorldUI.Update();
 
-            graphicManager.UpdateHexObjectDictionary(previousHex, this, unit.hex);
+            Global.gameManager.graphicManager.UpdateHexObjectDictionary(previousHex, this, unit.hex);
 
 
         }
@@ -55,7 +53,7 @@ public partial class GraphicUnit : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (graphicManager.game.playerDictionary[graphicManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(unit.hex))
+            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(unit.hex))
             {
                 this.Visible = true;
                 unitWorldUI.Visible = true;
@@ -73,10 +71,10 @@ public partial class GraphicUnit : GraphicObject
         UnitLoader.unitsDict.TryGetValue(unit.unitType, out UnitInfo unitInfo);
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + unitInfo.ModelPath).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(unit.hex);
+        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
-        graphicManager.hexObjectDictionary[unit.hex].Add(this);
+        Global.gameManager.graphicManager.hexObjectDictionary[unit.hex].Add(this);
         AddChild(node3D);
     }
 
@@ -101,14 +99,14 @@ public partial class GraphicUnit : GraphicObject
                 child.Free();
             }
         }
-        graphicManager.uiManager.UnitUnselected(unit);
+        Global.gameManager.graphicManager.uiManager.UnitUnselected(unit);
     }
 
     public override void Selected()
     {
         GenerateHexLines(unit.MovementRange());
         GenerateHexTriangles(unit.MovementRange());
-        graphicManager.uiManager.UnitSelected(unit);
+        Global.gameManager.graphicManager.uiManager.UnitSelected(unit);
     }
 
     public void UpdateMovementGraphics()
@@ -160,19 +158,19 @@ public partial class GraphicUnit : GraphicObject
 
         if(hexes.Count > 0)
         {
-            graphicManager.SetWaitForTargeting(true);
-            graphicManager.uiManager.HideGenericUIForTargeting();
-            graphicManager.HideAllCityWorldUI();
+            Global.gameManager.graphicManager.SetWaitForTargeting(true);
+            Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
+            Global.gameManager.graphicManager.HideAllCityWorldUI();
             waitingAbility = ability;
-            AddChild(graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "UnitMove"));
-            AddChild(graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.BlueViolet, "UnitMove"));
+            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "UnitMove"));
+            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.BlueViolet, "UnitMove"));
         }
     }
 
     public override void RemoveTargetingPrompt()
     {
-        graphicManager.uiManager.ShowGenericUIAfterTargeting();
-        graphicManager.ShowAllWorldUI();
+        Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
+        Global.gameManager.graphicManager.ShowAllWorldUI();
         foreach (Node3D child in GetChildren())
         {
             if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
@@ -204,7 +202,7 @@ public partial class GraphicUnit : GraphicObject
 
         foreach (Hex hex in hexes)
         {
-            List<Point> points = graphicManager.layout.PolygonCorners(hex);
+            List<Point> points = Global.gameManager.graphicManager.layout.PolygonCorners(hex);
             st.AddVertex(new Vector3((float)points[0].y, 0.1f, (float)points[0].x));
             foreach (Point point in points)
             {
@@ -241,7 +239,7 @@ public partial class GraphicUnit : GraphicObject
             {
                 st.SetColor(Godot.Colors.Gold);
             }
-            List<Point> points = graphicManager.layout.PolygonCorners(hex);
+            List<Point> points = Global.gameManager.graphicManager.layout.PolygonCorners(hex);
 
             Vector3 origin = new Vector3((float)points[0].y, 0.05f, (float)points[0].x);
             for (int i = 1; i < 6; i++)

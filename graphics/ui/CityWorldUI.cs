@@ -6,7 +6,6 @@ using System.Linq;
 
 public partial class CityWorldUI : Node3D
 {
-    private GraphicManager graphicManager;
     private City city;
     private District cityCenter;
 
@@ -29,9 +28,8 @@ public partial class CityWorldUI : Node3D
     private TextureRect cityIcon;
     private Label cityName;
     private ProgressBar cityHealth;
-    public CityWorldUI(GraphicManager graphicManager, City city)
+    public CityWorldUI(City city)
     {
-        this.graphicManager = graphicManager;
         this.city = city;
 
         node = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityWorldUI.tscn").Instantiate<Node3D>();
@@ -62,7 +60,7 @@ public partial class CityWorldUI : Node3D
         
         AddChild(node);
         Transform3D newTransform = Transform;
-        Point hexPoint = graphicManager.layout.HexToPixel(city.hex);
+        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(city.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         Transform = newTransform;
         Update();
@@ -74,9 +72,9 @@ public partial class CityWorldUI : Node3D
         {
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
-                if (graphicManager.selectedObject != graphicManager.graphicObjectDictionary[city.id])
+                if (Global.gameManager.graphicManager.selectedObject != Global.gameManager.graphicManager.graphicObjectDictionary[city.id])
                 {
-                    graphicManager.ChangeSelectedObject(city.id, graphicManager.graphicObjectDictionary[city.id]);
+                    Global.gameManager.graphicManager.ChangeSelectedObject(city.id, Global.gameManager.graphicManager.graphicObjectDictionary[city.id]);
                     return;
                 }
             }
@@ -117,7 +115,7 @@ public partial class CityWorldUI : Node3D
         {
             cityHealth.Value = (cityCenter.health / cityCenter.maxHealth) * 100.0f; //TODO add update to when we take damage
         }
-        if (city.teamNum != graphicManager.game.localPlayerTeamNum)
+        if (city.teamNum != Global.gameManager.game.localPlayerTeamNum)
         {
             productionIcon.Visible = false;
             productionTurnsLeft.Visible = false;
