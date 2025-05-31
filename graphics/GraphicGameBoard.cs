@@ -8,6 +8,7 @@ public partial class GraphicGameBoard : GraphicObject
 {
     public GameBoard gameBoard;
     Layout layout;
+    bool firstRun = true;
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
         this.gameBoard = gameBoard;
@@ -43,8 +44,13 @@ public partial class GraphicGameBoard : GraphicObject
         List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
-        AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), pointy, 0);
-        AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
+        if(firstRun)
+        {
+            firstRun = false;
+            Add3DBoard(all, pointy, 100, 200, 1);
+        }
+        //AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), pointy, 0);
+        //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
         Global.gameManager.graphicManager.UpdateVisibility();
     }
 
@@ -59,8 +65,9 @@ public partial class GraphicGameBoard : GraphicObject
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
 
-        AddBoard(seen, pointy, 0);
-        AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
+        //AddBoard(seen, pointy, 0);
+        //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
+        //Add3DBoard(all, pointy, 100, 100, 1);
 
 
 
@@ -87,6 +94,108 @@ public partial class GraphicGameBoard : GraphicObject
         lines.Mesh = GenerateHexLines(hexList, pointy, 0.01f);
         lines.Name = "GameBoardTerrainLines";
         AddChild(lines);
+    }
+
+    private void Add3DBoard(List<Hex> hexList, Layout pointy, int width, int depth, int resolution)
+    {
+        width = (width / resolution) + 1;
+        depth = (depth / resolution) + 1;
+        Vector3[] p_vertices = new Vector3[width * depth];
+
+        // Populate the vertices array
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < depth; j++)
+            {
+                int index = j * width + i;
+                p_vertices[index] = new Vector3(i * resolution * 4, 0.0f, j * resolution * 4);
+            }
+        }
+
+        // Create an array for the indices
+        int[] p_indices = new int[(width - 1) * (depth - 1) * 6];
+
+        // Populate the indices array
+        for (int i = 0; i < width - 1; i++)
+        {
+            for (int j = 0; j < depth - 1; j++)
+            {
+                int index = (i * (depth - 1)) + j;
+
+                p_indices[index * 6 + 0] = j * width + i;
+                p_indices[index * 6 + 1] = j * width + (i + 1);
+                p_indices[index * 6 + 2] = (j + 1) * width + i;
+
+                p_indices[index * 6 + 3] = j * width + (i + 1);
+                p_indices[index * 6 + 4] = (j + 1) * width + (i + 1);
+                p_indices[index * 6 + 5] = (j + 1) * width + i;
+            }
+        }
+
+        // Create the AABB
+        Aabb p_aabb = new Aabb(new Vector3(0, -2000.0f, 0), new Vector3(width * resolution * 4, 4000.0f, depth * resolution * 4)); // Adjust the height as needed
+
+        // Create an array for the mesh data
+        Godot.Collections.Array arrays = new Godot.Collections.Array();
+        arrays.Resize((int)RenderingServer.ArrayType.Max);
+
+        // Set the vertices and indices
+        arrays[(int)RenderingServer.ArrayType.Vertex] = p_vertices;
+        arrays[(int)RenderingServer.ArrayType.Index] = p_indices;
+
+
+
+
+        // Create the mesh
+        Rid mesh = RenderingServer.MeshCreate();
+        RenderingServer.MeshAddSurfaceFromArrays(mesh, RenderingServer.PrimitiveType.Triangles, arrays);
+        // Set the custom AABB
+        RenderingServer.MeshSetCustomAabb(mesh, p_aabb);
+
+
+
+        //DEPLOY MESH
+        Rid instance = RenderingServer.InstanceCreate2(mesh, GetWorld3D().Scenario);
+        // Set the transform
+        Transform3D xform = this.Transform;
+
+        RenderingServer.InstanceSetTransform(instance, xform);
+/*        if (quality >= 4)
+        {
+            RenderingServer.InstanceGeometrySetVisibilityRange(instance, 1468.0f, 0.0f, 500.0f, 0.0f, RenderingServer.VisibilityRangeFadeMode.Self);
+        }*/
+        ShaderMaterial terrainMat = new ShaderMaterial();
+
+        Shader terrainShader = GD.Load<Shader>("res://graphics/shaders/terrain/terrainChunk.gdshader");
+        terrainMat.Shader = terrainShader;
+        // Create a RID for the material and set its shader
+        Rid materialShader = RenderingServer.ShaderCreate();
+        RenderingServer.ShaderSetCode(materialShader, terrainMat.Shader.Code);
+        Rid terrainMaterial = RenderingServer.MaterialCreate();
+        RenderingServer.MaterialSetParam(terrainMaterial, "texture_repeat", false);//TODO this doesnt work, there has to be a way to change wrapping behavior for texture sampling
+        RenderingServer.MaterialSetShader(terrainMaterial, materialShader);
+        // Set the shader parameters
+
+
+        Image gameBoardImage = new Image();
+        ImageTexture heightMapTexture = ImageTexture.CreateFromImage(gameBoardImage);
+
+        CompressedTexture2D rock = new();
+        CompressedTexture2D grass = new();
+        CompressedTexture2D rockNormal = new();
+        CompressedTexture2D grassNormal = new();
+        int heightScale = 5;
+
+
+
+        RenderingServer.MaterialSetParam(terrainMaterial, "heightMap", heightMapTexture.GetRid());
+        RenderingServer.MaterialSetParam(terrainMaterial, "rockTexture", rock.GetRid());
+        RenderingServer.MaterialSetParam(terrainMaterial, "grassTexture", grass.GetRid());
+        RenderingServer.MaterialSetParam(terrainMaterial, "rockNormalMap", rockNormal.GetRid());
+        RenderingServer.MaterialSetParam(terrainMaterial, "grassNormalMap", grassNormal.GetRid());
+        RenderingServer.MaterialSetParam(terrainMaterial, "heightParams", new Vector2(heightMapTexture.GetWidth(), heightMapTexture.GetHeight()));
+        RenderingServer.MaterialSetParam(terrainMaterial, "heightScale", heightScale);
+        RenderingServer.InstanceGeometrySetMaterialOverride(instance, terrainMaterial);
     }
 
     private void AddBoardFog(List<Hex> seenButNotVisible, List<Hex> nonSeenHexes, Layout pointy, float height)

@@ -44,7 +44,7 @@ public partial class GraphicManager : Node3D
         HexGameCamera camera = new HexGameCamera();
         camera.Name = "HexGameCamera";
 
-        camera.Position = new Vector3(150, 20, -150);
+        camera.Position = new Vector3(0, 20, 0);
         camera.RotationDegrees = new Vector3(-50, 90, 0);
 
         AddChild(camera);
