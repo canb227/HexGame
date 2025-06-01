@@ -35,7 +35,7 @@ texture_filter = 0
 points = PackedVector3Array(0.5, 0.5, 0, 0.5, -0.5, 0, -0.5, 0.5, 0, -0.5, -0.5, 0)
 
 [node name="Node3D" type="Node3D"]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -0.00853634, 0, -0.00124985)
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true

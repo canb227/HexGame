@@ -1,14 +1,18 @@
 ﻿using Godot;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
+using static System.Net.Mime.MediaTypeNames;
 
 public partial class GraphicGameBoard : GraphicObject
 {
     public GameBoard gameBoard;
     Layout layout;
     bool firstRun = true;
+    public Godot.Image heightImage;
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
         this.gameBoard = gameBoard;
@@ -17,7 +21,8 @@ public partial class GraphicGameBoard : GraphicObject
     }
     public override void _Ready()
     {
-        
+        List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
+        Add3DBoard(all, layout, 200, 400, 1);
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
@@ -47,9 +52,8 @@ public partial class GraphicGameBoard : GraphicObject
         if(firstRun)
         {
             firstRun = false;
-            Add3DBoard(all, pointy, 100, 200, 1);
         }
-        //AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), pointy, 0);
+        //AddBoard(gameBoard.gameHexDict.Keys.ToList(), pointy, 0);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
         Global.gameManager.graphicManager.UpdateVisibility();
     }
@@ -65,7 +69,7 @@ public partial class GraphicGameBoard : GraphicObject
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
 
-        //AddBoard(seen, pointy, 0);
+        //AddBoard(all, pointy, 0);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
         //Add3DBoard(all, pointy, 100, 100, 1);
 
@@ -83,7 +87,8 @@ public partial class GraphicGameBoard : GraphicObject
     private void AddBoard(List<Hex> hexList, Layout pointy, float height)
     {
         MeshInstance3D triangles = new MeshInstance3D();
-        triangles.Mesh = GenerateHexTriangles(hexList, pointy, 0);
+        triangles.Mesh = GenerateHexTriangles(hexList, pointy, 10);
+        triangles.Transparency = 0.5f;
         StandardMaterial3D material = new StandardMaterial3D();
         material.VertexColorUseAsAlbedo = true;
         triangles.SetSurfaceOverrideMaterial(0, material);
@@ -91,13 +96,35 @@ public partial class GraphicGameBoard : GraphicObject
         AddChild(triangles);
 
         MeshInstance3D lines = new MeshInstance3D();
-        lines.Mesh = GenerateHexLines(hexList, pointy, 0.01f);
+        lines.Mesh = GenerateHexLines(hexList, pointy, 10.01f);
+        lines.Transparency = 0.5f;
         lines.Name = "GameBoardTerrainLines";
         AddChild(lines);
     }
 
+    Rid mesh;
+    Rid instance;
+    Rid materialShader;
+    Rid terrainMaterial;
+    ImageTexture heightMapTexture;
+    Shader terrainShader = GD.Load<Shader>("res://graphics/shaders/terrain/terrainChunk.gdshader");
+    CompressedTexture2D rock = GD.Load<CompressedTexture2D>("res://.godot/imported/rock_alb.png-4e918266e00415e40ecb0ea000c74b30.ctex");
+    CompressedTexture2D grass = GD.Load<CompressedTexture2D>("res://.godot/imported/ground_alb.png-b0923ef3d19a3922700780568807ede9.ctex");
+    CompressedTexture2D rockNormal = GD.Load<CompressedTexture2D>("res://.godot/imported/rock_nrm.png-bc2a7cb2d1cfae3a12302531bce73b06.ctex");
+    CompressedTexture2D grassNormal = GD.Load<CompressedTexture2D>("res://.godot/imported/ground_nrm.png-9c1f59f3a389c9cb54cbe0438e4bfd93.ctex");
+
+
+
     private void Add3DBoard(List<Hex> hexList, Layout pointy, int width, int depth, int resolution)
     {
+        MeshInstance3D lines = new MeshInstance3D();
+        lines.Mesh = GenerateHexLines(hexList, pointy, 0.01f);
+        lines.Transparency = 0.5f;
+        lines.Name = "GameBoardTerrainLines";
+        StandardMaterial3D material = new StandardMaterial3D();
+        material.NoDepthTest = true;
+        lines.SetSurfaceOverrideMaterial(0, material);
+        AddChild(lines);
         width = (width / resolution) + 1;
         depth = (depth / resolution) + 1;
         Vector3[] p_vertices = new Vector3[width * depth];
@@ -147,7 +174,7 @@ public partial class GraphicGameBoard : GraphicObject
 
 
         // Create the mesh
-        Rid mesh = RenderingServer.MeshCreate();
+        mesh = RenderingServer.MeshCreate();
         RenderingServer.MeshAddSurfaceFromArrays(mesh, RenderingServer.PrimitiveType.Triangles, arrays);
         // Set the custom AABB
         RenderingServer.MeshSetCustomAabb(mesh, p_aabb);
@@ -155,9 +182,11 @@ public partial class GraphicGameBoard : GraphicObject
 
 
         //DEPLOY MESH
-        Rid instance = RenderingServer.InstanceCreate2(mesh, GetWorld3D().Scenario);
+        instance = RenderingServer.InstanceCreate2(mesh, GetWorld3D().Scenario);
         // Set the transform
-        Transform3D xform = this.Transform;
+        Transform3D newTransform = Transform;
+        newTransform = newTransform.Rotated(Vector3.Up, Mathf.DegToRad(90));
+        Transform3D xform = newTransform;
 
         RenderingServer.InstanceSetTransform(instance, xform);
 /*        if (quality >= 4)
@@ -166,27 +195,22 @@ public partial class GraphicGameBoard : GraphicObject
         }*/
         ShaderMaterial terrainMat = new ShaderMaterial();
 
-        Shader terrainShader = GD.Load<Shader>("res://graphics/shaders/terrain/terrainChunk.gdshader");
         terrainMat.Shader = terrainShader;
         // Create a RID for the material and set its shader
-        Rid materialShader = RenderingServer.ShaderCreate();
+        materialShader = RenderingServer.ShaderCreate();
         RenderingServer.ShaderSetCode(materialShader, terrainMat.Shader.Code);
-        Rid terrainMaterial = RenderingServer.MaterialCreate();
-        RenderingServer.MaterialSetParam(terrainMaterial, "texture_repeat", false);//TODO this doesnt work, there has to be a way to change wrapping behavior for texture sampling
+        terrainMaterial = RenderingServer.MaterialCreate();
+        //RenderingServer.MaterialSetParam(terrainMaterial, "texture_repeat", false);//TODO this doesnt work, there has to be a way to change wrapping behavior for texture sampling
         RenderingServer.MaterialSetShader(terrainMaterial, materialShader);
         // Set the shader parameters
 
 
-        Image gameBoardImage = new Image();
-        ImageTexture heightMapTexture = ImageTexture.CreateFromImage(gameBoardImage);
+        Godot.Image gameBoardImage = GenerateHexImage(gameBoard, new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0)));
 
-        CompressedTexture2D rock = new();
-        CompressedTexture2D grass = new();
-        CompressedTexture2D rockNormal = new();
-        CompressedTexture2D grassNormal = new();
-        int heightScale = 5;
+        int heightScale = 20;
 
-
+        heightMapTexture = ImageTexture.CreateFromImage(gameBoardImage);
+        
 
         RenderingServer.MaterialSetParam(terrainMaterial, "heightMap", heightMapTexture.GetRid());
         RenderingServer.MaterialSetParam(terrainMaterial, "rockTexture", rock.GetRid());
@@ -196,6 +220,117 @@ public partial class GraphicGameBoard : GraphicObject
         RenderingServer.MaterialSetParam(terrainMaterial, "heightParams", new Vector2(heightMapTexture.GetWidth(), heightMapTexture.GetHeight()));
         RenderingServer.MaterialSetParam(terrainMaterial, "heightScale", heightScale);
         RenderingServer.InstanceGeometrySetMaterialOverride(instance, terrainMaterial);
+    }
+
+    Godot.Image GenerateHexImage(GameBoard gameBoard, Layout layout)
+    {
+        int xsize = (int) (layout.size.x * Math.Sqrt(3)) * (gameBoard.right - gameBoard.left);
+        int ysize = (int) (layout.size.y * 1.5f) * (gameBoard.bottom - gameBoard.top) + (int)(layout.size.y * 1.5f);
+
+        Godot.Image terrainImage = Godot.Image.CreateEmpty(xsize, ysize, false, Godot.Image.Format.Rgba8);
+        terrainImage.Fill(new Godot.Color(0.0f, 0.0f, 0.0f, 1f));
+
+        foreach (Hex hex in gameBoard.gameHexDict.Keys.ToList())
+        {
+            Godot.Color color;
+            switch (gameBoard.gameHexDict[hex].terrainType)
+            {
+                case TerrainType.Rough:
+                    //50% of noise map
+                    color = new Godot.Color(0.15f, 0.0f, 0.0f, 1f);
+                    //List<Point> points = layout.PolygonCorners(hex);
+                    break;
+                case TerrainType.Mountain:
+                    //~100% of noise map
+                    color = new Godot.Color(1.0f, 0.0f, 0.0f, 1f);
+                    break;
+                default:
+                    //10% of noise map
+                    color = new Godot.Color(0.03f, 0.0f, 0.0f, 1f);
+                    break;
+            }
+            
+            Point hexPoint = layout.HexToPixel(hex);
+            int radius = (int)layout.size.x;
+            Random rand = new Random();
+            for (int y = -radius; y <= radius; y++)
+            {
+                for (int x = -radius; x <= radius; x++)
+                {
+                    if (x * x + y * y <= radius * radius)
+                    {
+                        int wrappedX = (int)(hexPoint.x + x + xsize) % xsize;
+                        terrainImage.SetPixel(wrappedX, (int)(hexPoint.y + y + layout.size.y), color);
+                    }
+                }
+            }
+        }
+
+        terrainImage.SavePng("test.png");
+        terrainImage = ApplyGausBlur(terrainImage, 2);
+        terrainImage.SavePng("testblur.png");
+        terrainImage.Resize(xsize * 2, ysize * 2, Godot.Image.Interpolation.Cubic);
+
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.Frequency = 0.01f;
+        noise.FractalType = FastNoiseLite.FractalTypeEnum.None;
+        noise.DomainWarpEnabled = false;
+        Godot.Image noiseImage = noise.GetImage(xsize * 2, ysize * 2);
+        noiseImage.SavePng("testnoise.png");
+        heightImage = Godot.Image.CreateEmpty(xsize * 2, ysize * 2, false, Godot.Image.Format.Rgba8); ;
+        for (int y = 0; y < ysize * 2; y++)
+        {
+            for (int x = 0; x < xsize * 2; x++)
+            {
+                Godot.Color maskColor = terrainImage.GetPixel(x, y);
+                Godot.Color valueColor = noiseImage.GetPixel(x, y);
+
+                float maskFactor = maskColor.R; // Using the red channel as the mask
+
+                Godot.Color finalColor = new Godot.Color((valueColor.R+0.1f) * maskFactor, (valueColor.G + 0.1f) * maskFactor, (valueColor.B + 0.1f) * maskFactor, valueColor.A);
+                heightImage.SetPixel(x, y, finalColor);
+            }
+        }
+        heightImage.SavePng("testFinalMix.png");
+        return heightImage;
+
+    }
+
+    Godot.Image ApplyGausBlur(Godot.Image img, int radius)
+    {
+        int width = img.GetWidth();
+        int height = img.GetHeight();
+
+        Godot.Image blurredImg = (Godot.Image)img.Duplicate();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Godot.Color avgColor = new Godot.Color(0, 0, 0, 0);
+                int count = 0;
+
+                for (int dx = -radius; dx <= radius; dx++)
+                {
+                    for (int dy = -radius; dy <= radius; dy++)
+                    {
+                        int nx = x + dx;
+                        int ny = y + dy;
+
+                        if (nx >= 0 && ny >= 0 && nx < width && ny < height)
+                        {
+                            avgColor += img.GetPixel(nx, ny);
+                            count++;
+                        }
+                    }
+                }
+
+                avgColor /= count;
+                blurredImg.SetPixel(x, y, avgColor);
+            }
+        }
+
+        return blurredImg;
     }
 
     private void AddBoardFog(List<Hex> seenButNotVisible, List<Hex> nonSeenHexes, Layout pointy, float height)
@@ -412,15 +547,15 @@ public partial class GraphicGameBoard : GraphicObject
         foreach (Hex hex in hexList)
         {
             List<Point> points = layout.PolygonCorners(hex);
-            st.AddVertex(new Vector3((float)points[0].y, 0.01f, (float)points[0].x));
+            st.AddVertex(new Vector3((float)points[0].y, height, (float)points[0].x));
             foreach (Point point in points)
             {
-                Vector3 temp = new Vector3((float)point.y, 0.01f, (float)point.x);
+                Vector3 temp = new Vector3((float)point.y, height, (float)point.x);
                 st.AddVertex(temp);
                 st.AddVertex(temp);
 
             }
-            st.AddVertex(new Vector3((float)points[0].y, 0.01f, (float)points[0].x));
+            st.AddVertex(new Vector3((float)points[0].y, height, (float)points[0].x));
         }
         //st.GenerateNormals();
         return st.Commit();

@@ -1,7 +1,6 @@
 shader_type spatial;
 
 uniform sampler2D heightMap : repeat_disable;
-uniform sampler2D pathMap : repeat_disable;
 uniform sampler2D rockTexture;
 uniform sampler2D grassTexture;
 uniform sampler2D roadTexture;
@@ -29,7 +28,7 @@ float hash12(vec2 src) {
 }
 
 void vertex() {
-    UV = vec2(VERTEX.x/4.0 + 16.0, VERTEX.z/4.0 + 16.0) / heightParams;
+    UV = vec2(VERTEX.x + 0.0, VERTEX.z + 8.0) / (heightParams / 2.0);
     float height = texture(heightMap, UV).r * heightScale;
     VERTEX.y = height;
 
@@ -51,12 +50,11 @@ void vertex() {
 
     vec2 gradient = vec2(h10 - hm1, h01 - h0m1) * 200.0;
 	vSteepness = length(gradient);
-    vRoad = texture(pathMap, UV).r;
     vRoadJitter = hash12(VERTEX.xz);
 }
 
 void fragment() {
-    vec2 scaledUV = UV * 40.0;
+    vec2 scaledUV = UV * 10.0;
 
     // Calculate the steepness factor
     float steepnessFactor = clamp(vSteepness, 0.0, 1.0);
