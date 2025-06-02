@@ -13,9 +13,13 @@ public partial class GraphicGameBoard : GraphicObject
     Layout layout;
     bool firstRun = true;
     public Godot.Image heightImage;
+    private ImageTexture terrainNoiseTexture = new ImageTexture();
     private Mesh hexMesh;
     private Godot.Image visibilityImage;
     private ImageTexture visibilityTexture = new ImageTexture();
+    private Godot.Image terrainInfoImage;
+    private ImageTexture terrainTemperatureTexture = new ImageTexture();
+
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
         this.gameBoard = gameBoard;
@@ -31,6 +35,7 @@ public partial class GraphicGameBoard : GraphicObject
     {
         List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
         visibilityImage = Godot.Image.CreateEmpty(gameBoard.right, gameBoard.bottom, false, Godot.Image.Format.Rg8);
+        terrainInfoImage = Godot.Image.CreateEmpty(gameBoard.right, gameBoard.bottom, false, Godot.Image.Format.Rg8);
         AddChild(GenerateHexMultiMesh(all, layout, -1f));
     }
 
@@ -62,14 +67,14 @@ public partial class GraphicGameBoard : GraphicObject
 
     private void DrawBoard(Layout pointy)
     {
-/*        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
+        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
         List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
         List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
 
         HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
         List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
 
-        List<Hex> seenButNotVisible = seen.Except(visible).ToList();*/
+        List<Hex> seenButNotVisible = seen.Except(visible).ToList();
 
         //AddBoard(all, pointy, 0);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
@@ -455,19 +460,65 @@ public partial class GraphicGameBoard : GraphicObject
         List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
         List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
 
-
-        CompressedTexture2D grassTexture = GD.Load<CompressedTexture2D>("res://graphics/textures/ground_alb.png");
-
         Shader shader = GD.Load<Shader>("res://graphics/shaders/terrain/hex.gdshader");
         ShaderMaterial shaderMaterial = new ShaderMaterial();
         shaderMaterial.Shader = shader;
 
         GenerateVisibilityGrid(visible, seen);
+        GenerateTerrainGrid();
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.FractalType = FastNoiseLite.FractalTypeEnum.None;
+        noise.DomainWarpEnabled = false;
+        noise.Frequency = 1f;
+        heightImage = noise.GetImage(1024, 1024);
         visibilityTexture = ImageTexture.CreateFromImage(visibilityImage);
+        terrainTemperatureTexture = ImageTexture.CreateFromImage(terrainInfoImage);
+        terrainNoiseTexture = ImageTexture.CreateFromImage(heightImage);
         shaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
+        shaderMaterial.SetShaderParameter("terrainInfo", terrainTemperatureTexture);
+        shaderMaterial.SetShaderParameter("terrainNoise", terrainNoiseTexture);
+        
         shaderMaterial.SetShaderParameter("gameBoardWidth", gameBoard.right - gameBoard.left);
         shaderMaterial.SetShaderParameter("gameBoardHeight", gameBoard.bottom - gameBoard.top);
-        shaderMaterial.SetShaderParameter("grassTexture", grassTexture);
+
+        // Flat terrain textures
+        CompressedTexture2D flatArctic = GD.Load<CompressedTexture2D>("res://graphics/textures/flat_arctic.jpg");
+        CompressedTexture2D flatTundra = GD.Load<CompressedTexture2D>("res://graphics/textures/flat_tundra.jpg");
+        CompressedTexture2D flatGrassland = GD.Load<CompressedTexture2D>("res://graphics/textures/flat_grassland.jpg");
+        CompressedTexture2D flatPlain = GD.Load<CompressedTexture2D>("res://graphics/textures/flat_plain.jpg");
+        CompressedTexture2D flatDesert = GD.Load<CompressedTexture2D>("res://graphics/textures/flat_desert.jpg");
+
+        // Rough terrain textures
+        CompressedTexture2D roughArctic = GD.Load<CompressedTexture2D>("res://graphics/textures/rough_arctic.jpg");
+        CompressedTexture2D roughTundra = GD.Load<CompressedTexture2D>("res://graphics/textures/rough_tundra.jpg");
+        CompressedTexture2D roughGrassland = GD.Load<CompressedTexture2D>("res://graphics/textures/rough_grassland.jpg");
+        CompressedTexture2D roughPlain = GD.Load<CompressedTexture2D>("res://graphics/textures/rough_plain.jpg");
+        CompressedTexture2D roughDesert = GD.Load<CompressedTexture2D>("res://graphics/textures/rough_desert.jpg");
+
+        // Mountain terrain textures
+        CompressedTexture2D mountainArctic = GD.Load<CompressedTexture2D>("res://graphics/textures/mountain_arctic.jpg");
+        CompressedTexture2D mountainTundra = GD.Load<CompressedTexture2D>("res://graphics/textures/mountain_tundra.jpg");
+        CompressedTexture2D mountainGrassland = GD.Load<CompressedTexture2D>("res://graphics/textures/mountain_grassland.jpg");
+        CompressedTexture2D mountainPlain = GD.Load<CompressedTexture2D>("res://graphics/textures/mountain_plain.jpg");
+        CompressedTexture2D mountainDesert = GD.Load<CompressedTexture2D>("res://graphics/textures/mountain_desert.jpg");
+
+        shaderMaterial.SetShaderParameter("flatArctic", flatArctic);
+        shaderMaterial.SetShaderParameter("flatTundra", flatTundra);
+        shaderMaterial.SetShaderParameter("flatGrassland", flatGrassland);
+        shaderMaterial.SetShaderParameter("flatPlain", flatPlain);
+        shaderMaterial.SetShaderParameter("flatDesert", flatDesert);
+
+        shaderMaterial.SetShaderParameter("roughArctic", roughArctic);
+        shaderMaterial.SetShaderParameter("roughTundra", roughTundra);
+        shaderMaterial.SetShaderParameter("roughGrassland", roughGrassland);
+        shaderMaterial.SetShaderParameter("roughPlain", roughPlain);
+        shaderMaterial.SetShaderParameter("roughDesert", roughDesert);
+
+        shaderMaterial.SetShaderParameter("mountainArctic", mountainArctic);
+        shaderMaterial.SetShaderParameter("mountainTundra", mountainTundra);
+        shaderMaterial.SetShaderParameter("mountainGrassland", mountainGrassland);
+        shaderMaterial.SetShaderParameter("mountainPlain", mountainPlain);
+        shaderMaterial.SetShaderParameter("mountainDesert", mountainDesert);
 
         multiMeshInstance.MaterialOverride = shaderMaterial;
 
@@ -488,6 +539,57 @@ public partial class GraphicGameBoard : GraphicObject
             visibilityImage.SetPixel(hex.q, hex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
         }
         visibilityImage.SavePng("testVis.png");
+    }
+
+    public void GenerateTerrainGrid()
+    {
+        terrainInfoImage.Fill(new Godot.Color(0, 0, 0, 1));
+        foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
+        {
+            switch (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainTemp)
+            {
+                
+                case TerrainTemperature.Arctic:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(0, 0, 0, 1)); // Mark as seen
+                    break;
+                case TerrainTemperature.Tundra:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(0.25f, 0, 0, 1)); // Mark as seen
+                    break;
+                case TerrainTemperature.Grassland:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(0.5f, 0, 0, 1)); // Mark as seen
+                    break;
+                case TerrainTemperature.Plains:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(0.75f, 0, 0, 1)); // Mark as seen
+                    break;
+                case TerrainTemperature.Desert:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(1, 0, 0, 1)); // Mark as seen
+                    break;
+                default:
+                    break;
+            }
+            switch (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType)
+            {
+
+                case TerrainType.Flat:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(terrainInfoImage.GetPixel(hex.q, hex.r).R, 0.0f, 0, 1));
+                    break;
+                case TerrainType.Rough:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(terrainInfoImage.GetPixel(hex.q, hex.r).R, 0.5f, 0, 1));
+                    break;
+                case TerrainType.Mountain:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(terrainInfoImage.GetPixel(hex.q, hex.r).R, 1.0f, 0, 1));
+                    break;
+                case TerrainType.Coast:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(terrainInfoImage.GetPixel(hex.q, hex.r).R, 0, 0, 1)); 
+                    break;
+                case TerrainType.Ocean:
+                    terrainInfoImage.SetPixel(hex.q, hex.r, new Godot.Color(terrainInfoImage.GetPixel(hex.q, hex.r).R, 0, 0, 1));
+                    break;
+                default:
+                    break;
+            }
+        }
+        terrainInfoImage.SavePng("testTemp.png");
     }
 
 

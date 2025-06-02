@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgv2nfcwwslfv"
-path="res://.godot/imported/ground_nrm.png-9c1f59f3a389c9cb54cbe0438e4bfd93.ctex"
+uid="uid://chthoqm0hvrar"
+path="res://.godot/imported/mountain_grassland.jpg-b9bd9d76f941d2b52283d7ef5fc9437a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/textures/ground_nrm.png"
-dest_files=["res://.godot/imported/ground_nrm.png-9c1f59f3a389c9cb54cbe0438e4bfd93.ctex"]
+source_file="res://graphics/textures/mountain_grassland.jpg"
+dest_files=["res://.godot/imported/mountain_grassland.jpg-b9bd9d76f941d2b52283d7ef5fc9437a.ctex"]
 
 [params]
 

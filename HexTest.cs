@@ -78,8 +78,8 @@ public partial class HexTest : Node3D
     {
         double xsize = Math.Abs(layout.size.x* (((double)gameBoard.right - (double)gameBoard.left) + ((double)gameBoard.bottom - (double)gameBoard.top)/2));
         double ysize = Math.Abs(layout.size.y *((double)(gameBoard.bottom - gameBoard.top)));
-        Image terrainImage = Image.CreateEmpty((int)Math.Ceiling(xsize*2), (int)Math.Ceiling(ysize *2), false, Image.Format.Rgba8);
-        terrainImage.Fill(new Godot.Color(0.5f, 0.5f, 0.5f, 1f));
+        Image terrainTemperatureImage = Image.CreateEmpty((int)Math.Ceiling(xsize*2), (int)Math.Ceiling(ysize *2), false, Image.Format.Rgba8);
+        terrainTemperatureImage.Fill(new Godot.Color(0.5f, 0.5f, 0.5f, 1f));
         List<Vector2I> hexagonPixels = new List<Vector2I>();
 
         for(double x = -layout.size.x; x < layout.size.x; x += 0.2f)
@@ -123,13 +123,13 @@ public partial class HexTest : Node3D
                 int pixY = vec.Y + hexY + (int)layout.size.y;
                 if (pixX > 0 && pixY > 0)
                 {
-                    terrainImage.SetPixel(pixX, pixY, color);
+                    terrainTemperatureImage.SetPixel(pixX, pixY, color);
                 }
             }
         }
 
-        terrainImage.SavePng("test.png");
-        Image blurredImage = ApplyGausBlur(terrainImage, 2);
+        terrainTemperatureImage.SavePng("test.png");
+        Image blurredImage = ApplyGausBlur(terrainTemperatureImage, 2);
         blurredImage.SavePng("testblur.png");
         return blurredImage;
         

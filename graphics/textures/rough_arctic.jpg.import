@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpirs2y1js4fe"
-path="res://.godot/imported/rock_alb.png-4e918266e00415e40ecb0ea000c74b30.ctex"
+uid="uid://dx58m8sq0wdhh"
+path="res://.godot/imported/rough_arctic.jpg-c4a5f9e2eda48460a3bccc4819b1d171.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/textures/rock_alb.png"
-dest_files=["res://.godot/imported/rock_alb.png-4e918266e00415e40ecb0ea000c74b30.ctex"]
+source_file="res://graphics/textures/rough_arctic.jpg"
+dest_files=["res://.godot/imported/rough_arctic.jpg-c4a5f9e2eda48460a3bccc4819b1d171.ctex"]
 
 [params]
 
