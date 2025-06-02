@@ -1,11 +1,11 @@
 shader_type spatial;
 
 uniform sampler2D heightMap : repeat_disable;
-uniform sampler2D rockTexture;
-uniform sampler2D grassTexture;
+uniform sampler2D rockTexture: filter_linear;
+uniform sampler2D grassTexture: filter_linear;
 uniform sampler2D roadTexture;
-uniform sampler2D rockNormalMap;
-uniform sampler2D grassNormalMap;
+uniform sampler2D rockNormalMap: filter_linear;
+uniform sampler2D grassNormalMap: filter_linear;
 uniform vec2 heightParams = vec2(512.0, 512.0);
 uniform float heightScale = 1.0;
 
@@ -28,7 +28,9 @@ float hash12(vec2 src) {
 }
 
 void vertex() {
+    //LEARN HOW TO WRITE A MIRROR WRAPPING UV
     UV = vec2(VERTEX.x + 0.0, VERTEX.z + 8.0) / (heightParams / 2.0);
+    UV.x = fract(UV.x);
     float height = texture(heightMap, UV).r * heightScale;
     VERTEX.y = height;
 

@@ -13,16 +13,45 @@ public partial class GraphicGameBoard : GraphicObject
     Layout layout;
     bool firstRun = true;
     public Godot.Image heightImage;
+    private Mesh hexMesh;
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
         this.gameBoard = gameBoard;
         this.layout = layout;
         DrawBoard(layout);
+        Node3D temp = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/hexagon.glb").Instantiate<Node3D>();
+        MeshInstance3D tempMesh = (MeshInstance3D)temp.GetChild(0);
+        hexMesh = tempMesh.Mesh;
     }
     public override void _Ready()
     {
         List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
-        Add3DBoard(all, layout, 200, 400, 1);
+        //dd3DBoard(all, layout, (int)Math.Ceiling(5.333333f*gameBoard.right), (int)Math.Ceiling(4f*gameBoard.bottom), 1);
+        AddChild(GenerateHexMultiMesh(all, layout, -0.5f));
+    }
+    double snapTimer = 1.0f;
+    public override void _PhysicsProcess(double delta)
+    {
+/*        if(Global.camera != null)
+        {
+            snapTimer -= delta;
+            if (snapTimer <= 0)
+            {
+                RenderingServer.MaterialSetParam(terrainMaterial, "uvx", Global.camera.uvx);
+                RenderingServer.MaterialSetParam(terrainMaterial, "uvy", Global.camera.uvy);
+
+                Transform3D newCameraTransform = Global.camera.Transform;
+                newCameraTransform.Origin = Global.camera.Transform.Origin.Snapped(new Vector3(20, 0, 20)); 
+                Global.camera.Transform = newCameraTransform;
+
+
+                Transform3D newTransform = Transform;
+                newTransform.Origin.X = Global.camera.Transform.Origin.X; 
+                newTransform.Origin.Z = Global.camera.Transform.Origin.Z;
+                RenderingServer.InstanceSetTransform(instance, newTransform);
+                snapTimer = 1.0f;
+            }
+        }*/
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
@@ -49,10 +78,7 @@ public partial class GraphicGameBoard : GraphicObject
         List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
-        if(firstRun)
-        {
-            firstRun = false;
-        }
+
         //AddBoard(gameBoard.gameHexDict.Keys.ToList(), pointy, 0);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
         Global.gameManager.graphicManager.UpdateVisibility();
@@ -186,9 +212,10 @@ public partial class GraphicGameBoard : GraphicObject
         // Set the transform
         Transform3D newTransform = Transform;
         newTransform = newTransform.Rotated(Vector3.Up, Mathf.DegToRad(90));
-        Transform3D xform = newTransform;
+        newTransform.Origin.X = Transform.Origin.X-10.0f;
+        newTransform.Origin.Z = Transform.Origin.Z + 10.0f;
 
-        RenderingServer.InstanceSetTransform(instance, xform);
+        RenderingServer.InstanceSetTransform(instance, newTransform);
 /*        if (quality >= 4)
         {
             RenderingServer.InstanceGeometrySetVisibilityRange(instance, 1468.0f, 0.0f, 500.0f, 0.0f, RenderingServer.VisibilityRangeFadeMode.Self);
@@ -219,6 +246,8 @@ public partial class GraphicGameBoard : GraphicObject
         RenderingServer.MaterialSetParam(terrainMaterial, "grassNormalMap", grassNormal.GetRid());
         RenderingServer.MaterialSetParam(terrainMaterial, "heightParams", new Vector2(heightMapTexture.GetWidth(), heightMapTexture.GetHeight()));
         RenderingServer.MaterialSetParam(terrainMaterial, "heightScale", heightScale);
+        RenderingServer.MaterialSetParam(terrainMaterial, "uvx", Global.camera.uvx);
+        RenderingServer.MaterialSetParam(terrainMaterial, "uvy", Global.camera.uvy);
         RenderingServer.InstanceGeometrySetMaterialOverride(instance, terrainMaterial);
     }
 
@@ -228,7 +257,7 @@ public partial class GraphicGameBoard : GraphicObject
         int ysize = (int) (layout.size.y * 1.5f) * (gameBoard.bottom - gameBoard.top) + (int)(layout.size.y * 1.5f);
 
         Godot.Image terrainImage = Godot.Image.CreateEmpty(xsize, ysize, false, Godot.Image.Format.Rgba8);
-        terrainImage.Fill(new Godot.Color(0.0f, 0.0f, 0.0f, 1f));
+        //terrainImage.Fill(new Godot.Color(0.0f, 0.0f, 0.0f, 1f));
 
         foreach (Hex hex in gameBoard.gameHexDict.Keys.ToList())
         {
@@ -249,9 +278,14 @@ public partial class GraphicGameBoard : GraphicObject
                     color = new Godot.Color(0.03f, 0.0f, 0.0f, 1f);
                     break;
             }
-            
-            Point hexPoint = layout.HexToPixel(hex);
-            int radius = (int)layout.size.x;
+            Hex wrappedHex = hex;
+            if(hex.q + Math.Floor((double)hex.r / 2) >= gameBoard.right)
+            {
+                int newQ = hex.q - gameBoard.right;
+                wrappedHex = new Hex(newQ, hex.r, -newQ - hex.r);
+            }
+            Point hexPoint = layout.HexToPixel(wrappedHex);
+            int radius = 5;
             Random rand = new Random();
             for (int y = -radius; y <= radius; y++)
             {
@@ -259,26 +293,26 @@ public partial class GraphicGameBoard : GraphicObject
                 {
                     if (x * x + y * y <= radius * radius)
                     {
-                        int wrappedX = (int)(hexPoint.x + x + xsize) % xsize;
-                        terrainImage.SetPixel(wrappedX, (int)(hexPoint.y + y + layout.size.y), color);
+                        int wrappedX = ((int)(hexPoint.x + x) + xsize) % xsize;
+                        terrainImage.SetPixel( (int)(wrappedX), (int)(hexPoint.y + y + layout.size.y), color);
                     }
                 }
             }
         }
 
         terrainImage.SavePng("test.png");
-        terrainImage = ApplyGausBlur(terrainImage, 2);
-        terrainImage.SavePng("testblur.png");
-        terrainImage.Resize(xsize * 2, ysize * 2, Godot.Image.Interpolation.Cubic);
+/*        terrainImage = ApplyGausBlur(terrainImage, 2);
+        terrainImage.SavePng("testblur.png");*/
+/*        terrainImage.Resize(xsize * 2, ysize * 2, Godot.Image.Interpolation.Cubic);*/
 
-        FastNoiseLite noise = new FastNoiseLite();
+/*        FastNoiseLite noise = new FastNoiseLite();
         noise.Frequency = 0.01f;
         noise.FractalType = FastNoiseLite.FractalTypeEnum.None;
         noise.DomainWarpEnabled = false;
         Godot.Image noiseImage = noise.GetImage(xsize * 2, ysize * 2);
         noiseImage.SavePng("testnoise.png");
-        heightImage = Godot.Image.CreateEmpty(xsize * 2, ysize * 2, false, Godot.Image.Format.Rgba8); ;
-        for (int y = 0; y < ysize * 2; y++)
+        heightImage = Godot.Image.CreateEmpty(xsize * 2, ysize * 2, false, Godot.Image.Format.Rgba8); ;*/
+/*        for (int y = 0; y < ysize * 2; y++)
         {
             for (int x = 0; x < xsize * 2; x++)
             {
@@ -286,12 +320,17 @@ public partial class GraphicGameBoard : GraphicObject
                 Godot.Color valueColor = noiseImage.GetPixel(x, y);
 
                 float maskFactor = maskColor.R; // Using the red channel as the mask
-
-                Godot.Color finalColor = new Godot.Color((valueColor.R+0.1f) * maskFactor, (valueColor.G + 0.1f) * maskFactor, (valueColor.B + 0.1f) * maskFactor, valueColor.A);
+                if(valueColor.R < 0.3f)
+                {
+                    valueColor.R = 0.3f;
+                    valueColor.G = 0.3f;
+                    valueColor.B = 0.3f;
+                }
+                Godot.Color finalColor = new Godot.Color((valueColor.R) * maskFactor, (valueColor.G) * maskFactor, (valueColor.B) * maskFactor, valueColor.A);
                 heightImage.SetPixel(x, y, finalColor);
             }
         }
-        heightImage.SavePng("testFinalMix.png");
+        heightImage.SavePng("testFinalMix.png");*/
         return heightImage;
 
     }
@@ -610,6 +649,7 @@ public partial class GraphicGameBoard : GraphicObject
     }
 
 
+
     ArrayMesh GenerateHexTrianglesFog(List<Hex> hexList, Layout layout, float height, Godot.Color color)
     {
         SurfaceTool st = new SurfaceTool();
@@ -639,6 +679,40 @@ public partial class GraphicGameBoard : GraphicObject
         return st.Commit();
     }
 
+    public MultiMeshInstance3D GenerateHexMultiMesh(List<Hex> hexList, Layout layout, float height)
+    {
+        MultiMeshInstance3D multiMeshInstance = new MultiMeshInstance3D();
+        MultiMesh multiMesh = new MultiMesh();
+
+        multiMesh.Mesh = hexMesh;  // Use shared hex mesh
+        multiMesh.TransformFormat = MultiMesh.TransformFormatEnum.Transform3D;
+        multiMesh.InstanceCount = hexList.Count;  // Set number of instances
+
+
+/*        Transform3D multiTransform = multiMeshInstance.Transform;
+        multiTransform.Rotated(Vector3.Up, Mathf.DegToRad(90));
+        multiMeshInstance.Transform = multiTransform;*/
+
+        multiMeshInstance.Multimesh = multiMesh;
+
+        Layout rotatedLayout = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
+        // Assign positions
+        for (int i = 0; i < hexList.Count; i++)
+        {
+            Hex hex = hexList[i];
+            Point worldPos = layout.HexToPixel(hex);
+            Transform3D transform = new Transform3D(Basis.Identity, new Vector3((float)worldPos.y, height, (float)worldPos.x));
+
+            multiMesh.SetInstanceTransform(i, transform);
+        }
+
+
+        Godot.Image gameBoardImage = GenerateHexImage(gameBoard, new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0)));
+
+        return multiMeshInstance;
+    }
+
+
     public override void Unselected()
     {
         GD.PushWarning("NOT IMPLEMENTED");
@@ -654,10 +728,6 @@ public partial class GraphicGameBoard : GraphicObject
         GD.PushWarning("NOT IMPLEMENTED");
     }
 
-    public override void _Process(double delta)
-    {
-
-    }
     public override void RemoveTargetingPrompt()
     {
         GD.PushWarning("NOT IMPLEMENTED");

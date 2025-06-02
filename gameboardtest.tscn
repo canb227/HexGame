@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvn2814dm88ch"]
+[gd_scene load_steps=3 format=3 uid="uid://bvn2814dm88ch"]
 
 [ext_resource type="Script" uid="uid://cf3hdseuabpkl" path="res://hex/GameManager.cs" id="1_dmft5"]
+[ext_resource type="PackedScene" uid="uid://b8xw4eg87w6bs" path="res://graphics/models/hexagon.glb" id="2_p74t0"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_dmft5")
+
+[node name="hexagon" parent="." instance=ExtResource("2_p74t0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12077, 1.19209e-07, -25.9652)

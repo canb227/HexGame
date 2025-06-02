@@ -17,6 +17,9 @@ public partial class HexGameCamera : Camera3D
 
     public bool blockClick = false;
 
+    public float uvx = 0.0f;
+    public float uvy = 0.0f;
+
     public override void _Process(double delta)
     {
         Vector2 input = Input.GetVector("CameraMoveLeft", "CameraMoveRight", "CameraMoveUp", "CameraMoveDown");
@@ -25,7 +28,7 @@ public partial class HexGameCamera : Camera3D
 
         Vector3 input2 = new Vector3((float)input.X, 0, (float)input.Y);
 
-        //input2.Rotated(Vector3.Up, this.Rotation.Y); // Rotate the input vector based on the camera's current rotation to ensure movement is in the correct direction
+        input2.Rotated(Vector3.Up, this.Rotation.Y); // Rotate the input vector based on the camera's current rotation to ensure movement is in the correct direction
 
 
         zoomOffset = this.Position.Y;
@@ -49,6 +52,11 @@ public partial class HexGameCamera : Camera3D
         //add mouse pan
 
         this.Position = new Vector3(this.Position.X + (float)input2.Z * moveSpeed, zoomOffset + zoomAmount, this.Position.Z + -(float)input2.X * moveSpeed);
+        
+        
+        //this.Position = new Vector3(this.Position.X, zoomOffset + zoomAmount, this.Position.Z);
+        uvx += (float)input2.Z * moveSpeed;
+        uvy += -(float)input2.X * moveSpeed;
         this.zoomAmount = Mathf.Lerp(this.zoomAmount, 0f, 0.5f);
     }
 
