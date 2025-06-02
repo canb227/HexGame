@@ -189,6 +189,7 @@ stretch_mode = 4
 
 [node name="CultureTree" type="Button" parent="."]
 custom_minimum_size = Vector2(256, 64)
+layout_mode = 0
 offset_top = 165.89
 offset_right = 264.0
 offset_bottom = 237.89

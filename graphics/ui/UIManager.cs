@@ -249,8 +249,6 @@ public partial class UIManager : Node3D
                 buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + BuildingLoader.buildingsDict[buildingName].IconPath);
                 scienceButtonResults.AddChild(buildingIcon);
             }
-            GD.Print(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchLeft);
-            GD.Print(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetSciencePerTurn());
             scienceButtonTurnsLeft.Text = (Math.Ceiling(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchLeft / Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetScienceTotal())).ToString();
             cultureButtonTurnsLeft.Text = (Math.Ceiling(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch.First().researchLeft / Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetCultureTotal())).ToString();
         }
