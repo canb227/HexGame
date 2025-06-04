@@ -16,10 +16,13 @@ public partial class GraphicUnit : GraphicObject
     {
         this.unit = unit;
         node3D = new Node3D();
-        InstantiateUnit(unit);
         //InstantiateUnitUI(unit);
         unitWorldUI = new UnitWorldUI(unit);
         AddChild(unitWorldUI);
+    }
+    public override void _Ready()
+    {
+        InstantiateUnit(unit);
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
@@ -37,7 +40,8 @@ public partial class GraphicUnit : GraphicObject
         else if (graphicUpdateType == GraphicUpdateType.Move)
         {
             Transform3D newTransform = node3D.Transform;
-            Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
+            GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex));
             newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
             node3D.Transform = newTransform;
             unitWorldUI.Update();
@@ -71,7 +75,8 @@ public partial class GraphicUnit : GraphicObject
         UnitLoader.unitsDict.TryGetValue(unit.unitType, out UnitInfo unitInfo);
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + unitInfo.ModelPath).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
-        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
+        GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex));
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
         Global.gameManager.graphicManager.hexObjectDictionary[unit.hex].Add(this);
@@ -139,7 +144,9 @@ public partial class GraphicUnit : GraphicObject
 
     public override void ProcessRightClick(Hex hex)
     {
+        GD.Print("MOVE TOWARDS: " + hex);
         unit.MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.teamManager, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
+        GD.Print("home" + unit.hex);
         UpdateGraphic(GraphicUpdateType.Move);
         Unselected();
         Selected();

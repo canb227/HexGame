@@ -180,7 +180,6 @@ public partial class HexTest : Node3D
         width = (width / resolution) + 1;
         depth = (depth / resolution) + 1;
         Vector3[] p_vertices = new Vector3[width * depth];
-        GD.Print(width + " " + depth);
 
         // Populate the vertices array
         for (int i = 0; i < width; i++)

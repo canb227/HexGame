@@ -15,8 +15,8 @@ public class Player
         this.goldTotal = goldTotal;
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
         OnResearchComplete("Agriculture");
-        SelectResearch("Agriculture");
-        SelectCultureResearch("Tribal Dominion");
+        SelectResearch("FutureTech");
+        SelectCultureResearch("FutureTech");
     }
 
     public Player()

@@ -579,6 +579,7 @@ public class Unit
 
     public bool MoveTowards(GameHex targetGameHex, TeamManager teamManager, bool isTargetEnemy)
     {
+        GD.Print(targetGameHex.hex);
         isSleeping = false;
         this.isTargetEnemy = isTargetEnemy;
         
@@ -741,7 +742,7 @@ public class Unit
 
     private int AstarHeuristic(Hex start, Hex end)
     {
-        return start.WrapDistance(end, Global.gameManager.game.mainGameBoard.right - Global.gameManager.game.mainGameBoard.left);
+        return start.WrapDistance(end);
     }
 
     public List<Hex> PathFind(Hex start, Hex end, TeamManager teamManager, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed)

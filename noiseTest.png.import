@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvxjaywcdn2hc"
-path="res://.godot/imported/rough_tundra.jpg-a3ca83c7bb907f6cf96aec06ba462bc0.ctex"
+uid="uid://irwavh1yi8kg"
+path="res://.godot/imported/noiseTest.png-1c6ffccd53849b5f09bc65d6476f5f65.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/textures/rough_tundra.jpg"
-dest_files=["res://.godot/imported/rough_tundra.jpg-a3ca83c7bb907f6cf96aec06ba462bc0.ctex"]
+source_file="res://noiseTest.png"
+dest_files=["res://.godot/imported/noiseTest.png-1c6ffccd53849b5f09bc65d6476f5f65.ctex"]
 
 [params]
 

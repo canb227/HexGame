@@ -256,7 +256,7 @@ public partial class GraphicManager : Node3D
         }
     }
 
-    public void ShowAllWorldUI()
+   public void ShowAllWorldUI()
     {
         foreach (GraphicObject tempObject in graphicObjectDictionary.Values)
         {

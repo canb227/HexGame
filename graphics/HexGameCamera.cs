@@ -187,6 +187,7 @@ public partial class HexGameCamera : Camera3D
 
     private void ProcessHexRightClick(Hex hex)
     {
+        GD.Print("RightClick: " + hex);
         Global.gameManager.graphicManager.selectedObject.ProcessRightClick(hex);
     }
 }
