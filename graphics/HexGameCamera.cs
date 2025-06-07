@@ -134,8 +134,13 @@ public partial class HexGameCamera : Camera3D
     private void ProcessHexLeftClick(Hex hex)
     {
         UpdateHexChunkLocations(Global.camera.GetCameraHexQ(), Global.gameManager.game.mainGameBoard.right/((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count, ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count);
+        
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        Hex wrapHex = hex.WrapHex(hex);
+        GD.Print(wrapHex);
+
         GameHex gameHex;
-        Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(hex, out gameHex);
+        Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(wrapHex, out gameHex);
         if (gameHex == null)
         {
             if (Global.gameManager.graphicManager.GetWaitForTargeting())
@@ -147,9 +152,9 @@ public partial class HexGameCamera : Camera3D
         {
             if (Global.gameManager.graphicManager.selectedObject is GraphicUnit)
             {
-                if (((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.unitDictionary[((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.usingUnitID]))
+                if (((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex], Global.gameManager.game.unitDictionary[((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.usingUnitID]))
                 {
-                    ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
+                    ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]);
                     Global.gameManager.graphicManager.ClearWaitForTarget();
                 }
             }
@@ -158,16 +163,16 @@ public partial class HexGameCamera : Camera3D
                 GraphicCity graphicCity = ((GraphicCity)Global.gameManager.graphicManager.selectedObject);
                 if (graphicCity.waitingToGrow)
                 {
-                    if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
+                    if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.ExpandToHex(hex);
+                        graphicCity.city.ExpandToHex(wrapHex);
                         graphicCity.waitingToGrow = false;
                         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }
-                    else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
+                    else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.DevelopDistrict(hex);
+                        graphicCity.city.DevelopDistrict(wrapHex);
                         graphicCity.waitingToGrow = false;
                         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
                         Global.gameManager.graphicManager.ClearWaitForTarget();
@@ -175,9 +180,9 @@ public partial class HexGameCamera : Camera3D
                 }
                 else if (graphicCity.waitingBuildingName != "")
                 {
-                    if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
+                    if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
+                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]);
                         graphicCity.waitingBuildingName = "";
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }

@@ -15,6 +15,7 @@ public partial class GraphicGameBoard : GraphicObject
     ImageTexture heightMapTexture;
     public Dictionary<Hex, int> hexToChunkDictionary = new();
     public List<HexChunk> chunkList = new();
+    public int chunkSize = 0;
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
         this.gameBoard = gameBoard;
@@ -28,7 +29,9 @@ public partial class GraphicGameBoard : GraphicObject
     }
     public override void _Ready()
     {
-
+        AddHexFeatures(layout);
+        AddHexUnits(layout);
+        AddHexDistrictsAndCities(layout);
     }
 
     public Hex HexToGraphicHex(Hex hex)
@@ -36,6 +39,11 @@ public partial class GraphicGameBoard : GraphicObject
         int chunkID = hexToChunkDictionary[hex];
         GD.Print("CHUNKID: " + chunkID);
         return chunkList[chunkID].HexToGraphicalHex(hex);
+    }
+
+    public Hex GraphicHexToHex(Hex hex)
+    {
+        return hex;
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
@@ -65,7 +73,6 @@ public partial class GraphicGameBoard : GraphicObject
         AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), 1, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
         Global.gameManager.graphicManager.UpdateVisibility();
-
     }
 
     private void DrawBoard(Layout pointy)
@@ -82,14 +89,6 @@ public partial class GraphicGameBoard : GraphicObject
 
         AddBoard(all, 4, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
-
-        //AddHexTemperature(pointy);
-        AddHexFeatures(layout);
-        AddHexUnits(layout);
-        //AddHexType(pointy);
-        AddHexDistrictsAndCities(layout);
-        //AddHexCoords(pointy);
-        //AddHexYields(pointy);
     }
 
     public void UpdateHexChunkOrigins()
@@ -104,7 +103,7 @@ public partial class GraphicGameBoard : GraphicObject
     private void AddBoard(List<Hex> hexList, int chunkCount, Layout pointy)
     {
         int boardWidth = Global.gameManager.game.mainGameBoard.right - Global.gameManager.game.mainGameBoard.left;
-        int chunkSize = (int) Math.Ceiling((float)boardWidth/chunkCount);
+        chunkSize = (int) Math.Ceiling((float)boardWidth/chunkCount);
         List<List<Hex>> hexListChunks = new List<List<Hex>>();
         for (int chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
         {

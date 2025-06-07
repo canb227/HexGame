@@ -17,6 +17,7 @@ public class HexChunk
         this.origin = origin;
         this.graphicalOrigin = graphicalOrigin;
         deltaQ = graphicalOrigin.q - origin.q;
+        UpdateGraphicalOrigin(graphicalOrigin);
     }
 
     public void UpdateGraphicalOrigin(Hex newOrigin)

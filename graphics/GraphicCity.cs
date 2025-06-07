@@ -113,6 +113,17 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
         }
+        List<Hex> wrapHexes = new List<Hex>();
+        foreach (Hex hex in hexes)
+        {
+            wrapHexes.Add(hex.WrapHex(hex));
+        }
+
+        List<Hex> wrapUrbanHexes = new List<Hex>();
+        foreach(Hex hex in urbanhexes)
+        {
+            wrapUrbanHexes.Add(hex.WrapHex(hex));
+        }
         if (hexes.Count > 0)
         { 
             AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "RuralGrow"));

@@ -146,6 +146,7 @@ public partial class GraphicUnit : GraphicObject
 
     public override void ProcessRightClick(Hex hex)
     {
+        hex = hex.WrapHex(hex);
         GD.Print("MOVE TOWARDS: " + hex);
         //unit.MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.teamManager, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
         Global.gameManager.MoveUnit(unit.id, hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
