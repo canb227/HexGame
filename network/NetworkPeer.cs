@@ -225,6 +225,7 @@ public partial class NetworkPeer : Node
     /// <param name="id">SteamID ulong to attempt to join to</param>
     public void JoinToPeer(ulong id)
     {
+        Global.debugLog("Attempting to join peer: " + id);
         SteamNetworkingIdentity identity = new SteamNetworkingIdentity();
         identity.SetSteamID64(id);
         JoinToPeer(identity);

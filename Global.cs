@@ -74,6 +74,11 @@ public partial class Global : Node
         }
     }
 
+    public override void _Process(double delta)
+    {
+        SteamAPI.RunCallbacks();
+    }
+
     public static void networkLog(string message, ulong timestamp, bool server )
     {
         if(server)
