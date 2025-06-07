@@ -16,13 +16,13 @@ public class HexChunk
         this.mesh = mesh;
         this.origin = origin;
         this.graphicalOrigin = graphicalOrigin;
-        deltaQ = Math.Abs(origin.q - graphicalOrigin.q);
+        deltaQ = graphicalOrigin.q - origin.q;
     }
 
     public void UpdateGraphicalOrigin(Hex newOrigin)
     {
         graphicalOrigin = newOrigin;
-        deltaQ = Math.Abs(origin.q - graphicalOrigin.q);
+        deltaQ = graphicalOrigin.q - origin.q;
         Transform3D newTransform = mesh.Transform;
         newTransform.Origin = new Vector3((float)Global.layout.HexToPixel(graphicalOrigin).y, -1.0f, (float)Global.layout.HexToPixel(graphicalOrigin).x);
         mesh.Transform = newTransform;
