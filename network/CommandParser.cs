@@ -18,18 +18,19 @@ using System.Threading.Tasks;
 
     private static void OnCommandMessageReceived(Command command)
     {
+        Global.debugLog("Command received: " + command.CommandType + " from " + command.Sender);
         switch (command.CommandType)
         {
-            case "MoveUnit":
-                Global.gameManager.ActivateAbility((int)command.ActivateAbility.UnitId, command.ActivateAbility.AbilityName, new Hex((int)command.ActivateAbility.Target.Q, (int)command.ActivateAbility.Target.R, (int)command.ActivateAbility.Target.S));
-                break;
             case "ActivateAbility":
-                Global.gameManager.MoveUnit((int)command.MoveUnit.UnitId, new Hex((int)command.MoveUnit.Target.Q, (int)command.MoveUnit.Target.R, (int)command.MoveUnit.Target.S));
+                Global.gameManager.ActivateAbility((int)command.ActivateAbility.UnitId, command.ActivateAbility.AbilityName, new Hex((int)command.ActivateAbility.Target.Q, (int)command.ActivateAbility.Target.R, (int)command.ActivateAbility.Target.S), false);
+                break;
+            case "MoveUnit":
+                Global.gameManager.MoveUnit((int)command.MoveUnit.UnitId, new Hex((int)command.MoveUnit.Target.Q, (int)command.MoveUnit.Target.R, (int)command.MoveUnit.Target.S), command.MoveUnit.IsEnemy, false);
                 break;
         }
     }
 
-    public static Command ConstructMoveUnitCommand(int unitID, Hex target)
+    public static Command ConstructMoveUnitCommand(int unitID, Hex target, bool isEnemy)
     {
         MoveUnit moveUnit = new MoveUnit();
         moveUnit.UnitId = (ulong)unitID;
@@ -37,6 +38,7 @@ using System.Threading.Tasks;
         moveUnit.Target.Q = (ulong)target.q;
         moveUnit.Target.R = (ulong)target.r;
         moveUnit.Target.S = (ulong)target.s;
+        moveUnit.IsEnemy = isEnemy;
 
         Command command = new();
         command.CommandType = "MoveUnit";

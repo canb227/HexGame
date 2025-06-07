@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b04k7i5sjy21u"]
 
-[ext_resource type="Script" uid="uid://dp5lw4iqrwdx0" path="res://HexTest.cs" id="1_r3umj"]
+[ext_resource type="Script" uid="uid://bch3jqk5oavgb" path="res://HexTest.cs" id="1_r3umj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r3umj"]
 

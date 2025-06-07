@@ -53,7 +53,7 @@ public partial class GameManager: Node
         return retVal;
     }
 
-    public void startGame()
+    public void startGame(int teamNum)
     {
         Global.debugLog("Starting Game");
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
@@ -67,6 +67,7 @@ public partial class GameManager: Node
             game = LoadGame("test.txt");
         }
 
+        game.localPlayerTeamNum=teamNum;
         InitGraphics(game, Global.layout);
         Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
@@ -135,12 +136,18 @@ public partial class GameManager: Node
         }
     }
 
-    public void MoveUnit(int unitID, Hex Target, bool local = true)
+    public void MoveUnit(int unitID, Hex hex, bool isEnemy, bool local = true)
     {
+        
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructMoveUnitCommand(unitID, Target));
+            Global.debugLog("Local move command recevied, sending to network and loopback.");
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructMoveUnitCommand(unitID, hex, isEnemy));
             return;
+        }
+        else
+        {
+            Global.debugLog("Network (or loopback) move command recevied, executing.");
         }
 
 
@@ -151,17 +158,20 @@ public partial class GameManager: Node
             return;
         }
 
-        GameHex target = game.mainGameBoard.gameHexDict[Target];
+        GameHex target = game.mainGameBoard.gameHexDict[hex];
         if (target == null)
         {
             Global.debugLog("Target hex is null");//TODO - Potential Desync
             return;
         }
 
+        if (isEnemy != Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum))
+        {
+            Global.debugLog("DESYNC ALARM");
+        }
         try
         {
-            //this is improper usage, TryMoveToGameHex will be made private soon
-            unit.TryMoveToGameHex(target, game.teamManager);
+            unit.MoveTowards(target, Global.gameManager.game.teamManager, isEnemy);
         }
         catch (Exception e)
         {
@@ -196,6 +206,7 @@ public partial class GameManager: Node
             Global.debugLog("Unit is null"); //TODO - Potential Desync
             return;
         }
+
         GameHex target = game.mainGameBoard.gameHexDict[Target];
         if (target == null)
         {

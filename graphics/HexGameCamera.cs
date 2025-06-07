@@ -225,6 +225,7 @@ public partial class HexGameCamera : Camera3D
     private void ProcessHexRightClick(Hex hex)
     {
         GD.Print("RightClick: " + hex);
+        Global.debugLog("Team Num: " + Global.gameManager.game.localPlayerTeamNum.ToString());
         Global.gameManager.graphicManager.selectedObject.ProcessRightClick(hex);
     }
 }

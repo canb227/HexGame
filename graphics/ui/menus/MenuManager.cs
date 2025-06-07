@@ -13,6 +13,17 @@ public partial class MenuManager : Control
 		ChangeMenu("res://graphics/ui/menus/mainmenu.tscn");
 	}
 
+    public void LoadLobby()
+    {
+        Lobby lobby = GD.Load<PackedScene>("res://graphics/ui/menus/lobby.tscn").Instantiate<Lobby>();
+        if (CurrentMenu != null)
+        {
+            RemoveChild(CurrentMenu);
+        }
+        CurrentMenu = lobby;
+        AddChild(CurrentMenu);
+        lobby.CreateLobby();
+    }
 
 	public void ChangeMenu(string scenePath)
     {
