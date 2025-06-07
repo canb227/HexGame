@@ -11,9 +11,12 @@ public class HexChunk
     public Hex origin;
     public Hex graphicalOrigin;
     private int deltaQ;
-    public HexChunk(MeshInstance3D mesh, Hex origin, Hex graphicalOrigin)
+    private List<Hex> ourHexes;
+    bool firstRun = true;
+    public HexChunk(MeshInstance3D mesh, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin)
     {
         this.mesh = mesh;
+        this.ourHexes = ourHexes;
         this.origin = origin;
         this.graphicalOrigin = graphicalOrigin;
         deltaQ = graphicalOrigin.q - origin.q;
@@ -22,11 +25,34 @@ public class HexChunk
 
     public void UpdateGraphicalOrigin(Hex newOrigin)
     {
-        graphicalOrigin = newOrigin;
-        deltaQ = graphicalOrigin.q - origin.q;
-        Transform3D newTransform = mesh.Transform;
-        newTransform.Origin = new Vector3((float)Global.layout.HexToPixel(graphicalOrigin).y, -1.0f, (float)Global.layout.HexToPixel(graphicalOrigin).x);
-        mesh.Transform = newTransform;
+        if(!newOrigin.Equals(graphicalOrigin) || firstRun)
+        {
+            graphicalOrigin = newOrigin;
+            deltaQ = graphicalOrigin.q - origin.q;
+            Transform3D newTransform = mesh.Transform;
+            newTransform.Origin = new Vector3((float)Global.layout.HexToPixel(graphicalOrigin).y, -1.0f, (float)Global.layout.HexToPixel(graphicalOrigin).x);
+            mesh.Transform = newTransform;
+            if(!firstRun)
+            {
+                GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+                foreach (Hex hex in ourHexes)
+                {
+                    List<GraphicObject> objectsToUpdate = new();
+                    foreach (GraphicObject graphicObj in Global.gameManager.graphicManager.hexObjectDictionary[hex])
+                    {
+                        if(graphicObj is GraphicUnit)
+                        {
+                            objectsToUpdate.Add(graphicObj);
+                        }
+                    }
+                    foreach(GraphicObject graphicObj in objectsToUpdate)
+                    {
+                        graphicObj.UpdateGraphic(GraphicUpdateType.Update);
+                    }
+                }
+            }
+            firstRun = false;
+        }
     }
 
     public Hex HexToGraphicalHex(Hex hex)

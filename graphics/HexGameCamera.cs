@@ -1,6 +1,7 @@
 using Godot;
 using NetworkMessages;
 using System.Collections.Generic;
+using System;
 
 [GlobalClass]
 public partial class HexGameCamera : Camera3D
@@ -16,10 +17,17 @@ public partial class HexGameCamera : Camera3D
 
     public bool blockClick = false;
 
+    public int currentCameraQ = 0;
+
     public override void _Process(double delta)
     {
         Vector2 input = Input.GetVector("CameraMoveLeft", "CameraMoveRight", "CameraMoveUp", "CameraMoveDown");
 
+        if(Math.Abs(currentCameraQ - GetCameraHexQ()) > 2)
+        {
+            UpdateHexChunkLocations(Global.camera.GetCameraHexQ(), Global.gameManager.game.mainGameBoard.right / ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count, ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count);
+            currentCameraQ = GetCameraHexQ();
+        }
 
 
         Vector3 input2 = new Vector3((float)input.X, 0, (float)input.Y);
@@ -114,27 +122,17 @@ public partial class HexGameCamera : Camera3D
         {
             orderedChunks.Add((leadingChunk + i) % numChunks + 1);
         }
-        //GD.Print("Chunks, Offset: " + absoluteChunk + " " + centerChunk);
         int j = absoluteChunk - 2;
         foreach(int i in orderedChunks)
         {
             int q = j * wChunk;
             ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList[i-1].UpdateGraphicalOrigin(new Hex(q,0,-q));
-            //GD.Print(q);
-            //GD.Print(new Hex(q, 0, -q));
-            //GD.Print(new Vector3((float)Global.layout.HexToPixel(new Hex(q, 0, -q)).y, -1.0f, (float)Global.layout.HexToPixel(new Hex(q, 0, -q)).x));
             j++;
         }
-        /*foreach(HexChunk hexChunk in ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList)
-        {
-
-        }*/
     }
 
     private void ProcessHexLeftClick(Hex hex)
-    {
-        UpdateHexChunkLocations(Global.camera.GetCameraHexQ(), Global.gameManager.game.mainGameBoard.right/((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count, ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count);
-        
+    {        
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         Hex wrapHex = hex.WrapHex(hex);
         GD.Print(wrapHex);
