@@ -1,4 +1,5 @@
 ﻿using Godot;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,8 +13,8 @@ public partial class GraphicGameBoard : GraphicObject
     Shader terrainShader = GD.Load<Shader>("res://graphics/shaders/terrain/hex.gdshader");
     Image heightMap;
     ImageTexture heightMapTexture;
-    Dictionary<Hex, int> hexToChunkDictionary = new();
-    List<HexChunk> chunkList = new();
+    public Dictionary<Hex, int> hexToChunkDictionary = new();
+    public List<HexChunk> chunkList = new();
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
         this.gameBoard = gameBoard;
@@ -33,6 +34,7 @@ public partial class GraphicGameBoard : GraphicObject
     public Hex HexToGraphicHex(Hex hex)
     {
         int chunkID = hexToChunkDictionary[hex];
+        GD.Print("CHUNKID: " + chunkID);
         return chunkList[chunkID].HexToGraphicalHex(hex);
     }
 
@@ -60,9 +62,10 @@ public partial class GraphicGameBoard : GraphicObject
         List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
-        AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), pointy, 0);
+        AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), 1, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
         Global.gameManager.graphicManager.UpdateVisibility();
+
     }
 
     private void DrawBoard(Layout pointy)
@@ -77,7 +80,7 @@ public partial class GraphicGameBoard : GraphicObject
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
 
 
-        AddBoard(all, pointy, 0);
+        AddBoard(all, 4, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
 
         //AddHexTemperature(pointy);
@@ -89,39 +92,75 @@ public partial class GraphicGameBoard : GraphicObject
         //AddHexYields(pointy);
     }
 
-    private void AddBoard(List<Hex> hexList, Layout pointy, float height)
+    public void UpdateHexChunkOrigins()
     {
-        MeshInstance3D triangles = new MeshInstance3D();
-        int chunkIndex = 0;
-        triangles.Mesh = GenerateHexTriangles(hexList, chunkIndex, pointy, 0);
+        foreach(HexChunk hexChunk in chunkList)
+        {
+            Global.camera.GetCameraHexQ();
+            //hexChunk.UpdateGraphicalOrigin();
+        }
+    }
 
-        ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
-        terrainShaderMaterial.Shader = terrainShader;
+    private void AddBoard(List<Hex> hexList, int chunkCount, Layout pointy)
+    {
+        int boardWidth = Global.gameManager.game.mainGameBoard.right - Global.gameManager.game.mainGameBoard.left;
+        int chunkSize = (int) Math.Ceiling((float)boardWidth/chunkCount);
+        List<List<Hex>> hexListChunks = new List<List<Hex>>();
+        for (int chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
+        {
+            List<Hex> subHexList = new List<Hex>();
+            GD.Print("chunk offset: " + (chunkSize * chunkIndex));
+            foreach (Hex hex in hexList)
+            {
+                int left = ( Global.gameManager.game.mainGameBoard.left + (chunkSize * chunkIndex) ) - (hex.r >> 1);
+                int right = (left + chunkSize);
+                if (hex.q >= left)
+                {
+                    if (hex.q < right)
+                    {
+                        subHexList.Add(hex);
+                    }
+                }
+            }
+            hexListChunks.Add(subHexList);
+        }
+        int i = 0;
+        foreach(List<Hex> subHexList in hexListChunks)
+        {
+            MeshInstance3D triangles = new MeshInstance3D();
+            triangles.Mesh = GenerateHexTriangles(subHexList, hexListChunks[0], i, pointy);
 
-        FastNoiseLite noise = new FastNoiseLite();
-        noise.Frequency = 0.0005f;
-        noise.Offset = new Vector3(0.0f, 0.0f, 0.0f);
-        heightMap = noise.GetImage(4096, 4096);
-        heightMap.SavePng("noiseTest.png");
-        heightMapTexture = ImageTexture.CreateFromImage(heightMap);
+            ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
+            terrainShaderMaterial.Shader = terrainShader;
 
-/*        StandardMaterial3D material = new StandardMaterial3D();
-        material.VertexColorUseAsAlbedo = true;
-        triangles.SetSurfaceOverrideMaterial(0, material);*/
+            FastNoiseLite noise = new FastNoiseLite();
+            noise.Frequency = 0.005f;
+            int noiseImageSize = 4096 / chunkCount;
+            noise.Offset = new Vector3(0.0f, 0.0f, 0.0f);
+            heightMap = noise.GetSeamlessImage(noiseImageSize, noiseImageSize);
+            heightMap.SavePng("noiseTest.png");
+            heightMapTexture = ImageTexture.CreateFromImage(heightMap);
 
-        terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
+            /*        StandardMaterial3D material = new StandardMaterial3D();
+                    material.VertexColorUseAsAlbedo = true;
+                    triangles.SetSurfaceOverrideMaterial(0, material);*/
 
-        triangles.SetSurfaceOverrideMaterial(0, terrainShaderMaterial);
-        triangles.Name = "GameBoardTerrain";
+            terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
 
-        chunkList.Add(new HexChunk(triangles, hexList.First(), hexList.First())); //how do we get and set the graphical hex origin TODO
+            triangles.SetSurfaceOverrideMaterial(0, terrainShaderMaterial);
+            triangles.Name = "GameBoardTerrain" + i;
 
-        AddChild(triangles);
+            chunkList.Add(new HexChunk(triangles, subHexList.First(), subHexList.First()));//we set graphical to our default location here then update as we move it around
 
-        MeshInstance3D lines = new MeshInstance3D();
+            AddChild(triangles);
+            i++;
+        }
+
+
+/*        MeshInstance3D lines = new MeshInstance3D();
         lines.Mesh = GenerateHexLines(hexList, pointy, 0.01f);
         lines.Name = "GameBoardTerrainLines";
-        AddChild(lines);
+        AddChild(lines);*/
     }
 
     private void AddBoardFog(List<Hex> seenButNotVisible, List<Hex> nonSeenHexes, Layout pointy, float height)
@@ -352,15 +391,17 @@ public partial class GraphicGameBoard : GraphicObject
         return st.Commit();
     }
 
-    ArrayMesh GenerateHexTriangles(List<Hex> hexList, int chunkIndex, Layout layout, float height)
+    ArrayMesh GenerateHexTriangles(List<Hex> hexList, List<Hex> graphicHexList, int chunkIndex, Layout layout)
     {
         SurfaceTool st = new SurfaceTool();
         st.Begin(Mesh.PrimitiveType.Triangles);
-
-
         foreach (Hex hex in hexList)
         {
             hexToChunkDictionary.Add(hex, chunkIndex);
+        }
+
+        foreach (Hex hex in graphicHexList)
+        {
             switch (gameBoard.gameHexDict[hex].terrainType)
             {
                 case TerrainType.Flat:
@@ -381,20 +422,6 @@ public partial class GraphicGameBoard : GraphicObject
                 default:
                     break;
             }
-
-            /*List<Point> points = layout.PolygonCorners(hex);
-
-            Vector3 origin = new Vector3((float)points[0].y, height, (float)points[0].x);
-            for (int i = 1; i < 6; i++)
-            {
-                st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
-
-                Vector3 pointTwo = new Vector3((float)points[i].y, height, (float)points[i].x); // Get the next point in the polygon
-                st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
-
-                Vector3 pointThree = new Vector3((float)points[i - 1].y, height, (float)points[i - 1].x);
-                st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
-            }*/
             Transform3D newTransform = Transform;
             Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
             Hex wrapHex = hex.WrapHex(hex);

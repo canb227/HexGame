@@ -12,13 +12,13 @@ varying vec3 hexWorldPos;
 
 void vertex() {
     hexWorldPos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-    //VERTEX.y += (texture(terrainNoise, hexWorldPos.xz/1000.0).r * 100.0) * texture(terrainInfo, hexValue.xy).g;
+    //VERTEX.y += texture(heightMap, hexWorldPos.xz/374.0).r * 50.0;// * texture(terrainInfo, hexValue.xy).g;
 }
 
 void fragment() {
     //vec2 visData = texture(visibilityGrid, hexValue.xy).rg;
 
-    ALBEDO = texture(heightMap, hexWorldPos.xz/400.0).rgb;
+    ALBEDO = texture(heightMap, hexWorldPos.xz/374.0).rgb;
 
     // Calculate Visibility Changes
     //float grayscaleFactor = dot(blendedTerrain.rgb, vec3(0.299, 0.587, 0.114)) * 0.5;

@@ -12,6 +12,7 @@ public partial class GraphicUnit : GraphicObject
     public Node3D node3D;
     public UnitAbility waitingAbility;
     public UnitWorldUI unitWorldUI;
+    public Hex graphicalHex;
     public GraphicUnit(Unit unit)
     {
         this.unit = unit;
@@ -42,6 +43,7 @@ public partial class GraphicUnit : GraphicObject
             Transform3D newTransform = node3D.Transform;
             GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
             Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex));
+            //GD.Print("GRAPHIC HEX: " + ggb.HexToGraphicHex(unit.hex) + " HEX: " + unit.hex);
             newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
             node3D.Transform = newTransform;
             unitWorldUI.Update();

@@ -16,12 +16,22 @@ public class HexChunk
         this.mesh = mesh;
         this.origin = origin;
         this.graphicalOrigin = graphicalOrigin;
-        deltaQ = origin.q + graphicalOrigin.q;
+        deltaQ = Math.Abs(origin.q - graphicalOrigin.q);
+    }
+
+    public void UpdateGraphicalOrigin(Hex newOrigin)
+    {
+        graphicalOrigin = newOrigin;
+        deltaQ = Math.Abs(origin.q - graphicalOrigin.q);
+        Transform3D newTransform = mesh.Transform;
+        newTransform.Origin = new Vector3((float)Global.layout.HexToPixel(graphicalOrigin).y, -1.0f, (float)Global.layout.HexToPixel(graphicalOrigin).x);
+        mesh.Transform = newTransform;
     }
 
     public Hex HexToGraphicalHex(Hex hex)
     {
         GD.Print(hex + " " + deltaQ);
+        GD.Print("CHUNK HEXES: " + origin + " " + graphicalOrigin);
         return new Hex(hex.q+deltaQ, hex.r, -(hex.q + deltaQ)-hex.r);
     }
 }

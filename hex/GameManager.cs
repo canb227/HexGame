@@ -12,7 +12,6 @@ public partial class GameManager: Node
 {
     public static GameManager instance;
     public GraphicManager graphicManager;
-    public HexGameCamera camera;
     public Game game;
     
 

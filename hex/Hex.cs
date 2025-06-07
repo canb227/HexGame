@@ -97,14 +97,12 @@ public struct Hex
         if (hex.q < Global.gameManager.game.mainGameBoard.left - (hex.r >> 1))
         {
             int newQ = Global.gameManager.game.mainGameBoard.right - 1 - (hex.r >> 1);
-            GD.Print("smaller: " + (Global.gameManager.game.mainGameBoard.left - (hex.r >> 1)) + "hex: " + hex + "new q: " + newQ);
             wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
         }
         else if (hex.q > Global.gameManager.game.mainGameBoard.right - 1 - (hex.r>>1))
         {
             
             int newQ = Global.gameManager.game.mainGameBoard.left - (hex.r >> 1) - (Global.gameManager.game.mainGameBoard.right - 1 - (hex.r >> 1) - hex.q);
-            GD.Print("bigger col: " + (Global.gameManager.game.mainGameBoard.right - (hex.r >> 1)) + "hex: " + hex + "new q: " + newQ);
             wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
         }
         return wrapHex;
