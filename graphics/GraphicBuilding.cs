@@ -40,10 +40,13 @@ public partial class GraphicBuilding : GraphicObject
     {
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + BuildingLoader.buildingsDict[building.name].ModelPath).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
-
-        Point hexPoint = layout.HexToPixel(building.districtHex);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        int newQ = (Global.gameManager.game.mainGameBoard.left + (building.districtHex.r >> 1) + building.districtHex.q) % ggb.chunkSize - (building.districtHex.r >> 1);
+        Hex modHex = new Hex(newQ, building.districtHex.r, -newQ - building.districtHex.r);
+        Point hexPoint = layout.HexToPixel(modHex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
+
 
         Global.gameManager.graphicManager.hexObjectDictionary[building.districtHex].Add(this);
 

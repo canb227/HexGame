@@ -64,28 +64,31 @@ public partial class GraphicManager : Node3D
     {
         GraphicUnit graphicUnit = new GraphicUnit(unit);
         graphicObjectDictionary.Add(graphicUnit.unit.id, graphicUnit);
-        AddChild(graphicUnit);
+        CallDeferred(Node.MethodName.AddChild, graphicUnit);
     }
 
     public void NewDistrict(District district)
     {
         GraphicDistrict graphicDistrict = new GraphicDistrict(district, layout);
         graphicObjectDictionary.Add(graphicDistrict.district.id, graphicDistrict);
-        AddChild(graphicDistrict);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.chunkList[ggb.hexToChunkDictionary[graphicDistrict.district.hex]].mesh.AddChild(graphicDistrict);
     }
 
     public void NewBuilding(Building building)
     {
         GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout);
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
-        AddChild(graphicBuilding);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.chunkList[ggb.hexToChunkDictionary[graphicBuilding.building.districtHex]].mesh.AddChild(graphicBuilding);
     }
 
     public void NewCity(City city)
     {
         GraphicCity graphicCity = new GraphicCity(city, layout);
         graphicObjectDictionary.Add(graphicCity.city.id, graphicCity);
-        AddChild(graphicCity);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.chunkList[ggb.hexToChunkDictionary[graphicCity.city.hex]].mesh.AddChild(graphicCity);
     }
     public void UpdateGraphic(int id, GraphicUpdateType graphicUpdateType)
     {
@@ -225,7 +228,10 @@ public partial class GraphicManager : Node3D
 
         foreach (Hex hex in hexes)
         {
-            List<Point> points = layout.PolygonCorners(hex);
+            GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
+            Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
+            List<Point> points = layout.PolygonCorners(modHex);
 
             Vector3 origin = new Vector3((float)points[0].y, 0.15f, (float)points[0].x);
             for (int i = 1; i < 6; i++)

@@ -1,4 +1,5 @@
 ﻿using Godot;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -60,7 +61,10 @@ public partial class CityWorldUI : Node3D
         
         AddChild(node);
         Transform3D newTransform = Transform;
-        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(city.hex);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        int newQ = (Global.gameManager.game.mainGameBoard.left + (city.hex.r >> 1) + city.hex.q) % ggb.chunkSize - (city.hex.r >> 1);
+        Hex modHex = new Hex(newQ, city.hex.r, -newQ - city.hex.r);
+        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         Transform = newTransform;
         Update();

@@ -94,15 +94,19 @@ public struct Hex
     public Hex WrapHex(Hex hex)
     {
         Hex wrapHex = hex;
-        if (hex.q < Global.gameManager.game.mainGameBoard.left - (hex.r >> 1))
+        int left = Global.gameManager.game.mainGameBoard.left;
+        int right = Global.gameManager.game.mainGameBoard.right;
+
+        if (hex.q < left - (hex.r >> 1))
         {
-            int newQ = Global.gameManager.game.mainGameBoard.right - 1 - (hex.r >> 1);
+            int newQ = right - (hex.r >> 1);
             wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
         }
-        else if (hex.q > Global.gameManager.game.mainGameBoard.right - 1 - (hex.r>>1))
+        else if (hex.q > right - (hex.r>>1))
         {
-            
-            int newQ = Global.gameManager.game.mainGameBoard.left - (hex.r >> 1) - (Global.gameManager.game.mainGameBoard.right - 1 - (hex.r >> 1) - hex.q);
+            int newQ = (left - (hex.r >> 1) - (right - (hex.r >> 1) - hex.q)) % (right - left); //off by a bunch
+            //int newQ = left + ((hex.q - (right - (hex.r >> 1))) % (right - left + 1)); //off by 4
+            //int newQ = left - (hex.r >> 1) + ((hex.q - (right - (hex.r >> 1))) % (right - left + 1)); //off by 1
             wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
         }
         return wrapHex;
