@@ -41,11 +41,6 @@ public partial class GraphicGameBoard : GraphicObject
         return chunkList[chunkID].HexToGraphicalHex(hex);
     }
 
-    public Hex GraphicHexToHex(Hex hex)
-    {
-        return hex;
-    }
-
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
         //placeholder
@@ -149,7 +144,7 @@ public partial class GraphicGameBoard : GraphicObject
             triangles.SetSurfaceOverrideMaterial(0, terrainShaderMaterial);
             triangles.Name = "GameBoardTerrain" + i;
 
-            chunkList.Add(new HexChunk(triangles, subHexList.First(), subHexList.First()));//we set graphical to our default location here then update as we move it around
+            chunkList.Add(new HexChunk(triangles, subHexList, subHexList.First(), subHexList.First()));//we set graphical to our default location here then update as we move it around
 
             AddChild(triangles);
             i++;

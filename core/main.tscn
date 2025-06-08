@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bhg68s18q50f"]
 
-[ext_resource type="Script" uid="uid://b1fdl0bx5xtlv" path="res://network/NetworkPeer.cs" id="1_xiose"]
-[ext_resource type="Script" uid="uid://om7sllrdrhje" path="res://graphics/ui/menus/MenuManager.cs" id="2_r77kf"]
-[ext_resource type="Script" uid="uid://bir6bmai6qh0e" path="res://hex/GameManager.cs" id="3_3gdo0"]
+[ext_resource type="Script" uid="uid://cana1khiow73x" path="res://network/NetworkPeer.cs" id="1_xiose"]
+[ext_resource type="Script" uid="uid://duksm443awj2y" path="res://graphics/ui/menus/MenuManager.cs" id="2_r77kf"]
+[ext_resource type="Script" uid="uid://cf3hdseuabpkl" path="res://hex/GameManager.cs" id="3_3gdo0"]
 
 [node name="Main" type="Node"]
 
