@@ -317,6 +317,7 @@ public partial class NetworkPeer : Node
             case "JoinRequest":
                 Global.debugLog("Join request received from: " + handshake.Sender);
                 remotePeers.Add(id);
+                PlayerJoinedEvent?.Invoke(handshake.Sender);
                 HandshakePeer(id, "JoinAccepted");
                 break;
             case "JoinAccepted":
