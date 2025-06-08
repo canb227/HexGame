@@ -19,6 +19,11 @@ public partial class Mainmenu : Control
 		Global.menuManager.LoadLobby();
     }
 
+	public void onDebugStart1Pressed()
+	{
+        Global.gameManager.startGame(1);
+    }
+
 	public void onOptionsButtonPressed()
     {
 

@@ -222,6 +222,22 @@ metadata/_edit_use_anchors_ = true
 [node name="chattext" type="RichTextLabel" parent="chat/chatbox"]
 layout_mode = 2
 
+[node name="debugresetlobby" type="Button" parent="."]
+layout_mode = 0
+offset_left = 732.0
+offset_top = 24.0
+offset_right = 863.0
+offset_bottom = 55.0
+text = "Reset Player list"
+
+[node name="debuglabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 738.0
+offset_top = 2.0
+offset_right = 895.0
+offset_bottom = 25.0
+text = "Debug buttons"
+
 [connection signal="pressed" from="b_invite" to="." method="OnInviteButtonPressed"]
 [connection signal="pressed" from="b_newgame" to="." method="OnStartGameButtonPressed"]
 [connection signal="pressed" from="b_loadgame" to="." method="OnLoadButtonPressed"]
