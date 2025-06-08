@@ -25,7 +25,18 @@ public partial class MenuManager : Control
         lobby.CreateLobby();
     }
 
-	public void ChangeMenu(string scenePath)
+    public void JoinLobby(ulong id)
+    {
+        Lobby lobby = GD.Load<PackedScene>("res://graphics/ui/menus/lobby.tscn").Instantiate<Lobby>();
+        if (CurrentMenu != null)
+        {
+            RemoveChild(CurrentMenu);
+        }
+        CurrentMenu = lobby;
+        AddChild(CurrentMenu);
+        lobby.JoinLobby(id);
+    }
+    public void ChangeMenu(string scenePath)
     {
         if (CurrentMenu != null)
         {

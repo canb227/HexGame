@@ -51,8 +51,8 @@ public partial class Global : Node
         Global.debugLog("Game Rich Presence Join Requested: " + pCallback.m_rgchConnect);
         string connectString = (pCallback.m_rgchConnect);
         Global.debugLog("Connect String: " + connectString);
-        Global.menuManager.ChangeMenu("res://graphics/ui/menus/lobby.tscn");
-        networkPeer.JoinToPeer(ulong.Parse(connectString));
+        Global.menuManager.JoinLobby(ulong.Parse(connectString));
+
 
     }
 

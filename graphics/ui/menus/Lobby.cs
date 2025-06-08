@@ -7,11 +7,11 @@ using NetworkMessages;
 public partial class Lobby : Control
 {
 
-    bool isHost = false;
     VBoxContainer PlayersListBox;
     Dictionary<ulong, LobbyStatus> PlayerStatuses = new();
-
     Button StartGameButton;
+    bool connected = false;
+    bool isHost = false;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -26,12 +26,70 @@ public partial class Lobby : Control
 
     private void OnLobbyMessageReceived(LobbyMessage lobbyMessage)
     {
+
         Global.debugLog("Lobby message received: " + lobbyMessage.MessageType + " from " + lobbyMessage.Sender);
-        PlayerStatuses[lobbyMessage.Sender] = lobbyMessage.LobbyStatus;
-        Control PlayerListItem = PlayersListBox.GetNode<Control>(lobbyMessage.Sender.ToString());
-        PlayerListItem.GetNode<OptionButton>("teamselect").Selected = (int)lobbyMessage.LobbyStatus.Team - 1;
-        PlayerListItem.GetNode<OptionButton>("factionselect").Selected = (int)lobbyMessage.LobbyStatus.Faction;
-        PlayerListItem.GetNode<CheckButton>("ReadyButton").ButtonPressed = lobbyMessage.LobbyStatus.IsReady;
+        switch (lobbyMessage.MessageType)
+        {
+            case "status":
+                if (!PlayerStatuses.ContainsKey(lobbyMessage.Sender))
+                {
+                    Global.debugLog("Adding new player to lobby: " + lobbyMessage.Sender);
+                    AddPlayer(lobbyMessage.Sender);
+                }
+                else
+                {
+                    Global.debugLog("Updating existing player status: " + lobbyMessage.Sender);
+                }
+                PlayerStatuses[lobbyMessage.Sender] = lobbyMessage.LobbyStatus;
+                Control PlayerListItem = PlayersListBox.GetNode<Control>(lobbyMessage.Sender.ToString());
+                PlayerListItem.GetNode<OptionButton>("teamselect").Selected = (int)lobbyMessage.LobbyStatus.Team - 1;
+                PlayerListItem.GetNode<OptionButton>("factionselect").Selected = (int)lobbyMessage.LobbyStatus.Faction;
+                PlayerListItem.GetNode<CheckButton>("ReadyButton").ButtonPressed = lobbyMessage.LobbyStatus.IsReady;
+                CheckIfGameCanStart();
+                break;
+            case "leave":
+                Global.debugLog("Player left the lobby: " + lobbyMessage.Sender);
+                if (PlayerStatuses.ContainsKey(lobbyMessage.Sender))
+                {
+                    PlayerStatuses.Remove(lobbyMessage.Sender);
+                    Control playerItem = PlayersListBox.GetNode<Control>(lobbyMessage.Sender.ToString());
+                    if (playerItem != null)
+                    {
+                        playerItem.QueueFree();
+                    }
+                }
+                break;
+            case "startgame":
+                Global.debugLog("Starting game from lobby message");
+                if (isHost)
+                {
+                    Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+                }
+                else
+                {
+                    Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+                }
+                break;
+            default:
+                Global.debugLog("Unknown lobby message type: " + lobbyMessage.MessageType);
+                break;
+        }
+
+    }
+
+    public void ResetLobbyPlayerList()
+    {
+        Global.debugLog("Resetting lobby player list");
+        foreach (Node node in PlayersListBox.GetChildren())
+        {
+            node.QueueFree();
+        }
+        PlayerStatuses.Clear();
+        AddSelf(isHost);
+        foreach (ulong id in Global.networkPeer.GetConnectedPeers())
+        {
+            AddPlayer(id);
+        }
         CheckIfGameCanStart();
     }
 
@@ -41,10 +99,19 @@ public partial class Lobby : Control
         SteamFriends.SetRichPresence("status", "In a lobby");
         SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
         isHost = true;
-        AddSelf();
+        ResetLobbyPlayerList();
     }
 
-    private void AddSelf()
+    public void JoinLobby(ulong hostID)
+    {
+        Global.debugLog("Joining lobby: " + hostID);
+        SteamFriends.SetRichPresence("status", "In a lobby");
+        SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
+        Global.networkPeer.JoinToPeer(hostID);
+        ResetLobbyPlayerList();
+    }
+
+    private void AddSelf(bool asHost = false)
     {
         Control PlayerListItem = GD.Load<PackedScene>("res://graphics/ui/menus/playerListItem.tscn").Instantiate<Control>();
         PlayerListItem.GetNode<Label>("playername").Text = SteamFriends.GetFriendPersonaName(new CSteamID(Global.clientID));
@@ -53,7 +120,7 @@ public partial class Lobby : Control
         PlayerListItem.GetNode<CheckButton>("ReadyButton").Toggled += onReadyChanged;
         PlayerListItem.GetNode<OptionButton>("factionselect").ItemSelected += OnFactionChange;
         PlayerListItem.GetNode<OptionButton>("teamselect").ItemSelected += OnTeamChange;
-        PlayerStatuses.Add(Global.clientID, new LobbyStatus() { IsHost=true, IsReady=false, Faction=0, Team=1 });
+        PlayerStatuses.Add(Global.clientID, new LobbyStatus() { IsHost=asHost, IsReady=false, Faction=0, Team=1 });
     }
 
     private void OnTeamChange(long index)
@@ -75,6 +142,7 @@ public partial class Lobby : Control
 
     private void AddPlayer(ulong id)
     {
+        Global.debugLog("Adding player to lobby UI: " + id);
         Control PlayerListItem = GD.Load<PackedScene>("res://graphics/ui/menus/playerListItem.tscn").Instantiate<Control>();
         PlayerListItem.GetNode<Label>("playername").Text = SteamFriends.GetFriendPersonaName(new CSteamID(id));
         PlayerListItem.GetNode<TextureRect>("icon").Texture = Global.GetMediumSteamAvatar(id);
@@ -158,6 +226,7 @@ public partial class Lobby : Control
 
     private void OnPlayerJoinEvent(ulong playerID)
     {
+        Global.debugLog("Player joined to Lobby: " + playerID);
         AddPlayer(Global.clientID);
     }
 
@@ -181,8 +250,11 @@ public partial class Lobby : Control
     public void OnStartGameButtonPressed()
     {
         Global.debugLog("Start game button pressed. Team Num: " + ((int)PlayerStatuses[Global.clientID].Team).ToString());
-        Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
-
+        //Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+        LobbyMessage lobbyMessage = new LobbyMessage();
+        lobbyMessage.Sender = Global.clientID;
+        lobbyMessage.MessageType = "startgame";
+        Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
         
     }
 

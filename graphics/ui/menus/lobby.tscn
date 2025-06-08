@@ -37,6 +37,7 @@ offset_bottom = 80.0
 text = "NEW GAME"
 
 [node name="ReadyStatus" type="Label" parent="."]
+layout_mode = 0
 offset_left = 967.0
 offset_top = 522.0
 offset_right = 1117.0
