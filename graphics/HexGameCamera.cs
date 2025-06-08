@@ -25,7 +25,7 @@ public partial class HexGameCamera : Camera3D
 
         if(Math.Abs(currentCameraQ - GetCameraHexQ()) > 2)
         {
-            UpdateHexChunkLocations(Global.camera.GetCameraHexQ(), Global.gameManager.game.mainGameBoard.right / ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count, ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count);
+            //UpdateHexChunkLocations(Global.camera.GetCameraHexQ(), Global.gameManager.game.mainGameBoard.right / ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count, ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count);
             currentCameraQ = GetCameraHexQ();
         }
 
@@ -84,6 +84,7 @@ public partial class HexGameCamera : Camera3D
             float distance = -origin.Y / direction.Y;
             Vector3 position = origin + direction * distance;
             Point point = new Point(position.Z, position.X);
+            //GD.Print(point.x + ", " + point.y);
             FractionalHex fHex = Global.layout.PixelToHex(point);
             Hex hex = fHex.HexRound();
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)

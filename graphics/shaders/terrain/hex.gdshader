@@ -3,6 +3,7 @@ shader_type spatial;
 
 uniform float gameBoardWidth;
 uniform float gameBoardHeight;
+uniform float chunkOffset;
 
 //uniform sampler2D visibilityGrid : filter_nearest;
 uniform sampler2D heightMap : filter_linear;
@@ -16,10 +17,11 @@ void vertex() {
 }
 
 void fragment() {
-    //vec2 visData = texture(visibilityGrid, hexValue.xy).rg;
-
-    ALBEDO = texture(heightMap, hexWorldPos.xz/374.0).rgb;
-
+    //vec2 visData = texture(visibilityGrid, hexValue.xy).rg;a
+    float hoffset = sqrt(3) * 10.0 / 2.0;
+    float voffset = 1.5 * 10.0 / 2.0;
+    //ALBEDO = texture(heightMap, UV).rgb;
+    ALBEDO = texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.0)/121.244, (hexWorldPos.x+voffset-1.0)/300.0)).rgb;
     // Calculate Visibility Changes
     //float grayscaleFactor = dot(blendedTerrain.rgb, vec3(0.299, 0.587, 0.114)) * 0.5;
     //
