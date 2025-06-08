@@ -295,7 +295,15 @@ public partial class NetworkPeer : Node
     }
 
 
-
+    public List<ulong> GetConnectedPeers()
+    {
+        List<ulong> peers = new List<ulong>();
+        foreach (SteamNetworkingIdentity i in remotePeers)
+        {
+            peers.Add(i.GetSteamID64());
+        }
+        return peers;
+    }
     ///////////////////////////////////////////////////////////////////////////////////
     // HANDSHAKE MANAGER
 
@@ -377,13 +385,11 @@ public partial class NetworkPeer : Node
         MessageAllPeers(chat, CHAT_CHANNEL);
     }
 
-
-
-
-
-
-
-
+    internal void LobbyMessageAllPeers(LobbyMessage lobbyMessage)
+    {
+        LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
+        MessageAllPeers(lobbyMessage, LOBBY_CHANNEL);
+    }
 }
 
 

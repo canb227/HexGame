@@ -67,6 +67,7 @@ public partial class GameManager: Node
             game = LoadGame("test.txt");
         }
 
+        
         game.localPlayerTeamNum=teamNum;
         InitGraphics(game, Global.layout);
         Global.menuManager.Hide();
