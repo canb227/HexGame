@@ -25,7 +25,7 @@ public partial class HexGameCamera : Camera3D
 
         if(Math.Abs(currentCameraQ - GetCameraHexQ()) > 2)
         {
-            //UpdateHexChunkLocations(Global.camera.GetCameraHexQ(), Global.gameManager.game.mainGameBoard.right / ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count, ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count);
+            UpdateHexChunkLocations(Global.camera.GetCameraHexQ(), Global.gameManager.game.mainGameBoard.right / ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count, ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count);
             currentCameraQ = GetCameraHexQ();
         }
 
@@ -228,7 +228,7 @@ public partial class HexGameCamera : Camera3D
 
     private void ProcessHexRightClick(Hex hex)
     {
-        GD.Print("RightClick: " + hex);
+        GD.Print("RightClick: " + hex + " | " + hex.WrapHex(hex));
         Global.debugLog("Team Num: " + Global.gameManager.game.localPlayerTeamNum.ToString());
         Global.gameManager.graphicManager.selectedObject.ProcessRightClick(hex);
     }

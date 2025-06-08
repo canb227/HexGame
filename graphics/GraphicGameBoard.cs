@@ -11,7 +11,6 @@ public partial class GraphicGameBoard : GraphicObject
     Layout layout;
     public Mesh hexMesh;
     Shader terrainShader = GD.Load<Shader>("res://graphics/shaders/terrain/hex.gdshader");
-    Image heightMap;
     ImageTexture heightMapTexture;
     public Dictionary<Hex, int> hexToChunkDictionary = new();
     public List<HexChunk> chunkList = new();
@@ -37,7 +36,7 @@ public partial class GraphicGameBoard : GraphicObject
     public Hex HexToGraphicHex(Hex hex)
     {
         int chunkID = hexToChunkDictionary[hex];
-        GD.Print("CHUNKID: " + chunkID);
+        //GD.Print("CHUNKID: " + chunkID);
         return chunkList[chunkID].HexToGraphicalHex(hex);
     }
 
@@ -86,14 +85,14 @@ public partial class GraphicGameBoard : GraphicObject
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
     }
 
-    public void UpdateHexChunkOrigins()
+/*    public void UpdateHexChunkOrigins()
     {
         foreach(HexChunk hexChunk in chunkList)
         {
             Global.camera.GetCameraHexQ();
             //hexChunk.UpdateGraphicalOrigin();
         }
-    }
+    }*/
 
     private void AddBoard(List<Hex> hexList, int chunkCount, Layout pointy)
     {
@@ -103,7 +102,7 @@ public partial class GraphicGameBoard : GraphicObject
         for (int chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
         {
             List<Hex> subHexList = new List<Hex>();
-            GD.Print("chunk offset: " + (chunkSize * chunkIndex));
+            //GD.Print("chunk offset: " + (chunkSize * chunkIndex));
             foreach (Hex hex in hexList)
             {
                 int left = ( Global.gameManager.game.mainGameBoard.left + (chunkSize * chunkIndex) ) - (hex.r >> 1);
@@ -133,9 +132,9 @@ public partial class GraphicGameBoard : GraphicObject
             int noiseImageSizeY = (int)(Global.gameManager.game.mainGameBoard.bottom * 1.5f * 10);
             noise.Offset = new Vector3(noiseImageSizeX * i, 0.0f, 0.0f);
             //heightMap = noise.GetSeamlessImage(noiseImageSize, noiseImageSize);
-            heightMap = Image.CreateEmpty(noiseImageSizeX, noiseImageSizeY, false, Image.Format.Rgba8);
+            Image heightMap = Image.CreateEmpty(noiseImageSizeX, noiseImageSizeY, false, Image.Format.Rgba8);
 
-            GD.Print("BOARD HEIGHT:  " + Global.gameManager.game.mainGameBoard.bottom);
+            //GD.Print("BOARD HEIGHT:  " + Global.gameManager.game.mainGameBoard.bottom);
             /*            foreach(Hex hex in subHexList)
                         {
                             Point point = Global.layout.HexToPixel(hex);
@@ -192,7 +191,7 @@ public partial class GraphicGameBoard : GraphicObject
             triangles.SetSurfaceOverrideMaterial(0, terrainShaderMaterial);
             triangles.Name = "GameBoardTerrain" + i;
 
-            chunkList.Add(new HexChunk(triangles, subHexList, subHexList.First(), subHexList.First()));//we set graphical to our default location here then update as we move it around
+            chunkList.Add(new HexChunk(triangles, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial));//we set graphical to our default location here then update as we move it around
 
             AddChild(triangles);
             i++;
