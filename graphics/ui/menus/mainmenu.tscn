@@ -56,6 +56,23 @@ offset_bottom = 112.0
 text = "Civ @ Home"
 label_settings = SubResource("LabelSettings_773cy")
 
+[node name="debugstart1" type="Button" parent="."]
+layout_mode = 0
+offset_left = 837.0
+offset_top = 131.0
+offset_right = 1098.0
+offset_bottom = 268.0
+text = "start game from test.txt save"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 912.0
+offset_top = 92.0
+offset_right = 1030.0
+offset_bottom = 142.0
+text = "Debug buttons"
+
 [connection signal="pressed" from="b_play" to="." method="onPlayButtonPressed"]
 [connection signal="pressed" from="b_options" to="." method="onOptionsButtonPressed"]
 [connection signal="pressed" from="b_quit" to="." method="onExitButtonPressed"]
+[connection signal="pressed" from="debugstart1" to="." method="onDebugStart1Pressed"]

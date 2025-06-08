@@ -10,7 +10,7 @@ public partial class Lobby : Control
     VBoxContainer PlayersListBox;
     Dictionary<ulong, LobbyStatus> PlayerStatuses = new();
     Button StartGameButton;
-    bool connected = false;
+    bool singleplayer = false;
     bool isHost = false;
 
 
@@ -22,6 +22,23 @@ public partial class Lobby : Control
         PlayersListBox = GetNode<VBoxContainer>("PlayerListBox/ScrollContainer/Players/PlayersVbox");
         StartGameButton = GetNode<Button>("b_newgame");
         StartGameButton.Disabled = true;
+    }
+
+    public void CreateLobby()
+    {
+        Global.debugLog("Creating new lobby.");
+
+        if (singleplayer)
+        {
+            Global.debugLog("Lobby in singleplayer mode.");
+        }
+        else
+        {
+            Global.debugLog("Lobby in online mode. Activating Steam Rich Presence Join to Player.");
+            SteamFriends.SetRichPresence("status", "In a lobby");
+            SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
+        }
+        isHost = true;
     }
 
     private void OnLobbyMessageReceived(LobbyMessage lobbyMessage)
@@ -93,14 +110,7 @@ public partial class Lobby : Control
         CheckIfGameCanStart();
     }
 
-    public void CreateLobby()
-    {
-        Global.debugLog("Creating lobby");
-        SteamFriends.SetRichPresence("status", "In a lobby");
-        SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
-        isHost = true;
-        ResetLobbyPlayerList();
-    }
+
 
     public void JoinLobby(ulong hostID)
     {
@@ -123,23 +133,6 @@ public partial class Lobby : Control
         PlayerStatuses.Add(Global.clientID, new LobbyStatus() { IsHost=asHost, IsReady=false, Faction=0, Team=1 });
     }
 
-    private void OnTeamChange(long index)
-    {
-        Global.debugLog("team change button pressed, index: " + index);
-        LobbyStatus status = PlayerStatuses[Global.clientID];
-        status.Team = (ulong)index+1;
-        PlayerStatuses[Global.clientID] = status;
-        UpdateLobbyPeers();
-    }
-
-    private void OnFactionChange(long index)
-    {
-        LobbyStatus status = PlayerStatuses[Global.clientID];
-        status.Team = (ulong)index;
-        PlayerStatuses[Global.clientID] = status;
-        UpdateLobbyPeers();
-    }
-
     private void AddPlayer(ulong id)
     {
         Global.debugLog("Adding player to lobby UI: " + id);
@@ -158,8 +151,22 @@ public partial class Lobby : Control
         PlayerStatuses[Global.clientID] = status;
         UpdateLobbyPeers();
     }
+    private void OnTeamChange(long index)
+    {
+        Global.debugLog("team change button pressed, index: " + index);
+        LobbyStatus status = PlayerStatuses[Global.clientID];
+        status.Team = (ulong)index + 1;
+        PlayerStatuses[Global.clientID] = status;
+        UpdateLobbyPeers();
+    }
 
-
+    private void OnFactionChange(long index)
+    {
+        LobbyStatus status = PlayerStatuses[Global.clientID];
+        status.Team = (ulong)index;
+        PlayerStatuses[Global.clientID] = status;
+        UpdateLobbyPeers();
+    }
 
     private void UpdateLobbyPeers()
     {
