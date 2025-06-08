@@ -207,7 +207,7 @@ anchor_left = -0.00147275
 anchor_top = 0.860759
 anchor_right = 0.861561
 anchor_bottom = 0.996835
-text = "Chat: "
+placeholder_text = "Chat: "
 metadata/_edit_use_anchors_ = true
 
 [node name="chatbox" type="PanelContainer" parent="chat"]
@@ -221,6 +221,14 @@ metadata/_edit_use_anchors_ = true
 
 [node name="chattext" type="RichTextLabel" parent="chat/chatbox"]
 layout_mode = 2
+
+[node name="Button" type="Button" parent="chat"]
+layout_mode = 0
+offset_left = 593.0
+offset_top = 271.0
+offset_right = 683.0
+offset_bottom = 315.0
+text = "Send"
 
 [node name="debugresetlobby" type="Button" parent="."]
 layout_mode = 0
@@ -245,3 +253,4 @@ text = "Debug buttons"
 [connection signal="item_selected" from="newgameoptions/worldgensize" to="." method="_on_worldgensize_item_selected"]
 [connection signal="drag_ended" from="newgameoptions/HSlider" to="." method="_on_h_slider_drag_ended"]
 [connection signal="toggled" from="newgameoptions/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="chat/Button" to="." method="onChatSendButtonPressed"]

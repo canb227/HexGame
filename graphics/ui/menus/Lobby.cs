@@ -20,9 +20,25 @@ public partial class Lobby : Control
 	{
         NetworkPeer.PlayerJoinedEvent += OnPlayerJoinEvent;
         NetworkPeer.LobbyMessageReceivedEvent += OnLobbyMessageReceived;
+        NetworkPeer.ChatMessageReceivedEvent += NetworkPeer_ChatMessageReceivedEvent;
         PlayersListBox = GetNode<VBoxContainer>("PlayerListBox/ScrollContainer/Players/PlayersVbox");
         StartGameButton = GetNode<Button>("b_newgame");
         StartGameButton.Disabled = true;
+
+    }
+
+    private void NetworkPeer_ChatMessageReceivedEvent(Chat chat)
+    {
+        GetNode<RichTextLabel>("chat/chatbox/chattext").AppendText(
+            "[" + SteamFriends.GetFriendPersonaName(new CSteamID(chat.Sender)) + "]: " + chat.Message + "\n");
+    }
+
+    private void onChatSendButtonPressed()
+    {
+        TextEdit chatInput = GetNode<TextEdit>("chat/chatbar");
+        string message = chatInput.Text.Trim();
+        Global.networkPeer.ChatAllPeers(message);
+        chatInput.Text = "";
     }
 
     public void CreateLobby()
@@ -70,13 +86,14 @@ public partial class Lobby : Control
         Global.debugLog("Joining lobby: " + hostID);
         SteamFriends.SetRichPresence("status", "In a lobby");
         SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
+        AddNewPlayerToLobby(Global.clientID, true);
     }
 
     private void OnLobbyMessageReceived(LobbyMessage lobbyMessage)
     {
 
         Global.debugLog("Lobby message received: " + lobbyMessage.MessageType + " from " + lobbyMessage.Sender);
-        if (lobbyMessage.Sender == Global.clientID && lobbyMessage.MessageType != "startgame")
+        if (lobbyMessage.Sender == Global.clientID && lobbyMessage.MessageType == "status")
         {
             Global.debugLog("Ignoring own lobby message: " + lobbyMessage.MessageType);
             return; // Ignore own messages except for startgame
@@ -113,6 +130,12 @@ public partial class Lobby : Control
                 {
                     Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
                 }
+                break;
+            case "loadgame":
+                Global.debugLog("Loading game from host");
+                Global.gameManager.game = Global.gameManager.LoadGameRaw(lobbyMessage.SavePayload);
+                GetNode<Label>("NewGameStatus").Text = "GAME LOADED";
+                GetNode<ColorRect>("newgamehide").Visible = true;
                 break;
             default:
                 Global.debugLog("Unknown lobby message type: " + lobbyMessage.MessageType);
@@ -201,10 +224,16 @@ public partial class Lobby : Control
     {
         string trimmedPath = path.Substring(path.LastIndexOf("/") + 1);
         Global.debugLog("File selected: " + trimmedPath);
-        Global.gameManager.game = Global.gameManager.LoadGame(trimmedPath);
 
-        GetNode<Label>("NewGameStatus").Text = "GAME LOADED: " + trimmedPath;
-        GetNode<ColorRect>("newgamehide").Visible = true;
+        Game loaded = Global.gameManager.LoadGame(trimmedPath);
+
+        LobbyMessage lobbyMessage = new LobbyMessage();
+        lobbyMessage.Sender = Global.clientID;
+        lobbyMessage.MessageType = "loadgame";
+        lobbyMessage.SavePayload = Global.gameManager.SaveGameRaw(loaded);
+        Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
+
+
     }
 
     private void OnPlayerJoinEvent(ulong playerID)
@@ -240,6 +269,7 @@ public partial class Lobby : Control
         Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
         
     }
+
 
 
 }

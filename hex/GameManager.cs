@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.IO;
 using Godot;
 using System.Linq;
+using Google.Protobuf.WellKnownTypes;
 
 [GlobalClass]
 public partial class GameManager: Node
@@ -38,6 +39,27 @@ public partial class GameManager: Node
         GD.Print("Game data saved to file: " + filePath);
     }
 
+    public string SaveGameRaw()
+    {
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new HexJsonConverter() }
+        };
+        string json = JsonSerializer.Serialize(game, options);
+        return json;
+    }
+
+    public string SaveGameRaw(Game game)
+    {
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new HexJsonConverter() }
+        };
+        string json = JsonSerializer.Serialize(game, options);
+        return json;
+    }
 
     public Game LoadGame(String filePath)
     {
@@ -50,6 +72,17 @@ public partial class GameManager: Node
         };
         Game retVal = JsonSerializer.Deserialize<Game>(fileAccess.GetPascalString(), options);
         fileAccess.Close();
+        return retVal;
+    }
+
+    public Game LoadGameRaw(string rawSave)
+    {
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new HexJsonConverter() }
+        };
+        Game retVal = JsonSerializer.Deserialize<Game>(rawSave, options);
         return retVal;
     }
 

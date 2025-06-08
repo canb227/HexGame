@@ -23,6 +23,7 @@ message LobbyMessage
 	string messageType = 2;
 	string message = 3;
 	optional LobbyStatus lobbyStatus = 4;
+	optional string savePayload = 5;
 }
 
 message LobbyStatus

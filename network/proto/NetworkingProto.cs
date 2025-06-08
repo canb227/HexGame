@@ -29,28 +29,28 @@ namespace NetworkMessages {
             "bXAYAyABKAFIAIgBAUIMCgpfdGltZXN0YW1wIn4KCUhhbmRzaGFrZRIMCgR0",
             "aWNrGAEgASgEEg4KBnNlbmRlchgCIAEoBBIWCgl0aW1lc3RhbXAYAyABKAFI",
             "AIgBARITCgZzdGF0dXMYBSABKAlIAYgBARINCgVwZWVycxgEIAMoBEIMCgpf",
-            "dGltZXN0YW1wQgkKB19zdGF0dXMijAEKDExvYmJ5TWVzc2FnZRIOCgZzZW5k",
+            "dGltZXN0YW1wQgkKB19zdGF0dXMitgEKDExvYmJ5TWVzc2FnZRIOCgZzZW5k",
             "ZXIYASABKAQSEwoLbWVzc2FnZVR5cGUYAiABKAkSDwoHbWVzc2FnZRgDIAEo",
             "CRI2Cgtsb2JieVN0YXR1cxgEIAEoCzIcLk5ldHdvcmtNZXNzYWdlcy5Mb2Ji",
-            "eVN0YXR1c0gAiAEBQg4KDF9sb2JieVN0YXR1cyJNCgtMb2JieVN0YXR1cxIO",
-            "CgZpc0hvc3QYASABKAgSDwoHaXNSZWFkeRgCIAEoCBIMCgR0ZWFtGAMgASgE",
-            "Eg8KB2ZhY3Rpb24YBCABKAQiJwoEQ2hhdBIOCgZzZW5kZXIYASABKAQSDwoH",
-            "bWVzc2FnZRgCIAEoCSKlAQoHQ29tbWFuZBITCgtjb21tYW5kVHlwZRgBIAEo",
-            "CRItCghtb3ZlVW5pdBgCIAEoCzIZLk5ldHdvcmtNZXNzYWdlcy5Nb3ZlVW5p",
-            "dEgAEjsKD2FjdGl2YXRlQWJpbGl0eRgDIAEoCzIgLk5ldHdvcmtNZXNzYWdl",
-            "cy5BY3RpdmF0ZUFiaWxpdHlIABIOCgZzZW5kZXIYYyABKARCCQoHY29tbWFu",
-            "ZCJRCghNb3ZlVW5pdBIOCgZ1bml0SWQYASABKAQSJAoGdGFyZ2V0GAIgASgL",
-            "MhQuTmV0d29ya01lc3NhZ2VzLkhleBIPCgdpc0VuZW15GAMgASgIIlwKD0Fj",
-            "dGl2YXRlQWJpbGl0eRIOCgZ1bml0SWQYASABKAQSEwoLYWJpbGl0eU5hbWUY",
-            "AiABKAkSJAoGdGFyZ2V0GAMgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleCIm",
-            "CgNIZXgSCQoBcRgBIAEoBBIJCgFyGAIgASgEEgkKAXMYAyABKARiBnByb3Rv",
-            "Mw=="));
+            "eVN0YXR1c0gAiAEBEhgKC3NhdmVQYXlsb2FkGAUgASgJSAGIAQFCDgoMX2xv",
+            "YmJ5U3RhdHVzQg4KDF9zYXZlUGF5bG9hZCJNCgtMb2JieVN0YXR1cxIOCgZp",
+            "c0hvc3QYASABKAgSDwoHaXNSZWFkeRgCIAEoCBIMCgR0ZWFtGAMgASgEEg8K",
+            "B2ZhY3Rpb24YBCABKAQiJwoEQ2hhdBIOCgZzZW5kZXIYASABKAQSDwoHbWVz",
+            "c2FnZRgCIAEoCSKlAQoHQ29tbWFuZBITCgtjb21tYW5kVHlwZRgBIAEoCRIt",
+            "Cghtb3ZlVW5pdBgCIAEoCzIZLk5ldHdvcmtNZXNzYWdlcy5Nb3ZlVW5pdEgA",
+            "EjsKD2FjdGl2YXRlQWJpbGl0eRgDIAEoCzIgLk5ldHdvcmtNZXNzYWdlcy5B",
+            "Y3RpdmF0ZUFiaWxpdHlIABIOCgZzZW5kZXIYYyABKARCCQoHY29tbWFuZCJR",
+            "CghNb3ZlVW5pdBIOCgZ1bml0SWQYASABKAQSJAoGdGFyZ2V0GAIgASgLMhQu",
+            "TmV0d29ya01lc3NhZ2VzLkhleBIPCgdpc0VuZW15GAMgASgIIlwKD0FjdGl2",
+            "YXRlQWJpbGl0eRIOCgZ1bml0SWQYASABKAQSEwoLYWJpbGl0eU5hbWUYAiAB",
+            "KAkSJAoGdGFyZ2V0GAMgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleCImCgNI",
+            "ZXgSCQoBcRgBIAEoBBIJCgFyGAIgASgEEgkKAXMYAyABKARiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.State), global::NetworkMessages.State.Parser, new[]{ "Tick", "Sender", "Timestamp" }, new[]{ "Timestamp" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Handshake), global::NetworkMessages.Handshake.Parser, new[]{ "Tick", "Sender", "Timestamp", "Status", "Peers" }, new[]{ "Timestamp", "Status" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyMessage), global::NetworkMessages.LobbyMessage.Parser, new[]{ "Sender", "MessageType", "Message", "LobbyStatus" }, new[]{ "LobbyStatus" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyMessage), global::NetworkMessages.LobbyMessage.Parser, new[]{ "Sender", "MessageType", "Message", "LobbyStatus", "SavePayload" }, new[]{ "LobbyStatus", "SavePayload" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyStatus), global::NetworkMessages.LobbyStatus.Parser, new[]{ "IsHost", "IsReady", "Team", "Faction" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Chat), global::NetworkMessages.Chat.Parser, new[]{ "Sender", "Message" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Command), global::NetworkMessages.Command.Parser, new[]{ "CommandType", "MoveUnit", "ActivateAbility", "Sender" }, new[]{ "Command" }, null, null, null),
@@ -746,6 +746,7 @@ namespace NetworkMessages {
       messageType_ = other.messageType_;
       message_ = other.message_;
       lobbyStatus_ = other.lobbyStatus_ != null ? other.lobbyStatus_.Clone() : null;
+      savePayload_ = other.savePayload_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -803,6 +804,32 @@ namespace NetworkMessages {
       }
     }
 
+    /// <summary>Field number for the "savePayload" field.</summary>
+    public const int SavePayloadFieldNumber = 5;
+    private readonly static string SavePayloadDefaultValue = "";
+
+    private string savePayload_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string SavePayload {
+      get { return savePayload_ ?? SavePayloadDefaultValue; }
+      set {
+        savePayload_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "savePayload" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasSavePayload {
+      get { return savePayload_ != null; }
+    }
+    /// <summary>Clears the value of the "savePayload" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearSavePayload() {
+      savePayload_ = null;
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -822,6 +849,7 @@ namespace NetworkMessages {
       if (MessageType != other.MessageType) return false;
       if (Message != other.Message) return false;
       if (!object.Equals(LobbyStatus, other.LobbyStatus)) return false;
+      if (SavePayload != other.SavePayload) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -833,6 +861,7 @@ namespace NetworkMessages {
       if (MessageType.Length != 0) hash ^= MessageType.GetHashCode();
       if (Message.Length != 0) hash ^= Message.GetHashCode();
       if (lobbyStatus_ != null) hash ^= LobbyStatus.GetHashCode();
+      if (HasSavePayload) hash ^= SavePayload.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -867,6 +896,10 @@ namespace NetworkMessages {
         output.WriteRawTag(34);
         output.WriteMessage(LobbyStatus);
       }
+      if (HasSavePayload) {
+        output.WriteRawTag(42);
+        output.WriteString(SavePayload);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -893,6 +926,10 @@ namespace NetworkMessages {
         output.WriteRawTag(34);
         output.WriteMessage(LobbyStatus);
       }
+      if (HasSavePayload) {
+        output.WriteRawTag(42);
+        output.WriteString(SavePayload);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -914,6 +951,9 @@ namespace NetworkMessages {
       }
       if (lobbyStatus_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(LobbyStatus);
+      }
+      if (HasSavePayload) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SavePayload);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -941,6 +981,9 @@ namespace NetworkMessages {
           LobbyStatus = new global::NetworkMessages.LobbyStatus();
         }
         LobbyStatus.MergeFrom(other.LobbyStatus);
+      }
+      if (other.HasSavePayload) {
+        SavePayload = other.SavePayload;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -976,6 +1019,10 @@ namespace NetworkMessages {
             input.ReadMessage(LobbyStatus);
             break;
           }
+          case 42: {
+            SavePayload = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -1008,6 +1055,10 @@ namespace NetworkMessages {
               LobbyStatus = new global::NetworkMessages.LobbyStatus();
             }
             input.ReadMessage(LobbyStatus);
+            break;
+          }
+          case 42: {
+            SavePayload = input.ReadString();
             break;
           }
         }
