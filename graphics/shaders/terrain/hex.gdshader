@@ -13,7 +13,9 @@ varying vec3 hexWorldPos;
 
 void vertex() {
     hexWorldPos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-    //VERTEX.y += texture(heightMap, hexWorldPos.xz/374.0).r * 50.0;// * texture(terrainInfo, hexValue.xy).g;
+    float hoffset = sqrt(3) * 10.0 / 2.0;
+    float voffset = 1.5 * 10.0 / 2.0;
+    VERTEX.y += texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.0)/121.244, (hexWorldPos.x+voffset-1.0)/300.0)).r * 10.0;// * texture(terrainInfo, hexValue.xy).r;
 }
 
 void fragment() {

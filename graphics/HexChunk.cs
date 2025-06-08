@@ -13,13 +13,17 @@ public class HexChunk
     private int deltaQ;
     private List<Hex> ourHexes;
     bool firstRun = true;
-    public HexChunk(MeshInstance3D mesh, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin)
+    public Image heightMap;
+    public ShaderMaterial terrainShaderMaterial;
+    public HexChunk(MeshInstance3D mesh, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial)
     {
         this.mesh = mesh;
         this.ourHexes = ourHexes;
         this.origin = origin;
         this.graphicalOrigin = graphicalOrigin;
         deltaQ = graphicalOrigin.q - origin.q;
+        this.heightMap = heightMap;
+        this.terrainShaderMaterial = terrainShaderMaterial;
         UpdateGraphicalOrigin(graphicalOrigin);
     }
 
@@ -32,7 +36,9 @@ public class HexChunk
             Transform3D newTransform = mesh.Transform;
             newTransform.Origin = new Vector3((float)Global.layout.HexToPixel(graphicalOrigin).y, -1.0f, (float)Global.layout.HexToPixel(graphicalOrigin).x);
             mesh.Transform = newTransform;
-            if(!firstRun)
+            
+            terrainShaderMaterial.SetShaderParameter("chunkOffset", graphicalOrigin.q * Math.Sqrt(3) * 10.0f);
+            if (!firstRun)
             {
                 GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
                 foreach (Hex hex in ourHexes)
@@ -52,13 +58,14 @@ public class HexChunk
                 }
             }
             firstRun = false;
+
         }
     }
 
     public Hex HexToGraphicalHex(Hex hex)
     {
-        GD.Print(hex + " " + deltaQ);
-        GD.Print("CHUNK HEXES: " + origin + " " + graphicalOrigin);
+        //GD.Print(hex + " " + deltaQ);
+        //GD.Print("CHUNK HEXES: " + origin + " " + graphicalOrigin);
         return new Hex(hex.q+deltaQ, hex.r, -(hex.q + deltaQ)-hex.r);
     }
 }

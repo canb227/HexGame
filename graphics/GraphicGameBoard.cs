@@ -11,7 +11,6 @@ public partial class GraphicGameBoard : GraphicObject
     Layout layout;
     public Mesh hexMesh;
     Shader terrainShader = GD.Load<Shader>("res://graphics/shaders/terrain/hex.gdshader");
-    Image heightMap;
     ImageTexture heightMapTexture;
     public Dictionary<Hex, int> hexToChunkDictionary = new();
     public List<HexChunk> chunkList = new();
@@ -37,7 +36,7 @@ public partial class GraphicGameBoard : GraphicObject
     public Hex HexToGraphicHex(Hex hex)
     {
         int chunkID = hexToChunkDictionary[hex];
-        GD.Print("CHUNKID: " + chunkID);
+        //GD.Print("CHUNKID: " + chunkID);
         return chunkList[chunkID].HexToGraphicalHex(hex);
     }
 
@@ -86,14 +85,14 @@ public partial class GraphicGameBoard : GraphicObject
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
     }
 
-    public void UpdateHexChunkOrigins()
+/*    public void UpdateHexChunkOrigins()
     {
         foreach(HexChunk hexChunk in chunkList)
         {
             Global.camera.GetCameraHexQ();
             //hexChunk.UpdateGraphicalOrigin();
         }
-    }
+    }*/
 
     private void AddBoard(List<Hex> hexList, int chunkCount, Layout pointy)
     {
@@ -103,7 +102,7 @@ public partial class GraphicGameBoard : GraphicObject
         for (int chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
         {
             List<Hex> subHexList = new List<Hex>();
-            GD.Print("chunk offset: " + (chunkSize * chunkIndex));
+            //GD.Print("chunk offset: " + (chunkSize * chunkIndex));
             foreach (Hex hex in hexList)
             {
                 int left = ( Global.gameManager.game.mainGameBoard.left + (chunkSize * chunkIndex) ) - (hex.r >> 1);
@@ -128,14 +127,15 @@ public partial class GraphicGameBoard : GraphicObject
             terrainShaderMaterial.Shader = terrainShader;
 
             FastNoiseLite noise = new FastNoiseLite();
-            noise.Frequency = 0.005f;
+            noise.Frequency = 0.05f;
             int noiseImageSizeX = (int)((chunkSize+1) * Math.Sqrt(3) * 10.0f);
             int noiseImageSizeY = (int)(Global.gameManager.game.mainGameBoard.bottom * 1.5f * 10);
-            noise.Offset = new Vector3(noiseImageSizeX * i, 0.0f, 0.0f);
-            //heightMap = noise.GetSeamlessImage(noiseImageSize, noiseImageSize);
-            heightMap = Image.CreateEmpty(noiseImageSizeX, noiseImageSizeY, false, Image.Format.Rgba8);
+            noise.Offset = new Vector3((float)((Math.Sqrt(3) * 10.0f / 2.0f) - (i * chunkSize * Math.Sqrt(3) * 10.0f)), 0.0f, 0.0f);
+            Image heightMap = Godot.Image.CreateEmpty(noiseImageSizeX, noiseImageSizeY, false, Image.Format.Rgba8);
+            Image noiseMap = noise.GetImage(noiseImageSizeX, noiseImageSizeY);
+            //Image heightMap = Image.CreateEmpty(noiseImageSizeX, noiseImageSizeY, false, Image.Format.Rgba8);
 
-            GD.Print("BOARD HEIGHT:  " + Global.gameManager.game.mainGameBoard.bottom);
+            //GD.Print("BOARD HEIGHT:  " + Global.gameManager.game.mainGameBoard.bottom);
             /*            foreach(Hex hex in subHexList)
                         {
                             Point point = Global.layout.HexToPixel(hex);
@@ -146,6 +146,7 @@ public partial class GraphicGameBoard : GraphicObject
                 for(int y = 0; y < noiseImageSizeY; y++)
                 {
                     Godot.Color pix = heightMap.GetPixel(x, y);
+                    //pix = new Godot.Color(pix.R / 2.0f + 0.5f, 0.0f, 0.0f);
                     FractionalHex fHex = Global.layout.PixelToHex(new Point(-x + (Math.Sqrt(3) * 10.0f / 2.0f) - (i * chunkSize * Math.Sqrt(3) * 10.0f), (y-5.0f)));
                     Hex hex = fHex.HexRound(); 
                     Hex wrapHex = hex.WrapHex(hex);
@@ -157,29 +158,41 @@ public partial class GraphicGameBoard : GraphicObject
                         //GD.Print(x + ", " + y + " " + wrapHex);
                         if (gameHex.terrainType == TerrainType.Mountain)
                         {
-                            heightMap.SetPixel(x, y, new Godot.Color(pix.R, 1.0f, 0.0f));
+                            heightMap.SetPixel(x, y, new Godot.Color(1.0f, 0.0f, 0.0f));
                         }
                         else if (gameHex.terrainType == TerrainType.Rough)
                         {
-                            heightMap.SetPixel(x, y, new Godot.Color(pix.R * 0.4f, 0.4f, 0.0f));
+                            heightMap.SetPixel(x, y, new Godot.Color(0.4f, 0.0f, 0.0f));
 
                         }
                         else if (gameHex.terrainType == TerrainType.Flat)
                         {
-                            heightMap.SetPixel(x, y, new Godot.Color(pix.R * 0.1f, 0.1f, 0.0f));
+                            heightMap.SetPixel(x, y, new Godot.Color(0.1f, 0.0f, 0.0f));
                         }
                         else
                         {
-                            heightMap.SetPixel(x, y, new Godot.Color(0.0f, 0.0f, 1.0f));
+                            heightMap.SetPixel(x, y, new Godot.Color(0.0f, 0.0f, 0.0f));
                         }
                     }
                     else
                     {
-                        heightMap.SetPixel(x, y, new Godot.Color(pix.R, 0.0f, 0.0f));
+                        heightMap.SetPixel(x, y, new Godot.Color(0.0f, 0.0f, 0.0f));
                     }
                 }
             }
-            heightMap.SavePng("noiseTest"+i+".png");
+            heightMap.SavePng("heightMap" + i + ".png");
+            GaussianBlur(heightMap, 3);
+            heightMap.SavePng("heightMapBlurred" + i + ".png");
+
+            //apply noise
+            for (int x = 0; x < noiseImageSizeX; x++)
+            {
+                for (int y = 0; y < noiseImageSizeY; y++)
+                {
+                    heightMap.SetPixel(x, y, new Godot.Color(noiseMap.GetPixel(x,y).R * heightMap.GetPixel(x,y).R, 0.0f, 0.0f));    
+                }
+            }
+
             heightMapTexture = ImageTexture.CreateFromImage(heightMap);
 
             /*        StandardMaterial3D material = new StandardMaterial3D();
@@ -192,7 +205,7 @@ public partial class GraphicGameBoard : GraphicObject
             triangles.SetSurfaceOverrideMaterial(0, terrainShaderMaterial);
             triangles.Name = "GameBoardTerrain" + i;
 
-            chunkList.Add(new HexChunk(triangles, subHexList, subHexList.First(), subHexList.First()));//we set graphical to our default location here then update as we move it around
+            chunkList.Add(new HexChunk(triangles, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial));//we set graphical to our default location here then update as we move it around
 
             AddChild(triangles);
             i++;
@@ -527,5 +540,73 @@ public partial class GraphicGameBoard : GraphicObject
     public override void RemoveTargetingPrompt()
     {
         GD.PushWarning("NOT IMPLEMENTED");
+    }
+
+    public void GaussianBlur(Image image, int radius)
+    {
+        int width = image.GetWidth();
+        int height = image.GetHeight();
+        Image tempImage = image;
+
+        float[] kernel = GenerateGaussianKernel(radius);
+
+        // Horizontal pass
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                Godot.Color newColor = ApplyKernel(tempImage, x, y, kernel, radius, true);
+                image.SetPixel(x, y, newColor);
+            }
+        }
+
+        // Vertical pass
+        tempImage.CopyFrom(image);
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Godot.Color newColor = ApplyKernel(tempImage, x, y, kernel, radius, false);
+                image.SetPixel(x, y, newColor);
+            }
+        }
+    }
+
+    private float[] GenerateGaussianKernel(int radius)
+    {
+        int size = radius * 2 + 1;
+        float[] kernel = new float[size];
+        float sigma = radius / 2.0f;
+        float sum = 0f;
+
+        for (int i = 0; i < size; i++)
+        {
+            float x = i - radius;
+            kernel[i] = Mathf.Exp(-0.5f * (x * x) / (sigma * sigma));
+            sum += kernel[i];
+        }
+
+        // Normalize kernel
+        for (int i = 0; i < size; i++)
+        {
+            kernel[i] /= sum;
+        }
+
+        return kernel;
+    }
+
+    private Godot.Color ApplyKernel(Image image, int x, int y, float[] kernel, int radius, bool horizontal)
+    {
+        Godot.Color newColor = new Godot.Color(0, 0, 0, 0);
+        int size = kernel.Length;
+
+        for (int i = 0; i < size; i++)
+        {
+            int sampleX = horizontal ? Mathf.Clamp(x + i - radius, 0, image.GetWidth() - 1) : x;
+            int sampleY = horizontal ? y : Mathf.Clamp(y + i - radius, 0, image.GetHeight() - 1);
+            newColor += image.GetPixel(sampleX, sampleY) * kernel[i];
+        }
+
+        return newColor;
     }
 }
