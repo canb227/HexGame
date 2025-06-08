@@ -210,7 +210,7 @@ public partial class Lobby : Control
     private void OnPlayerJoinEvent(ulong playerID)
     {
         Global.debugLog("Player joined to Lobby: " + playerID);
-        AddNewPlayerToLobby(Global.clientID, false);
+        AddNewPlayerToLobby(playerID, false);
     }
 
     public override void _ExitTree()
