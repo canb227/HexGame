@@ -33,7 +33,7 @@ public class Game
     {
     }
 
-    public Game(String mapName, int localPlayerTeamNum)
+    public Game(int localPlayerTeamNum)
     {
         Global.gameManager.game = this;
         this.localPlayerTeamNum = localPlayerTeamNum;
@@ -42,8 +42,7 @@ public class Game
         this.unitDictionary = new();
         this.turnManager = new TurnManager();
         this.teamManager = new TeamManager();
-        GameBoard mainBoard = new GameBoard(mapName, GetUniqueID());
-        mainGameBoard = mainBoard;
+        mainGameBoard = new();
         builtWonders = new();
         this.localPlayerTeamNum = localPlayerTeamNum;
     }
@@ -80,7 +79,8 @@ struct GameTests
 {
     static public Game GameStartTest()
     {
-        Game game = new Game("hex/sample", 1);
+        Game game = new Game(1);
+        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID());
         //test that hexes have features and such
         if (game.mainGameBoard.gameHexDict[new Hex(4, 3, -7)].terrainType != TerrainType.Flat)
         {
@@ -109,9 +109,10 @@ struct GameTests
     }
     static public Game MapLoadTest()
     {
-        Game game = new Game("hex/sample", 1);
+        Game game = new Game(1);
+        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID());
         //test that hexes have features and such
-        if(game.mainGameBoard.gameHexDict[new Hex(4,3, -7)].terrainType != TerrainType.Flat)
+        if (game.mainGameBoard.gameHexDict[new Hex(4,3, -7)].terrainType != TerrainType.Flat)
         {
             Console.WriteLine("Expected Flat Got " + game.mainGameBoard.gameHexDict[new Hex(4,3, -7)].terrainType);
         }
@@ -543,7 +544,9 @@ struct GameTests
 
     static public Game TestSlingerCombat()
     {
-        Game game = new Game("hex/sample", 1);
+
+        Game game = new Game(1);
+        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID());
 
         game.AddPlayer(0.0f, 0);
         game.AddPlayer(50.0f, 1);

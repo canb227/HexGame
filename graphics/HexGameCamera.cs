@@ -228,8 +228,9 @@ public partial class HexGameCamera : Camera3D
 
     private void ProcessHexRightClick(Hex hex)
     {
-        GD.Print("RightClick: " + hex + " | " + hex.WrapHex(hex));
-        Global.debugLog("Team Num: " + Global.gameManager.game.localPlayerTeamNum.ToString());
+        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[hex];
+        GD.Print("Hex: " + hex + " | Wrapped to: " + hex.WrapHex(hex));
+        GD.Print("Hex Info|TerrainType: " + gameHex.terrainType + " TerrainTemp: " + gameHex.terrainTemp);
         Global.gameManager.graphicManager.selectedObject.ProcessRightClick(hex);
     }
 }

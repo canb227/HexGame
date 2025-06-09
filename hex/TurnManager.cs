@@ -29,6 +29,7 @@ public class TurnManager
     }
     public void EndCurrentTurn(int teamNum)
     {
+        //Global.debugLog("ending turn for team: " + teamNum );
         if (!Global.gameManager.game.playerDictionary[teamNum].turnFinished)
         {
             Global.gameManager.game.playerDictionary[teamNum].OnTurnEnded(currentTurn);

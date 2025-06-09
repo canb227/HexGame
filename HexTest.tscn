@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b04k7i5sjy21u"]
+[gd_scene load_steps=8 format=3 uid="uid://b04k7i5sjy21u"]
 
 [ext_resource type="Script" uid="uid://bch3jqk5oavgb" path="res://HexTest.cs" id="1_r3umj"]
 
@@ -15,6 +15,27 @@ sdfgi_read_sky_light = false
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.001
 
+[sub_resource type="Gradient" id="Gradient_r3umj"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.012987, 0.188312, 0.422078, 0.636364, 0.837662)
+colors = PackedColorArray(0, 0.505882, 0, 1, 0.054902, 0.615686, 0.121569, 1, 0.664926, 0.651401, 0.501856, 1, 0.356207, 0.345973, 0.238418, 1, 0.15609, 0.150618, 0.0935306, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_n23of"]
+seed = 125
+frequency = 0.1068
+offset = Vector3(607.14, 0, 0)
+fractal_weighted_strength = 1.0
+domain_warp_amplitude = 28.1
+domain_warp_frequency = 0.005
+domain_warp_fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qjyro"]
+width = 64
+height = 64
+generate_mipmaps = false
+color_ramp = SubResource("Gradient_r3umj")
+noise = SubResource("FastNoiseLite_n23of")
+
 [node name="HexTest" type="Node3D"]
 script = ExtResource("1_r3umj")
 
@@ -26,3 +47,10 @@ environment = SubResource("Environment_qjyro")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.479182, 0.877715, 0, -0.877715, 0.479182, 0, 9.99781, 0)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -2.0
+offset_top = 1.0
+offset_right = 510.0
+offset_bottom = 513.0
+texture = SubResource("NoiseTexture2D_qjyro")
