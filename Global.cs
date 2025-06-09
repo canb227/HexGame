@@ -51,7 +51,9 @@ public partial class Global : Node
         Global.debugLog("Game Rich Presence Join Requested: " + pCallback.m_rgchConnect);
         string connectString = (pCallback.m_rgchConnect);
         Global.debugLog("Connect String: " + connectString);
-        networkPeer.JoinToPeer(ulong.Parse(connectString));
+        Global.menuManager.JoinLobby(ulong.Parse(connectString));
+
+
     }
 
     public void SteamInit()
@@ -70,6 +72,11 @@ public partial class Global : Node
         {
             Global.debugLog("Steam not initialized");
         }
+    }
+
+    public override void _Process(double delta)
+    {
+        SteamAPI.RunCallbacks();
     }
 
     public static void networkLog(string message, ulong timestamp, bool server )
@@ -100,5 +107,17 @@ public partial class Global : Node
     internal static ulong getTick()
     {
         return Time.GetTicksMsec();
+    }
+
+    internal static Texture2D GetMediumSteamAvatar(ulong id)
+    {
+        int avatarHandle = SteamFriends.GetMediumFriendAvatar(new CSteamID(id));
+        SteamUtils.GetImageSize(avatarHandle, out uint width, out uint height);
+        int size = (int)(width * height * 4); // RGBA format
+        byte[] avatarData = new byte[size];
+        SteamUtils.GetImageRGBA(avatarHandle, avatarData, size);
+        Image testImage = Image.CreateFromData((int)width, (int)height, false, Image.Format.Rgba8, avatarData);
+        ImageTexture texture = ImageTexture.CreateFromImage(testImage);
+        return texture;
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Data;
 using System.IO;
+using Godot;
 
 [Serializable]
 public class GameBoard
@@ -25,12 +26,113 @@ public class GameBoard
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewGameBoard(this);
     }
 
+    public GameBoard()
+    {
+
+    }
+
+    public GameBoard(string mapName, int id)
+    {
+        gameHexDict = new();
+        String mapData = System.IO.File.ReadAllText(mapName + ".map");
+        List<String> lines = mapData.Split('\n').ToList();
+        //file format is 1110 1110 (each 4 numbers are a single hex)
+        // first number is terraintype, second number is terraintemp, last number is features, last is resource type
+        // 0, luxury, bonus, city, iron, horses, coal, oil, uranium, (lithium?), futurething
+        int r = 0;
+        int q = 0;
+        foreach (String line in lines)
+        {
+            
+            Queue<String> cells = new Queue<String>(line.Split(' ').ToList());
+            int offset = r >> 1;
+            //offset = (offset % cells.Count + cells.Count) % cells.Count; //negatives and overflow
+            q = 0 - offset;
+/*            if(q < left)
+            {
+                left = q;
+            }*/
+            for (int i = 1; i < offset; i++)
+            {
+                cells.Enqueue(cells.Dequeue());
+            }
+            foreach (String cell in cells)
+            {
+                if (cell.Length >= 4)
+                {
+                    TerrainType terrainType = (TerrainType)int.Parse(cell[0].ToString());
+                    TerrainTemperature terrainTemperature = (TerrainTemperature)int.Parse(cell[1].ToString());
+                    HashSet<FeatureType> features = new();
+                    //cell[2] == 0 means no features
+                    if (int.Parse(cell[2].ToString()) == 1)
+                    {
+                        features.Add(FeatureType.Forest);
+                    }
+                    if (int.Parse(cell[2].ToString()) == 2)
+                    {
+                        features.Add(FeatureType.River);
+                    }
+                    if (int.Parse(cell[2].ToString()) == 3)
+                    {
+                        features.Add(FeatureType.Road);
+                    }
+                    if (int.Parse(cell[2].ToString()) == 4)
+                    {
+                        features.Add(FeatureType.Coral);
+                    }
+                    if (int.Parse(cell[2].ToString()) == 5)
+                    {
+                        //openslot //TODO
+                    }
+                    if (int.Parse(cell[2].ToString()) == 6)
+                    {
+                        features.Add(FeatureType.Forest);
+                        features.Add(FeatureType.River);
+                    }
+                    if (int.Parse(cell[2].ToString()) == 7)
+                    {
+                        features.Add(FeatureType.River);
+                        features.Add(FeatureType.Road);
+                    }
+                    if (int.Parse(cell[2].ToString()) == 8)
+                    {
+                        features.Add(FeatureType.Forest);
+                        features.Add(FeatureType.Road);
+                    }
+                    if (int.Parse(cell[2].ToString()) == 9)
+                    {
+                        features.Add(FeatureType.Forest);
+                        features.Add(FeatureType.River);
+                        features.Add(FeatureType.Road);
+                    }
+                    // if(int.Parse(cell[2].ToString()) == 9)
+                    // {
+                    //     features.Add(FeatureType.Forest);
+                    //     features.Add(FeatureType.River);
+                    //     features.Add(FeatureType.Road);
+                    // }
+                    //fourth number is for resources
+                    ResourceType resource = ResourceLoader.resourceNames[cell[3].ToString()];
+                    gameHexDict.Add(new Hex(q, r, -q - r), new GameHex(new Hex(q, r, -q - r), id, terrainType, terrainTemperature, resource, features, new List<int>(), null));
+                }
+                q += 1;
+                if (q > right)
+                {
+                    right = q;
+                }
+            }
+            r += 1;
+        }
+        this.bottom = r;
+        GD.Print(left + "," +  right + "," + bottom + "," + top);
+    }
+
     public int id { get; set; }
     public Dictionary<Hex, GameHex> gameHexDict { get; set; } = new();
-    public int top { get; set; }
-    public int bottom { get; set; }
-    public int left { get; set; }
-    public int right { get; set; }
+    public int top { get; set; } = 0;
+    public int bottom { get; set; } = 0;
+    public int left { get; set; } = 0;
+    public int right { get; set; } = 0;
 
     public void OnTurnStarted(int turnNumber)
     {

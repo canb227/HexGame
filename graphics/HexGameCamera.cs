@@ -1,5 +1,7 @@
 using Godot;
+using NetworkMessages;
 using System.Collections.Generic;
+using System;
 
 [GlobalClass]
 public partial class HexGameCamera : Camera3D
@@ -13,14 +15,19 @@ public partial class HexGameCamera : Camera3D
     float zoomMax = -3f;
     float zoomMin = 3f;
 
-    Layout layout;
-
     public bool blockClick = false;
+
+    public int currentCameraQ = 0;
 
     public override void _Process(double delta)
     {
         Vector2 input = Input.GetVector("CameraMoveLeft", "CameraMoveRight", "CameraMoveUp", "CameraMoveDown");
 
+        if(Math.Abs(currentCameraQ - GetCameraHexQ()) > 2)
+        {
+            UpdateHexChunkLocations(Global.camera.GetCameraHexQ(), Global.gameManager.game.mainGameBoard.right / ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count, ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList.Count);
+            currentCameraQ = GetCameraHexQ();
+        }
 
 
         Vector3 input2 = new Vector3((float)input.X, 0, (float)input.Y);
@@ -77,6 +84,7 @@ public partial class HexGameCamera : Camera3D
             float distance = -origin.Y / direction.Y;
             Vector3 position = origin + direction * distance;
             Point point = new Point(position.Z, position.X);
+            //GD.Print(point.x + ", " + point.y);
             FractionalHex fHex = Global.layout.PixelToHex(point);
             Hex hex = fHex.HexRound();
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
@@ -102,10 +110,36 @@ public partial class HexGameCamera : Camera3D
 
     }
 
-    private void ProcessHexLeftClick(Hex hex)
+    public void UpdateHexChunkLocations(int qCam, int wChunk, int numChunks)
     {
+        int centerChunk = (numChunks / 2); // Define the middle chunk index
+        int leadingChunk = ((qCam / wChunk) + centerChunk) % numChunks;
+        int absoluteChunk = qCam / wChunk;
+        if (leadingChunk < 0) leadingChunk += numChunks; // Ensure positive index
+
+        List<int> orderedChunks = new List<int>();
+
+        for (int i = 0; i < numChunks; i++)
+        {
+            orderedChunks.Add((leadingChunk + i) % numChunks + 1);
+        }
+        int j = absoluteChunk - 2;
+        foreach(int i in orderedChunks)
+        {
+            int q = j * wChunk;
+            ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).chunkList[i-1].UpdateGraphicalOrigin(new Hex(q,0,-q));
+            j++;
+        }
+    }
+
+    private void ProcessHexLeftClick(Hex hex)
+    {        
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        Hex wrapHex = hex.WrapHex(hex);
+        GD.Print(wrapHex);
+
         GameHex gameHex;
-        Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(hex, out gameHex);
+        Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(wrapHex, out gameHex);
         if (gameHex == null)
         {
             if (Global.gameManager.graphicManager.GetWaitForTargeting())
@@ -117,9 +151,9 @@ public partial class HexGameCamera : Camera3D
         {
             if (Global.gameManager.graphicManager.selectedObject is GraphicUnit)
             {
-                if (((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.unitDictionary[((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.usingUnitID]))
+                if (((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex], Global.gameManager.game.unitDictionary[((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.usingUnitID]))
                 {
-                    ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
+                    ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]);
                     Global.gameManager.graphicManager.ClearWaitForTarget();
                 }
             }
@@ -128,16 +162,16 @@ public partial class HexGameCamera : Camera3D
                 GraphicCity graphicCity = ((GraphicCity)Global.gameManager.graphicManager.selectedObject);
                 if (graphicCity.waitingToGrow)
                 {
-                    if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
+                    if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.ExpandToHex(hex);
+                        graphicCity.city.ExpandToHex(wrapHex);
                         graphicCity.waitingToGrow = false;
                         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }
-                    else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
+                    else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.DevelopDistrict(hex);
+                        graphicCity.city.DevelopDistrict(wrapHex);
                         graphicCity.waitingToGrow = false;
                         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
                         Global.gameManager.graphicManager.ClearWaitForTarget();
@@ -145,9 +179,9 @@ public partial class HexGameCamera : Camera3D
                 }
                 else if (graphicCity.waitingBuildingName != "")
                 {
-                    if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
+                    if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, Global.gameManager.game.mainGameBoard.gameHexDict[hex]);
+                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]);
                         graphicCity.waitingBuildingName = "";
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }
@@ -185,8 +219,17 @@ public partial class HexGameCamera : Camera3D
 
     }
 
+    public int GetCameraHexQ()
+    {
+        FractionalHex fHex = Global.layout.PixelToHex(new Point(this.Transform.Origin.Z, this.Transform.Origin.X));
+        Hex hex = fHex.HexRound();
+        return hex.q + (hex.r >> 1);
+    }
+
     private void ProcessHexRightClick(Hex hex)
     {
+        GD.Print("RightClick: " + hex + " | " + hex.WrapHex(hex));
+        Global.debugLog("Team Num: " + Global.gameManager.game.localPlayerTeamNum.ToString());
         Global.gameManager.graphicManager.selectedObject.ProcessRightClick(hex);
     }
 }

@@ -15,7 +15,13 @@ public partial class Mainmenu : Control
 
 	public void onPlayButtonPressed()
     {
-		Global.menuManager.ChangeMenu("res://graphics/ui/menus/lobby.tscn");
+		
+		Global.menuManager.LoadLobby();
+    }
+
+	public void onDebugStart1Pressed()
+	{
+        Global.gameManager.startGame(1);
     }
 
 	public void onOptionsButtonPressed()

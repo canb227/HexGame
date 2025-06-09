@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Diagnostics.CodeAnalysis;
+using NetworkMessages;
 
 public struct Point
 {
@@ -86,19 +87,35 @@ public struct Hex
     public Hex WrappingNeighbor(int direction, int left, int right)
     {
         right = right - 1;
-        Hex target = Add(Direction(direction));
-        if(target.q < left)
+        Hex hex = Add(Direction(direction));
+         return WrapHex(hex);
+    }
+
+    public Hex WrapHex(Hex hex)
+    {
+        Hex wrapHex = hex;
+        int left = Global.gameManager.game.mainGameBoard.left - (hex.r >> 1); //0
+        int right = Global.gameManager.game.mainGameBoard.right - (hex.r >> 1); //24 - 1 = 23
+        /*        if (hex.q < left - (hex.r >> 1))
+                {
+                    int newQ = right - (Math.Abs(hex.q) % right) - (hex.r >> 1);
+                    wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
+                }
+                else if (hex.q > right - (hex.r>>1))
+                {
+                    int newQ = (left - (hex.r >> 1) - (right - (hex.r >> 1) - hex.q)) % (right - left); //off by a bunch
+                    //int newQ = left + ((hex.q - (right - (hex.r >> 1))) % (right - left + 1)); //off by 4
+                    //int newQ = left - (hex.r >> 1) + ((hex.q - (right - (hex.r >> 1))) % (right - left + 1)); //off by 1
+                    wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
+                }*/
+        int range = right - left;
+        int newQ = ((hex.q - left) % range) + left;
+        if(newQ < left)
         {
-            return new Hex(right, target.r, -right-target.r);
+            newQ = right + ((newQ-left)% range);
         }
-        else if(target.q > right)
-        {
-            return new Hex(left, target.r, -left-target.r);
-        }
-        else
-        {
-            return target;
-        }
+        wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
+        return wrapHex;
     }
 
     public Hex[] Neighbors()
@@ -121,7 +138,7 @@ public struct Hex
         for (int i = 0; i < 6; i++)
         {
             Hex temp = WrappingNeighbor(i, left, right);
-            if (temp.q >= 0 && temp.r >= 0 && temp.r < bottom)
+            if (temp.r >= 0 && temp.r < bottom)
             {
                 neightborList.Add(temp);
             }
@@ -155,21 +172,21 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
 {
     List<Hex> results = new();
     int width = right - left;
-
     for (int q = -range; q <= range; q++)
     {
         for (int r = Math.Max(-range, -q - range); r <= Math.Min(range, -q + range); r++)
         {
-            // Adjust the q coordinate using modular arithmetic for wrapping.
-            int wrappedQ = ((q + this.q - left) % width + width) % width + left;
-            int wrappedR = r + this.r; // Offset r by the origin's r coordinate.
-            int wrappedS = -wrappedQ - wrappedR; // Calculate s based on wrapped q and r.
+                // Adjust the q coordinate using modular arithmetic for wrapping.
+                int rangeQ = q + this.q;
+                int rangeR = r + this.r; // Offset r by the origin's r coordinate.
+                int rangeS = -rangeQ - rangeR; // Calculate s based on wrapped q and r.
 
-            // Check bounds for r and add the hex to the results.
-            if (wrappedR >= top && wrappedR < bottom)
-            {
-                results.Add(new Hex(wrappedQ, wrappedR, wrappedS));
-            }
+                // Check bounds for r and add the hex to the results.
+                if (rangeR >= top && rangeR < bottom)
+                {                    
+                    Hex hex = WrapHex(new Hex(rangeQ, rangeR, rangeS));
+                    results.Add(hex);
+                }
         }
     }
     return results;
@@ -187,11 +204,26 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
         return Subtract(b).Length();
     }
 
-    public int WrapDistance(Hex b, int width)
+    public int WrapDistance(Hex b)
     {
-        int dq = Math.Min(Math.Abs(b.q - q), Math.Min(Math.Abs((b.q + width) - q), Math.Abs(b.q - (q + width))));
-        int dr = Math.Abs(b.r - r); //no R wrapping , abs((r2 + height) - r1), abs(r2 - (r1 + height)))
-        int ds = Math.Abs(b.s - s); //no S wrapping, abs((s2 + width) - s1), abs(s2 - (s1 + width)))
+        int leftBoundary = (int)Math.Floor(r / 2.0);
+        int rightBoundary = Global.gameManager.game.mainGameBoard.right - leftBoundary;
+        int rawDifference = b.q - q;
+
+        // Compute wrapped distance
+        int wrappedDifference = rawDifference;
+        if (rawDifference < leftBoundary)
+        {
+            wrappedDifference += (rightBoundary - leftBoundary);
+        }
+        else if (rawDifference > rightBoundary)
+        {
+            wrappedDifference -= (rightBoundary - leftBoundary);
+        }
+
+        int dq = Math.Abs(wrappedDifference);
+        int dr = Math.Abs(b.r - r);
+        int ds = Math.Abs(b.s - s);
         return (int)((dq + dr + ds) / 2);
     }
 
@@ -265,10 +297,15 @@ public struct OffsetCoord
         this.col = col;
         this.row = row;
     }
-    public readonly int col;
+    public readonly int col; 
     public readonly int row;
     static public int EVEN = 1;
     static public int ODD = -1;
+
+    public override string ToString()
+    {
+        return "(" + row + ", " + col + ")";
+    }
 
     static public OffsetCoord QoffsetFromCube(int offset, Hex h)
     {

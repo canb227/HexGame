@@ -23,6 +23,7 @@ public partial class NetworkPeer : Node
     int nMaxChatMessagesPerFrame = 100;
     int nMaxStateMessagesPerFrame = 100;
     int nMaxHandshakeMessagesPerFrame = 100;
+    int nMaxLobbyMessagesPerFrame = 100;
 
     /// <summary>
     /// List of all other network peers we are currently connected to. This will (should) only ever contain non-self peers that have confirmed our connection request. It may contain disconnected, unresponsive, or offline peers.
@@ -49,7 +50,7 @@ public partial class NetworkPeer : Node
     public const int CHAT_CHANNEL = 1;
     public const int COMMAND_CHANNEL = 2;
     public const int HANDSHAKE_CHANNEL = 3;
-
+    public const int LOBBY_CHANNEL = 4;
 
     public enum GamePrivacyMode { NONE = 0, OFFLINE = 1, PRIVATE = 2, FRIENDS = 3, PUBLIC = 4 };
     public GamePrivacyMode privacyMode = GamePrivacyMode.FRIENDS;
@@ -65,6 +66,10 @@ public partial class NetworkPeer : Node
 
     public delegate void HandshakeMessageReceived(Handshake handshake);
     public static event HandshakeMessageReceived HandshakeMessageReceivedEvent;
+
+    public delegate void LobbyMessageReceived(LobbyMessage lobbyMessage);
+    public static event LobbyMessageReceived LobbyMessageReceivedEvent;
+
 
     public delegate void PlayerJoined(ulong playerID);
     public static event PlayerJoined PlayerJoinedEvent;
@@ -83,6 +88,7 @@ public partial class NetworkPeer : Node
         //Since Handshake messages are so closely related to networking, we handle them here
         HandshakeMessageReceivedEvent += OnHandshakeMessageReceived;
     }
+
 
     ///////////////////////////////////////////////////////////////////////////////////
     // CORE NETWORKING
@@ -188,6 +194,16 @@ public partial class NetworkPeer : Node
             SteamNetworkingMessage_t.Release(handshakeMessages[i]);
         }
 
+        //Identical to above, but for Lobby messages on the Lobby Channel
+        nint[] lobbyMessages = new nint[nMaxLobbyMessagesPerFrame];
+        for (int i = 0; i < ReceiveMessagesOnChannel(LOBBY_CHANNEL, lobbyMessages, nMaxLobbyMessagesPerFrame); i++)
+        {
+            SteamNetworkingMessage_t steamMsg = SteamNetworkingMessage_t.FromIntPtr(lobbyMessages[i]); //Converts the message to a C# object
+            LobbyMessage lobbyMessage = LobbyMessage.Parser.ParseFrom(IntPtrToBytes(steamMsg.m_pData, steamMsg.m_cbSize));
+            LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
+            SteamNetworkingMessage_t.Release(lobbyMessages[i]);
+        }
+
     }
 
     /// <summary>
@@ -209,6 +225,7 @@ public partial class NetworkPeer : Node
     /// <param name="id">SteamID ulong to attempt to join to</param>
     public void JoinToPeer(ulong id)
     {
+        Global.debugLog("Attempting to join peer: " + id);
         SteamNetworkingIdentity identity = new SteamNetworkingIdentity();
         identity.SetSteamID64(id);
         JoinToPeer(identity);
@@ -278,7 +295,15 @@ public partial class NetworkPeer : Node
     }
 
 
-
+    public List<ulong> GetConnectedPeers()
+    {
+        List<ulong> peers = new List<ulong>();
+        foreach (SteamNetworkingIdentity i in remotePeers)
+        {
+            peers.Add(i.GetSteamID64());
+        }
+        return peers;
+    }
     ///////////////////////////////////////////////////////////////////////////////////
     // HANDSHAKE MANAGER
 
@@ -292,6 +317,7 @@ public partial class NetworkPeer : Node
             case "JoinRequest":
                 Global.debugLog("Join request received from: " + handshake.Sender);
                 remotePeers.Add(id);
+                PlayerJoinedEvent?.Invoke(handshake.Sender);
                 HandshakePeer(id, "JoinAccepted");
                 break;
             case "JoinAccepted":
@@ -360,13 +386,11 @@ public partial class NetworkPeer : Node
         MessageAllPeers(chat, CHAT_CHANNEL);
     }
 
-
-
-
-
-
-
-
+    internal void LobbyMessageAllPeers(LobbyMessage lobbyMessage)
+    {
+        LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
+        MessageAllPeers(lobbyMessage, LOBBY_CHANNEL);
+    }
 }
 
 

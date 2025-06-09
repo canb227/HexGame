@@ -17,6 +17,23 @@ message Handshake
 	repeated uint64 peers = 4;
 }
 
+message LobbyMessage
+{
+	uint64 sender = 1;
+	string messageType = 2;
+	string message = 3;
+	optional LobbyStatus lobbyStatus = 4;
+	optional string savePayload = 5;
+}
+
+message LobbyStatus
+{
+	bool isHost = 1;
+	bool isReady = 2;
+	uint64 team = 3;
+	uint64 faction = 4;
+}
+
 message Chat
 {
 	uint64 sender = 1;
@@ -38,6 +55,7 @@ message MoveUnit
 {
 	uint64 unitId = 1;
 	Hex target = 2;
+	bool isEnemy = 3;
 }
 
 message ActivateAbility

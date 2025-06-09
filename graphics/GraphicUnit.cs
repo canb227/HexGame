@@ -12,14 +12,18 @@ public partial class GraphicUnit : GraphicObject
     public Node3D node3D;
     public UnitAbility waitingAbility;
     public UnitWorldUI unitWorldUI;
+    public Hex graphicalHex;
     public GraphicUnit(Unit unit)
     {
         this.unit = unit;
         node3D = new Node3D();
-        InstantiateUnit(unit);
         //InstantiateUnitUI(unit);
         unitWorldUI = new UnitWorldUI(unit);
         AddChild(unitWorldUI);
+    }
+    public override void _Ready()
+    {
+        InstantiateUnit(unit);
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
@@ -34,22 +38,18 @@ public partial class GraphicUnit : GraphicObject
             Global.gameManager.graphicManager.toBeDeleted.Add(unit.id, this);
             //Free();
         }
-        else if (graphicUpdateType == GraphicUpdateType.Move)
+        else if (graphicUpdateType == GraphicUpdateType.Move || graphicUpdateType == GraphicUpdateType.Update)
         {
             Transform3D newTransform = node3D.Transform;
-            Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
+            GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex));
+            //GD.Print("GRAPHIC HEX: " + ggb.HexToGraphicHex(unit.hex) + " HEX: " + unit.hex);
             newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
             node3D.Transform = newTransform;
+            UpdateMovementGraphics();
             unitWorldUI.Update();
 
             Global.gameManager.graphicManager.UpdateHexObjectDictionary(previousHex, this, unit.hex);
-
-
-        }
-        else if (graphicUpdateType == GraphicUpdateType.Update)
-        {
-            UpdateMovementGraphics();
-            unitWorldUI.Update();
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
@@ -71,7 +71,8 @@ public partial class GraphicUnit : GraphicObject
         UnitLoader.unitsDict.TryGetValue(unit.unitType, out UnitInfo unitInfo);
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + unitInfo.ModelPath).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
-        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
+        GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex));
         newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
         node3D.Transform = newTransform;
         Global.gameManager.graphicManager.hexObjectDictionary[unit.hex].Add(this);
@@ -139,7 +140,11 @@ public partial class GraphicUnit : GraphicObject
 
     public override void ProcessRightClick(Hex hex)
     {
-        unit.MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.teamManager, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
+        hex = hex.WrapHex(hex);
+        GD.Print("MOVE TOWARDS: " + hex);
+        //unit.MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.teamManager, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
+        Global.gameManager.MoveUnit(unit.id, hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
+        GD.Print("home" + unit.hex);
         UpdateGraphic(GraphicUpdateType.Move);
         Unselected();
         Selected();
@@ -202,7 +207,9 @@ public partial class GraphicUnit : GraphicObject
 
         foreach (Hex hex in hexes)
         {
-            List<Point> points = Global.gameManager.graphicManager.layout.PolygonCorners(hex);
+            GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            Hex graphicHex = ggb.HexToGraphicHex(hex);
+            List<Point> points = Global.gameManager.graphicManager.layout.PolygonCorners(graphicHex);
             st.AddVertex(new Vector3((float)points[0].y, 0.1f, (float)points[0].x));
             foreach (Point point in points)
             {
@@ -231,7 +238,9 @@ public partial class GraphicUnit : GraphicObject
 
         foreach (Hex hex in hexes)
         {
-            if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum))
+            GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            Hex graphicHex = ggb.HexToGraphicHex(hex);
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum))
             {
                 st.SetColor(Godot.Colors.Red);
             }
@@ -239,7 +248,7 @@ public partial class GraphicUnit : GraphicObject
             {
                 st.SetColor(Godot.Colors.Gold);
             }
-            List<Point> points = Global.gameManager.graphicManager.layout.PolygonCorners(hex);
+            List<Point> points = Global.gameManager.graphicManager.layout.PolygonCorners(graphicHex);
 
             Vector3 origin = new Vector3((float)points[0].y, 0.05f, (float)points[0].x);
             for (int i = 1; i < 6; i++)

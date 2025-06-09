@@ -95,7 +95,15 @@ public partial class UnitWorldUI : Node3D
         }
         unitHealthBar.Value = unit.health;
         Transform3D newTransform = Transform;
-        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
+        Point hexPoint;
+        if ((Global.gameManager.graphicManager.graphicObjectDictionary.ContainsKey(Global.gameManager.game.mainGameBoard.id)))
+        {
+            hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]).HexToGraphicHex(unit.hex));
+        }
+        else
+        {
+            hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
+        }
         newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         Transform = newTransform;
         if (unit.teamNum == Global.gameManager.game.localPlayerTeamNum && unit.remainingMovement > 0 && unit.currentPath.Count == 0 && !unit.isSleeping)
