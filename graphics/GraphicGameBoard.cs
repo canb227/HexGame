@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using static Google.Protobuf.Reflection.FeatureSet.Types;
 
 public partial class GraphicGameBoard : GraphicObject
 {
@@ -16,6 +17,7 @@ public partial class GraphicGameBoard : GraphicObject
     public List<HexChunk> chunkList = new();
     public int chunkSize = 0;
     private Image visibilityImage;
+    private Image terrainInfoImage;
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
         this.gameBoard = gameBoard;
@@ -50,8 +52,22 @@ public partial class GraphicGameBoard : GraphicObject
     //super simple just delete all our children and redraw the board using the current state of gameboard
     private void SimpleRedrawBoard(Layout pointy)
     {
+/*        foreach (Node child in this.GetChildren())
+        {
+            if(child.Name == "GameBoardTerrainFog2" || child.Name == "GameBoardTerrainFog")
+            {
+                child.Free();
+            }
+        }*/
+
         List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
         List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
+
+        HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
+        List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
+
+        List<Hex> seenButNotVisible = seen.Except(visible).ToList();
 
         foreach (HexChunk hexChunk in chunkList)
         {
@@ -210,8 +226,12 @@ public partial class GraphicGameBoard : GraphicObject
             visibilityImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rg8);
             ImageTexture visibilityTexture = ImageTexture.CreateFromImage(visibilityImage);
 
+            terrainInfoImage = GenerateTerrainInfoImage();
+            ImageTexture terrainInfoTexture = ImageTexture.CreateFromImage(terrainInfoImage);
+
             terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
             terrainShaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
+            terrainShaderMaterial.SetShaderParameter("terrainInfo", terrainInfoTexture);
 
             terrainShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
             terrainShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
@@ -230,10 +250,10 @@ public partial class GraphicGameBoard : GraphicObject
         }
 
 
-        MeshInstance3D lines = new MeshInstance3D();
+/*        MeshInstance3D lines = new MeshInstance3D();
         lines.Mesh = GenerateHexLines(hexList, pointy, 0.01f);
         lines.Name = "GameBoardTerrainLines";
-        AddChild(lines);
+        AddChild(lines);*/
     }
 
     private void AddBoardFog(List<Hex> seenButNotVisible, List<Hex> nonSeenHexes, Layout pointy, float height)
@@ -627,5 +647,59 @@ public partial class GraphicGameBoard : GraphicObject
 
         return newColor;
     }
+    
+    private Image GenerateTerrainInfoImage()
+    {
+        terrainInfoImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rg8);
 
+        foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
+        {
+            Hex wrapHex = hex.WrapHex(hex);
+            int newQ = wrapHex.q + (wrapHex.r >> 1);
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainTemp == TerrainTemperature.Desert)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0.1f, 0, 0, 1)); // Mark as seen
+            }
+            else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainTemp == TerrainTemperature.Plains)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0.2f, 0, 0, 1)); // Mark as seen
+            }
+            else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainTemp == TerrainTemperature.Grassland)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0.3f, 0, 0, 1)); // Mark as seen
+            }
+            else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainTemp == TerrainTemperature.Tundra)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0.4f, 0, 0, 1)); // Mark as seen
+            }
+            else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainTemp == TerrainTemperature.Arctic)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0.5f, 0, 0, 1)); // Mark as seen
+            }
+
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(terrainInfoImage.GetPixel(newQ, wrapHex.r).R, 0.1f, 0, 1)); // Mark as seen
+            }
+            else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(terrainInfoImage.GetPixel(newQ, wrapHex.r).R, 0.2f, 0, 1)); // Mark as seen
+            }
+            else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Mountain)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(terrainInfoImage.GetPixel(newQ, wrapHex.r).R, 0.3f, 0, 1)); // Mark as seen
+            }
+            else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Coast)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(terrainInfoImage.GetPixel(newQ, wrapHex.r).R, 0.4f, 0, 1)); // Mark as seen
+            }
+            else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Ocean)
+            {
+                terrainInfoImage.SetPixel(newQ, wrapHex.r, new Godot.Color(terrainInfoImage.GetPixel(newQ, wrapHex.r).R, 0.5f, 0, 1)); // Mark as seen
+            }
+        }
+
+        terrainInfoImage.SavePng("testInfo.png");
+        return terrainInfoImage;
+    }
 }

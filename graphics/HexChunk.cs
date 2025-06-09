@@ -86,7 +86,7 @@ public class HexChunk
             int newQ = wrapHex.q + (wrapHex.r >> 1);
             visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
         }
-        visibilityImage.SavePng("testVis"+origin+".png");
+        visibilityImage.SavePng("testVis.png");
         visibilityTexture.Update(visibilityImage);
     }
 
