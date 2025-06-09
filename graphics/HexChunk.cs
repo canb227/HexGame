@@ -18,7 +18,7 @@ public class HexChunk
     public Image visibilityImage;
     public ImageTexture visibilityTexture;
     public ShaderMaterial terrainShaderMaterial;
-    public HexChunk(MeshInstance3D mesh, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial)
+    public HexChunk(MeshInstance3D mesh, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial, ImageTexture visibilityTexture)
     {
         this.mesh = mesh;
         this.ourHexes = ourHexes;
@@ -27,6 +27,7 @@ public class HexChunk
         deltaQ = graphicalOrigin.q - origin.q;
         this.heightMap = heightMap;
         this.terrainShaderMaterial = terrainShaderMaterial;
+        this.visibilityTexture = visibilityTexture;
         UpdateGraphicalOrigin(graphicalOrigin);
     }
 

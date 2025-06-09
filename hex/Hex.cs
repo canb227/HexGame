@@ -96,18 +96,6 @@ public struct Hex
         Hex wrapHex = hex;
         int left = Global.gameManager.game.mainGameBoard.left - (hex.r >> 1); //0
         int right = Global.gameManager.game.mainGameBoard.right - (hex.r >> 1); //24 - 1 = 23
-        /*        if (hex.q < left - (hex.r >> 1))
-                {
-                    int newQ = right - (Math.Abs(hex.q) % right) - (hex.r >> 1);
-                    wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
-                }
-                else if (hex.q > right - (hex.r>>1))
-                {
-                    int newQ = (left - (hex.r >> 1) - (right - (hex.r >> 1) - hex.q)) % (right - left); //off by a bunch
-                    //int newQ = left + ((hex.q - (right - (hex.r >> 1))) % (right - left + 1)); //off by 4
-                    //int newQ = left - (hex.r >> 1) + ((hex.q - (right - (hex.r >> 1))) % (right - left + 1)); //off by 1
-                    wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
-                }*/
         int range = right - left;
         int newQ = ((hex.q - left) % range) + left;
         if(newQ < left)

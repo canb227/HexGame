@@ -11,7 +11,7 @@ public partial class GraphicGameBoard : GraphicObject
     Layout layout;
     public Mesh hexMesh;
     Shader terrainShader = GD.Load<Shader>("res://graphics/shaders/terrain/hex.gdshader");
-    ImageTexture heightMapTexture;
+    private ImageTexture heightMapTexture;
     public Dictionary<Hex, int> hexToChunkDictionary = new();
     public List<HexChunk> chunkList = new();
     public int chunkSize = 0;
@@ -199,7 +199,14 @@ public partial class GraphicGameBoard : GraphicObject
                     material.VertexColorUseAsAlbedo = true;
                     triangles.SetSurfaceOverrideMaterial(0, material);*/
 
+            Image visibilityImage = Godot.Image.CreateEmpty(gameBoard.right, gameBoard.bottom, false, Godot.Image.Format.Rg8);
+            ImageTexture visibilityTexture = ImageTexture.CreateFromImage(visibilityImage);
+
             terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
+            terrainShaderMaterial.SetShaderParameter("visibiltiyMap", visibilityTexture);
+            terrainShaderMaterial.SetShaderParameter("gameBoardRight", Global.gameManager.game.mainGameBoard.right);
+            terrainShaderMaterial.SetShaderParameter("gameBoardLeft", Global.gameManager.game.mainGameBoard.left);
+
             terrainShaderMaterial.SetShaderParameter("chunkOffset", i*chunkSize*Math.Sqrt(3)*10.0f);
             terrainShaderMaterial.SetShaderParameter("widthDiv", Math.Sqrt(3) * 10.0 * (chunkSize+1));
             terrainShaderMaterial.SetShaderParameter("heightDiv", 1.5 * 10.0 * Global.gameManager.game.mainGameBoard.bottom);
@@ -208,7 +215,7 @@ public partial class GraphicGameBoard : GraphicObject
             triangles.SetSurfaceOverrideMaterial(0, terrainShaderMaterial);
             triangles.Name = "GameBoardTerrain" + i;
 
-            chunkList.Add(new HexChunk(triangles, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial));//we set graphical to our default location here then update as we move it around
+            chunkList.Add(new HexChunk(triangles, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial, visibilityTexture));//we set graphical to our default location here then update as we move it around
 
             AddChild(triangles);
             i++;
