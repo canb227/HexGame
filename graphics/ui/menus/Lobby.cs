@@ -25,6 +25,18 @@ public partial class Lobby : Control
         StartGameButton = GetNode<Button>("b_newgame");
         StartGameButton.Disabled = true;
 
+        foreach (var size in Enum.GetNames(typeof(MapGenerator.MapSize)))
+        {
+            GetNode<OptionButton>("newgameoptions/worldgensize").AddItem(size);
+        }
+        GetNode<OptionButton>("newgameoptions/worldgensize").Selected = (int)MapGenerator.MapSize.Small;
+
+        foreach (var type in Enum.GetNames(typeof(MapGenerator.MapType)))
+        {
+            GetNode<OptionButton>("newgameoptions/worldgentype").AddItem(type);
+        }
+        GetNode<OptionButton>("newgameoptions/worldgentype").Selected = (int)MapGenerator.MapType.DebugSquare;
+
     }
 
     private void NetworkPeer_ChatMessageReceivedEvent(Chat chat)
@@ -121,15 +133,17 @@ public partial class Lobby : Control
                 }
                 break;
             case "startgame":
-                Global.debugLog("Starting game from lobby message");
-                if (isHost)
+                Global.debugLog("Starting game from lobby message, payload: " + lobbyMessage.SavePayload);
+                Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
+                Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.SavePayload, Global.gameManager.game.GetUniqueID());
+                Global.gameManager.game.AddPlayer(10, 0);
+                foreach (LobbyStatus player in PlayerStatuses.Values)
                 {
-                    Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+                    Global.gameManager.game.AddPlayer(10, (int)player.Team);
                 }
-                else
-                {
-                    Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
-                }
+                
+                Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+                
                 break;
             case "loadgame":
                 Global.debugLog("Loading game from host");
@@ -262,10 +276,47 @@ public partial class Lobby : Control
     public void OnStartGameButtonPressed()
     {
         Global.debugLog("Start game button pressed. Team Num: " + ((int)PlayerStatuses[Global.clientID].Team).ToString());
-        //Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+        
+        MapGenerator mapGenerator = new MapGenerator();
+
+        switch ((MapGenerator.MapSize)GetNode<OptionButton>("newgameoptions/worldgensize").Selected)
+        {
+            case MapGenerator.MapSize.Tiny:
+                mapGenerator.mapWidth = 12;
+                mapGenerator.mapHeight = 12;
+                break;
+            case MapGenerator.MapSize.Small:
+                mapGenerator.mapWidth = 24;
+                mapGenerator.mapHeight = 24;
+                break;
+            case MapGenerator.MapSize.Medium:
+                mapGenerator.mapWidth = 48;
+                mapGenerator.mapHeight = 24;
+                break;
+            case MapGenerator.MapSize.Large:
+                mapGenerator.mapWidth = 64;
+                mapGenerator.mapHeight = 36;
+                break;
+            case MapGenerator.MapSize.Huge:
+                mapGenerator.mapWidth = 128;
+                mapGenerator.mapHeight = 48;
+                break;
+        }
+
+
+        mapGenerator.numberOfPlayers = (int)(PlayerStatuses.Count+ GetNode<HSlider>("newgameoptions/ainumber").Value);
+        mapGenerator.numberOfHumanPlayers = PlayerStatuses.Count;
+        mapGenerator.generateRivers = false;
+        mapGenerator.resourceAmount = MapGenerator.ResourceAmount.Medium;
+        mapGenerator.mapType = (MapGenerator.MapType)GetNode<OptionButton>("newgameoptions/worldgentype").Selected;
+
+        string mapData = mapGenerator.GenerateMap();
+        Global.debugLog("Map generated: " + mapData);
+
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "startgame";
+        lobbyMessage.SavePayload = mapData;
         Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
         
     }

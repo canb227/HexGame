@@ -9,32 +9,26 @@ using Godot;
 [Serializable]
 public class GameBoard
 {
-    public GameBoard(int id, int bottom, int right)
-    {
-        this.id = id;
-        this.top = 0;
-        this.bottom = bottom;
-        this.left = 0;
-        this.right = right;
-        gameHexDict = new();
-        Random rnd = new Random();
-        for (int r = 0; r <= bottom; r++){
-            for (int q = 0; q <= right; q++){
-                gameHexDict.Add(new Hex(q, r, -q-r), new GameHex(new Hex(q, r, -q-r), this.id, (TerrainType)rnd.Next(0,3), TerrainTemperature.Grassland, (ResourceType)0, new HashSet<FeatureType>(), new List<int>(), null));
-            }
-        }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewGameBoard(this);
-    }
 
     public GameBoard()
     {
-
     }
 
-    public GameBoard(string mapName, int id)
+    public void InitGameBoardFromFile(string mapName, int id)
     {
         gameHexDict = new();
         String mapData = System.IO.File.ReadAllText(mapName + ".map");
+        ReadGameBoardData(mapData);
+    }
+
+    public void InitGameBoardFromData(string mapData, int id)
+    {
+        gameHexDict = new();
+        ReadGameBoardData(mapData);
+    }
+
+    private void ReadGameBoardData(string mapData)
+    {
         List<String> lines = mapData.Split('\n').ToList();
         //file format is 1110 1110 (each 4 numbers are a single hex)
         // first number is terraintype, second number is terraintemp, last number is features, last is resource type
@@ -43,15 +37,15 @@ public class GameBoard
         int q = 0;
         foreach (String line in lines)
         {
-            
+
             Queue<String> cells = new Queue<String>(line.Split(' ').ToList());
             int offset = r >> 1;
             //offset = (offset % cells.Count + cells.Count) % cells.Count; //negatives and overflow
             q = 0 - offset;
-/*            if(q < left)
-            {
-                left = q;
-            }*/
+            /*            if(q < left)
+                        {
+                            left = q;
+                        }*/
             for (int i = 1; i < offset; i++)
             {
                 cells.Enqueue(cells.Dequeue());
@@ -124,7 +118,7 @@ public class GameBoard
             r += 1;
         }
         this.bottom = r;
-        GD.Print(left + "," +  right + "," + bottom + "," + top);
+        GD.Print(left + "," + right + "," + bottom + "," + top);
     }
 
     public int id { get; set; }

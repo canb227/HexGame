@@ -161,7 +161,7 @@ offset_right = 146.0
 offset_bottom = 234.0
 text = "number of AI"
 
-[node name="HSlider" type="HSlider" parent="newgameoptions"]
+[node name="ainumber" type="HSlider" parent="newgameoptions"]
 layout_mode = 0
 offset_left = 159.0
 offset_top = 210.0
@@ -251,6 +251,6 @@ text = "Debug buttons"
 [connection signal="pressed" from="b_loadgame" to="." method="OnLoadButtonPressed"]
 [connection signal="item_selected" from="newgameoptions/worldgentype" to="." method="_on_worldgentype_item_selected"]
 [connection signal="item_selected" from="newgameoptions/worldgensize" to="." method="_on_worldgensize_item_selected"]
-[connection signal="drag_ended" from="newgameoptions/HSlider" to="." method="_on_h_slider_drag_ended"]
+[connection signal="drag_ended" from="newgameoptions/ainumber" to="." method="_on_h_slider_drag_ended"]
 [connection signal="toggled" from="newgameoptions/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="pressed" from="chat/Button" to="." method="onChatSendButtonPressed"]
