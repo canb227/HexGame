@@ -8,7 +8,7 @@ using static Google.Protobuf.Reflection.FeatureSet.Types;
 
 public class HexChunk
 {
-    public MeshInstance3D mesh;
+    public MultiMeshInstance3D multiMeshInstance;
     public Hex origin;
     public Hex graphicalOrigin;
     private int deltaQ;
@@ -18,16 +18,21 @@ public class HexChunk
     public Image visibilityImage;
     public ImageTexture visibilityTexture;
     public ShaderMaterial terrainShaderMaterial;
-    public HexChunk(MeshInstance3D mesh, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial)
+    public HexChunk(MultiMeshInstance3D multiMeshInstance, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial, Image visibilityImage, ImageTexture visibilityTexture)
     {
-        this.mesh = mesh;
+        this.multiMeshInstance = multiMeshInstance;
         this.ourHexes = ourHexes;
         this.origin = origin;
         this.graphicalOrigin = graphicalOrigin;
         deltaQ = graphicalOrigin.q - origin.q;
         this.heightMap = heightMap;
         this.terrainShaderMaterial = terrainShaderMaterial;
+        this.visibilityTexture = visibilityTexture;
+        this.visibilityImage = visibilityImage;
         UpdateGraphicalOrigin(graphicalOrigin);
+        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
+        List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        GenerateVisibilityGrid(visible, seen);
     }
 
     public void UpdateGraphicalOrigin(Hex newOrigin)
@@ -36,9 +41,9 @@ public class HexChunk
         {
             graphicalOrigin = newOrigin;
             deltaQ = graphicalOrigin.q - origin.q;
-            Transform3D newTransform = mesh.Transform;
+            Transform3D newTransform = multiMeshInstance.Transform;
             newTransform.Origin = new Vector3((float)Global.layout.HexToPixel(graphicalOrigin).y, -1.0f, (float)Global.layout.HexToPixel(graphicalOrigin).x);
-            mesh.Transform = newTransform;
+            multiMeshInstance.Transform = newTransform;
             
             terrainShaderMaterial.SetShaderParameter("chunkOffset", graphicalOrigin.q * Math.Sqrt(3) * 10.0f);
             if (!firstRun)
@@ -61,7 +66,6 @@ public class HexChunk
                 }
             }
             firstRun = false;
-
         }
     }
 
@@ -71,14 +75,18 @@ public class HexChunk
 
         foreach (Hex hex in seenHexes)
         {
-            visibilityImage.SetPixel(hex.q, hex.r, new Godot.Color(0, 1, 0, 1)); // Mark as seen
+            Hex wrapHex = hex.WrapHex(hex);
+            int newQ = wrapHex.q + (wrapHex.r >> 1);
+            visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0, 1, 0, 1)); // Mark as seen
         }
 
         foreach (Hex hex in visibleHexes)
         {
-            visibilityImage.SetPixel(hex.q, hex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
+            Hex wrapHex = hex.WrapHex(hex);
+            int newQ = wrapHex.q + (wrapHex.r >> 1);
+            visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
         }
-        visibilityImage.SavePng("testVis.png");
+        visibilityImage.SavePng("testVis"+origin+".png");
         visibilityTexture.Update(visibilityImage);
     }
 

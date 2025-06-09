@@ -72,7 +72,7 @@ public partial class GraphicManager : Node3D
         GraphicDistrict graphicDistrict = new GraphicDistrict(district, layout);
         graphicObjectDictionary.Add(graphicDistrict.district.id, graphicDistrict);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        ggb.chunkList[ggb.hexToChunkDictionary[graphicDistrict.district.hex]].mesh.AddChild(graphicDistrict);
+        ggb.chunkList[ggb.hexToChunkDictionary[graphicDistrict.district.hex]].multiMeshInstance.AddChild(graphicDistrict);
     }
 
     public void NewBuilding(Building building)
@@ -80,7 +80,7 @@ public partial class GraphicManager : Node3D
         GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout);
         graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        ggb.chunkList[ggb.hexToChunkDictionary[graphicBuilding.building.districtHex]].mesh.AddChild(graphicBuilding);
+        ggb.chunkList[ggb.hexToChunkDictionary[graphicBuilding.building.districtHex]].multiMeshInstance.AddChild(graphicBuilding);
     }
 
     public void NewCity(City city)
@@ -88,7 +88,7 @@ public partial class GraphicManager : Node3D
         GraphicCity graphicCity = new GraphicCity(city, layout);
         graphicObjectDictionary.Add(graphicCity.city.id, graphicCity);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        ggb.chunkList[ggb.hexToChunkDictionary[graphicCity.city.hex]].mesh.AddChild(graphicCity);
+        ggb.chunkList[ggb.hexToChunkDictionary[graphicCity.city.hex]].multiMeshInstance.AddChild(graphicCity);
     }
     public void UpdateGraphic(int id, GraphicUpdateType graphicUpdateType)
     {

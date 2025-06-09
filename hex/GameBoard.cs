@@ -43,7 +43,6 @@ public class GameBoard
         int q = 0;
         foreach (String line in lines)
         {
-            
             Queue<String> cells = new Queue<String>(line.Split(' ').ToList());
             int offset = r >> 1;
             //offset = (offset % cells.Count + cells.Count) % cells.Count; //negatives and overflow
