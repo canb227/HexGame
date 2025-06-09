@@ -107,6 +107,19 @@ public partial class GameManager: Node
         Global.menuManager.ClearMenus();
     }
 
+    public void startDebugGame(string savePath, int teamNum)
+    {
+        Global.debugLog("Starting Game");
+        Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
+        Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
+        Global.layout = pointy;
+        game = LoadGame(savePath);
+        game.localPlayerTeamNum = teamNum;
+        InitGraphics(game, Global.layout);
+        Global.menuManager.Hide();
+        Global.menuManager.ClearMenus();
+    }
+
     private void startTerrainDemo()
     {
         Global.debugLog("Starting Game");
