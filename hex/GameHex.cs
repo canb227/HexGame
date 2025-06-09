@@ -8,11 +8,11 @@ using Godot;
 
 public enum TerrainType
 {
+    Ocean,
+    Coast,
     Flat,
     Rough,
     Mountain,
-    Coast,
-    Ocean
 }
 
 public enum TerrainTemperature

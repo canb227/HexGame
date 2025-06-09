@@ -279,27 +279,29 @@ public partial class Lobby : Control
         
         MapGenerator mapGenerator = new MapGenerator();
 
+        mapGenerator.mapSize = (MapGenerator.MapSize)GetNode<OptionButton>("newgameoptions/worldgensize").Selected;
+
         switch ((MapGenerator.MapSize)GetNode<OptionButton>("newgameoptions/worldgensize").Selected)
         {
             case MapGenerator.MapSize.Tiny:
-                mapGenerator.mapWidth = 12;
-                mapGenerator.mapHeight = 12;
+                mapGenerator.mapWidth = MapGenerator.TINY_WIDTH;
+                mapGenerator.mapHeight = MapGenerator.TINY_HEIGHT;
                 break;
             case MapGenerator.MapSize.Small:
-                mapGenerator.mapWidth = 24;
-                mapGenerator.mapHeight = 24;
+                mapGenerator.mapWidth = MapGenerator.SMALL_WIDTH;
+                mapGenerator.mapHeight = MapGenerator.SMALL_HEIGHT;
                 break;
             case MapGenerator.MapSize.Medium:
-                mapGenerator.mapWidth = 48;
-                mapGenerator.mapHeight = 24;
+                mapGenerator.mapWidth = MapGenerator.MEDIUM_WIDTH;
+                mapGenerator.mapHeight = MapGenerator.MEDIUM_HEIGHT;
                 break;
             case MapGenerator.MapSize.Large:
-                mapGenerator.mapWidth = 64;
-                mapGenerator.mapHeight = 36;
+                mapGenerator.mapWidth = MapGenerator.LARGE_WIDTH;
+                mapGenerator.mapHeight = MapGenerator.LARGE_HEIGHT;
                 break;
             case MapGenerator.MapSize.Huge:
-                mapGenerator.mapWidth = 128;
-                mapGenerator.mapHeight = 48;
+                mapGenerator.mapWidth = MapGenerator.HUGE_WIDTH;
+                mapGenerator.mapHeight = MapGenerator.HUGE_HEIGHT;
                 break;
         }
 
