@@ -49,25 +49,25 @@ public partial class GraphicGameBoard : GraphicObject
     //super simple just delete all our children and redraw the board using the current state of gameboard
     private void SimpleRedrawBoard(Layout pointy)
     {
-        foreach (Node child in this.GetChildren())
-        {
-            if(child.Name == "GameBoardTerrain" || child.Name == "GameBoardTerrainLines" || child.Name == "GameBoardTerrainFog2" || child.Name == "GameBoardTerrainFog")
-            {
-                child.Free();
-            }
-        }
         List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
         List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
-        List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
+        /*        List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
 
-        HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
-        List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
+                HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
+                List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
 
-        List<Hex> seenButNotVisible = seen.Except(visible).ToList();
-        AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), 1, pointy);
+                List<Hex> seenButNotVisible = seen.Except(visible).ToList();*/
+
+        foreach (HexChunk hexChunk in chunkList)
+        {
+            hexChunk.GenerateVisibilityGrid(visible, seen);
+        }
+        //AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), 1, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
         Global.gameManager.graphicManager.UpdateVisibility();
     }
+
+
 
     private void DrawBoard(Layout pointy)
     {
@@ -201,6 +201,9 @@ public partial class GraphicGameBoard : GraphicObject
 
             terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
             terrainShaderMaterial.SetShaderParameter("chunkOffset", i*chunkSize*Math.Sqrt(3)*10.0f);
+            terrainShaderMaterial.SetShaderParameter("widthDiv", Math.Sqrt(3) * 10.0 * (chunkSize+1));
+            terrainShaderMaterial.SetShaderParameter("heightDiv", 1.5 * 10.0 * Global.gameManager.game.mainGameBoard.bottom);
+
 
             triangles.SetSurfaceOverrideMaterial(0, terrainShaderMaterial);
             triangles.Name = "GameBoardTerrain" + i;

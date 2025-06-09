@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Google.Protobuf.Reflection.FeatureSet.Types;
 
 public class HexChunk
 {
@@ -14,6 +15,8 @@ public class HexChunk
     private List<Hex> ourHexes;
     bool firstRun = true;
     public Image heightMap;
+    public Image visibilityImage;
+    public ImageTexture visibilityTexture;
     public ShaderMaterial terrainShaderMaterial;
     public HexChunk(MeshInstance3D mesh, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial)
     {
@@ -62,10 +65,25 @@ public class HexChunk
         }
     }
 
+    public void GenerateVisibilityGrid(List<Hex> visibleHexes, List<Hex> seenHexes)
+    {
+        visibilityImage.Fill(new Godot.Color(0, 0, 0, 1)); // Default to hidden, unseen
+
+        foreach (Hex hex in seenHexes)
+        {
+            visibilityImage.SetPixel(hex.q, hex.r, new Godot.Color(0, 1, 0, 1)); // Mark as seen
+        }
+
+        foreach (Hex hex in visibleHexes)
+        {
+            visibilityImage.SetPixel(hex.q, hex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
+        }
+        visibilityImage.SavePng("testVis.png");
+        visibilityTexture.Update(visibilityImage);
+    }
+
     public Hex HexToGraphicalHex(Hex hex)
     {
-        //GD.Print(hex + " " + deltaQ);
-        //GD.Print("CHUNK HEXES: " + origin + " " + graphicalOrigin);
         return new Hex(hex.q+deltaQ, hex.r, -(hex.q + deltaQ)-hex.r);
     }
 }
