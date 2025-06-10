@@ -32,6 +32,7 @@ public class MapGenerator
     public bool generateRivers;
     public ResourceAmount resourceAmount;
     public MapType mapType;
+    public int erosionFactor = 6;
 
     public List<List<AbstractHex>> abstractHexGrid;
 
@@ -270,7 +271,7 @@ public class MapGenerator
             mapData = mapData.Substring(0,mapData.Length-1);
             mapData += "\n";
         }
-        Global.debugLog(mapData);
+        //Global.debugLog(mapData);
         return mapData;
     }
     public string ParseResources(ResourceType resourceType)
@@ -301,7 +302,7 @@ public class MapGenerator
        
         for (int y = (int)Math.Ceiling(mapHeight * 0.05); y < (int)Math.Floor(mapHeight * 0.95); y++)
         {
-            for (int x = 2; x < startingRegionSizeWidth; x++)
+            for (int x = 1; x < startingRegionSizeWidth; x++)
             {
                 float noiseValue = noise.GetNoise2D(y,x)/2 + .5f;
                 AbstractHex hex = abstractHexGrid[y][x];
@@ -310,9 +311,22 @@ public class MapGenerator
             }
         }
 
-        ErodeEdges();
-        ErodeEdges();
-        ErodeEdges();
+        for (int y = (int)Math.Ceiling(mapHeight * 0.05); y < (int)Math.Floor(mapHeight * 0.95); y++)
+        {
+            for (int x = startingRegionSizeWidth+2; x < mapWidth-2; x++)
+            {
+                float noiseValue = noise.GetNoise2D(y, x) / 2 + .5f;
+                AbstractHex hex = abstractHexGrid[y][x];
+                hex.terrainType = NoiseToTerrainType(noiseValue);
+                abstractHexGrid[y][x] = hex;
+            }
+        }
+
+        for (int i = 0; i < erosionFactor; i++)
+        {
+            ErodeEdges();
+        }
+
         GenerateCoasts();
         switch (mapSize)
         {
@@ -333,6 +347,105 @@ public class MapGenerator
                 break;
             default:
                 break;
+        }
+
+        AddFeatures();
+        AddResources();
+
+    }
+
+    private void AddFeatures()
+    {
+        Random rng = new Random();
+        for (int y = 0; y < mapHeight; y++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                AbstractHex hex = abstractHexGrid[y][x];
+                if (hex.terrainType == TerrainType.Flat || hex.terrainType == TerrainType.Rough)
+                {
+                    if (rng.NextDouble() > 0.5f)
+                    {
+                        hex.features.Add(FeatureType.Forest);
+                    }
+                }
+                if (hex.terrainTemperature == TerrainTemperature.Grassland && hex.terrainType == TerrainType.Flat)
+                {
+                    if (rng.NextDouble() > 0.8f)
+                    {
+                        hex.features.Add(FeatureType.Wetland);
+                    }
+                }
+
+                abstractHexGrid[y][x] = hex;
+            }
+        }
+    }
+
+    private void AddResources()
+    {
+        Random rng = new Random();
+        for (int y = 0; y < mapHeight; y++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                AbstractHex hex = abstractHexGrid[y][x];
+                if (hex.terrainType == TerrainType.Rough)
+                {
+                    if (rng.NextDouble() > 0.9f)
+                    {
+                        double resourceRoll = rng.NextDouble();
+                        if (resourceRoll < 0.2f)
+                        {
+                            hex.resourceType = ResourceType.Coal;
+                        }
+                        else if (resourceRoll < 0.4f)
+                        {
+                            hex.resourceType = ResourceType.Iron;
+                        }
+                        else if (resourceRoll < 0.6f)
+                        {
+                            hex.resourceType = ResourceType.Salt;
+                        }
+                        else if (resourceRoll < 0.8f)
+                        {
+                            hex.resourceType = ResourceType.Jade;
+                        }
+                        else
+                        {
+                            hex.resourceType = ResourceType.Uranium; // Default to None if no resource found
+                        }
+                    }
+                }
+                if (hex.terrainType == TerrainType.Flat)
+                {
+                    if (rng.NextDouble() > 0.9f)
+                    {
+                        double resourceRoll = rng.NextDouble();
+                        if (resourceRoll < 0.2f)
+                        {
+                            hex.resourceType = ResourceType.Wheat;
+                        }
+                        else if (resourceRoll < 0.4f)
+                        {
+                            hex.resourceType = ResourceType.Cotton;
+                        }
+                        else if (resourceRoll < 0.6f)
+                        {
+                            hex.resourceType = ResourceType.Sheep;
+                        }
+                        else if (resourceRoll < 0.8f)
+                        {
+                            hex.resourceType = ResourceType.Tobacco;
+                        }
+                        else
+                        {
+                            hex.resourceType = ResourceType.Horses; // Default to None if no resource found
+                        }
+                    }
+                }
+                abstractHexGrid[y][x] = hex;
+            }
         }
     }
 
@@ -404,7 +517,7 @@ public class MapGenerator
                     
                     if (HasOceanNeighbor(hex))
                     {
-                        Global.debugLog("hex detected as coast");
+                        //Global.debugLog("hex detected as coast");
                         coasts.Add(hex);
                     }
 

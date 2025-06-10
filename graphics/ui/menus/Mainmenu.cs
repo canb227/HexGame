@@ -1,4 +1,5 @@
 using Godot;
+using NetworkMessages;
 using System;
 
 public partial class Mainmenu : Control
@@ -24,7 +25,49 @@ public partial class Mainmenu : Control
         Global.gameManager.startGame(1);
     }
 
-	public void onOptionsButtonPressed()
+    public void onDebugStart2Pressed()
+    {
+        MapGenerator mapGenerator = new MapGenerator();
+
+        mapGenerator.mapSize = MapGenerator.MapSize.Small;
+
+        mapGenerator.numberOfPlayers = 1;
+        mapGenerator.numberOfHumanPlayers = 1;
+        mapGenerator.generateRivers = false;
+        mapGenerator.resourceAmount = MapGenerator.ResourceAmount.Medium;
+        mapGenerator.mapType = MapGenerator.MapType.DebugSquare;
+
+        string mapData = mapGenerator.GenerateMap();
+
+        Global.gameManager.game = new Game(1);
+        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, Global.gameManager.game.GetUniqueID());
+        Global.gameManager.game.AddPlayer(10, 0);
+        Global.gameManager.game.AddPlayer(10, 1);
+        Global.gameManager.startGame(1);
+    }
+
+    public void onDebugStart3Pressed()
+    {
+        MapGenerator mapGenerator = new MapGenerator();
+
+        mapGenerator.mapSize = MapGenerator.MapSize.Medium;
+
+        mapGenerator.numberOfPlayers = 1;
+        mapGenerator.numberOfHumanPlayers = 1;
+        mapGenerator.generateRivers = false;
+        mapGenerator.resourceAmount = MapGenerator.ResourceAmount.Medium;
+        mapGenerator.mapType = MapGenerator.MapType.Continents;
+
+        string mapData = mapGenerator.GenerateMap();
+
+        Global.gameManager.game = new Game(1);
+        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, Global.gameManager.game.GetUniqueID());
+        Global.gameManager.game.AddPlayer(10, 0);
+        Global.gameManager.game.AddPlayer(10, 1);
+        Global.gameManager.startGame(1);
+    }
+
+    public void onOptionsButtonPressed()
     {
 
     }

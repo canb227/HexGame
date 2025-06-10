@@ -6,34 +6,34 @@ public partial class MenuManager : Control
 {
 
 	Control CurrentMenu = null;
+    public Control loadingScreen;
+    public Control mainMenu;
+    public Lobby lobby;
+
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Global.menuManager = this;
-		ChangeMenu("res://graphics/ui/menus/mainmenu.tscn");
+        loadingScreen = GetNode<Control>("LoadingScreen");
+        mainMenu = GetNode<Control>("Mainmenu");
+        lobby = GetNode<Lobby>("Lobby");
+
+        mainMenu.Show();
 	}
 
+    
     public void LoadLobby()
     {
-        Lobby lobby = GD.Load<PackedScene>("res://graphics/ui/menus/lobby.tscn").Instantiate<Lobby>();
-        if (CurrentMenu != null)
-        {
-            RemoveChild(CurrentMenu);
-        }
-        CurrentMenu = lobby;
-        AddChild(CurrentMenu);
+        ClearMenus();
+        lobby.Show();
         lobby.CreateLobby();
     }
 
     public void JoinLobby(ulong id)
     {
-        Lobby lobby = GD.Load<PackedScene>("res://graphics/ui/menus/lobby.tscn").Instantiate<Lobby>();
-        if (CurrentMenu != null)
-        {
-            RemoveChild(CurrentMenu);
-        }
-        CurrentMenu = lobby;
-        AddChild(CurrentMenu);
+        ClearMenus();
+        lobby.Show();
         lobby.JoinLobby(id);
     }
     public void ChangeMenu(string scenePath)
@@ -48,7 +48,9 @@ public partial class MenuManager : Control
 
     internal void ClearMenus()
     {
-        CurrentMenu.QueueFree();
-        CurrentMenu = null;
+        foreach (Control child in GetChildren())
+        {
+            child.Hide();
+        }
     }
 }
