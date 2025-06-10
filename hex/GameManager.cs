@@ -91,7 +91,7 @@ public partial class GameManager : Node
     public void startGame(int teamNum)
     {
         Global.menuManager.ClearMenus();
-        Global.debugLog("Starting Game");
+        Global.debugLog("Starting Game as team: " + teamNum);
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
@@ -116,26 +116,29 @@ public partial class GameManager : Node
 
     public void SpawnPlayers()
     {
-        foreach(Player player in game.playerDictionary.Values)
+        Global.debugLog("Spawning Players. Total: " + game.playerDictionary.Count);
+        for (int i = 0; i < game.playerDictionary.Count; i++)
         {
-            if (player.teamNum == game.localPlayerTeamNum)
+            //Global.debugLog("Spawning player: " + game.playerDictionary[i]);
+            if (game.playerDictionary[i].teamNum == 0)
             {
-                //player.isLocalPlayer = true;
+                //Global.debugLog("Skipping player spawn for team 0");
             }
             else
             {
-                //player.isLocalPlayer = false;
-
+                Unit playerSettler = new Unit("Founder", game.GetUniqueID(), game.playerDictionary[i].teamNum);
+                game.mainGameBoard.gameHexDict[PickRandomValidHex()].SpawnUnit(playerSettler, false, true);
             }
-            Unit playerSettler = new Unit("Founder", game.GetUniqueID(), player.teamNum);
-            game.mainGameBoard.gameHexDict[PickRandomValidHex()].SpawnUnit(playerSettler, false, true);
+
         }
+
 
 
     }
 
     public Hex PickRandomValidHex()
     {
+        
         List<Hex> list = new List<Hex>();
         foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
         {
@@ -144,6 +147,7 @@ public partial class GameManager : Node
                 list.Add(hex);
             }
         }
+        
         Random rng = new Random();
         return list[rng.Next(list.Count)];
     }
@@ -210,7 +214,7 @@ public partial class GameManager : Node
         {
             return;
         }
-        if (game.teamManager.relationships.ContainsKey(0))
+        if (game.teamManager.relationships.ContainsKey(0) && game.localPlayerTeamNum!=0)
         {
             game.turnManager.EndCurrentTurn(0);
         }

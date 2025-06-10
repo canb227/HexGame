@@ -137,22 +137,27 @@ public partial class Lobby : Control
                 //Global.debugLog(lobbyMessage.SavePayload);
                 Global.menuManager.ClearMenus();
                 Global.menuManager.loadingScreen.Show();
-                Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
-                Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.SavePayload, Global.gameManager.game.GetUniqueID());
-                Global.gameManager.game.AddPlayer(10, 0);
-                foreach (LobbyStatus player in PlayerStatuses.Values)
-                {
-                    Global.gameManager.game.AddPlayer(10, (int)player.Team);
-                }
+
+
                 if (GetNode<CheckButton>("newgameoptions/debugmode").ButtonPressed)
                 {
+                    Global.gameManager.game = new Game(0);
+                    Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.SavePayload, Global.gameManager.game.GetUniqueID());
+                    Global.gameManager.game.AddPlayer(10, 0);
                     Global.gameManager.startGame(0);
                 }
                 else
                 {
+                    Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
+                    Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.SavePayload, Global.gameManager.game.GetUniqueID());
+                    Global.gameManager.game.AddPlayer(10, 0);
+                    foreach (LobbyStatus player in PlayerStatuses.Values)
+                    {
+                        Global.debugLog("Adding player to game: " + player.Team);
+                        Global.gameManager.game.AddPlayer(10, (int)player.Team);
+                    }
                     Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
                 }
-
                 Global.menuManager.ClearMenus();
                 break;
             case "loadgame":

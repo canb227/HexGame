@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dnnuohdigjyac"]
 
-[ext_resource type="Script" uid="uid://csa7x7skgdl67" path="res://graphics/ui/menus/Lobby.cs" id="1_2ypmt"]
+[ext_resource type="Script" uid="uid://cgggtowuctq74" path="res://graphics/ui/menus/Lobby.cs" id="1_2ypmt"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3
@@ -178,7 +178,6 @@ offset_left = 44.0003
 offset_top = 279.0
 offset_right = 323.0
 offset_bottom = 334.0
-button_pressed = true
 text = "Debug mode (team 0, SP only)"
 
 [node name="newgamehide" type="ColorRect" parent="."]

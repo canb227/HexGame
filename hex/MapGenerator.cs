@@ -376,7 +376,7 @@ public class MapGenerator
                 {
                     if (rng.NextDouble() > 0.5f)
                     {
-                        Global.debugLog("added tree");
+                        //Global.debugLog("added tree");
                         hex.features.Add(FeatureType.Forest);
                     }
                 }
