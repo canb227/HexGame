@@ -134,6 +134,7 @@ public partial class Lobby : Control
                 break;
             case "startgame":
                 Global.debugLog("Starting game from lobby message");
+                Global.debugLog(lobbyMessage.SavePayload);
                 Global.menuManager.ClearMenus();
                 Global.menuManager.loadingScreen.Show();
                 Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
@@ -143,8 +144,15 @@ public partial class Lobby : Control
                 {
                     Global.gameManager.game.AddPlayer(10, (int)player.Team);
                 }
-                
-                Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+                if (GetNode<CheckButton>("newgameoptions/debugmode").ButtonPressed)
+                {
+                    Global.gameManager.startGame(0);
+                }
+                else
+                {
+                    Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+                }
+
                 Global.menuManager.ClearMenus();
                 break;
             case "loadgame":

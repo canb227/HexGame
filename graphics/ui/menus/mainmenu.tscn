@@ -81,6 +81,7 @@ offset_bottom = 353.0
 text = "Start small debug square map"
 
 [node name="debugstart3" type="Button" parent="."]
+layout_mode = 0
 offset_left = 822.0
 offset_top = 373.0
 offset_right = 1129.0

@@ -172,13 +172,14 @@ rounded = true
 tick_count = 12
 ticks_on_borders = true
 
-[node name="CheckButton" type="CheckButton" parent="newgameoptions"]
+[node name="debugmode" type="CheckButton" parent="newgameoptions"]
 layout_mode = 0
-offset_left = 87.0
+offset_left = 44.0003
 offset_top = 279.0
-offset_right = 243.0
+offset_right = 323.0
 offset_bottom = 334.0
-text = "Debug mode"
+button_pressed = true
+text = "Debug mode (team 0, SP only)"
 
 [node name="newgamehide" type="ColorRect" parent="."]
 visible = false
@@ -252,5 +253,5 @@ text = "Debug buttons"
 [connection signal="item_selected" from="newgameoptions/worldgentype" to="." method="_on_worldgentype_item_selected"]
 [connection signal="item_selected" from="newgameoptions/worldgensize" to="." method="_on_worldgensize_item_selected"]
 [connection signal="drag_ended" from="newgameoptions/ainumber" to="." method="_on_h_slider_drag_ended"]
-[connection signal="toggled" from="newgameoptions/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="toggled" from="newgameoptions/debugmode" to="." method="_on_check_button_toggled"]
 [connection signal="pressed" from="chat/Button" to="." method="onChatSendButtonPressed"]

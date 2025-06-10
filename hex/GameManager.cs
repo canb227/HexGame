@@ -172,8 +172,17 @@ public partial class GameManager: Node
         {
             return;
         }
-        game.turnManager.EndCurrentTurn(0);
-        game.turnManager.EndCurrentTurn(2);
+        if (game.teamManager.relationships.ContainsKey(0))
+        {
+            game.turnManager.EndCurrentTurn(0);
+        }
+
+        if (game.teamManager.relationships.ContainsKey(2))
+        {
+
+            game.turnManager.EndCurrentTurn(2);
+        }
+
         List<int> waitingForPlayerList = game.turnManager.CheckTurnStatus();
         if (!waitingForPlayerList.Any())
         {
