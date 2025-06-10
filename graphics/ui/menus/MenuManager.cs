@@ -48,6 +48,7 @@ public partial class MenuManager : Control
 
     internal void ClearMenus()
     {
+        
         foreach (Control child in GetChildren())
         {
             child.Hide();
