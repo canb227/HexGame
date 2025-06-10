@@ -409,7 +409,7 @@ public class Unit
             foreach (Hex next in current.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
             {
                 float sightLeft = sightRange - reached[current];
-                float visionCost = VisionCost(Global.gameManager.game.mainGameBoard.gameHexDict[next], sightLeft); //vision cost is at most the cost of our remaining sight if we have atleast 1
+                float visionCost = VisionCost(Global.gameManager.game.mainGameBoard.gameHexDict[next.WrapHex(next)], sightLeft); //vision cost is at most the cost of our remaining sight if we have atleast 1
                 if (visionCost <= sightLeft)
                 {
                     if (!reached.Keys.Contains(next))

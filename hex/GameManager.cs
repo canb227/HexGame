@@ -138,7 +138,6 @@ public partial class GameManager : Node
 
     public Hex PickRandomValidHex()
     {
-        
         List<Hex> list = new List<Hex>();
         foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
         {

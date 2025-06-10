@@ -9,16 +9,17 @@ using static Google.Protobuf.Reflection.FeatureSet.Types;
 public class HexChunk
 {
     public MultiMeshInstance3D multiMeshInstance;
+    public float chunkOffset;
     public Hex origin;
     public Hex graphicalOrigin;
     private int deltaQ;
     private List<Hex> ourHexes;
     bool firstRun = true;
     public Image heightMap;
-    public Image visibilityImage;
-    public ImageTexture visibilityTexture;
     public ShaderMaterial terrainShaderMaterial;
-    public HexChunk(MultiMeshInstance3D multiMeshInstance, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial, Image visibilityImage, ImageTexture visibilityTexture)
+    public float widthPix;
+    public float heightPix;
+    public HexChunk(MultiMeshInstance3D multiMeshInstance, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial, float chunkOffset, float widthPix, float heightPix)
     {
         this.multiMeshInstance = multiMeshInstance;
         this.ourHexes = ourHexes;
@@ -27,12 +28,10 @@ public class HexChunk
         deltaQ = graphicalOrigin.q - origin.q;
         this.heightMap = heightMap;
         this.terrainShaderMaterial = terrainShaderMaterial;
-        this.visibilityTexture = visibilityTexture;
-        this.visibilityImage = visibilityImage;
+        this.chunkOffset = chunkOffset;
+        this.widthPix = widthPix;
+        this.heightPix = heightPix;
         UpdateGraphicalOrigin(graphicalOrigin);
-        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
-        List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
-        GenerateVisibilityGrid(visible, seen);
     }
 
     public void UpdateGraphicalOrigin(Hex newOrigin)
@@ -69,25 +68,43 @@ public class HexChunk
         }
     }
 
-    public void GenerateVisibilityGrid(List<Hex> visibleHexes, List<Hex> seenHexes)
+    public float Vector3ToHeightMapVal(Vector3 pixel)
     {
-        visibilityImage.Fill(new Godot.Color(0, 0, 0, 1)); // Default to hidden, unseen
+        GD.PushWarning("NOT IMPLEMENTED");
+        Random rand = new Random();
+        return (float)rand.NextDouble()*2.0f;
+        /*        GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
 
-        foreach (Hex hex in seenHexes)
-        {
-            Hex wrapHex = hex.WrapHex(hex);
-            int newQ = wrapHex.q + (wrapHex.r >> 1);
-            visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0, 1, 0, 1)); // Mark as seen
-        }
 
-        foreach (Hex hex in visibleHexes)
-        {
-            Hex wrapHex = hex.WrapHex(hex);
-            int newQ = wrapHex.q + (wrapHex.r >> 1);
-            visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
-        }
-        visibilityImage.SavePng("testVis.png");
-        visibilityTexture.Update(visibilityImage);
+                Point graphicalHexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex)); //use for X and Z
+                Hex tempHex = unit.hex;
+                int newQ = tempHex.q + (tempHex.r >> 1);
+                tempHex = new Hex(newQ, tempHex.r, -newQ - tempHex.r);
+                Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(tempHex); // use for Y
+                *//*
+                            //calculate our wrapped pixel value since heightmaps are per chunk we use chunkOffset BUT what if we have gone far left or right, how do we wrap the pixel
+                            //we calculate the left and right bounds of the whole gameboard (at our pixel?), which should be gameboard.right * some hex size (10.0f or the gap sqrt(3)etc)
+                            int chunkIndex = ggb.hexToChunkDictionary[unit.hex];
+                            float hoffset = (float)Math.Sqrt(3) * 10.0f / 2.0f;
+                            Vector3 nodeOrigin = node3D.Transform.Origin;
+                *//*            if (node3D.Transform.Origin.Z < 0)
+                            {
+                                nodeOrigin.Z = node3D.Transform.Origin.Z - (ggb.chunkList[chunkIndex].widthPix * ggb.chunkCount);
+                            }*//*
+
+                            int pixelX = (int)Math.Round((nodeOrigin.Z + hoffset - ggb.chunkList[chunkIndex].chunkOffset));
+                            int pixelY = (int)Math.Round(nodeOrigin.X + 5.0f);
+                            //GD.Print("Hex Point: " + hexPoint.x + ", " + hexPoint.y + "cum: " + ggb.chunkList[chunkIndex].widthPix);
+                            //GD.Print("World Point: " + node3D.Transform.Origin.Z, ", " + node3D.Transform.Origin.X);
+                            //GD.Print("Hex Val: " + Global.layout.HexToPixel(unit.hex).x + " Node3d Z Val: " + node3D.Transform.Origin.Z + " wrapped node3d Z Val: " + nodeOrigin.Z);
+                            GD.Print((Global.layout.HexToPixel(unit.hex).x + ggb.chunkList[chunkIndex].chunkOffset) + " | " + pixelX );
+                            float height = ggb.chunkList[chunkIndex].heightMap.GetPixel(pixelX, pixelY).R * 10.0f;
+
+                            GD.Print(unit.hex + " | " + Global.gameManager.graphicManager.layout.PixelToHex(new Point(pixelX, pixelY)).HexRound());*//*
+                int chunkIndex = ggb.hexToChunkDictionary[unit.hex];
+                //GD.Print(unit.hex.q + " | " + Global.gameManager.graphicManager.layout.PixelToHex(new Point((int)(hexPoint.x % ggb.chunkList[chunkIndex].widthPix), (int)hexPoint.y)).q);
+                GD.Print(-hexPoint.x + " " + (int)(-hexPoint.x % ggb.chunkList[chunkIndex].widthPix));
+                float height = ggb.chunkList[chunkIndex].heightMap.GetPixel((int)(-hexPoint.x % ggb.chunkList[chunkIndex].widthPix), (int)hexPoint.y).R;*/
     }
 
     public Hex HexToGraphicalHex(Hex hex)

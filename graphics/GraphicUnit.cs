@@ -1,4 +1,5 @@
 using Godot;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,9 +43,12 @@ public partial class GraphicUnit : GraphicObject
         {
             Transform3D newTransform = node3D.Transform;
             GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-            Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex));
-            //GD.Print("GRAPHIC HEX: " + ggb.HexToGraphicHex(unit.hex) + " HEX: " + unit.hex);
-            newTransform.Origin = new Vector3((float)hexPoint.y, 1, (float)hexPoint.x);
+            Point graphicalHexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex)); //use for X and Z
+            float height = ggb.chunkList[ggb.hexToChunkDictionary[unit.hex]].Vector3ToHeightMapVal(node3D.Transform.Origin); //TODO
+            newTransform.Origin = new Vector3((float)graphicalHexPoint.y, height, (float)graphicalHexPoint.x);
+
+
+            //newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
             node3D.Transform = newTransform;
             UpdateMovementGraphics();
             unitWorldUI.Update();

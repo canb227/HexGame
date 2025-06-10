@@ -88,7 +88,7 @@ public struct Hex
     {
         right = right - 1;
         Hex hex = Add(Direction(direction));
-         return WrapHex(hex);
+        return WrapHex(hex);
     }
 
     public Hex WrapHex(Hex hex)
@@ -96,18 +96,6 @@ public struct Hex
         Hex wrapHex = hex;
         int left = Global.gameManager.game.mainGameBoard.left - (hex.r >> 1); //0
         int right = Global.gameManager.game.mainGameBoard.right - (hex.r >> 1); //24 - 1 = 23
-        /*        if (hex.q < left - (hex.r >> 1))
-                {
-                    int newQ = right - (Math.Abs(hex.q) % right) - (hex.r >> 1);
-                    wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
-                }
-                else if (hex.q > right - (hex.r>>1))
-                {
-                    int newQ = (left - (hex.r >> 1) - (right - (hex.r >> 1) - hex.q)) % (right - left); //off by a bunch
-                    //int newQ = left + ((hex.q - (right - (hex.r >> 1))) % (right - left + 1)); //off by 4
-                    //int newQ = left - (hex.r >> 1) + ((hex.q - (right - (hex.r >> 1))) % (right - left + 1)); //off by 1
-                    wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
-                }*/
         int range = right - left;
         int newQ = ((hex.q - left) % range) + left;
         if(newQ < left)
@@ -138,7 +126,7 @@ public struct Hex
         for (int i = 0; i < 6; i++)
         {
             Hex temp = WrappingNeighbor(i, left, right);
-            if (temp.r >= 0 && temp.r < bottom)
+            if (temp.r >= 0 && temp.r < bottom-1)
             {
                 neightborList.Add(temp);
             }
@@ -182,7 +170,7 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
                 int rangeS = -rangeQ - rangeR; // Calculate s based on wrapped q and r.
 
                 // Check bounds for r and add the hex to the results.
-                if (rangeR >= top && rangeR < bottom)
+                if (rangeR >= top && rangeR < bottom-1)
                 {                    
                     Hex hex = WrapHex(new Hex(rangeQ, rangeR, rangeS));
                     results.Add(hex);

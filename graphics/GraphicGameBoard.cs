@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Xml;
 using static Google.Protobuf.Reflection.FeatureSet.Types;
 
 public partial class GraphicGameBoard : GraphicObject
@@ -16,7 +17,9 @@ public partial class GraphicGameBoard : GraphicObject
     public Dictionary<Hex, int> hexToChunkDictionary = new();
     public List<HexChunk> chunkList = new();
     public int chunkSize = 0;
+    public int chunkCount = 0;
     private Image visibilityImage;
+    private ImageTexture visibilityTexture;
     private Image terrainInfoImage;
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
@@ -34,6 +37,7 @@ public partial class GraphicGameBoard : GraphicObject
         AddHexFeatures(layout);
         AddHexUnits(layout);
         AddHexDistrictsAndCities(layout);
+        SimpleRedrawBoard(layout);
     }
 
     public Hex HexToGraphicHex(Hex hex)
@@ -52,30 +56,15 @@ public partial class GraphicGameBoard : GraphicObject
     //super simple just delete all our children and redraw the board using the current state of gameboard
     private void SimpleRedrawBoard(Layout pointy)
     {
-/*        foreach (Node child in this.GetChildren())
-        {
-            if(child.Name == "GameBoardTerrainFog2" || child.Name == "GameBoardTerrainFog")
-            {
-                child.Free();
-            }
-        }*/
-
         List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
         List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
-        List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
+        UpdateVisibilityTexture(visible, seen);
+        Global.gameManager.graphicManager.UpdateVisibility();
 
-        HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
-        List<Hex> nonSeenHexes = all.Where(hex => !seenHexSet.Contains(hex)).ToList();
-
-        List<Hex> seenButNotVisible = seen.Except(visible).ToList();
-
-        foreach (HexChunk hexChunk in chunkList)
-        {
-            hexChunk.GenerateVisibilityGrid(visible, seen);
-        }
         //AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), 1, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
-        Global.gameManager.graphicManager.UpdateVisibility();
+
+
     }
 
 
@@ -91,8 +80,8 @@ public partial class GraphicGameBoard : GraphicObject
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
 
-
-        AddBoard(all, 4, pointy);
+        chunkCount = 4;
+        AddBoard(all, chunkCount, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
     }
 
@@ -128,6 +117,12 @@ public partial class GraphicGameBoard : GraphicObject
             }
             hexListChunks.Add(subHexList);
         }
+        visibilityImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rg8);
+        visibilityTexture = ImageTexture.CreateFromImage(visibilityImage);
+        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
+        List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        UpdateVisibilityTexture(visible, seen);
+
         int i = 0;
         foreach(List<Hex> subHexList in hexListChunks)
         {
@@ -162,11 +157,17 @@ public partial class GraphicGameBoard : GraphicObject
             ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
             terrainShaderMaterial.Shader = terrainShader;
 
+            float hSpace = (float)Math.Sqrt(3) * 10.0f;
+            float vSpace = 10.0f;
+            float chunkOffset = (float)(i * chunkSize * hSpace);
+
+
             FastNoiseLite noise = new FastNoiseLite();
             noise.Frequency = 0.05f;
-            int noiseImageSizeX = (int)((chunkSize+1) * Math.Sqrt(3) * 10.0f);
+            int noiseImageSizeX = (int)((chunkSize+1) * hSpace);
             int noiseImageSizeY = (int)(Global.gameManager.game.mainGameBoard.bottom * 1.5f * 10);
-            noise.Offset = new Vector3((float)((Math.Sqrt(3) * 10.0f / 2.0f) - (i * chunkSize * Math.Sqrt(3) * 10.0f)), 0.0f, 0.0f);
+
+            noise.Offset = new Vector3((float)(hSpace/2.0f - chunkOffset), 0.0f, 0.0f);
             Image heightMap = Godot.Image.CreateEmpty(noiseImageSizeX, noiseImageSizeY, false, Image.Format.Rgba8);
             Image noiseMap = noise.GetImage(noiseImageSizeX, noiseImageSizeY);
 
@@ -176,7 +177,7 @@ public partial class GraphicGameBoard : GraphicObject
                 {
                     Godot.Color pix = heightMap.GetPixel(x, y);
                     //pix = new Godot.Color(pix.R / 2.0f + 0.5f, 0.0f, 0.0f);
-                    FractionalHex fHex = Global.layout.PixelToHex(new Point(-x + (Math.Sqrt(3) * 10.0f / 2.0f) - (i * chunkSize * Math.Sqrt(3) * 10.0f), (y-5.0f)));
+                    FractionalHex fHex = Global.layout.PixelToHex(new Point(-x + hSpace/2.0f - chunkOffset, (y - vSpace/2.0f)));
                     Hex hex = fHex.HexRound(); 
                     Hex wrapHex = hex.WrapHex(hex);
                     //heightMap.SetPixel(x, y, new Godot.Color((float)x/noiseImageSize, 0.0f, 0.0f));
@@ -223,8 +224,7 @@ public partial class GraphicGameBoard : GraphicObject
             }
 
             heightMapTexture = ImageTexture.CreateFromImage(heightMap);
-            visibilityImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rg8);
-            ImageTexture visibilityTexture = ImageTexture.CreateFromImage(visibilityImage);
+
 
             terrainInfoImage = GenerateTerrainInfoImage();
             ImageTexture terrainInfoTexture = ImageTexture.CreateFromImage(terrainInfoImage);
@@ -235,15 +235,15 @@ public partial class GraphicGameBoard : GraphicObject
 
             terrainShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
             terrainShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
-            terrainShaderMaterial.SetShaderParameter("chunkOffset", i*chunkSize*Math.Sqrt(3)*10.0f);
-            terrainShaderMaterial.SetShaderParameter("widthDiv", Math.Sqrt(3) * 10.0 * (chunkSize+1));
+            terrainShaderMaterial.SetShaderParameter("chunkOffset", chunkOffset);
+            terrainShaderMaterial.SetShaderParameter("widthDiv", Math.Sqrt(3) * 10.0f * (chunkSize+1));
             terrainShaderMaterial.SetShaderParameter("heightDiv", 1.5 * 10.0 * Global.gameManager.game.mainGameBoard.bottom);
 
 
             multiMeshInstance.MaterialOverride = terrainShaderMaterial;
             multiMeshInstance.Name = "GameBoardTerrain" + i;
 
-            chunkList.Add(new HexChunk(multiMeshInstance, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial, visibilityImage, visibilityTexture));//we set graphical to our default location here then update as we move it around
+            chunkList.Add(new HexChunk(multiMeshInstance, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial, chunkOffset, (float)Math.Sqrt(3) * 10.0f * (chunkSize + 1), 1.5f * 10.0f * Global.gameManager.game.mainGameBoard.bottom));//we set graphical to our default location here then update as we move it around
 
             AddChild(multiMeshInstance);
             i++;
@@ -254,6 +254,26 @@ public partial class GraphicGameBoard : GraphicObject
         lines.Mesh = GenerateHexLines(hexList, pointy, 0.01f);
         lines.Name = "GameBoardTerrainLines";
         AddChild(lines);*/
+    }
+
+    public void UpdateVisibilityTexture(List<Hex> visibleHexes, List<Hex> seenHexes)
+    {
+        visibilityImage.Fill(new Godot.Color(0, 0, 0, 1)); // Default to hidden, unseen
+
+        foreach (Hex hex in seenHexes)
+        {
+            Hex wrapHex = hex.WrapHex(hex);
+            int newQ = wrapHex.q + (wrapHex.r >> 1);
+            visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0, 1, 0, 1)); // Mark as seen
+        }
+
+        foreach (Hex hex in visibleHexes)
+        {
+            Hex wrapHex = hex.WrapHex(hex);
+            int newQ = wrapHex.q + (wrapHex.r >> 1);
+            visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
+        }
+        visibilityTexture.Update(visibilityImage);
     }
 
 
