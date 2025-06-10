@@ -134,7 +134,7 @@ public partial class Lobby : Control
                 break;
             case "startgame":
                 Global.debugLog("Starting game from lobby message");
-                Global.debugLog(lobbyMessage.SavePayload);
+                //Global.debugLog(lobbyMessage.SavePayload);
                 Global.menuManager.ClearMenus();
                 Global.menuManager.loadingScreen.Show();
                 Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);

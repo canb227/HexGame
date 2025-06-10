@@ -219,6 +219,8 @@ public class MapGenerator
                 abstractHexGrid[y][x] = hex;
             }
         }
+        AddFeatures();
+        AddResources();
     }
 
     public void debugRandom()
@@ -253,6 +255,8 @@ public class MapGenerator
                 abstractHexGrid[y][x] = hex;
             }
         }
+        AddFeatures();
+        AddResources();
     }
 
     public string MapToTextFormat()
@@ -264,8 +268,8 @@ public class MapGenerator
             {
                 mapData += (int)abstractHexGrid[y][x].terrainType;
                 mapData += (int)abstractHexGrid[y][x].terrainTemperature;
-                mapData += ParseResources(abstractHexGrid[y][x].resourceType);
                 mapData += ParseFeatures(abstractHexGrid[y][x].features);
+                mapData += ParseResources(abstractHexGrid[y][x].resourceType);
                 mapData += " ";
             }
             mapData = mapData.Substring(0,mapData.Length-1);
@@ -276,17 +280,23 @@ public class MapGenerator
     }
     public string ParseResources(ResourceType resourceType)
     {
-        switch (resourceType)
-        {
-            case ResourceType.None:
-                return "0";
-            default:
-                return "0"; // Default to None if unknown
-        }
+        //Global.debugLog(((char)resourceType).ToString());
+        return ((char)resourceType).ToString();
     }
 
     public string ParseFeatures(List<FeatureType> features)
     {
+        foreach (FeatureType feature in features)
+        {
+            if (feature == FeatureType.Forest)
+                return "1";
+
+            if (feature == FeatureType.River)
+                return "2";
+
+            if (feature == FeatureType.Road)
+                return "3";
+        }
         return "0";
     }
 
@@ -366,6 +376,7 @@ public class MapGenerator
                 {
                     if (rng.NextDouble() > 0.5f)
                     {
+                        Global.debugLog("added tree");
                         hex.features.Add(FeatureType.Forest);
                     }
                 }

@@ -9,12 +9,12 @@ using System.Linq;
 using Google.Protobuf.WellKnownTypes;
 
 [GlobalClass]
-public partial class GameManager: Node
+public partial class GameManager : Node
 {
     public static GameManager instance;
     public GraphicManager graphicManager;
     public Game game;
-    
+
 
     public GameManager()
     {
@@ -27,10 +27,10 @@ public partial class GameManager: Node
 
     public void SaveGame(String filePath)
     {
-        JsonSerializerOptions options = new JsonSerializerOptions 
-        { 
-            WriteIndented = true, 
-            Converters = { new HexJsonConverter() } 
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new HexJsonConverter() }
         };
         string json = JsonSerializer.Serialize(game, options);
         Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Write);
@@ -103,11 +103,49 @@ public partial class GameManager: Node
             game = LoadGame("test.txt");
         }
 
-        
-        game.localPlayerTeamNum=teamNum;
-        
+
+        game.localPlayerTeamNum = teamNum;
+
         InitGraphics(game, Global.layout);
-        
+
+        SpawnPlayers();
+        Global.menuManager.Hide();
+        Global.menuManager.ClearMenus();
+        //graphicManager.StartNewTurn();
+    }
+
+    public void SpawnPlayers()
+    {
+        foreach(Player player in game.playerDictionary.Values)
+        {
+            if (player.teamNum == game.localPlayerTeamNum)
+            {
+                //player.isLocalPlayer = true;
+            }
+            else
+            {
+                //player.isLocalPlayer = false;
+
+            }
+            Unit playerSettler = new Unit("Founder", game.GetUniqueID(), player.teamNum);
+            game.mainGameBoard.gameHexDict[PickRandomValidHex()].SpawnUnit(playerSettler, false, true);
+        }
+
+
+    }
+
+    public Hex PickRandomValidHex()
+    {
+        List<Hex> list = new List<Hex>();
+        foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
+        {
+            if (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null)
+            {
+                list.Add(hex);
+            }
+        }
+        Random rng = new Random();
+        return list[rng.Next(list.Count)];
     }
 
     public void startDebugGame(string savePath, int teamNum)

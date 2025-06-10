@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 public enum ResourceType
 {
-    None,
+    None = '0',
     Iron = 'I',
     Horses = 'H',
     Niter = 'N',
