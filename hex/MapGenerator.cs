@@ -317,7 +317,7 @@ public class MapGenerator
             for (int x = 1; x < startingRegionSizeWidth; x++)
             {
                 float noiseValue = noise.GetNoise2D(y,x)/2 +0.5f;
-                Global.debugLog("Noise Value: " + noiseValue);
+                //Global.debugLog("Noise Value: " + noiseValue);
                 AbstractHex hex = abstractHexGrid[y][x];
                 hex.terrainType = NoiseToTerrainType(noiseValue);
                 abstractHexGrid[y][x] = hex;
