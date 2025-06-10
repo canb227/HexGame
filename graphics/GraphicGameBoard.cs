@@ -209,9 +209,9 @@ public partial class GraphicGameBoard : GraphicObject
                     }
                 }
             }
-            heightMap.SavePng("heightMap" + i + ".png");
+            //heightMap.SavePng("heightMap" + i + ".png");
             GaussianBlur(heightMap, 3);
-            heightMap.SavePng("heightMapBlurred" + i + ".png");
+            //heightMap.SavePng("heightMapBlurred" + i + ".png");
 
             //apply noise
             for (int x = 0; x < noiseImageSizeX; x++)

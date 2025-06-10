@@ -79,18 +79,19 @@ public class City
         readyToExpand = 0;
         maxDistrictSize = 2;
         foodToGrow = GetFoodToGrowCost();
+        yields = new();
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.NewCity(this);
         }
-
         AddCityCenter(isCapital);
         this.isCapital = isCapital;
         this.wasCapital = isCapital;
 
         RecalculateYields();
         SetBaseHexYields();
+
 
     }
 
