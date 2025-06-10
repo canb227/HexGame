@@ -133,7 +133,9 @@ public partial class Lobby : Control
                 }
                 break;
             case "startgame":
-                Global.debugLog("Starting game from lobby message, payload: " + lobbyMessage.SavePayload);
+                Global.debugLog("Starting game from lobby message");
+                Global.menuManager.ClearMenus();
+                Global.menuManager.loadingScreen.Show();
                 Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
                 Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.SavePayload, Global.gameManager.game.GetUniqueID());
                 Global.gameManager.game.AddPlayer(10, 0);
@@ -143,7 +145,7 @@ public partial class Lobby : Control
                 }
                 
                 Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
-                
+                Global.menuManager.ClearMenus();
                 break;
             case "loadgame":
                 Global.debugLog("Loading game from host");
@@ -271,39 +273,22 @@ public partial class Lobby : Control
     {
         Global.debugLog("Invite button pressed");
         Steamworks.SteamFriends.ActivateGameOverlayInviteDialog(Steamworks.SteamUser.GetSteamID());
+
     }
 
-    public void OnStartGameButtonPressed()
+    public async void OnStartGameButtonPressed()
     {
         Global.debugLog("Start game button pressed. Team Num: " + ((int)PlayerStatuses[Global.clientID].Team).ToString());
-        
+        Global.menuManager.ClearMenus();
+        Global.menuManager.loadingScreen.Show();
+        await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+
+
         MapGenerator mapGenerator = new MapGenerator();
 
         mapGenerator.mapSize = (MapGenerator.MapSize)GetNode<OptionButton>("newgameoptions/worldgensize").Selected;
 
-        switch ((MapGenerator.MapSize)GetNode<OptionButton>("newgameoptions/worldgensize").Selected)
-        {
-            case MapGenerator.MapSize.Tiny:
-                mapGenerator.mapWidth = MapGenerator.TINY_WIDTH;
-                mapGenerator.mapHeight = MapGenerator.TINY_HEIGHT;
-                break;
-            case MapGenerator.MapSize.Small:
-                mapGenerator.mapWidth = MapGenerator.SMALL_WIDTH;
-                mapGenerator.mapHeight = MapGenerator.SMALL_HEIGHT;
-                break;
-            case MapGenerator.MapSize.Medium:
-                mapGenerator.mapWidth = MapGenerator.MEDIUM_WIDTH;
-                mapGenerator.mapHeight = MapGenerator.MEDIUM_HEIGHT;
-                break;
-            case MapGenerator.MapSize.Large:
-                mapGenerator.mapWidth = MapGenerator.LARGE_WIDTH;
-                mapGenerator.mapHeight = MapGenerator.LARGE_HEIGHT;
-                break;
-            case MapGenerator.MapSize.Huge:
-                mapGenerator.mapWidth = MapGenerator.HUGE_WIDTH;
-                mapGenerator.mapHeight = MapGenerator.HUGE_HEIGHT;
-                break;
-        }
+
 
 
         mapGenerator.numberOfPlayers = (int)(PlayerStatuses.Count+ GetNode<HSlider>("newgameoptions/ainumber").Value);
@@ -313,7 +298,7 @@ public partial class Lobby : Control
         mapGenerator.mapType = (MapGenerator.MapType)GetNode<OptionButton>("newgameoptions/worldgentype").Selected;
 
         string mapData = mapGenerator.GenerateMap();
-        Global.debugLog("Map generated: " + mapData);
+        //Global.debugLog("Map generated: " + mapData);
 
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;

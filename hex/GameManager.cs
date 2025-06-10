@@ -86,8 +86,11 @@ public partial class GameManager: Node
         return retVal;
     }
 
+
+
     public void startGame(int teamNum)
     {
+        Global.menuManager.ClearMenus();
         Global.debugLog("Starting Game");
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
@@ -102,9 +105,9 @@ public partial class GameManager: Node
 
         
         game.localPlayerTeamNum=teamNum;
+        
         InitGraphics(game, Global.layout);
-        Global.menuManager.Hide();
-        Global.menuManager.ClearMenus();
+        
     }
 
     public void startDebugGame(string savePath, int teamNum)
