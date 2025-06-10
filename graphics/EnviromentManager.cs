@@ -21,7 +21,9 @@ public partial class EnviromentManager: Node
         sun = new();
         AddChild(sun);
         sun.Position = new Vector3(0, 10, 0); // Set the position of the sun
+        sun.ShadowEnabled = true;
         SetSun(sunPosition.DEFAULT);
+        sun.RotateY(90.0f);
 
 
         worldEnvironment = new();
@@ -30,6 +32,7 @@ public partial class EnviromentManager: Node
         worldEnvironment.Environment.BackgroundMode = Godot.Environment.BGMode.Sky;
         worldEnvironment.Environment.Sky = new Godot.Sky();
         worldEnvironment.Environment.Sky.SkyMaterial = new Godot.ProceduralSkyMaterial();
+        
     }
 
     private void SetSun(sunPosition position)
