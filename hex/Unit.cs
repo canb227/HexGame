@@ -477,7 +477,7 @@ public class Unit
             foreach (Hex next in current.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
             {
                 float movementLeft = remainingMovement - reached[current];
-                float moveCost = TravelCost(current, next,Global.gameManager.game.teamManager, true, movementCosts, remainingMovement, reached[current], false); 
+                float moveCost = TravelCost(current, next,Global.gameManager.game.teamManager, true, movementCosts, movementSpeed, reached[current], false); 
                 if (moveCost <= movementLeft)
                 {
                     if (!reached.Keys.Contains(next))
@@ -734,6 +734,10 @@ public class Unit
             {
                 moveCost += 12121212;
             }
+        }
+        if(moveCost < 9999)
+        {
+            moveCost = Math.Min(moveCost, unitMovementSpeed);
         }
         return moveCost;
     }

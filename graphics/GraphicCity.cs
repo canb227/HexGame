@@ -16,6 +16,7 @@ public partial class GraphicCity : GraphicObject
     {
         this.city = city;
         this.layout = layout;
+        GD.Print(city.teamNum);
         InitCity(city);
     }
 
