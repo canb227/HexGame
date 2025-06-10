@@ -256,6 +256,7 @@ public partial class GraphicGameBoard : GraphicObject
         AddChild(lines);*/
     }
 
+
     private void AddBoardFog(List<Hex> seenButNotVisible, List<Hex> nonSeenHexes, Layout pointy, float height)
     {
         if (seenButNotVisible.Count != 0)

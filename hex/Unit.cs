@@ -8,11 +8,11 @@ using Godot;
 using System.IO;
 public enum TerrainMoveType
 {
+    Ocean,
+    Coast,
     Flat,
     Rough,
     Mountain,
-    Coast,
-    Ocean,
     Forest,
     River,
     Road,
