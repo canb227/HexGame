@@ -88,7 +88,7 @@ public struct Hex
     {
         right = right - 1;
         Hex hex = Add(Direction(direction));
-        return WrapHex(left, right);
+        return hex.WrapHex(left, right);
     }
 
     public Hex WrapHex()
