@@ -1,28 +1,27 @@
-<Resces>
-  <Resce Name="Iron" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Horses" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Niter" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Coal" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Oil" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Uranium" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Lithium" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="SciFi" Food="0" Production="0" Gold="0" Science="5" Culture="0" Happiness="0"/>
-  <Resce Name="Jade" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Wheat" Food="4" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Sheep" Food="2" Production="2" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Marble" Food="0" Production="1" Gold="2" Science="0" Culture="1" Happiness="1"/>
-  <Resce Name="Dates" Food="2" Production="0" Gold="0" Science="0" Culture="0" Happiness="2"/>
-  <Resce Name="Silk" Food="0" Production="1" Gold="2" Science="0" Culture="1" Happiness="0"/>
-  <Resce Name="Salt" Food="2" Production="0" Gold="2" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Rubber" Food="0" Production="2" Gold="0" Science="2" Culture="0" Happiness="0"/>
-  <Resce Name="Ivory" Food="0" Production="1" Gold="1" Science="0" Culture="1" Happiness="1"/>
-  <Resce Name="Gold" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Silver" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Camels" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Coffee" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Cotton" Food="0" Production="2" Gold="2" Science="0" Culture="0" Happiness="0"/>
-  <Resce Name="Tobacco" Food="0" Production="0" Gold="2" Science="1" Culture="1" Happiness="0"/>
-  <Resce Name="Stone" Food="0" Production="4" Gold="0" Science="0" Culture="0" Happiness="0"/>
-</Resces>
-
+<Resources>
+  <Resource Name="Iron" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Horses" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Niter" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Coal" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Oil" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Uranium" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Lithium" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="SciFi" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="5" Culture="0" Happiness="0"/>
+  <Resource Name="Jade" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Wheat" IconPath="graphics/ui/icons/resources/temp.png" Food="4" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Sheep" IconPath="graphics/ui/icons/resources/temp.png" Food="2" Production="2" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Marble" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="1" Gold="2" Science="0" Culture="1" Happiness="1"/>
+  <Resource Name="Dates" IconPath="graphics/ui/icons/resources/temp.png" Food="2" Production="0" Gold="0" Science="0" Culture="0" Happiness="2"/>
+  <Resource Name="Silk" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="1" Gold="2" Science="0" Culture="1" Happiness="0"/>
+  <Resource Name="Salt" IconPath="graphics/ui/icons/resources/temp.png" Food="2" Production="0" Gold="2" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Rubber" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="2" Gold="0" Science="2" Culture="0" Happiness="0"/>
+  <Resource Name="Ivory" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="1" Gold="1" Science="0" Culture="1" Happiness="1"/>
+  <Resource Name="Gold" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Silver" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Camels" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Coffee" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Cotton" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="2" Gold="2" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Tobacco" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="0" Gold="2" Science="1" Culture="1" Happiness="0"/>
+  <Resource Name="Stone" IconPath="graphics/ui/icons/resources/temp.png" Food="0" Production="4" Gold="0" Science="0" Culture="0" Happiness="0"/>
+</Resources>
 

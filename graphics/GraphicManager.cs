@@ -83,6 +83,15 @@ public partial class GraphicManager : Node3D
         ggb.chunkList[ggb.hexToChunkDictionary[graphicBuilding.building.districtHex]].multiMeshInstance.AddChild(graphicBuilding);
     }
 
+    public void NewResource(ResourceType resource, Hex hex)
+    {
+        GraphicResource graphicResource = new GraphicResource(resource, hex);
+        //graphicObjectDictionary.Add(graphicResource.id, graphicResource);
+        hexObjectDictionary[hex].Add(graphicResource);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicResource);
+    }
+
     public void NewCity(City city)
     {
         GraphicCity graphicCity = new GraphicCity(city, layout);

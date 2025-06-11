@@ -34,6 +34,8 @@ public enum ResourceType
 
 public struct ResourceInfo
 {
+    public string Name { get; set; }
+    public string IconPath { get; set; }
     public int Food { get; set; }
     public int Production { get; set; }
     public int Gold { get; set; }
@@ -109,6 +111,8 @@ public static class ResourceLoader
                 r => (ResourceType)Enum.Parse(typeof(ResourceType), r.Attribute("Name").Value),
                 r => new ResourceInfo
                 {
+                    Name = r.Attribute("Name").Value,
+                    IconPath = r.Attribute("IconPath").Value,
                     Food = int.Parse(r.Attribute("Food").Value),
                     Production = int.Parse(r.Attribute("Production").Value),
                     Gold = int.Parse(r.Attribute("Gold").Value),

@@ -34,6 +34,7 @@ public partial class GraphicGameBoard : GraphicObject
     }
     public override void _Ready()
     {
+        AddHexResource();
         AddHexFeatures(layout);
         AddHexUnits(layout);
         AddHexDistrictsAndCities(layout);
@@ -406,6 +407,17 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 Unit unit = Global.gameManager.game.unitDictionary[unitID];
                 Global.gameManager.graphicManager.NewUnit(unit);
+            }
+        }
+    }
+
+    private void AddHexResource()
+    {
+        foreach (Hex hex in gameBoard.gameHexDict.Keys)
+        {
+            if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
+            {
+                Global.gameManager.graphicManager.NewResource(Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType, hex);
             }
         }
     }

@@ -106,6 +106,10 @@ public class GameBoard
                     // }
                     //fourth number is for resources
                     ResourceType resource = ResourceLoader.resourceNames[cell[3].ToString()];
+                    if(resource != ResourceType.None)
+                    {
+                        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewResource(resource, new Hex(q, r, -q - r));
+                    }
                     gameHexDict.Add(new Hex(q, r, -q - r), new GameHex(new Hex(q, r, -q - r), id, terrainType, terrainTemperature, resource, features, new List<int>(), null));
                 }
                 q += 1;
