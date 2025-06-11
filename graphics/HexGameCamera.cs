@@ -232,7 +232,9 @@ public partial class HexGameCamera : Camera3D
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex];
         GD.Print("Hex: " + hex + " | Wrapped to: " + wrapHex);
         GD.Print("Hex Info|TerrainType: " + gameHex.terrainType + " TerrainTemp: " + gameHex.terrainTemp);
-
-        Global.gameManager.graphicManager.selectedObject.ProcessRightClick(wrapHex);
+        if(Global.gameManager.graphicManager.selectedObject != null)
+        {
+            Global.gameManager.graphicManager.selectedObject.ProcessRightClick(wrapHex);
+        }
     }
 }

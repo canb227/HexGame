@@ -1,14 +1,14 @@
 <Resources>
-  <Resource Name="Iron" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resource Name="Horses" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Iron" IconPath="graphics/ui/icons/resources/iron.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Horses" IconPath="graphics/ui/icons/resources/horse.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
   <Resource Name="Niter" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resource Name="Coal" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resource Name="Oil" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resource Name="Uranium" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Coal" IconPath="graphics/ui/icons/resources/coal.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Oil" IconPath="graphics/ui/icons/resources/oil.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Uranium" IconPath="graphics/ui/icons/resources/uranium.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
   <Resource Name="Lithium" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
   <Resource Name="SciFi" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="5" Culture="0" Happiness="0"/>
   <Resource Name="Jade" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
-  <Resource Name="Wheat" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="4" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Wheat" IconPath="graphics/ui/icons/resources/wheat.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="4" Production="0" Gold="0" Science="0" Culture="0" Happiness="0"/>
   <Resource Name="Sheep" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="2" Production="2" Gold="0" Science="0" Culture="0" Happiness="0"/>
   <Resource Name="Marble" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="0" Production="1" Gold="2" Science="0" Culture="1" Happiness="1"/>
   <Resource Name="Dates" IconPath="graphics/ui/icons/resources/temp.png" ModelPath="graphics/models/resources/horse_resource.glb" Food="2" Production="0" Gold="0" Science="0" Culture="0" Happiness="2"/>

@@ -32,7 +32,7 @@ public partial class GraphicResource : GraphicObject
         baseMaterial.NextPass = greyScale3DShaderMaterial;*/
         //meshInstance.MaterialOverlay = greyScale3DShaderMaterial;
 
-        Transform3D newTransform = Transform;
+        Transform3D newTransform = meshInstance.Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
         Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
@@ -52,6 +52,7 @@ public partial class GraphicResource : GraphicObject
         greyScaleShaderMaterial.Shader = greyScaleShader;
         resourceIcon.Material = greyScaleShaderMaterial;
 
+        newTransform = node3D.Transform;
         newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         node3D.Transform = newTransform;
         
