@@ -135,7 +135,7 @@ public partial class HexGameCamera : Camera3D
     private void ProcessHexLeftClick(Hex hex)
     {        
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        Hex wrapHex = hex.WrapHex(hex);
+        Hex wrapHex = hex.WrapHex();
         GD.Print(wrapHex);
 
         GameHex gameHex;
@@ -228,7 +228,7 @@ public partial class HexGameCamera : Camera3D
 
     private void ProcessHexRightClick(Hex hex)
     {
-        Hex wrapHex = hex.WrapHex(hex);
+        Hex wrapHex = hex.WrapHex();
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex];
         GD.Print("Hex: " + hex + " | Wrapped to: " + wrapHex);
         GD.Print("Hex Info|TerrainType: " + gameHex.terrainType + " TerrainTemp: " + gameHex.terrainTemp);

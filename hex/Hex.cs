@@ -88,22 +88,25 @@ public struct Hex
     {
         right = right - 1;
         Hex hex = Add(Direction(direction));
-        return WrapHex(hex);
+        return WrapHex(left, right);
     }
 
-    public Hex WrapHex(Hex hex)
+    public Hex WrapHex()
     {
-        Hex wrapHex = hex;
-        int left = Global.gameManager.game.mainGameBoard.left - (hex.r >> 1); //0
-        int right = Global.gameManager.game.mainGameBoard.right - (hex.r >> 1); //24 - 1 = 23
+        int left = Global.gameManager.game.mainGameBoard.left - (r >> 1);
+        int right = Global.gameManager.game.mainGameBoard.right - (r >> 1);
+        return WrapHex(left, right);
+    }
+
+    public Hex WrapHex(int left, int right)
+    {
         int range = right - left;
-        int newQ = ((hex.q - left) % range) + left;
+        int newQ = ((q - left) % range) + left;
         if(newQ < left)
         {
             newQ = right + ((newQ-left)% range);
         }
-        wrapHex = new Hex(newQ, hex.r, -newQ - hex.r);
-        return wrapHex;
+        return new Hex(newQ, r, -newQ - r);
     }
 
     public Hex[] Neighbors()
@@ -172,7 +175,7 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
                 // Check bounds for r and add the hex to the results.
                 if (rangeR >= top && rangeR < bottom-1)
                 {                    
-                    Hex hex = WrapHex(new Hex(rangeQ, rangeR, rangeS));
+                    Hex hex = new Hex(rangeQ, rangeR, rangeS).WrapHex();
                     results.Add(hex);
                 }
         }
@@ -196,6 +199,12 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
     {
         int leftBoundary = (int)Math.Floor(r / 2.0);
         int rightBoundary = Global.gameManager.game.mainGameBoard.right - leftBoundary;
+        return WrapDistance(b, rightBoundary);
+    }
+
+    public int WrapDistance(Hex b, int rightBoundary)
+    {
+        int leftBoundary = (int)Math.Floor(r / 2.0);
         int rawDifference = b.q - q;
 
         // Compute wrapped distance

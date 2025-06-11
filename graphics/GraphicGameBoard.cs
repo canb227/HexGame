@@ -180,7 +180,7 @@ public partial class GraphicGameBoard : GraphicObject
                     //pix = new Godot.Color(pix.R / 2.0f + 0.5f, 0.0f, 0.0f);
                     FractionalHex fHex = Global.layout.PixelToHex(new Point(-x + hSpace/2.0f - chunkOffset, (y - vSpace/2.0f)));
                     Hex hex = fHex.HexRound(); 
-                    Hex wrapHex = hex.WrapHex(hex);
+                    Hex wrapHex = hex.WrapHex();
                     //heightMap.SetPixel(x, y, new Godot.Color((float)x/noiseImageSize, 0.0f, 0.0f));
                     //GD.Print(wrapHex);
                     
@@ -263,14 +263,14 @@ public partial class GraphicGameBoard : GraphicObject
 
         foreach (Hex hex in seenHexes)
         {
-            Hex wrapHex = hex.WrapHex(hex);
+            Hex wrapHex = hex.WrapHex();
             int newQ = wrapHex.q + (wrapHex.r >> 1);
             visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0, 1, 0, 1)); // Mark as seen
         }
 
         foreach (Hex hex in visibleHexes)
         {
-            Hex wrapHex = hex.WrapHex(hex);
+            Hex wrapHex = hex.WrapHex();
             int newQ = wrapHex.q + (wrapHex.r >> 1);
             visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
         }
@@ -549,7 +549,7 @@ public partial class GraphicGameBoard : GraphicObject
                     break;
             }
             Transform3D newTransform = Transform;
-            Hex wrapHex = hex.WrapHex(hex);
+            Hex wrapHex = hex.WrapHex();
             newTransform.Origin = new Vector3((float)layout.HexToPixel(wrapHex).y, -1.0f, (float)layout.HexToPixel(wrapHex).x);
             st.AppendFrom(hexMesh, 0, newTransform);
         }
@@ -687,7 +687,7 @@ public partial class GraphicGameBoard : GraphicObject
 
         foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
         {
-            Hex wrapHex = hex.WrapHex(hex);
+            Hex wrapHex = hex.WrapHex();
             int newQ = wrapHex.q + (wrapHex.r >> 1);
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainTemp == TerrainTemperature.Desert)
             {
