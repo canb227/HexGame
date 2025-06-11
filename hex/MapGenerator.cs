@@ -32,7 +32,7 @@ public class MapGenerator
     public bool generateRivers;
     public ResourceAmount resourceAmount;
     public MapType mapType;
-    public int erosionFactor = 6;
+    public int erosionFactor = 20;
 
     public List<List<AbstractHex>> abstractHexGrid;
 
@@ -309,12 +309,15 @@ public class MapGenerator
         noise.Seed = rng.Next(0, 1000000);
         noise.NoiseType = FastNoiseLite.NoiseTypeEnum.SimplexSmooth;
         noise.Frequency = 0.1f;
+        noise.FractalOctaves = 6;
+        noise.FractalGain = 0.75f;
        
         for (int y = (int)Math.Ceiling(mapHeight * 0.05); y < (int)Math.Floor(mapHeight * 0.95); y++)
         {
             for (int x = 1; x < startingRegionSizeWidth; x++)
             {
-                float noiseValue = noise.GetNoise2D(y,x)/2 + .5f;
+                float noiseValue = noise.GetNoise2D(y,x)/2 +0.5f;
+                //Global.debugLog("Noise Value: " + noiseValue);
                 AbstractHex hex = abstractHexGrid[y][x];
                 hex.terrainType = NoiseToTerrainType(noiseValue);
                 abstractHexGrid[y][x] = hex;
@@ -523,10 +526,10 @@ public class MapGenerator
             for (int x = 0; x < mapWidth; x++)
             {
                 AbstractHex hex = abstractHexGrid[y][x];
-                if (hex.terrainType!=TerrainType.Ocean)
+                if (hex.terrainType==TerrainType.Ocean)
                 {
                     
-                    if (HasOceanNeighbor(hex))
+                    if (HasNonOceanNeighbor(hex))
                     {
                         //Global.debugLog("hex detected as coast");
                         coasts.Add(hex);
@@ -537,7 +540,7 @@ public class MapGenerator
         }
         foreach (var h in coasts)
         {
-            if (rng.NextDouble() > 0.1f)
+            if (true || rng.NextDouble() > 0.1f)
             {
                 AbstractHex hex = h;
                 hex.terrainType = TerrainType.Coast;
@@ -545,7 +548,46 @@ public class MapGenerator
             }
         }
     }
+    private bool HasNonOceanNeighbor(AbstractHex hex)
+    {
+        if (hex.x > 0 && abstractHexGrid[hex.y][hex.x - 1].terrainType != TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.x < mapWidth - 1 && abstractHexGrid[hex.y][hex.x + 1].terrainType != TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x].terrainType != TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x].terrainType != TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.x > 0 && hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x - 1].terrainType != TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.x < mapWidth - 1 && hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x + 1].terrainType != TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.x > 0 && hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x - 1].terrainType != TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.x < mapWidth - 1 && hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x + 1].terrainType != TerrainType.Ocean)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
 
+    }
     private bool HasOceanNeighbor(AbstractHex hex)
     {
         if (hex.x>0&& abstractHexGrid[hex.y][hex.x - 1].terrainType == TerrainType.Ocean)
@@ -564,6 +606,22 @@ public class MapGenerator
         {
             return true;
         }
+        /*else if (hex.x > 0 && hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x - 1].terrainType == TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.x < mapWidth - 1 && hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x + 1].terrainType == TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.x > 0 && hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x - 1].terrainType == TerrainType.Ocean)
+        {
+            return true;
+        }
+        else if (hex.x < mapWidth - 1 && hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x + 1].terrainType == TerrainType.Ocean)
+        {
+            return true;
+        }*/
         else
         {
             return false; 
@@ -578,11 +636,11 @@ public class MapGenerator
         {
             retval= TerrainType.Ocean;
         }
-        if (noiseValue < 0.6f)
+        if (noiseValue < 0.5f)
         {
             retval = TerrainType.Flat;
         }
-        else if (noiseValue < 0.9f)
+        else if (noiseValue < 0.60f)
         {
             retval = TerrainType.Rough;
         }
