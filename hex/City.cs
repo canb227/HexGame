@@ -456,7 +456,7 @@ public class City
                         }
                     }
                 }
-                if (count >= BuildingLoader.buildingsDict[queueItem.buildingType].PerCity)
+                if (count > BuildingLoader.buildingsDict[queueItem.buildingType].PerCity)
                 {
                     toRemove.Add(queueItem);
                     continue;

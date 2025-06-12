@@ -154,6 +154,10 @@ public partial class UnitInfoPanel : Node3D
                             abilityButton.Disabled = true;
                         }
                     }
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].resourceType != ResourceType.None)
+                    {
+                        abilityButton.Disabled = true;
+                    }
                 }
 
                 if (hexes.Count <= 0)

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Data;
 using Godot;
 using System.IO;
+using NetworkMessages;
 
 public enum UnitEffectType
 {
@@ -206,6 +207,10 @@ public class UnitEffect
                 break;
             }
         }
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].resourceType != ResourceType.None)
+        {
+            validHex = false;
+        }
         if (validHex)
         {
             new City(Global.gameManager.game.GetUniqueID(), unit.teamNum, cityName, true, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
@@ -235,6 +240,10 @@ public class UnitEffect
                 validHex = false;
                 break;
             }
+        }
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].resourceType != ResourceType.None)
+        {
+            validHex = false;
         }
         if (validHex)
         {

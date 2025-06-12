@@ -143,7 +143,8 @@ public class BuildingEffect
             { "AncientWallEffect", AncientWallEffect },
             { "AmpitheaterEffect", AmpitheaterEffect },
             { "StonehengeEffect", StonehengeEffect },
-            { "CityCenterWallEffect", CityCenterWallEffect }
+            { "CityCenterWallEffect", CityCenterWallEffect },
+            { "MonumentEffect", MonumentEffect }
         };
         
         if (effectFunctions.TryGetValue(functionString, out Action<Building> effectFunction))
@@ -225,6 +226,10 @@ public class BuildingEffect
         {
             Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.AddWalls(100.0f);
         }
+    }
+
+    void MonumentEffect(Building building)
+    {
     }
     void AmpitheaterEffect(Building building)
     {

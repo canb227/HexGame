@@ -263,19 +263,23 @@ public partial class HexGameCamera : Camera3D
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         Hex graphicalHex = ggb.chunkList[ggb.hexToChunkDictionary[hex]].HexToGraphicalHex(hex);
         Point targetPoint = Global.layout.HexToPixel(new Hex(graphicalHex.q-1, graphicalHex.r+2, -(graphicalHex.q-1) -(graphicalHex.r+2)));
-        targetPosition = new Vector3((float)targetPoint.y, 36.0f, (float)targetPoint.x); //Transform.Origin.Y
+        targetPosition = new Vector3((float)targetPoint.y, 40.0f, (float)targetPoint.x); //Transform.Origin.Y
         float distance = startPosition.DistanceTo(targetPosition);
         float lerpMoveSpeed = 500.0f;
         duration = distance / lerpMoveSpeed;
-        if(duration < 0.1f)
+        if(duration < 0.025f)
         {
             duration = 0;
         }
-        if(duration > 0.25f)
+        else
         {
-            duration = 0.25f;
+            if (duration > 0.25f)
+            {
+                duration = 0.25f;
+            }
+            elapsedMovementTime = 0;
+            activeHexTarget = true;
         }
-        elapsedMovementTime = 0;
-        activeHexTarget = true;
+
     }
 }
