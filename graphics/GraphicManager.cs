@@ -123,6 +123,14 @@ public partial class GraphicManager : Node3D
         uiManager.Update(element);
     }
 
+    public void UpdateHex(Hex hex)
+    {
+        foreach (GraphicObject graphicObj in hexObjectDictionary[hex])
+        {
+            graphicObj.UpdateGraphic(GraphicUpdateType.Update);
+        }
+    }
+
     public void UpdateVisibility()
     {
         foreach(Hex hex in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibilityChangedList)

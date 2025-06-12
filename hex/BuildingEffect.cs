@@ -131,6 +131,7 @@ public class BuildingEffect
         {
             { "WaterSupplyEffect", WaterSupplyEffect },
             { "FarmEffect", FarmEffect },
+            { "PastureEffect", PastureEffect },
             { "MineEffect", MineEffect },
             { "LumbermillEffect", LumbermillEffect },
             { "FishingBoatEffect", FishingBoatEffect },
@@ -178,6 +179,10 @@ public class BuildingEffect
         building.yields.happiness += waterHappinessYield;
     }
     void FarmEffect(Building building)
+    {
+
+    }
+    void PastureEffect(Building building)
     {
 
     }

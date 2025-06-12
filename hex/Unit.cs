@@ -343,6 +343,7 @@ public class Unit
         Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this.id);
         RemoveVision(true);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Remove);
+        Global.gameManager.graphicManager.uiManager.Update(UIElement.endTurnButton);
     }
 
     public void UpdateVision()

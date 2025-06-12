@@ -29,7 +29,13 @@ public class District
     public District(GameHex gameHex, String initialString, bool isCityCenter, bool isUrban, int cityID)
     {
         SetupDistrict(gameHex, isCityCenter, isUrban, cityID);
-        AddBuilding(new Building(initialString, hex));
+        bool isResource = false;
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
+        {
+            isResource = true;
+        }
+        AddBuilding(new Building(initialString, hex, isResource));
+
     }
 
     public District(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID)
@@ -56,11 +62,7 @@ public class District
         {
             Global.gameManager.game.mainGameBoard.gameHexDict[hex].TryClaimHex(Global.gameManager.game.cityDictionary[cityID]);
         }
-        
-        if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
-        {
-            AddResource();
-        }
+
 
         this.isCityCenter = isCityCenter;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
@@ -74,33 +76,63 @@ public class District
         }
         else
         {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].featureSet.Contains(FeatureType.Forest))
+            bool isResource = false;
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
             {
-                AddBuilding(new Building("Lumbermill", hex));
+                AddResource();
+                isResource = true;
+                if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Lumbermill")
+                {
+                    AddBuilding(new Building("Lumbermill", hex, isResource));
+                }
+                else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Farm")
+                {
+                    AddBuilding(new Building("Farm", hex, isResource));
+                }
+                else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Pasture")
+                {
+                    AddBuilding(new Building("Pasture", hex, isResource));
+                }
+                else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Mine")
+                {
+                    AddBuilding(new Building("Mine", hex, isResource));
+                }
+                else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "FishingBoar")
+                {
+                    AddBuilding(new Building("FishingBoat", hex, isResource));
+                }
             }
             else
             {
-                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat)
+                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].featureSet.Contains(FeatureType.Forest))
                 {
-                    AddBuilding(new Building("Farm", hex));
+                    AddBuilding(new Building("Lumbermill", hex, isResource));
                 }
-                else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough)
+                else
                 {
-                    AddBuilding(new Building("Lumbermill", hex));
-                }
-                else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Mountain)
-                {
-                    AddBuilding(new Building("Mine", hex));
-                }
-                else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Coast)
-                {
-                    AddBuilding(new Building("FishingBoat", hex));
-                }
-                else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Ocean)
-                {
-                    AddBuilding(new Building("FishingBoat", hex));
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat)
+                    {
+                        AddBuilding(new Building("Farm", hex, isResource));
+                    }
+                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough)
+                    {
+                        AddBuilding(new Building("Mine", hex, isResource));
+                    }
+                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Mountain)
+                    {
+                        AddBuilding(new Building("Mine", hex, isResource));
+                    }
+                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Coast)
+                    {
+                        AddBuilding(new Building("FishingBoat", hex, isResource));
+                    }
+                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Ocean)
+                    {
+                        AddBuilding(new Building("FishingBoat", hex, isResource));
+                    }
                 }
             }
+            
 
         }
         this.isUrban = isUrban;

@@ -37,6 +37,7 @@ public struct ResourceInfo
     public string Name { get; set; }
     public string IconPath { get; set; }
     public string ModelPath { get; set; }
+    public string ImprovementType { get; set; }
     public int Food { get; set; }
     public int Production { get; set; }
     public int Gold { get; set; }
@@ -115,6 +116,7 @@ public static class ResourceLoader
                     Name = r.Attribute("Name").Value,
                     IconPath = r.Attribute("IconPath").Value,
                     ModelPath = r.Attribute("ModelPath").Value,
+                    ImprovementType = r.Attribute("ImprovementType").Value,
                     Food = int.Parse(r.Attribute("Food").Value),
                     Production = int.Parse(r.Attribute("Production").Value),
                     Gold = int.Parse(r.Attribute("Gold").Value),

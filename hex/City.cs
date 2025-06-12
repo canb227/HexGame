@@ -625,7 +625,12 @@ public class City
         }
         else
         {
-            Building building = new Building(buildingType, Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.hex);
+            bool isResource = false;
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
+            {
+                isResource = true;
+            }
+            Building building = new Building(buildingType, Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.hex, isResource);
             Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.AddBuilding(building);
             Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban = true;
         }
@@ -650,6 +655,7 @@ public class City
             RecalculateYields();
             if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
+                manager.UpdateHex(hex);
                 manager.UpdateGraphic(id, GraphicUpdateType.Update);
                 manager.ClearWaitForTarget();
             }

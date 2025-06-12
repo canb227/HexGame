@@ -312,6 +312,7 @@ public partial class UIManager : Node3D
         if (readyToGrow)
         {
             ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]).GenerateGrowthTargetingPrompt();
+            Global.camera.SetHexTarget(targetCity.hex);
             return;
         }
         else if(cityNeedsProduction)

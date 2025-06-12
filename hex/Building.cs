@@ -23,7 +23,7 @@ public class Building
     public Yields baseYields { get; set; }
     public Yields yields { get; set; }
 
-    public Building(String buildingType, Hex districtHex)
+    public Building(String buildingType, Hex districtHex, bool isResource)
     {
         this.districtHex = districtHex;
         this.buildingType = buildingType;
@@ -54,7 +54,10 @@ public class Building
             Global.gameManager.game.builtWonders.Add(buildingType);
         }
         id = Global.gameManager.game.GetUniqueID();
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewBuilding(this);
+        if(!isResource)
+        {
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewBuilding(this);
+        }
     }
 
     public Building()
