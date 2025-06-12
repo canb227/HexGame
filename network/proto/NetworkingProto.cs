@@ -29,28 +29,32 @@ namespace NetworkMessages {
             "bXAYAyABKAFIAIgBAUIMCgpfdGltZXN0YW1wIn4KCUhhbmRzaGFrZRIMCgR0",
             "aWNrGAEgASgEEg4KBnNlbmRlchgCIAEoBBIWCgl0aW1lc3RhbXAYAyABKAFI",
             "AIgBARITCgZzdGF0dXMYBSABKAlIAYgBARINCgVwZWVycxgEIAMoBEIMCgpf",
-            "dGltZXN0YW1wQgkKB19zdGF0dXMitgEKDExvYmJ5TWVzc2FnZRIOCgZzZW5k",
+            "dGltZXN0YW1wQgkKB19zdGF0dXMiyAEKDExvYmJ5TWVzc2FnZRIOCgZzZW5k",
             "ZXIYASABKAQSEwoLbWVzc2FnZVR5cGUYAiABKAkSDwoHbWVzc2FnZRgDIAEo",
             "CRI2Cgtsb2JieVN0YXR1cxgEIAEoCzIcLk5ldHdvcmtNZXNzYWdlcy5Mb2Ji",
-            "eVN0YXR1c0gAiAEBEhgKC3NhdmVQYXlsb2FkGAUgASgJSAGIAQFCDgoMX2xv",
-            "YmJ5U3RhdHVzQg4KDF9zYXZlUGF5bG9hZCJNCgtMb2JieVN0YXR1cxIOCgZp",
-            "c0hvc3QYASABKAgSDwoHaXNSZWFkeRgCIAEoCBIMCgR0ZWFtGAMgASgEEg8K",
-            "B2ZhY3Rpb24YBCABKAQiJwoEQ2hhdBIOCgZzZW5kZXIYASABKAQSDwoHbWVz",
-            "c2FnZRgCIAEoCSKlAQoHQ29tbWFuZBITCgtjb21tYW5kVHlwZRgBIAEoCRIt",
-            "Cghtb3ZlVW5pdBgCIAEoCzIZLk5ldHdvcmtNZXNzYWdlcy5Nb3ZlVW5pdEgA",
-            "EjsKD2FjdGl2YXRlQWJpbGl0eRgDIAEoCzIgLk5ldHdvcmtNZXNzYWdlcy5B",
-            "Y3RpdmF0ZUFiaWxpdHlIABIOCgZzZW5kZXIYYyABKARCCQoHY29tbWFuZCJR",
-            "CghNb3ZlVW5pdBIOCgZ1bml0SWQYASABKAQSJAoGdGFyZ2V0GAIgASgLMhQu",
-            "TmV0d29ya01lc3NhZ2VzLkhleBIPCgdpc0VuZW15GAMgASgIIlwKD0FjdGl2",
-            "YXRlQWJpbGl0eRIOCgZ1bml0SWQYASABKAQSEwoLYWJpbGl0eU5hbWUYAiAB",
-            "KAkSJAoGdGFyZ2V0GAMgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleCImCgNI",
-            "ZXgSCQoBcRgBIAEoBBIJCgFyGAIgASgEEgkKAXMYAyABKARiBnByb3RvMw=="));
+            "eVN0YXR1c0gAiAEBEi4KB21hcERhdGEYBSABKAsyGC5OZXR3b3JrTWVzc2Fn",
+            "ZXMuTWFwRGF0YUgBiAEBQg4KDF9sb2JieVN0YXR1c0IKCghfbWFwRGF0YSJh",
+            "CgdNYXBEYXRhEhQKB21hcE5hbWUYASABKAlIAIgBARIQCghtYXBXaWR0aBgC",
+            "IAEoAxIRCgltYXBIZWlnaHQYAyABKAMSDwoHbWFwRGF0YRgEIAEoCUIKCghf",
+            "bWFwTmFtZSJNCgtMb2JieVN0YXR1cxIOCgZpc0hvc3QYASABKAgSDwoHaXNS",
+            "ZWFkeRgCIAEoCBIMCgR0ZWFtGAMgASgEEg8KB2ZhY3Rpb24YBCABKAQiJwoE",
+            "Q2hhdBIOCgZzZW5kZXIYASABKAQSDwoHbWVzc2FnZRgCIAEoCSKlAQoHQ29t",
+            "bWFuZBITCgtjb21tYW5kVHlwZRgBIAEoCRItCghtb3ZlVW5pdBgCIAEoCzIZ",
+            "Lk5ldHdvcmtNZXNzYWdlcy5Nb3ZlVW5pdEgAEjsKD2FjdGl2YXRlQWJpbGl0",
+            "eRgDIAEoCzIgLk5ldHdvcmtNZXNzYWdlcy5BY3RpdmF0ZUFiaWxpdHlIABIO",
+            "CgZzZW5kZXIYYyABKARCCQoHY29tbWFuZCJRCghNb3ZlVW5pdBIOCgZ1bml0",
+            "SWQYASABKAQSJAoGdGFyZ2V0GAIgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhl",
+            "eBIPCgdpc0VuZW15GAMgASgIIlwKD0FjdGl2YXRlQWJpbGl0eRIOCgZ1bml0",
+            "SWQYASABKAQSEwoLYWJpbGl0eU5hbWUYAiABKAkSJAoGdGFyZ2V0GAMgASgL",
+            "MhQuTmV0d29ya01lc3NhZ2VzLkhleCImCgNIZXgSCQoBcRgBIAEoBBIJCgFy",
+            "GAIgASgEEgkKAXMYAyABKARiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.State), global::NetworkMessages.State.Parser, new[]{ "Tick", "Sender", "Timestamp" }, new[]{ "Timestamp" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Handshake), global::NetworkMessages.Handshake.Parser, new[]{ "Tick", "Sender", "Timestamp", "Status", "Peers" }, new[]{ "Timestamp", "Status" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyMessage), global::NetworkMessages.LobbyMessage.Parser, new[]{ "Sender", "MessageType", "Message", "LobbyStatus", "SavePayload" }, new[]{ "LobbyStatus", "SavePayload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyMessage), global::NetworkMessages.LobbyMessage.Parser, new[]{ "Sender", "MessageType", "Message", "LobbyStatus", "MapData" }, new[]{ "LobbyStatus", "MapData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.MapData), global::NetworkMessages.MapData.Parser, new[]{ "MapName", "MapWidth", "MapHeight", "MapData_" }, new[]{ "MapName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyStatus), global::NetworkMessages.LobbyStatus.Parser, new[]{ "IsHost", "IsReady", "Team", "Faction" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Chat), global::NetworkMessages.Chat.Parser, new[]{ "Sender", "Message" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Command), global::NetworkMessages.Command.Parser, new[]{ "CommandType", "MoveUnit", "ActivateAbility", "Sender" }, new[]{ "Command" }, null, null, null),
@@ -746,7 +750,7 @@ namespace NetworkMessages {
       messageType_ = other.messageType_;
       message_ = other.message_;
       lobbyStatus_ = other.lobbyStatus_ != null ? other.lobbyStatus_.Clone() : null;
-      savePayload_ = other.savePayload_;
+      mapData_ = other.mapData_ != null ? other.mapData_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -804,30 +808,16 @@ namespace NetworkMessages {
       }
     }
 
-    /// <summary>Field number for the "savePayload" field.</summary>
-    public const int SavePayloadFieldNumber = 5;
-    private readonly static string SavePayloadDefaultValue = "";
-
-    private string savePayload_;
+    /// <summary>Field number for the "mapData" field.</summary>
+    public const int MapDataFieldNumber = 5;
+    private global::NetworkMessages.MapData mapData_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string SavePayload {
-      get { return savePayload_ ?? SavePayloadDefaultValue; }
+    public global::NetworkMessages.MapData MapData {
+      get { return mapData_; }
       set {
-        savePayload_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        mapData_ = value;
       }
-    }
-    /// <summary>Gets whether the "savePayload" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool HasSavePayload {
-      get { return savePayload_ != null; }
-    }
-    /// <summary>Clears the value of the "savePayload" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void ClearSavePayload() {
-      savePayload_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -849,7 +839,7 @@ namespace NetworkMessages {
       if (MessageType != other.MessageType) return false;
       if (Message != other.Message) return false;
       if (!object.Equals(LobbyStatus, other.LobbyStatus)) return false;
-      if (SavePayload != other.SavePayload) return false;
+      if (!object.Equals(MapData, other.MapData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -861,7 +851,7 @@ namespace NetworkMessages {
       if (MessageType.Length != 0) hash ^= MessageType.GetHashCode();
       if (Message.Length != 0) hash ^= Message.GetHashCode();
       if (lobbyStatus_ != null) hash ^= LobbyStatus.GetHashCode();
-      if (HasSavePayload) hash ^= SavePayload.GetHashCode();
+      if (mapData_ != null) hash ^= MapData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -896,9 +886,9 @@ namespace NetworkMessages {
         output.WriteRawTag(34);
         output.WriteMessage(LobbyStatus);
       }
-      if (HasSavePayload) {
+      if (mapData_ != null) {
         output.WriteRawTag(42);
-        output.WriteString(SavePayload);
+        output.WriteMessage(MapData);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -926,9 +916,9 @@ namespace NetworkMessages {
         output.WriteRawTag(34);
         output.WriteMessage(LobbyStatus);
       }
-      if (HasSavePayload) {
+      if (mapData_ != null) {
         output.WriteRawTag(42);
-        output.WriteString(SavePayload);
+        output.WriteMessage(MapData);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -952,8 +942,8 @@ namespace NetworkMessages {
       if (lobbyStatus_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(LobbyStatus);
       }
-      if (HasSavePayload) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(SavePayload);
+      if (mapData_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MapData);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -982,8 +972,11 @@ namespace NetworkMessages {
         }
         LobbyStatus.MergeFrom(other.LobbyStatus);
       }
-      if (other.HasSavePayload) {
-        SavePayload = other.SavePayload;
+      if (other.mapData_ != null) {
+        if (mapData_ == null) {
+          MapData = new global::NetworkMessages.MapData();
+        }
+        MapData.MergeFrom(other.MapData);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1020,7 +1013,10 @@ namespace NetworkMessages {
             break;
           }
           case 42: {
-            SavePayload = input.ReadString();
+            if (mapData_ == null) {
+              MapData = new global::NetworkMessages.MapData();
+            }
+            input.ReadMessage(MapData);
             break;
           }
         }
@@ -1058,7 +1054,326 @@ namespace NetworkMessages {
             break;
           }
           case 42: {
-            SavePayload = input.ReadString();
+            if (mapData_ == null) {
+              MapData = new global::NetworkMessages.MapData();
+            }
+            input.ReadMessage(MapData);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.SerializableAttribute]
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class MapData : pb::IMessage<MapData>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<MapData> _parser = new pb::MessageParser<MapData>(() => new MapData());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<MapData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MapData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MapData(MapData other) : this() {
+      mapName_ = other.mapName_;
+      mapWidth_ = other.mapWidth_;
+      mapHeight_ = other.mapHeight_;
+      mapData_ = other.mapData_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MapData Clone() {
+      return new MapData(this);
+    }
+
+    /// <summary>Field number for the "mapName" field.</summary>
+    public const int MapNameFieldNumber = 1;
+    private readonly static string MapNameDefaultValue = "";
+
+    private string mapName_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string MapName {
+      get { return mapName_ ?? MapNameDefaultValue; }
+      set {
+        mapName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "mapName" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMapName {
+      get { return mapName_ != null; }
+    }
+    /// <summary>Clears the value of the "mapName" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMapName() {
+      mapName_ = null;
+    }
+
+    /// <summary>Field number for the "mapWidth" field.</summary>
+    public const int MapWidthFieldNumber = 2;
+    private long mapWidth_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long MapWidth {
+      get { return mapWidth_; }
+      set {
+        mapWidth_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "mapHeight" field.</summary>
+    public const int MapHeightFieldNumber = 3;
+    private long mapHeight_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long MapHeight {
+      get { return mapHeight_; }
+      set {
+        mapHeight_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "mapData" field.</summary>
+    public const int MapData_FieldNumber = 4;
+    private string mapData_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string MapData_ {
+      get { return mapData_; }
+      set {
+        mapData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as MapData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(MapData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MapName != other.MapName) return false;
+      if (MapWidth != other.MapWidth) return false;
+      if (MapHeight != other.MapHeight) return false;
+      if (MapData_ != other.MapData_) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasMapName) hash ^= MapName.GetHashCode();
+      if (MapWidth != 0L) hash ^= MapWidth.GetHashCode();
+      if (MapHeight != 0L) hash ^= MapHeight.GetHashCode();
+      if (MapData_.Length != 0) hash ^= MapData_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasMapName) {
+        output.WriteRawTag(10);
+        output.WriteString(MapName);
+      }
+      if (MapWidth != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(MapWidth);
+      }
+      if (MapHeight != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(MapHeight);
+      }
+      if (MapData_.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(MapData_);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasMapName) {
+        output.WriteRawTag(10);
+        output.WriteString(MapName);
+      }
+      if (MapWidth != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(MapWidth);
+      }
+      if (MapHeight != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(MapHeight);
+      }
+      if (MapData_.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(MapData_);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasMapName) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(MapName);
+      }
+      if (MapWidth != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(MapWidth);
+      }
+      if (MapHeight != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(MapHeight);
+      }
+      if (MapData_.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(MapData_);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(MapData other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasMapName) {
+        MapName = other.MapName;
+      }
+      if (other.MapWidth != 0L) {
+        MapWidth = other.MapWidth;
+      }
+      if (other.MapHeight != 0L) {
+        MapHeight = other.MapHeight;
+      }
+      if (other.MapData_.Length != 0) {
+        MapData_ = other.MapData_;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            MapName = input.ReadString();
+            break;
+          }
+          case 16: {
+            MapWidth = input.ReadInt64();
+            break;
+          }
+          case 24: {
+            MapHeight = input.ReadInt64();
+            break;
+          }
+          case 34: {
+            MapData_ = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            MapName = input.ReadString();
+            break;
+          }
+          case 16: {
+            MapWidth = input.ReadInt64();
+            break;
+          }
+          case 24: {
+            MapHeight = input.ReadInt64();
+            break;
+          }
+          case 34: {
+            MapData_ = input.ReadString();
             break;
           }
         }
@@ -1084,7 +1399,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[3]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1386,7 +1701,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[4]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1614,7 +1929,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[5]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1975,7 +2290,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[6]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2249,7 +2564,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[7]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2523,7 +2838,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[8]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

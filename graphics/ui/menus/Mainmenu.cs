@@ -40,7 +40,7 @@ public partial class Mainmenu : Control
         string mapData = mapGenerator.GenerateMap();
 
         Global.gameManager.game = new Game(1);
-        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, Global.gameManager.game.GetUniqueID());
+        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, mapGenerator.right, mapGenerator.bottom);
         Global.gameManager.game.AddPlayer(10, 0);
         Global.gameManager.game.AddPlayer(10, 1);
         Global.gameManager.startGame(1);
@@ -61,7 +61,7 @@ public partial class Mainmenu : Control
         string mapData = mapGenerator.GenerateMap();
 
         Global.gameManager.game = new Game(1);
-        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, Global.gameManager.game.GetUniqueID());
+        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, mapGenerator.right, mapGenerator.bottom);
         Global.gameManager.game.AddPlayer(10, 0);
         Global.gameManager.game.AddPlayer(10, 1);
         Global.gameManager.startGame(1);

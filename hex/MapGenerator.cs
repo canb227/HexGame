@@ -3,26 +3,35 @@ using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 public class MapGenerator
 {
-    public const int TINY_WIDTH = 12;
-    public const int TINY_HEIGHT = 12;
+    public const int TINY_WIDTH = 44;
+    public const int TINY_HEIGHT = 26;
     public const int TINY_ARCTIC_HEIGHT = 1;
-    public const int SMALL_WIDTH = 24;
-    public const int SMALL_HEIGHT = 24;
+
+    public const int SMALL_WIDTH = 72;
+    public const int SMALL_HEIGHT = 46;
     public const int SMALL_ARCTIC_HEIGHT = 1;
-    public const int MEDIUM_WIDTH = 48;
-    public const int MEDIUM_HEIGHT = 24;
-    public const int MEDIUM_ARCTIC_HEIGHT = 1;
-    public const int LARGE_WIDTH = 64;
-    public const int LARGE_HEIGHT = 48;
+
+    public const int MEDIUM_WIDTH = 84;
+    public const int MEDIUM_HEIGHT = 54;
+    public const int MEDIUM_ARCTIC_HEIGHT = 2;
+
+    public const int LARGE_WIDTH = 96;
+    public const int LARGE_HEIGHT = 60;
     public const int LARGE_ARCTIC_HEIGHT = 2;
-    public const int HUGE_WIDTH = 128;
-    public const int HUGE_HEIGHT = 64;
+
+    public const int HUGE_WIDTH = 108;
+    public const int HUGE_HEIGHT = 66;
     public const int HUGE_ARCTIC_HEIGHT = 2;
+
+    public const int MEGAHUGE_WIDTH = 120;
+    public const int MEGAHUGE_HEIGHT = 72;
+    public const int MEGAHUGE_ARCTIC_HEIGHT = 3;
 
     public int mapWidth;
     public int mapHeight;
@@ -34,16 +43,25 @@ public class MapGenerator
     public MapType mapType;
     public int erosionFactor = 20;
 
-    public List<List<AbstractHex>> abstractHexGrid;
+    public int top = 0;
+    public int left = 0;
+    public int right = 0;
+    public int bottom = 0;
+
+    public Dictionary<Hex, AbstractHex> abstractHexGrid;
 
     public struct AbstractHex
     {
-        public int x;
-        public int y;
+        public Hex hex;
         public TerrainType terrainType;
         public TerrainTemperature terrainTemperature;
         public ResourceType resourceType;
         public List<FeatureType> features;
+
+        public override string ToString()
+        {
+            return $"Hex: {hex}, TerrainType: {terrainType}, Temperature: {terrainTemperature}, Resource: {resourceType}, Features: [{string.Join(", ", features)}]";
+        }
     }
 
     public enum MapSize
@@ -53,6 +71,7 @@ public class MapGenerator
         Medium,
         Large,
         Huge,
+        MegaHuge,
     }
 
     public enum ResourceAmount
@@ -70,6 +89,7 @@ public class MapGenerator
         Pangea,
         DebugSquare,
         DebugRandom,
+        DebugCoasts,
     }
 
     public MapGenerator()
@@ -104,27 +124,54 @@ public class MapGenerator
                 mapWidth = MapGenerator.HUGE_WIDTH;
                 mapHeight = MapGenerator.HUGE_HEIGHT;
                 break;
+            case MapGenerator.MapSize.MegaHuge:
+                mapWidth = MapGenerator.MEGAHUGE_WIDTH;
+                mapHeight = MapGenerator.MEGAHUGE_HEIGHT;
+                break;
         }
         Global.debugLog("Map Width: " + mapWidth);
         Global.debugLog("Map Height: " + mapHeight);
 
-        abstractHexGrid = new List<List<AbstractHex>>();
+        right = mapWidth - 1;
+        bottom = mapHeight - 1;
+        abstractHexGrid = new();
 
-        for (int y = 0; y < mapHeight; y++)
+
+        for (int r = 0; r < mapHeight; r++)
         {
-            abstractHexGrid.Add(new List<AbstractHex>());
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1; //same as (int)Math.Floor(r/2.0f)
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
-                AbstractHex hex = new AbstractHex();
-                hex.x = x;
-                hex.y = y;
-                hex.resourceType = ResourceType.None;
-                hex.terrainTemperature = AssignTemperature(y);
-                hex.terrainType = TerrainType.Ocean;
-                hex.features = new List<FeatureType>();
-                abstractHexGrid[y].Add(hex);
+
+                AbstractHex aHex = new AbstractHex();
+                aHex.hex = new Hex(q, r, -q - r);
+                aHex.resourceType = ResourceType.None;
+                aHex.terrainTemperature = AssignTemperature(r);
+                aHex.terrainType = TerrainType.Ocean;
+                aHex.features = new List<FeatureType>();
+                //Global.debugLog("Created hex at (" + r + "," + q + ")");
+
+
+                Hex indexHex = new Hex(q, r, -q - r);
+                /*
+                 *                 if (r==0)
+                {
+                    Global.debugLog("Top Row Q: " + q);
+                }
+                if (r == 6)
+                {
+                    Global.debugLog("r=6 Q: " + q);
+                }
+                Hex badHex = new Hex(45, 6, -45 - 6);
+                if (badHex.Equals(indexHex))
+                {
+                    Global.debugLog("Bad Hex Inits!" + indexHex);
+                }*/
+                abstractHexGrid.Add(aHex.hex, aHex);
             }
         }
+
+
     }
 
     private TerrainTemperature AssignTemperature(int y)
@@ -170,36 +217,58 @@ public class MapGenerator
         return retval;
     }
 
+    public void debugCoasts()
+    {
+        for (int r = 0; r < mapHeight; r++)
+        {
+            int r_offset = r >> 1; //same as (int)Math.Floor(r/2.0f)
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
+            {
+                if(q==5 && r==5)
+                {
+                    AbstractHex aHex = abstractHexGrid[new Hex(q,r,-q-r)];
+                    aHex.terrainType = TerrainType.Flat;
+                    abstractHexGrid[aHex.hex] = aHex;
+                }
+            }
+        }
+        GenerateCoasts();
+    }
+
+
     public void debugSquare()
     {
-        for (int y = 0; y < mapHeight; y++)
+
+
+        for (int r = 0; r < mapHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1; //same as (int)Math.Floor(r/2.0f)
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
-                AbstractHex hex = abstractHexGrid[y][x];
+                AbstractHex hex = abstractHexGrid[new Hex(q, r, -q - r)];
 
                 // Assign terrain type based on position
-                if (x == 0 || y == 0 || x==mapWidth-1 || y==mapHeight-1)
+                if (q == 0 || r == 0 || q==mapWidth-1 || r==mapHeight-1)
                 {
                     hex.terrainType = TerrainType.Ocean;
                 }
-                else if (x == 1 || y == 1 || x == mapWidth - 2 || y == mapHeight - 2)
+                else if (q == 1 || r == 1 || q == mapWidth - 2 || r == mapHeight - 2)
                 {
                     hex.terrainType = TerrainType.Coast;
                 }
-                else if (x == 2 || y == 2 || x == mapWidth - 3 || y == mapHeight - 3)
+                else if (q == 2 || r == 2 || q == mapWidth - 3 || r == mapHeight - 3)
                 {
                     hex.terrainType = TerrainType.Flat;
                 }
-                else if (x == 3 || y == 3 || x == mapWidth - 4 || y == mapHeight - 4)
+                else if (q == 3 || r == 3 || q == mapWidth - 4 || r == mapHeight - 4)
                 {
                     hex.terrainType = TerrainType.Flat;
                 }
-                else if (x == 4 || y == 4 || x == mapWidth - 5 || y == mapHeight - 5)
+                else if (q == 4 || r == 4 || q == mapWidth - 5 || r == mapHeight - 5)
                 {
                     hex.terrainType = TerrainType.Flat;
                 }
-                else if (x == 5 || y == 5 || x == mapWidth - 6 || y == mapHeight - 6)
+                else if (q == 5 || r == 5 || q == mapWidth - 6 || r == mapHeight - 6)
                 {
                     hex.terrainType = TerrainType.Flat;
                 }
@@ -207,7 +276,7 @@ public class MapGenerator
                 {
                     hex.terrainType = TerrainType.Rough;
                 }
-                if (Math.Abs(x - (mapWidth / 2)) < 2 && Math.Abs(y - (mapHeight / 2)) < 2)
+                if (Math.Abs(q - (mapWidth / 2)) < 2 && Math.Abs(r - (mapHeight / 2)) < 2)
                 {
                     hex.terrainType = TerrainType.Mountain;
                 }
@@ -216,7 +285,7 @@ public class MapGenerator
                 hex.resourceType = ResourceType.None; // Default to None for simplicity
                 hex.features = new List<FeatureType>();
                 
-                abstractHexGrid[y][x] = hex;
+                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
         AddFeatures();
@@ -226,11 +295,12 @@ public class MapGenerator
     public void debugRandom()
     {
         Random rnd = new Random();
-        for (int y = 0; y < mapHeight; y++)
+        for (int r = 0; r < mapHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1; //same as (int)Math.Floor(r/2.0f)
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
-                AbstractHex hex = abstractHexGrid[y][x];
+                AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
 
                 // Randomly assign terrain type
                 hex.terrainType = (TerrainType)rnd.Next(0, Enum.GetValues(typeof(TerrainType)).Length);
@@ -252,7 +322,7 @@ public class MapGenerator
                     hex.features.Add(FeatureType.River);
                 }
                 
-                abstractHexGrid[y][x] = hex;
+                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
         AddFeatures();
@@ -262,20 +332,21 @@ public class MapGenerator
     public string MapToTextFormat()
     {
         string mapData = "";
-        for (int y = 0; y < mapHeight; y++)
+        for (int r = 0; r < mapHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1; //same as (int)Math.Floor(r/2.0f)
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
-                mapData += (int)abstractHexGrid[y][x].terrainType;
-                mapData += (int)abstractHexGrid[y][x].terrainTemperature;
-                mapData += ParseFeatures(abstractHexGrid[y][x].features);
-                mapData += ParseResources(abstractHexGrid[y][x].resourceType);
+                mapData += (int)abstractHexGrid[new Hex(q,r,-q-r)].terrainType;
+                mapData += (int)abstractHexGrid[new Hex(q,r,-q-r)].terrainTemperature;
+                mapData += ParseFeatures(abstractHexGrid[new Hex(q,r,-q-r)].features);
+                mapData += ParseResources(abstractHexGrid[new Hex(q,r,-q-r)].resourceType);
                 mapData += " ";
             }
             mapData = mapData.Substring(0,mapData.Length-1);
             mapData += "\n";
         }
-        //Global.debugLog(mapData);
+        //Global.debugLog("\n"+mapData);
         return mapData;
     }
     public string ParseResources(ResourceType resourceType)
@@ -312,26 +383,39 @@ public class MapGenerator
         noise.FractalOctaves = 6;
         noise.FractalGain = 0.75f;
        
-        for (int y = (int)Math.Ceiling(mapHeight * 0.05); y < (int)Math.Floor(mapHeight * 0.95); y++)
+        for (int r = (int)Math.Ceiling(mapHeight * 0.05); r < (int)Math.Floor(mapHeight * 0.95); r++)
         {
-            for (int x = 1; x < startingRegionSizeWidth; x++)
+            int r_offset = r >> 1;
+            for (int q = 2 - r_offset ; q < startingRegionSizeWidth - r_offset; q++)
             {
-                float noiseValue = noise.GetNoise2D(y,x)/2 +0.5f;
+                float noiseValue = noise.GetNoise2D(r,q)/2 +0.5f;
                 //Global.debugLog("Noise Value: " + noiseValue);
-                AbstractHex hex = abstractHexGrid[y][x];
+                AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 hex.terrainType = NoiseToTerrainType(noiseValue);
-                abstractHexGrid[y][x] = hex;
+                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
 
-        for (int y = (int)Math.Ceiling(mapHeight * 0.05); y < (int)Math.Floor(mapHeight * 0.95); y++)
+        for (int r = (int)Math.Ceiling(mapHeight * 0.05); r < (int)Math.Floor(mapHeight * 0.95); r++)
         {
-            for (int x = startingRegionSizeWidth+2; x < mapWidth-2; x++)
+            int r_offset = r >> 1;
+            for (int q = startingRegionSizeWidth+2 - r_offset; q < mapWidth-2 - r_offset; q++)
             {
-                float noiseValue = noise.GetNoise2D(y, x) / 2 + .5f;
-                AbstractHex hex = abstractHexGrid[y][x];
+                float noiseValue = noise.GetNoise2D(r, q) / 2 + .5f;
+
+                Hex indexHex = new Hex(q, r, -q - r);
+
+                /*
+                Hex badHex = new Hex(45, 6, -45 - 6);
+                if (badHex.Equals(indexHex))
+                {
+                    Global.debugLog("Bad Hex: " + indexHex);
+                    Global.debugLog("mWidth: " + mapWidth + ", mHeight: " + mapHeight + " r_offset: " + r_offset + "startregionsize: " + startingRegionSizeWidth);
+                }*/
+
+                AbstractHex hex = abstractHexGrid[indexHex];
                 hex.terrainType = NoiseToTerrainType(noiseValue);
-                abstractHexGrid[y][x] = hex;
+                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
 
@@ -370,11 +454,12 @@ public class MapGenerator
     private void AddFeatures()
     {
         Random rng = new Random();
-        for (int y = 0; y < mapHeight; y++)
+        for (int r = 0; r < mapHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth-r_offset; q++)
             {
-                AbstractHex hex = abstractHexGrid[y][x];
+                AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 if (hex.terrainType == TerrainType.Flat || hex.terrainType == TerrainType.Rough)
                 {
                     if (rng.NextDouble() > 0.5f)
@@ -391,7 +476,7 @@ public class MapGenerator
                     }
                 }
 
-                abstractHexGrid[y][x] = hex;
+                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
     }
@@ -399,11 +484,12 @@ public class MapGenerator
     private void AddResources()
     {
         Random rng = new Random();
-        for (int y = 0; y < mapHeight; y++)
+        for (int r = 0; r < mapHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
-                AbstractHex hex = abstractHexGrid[y][x];
+                AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 if (hex.terrainType == TerrainType.Rough)
                 {
                     if (rng.NextDouble() > 0.9f)
@@ -458,7 +544,7 @@ public class MapGenerator
                         }
                     }
                 }
-                abstractHexGrid[y][x] = hex;
+                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
     }
@@ -467,15 +553,16 @@ public class MapGenerator
     {
         Random rng = new Random();
         List<AbstractHex> toErode = new List<AbstractHex>();
-        for (int y = 0; y < mapHeight; y++)
+        for (int r = 0; r < mapHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
-                if(abstractHexGrid[y][x].terrainType!=TerrainType.Ocean)
+                if(abstractHexGrid[new Hex(q,r,-q-r)].terrainType!=TerrainType.Ocean)
                 {
-                    if (HasOceanNeighbor(abstractHexGrid[y][x]))
+                    if (HasOceanNeighbor(abstractHexGrid[new Hex(q,r,-q-r)]))
                     {
-                        toErode.Add(abstractHexGrid[y][x]);
+                        toErode.Add(abstractHexGrid[new Hex(q,r,-q-r)]);
                     }
                 }
             }
@@ -484,9 +571,10 @@ public class MapGenerator
         {
             if (rng.NextDouble() > 0.8f)
             {
+
                 AbstractHex hex = h;
                 hex.terrainType = TerrainType.Ocean;
-                abstractHexGrid[hex.y][hex.x] = hex;
+                abstractHexGrid[hex.hex] = hex;
             }
         }
     }
@@ -494,138 +582,97 @@ public class MapGenerator
 
     private void AddArctic(int arcticHeight)
     {
-        for (int y = 0; y < arcticHeight; y++)
+        for (int r = 0; r < arcticHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
 
-                AbstractHex hex = abstractHexGrid[y][x];
+                AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 hex.terrainTemperature = TerrainTemperature.Arctic;
                 hex.terrainType = TerrainType.Mountain;
-                abstractHexGrid[y][x] = hex;
+                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
-        for (int y = mapHeight - arcticHeight; y < mapHeight; y++)
+        for (int r = mapHeight - arcticHeight; r < mapHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
-                AbstractHex hex = abstractHexGrid[y][x];
+                AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 hex.terrainTemperature = TerrainTemperature.Arctic;
                 hex.terrainType = TerrainType.Mountain; 
-                abstractHexGrid[y][x] = hex;
+                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
     }
 
     private void GenerateCoasts()
     {
-        List<AbstractHex> coasts = new List<AbstractHex>();
         Random rng = new Random();
-        for (int y = 0; y < mapHeight; y++)
+        for (int r = 0; r < mapHeight; r++)
         {
-            for (int x = 0; x < mapWidth; x++)
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
-                AbstractHex hex = abstractHexGrid[y][x];
+                AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 if (hex.terrainType==TerrainType.Ocean)
                 {
                     
-                    if (HasNonOceanNeighbor(hex))
+                    if (IsOceanTouchingLand(hex))
                     {
-                        //Global.debugLog("hex detected as coast");
-                        coasts.Add(hex);
+                        hex.terrainType = TerrainType.Coast;
+                        abstractHexGrid[hex.hex] = hex;
                     }
 
                 }
             }
         }
-        foreach (var h in coasts)
+    }
+
+    private bool IsOceanTouchingLand(AbstractHex hex)
+    {
+        Hex testHex = hex.hex;
+
+        if (hex.terrainType == TerrainType.Ocean)
         {
-            if (true || rng.NextDouble() > 0.1f)
+            Hex[] neighbors = testHex.WrappingNeighbors(0, mapWidth - 1, mapHeight - 1);
+            foreach (Hex neighbor in neighbors)
             {
-                AbstractHex hex = h;
-                hex.terrainType = TerrainType.Coast;
-                abstractHexGrid[hex.y][hex.x] = hex;
+                if (abstractHexGrid[neighbor].terrainType != TerrainType.Ocean && abstractHexGrid[neighbor].terrainType != TerrainType.Coast)
+                {
+                    //Global.debugLog("I am " + hex.hex.ToString() + "\n and I found neighbor that is Land!: " + abstractHexGrid[neighbor].hex.ToString());
+                    return true;
+
+                }
             }
         }
-    }
-    private bool HasNonOceanNeighbor(AbstractHex hex)
-    {
-        if (hex.x > 0 && abstractHexGrid[hex.y][hex.x - 1].terrainType != TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.x < mapWidth - 1 && abstractHexGrid[hex.y][hex.x + 1].terrainType != TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x].terrainType != TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x].terrainType != TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.x > 0 && hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x - 1].terrainType != TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.x < mapWidth - 1 && hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x + 1].terrainType != TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.x > 0 && hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x - 1].terrainType != TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.x < mapWidth - 1 && hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x + 1].terrainType != TerrainType.Ocean)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return false;
 
     }
     private bool HasOceanNeighbor(AbstractHex hex)
     {
-        if (hex.x>0&& abstractHexGrid[hex.y][hex.x - 1].terrainType == TerrainType.Ocean)
+        Hex testHex = hex.hex;
+        bool print = false;//(hex.hex.r == 6 && hex.hex.q == -2);
+        if (print)
         {
-            return true;
+            Global.debugLog("Checking neighbors of " + testHex + " for ocean neighbors.");
         }
-        else if (hex.x<mapWidth-1 && abstractHexGrid[hex.y][hex.x + 1].terrainType == TerrainType.Ocean)
+        Hex[] neighbors = testHex.WrappingNeighbors(0, mapWidth-1, mapHeight-1);
+        foreach (Hex neighbor in neighbors)
         {
-            return true;
+            if (print)
+            {
+                Global.debugLog("Checking neighbor: " + neighbor);
+            }
+
+            if (abstractHexGrid[neighbor].terrainType == TerrainType.Ocean)
+            {
+                return true;
+            }
+            
         }
-        else if (hex.y>0 && abstractHexGrid[hex.y - 1][hex.x].terrainType == TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.y<mapHeight-1 && abstractHexGrid[hex.y + 1][hex.x].terrainType == TerrainType.Ocean)
-        {
-            return true;
-        }
-        /*else if (hex.x > 0 && hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x - 1].terrainType == TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.x < mapWidth - 1 && hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x + 1].terrainType == TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.x > 0 && hex.y < mapHeight - 1 && abstractHexGrid[hex.y + 1][hex.x - 1].terrainType == TerrainType.Ocean)
-        {
-            return true;
-        }
-        else if (hex.x < mapWidth - 1 && hex.y > 0 && abstractHexGrid[hex.y - 1][hex.x + 1].terrainType == TerrainType.Ocean)
-        {
-            return true;
-        }*/
-        else
-        {
-            return false; 
-        }
+        return false;
 
     }
 
@@ -670,6 +717,9 @@ public class MapGenerator
                 break;
             case MapType.DebugRandom:
                 debugRandom();
+                break;
+            case MapType.DebugCoasts:
+                debugCoasts();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(MapType), "Unknown map type: " + mapType);

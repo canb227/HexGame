@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Data;
 using System.IO;
 using Godot;
+using Steamworks;
+using Google.Protobuf.Reflection;
 
 [Serializable]
 public class GameBoard
@@ -21,10 +23,81 @@ public class GameBoard
         ReadGameBoardData(mapData);
     }
 
-    public void InitGameBoardFromData(string mapData, int id)
+    public void InitGameBoardFromData(string mapData, int right, int bottom)
     {
         gameHexDict = new();
-        ReadGameBoardData(mapData);
+        ReadGameBoardData2(mapData,right,bottom);
+    }
+
+    private void ReadGameBoardData2(string mapData,int right, int bottom)
+    {
+        List<String> lines = mapData.Split('\n').ToList();
+        for (int r = 0; r <= bottom; r++)
+        {
+            List<String> cells = lines[r].Split(' ').ToList();
+            int r_offset = r >> 1; //same as (int)Math.Floor(r/2.0f)
+            for (int q = 0 - r_offset; q <= right - r_offset; q++)
+            { 
+                Hex coords = new Hex(q, r, -q - r);
+                TerrainType terrainType = (TerrainType)int.Parse(cells[q + r_offset][0].ToString());
+                TerrainTemperature terrainTemperature = (TerrainTemperature)int.Parse(cells[q + r_offset][1].ToString());
+                HashSet<FeatureType> features = ParseFeatureData(int.Parse(cells[q + r_offset][2].ToString()));
+                ResourceType resource = ParseResourceData(cells[q + r_offset][3].ToString());
+                GameHex gameHex = new GameHex(coords, id, terrainType, terrainTemperature, resource, features, new List<int>(), null);
+                gameHexDict.Add(coords, gameHex);
+            }
+        }
+        this.right = right;
+        this.bottom = bottom+1;
+    }
+
+    private ResourceType ParseResourceData(string s)
+    {
+        return ResourceLoader.resourceNames[s];
+    }
+
+    private HashSet<FeatureType> ParseFeatureData(int v)
+    {
+        HashSet<FeatureType> features = new();
+        switch (v)
+        {
+            case 0:
+                //no features
+                break;
+            case 1:
+                features.Add(FeatureType.Forest);
+                break;
+            case 2:
+                features.Add(FeatureType.River);
+                break;
+            case 3:
+                features.Add(FeatureType.Road);
+                break;
+            case 4:
+                features.Add(FeatureType.Coral);
+                break;
+            case 5:
+                //openslot //TODO
+                break;
+            case 6:
+                features.Add(FeatureType.Forest);
+                features.Add(FeatureType.River);
+                break;
+            case 7:
+                features.Add(FeatureType.River);
+                features.Add(FeatureType.Road);
+                break;
+            case 8:
+                features.Add(FeatureType.Forest);
+                features.Add(FeatureType.Road);
+                break;
+            case 9:
+                features.Add(FeatureType.Forest);
+                features.Add(FeatureType.River);
+                features.Add(FeatureType.Road);
+                break;
+        }
+        return features;
     }
 
     private void ReadGameBoardData(string mapData)

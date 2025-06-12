@@ -142,14 +142,14 @@ public partial class Lobby : Control
                 if (GetNode<CheckButton>("newgameoptions/debugmode").ButtonPressed)
                 {
                     Global.gameManager.game = new Game(0);
-                    Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.SavePayload, Global.gameManager.game.GetUniqueID());
+                    Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth-1), (int)(lobbyMessage.MapData.MapHeight - 1));
                     Global.gameManager.game.AddPlayer(10, 0);
                     Global.gameManager.startGame(0);
                 }
                 else
                 {
                     Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
-                    Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.SavePayload, Global.gameManager.game.GetUniqueID());
+                    Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
                     Global.gameManager.game.AddPlayer(10, 0);
                     foreach (LobbyStatus player in PlayerStatuses.Values)
                     {
@@ -162,7 +162,7 @@ public partial class Lobby : Control
                 break;
             case "loadgame":
                 Global.debugLog("Loading game from host");
-                Global.gameManager.game = Global.gameManager.LoadGameRaw(lobbyMessage.SavePayload);
+                Global.gameManager.game = Global.gameManager.LoadGameRaw(lobbyMessage.MapData.MapData_);
                 GetNode<Label>("NewGameStatus").Text = "GAME LOADED";
                 GetNode<ColorRect>("newgamehide").Visible = true;
                 break;
@@ -259,7 +259,7 @@ public partial class Lobby : Control
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "loadgame";
-        lobbyMessage.SavePayload = Global.gameManager.SaveGameRaw(loaded);
+        lobbyMessage.MapData.MapData_ = Global.gameManager.SaveGameRaw(loaded);
         Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
 
 
@@ -316,7 +316,14 @@ public partial class Lobby : Control
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "startgame";
-        lobbyMessage.SavePayload = mapData;
+
+        MapData mapDataMessage = new();
+        mapDataMessage.MapData_ = mapData;
+        mapDataMessage.MapHeight = (uint)(mapGenerator.bottom + 1);
+        mapDataMessage.MapWidth = (uint)(mapGenerator.right + 1);
+
+        lobbyMessage.MapData = mapDataMessage;
+
         Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
         
     }

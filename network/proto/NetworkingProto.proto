@@ -23,7 +23,15 @@ message LobbyMessage
 	string messageType = 2;
 	string message = 3;
 	optional LobbyStatus lobbyStatus = 4;
-	optional string savePayload = 5;
+	optional MapData mapData = 5;
+}
+
+message MapData
+{
+	optional string mapName = 1;
+	int64 mapWidth = 2;
+	int64 mapHeight = 3;
+	string mapData = 4;
 }
 
 message LobbyStatus

@@ -225,7 +225,7 @@ public partial class GameManager : Node
         }
 
         List<int> waitingForPlayerList = game.turnManager.CheckTurnStatus();
-        if (!waitingForPlayerList.Any())
+        if (graphicManager!=null&& !waitingForPlayerList.Any())
         {
             game.turnManager.StartNewTurn();
             graphicManager.StartNewTurn();

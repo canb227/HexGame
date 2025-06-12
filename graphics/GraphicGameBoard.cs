@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using NetworkMessages;
 using System;
 using System.Collections.Generic;
@@ -81,7 +81,7 @@ public partial class GraphicGameBoard : GraphicObject
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
 
-        chunkCount = 4;
+        chunkCount = 12;
         AddBoard(all, chunkCount, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
     }
