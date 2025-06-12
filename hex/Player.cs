@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Data;
 using Godot;
 using System.IO;
+using NetworkMessages;
 
 [Serializable]
 public class Player
@@ -23,11 +24,6 @@ public class Player
             {
                 visibleGameHexDict.Add(hex, 99);
                 seenGameHexDict.Add(hex, true);
-            }
-            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
-            {
-                manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
-                manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Visibility);
             }
         }
     }
