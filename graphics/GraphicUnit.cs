@@ -44,8 +44,7 @@ public partial class GraphicUnit : GraphicObject
             Transform3D newTransform = node3D.Transform;
             GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
             Point graphicalHexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex)); //use for X and Z
-            newTransform.Origin = new Vector3((float)graphicalHexPoint.y, 0.0f, (float)graphicalHexPoint.x);
-            float height = ggb.chunkList[ggb.hexToChunkDictionary[unit.hex]].Vector3ToHeightMapVal(newTransform.Origin); //TODO
+            float height = ggb.chunkList[ggb.hexToChunkDictionary[unit.hex]].Vector3ToHeightMapVal(node3D.Transform.Origin); //TODO
             newTransform.Origin = new Vector3((float)graphicalHexPoint.y, height, (float)graphicalHexPoint.x);
 
 

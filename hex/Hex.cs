@@ -86,7 +86,6 @@ public struct Hex
 
     public Hex WrappingNeighbor(int direction, int left, int right)
     {
-
         Hex hex = Add(Direction(direction));
         return hex.WrapHex(left - (hex.r >> 1), right - (hex.r >> 1));
     }
