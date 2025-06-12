@@ -248,10 +248,12 @@ public partial class HexGameCamera : Camera3D
     private void ProcessHexRightClick(Hex hex)
     {
         Hex wrapHex = hex.WrapHex();
-        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex];
+        GameHex wrappedHex = Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex];
+//        GameHex unwrappedHex = Global.gameManager.game.mainGameBoard.gameHexDict[hex];
         GD.Print("Hex: " + hex + " | Wrapped to: " + wrapHex);
-        GD.Print("Hex Info|TerrainType: " + gameHex.terrainType + " TerrainTemp: " + gameHex.terrainTemp);
-        if(Global.gameManager.graphicManager.selectedObject != null)
+        GD.Print("Wrapped Hex Info|TerrainType: " + wrappedHex.terrainType);
+       // GD.Print("Unwrapped Hex Info|TerrainType: " + unwrappedHex.terrainType);
+        if (Global.gameManager.graphicManager.selectedObject != null)
         {
             Global.gameManager.graphicManager.selectedObject.ProcessRightClick(wrapHex);
         }

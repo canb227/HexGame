@@ -47,7 +47,7 @@ public class GameBoard
                 gameHexDict.Add(coords, gameHex);
             }
         }
-        this.right = right;
+        this.right = right+1;
         this.bottom = bottom+1;
     }
 
