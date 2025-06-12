@@ -81,7 +81,7 @@ public partial class GraphicGameBoard : GraphicObject
 
         List<Hex> seenButNotVisible = seen.Except(visible).ToList();
 
-        chunkCount = 12;
+        chunkCount = 4;
         AddBoard(all, chunkCount, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
     }

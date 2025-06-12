@@ -136,6 +136,14 @@ public class MapGenerator
         bottom = mapHeight - 1;
         abstractHexGrid = new();
 
+        if (mapType==MapType.DebugSquare || mapType==MapType.DebugRandom || mapType==MapType.DebugCoasts)
+        {
+            Global.debugLog("Debug Map Type Selected, using square grid.");
+            mapWidth = 12;
+            mapHeight = 12;
+            right = mapWidth - 1;
+            bottom = mapHeight - 1;
+        }
 
         for (int r = 0; r < mapHeight; r++)
         {
@@ -238,8 +246,6 @@ public class MapGenerator
 
     public void debugSquare()
     {
-
-
         for (int r = 0; r < mapHeight; r++)
         {
             int r_offset = r >> 1; //same as (int)Math.Floor(r/2.0f)
@@ -254,21 +260,13 @@ public class MapGenerator
                 }
                 else if (q == 1 || r == 1 || q == mapWidth - 2 || r == mapHeight - 2)
                 {
-                    hex.terrainType = TerrainType.Coast;
+                    hex.terrainType = TerrainType.Ocean;
                 }
                 else if (q == 2 || r == 2 || q == mapWidth - 3 || r == mapHeight - 3)
                 {
                     hex.terrainType = TerrainType.Flat;
                 }
                 else if (q == 3 || r == 3 || q == mapWidth - 4 || r == mapHeight - 4)
-                {
-                    hex.terrainType = TerrainType.Flat;
-                }
-                else if (q == 4 || r == 4 || q == mapWidth - 5 || r == mapHeight - 5)
-                {
-                    hex.terrainType = TerrainType.Flat;
-                }
-                else if (q == 5 || r == 5 || q == mapWidth - 6 || r == mapHeight - 6)
                 {
                     hex.terrainType = TerrainType.Flat;
                 }
@@ -288,6 +286,7 @@ public class MapGenerator
                 abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
         }
+        GenerateCoasts();
         AddFeatures();
         AddResources();
     }
@@ -346,7 +345,7 @@ public class MapGenerator
             mapData = mapData.Substring(0,mapData.Length-1);
             mapData += "\n";
         }
-        //Global.debugLog("\n"+mapData);
+        Global.debugLog("\n"+mapData);
         return mapData;
     }
     public string ParseResources(ResourceType resourceType)

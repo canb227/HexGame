@@ -29,7 +29,7 @@ public partial class Mainmenu : Control
     {
         MapGenerator mapGenerator = new MapGenerator();
 
-        mapGenerator.mapSize = MapGenerator.MapSize.Small;
+        mapGenerator.mapSize = MapGenerator.MapSize.Tiny;
 
         mapGenerator.numberOfPlayers = 1;
         mapGenerator.numberOfHumanPlayers = 1;
