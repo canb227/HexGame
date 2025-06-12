@@ -13,26 +13,29 @@ public partial class GraphicResource : GraphicObject
     public Hex hex;
     private ShaderMaterial greyScaleShaderMaterial;
     private ShaderMaterial greyScale3DShaderMaterial;
-    public MeshInstance3D meshInstance;
+    public MeshInstance3D resourceMeshInstance;
+    public MeshInstance3D improvementMeshInstance;
+    public bool improved = false;
     public GraphicResource(ResourceType resource, Hex hex)
     {
         this.hex = hex;
         Node3D temp = Godot.ResourceLoader.Load<PackedScene>("res://" + ResourceLoader.resources[resource].ModelPath).Instantiate<Node3D>();
-        meshInstance = temp.GetChild<MeshInstance3D>(0);
+        resourceMeshInstance = temp.GetNode<MeshInstance3D>("Resource");
+        improvementMeshInstance = temp.GetNode<MeshInstance3D>("Improvement");
 
-/*        // Load the base material
-        ShaderMaterial baseMaterial = meshInstance.GetActiveMaterial(0) as ShaderMaterial;
+        /*        // Load the base material
+                ShaderMaterial baseMaterial = meshInstance.GetActiveMaterial(0) as ShaderMaterial;
 
-        // Load the grayscale shader
-        Shader greyScale3DShader = GD.Load<Shader>("res://graphics/shaders/general/greyscale3D.gdshader");
-        greyScale3DShaderMaterial = new ShaderMaterial();
-        greyScale3DShaderMaterial.Shader = greyScale3DShader;
+                // Load the grayscale shader
+                Shader greyScale3DShader = GD.Load<Shader>("res://graphics/shaders/general/greyscale3D.gdshader");
+                greyScale3DShaderMaterial = new ShaderMaterial();
+                greyScale3DShaderMaterial.Shader = greyScale3DShader;
 
-        // Apply the Next Pass
-        baseMaterial.NextPass = greyScale3DShaderMaterial;*/
+                // Apply the Next Pass
+                baseMaterial.NextPass = greyScale3DShaderMaterial;*/
         //meshInstance.MaterialOverlay = greyScale3DShaderMaterial;
 
-        Transform3D newTransform = meshInstance.Transform;
+        Transform3D newTransform = resourceMeshInstance.Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
         Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
@@ -40,7 +43,9 @@ public partial class GraphicResource : GraphicObject
         newTransform.Origin = new Vector3((float)hexPoint.y, 0.0f, (float)hexPoint.x);
         float height = ggb.chunkList[ggb.hexToChunkDictionary[hex]].Vector3ToHeightMapVal(newTransform.Origin); //TODO
         newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
-        meshInstance.Transform = newTransform;
+        resourceMeshInstance.Transform = newTransform;
+        improvementMeshInstance.Transform = newTransform;
+        improvementMeshInstance.Visible = false;
 
         AddChild(temp);
 
@@ -80,6 +85,19 @@ public partial class GraphicResource : GraphicObject
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
+        if(graphicUpdateType == GraphicUpdateType.Update)
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
+            {
+                improved = true;
+                improvementMeshInstance.Visible = true;
+            }
+            else
+            {
+                improved = false;
+                improvementMeshInstance.Visible = false;
+            }
+        }
         if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
             if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(hex))
@@ -88,7 +106,11 @@ public partial class GraphicResource : GraphicObject
                 //greyScale3DShaderMaterial.SetShaderParameter("enabled", false);
                 this.Visible = true;
                 node3D.Visible = true;
-                meshInstance.Visible = true;
+                resourceMeshInstance.Visible = true;
+                if(improved)
+                {
+                    improvementMeshInstance.Visible = true;
+                }
             }
             else if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(hex))
             {
@@ -96,13 +118,18 @@ public partial class GraphicResource : GraphicObject
                 //greyScale3DShaderMaterial.SetShaderParameter("enabled", true);
                 this.Visible = true;
                 node3D.Visible = true;
-                meshInstance.Visible = true;
+                resourceMeshInstance.Visible = true;
+                if (improved)
+                {
+                    improvementMeshInstance.Visible = true;
+                }
             }
             else
             {
                 this.Visible = false;
                 node3D.Visible = false;
-                meshInstance.Visible= false;
+                resourceMeshInstance.Visible = false;
+                improvementMeshInstance.Visible = false;
             }
         }
     }

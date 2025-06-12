@@ -2,6 +2,7 @@ using Godot;
 using NetworkMessages;
 using System.Collections.Generic;
 using System;
+using Google.Protobuf.WellKnownTypes;
 
 [GlobalClass]
 public partial class HexGameCamera : Camera3D
@@ -15,9 +16,16 @@ public partial class HexGameCamera : Camera3D
     float zoomMax = -3f;
     float zoomMin = 3f;
 
+    private bool activeHexTarget = false;
+
     public bool blockClick = false;
 
     public int currentCameraQ = 0;
+
+    private float elapsedMovementTime = 0.0f;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    private float duration;
 
     public override void _Process(double delta)
     {
@@ -34,28 +42,39 @@ public partial class HexGameCamera : Camera3D
 
         input2.Rotated(Vector3.Up, this.Rotation.Y); // Rotate the input vector based on the camera's current rotation to ensure movement is in the correct direction
 
+        if(activeHexTarget)
+        {
+            elapsedMovementTime += (float)delta;
+            float time = Mathf.Clamp(elapsedMovementTime / duration, 0.0f, 1.0f);
+            this.Transform = new Transform3D(Transform.Basis, startPosition.Lerp(targetPosition, time));
+            if (elapsedMovementTime > duration)
+            {
+                activeHexTarget = false;
+            }
+        }
+        else
+        {
+            if (Input.IsActionJustPressed("CameraZoomIn"))
+            {
+                if (zoomAmount < zoomMin)
+                {
+                    zoomAmount -= 1f;
+                }
 
+            }
+            else if (Input.IsActionJustPressed("CameraZoomOut"))
+            {
+                if (zoomAmount > zoomMax)
+                {
+                    zoomAmount += 1f;
+                }
+            }
+            //add mouse pan
+
+            this.Position = new Vector3(this.Position.X + (float)input2.Z * moveSpeed, zoomOffset + zoomAmount, this.Position.Z + -(float)input2.X * moveSpeed);
+        }
         zoomOffset = this.Position.Y;
-        if (Input.IsActionJustPressed("CameraZoomIn"))
-        {
-            if (zoomAmount < zoomMin)
-            {
-                zoomAmount -= 1f;
-            }
-
-        }
-        else if (Input.IsActionJustPressed("CameraZoomOut"))
-        {
-            if (zoomAmount > zoomMax)
-            {
-                zoomAmount += 1f;
-            }
-        }
-
-
-        //add mouse pan
-
-        this.Position = new Vector3(this.Position.X + (float)input2.Z * moveSpeed, zoomOffset + zoomAmount, this.Position.Z + -(float)input2.X * moveSpeed);
+        
         this.zoomAmount = Mathf.Lerp(this.zoomAmount, 0f, 0.5f);
     }
 
@@ -236,5 +255,27 @@ public partial class HexGameCamera : Camera3D
         {
             Global.gameManager.graphicManager.selectedObject.ProcessRightClick(wrapHex);
         }
+    }
+
+    public void SetHexTarget(Hex hex)
+    {
+        startPosition = Transform.Origin;
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        Hex graphicalHex = ggb.chunkList[ggb.hexToChunkDictionary[hex]].HexToGraphicalHex(hex);
+        Point targetPoint = Global.layout.HexToPixel(new Hex(graphicalHex.q-1, graphicalHex.r+2, -(graphicalHex.q-1) -(graphicalHex.r+2)));
+        targetPosition = new Vector3((float)targetPoint.y, 36.0f, (float)targetPoint.x); //Transform.Origin.Y
+        float distance = startPosition.DistanceTo(targetPosition);
+        float lerpMoveSpeed = 500.0f;
+        duration = distance / lerpMoveSpeed;
+        if(duration < 0.1f)
+        {
+            duration = 0;
+        }
+        if(duration > 0.25f)
+        {
+            duration = 0.25f;
+        }
+        elapsedMovementTime = 0;
+        activeHexTarget = true;
     }
 }

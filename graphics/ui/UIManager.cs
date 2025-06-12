@@ -316,15 +316,15 @@ public partial class UIManager : Node3D
         }
         else if(cityNeedsProduction)
         {
-            GD.Print("target"+targetCity);
-            GD.Print("graphic"+(GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]);
             Global.gameManager.graphicManager.ChangeSelectedObject(targetCity.id, (GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]);
+            Global.camera.SetHexTarget(targetCity.hex);
             return;
         }
         else if(waitingForOrders)
         {
             //move camera to foundUnit.hex TODO
             Global.gameManager.graphicManager.ChangeSelectedObject(targetUnit.id , Global.gameManager.graphicManager.graphicObjectDictionary[targetUnit.id]);
+            Global.camera.SetHexTarget(targetUnit.hex);
             return;
         }
         else
