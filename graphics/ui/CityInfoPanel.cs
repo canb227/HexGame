@@ -143,6 +143,9 @@ public partial class CityInfoPanel : Node3D
     public void ShowCityInfoPanel()
     {
         cityInfoPanel.Visible = true;
+        Global.gameManager.graphicManager.uiManager.scienceButton.Visible = false;
+        Global.gameManager.graphicManager.uiManager.cultureButton.Visible = false;
+        Global.gameManager.graphicManager.uiManager.resourceButton.Visible = false;
         UpdateCityPanelInfo();
     }
 
@@ -154,6 +157,9 @@ public partial class CityInfoPanel : Node3D
 
     public void HideCityInfoPanel()
     {
+        Global.gameManager.graphicManager.uiManager.scienceButton.Visible = true;
+        Global.gameManager.graphicManager.uiManager.cultureButton.Visible = true;
+        Global.gameManager.graphicManager.uiManager.resourceButton.Visible = true;
         cityInfoPanel.Visible = false;
         foreach (Control child in ProductionQueue.GetChildren())
         {

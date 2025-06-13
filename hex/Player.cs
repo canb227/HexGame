@@ -50,6 +50,7 @@ public class Player
     public HashSet<String> allowedBuildings { get; set; } = new();
     public HashSet<String> allowedUnits { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
+    public Dictionary<Hex, ResourceType> globalResources {  get; set; } = new();
     public float strongestUnitBuilt { get; set; } = 0.0f;
 
     public float goldTotal { get; set; }
@@ -405,6 +406,8 @@ public class Player
                 return true;
             }
         }
+        globalResources.Remove(hex);
+        unassignedResources.Remove(hex);
         return false;
     }
 

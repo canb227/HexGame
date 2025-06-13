@@ -1,0 +1,145 @@
+[gd_scene load_steps=5 format=3 uid="uid://dl830jt47mjc4"]
+
+[ext_resource type="Texture2D" uid="uid://mqo5wspc10g8" path="res://graphics/ui/icons/resources/wheat.png" id="1_dm5rr"]
+[ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_jjnyq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccq4d"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 0.968627)
+
+[sub_resource type="Theme" id="Theme_6p02p"]
+MarginContainer/constants/margin_bottom = 30
+MarginContainer/constants/margin_left = 30
+MarginContainer/constants/margin_top = 15
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ccq4d")
+
+[node name="ResourceBox" type="Control"]
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 6.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ResourcePanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 54.0
+offset_top = 68.0
+offset_right = -72.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_6p02p")
+
+[node name="ResourceHBox" type="HBoxContainer" parent="ResourcePanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UnassignedResourcesMarginBox" type="MarginContainer" parent="ResourcePanel/ResourceHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ResourcePanel/ResourceHBox/UnassignedResourcesMarginBox"]
+layout_mode = 2
+
+[node name="UnassignedResourcesLabel" type="Label" parent="ResourcePanel/ResourceHBox/UnassignedResourcesMarginBox/VBoxContainer"]
+layout_mode = 2
+text = "Unassigned Resources:"
+
+[node name="UnassingedResourcesScroll" type="ScrollContainer" parent="ResourcePanel/ResourceHBox/UnassignedResourcesMarginBox/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+horizontal_scroll_mode = 0
+
+[node name="UnassignedResourcesBox" type="HFlowContainer" parent="ResourcePanel/ResourceHBox/UnassignedResourcesMarginBox/VBoxContainer/UnassingedResourcesScroll"]
+custom_minimum_size = Vector2(72.385, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="ResourcePanel/ResourceHBox/UnassignedResourcesMarginBox/VBoxContainer/UnassingedResourcesScroll/UnassignedResourcesBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+icon = ExtResource("1_dm5rr")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MarginContainer3" type="MarginContainer" parent="ResourcePanel/ResourceHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ResourcePanel/ResourceHBox/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GlobalResourcesLabel" type="Label" parent="ResourcePanel/ResourceHBox/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+text = "Global Resources:"
+
+[node name="MarginContainer2" type="MarginContainer" parent="ResourcePanel/ResourceHBox/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="GlobalResources" type="HFlowContainer" parent="ResourcePanel/ResourceHBox/MarginContainer3/VBoxContainer/MarginContainer2"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="SettlementsLabel" type="Label" parent="ResourcePanel/ResourceHBox/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+text = "Settlements:"
+
+[node name="MarginContainer" type="MarginContainer" parent="ResourcePanel/ResourceHBox/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 0
+
+[node name="CityScroll" type="ScrollContainer" parent="ResourcePanel/ResourceHBox/MarginContainer3/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CityList" type="VBoxContainer" parent="ResourcePanel/ResourceHBox/MarginContainer3/VBoxContainer/MarginContainer/CityScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 2
+anchor_left = 0.995
+anchor_top = -0.005
+anchor_right = 0.995
+anchor_bottom = -0.005
+offset_left = -97.2401
+offset_top = 52.24
+offset_right = -48.2401
+offset_bottom = 101.24
+icon = ExtResource("1_jjnyq")
+icon_alignment = 1
+expand_icon = true

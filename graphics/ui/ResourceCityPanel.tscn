@@ -1,0 +1,118 @@
+[gd_scene load_steps=11 format=3 uid="uid://doyy15hpt6xyx"]
+
+[ext_resource type="Texture2D" uid="uid://8sieeeac3bqy" path="res://graphics/ui/icons/food.png" id="1_k402p"]
+[ext_resource type="Texture2D" uid="uid://cb3r2h5cvpaus" path="res://graphics/ui/icons/gears.png" id="2_rli61"]
+[ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="3_gcvtf"]
+[ext_resource type="Texture2D" uid="uid://b7ulvuy1yq2v6" path="res://graphics/ui/flask.png" id="4_umvle"]
+[ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="5_gi2je"]
+[ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="6_uol27"]
+[ext_resource type="Texture2D" uid="uid://bf2s0ji0womei" path="res://graphics/ui/influence.png" id="7_h68oy"]
+
+[sub_resource type="Gradient" id="Gradient_4cju7"]
+colors = PackedColorArray(0.0728426, 0.0728426, 0.0728426, 1, 0.404511, 0.404511, 0.404511, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qrfle"]
+gradient = SubResource("Gradient_4cju7")
+fill_from = Vector2(1, 0.0897436)
+fill_to = Vector2(0, 0.0897436)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_me6r1"]
+texture = SubResource("GradientTexture2D_qrfle")
+
+[node name="CityPanel" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxTexture_me6r1")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="CityBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="CityName" type="Label" parent="MarginContainer/CityBox"]
+layout_mode = 2
+text = "CityName"
+
+[node name="Resources" type="HBoxContainer" parent="MarginContainer/CityBox"]
+layout_mode = 2
+
+[node name="FoodIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
+layout_mode = 2
+texture = ExtResource("1_k402p")
+expand_mode = 2
+
+[node name="FoodLabel" type="Label" parent="MarginContainer/CityBox/Resources"]
+z_index = 1
+layout_mode = 2
+text = "999.0"
+
+[node name="ProductionIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
+layout_mode = 2
+texture = ExtResource("2_rli61")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="ProductionLabel" type="Label" parent="MarginContainer/CityBox/Resources"]
+z_index = 1
+layout_mode = 2
+text = "999.0"
+
+[node name="GoldIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
+layout_mode = 2
+texture = ExtResource("3_gcvtf")
+expand_mode = 2
+
+[node name="GoldLabel" type="Label" parent="MarginContainer/CityBox/Resources"]
+z_index = 1
+layout_mode = 2
+text = "999.0"
+
+[node name="ScienceIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
+layout_mode = 2
+texture = ExtResource("4_umvle")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="ScienceLabel" type="Label" parent="MarginContainer/CityBox/Resources"]
+z_index = 1
+layout_mode = 2
+text = "999.0"
+
+[node name="CultureIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
+layout_mode = 2
+texture = ExtResource("5_gi2je")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="CultureLabel" type="Label" parent="MarginContainer/CityBox/Resources"]
+z_index = 1
+layout_mode = 2
+text = "999.0"
+
+[node name="HappinessIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
+layout_mode = 2
+texture = ExtResource("6_uol27")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="HappinessLabel" type="Label" parent="MarginContainer/CityBox/Resources"]
+z_index = 1
+layout_mode = 2
+text = "999.0"
+
+[node name="InfluenceIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
+layout_mode = 2
+texture = ExtResource("7_h68oy")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="InfluenceLabel" type="Label" parent="MarginContainer/CityBox/Resources"]
+z_index = 1
+layout_mode = 2
+text = "999.0"
+
+[node name="ResourceSlotsBox" type="HFlowContainer" parent="MarginContainer/CityBox"]
+layout_mode = 2

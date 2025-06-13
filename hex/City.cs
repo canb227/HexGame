@@ -78,6 +78,7 @@ public class City
         naturalPopulation = 0;
         readyToExpand = 0;
         maxDistrictSize = 2;
+        baseMaxResourcesHeld = 1;
         foodToGrow = GetFoodToGrowCost();
         yields = new();
 
@@ -590,10 +591,10 @@ public class City
         {
             district.PrepareYieldRecalculate();            
         }
-        foreach(ResourceType resource in heldResources.Values)
+        foreach(ResourceType resource in heldResources.Values) //??? just remove this lol ??? I'm scared to so leaving for now TODO
         {
             ResourceInfo resourceInfo = ResourceLoader.resources[resource];
-        }
+        } 
         foreach(ResourceType resource in heldResources.Values)
         {
             ResourceLoader.ExecuteResourceEffect(resource);

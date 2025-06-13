@@ -38,6 +38,7 @@ public struct ResourceInfo
     public string IconPath { get; set; }
     public string ModelPath { get; set; }
     public string ImprovementType { get; set; }
+    public bool IsGlobal { get; set; }
     public int Food { get; set; }
     public int Production { get; set; }
     public int Gold { get; set; }
@@ -117,6 +118,7 @@ public static class ResourceLoader
                     IconPath = r.Attribute("IconPath").Value,
                     ModelPath = r.Attribute("ModelPath").Value,
                     ImprovementType = r.Attribute("ImprovementType").Value,
+                    IsGlobal = bool.Parse(r.Attribute("IsGlobal").Value),
                     Food = int.Parse(r.Attribute("Food").Value),
                     Production = int.Parse(r.Attribute("Production").Value),
                     Gold = int.Parse(r.Attribute("Gold").Value),

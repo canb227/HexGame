@@ -85,13 +85,20 @@ public partial class HexGameCamera : Camera3D
         {
             if (eventKey.Keycode == Key.Escape) // In Godot 4, use Keycode instead of Scancode
             {
-                if (Global.gameManager.graphicManager.GetWaitForTargeting())
+                if(Global.gameManager.graphicManager.uiManager.windowOpen)
                 {
-                    Global.gameManager.graphicManager.ClearWaitForTarget();
+                    Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
                 }
                 else
                 {
-                    Global.gameManager.graphicManager.UnselectObject();
+                    if (Global.gameManager.graphicManager.GetWaitForTargeting())
+                    {
+                        Global.gameManager.graphicManager.ClearWaitForTarget();
+                    }
+                    else
+                    {
+                        Global.gameManager.graphicManager.UnselectObject();
+                    }
                 }
             }
         }
@@ -155,7 +162,7 @@ public partial class HexGameCamera : Camera3D
     {        
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         Hex wrapHex = hex.WrapHex();
-        GD.Print(wrapHex);
+        //GD.Print(wrapHex);
 
         GameHex gameHex;
         Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(wrapHex, out gameHex);
@@ -251,7 +258,7 @@ public partial class HexGameCamera : Camera3D
         GameHex wrappedHex = Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex];
 //        GameHex unwrappedHex = Global.gameManager.game.mainGameBoard.gameHexDict[hex];
         GD.Print("Hex: " + hex + " | Wrapped to: " + wrapHex);
-        GD.Print("Wrapped Hex Info|TerrainType: " + wrappedHex.terrainType);
+        //GD.Print("Wrapped Hex Info|TerrainType: " + wrappedHex.terrainType);
        // GD.Print("Unwrapped Hex Info|TerrainType: " + unwrappedHex.terrainType);
         if (Global.gameManager.graphicManager.selectedObject != null)
         {

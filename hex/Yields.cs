@@ -7,6 +7,19 @@ using System.IO;
 
 public class Yields
 {
+    public Yields()
+    {
+    }
+    public Yields(Yields yields)
+    {
+        this.food = yields.food;
+        this.production = yields.production;
+        this.gold = yields.gold;
+        this.science = yields.science;
+        this.culture = yields.culture;
+        this.happiness = yields.happiness;
+        this.influence = yields.influence;
+    }
     public float food {get; set;}
     public float production {get; set;}
     public float gold {get; set;}

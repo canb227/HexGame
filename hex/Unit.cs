@@ -47,6 +47,7 @@ public class Unit
     public List<UnitAbility> abilities { get; set; } = new();
     public bool isTargetEnemy { get; set; }
     public bool isSleeping { get; set; }
+    public bool isSkipping { get; set; }
     public Unit(String unitType, int id, int teamNum)
     {
         this.id = id;
@@ -77,6 +78,7 @@ public class Unit
             }
             //generic abilities
             AddGenericAbility("Sleep", "graphics/ui/icons/sleep.png");
+            AddGenericAbility("Skip", "graphics/ui/icons/skipturn.png");
         }
         else
         {
@@ -110,6 +112,7 @@ public class Unit
         {
             ability.ResetAbilityUses();
         }
+        isSkipping = false;
         SetRemainingMovement(movementSpeed);
         SetAttacksLeft(maxAttackCount);
     }
@@ -247,6 +250,7 @@ public class Unit
     public bool AttackTarget(GameHex targetGameHex, float moveCost, TeamManager teamManager)
     {
         isSleeping = false;
+        isSkipping = false;
         SetRemainingMovement(remainingMovement - moveCost); 
         if (targetGameHex.district != null && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum) && targetGameHex.district.health > 0.0f)
         {
@@ -284,6 +288,7 @@ public class Unit
     public bool RangedAttackTarget(GameHex targetGameHex, float rangedPower, TeamManager teamManager)
     {
         isSleeping = false;
+        isSkipping = false;
         //remainingMovement -= moveCost;
         if (targetGameHex.district != null && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum) && targetGameHex.district.health > 0.0f)
         {
@@ -323,6 +328,7 @@ public class Unit
     public bool decreaseHealth(float amount)
     {
         isSleeping = false;
+        isSkipping = false;
         health -= amount;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.Update2DUI(UIElement.unitDisplay);
         if (health <= 0.0f)
@@ -580,8 +586,9 @@ public class Unit
 
     public bool MoveTowards(GameHex targetGameHex, TeamManager teamManager, bool isTargetEnemy)
     {
-        GD.Print(targetGameHex.hex);
+        //GD.Print(targetGameHex.hex);
         isSleeping = false;
+        isSkipping = false;
         this.isTargetEnemy = isTargetEnemy;
         
         currentPath = PathFind(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex,Global.gameManager.game.teamManager, movementCosts, movementSpeed);
