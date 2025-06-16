@@ -113,8 +113,6 @@ public partial class CityWorldUI : Node3D
                 }
             }
         }
-        //GD.Print("my city" + city.teamNum);
-        //GD.Print(citySizeLabel.GetInstanceId());
         citySizeLabel.Text = city.naturalPopulation.ToString() + "(" + Math.Ceiling(((city.foodToGrow - city.foodStockpile) / city.yields.food)).ToString() + ")";
         cityGrowthBar.Value = (city.foodStockpile / city.foodToGrow * 100.0f);
         if (cityCenter != null)

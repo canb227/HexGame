@@ -92,7 +92,6 @@ public class Building
 
     public void PrepareYieldRecalculate()
     {
-        GD.Print(baseYields.happiness);
         yields = new Yields(baseYields);
         PriorityQueue<BuildingEffect, int> orderedEffects = new();
         if (buildingEffects == null)
@@ -116,7 +115,6 @@ public class Building
         {
             effect.ApplyEffect(this);
         }
-        GD.Print(yields.happiness);
     }
 
     public void RecalculateYields()

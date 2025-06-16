@@ -115,6 +115,9 @@ public partial class CityInfoPanel : Node3D
         CloseCityInfoButton.Pressed += () => Global.gameManager.graphicManager.UnselectObject();
         BuildingsButton.Pressed += () => ToggleBuildingsBoxVisibility();
         UnitsButton.Pressed += () => ToggleUnitBoxVisibility();
+
+        cityDetails = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityDetailsPanel.tscn").Instantiate<HBoxContainer>();
+        AddChild(cityUI);
     }
 
 
@@ -240,7 +243,8 @@ public partial class CityInfoPanel : Node3D
     {
         if (city.teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            throw new NotImplementedException();
+            RenameCityPanel renameCityPanel = new RenameCityPanel(city);
+            AddChild(renameCityPanel);
         }
     }
 }

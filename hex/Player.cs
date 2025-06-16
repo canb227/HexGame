@@ -371,6 +371,7 @@ public class Player
         if(targetCity.heldResources.Count < targetCity.maxResourcesHeld)
         {
             targetCity.heldResources.Add(hex, resourceType);
+            targetCity.RecalculateYields();
             unassignedResources.Remove(hex);
             return true;
         }
@@ -388,6 +389,7 @@ public class Player
             {
                 ResourceType temp = city.heldResources[hex];
                 city.heldResources.Remove(hex);
+                city.RecalculateYields();
                 unassignedResources.Add(hex, temp);
                 return true;
             }

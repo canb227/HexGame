@@ -25,6 +25,7 @@ public partial class ResourceCityPanel : Control
     {
         this.city = city;
         this.resourcePanel = resourcePanel;
+        this.CustomMinimumSize = new Vector2(0,122.0f);
         CityPanel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ResourceCityPanel.tscn").Instantiate<Control>();
         AddChild(CityPanel);
 
@@ -63,14 +64,17 @@ public partial class ResourceCityPanel : Control
         int i = 0;
         foreach (KeyValuePair<Hex, ResourceType> resource in city.heldResources)
         {
-            ResourceSlotsBox.AddChild(new ResourceButton(resource.Key, resource.Value, resourcePanel));
+            ResourceSlotsBox.AddChild(new ResourceButton(resource.Key, resource.Value, resourcePanel, city));
             i++;
         }
         for (; i < city.maxResourcesHeld; i++)
         {
             Button emptyButton = new Button();
+            emptyButton.IconAlignment = HorizontalAlignment.Center;
+            emptyButton.ExpandIcon = true;
+            emptyButton.CustomMinimumSize = new Vector2(64, 64);
             emptyButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://.godot/imported/health.png-838c7fec5d46427d7a66a7729e2f7b98.ctex");
-            emptyButton.Pressed += () => resourcePanel.AssignCurrentResource();
+            emptyButton.Pressed += () => resourcePanel.AssignCurrentResource(city);
             ResourceSlotsBox.AddChild(emptyButton);
         }
     }

@@ -50,7 +50,7 @@ public struct ResourceInfo
 public static class ResourceLoader
 {
     public static Dictionary<ResourceType, ResourceInfo> resources;
-    public static Dictionary<ResourceType, Action> resourceEffects;
+    public static Dictionary<ResourceType, string> resourceEffects;
     public static Dictionary<String, ResourceType> resourceNames = new Dictionary<String, ResourceType>
     {
         { "0", ResourceType.None},
@@ -82,22 +82,35 @@ public static class ResourceLoader
     
     static ResourceLoader()
     { //Iron, Horses, Niter, Coal, Oil, Uranium, Lithium, Jade, Silk, Tobacco, Silver, Gold, Camels
-        resourceEffects = new Dictionary<ResourceType, Action>
+        resourceEffects = new Dictionary<ResourceType, string>
         {
-            { ResourceType.Iron, ApplyIronEffect },
-            { ResourceType.Horses, ApplyHorsesEffect },
-            { ResourceType.Niter, ApplyNiterEffect },
-            { ResourceType.Coal, ApplyCoalEffect },
-            { ResourceType.Oil, ApplyOilEffect },
-            { ResourceType.Uranium, ApplyUraniumEffect },
-            { ResourceType.Lithium, ApplyLithiumEffect },
-            { ResourceType.Jade, ApplyJadeEffect },
-            { ResourceType.Silk, ApplySilkEffect },
-            { ResourceType.Coffee, ApplyCoffeeEffect },
-            { ResourceType.Silver, ApplySilverEffect },
-            { ResourceType.Gold, ApplyGoldEffect },
-            { ResourceType.Camels, ApplyCamelsEffect }
+            { ResourceType.Iron, "ApplyIronEffect" },
+            { ResourceType.Horses, "ApplyHorsesEffect" },
+            { ResourceType.Niter, "ApplyNiterEffect" },
+            { ResourceType.Coal, "ApplyCoalEffect" },
+            { ResourceType.Oil, "ApplyOilEffect" },
+            { ResourceType.Uranium, "ApplyUraniumEffect" },
+            { ResourceType.Lithium, "ApplyLithiumEffect" },
+            { ResourceType.SciFi, "ApplySciFiEffect" },
+            { ResourceType.Jade, "ApplyJadeEffect" },
+            { ResourceType.Wheat, "ApplyWheatEffect" },
+            { ResourceType.Sheep, "ApplySheepEffect" },
+            { ResourceType.Marble, "ApplyMarbleEffect" },
+            { ResourceType.Dates, "ApplyDatesEffect" },
+            { ResourceType.Silk, "ApplySilkEffect" },
+            { ResourceType.Salt, "ApplySaltEffect" },
+            { ResourceType.Rubber, "ApplyRubberEffect" },
+            { ResourceType.Ivory, "ApplyIvoryEffect" },
+            { ResourceType.Gold, "ApplyGoldEffect" },
+            { ResourceType.Silver, "ApplySilverEffect" },
+            { ResourceType.Camels, "ApplyCamelsEffect" },
+            { ResourceType.Coffee, "ApplyCoffeeEffect" },
+            { ResourceType.Cotton, "ApplyCottonEffect" },
+            { ResourceType.Tobacco, "ApplyTobaccoEffect" },
+            { ResourceType.Stone, "ApplyStoneEffect" }
         };
+
+
         string xmlPath = "hex/Resources.xml";
         resources = LoadResourceData(xmlPath);
         //if (resources.TryGetValue(resource, out ResourceInfo info))
@@ -130,77 +143,230 @@ public static class ResourceLoader
 
         return resourceData;
     }
-    public static void ExecuteResourceEffect(ResourceType resourceType)
+    public static bool ProcessFunctionString(String functionString, int cityID)
     {
-        if (resources.TryGetValue(resourceType, out ResourceInfo info) &&
-            resourceEffects.TryGetValue(resourceType, out Action effect))
+        if (functionString.Equals("ApplyIronEffect"))
         {
-            effect.Invoke();
+            ApplyIronEffect(Global.gameManager.game.cityDictionary[cityID]);
         }
+        else if (functionString.Equals("ApplyHorsesEffect"))
+        {
+            ApplyHorsesEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyNiterEffect"))
+        {
+            ApplyNiterEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyCoalEffect"))
+        {
+            ApplyCoalEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyOilEffect"))
+        {
+            ApplyOilEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyUraniumEffect"))
+        {
+            ApplyUraniumEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyLithiumEffect"))
+        {
+            ApplyLithiumEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplySciFiEffect"))
+        {
+            ApplySciFiEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyJadeEffect"))
+        {
+            ApplyJadeEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyWheatEffect"))
+        {
+            ApplyWheatEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplySheepEffect"))
+        {
+            ApplySheepEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyMarbleEffect"))
+        {
+            ApplyMarbleEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyDatesEffect"))
+        {
+            ApplyDatesEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplySilkEffect"))
+        {
+            ApplySilkEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplySaltEffect"))
+        {
+            ApplySaltEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyRubberEffect"))
+        {
+            ApplyRubberEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyIvoryEffect"))
+        {
+            ApplyIvoryEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyGoldEffect"))
+        {
+            ApplyGoldEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplySilverEffect"))
+        {
+            ApplySilverEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyCamelsEffect"))
+        {
+            ApplyCamelsEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyCoffeeEffect"))
+        {
+            ApplyCoffeeEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyCottonEffect"))
+        {
+            ApplyCottonEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyTobaccoEffect"))
+        {
+            ApplyTobaccoEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyStoneEffect"))
+        {
+            ApplyStoneEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else
+        {
+            throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in ResourceLoader");
+        }
+        return true;
     }
-    
-    //all infantry (non-horse, non-siege land) +1 cs
-    static void ApplyIronEffect()
-    {
-    }
-    
-    //all mounted units (horse, siege) +1 cs
-    static void ApplyHorsesEffect()    
-    {
-    }
-    
-    //idk
-    static void ApplyNiterEffect()
-    {
-    }
-    
-    //idk
-    static void ApplyCoalEffect()
-    {
-    }
-    
-    //idk
-    static void ApplyOilEffect()
-    {
-    }
-    
-    //idk
-    static void ApplyUraniumEffect()
-    {
-    }
-    
-    //idk
-    static void ApplyLithiumEffect()
-    {
-    }
-    
-    //15% more gold in city
-    static void ApplyJadeEffect()
-    {
-    }
-    
-    //10% more culture in city
-    static void ApplySilkEffect()
+
+    // No effect
+    static void ApplyIronEffect(City city)
     {
     }
 
-    //10% more science in city
-    static void ApplyCoffeeEffect()
+    // All mounted units (horse, siege) +1 combat strength
+    static void ApplyHorsesEffect(City city)
     {
     }
 
-    //15% off units purchased with gold
-    static void ApplySilverEffect()
+    // Effect TBD
+    static void ApplyNiterEffect(City city)
     {
     }
 
-    //15% off buildings purchased with gold
-    static void ApplyGoldEffect()
+    // Effect TBD
+    static void ApplyCoalEffect(City city)
     {
     }
 
-    //allow 3 more resources to be assigned to this city
-    static void ApplyCamelsEffect()
+    // Effect TBD
+    static void ApplyOilEffect(City city)
     {
     }
+
+    // Effect TBD
+    static void ApplyUraniumEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplyLithiumEffect(City city)
+    {
+    }
+
+    // 15% more gold in city
+    static void ApplyJadeEffect(City city)
+    {
+    }
+
+    // +2 food
+    static void ApplyWheatEffect(City city)
+    {
+        city.yields.food += 2;
+    }
+
+    // 10% more culture in city
+    static void ApplySilkEffect(City city)
+    {
+    }
+
+    // 10% more science in city
+    static void ApplyCoffeeEffect(City city)
+    {
+    }
+
+    // 15% off units purchased with gold
+    static void ApplySilverEffect(City city)
+    {
+    }
+
+    // 15% off buildings purchased with gold
+    static void ApplyGoldEffect(City city)
+    {
+    }
+
+    // Allow 3 more resources to be assigned to this city
+    static void ApplyCamelsEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplySciFiEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplySheepEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplyMarbleEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplyDatesEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplySaltEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplyRubberEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplyIvoryEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplyCottonEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplyTobaccoEffect(City city)
+    {
+    }
+
+    // Effect TBD
+    static void ApplyStoneEffect(City city)
+    {
+    }
+
 }

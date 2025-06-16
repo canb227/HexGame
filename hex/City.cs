@@ -585,19 +585,16 @@ public class City
 
     public void RecalculateYields()
     {
+        maxResourcesHeld = baseMaxResourcesHeld;
         yields = new();
         SetBaseHexYields();
         foreach(District district in districts)
         {
             district.PrepareYieldRecalculate();            
         }
-        foreach(ResourceType resource in heldResources.Values) //??? just remove this lol ??? I'm scared to so leaving for now TODO
-        {
-            ResourceInfo resourceInfo = ResourceLoader.resources[resource];
-        } 
         foreach(ResourceType resource in heldResources.Values)
         {
-            ResourceLoader.ExecuteResourceEffect(resource);
+            ResourceLoader.ProcessFunctionString(ResourceLoader.resourceEffects[resource], id);
         }
         foreach(District district in districts)
         {

@@ -127,7 +127,10 @@ public partial class GraphicManager : Node3D
     {
         foreach (GraphicObject graphicObj in hexObjectDictionary[hex])
         {
-            graphicObj.UpdateGraphic(GraphicUpdateType.Update);
+            if(IsInstanceValid(graphicObj))
+            {
+                graphicObj.UpdateGraphic(GraphicUpdateType.Update);
+            }
         }
     }
 

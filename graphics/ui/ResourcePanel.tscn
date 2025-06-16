@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://dl830jt47mjc4"]
+[gd_scene load_steps=4 format=3 uid="uid://dl830jt47mjc4"]
 
-[ext_resource type="Texture2D" uid="uid://mqo5wspc10g8" path="res://graphics/ui/icons/resources/wheat.png" id="1_dm5rr"]
 [ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_jjnyq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccq4d"]
@@ -72,13 +71,6 @@ custom_minimum_size = Vector2(72.385, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Button" type="Button" parent="ResourcePanel/ResourceHBox/UnassignedResourcesMarginBox/VBoxContainer/UnassingedResourcesScroll/UnassignedResourcesBox"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-icon = ExtResource("1_dm5rr")
-icon_alignment = 1
-expand_icon = true
 
 [node name="MarginContainer3" type="MarginContainer" parent="ResourcePanel/ResourceHBox"]
 layout_mode = 2

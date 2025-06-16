@@ -39,15 +39,35 @@ public partial class ResourcePanel : Control
         closeButton.Pressed += () => Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
         UpdateResourcePanel();
     }
+    
 
-    public void AssignCurrentResource()
+    public void AssignCurrentResource(City city)
     {
+        Player localPlayer = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum];
+        if (currentButton != null && currentButton.resourceType != ResourceType.None)
+        {
+            if(currentButton.city != null)
+            {
+                localPlayer.RemoveResource(currentButton.hex);
+            }
+            if(city != null)
+            {
+                localPlayer.AddResource(currentButton.hex, currentButton.resourceType, city);
+            }
+            currentButton.hex = new Hex(0, 0, 0);
+            currentButton.resourceType = ResourceType.None;
+            currentButton.city = null;
+            UpdateResourcePanel();
+
+        }
 
     }
 
-    public void SelectNewResource()
-    {
+    ResourceButton currentButton;
 
+    public void SelectNewResource(ResourceButton resourceButton)
+    {
+        currentButton = resourceButton;
     }
 
 
@@ -77,9 +97,16 @@ public partial class ResourcePanel : Control
             }
             foreach (KeyValuePair<Hex, ResourceType> unassignedResource in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].unassignedResources)
             {
-                ResourceButton rb = new ResourceButton(unassignedResource.Key, unassignedResource.Value, this);
+                ResourceButton rb = new ResourceButton(unassignedResource.Key, unassignedResource.Value, this, null);
                 UnassignedResourcesBox.AddChild(rb);
             }
+            Button emptyButton = new Button();
+            emptyButton.IconAlignment = HorizontalAlignment.Center;
+            emptyButton.ExpandIcon = true;
+            emptyButton.CustomMinimumSize = new Vector2(64, 64);
+            emptyButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://.godot/imported/health.png-838c7fec5d46427d7a66a7729e2f7b98.ctex");
+            emptyButton.Pressed += () => AssignCurrentResource(null);
+            UnassignedResourcesBox.AddChild(emptyButton);
 
             //Update Global Resources
             foreach (Control child in GlobalResources.GetChildren())
