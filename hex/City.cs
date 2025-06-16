@@ -74,9 +74,9 @@ public class City
         heldHexes = new();
         Global.gameManager.game.playerDictionary[teamNum].cityList.Add(this.id);
         districts = new();
-        citySize = 0;
-        naturalPopulation = 0;
-        readyToExpand = 0;
+        citySize = 2;
+        naturalPopulation = 2;
+        readyToExpand = 1; //we ready to expand for 
         maxDistrictSize = 2;
         baseMaxResourcesHeld = 1;
         foodToGrow = GetFoodToGrowCost();

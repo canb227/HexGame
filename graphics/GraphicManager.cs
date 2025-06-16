@@ -99,6 +99,15 @@ public partial class GraphicManager : Node3D
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         ggb.chunkList[ggb.hexToChunkDictionary[graphicCity.city.hex]].multiMeshInstance.AddChild(graphicCity);
     }
+
+    public void NewFeature(Hex hex, FeatureType featureType)
+    {
+        GraphicFeature graphicFeature = new GraphicFeature(hex, featureType);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        hexObjectDictionary[hex].Add(graphicFeature);
+        ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicFeature);
+    }
+
     public void UpdateGraphic(int id, GraphicUpdateType graphicUpdateType)
     {
         if (graphicObjectDictionary.ContainsKey(id))

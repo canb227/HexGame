@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime;
 using System.Xml;
 using static Google.Protobuf.Reflection.FeatureSet.Types;
 
@@ -35,6 +36,7 @@ public partial class GraphicGameBoard : GraphicObject
     public override void _Ready()
     {
         AddHexResource();
+        Add3DHexFeatures();
         AddHexFeatures(layout);
         AddHexUnits(layout);
         AddHexDistrictsAndCities(layout);
@@ -277,35 +279,6 @@ public partial class GraphicGameBoard : GraphicObject
         visibilityTexture.Update(visibilityImage);
     }
 
-
-    private void AddBoardFog(List<Hex> seenButNotVisible, List<Hex> nonSeenHexes, Layout pointy, float height)
-    {
-        if (seenButNotVisible.Count != 0)
-        {
-            MeshInstance3D triangles = new MeshInstance3D();
-            triangles.Mesh = GenerateHexTrianglesFog(seenButNotVisible, pointy, 0.5f, new Godot.Color(0.0f, 0.0f, 0.0f, 0.5f));
-            StandardMaterial3D material = new StandardMaterial3D();
-            material.VertexColorUseAsAlbedo = true;
-            material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
-            triangles.SetSurfaceOverrideMaterial(0, material);
-            triangles.Name = "GameBoardTerrainFog";
-            AddChild(triangles);
-        }
-        if (nonSeenHexes.Count != 0)
-        {
-            MeshInstance3D triangles = new MeshInstance3D();
-            triangles.Mesh = GenerateHexTrianglesFog(nonSeenHexes, pointy, 0.5f, new Godot.Color(0.6f, 0.6f, 0.6f, 1.0f));
-            StandardMaterial3D material = new StandardMaterial3D();
-            material.VertexColorUseAsAlbedo = true;
-            triangles.SetSurfaceOverrideMaterial(0, material);
-            triangles.Name = "GameBoardTerrainFog2";
-            AddChild(triangles);
-        }
-        
-
-        
-    }
-
     private void AddHexYields(Layout layout)
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
@@ -454,6 +427,18 @@ public partial class GraphicGameBoard : GraphicObject
                         break;
                 }
                 AddChild(lbl);
+            }
+        }
+    }
+
+    private void Add3DHexFeatures()
+    {
+        foreach (Hex hex in gameBoard.gameHexDict.Keys)
+        {
+            Point point = layout.HexToPixel(hex);
+            foreach (FeatureType feature in gameBoard.gameHexDict[hex].featureSet)
+            {
+                Global.gameManager.graphicManager.NewFeature(hex, feature);
             }
         }
     }

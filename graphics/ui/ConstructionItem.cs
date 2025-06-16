@@ -94,10 +94,14 @@ public partial class ConstructionItem : PanelContainer
         {
             constructionItem.Disabled = false;
         }
+
+        turnsToBuild.Text = Math.Ceiling(buildingInfo.ProductionCost / (city.yields.production + city.productionOverflow)).ToString();
+        ProductionCost.Text = buildingInfo.ProductionCost.ToString();
+
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + buildingInfo.IconPath);
         objectName.Text = name;
         GD.Print(name);
-        System.Type yieldType = buildingInfo.yields.GetType();
+
         foreach (Control child in EffectListBox.GetChildren())
         {
             child.QueueFree();
