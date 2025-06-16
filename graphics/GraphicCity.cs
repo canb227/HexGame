@@ -72,7 +72,8 @@ public partial class GraphicCity : GraphicObject
     public override void RemoveTargetingPrompt()
     {
         Global.gameManager.graphicManager.uiManager.cityInfoPanel.CitySelected(city);
-        Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
+        //Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
+        Global.gameManager.graphicManager.uiManager.endTurnButton.Visible = true;
         Global.gameManager.graphicManager.ShowAllWorldUI();
         foreach (Node3D child in GetChildren())
         {

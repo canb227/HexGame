@@ -359,12 +359,24 @@ public partial class UIManager : Node3D
         }
         if (readyToGrow)
         {
+            researchTreePanel.Visible = false;
+            cultureResearchTreePanel.Visible = false;
+            resourcePanel.Visible = false;
+            scienceButton.Visible = false;
+            cultureButton.Visible = false;
+            resourceButton.Visible = false;
             ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]).GenerateGrowthTargetingPrompt();
             Global.camera.SetHexTarget(targetCity.hex);
             return;
         }
         else if(cityNeedsProduction)
         {
+            researchTreePanel.Visible = false;
+            cultureResearchTreePanel.Visible = false;
+            resourcePanel.Visible = false;
+            scienceButton.Visible = false;
+            cultureButton.Visible = false;
+            resourceButton.Visible = false;
             Global.gameManager.graphicManager.ChangeSelectedObject(targetCity.id, (GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]);
             Global.camera.SetHexTarget(targetCity.hex);
             return;

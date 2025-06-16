@@ -54,6 +54,9 @@ public partial class CityInfoPanel : Node3D
         private Label OffsetLabel;
 
 
+    private HBoxContainer cityDetails;
+    private VBoxContainer buildingsList;
+
 
     private List<ConstructionItem> constructionItems;
     //private List<PurchaseItem> purchaseItems;
@@ -117,7 +120,9 @@ public partial class CityInfoPanel : Node3D
         UnitsButton.Pressed += () => ToggleUnitBoxVisibility();
 
         cityDetails = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityDetailsPanel.tscn").Instantiate<HBoxContainer>();
-        AddChild(cityUI);
+        cityDetails.Visible = false;
+        buildingsList = cityDetails.GetNode<VBoxContainer>("CityDetailsPanel/CityDetailsHBox/BuildingsList");
+        AddChild(cityDetails);
     }
 
 
@@ -146,6 +151,7 @@ public partial class CityInfoPanel : Node3D
     public void ShowCityInfoPanel()
     {
         cityInfoPanel.Visible = true;
+        cityDetails.Visible = true;
         Global.gameManager.graphicManager.uiManager.scienceButton.Visible = false;
         Global.gameManager.graphicManager.uiManager.cultureButton.Visible = false;
         Global.gameManager.graphicManager.uiManager.resourceButton.Visible = false;
@@ -164,6 +170,7 @@ public partial class CityInfoPanel : Node3D
         Global.gameManager.graphicManager.uiManager.cultureButton.Visible = true;
         Global.gameManager.graphicManager.uiManager.resourceButton.Visible = true;
         cityInfoPanel.Visible = false;
+        cityDetails.Visible = false;
         foreach (Control child in ProductionQueue.GetChildren())
         {
             if (child.Name != "OffsetLabel")
@@ -236,6 +243,20 @@ public partial class CityInfoPanel : Node3D
             }
 
             //update the ui stuff
+            foreach(Control child in buildingsList.GetChildren())
+            {
+                child.QueueFree();
+            }
+            foreach(District district in city.districts)
+            {
+                if(district.isUrban)
+                {
+                    foreach (Building building in district.buildings)
+                    {
+                        buildingsList.AddChild(new BuildingDetailBox(city, building));
+                    }
+                }
+            }
         }
     }
 

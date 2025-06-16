@@ -82,6 +82,10 @@ public partial class GraphicUnit : GraphicObject
         node3D.Transform = newTransform;
         Global.gameManager.graphicManager.hexObjectDictionary[unit.hex].Add(this);
         AddChild(node3D);
+        if(unit.name == "Founder")
+        {
+            Global.camera.SetHexTarget(unit.hex);
+        }
     }
 
     private void InstantiateUnitUI(Unit unit)
