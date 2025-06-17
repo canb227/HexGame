@@ -44,27 +44,28 @@ void fragment() {
     // First, determine if the current fragment lies in the overlay region.
     vec2 local_uv = (UV - overlay_pos) / overlay_size;
     // local_uv now runs from 0 to 1 in the designated overlay area.
-
+    vec4 digit_tex = vec4(0.0);
     // Only overlay if we're inside the region.
+    float amount = float(yieldValue);
     if (all(greaterThanEqual(local_uv, vec2(0.0))) && all(lessThanEqual(local_uv, vec2(1.0)))) {
-        if (yieldValue < 10) {
+        if (amount < 10.0) {
             // For one-digit numbers (6-9), use the entire overlay region for one digit.
-            float digit = yieldValue; // The single digit to display.
+            float digit = amount; // The single digit to display.
             vec2 digit_uv = local_uv * digit_grid + vec2(digit * digit_grid.x, 0.0);
             digit_tex = texture(digit_atlas, digit_uv);
         } else {
-            // For two-digit numbers (yieldValue >= 10), split overlay into two halves.
+            // For two-digit numbers (amount >= 10), split overlay into two halves.
             // Left half for the tens digit, right half for the ones digit.
             if (local_uv.x < 0.5) {
                 // Left digit region.
                 vec2 new_uv = vec2(local_uv.x / 0.5, local_uv.y);
-                float tens = floor(yieldValue / 10);
+                float tens = floor(amount / 10.0);
                 vec2 digit_uv = new_uv * digit_grid + vec2(tens * digit_grid.x, 0.0);
                 digit_tex = texture(digit_atlas, digit_uv);
             } else {
                 // Right digit region.
                 vec2 new_uv = vec2((local_uv.x - 0.5) / 0.5, local_uv.y);
-                float ones = yieldValue - floor(yieldValue / 10) * 10.0;
+                float ones = amount - floor(amount / 10.0) * 10.0;
                 vec2 digit_uv = new_uv * digit_grid + vec2(ones * digit_grid.x, 0.0);
                 digit_tex = texture(digit_atlas, digit_uv);
             }
