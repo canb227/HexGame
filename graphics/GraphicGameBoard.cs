@@ -36,10 +36,16 @@ public partial class GraphicGameBoard : GraphicObject
     public override void _Ready()
     {
         AddHexResource();
+
         Add3DHexFeatures();
-        AddHexFeatures(layout);
+        //AddHexFeatures(layout);
+
+        Add3DHexYields();
+
         AddHexUnits(layout);
+
         AddHexDistrictsAndCities(layout);
+
         SimpleRedrawBoard(layout);
     }
 
@@ -290,6 +296,15 @@ public partial class GraphicGameBoard : GraphicObject
             lbl.Position = new Vector3((float)point.y, .5f, (float)point.x - 3);
             lbl.Text = hex.q.ToString() + "," + hex.r.ToString() + "," + hex.s.ToString();
             AddChild(lbl);
+        }
+    }
+
+    private void Add3DHexYields()
+    {
+        foreach (Hex hex in gameBoard.gameHexDict.Keys)
+        {
+            Point point = layout.HexToPixel(hex);
+            Global.gameManager.graphicManager.NewYields(hex, gameBoard.gameHexDict[hex].yields);
         }
     }
 
