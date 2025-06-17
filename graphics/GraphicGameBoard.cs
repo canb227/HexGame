@@ -40,7 +40,7 @@ public partial class GraphicGameBoard : GraphicObject
         Add3DHexFeatures();
         //AddHexFeatures(layout);
 
-        Add3DHexYields();
+        //Add3DHexYields();
 
         AddHexUnits(layout);
 
