@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime;
+using System.Text.RegularExpressions;
 using System.Xml;
 using static Google.Protobuf.Reflection.FeatureSet.Types;
 
@@ -13,7 +14,9 @@ public partial class GraphicGameBoard : GraphicObject
     public GameBoard gameBoard;
     Layout layout;
     public Mesh hexMesh;
+    public Mesh yieldMesh;
     Shader terrainShader = GD.Load<Shader>("res://graphics/shaders/terrain/hex.gdshader");
+    Shader yieldShader = GD.Load<Shader>("res://graphics/shaders/terrain/yields.gdshader");
     ImageTexture heightMapTexture;
     public Dictionary<Hex, int> hexToChunkDictionary = new();
     public List<HexChunk> chunkList = new();
@@ -29,6 +32,10 @@ public partial class GraphicGameBoard : GraphicObject
         Node3D temp = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/hexagon.glb").Instantiate<Node3D>();
         MeshInstance3D tempMesh = (MeshInstance3D)temp.GetChild(0);
         hexMesh = tempMesh.Mesh;
+
+        temp = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/yields.glb").Instantiate<Node3D>();
+        tempMesh = (MeshInstance3D)temp.GetChild(0);
+        yieldMesh = tempMesh.Mesh;
 
 
         DrawBoard(layout);
@@ -62,7 +69,7 @@ public partial class GraphicGameBoard : GraphicObject
         SimpleRedrawBoard(layout);
     }
 
-    //super simple just delete all our children and redraw the board using the current state of gameboard
+    //updates the vis texture and tells objects to update their vis data
     private void SimpleRedrawBoard(Layout pointy)
     {
         List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
@@ -132,11 +139,24 @@ public partial class GraphicGameBoard : GraphicObject
         List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
         UpdateVisibilityTexture(visible, seen);
 
+        Vector3[] yieldOffsets = new Vector3[] {
+            new Vector3( 0.0f, 1.0f,  4.0f),
+            new Vector3( 0.0f, 1.0f,  0.0f), 
+            new Vector3( 0.0f, 1.0f, -4.0f),
+            new Vector3( 3.0f, 1.0f,  3.0f),
+            new Vector3( 3.0f, 1.0f, -3.0f),
+            new Vector3(-3.0f, 1.0f,  3.0f),
+            new Vector3(-3.0f, 1.0f, -3.0f),
+        };
+
         int i = 0;
         foreach(List<Hex> subHexList in hexListChunks)
         {
             MultiMeshInstance3D multiMeshInstance = new MultiMeshInstance3D();
+            MultiMeshInstance3D yieldMultiMeshInstance = new MultiMeshInstance3D();
+
             MultiMesh multiMesh = new MultiMesh();
+            MultiMesh yieldMultiMesh = new MultiMesh();
             //MeshInstance3D triangles = new MeshInstance3D();
 
             multiMesh.Mesh = hexMesh;
@@ -144,7 +164,13 @@ public partial class GraphicGameBoard : GraphicObject
             multiMesh.UseCustomData = true;
             multiMesh.InstanceCount = subHexList.Count;
 
+            yieldMultiMesh.Mesh = yieldMesh;
+            yieldMultiMesh.TransformFormat = MultiMesh.TransformFormatEnum.Transform3D;
+            yieldMultiMesh.UseCustomData = true;
+            yieldMultiMesh.InstanceCount = subHexList.Count*7;
+
             multiMeshInstance.Multimesh = multiMesh;
+            yieldMultiMeshInstance.Multimesh = yieldMultiMesh;
 
             for (int j = 0; j < hexListChunks[0].Count; j++)
             {
@@ -153,9 +179,19 @@ public partial class GraphicGameBoard : GraphicObject
                 Transform3D transform = new Transform3D(Basis.Identity, new Vector3((float)worldPos.y, -1.0f, (float)worldPos.x));
                 multiMesh.SetInstanceTransform(j, transform);
 
+
                 Hex realHex = subHexList[j];
                 Godot.Color hexData = new Godot.Color(realHex.q / 255f, realHex.r / 255f, 0, 1);
                 multiMeshInstance.Multimesh.SetInstanceCustomData(j, hexData);
+
+                Dictionary<YieldType, float> yieldDict = Global.gameManager.game.mainGameBoard.gameHexDict[realHex].yields.YieldsToDict();
+                for(int l = 0; l < 7; l ++)
+                {
+                    Vector3 yieldPosition = new Vector3((float)worldPos.y, 2.0f, (float)worldPos.x) + yieldOffsets[l];
+                    Transform3D yieldTransform = new Transform3D(Basis.Identity, yieldPosition);
+                    yieldMultiMesh.SetInstanceTransform(j*7+l, yieldTransform);
+                    yieldMultiMeshInstance.Multimesh.SetInstanceCustomData(j*7+l, new Godot.Color(l/7.0f, yieldDict[(YieldType)l]/100.0f, 0.0f));//r is type, g is value
+                }
             }
             foreach (Hex hex in subHexList)
             {
@@ -165,6 +201,9 @@ public partial class GraphicGameBoard : GraphicObject
 
             ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
             terrainShaderMaterial.Shader = terrainShader;
+
+            ShaderMaterial yieldShaderMaterial = new ShaderMaterial();
+            yieldShaderMaterial.Shader = yieldShader;
 
             float hSpace = (float)Math.Sqrt(3) * 10.0f;
             float vSpace = 10.0f;
@@ -252,18 +291,29 @@ public partial class GraphicGameBoard : GraphicObject
             multiMeshInstance.MaterialOverride = terrainShaderMaterial;
             multiMeshInstance.Name = "GameBoardTerrain" + i;
 
+            CompressedTexture2D yieldAtlasTexture = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/yieldsatlas.png");
+            //ImageTexture yieldAtlasTexture = ImageTexture.CreateFromImage(yieldAtlas);
+            yieldShaderMaterial.SetShaderParameter("yieldAtlas", yieldAtlasTexture);
+            yieldMultiMeshInstance.MaterialOverride = yieldShaderMaterial;
+            yieldMultiMeshInstance.Name = "Yield" + i;
+
             chunkList.Add(new HexChunk(multiMeshInstance, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial, chunkOffset, (float)Math.Sqrt(3) * 10.0f * (chunkSize + 1), 1.5f * 10.0f * Global.gameManager.game.mainGameBoard.bottom));//we set graphical to our default location here then update as we move it around
 
             AddChild(multiMeshInstance);
+            multiMeshInstance.AddChild(yieldMultiMeshInstance);
             i++;
         }
-
-
-/*        MeshInstance3D lines = new MeshInstance3D();
-        lines.Mesh = GenerateHexLines(hexList, pointy, 0.01f);
-        lines.Name = "GameBoardTerrainLines";
-        AddChild(lines);*/
     }
+
+    private Godot.Color PackYields(Dictionary<YieldType, float> yields)
+    {
+        return new Godot.Color(
+            (yields[YieldType.food] / 100.0f) + ((yields[YieldType.production] / 100.0f) * 0.01f) + ((yields[YieldType.gold] / 100.0f) * 0.0001f),  // Pack into `r`
+            (yields[YieldType.science] / 100.0f) + ((yields[YieldType.culture] / 100.0f) * 0.01f),                               // Pack into `g`
+            (yields[YieldType.happiness] / 100.0f) + ((yields[YieldType.influence] / 100.0f) * 0.01f)                            // Pack into `b`
+        );
+    }
+
 
     public void UpdateVisibilityTexture(List<Hex> visibleHexes, List<Hex> seenHexes)
     {
@@ -285,80 +335,12 @@ public partial class GraphicGameBoard : GraphicObject
         visibilityTexture.Update(visibilityImage);
     }
 
-    private void AddHexYields(Layout layout)
-    {
-        foreach (Hex hex in gameBoard.gameHexDict.Keys)
-        {
-            Point point = layout.HexToPixel(hex);
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y, .5f, (float)point.x - 3);
-            lbl.Text = hex.q.ToString() + "," + hex.r.ToString() + "," + hex.s.ToString();
-            AddChild(lbl);
-        }
-    }
-
     private void Add3DHexYields()
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
         {
             Point point = layout.HexToPixel(hex);
             Global.gameManager.graphicManager.NewYields(hex, gameBoard.gameHexDict[hex].yields);
-        }
-    }
-
-    private void AddHexCoords(Layout layout)
-    {
-        foreach (Hex hex in gameBoard.gameHexDict.Keys)
-        {
-            Point point = layout.HexToPixel(hex);
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y, .5f, (float)point.x + 3);
-
-            Yields yields = gameBoard.gameHexDict[hex].yields;
-
-            lbl.Text = "Yields: " + yields.food + "F," + yields.production + "P," + yields.gold + "G," + yields.science + "S," + yields.culture + "C," + yields.happiness + "H";
-            //lbl.Text = "Yields: 1F, 1P, 1G, 1S, 1C, 1F";
-            AddChild(lbl);
-        }
-    }
-
-    private void AddHexType(Layout layout)
-    {
-        foreach (Hex hex in gameBoard.gameHexDict.Keys)
-        {
-            Point point = layout.HexToPixel(hex);
-            TerrainTemperature temp = gameBoard.gameHexDict[hex].terrainTemp;
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y + 2, 1f, (float)point.x - 1);
-            switch (gameBoard.gameHexDict[hex].terrainType)
-            {
-                case TerrainType.Flat:
-                    lbl.Text = "Type: Flat";
-                    break;
-                case TerrainType.Rough:
-                    lbl.Text = "Type: Rough";
-                    break;
-                case TerrainType.Mountain:
-                    lbl.Text = "Type: Mountain";
-                    break;
-                case TerrainType.Coast:
-                    lbl.Text = "Type: Coast";
-                    break;
-                case TerrainType.Ocean:
-                    lbl.Text = "Type: Ocean";
-                    break;
-                default:
-                    break;
-
-
-            }
-            AddChild(lbl);
         }
     }
 
@@ -410,42 +392,6 @@ public partial class GraphicGameBoard : GraphicObject
         }
     }
 
-    private void AddHexFeatures(Layout layout)
-    {
-        foreach (Hex hex in gameBoard.gameHexDict.Keys)
-        {
-            Point point = layout.HexToPixel(hex);
-            TerrainTemperature temp = gameBoard.gameHexDict[hex].terrainTemp;
-            int xoffset = 1;
-            foreach (FeatureType feature in gameBoard.gameHexDict[hex].featureSet)
-            {
-                Label3D lbl = new Label3D();
-                lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-                lbl.FontSize = 100;
-                lbl.Position = new Vector3((float)point.y - 2, 1f, (float)point.x - 2);
-                lbl.Position = new Vector3((float)point.y - 2, 1f, (float)point.x - 2 + xoffset++);
-                switch (feature)
-                {
-                    case FeatureType.Forest:
-                        lbl.Text = "Forest";
-                        break;
-                    case FeatureType.River:
-                        lbl.Text = "River";
-                        break;
-                    case FeatureType.Road:
-                        lbl.Text = "Road";
-                        break;
-                    case FeatureType.Coral:
-                        lbl.Text = "Coral";
-                        break;
-                    default:
-                        break;
-                }
-                AddChild(lbl);
-            }
-        }
-    }
-
     private void Add3DHexFeatures()
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
@@ -456,137 +402,6 @@ public partial class GraphicGameBoard : GraphicObject
                 Global.gameManager.graphicManager.NewFeature(hex, feature);
             }
         }
-    }
-
-    private void AddHexTemperature(Layout layout)
-    {
-
-        foreach (Hex hex in gameBoard.gameHexDict.Keys)
-        {
-            Point point = layout.HexToPixel(hex);
-            TerrainTemperature temp = gameBoard.gameHexDict[hex].terrainTemp;
-            Label3D lbl = new Label3D();
-            lbl.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
-            lbl.FontSize = 100;
-            lbl.Position = new Vector3((float)point.y + 2, 1f, (float)point.x + 2);
-            switch (temp)
-            {
-                case TerrainTemperature.Desert:
-                    lbl.Text = "Temp: Desert";
-                    break;
-                case TerrainTemperature.Grassland:
-                    lbl.Text = "Temp: Grasslands";
-                    break;
-                case TerrainTemperature.Plains:
-                    lbl.Text = "Temp: Plains";
-                    break;
-                case TerrainTemperature.Tundra:
-                    lbl.Text = "Temp: Tundra";
-                    break;
-                case TerrainTemperature.Arctic:
-                    lbl.Text = "Temp: Arctic";
-                    break;
-                default:
-                    break;
-            }
-            AddChild(lbl);
-        }
-
-    }
-    ArrayMesh GenerateHexLines(List<Hex> hexList, Layout layout, float height)
-    {
-
-        SurfaceTool st = new SurfaceTool();
-
-        st.Begin(Mesh.PrimitiveType.Lines);
-
-        foreach (Hex hex in hexList)
-        {
-            List<Point> points = layout.PolygonCorners(hex);
-            st.AddVertex(new Vector3((float)points[0].y, 0.01f, (float)points[0].x));
-            foreach (Point point in points)
-            {
-                Vector3 temp = new Vector3((float)point.y, 0.01f, (float)point.x);
-                st.AddVertex(temp);
-                st.AddVertex(temp);
-
-            }
-            st.AddVertex(new Vector3((float)points[0].y, 0.01f, (float)points[0].x));
-        }
-        //st.GenerateNormals();
-        return st.Commit();
-    }
-
-    ArrayMesh GenerateHexTriangles(List<Hex> hexList, List<Hex> graphicHexList, int chunkIndex, Layout layout)
-    {
-        SurfaceTool st = new SurfaceTool();
-        st.Begin(Mesh.PrimitiveType.Triangles);
-        foreach (Hex hex in hexList)
-        {
-            hexToChunkDictionary.Add(hex, chunkIndex);
-        }
-
-        foreach (Hex hex in graphicHexList)
-        {
-            switch (gameBoard.gameHexDict[hex].terrainType)
-            {
-                case TerrainType.Flat:
-                    st.SetColor(Godot.Colors.ForestGreen);
-                    break;
-                case TerrainType.Rough:
-                    st.SetColor(Godot.Colors.SaddleBrown);
-                    break;
-                case TerrainType.Mountain:
-                    st.SetColor(Godot.Colors.Black);
-                    break;
-                case TerrainType.Coast:
-                    st.SetColor(Godot.Colors.LightBlue);
-                    break;
-                case TerrainType.Ocean:
-                    st.SetColor(Godot.Colors.DarkBlue);
-                    break;
-                default:
-                    break;
-            }
-            Transform3D newTransform = Transform;
-            Hex wrapHex = hex.WrapHex();
-            newTransform.Origin = new Vector3((float)layout.HexToPixel(wrapHex).y, -1.0f, (float)layout.HexToPixel(wrapHex).x);
-            st.AppendFrom(hexMesh, 0, newTransform);
-        }
-        st.GenerateNormals();
-        //st.Index();
-
-        return st.Commit();
-    }
-
-
-    ArrayMesh GenerateHexTrianglesFog(List<Hex> hexList, Layout layout, float height, Godot.Color color)
-    {
-        SurfaceTool st = new SurfaceTool();
-        st.Begin(Mesh.PrimitiveType.Triangles);
-
-
-        foreach (Hex hex in hexList)
-        {
-            st.SetColor(color);
-
-            List<Point> points = layout.PolygonCorners(hex);
-
-            Vector3 origin = new Vector3((float)points[0].y, height, (float)points[0].x);
-            for (int i = 1; i < 6; i++)
-            {
-                st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
-
-                Vector3 pointTwo = new Vector3((float)points[i].y, height, (float)points[i].x); // Get the next point in the polygon
-                st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
-
-                Vector3 pointThree = new Vector3((float)points[i - 1].y, height, (float)points[i - 1].x);
-                st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
-            }
-        }
-        st.GenerateNormals();
-
-        return st.Commit();
     }
 
     public override void Unselected()
