@@ -113,13 +113,10 @@ public partial class GraphicManager : Node3D
     {
         foreach(KeyValuePair<YieldType, float> yield in yields.YieldsToDict())
         {
-            if(yield.Value != 0)
-            {
-                GraphicYield graphicYield = new GraphicYield(hex, yield.Key, yield.Value);
-                GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-                hexObjectDictionary[hex].Add(graphicYield);
-                ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicYield);
-            }
+            GraphicYield graphicYield = new GraphicYield(hex, yield.Key, yield.Value);
+            GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            hexObjectDictionary[hex].Add(graphicYield);
+            ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicYield);
         }
     }
 

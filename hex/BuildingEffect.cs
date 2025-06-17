@@ -181,7 +181,6 @@ public class BuildingEffect
     }
     void FarmEffect(Building building)
     {
-
     }
     void PastureEffect(Building building)
     {
@@ -201,7 +200,6 @@ public class BuildingEffect
     }
     void GranaryWarehouseEffect(Building building)
     {
-
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].flatYields.food += 1;
     }
     void DockWarehouseEffect(Building building)

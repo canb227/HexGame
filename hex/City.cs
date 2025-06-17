@@ -610,6 +610,10 @@ public class City
             manager.Update2DUI(UIElement.happinessPerTurn);
             manager.Update2DUI(UIElement.influencePerTurn);
             manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            foreach(Hex hex in heldHexes)
+            {
+                manager.UpdateHex(hex);
+            }
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
         }
     }

@@ -105,17 +105,57 @@ public partial class GraphicYield : GraphicObject
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
+        if (graphicUpdateType == GraphicUpdateType.Update)
+        {
+            value = Global.gameManager.game.mainGameBoard.gameHexDict[hex].yields.YieldsToDict()[yieldType];
+            if (value != 0)
+            {
+                this.UpdateGraphic(GraphicUpdateType.Visibility);
+            }
+            switch (yieldType)
+            {
+                case YieldType.food:
+                    label.Text = "Food:" + value;
+                    break;
+                case YieldType.production:
+                    label.Text = "Production:" + value;
+                    break;
+                case YieldType.gold:
+                    label.Text = "Gold:" + value;
+                    break;
+                case YieldType.science:
+                    label.Text = "Science:" + value;
+                    break;
+                case YieldType.culture:
+                    label.Text = "Culture:" + value;
+                    break;
+                case YieldType.happiness:
+                    label.Text = "Happiness:" + value;
+                    break;
+                case YieldType.influence:
+                    label.Text = "Influence:" + value;
+                    break;
+                default:
+                    break;
+            }
+        }
         if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
             if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(hex))
             {
-                this.Visible = true;
-                label.Visible = true;
+                if (value != 0)
+                {
+                    this.Visible = true;
+                    label.Visible = true;
+                }
             }
             else if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(hex))
             {
-                this.Visible = true;
-                label.Visible = true;
+                if (value != 0)
+                {
+                    this.Visible = true;
+                    label.Visible = true;
+                }
             }
             else
             {

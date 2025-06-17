@@ -53,8 +53,6 @@ public partial class GraphicUnit : GraphicObject
             node3D.Transform = newTransform;
             UpdateMovementGraphics();
             unitWorldUI.Update();
-
-            Global.gameManager.graphicManager.UpdateHexObjectDictionary(previousHex, this, unit.hex);
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {

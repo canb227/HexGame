@@ -70,7 +70,7 @@ public class HexChunk
 
     public float Vector3ToHeightMapVal(Vector3 pixel)
     {
-        GD.PushWarning("NOT IMPLEMENTED");
+        //GD.PushWarning("NOT IMPLEMENTED"); //TODO
         Random rand = new Random();
         return (float)rand.NextDouble()*2.0f;
         /*        GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);

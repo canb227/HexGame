@@ -552,10 +552,15 @@ public class Unit
                     if (AttackTarget(targetGameHex, moveCost, teamManager))
                     {
                         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
+                        Hex previousHex = hex;
                         hex = targetGameHex.hex;
                         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this.id);
                         UpdateVision();
-                        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
+                        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+                        {
+                            manager.UpdateGraphic(id, GraphicUpdateType.Move);
+                            Global.gameManager.graphicManager.UpdateHexObjectDictionary(previousHex, manager.graphicObjectDictionary[id], hex);
+                        }
                         return true;
                     }
                 }
@@ -564,10 +569,16 @@ public class Unit
             {
                 SetRemainingMovement(remainingMovement - moveCost);
                 Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
+                Hex previousHex = hex;
                 hex = targetGameHex.hex;
                 Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this.id);
                 UpdateVision();
-                if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Move);
+                if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+                {
+                    manager.UpdateGraphic(id, GraphicUpdateType.Move);
+                    Global.gameManager.graphicManager.UpdateHexObjectDictionary(previousHex, manager.graphicObjectDictionary[id], hex);
+
+                }
                 return true;
             }
         }
