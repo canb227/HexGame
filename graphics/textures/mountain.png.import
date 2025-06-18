@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxjoivtcces6t"
-path="res://.godot/imported/yieldsatlas.png-3e36dbe7c4de888855446b1b51fa24bd.ctex"
+uid="uid://bnq3r764g440b"
+path="res://.godot/imported/mountain.png-af13b3418512a3c478025dff9cfb794d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/ui/icons/yieldsatlas.png"
-dest_files=["res://.godot/imported/yieldsatlas.png-3e36dbe7c4de888855446b1b51fa24bd.ctex"]
+source_file="res://graphics/textures/mountain.png"
+dest_files=["res://.godot/imported/mountain.png-af13b3418512a3c478025dff9cfb794d.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false

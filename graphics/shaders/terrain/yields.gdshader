@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode depth_draw_always, blend_mix;
 
-uniform sampler2D yieldAtlas; // Texture atlas
+uniform sampler2D yieldAtlas: filter_linear; // Texture atlas
 uniform sampler2D digitAtlas;
 const vec2 overlay_pos = vec2(0.55, 0.0);      // starting position (in [0,1])
 const vec2 overlay_size = vec2(0.45, 0.45);      // size of the overlay region
@@ -86,6 +86,7 @@ void fragment() {
     ALBEDO = hiddenColor * (1.0 - visData.r) * (1.0 - visData.g)  // Hidden
            + visibleColor * visData.r                             // Fully visible
            + grayscaleColor * visData.g;                          // Grayscale if seen
+    ALPHA = max(yieldIcon.a, digit_tex.a);
 }
 
 

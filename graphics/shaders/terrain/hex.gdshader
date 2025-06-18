@@ -11,6 +11,13 @@ uniform sampler2D visibilityGrid : filter_nearest;
 uniform sampler2D terrainInfo : filter_nearest;
 uniform sampler2D heightMap : filter_linear;
 
+uniform sampler2D grassTex : filter_linear;
+uniform sampler2D hillTex : filter_linear;
+uniform sampler2D rockTex : filter_linear;
+uniform sampler2D sandTex : filter_linear;
+uniform sampler2D snowTex : filter_linear;
+uniform sampler2D waterTex : filter_linear;
+
 varying flat vec2 visData;
 varying flat vec2 terrainData;
 varying vec3 hexWorldPos;
@@ -27,16 +34,11 @@ void vertex() {
     VERTEX.y += max(visData.r, visData.g) * (texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.0)/widthDiv, (hexWorldPos.x+voffset-1.0)/heightDiv)).r * 10.0);// * texture(terrainInfo, hexValue.xy).r;
 
     //normal calculation
-    float heightCenter = texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.0)/widthDiv, (hexWorldPos.x+voffset-1.0)/heightDiv)).r * 10.0;
-    float heightRight  = texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.01)/widthDiv, (hexWorldPos.x+voffset-1.0)/heightDiv)).r * 10.0;
-    float heightUp     = texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.0)/widthDiv, (hexWorldPos.x+voffset-0.99)/heightDiv)).r * 10.0;
-    vec3 tangentX = vec3(1.0, heightRight - heightCenter, 0.0);
-    vec3 tangentZ = vec3(0.0, heightUp - heightCenter, 1.0);
-    NORMAL = normalize(cross(tangentZ, tangentX));
+
 
 
     //texture data
-    terrainData = texture(terrainInfo, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg;
+    terrainData = texture(terrainInfo, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg; //r is temp g is type
 }
 
 void fragment() {
@@ -50,24 +52,62 @@ void fragment() {
     //terrainColor setting
     vec3 terrainColor = vec3(0.0, 0.0, 0.0);
 
-    vec4 flatTexture = vec4(0.60392, 0.803921, 0.196078, 1.0); //rgb(154,205,50)
-    vec4 roughTexture = vec4(0.74117, 0.71764, 0.419607, 1.0); // rgb(189,183,107)
-    vec4 mountainTexture = vec4(0.4, 0.4, 0.4, 1.0); //rgb(105,105,105)
-    vec4 coastalTexture = vec4(0.529411, 0.807843, 0.980392, 1.0); // rgb(135,206,250)
-    vec4 oceanTexture = vec4(0.0, 0.0, 0.54509, 1.0); // rgb(0,0,139)
+    vec4 roughTexture = texture(hillTex, UV);//vec4 roughTexture = vec4(0.74117, 0.71764, 0.419607, 1.0); // rgb(189,183,107)
+    vec4 mountainTexture = texture(rockTex, UV);//vec4 mountainTexture = vec4(0.4, 0.4, 0.4, 1.0); //rgb(105,105,105)
+    vec4 coastalTexture = texture(waterTex, UV);//vec4 coastalTexture = vec4(0.529411, 0.807843, 0.980392, 1.0); // rgb(135,206,250)
+    vec4 oceanTexture = texture(waterTex, UV);//vec4 oceanTexture = vec4(0.0, 0.0, 0.54509, 1.0); // rgb(0,0,139)
+    oceanTexture = vec4(oceanTexture.r*0.5, oceanTexture.g*0.5, oceanTexture.b+1.0, oceanTexture.a);
 
-    if(terrainData.g > 0.0)
+    if(terrainData.g > 0.0) //r is temp g is type  .1 desert .2 plains .3 grass .4 tundra .5 artic
     {
-        if(terrainData.r > 0.0)
+        if(terrainData.r > 0.0) //desert
         {
-            terrainColor = flatTexture.rgb;
+            terrainColor = texture(sandTex, UV).rgb;
+        }
+        if(terrainData.r > 0.15) //plains
+        {
+            float blendfactor = 0.5;
+            terrainColor = mix(texture(sandTex, UV), texture(grassTex, UV), blendfactor).rgb;
+        }
+        if(terrainData.r > 0.25) //grasslands
+        {
+            terrainColor = texture(grassTex, UV).rgb;
+        }
+        if(terrainData.r > 0.35) //tundra
+        {
+            float blendfactor = 0.5;
+            terrainColor = mix(texture(snowTex, UV), texture(grassTex, UV), blendfactor).rgb;
+        }
+        if(terrainData.r > 0.45) //artic
+        {
+            terrainColor = texture(snowTex, UV).rgb;
         }
     }
     if(terrainData.g > 0.19)
     {
-        if(terrainData.r > 0.0)
+        if(terrainData.r > 0.0) //desert
         {
-            terrainColor = roughTexture.rgb;
+            float blendfactor = 0.5;
+            terrainColor = mix(texture(snowTex, UV), texture(hillTex, UV), blendfactor).rgb;
+        }
+        if(terrainData.r > 0.15) //plains
+        {
+            float blendfactor = 0.7;
+            terrainColor = mix(texture(sandTex, UV), texture(hillTex, UV), blendfactor).rgb;
+        }
+        if(terrainData.r > 0.25) //grasslands
+        {
+            terrainColor = texture(hillTex, UV).rgb;
+        }
+        if(terrainData.r > 0.35) //tundra
+        {
+            float blendfactor = 0.7;
+            terrainColor = mix(texture(snowTex, UV), texture(hillTex, UV), blendfactor).rgb;
+        }
+        if(terrainData.r > 0.45) //artic
+        {
+            float blendfactor = 0.5;
+            terrainColor = mix(texture(snowTex, UV), texture(hillTex, UV), blendfactor).rgb;
         }
     }
     if(terrainData.g > 0.29)

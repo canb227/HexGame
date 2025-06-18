@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxjoivtcces6t"
-path="res://.godot/imported/yieldsatlas.png-3e36dbe7c4de888855446b1b51fa24bd.ctex"
+uid="uid://0ljr7mhv0r7r"
+path="res://.godot/imported/snow.jpg-2dde3b0f94938df55da153e686d2781a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/ui/icons/yieldsatlas.png"
-dest_files=["res://.godot/imported/yieldsatlas.png-3e36dbe7c4de888855446b1b51fa24bd.ctex"]
+source_file="res://graphics/textures/snow.jpg"
+dest_files=["res://.godot/imported/snow.jpg-2dde3b0f94938df55da153e686d2781a.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
