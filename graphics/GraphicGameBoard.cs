@@ -155,6 +155,8 @@ public partial class GraphicGameBoard : GraphicObject
             MultiMeshInstance3D multiMeshInstance = new MultiMeshInstance3D();
             MultiMeshInstance3D yieldMultiMeshInstance = new MultiMeshInstance3D();
 
+            yieldMultiMeshInstance.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+
             MultiMesh multiMesh = new MultiMesh();
             MultiMesh yieldMultiMesh = new MultiMesh();
             //MeshInstance3D triangles = new MeshInstance3D();
@@ -190,7 +192,7 @@ public partial class GraphicGameBoard : GraphicObject
                     Vector3 yieldPosition = new Vector3((float)worldPos.y, 2.0f, (float)worldPos.x) + yieldOffsets[l];
                     Transform3D yieldTransform = new Transform3D(Basis.Identity, yieldPosition);
                     yieldMultiMesh.SetInstanceTransform(j*7+l, yieldTransform);
-                    yieldMultiMeshInstance.Multimesh.SetInstanceCustomData(j*7+l, new Godot.Color(l/7.0f, yieldDict[(YieldType)l]/100.0f, 0.0f));//r is type, g is value
+                    yieldMultiMeshInstance.Multimesh.SetInstanceCustomData(j*7+l, new Godot.Color(l/7.0f, yieldDict[(YieldType)l]/100.0f, realHex.q / 255f, realHex.r / 255f));//r is type, g is value, b is hex.q, a is hex.r
                 }
             }
             foreach (Hex hex in subHexList)
@@ -292,8 +294,14 @@ public partial class GraphicGameBoard : GraphicObject
             multiMeshInstance.Name = "GameBoardTerrain" + i;
 
             CompressedTexture2D yieldAtlasTexture = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/yieldsatlas.png");
+            CompressedTexture2D digitAtlasTexture = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/numberatlas.png");
+
             //ImageTexture yieldAtlasTexture = ImageTexture.CreateFromImage(yieldAtlas);
             yieldShaderMaterial.SetShaderParameter("yieldAtlas", yieldAtlasTexture);
+            yieldShaderMaterial.SetShaderParameter("digitAtlas", digitAtlasTexture);
+            yieldShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
+            yieldShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
+            yieldShaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
             yieldMultiMeshInstance.MaterialOverride = yieldShaderMaterial;
             yieldMultiMeshInstance.Name = "Yield" + i;
 
