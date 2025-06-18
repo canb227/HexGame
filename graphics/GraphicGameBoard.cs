@@ -575,7 +575,7 @@ public partial class GraphicGameBoard : GraphicObject
             }
         }
 
-        terrainInfoImage.SavePng("testInfo.png");
+        //terrainInfoImage.SavePng("testInfo.png");
         return terrainInfoImage;
     }
 }
