@@ -84,7 +84,7 @@ public class HexChunk
     {
         //GD.PushWarning("NOT IMPLEMENTED"); //TODO
         Random rand = new Random();
-        return (float)rand.NextDouble()*2.0f;
+        return 0.0f;// (float)rand.NextDouble()*2.0f;
         /*        GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
 
 
