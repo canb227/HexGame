@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://c2ah7i7wk252f"]
+[gd_scene load_steps=9 format=3 uid="uid://c2ah7i7wk252f"]
 
 [ext_resource type="Theme" uid="uid://bisny7m3sfn3s" path="res://graphics/ui/centerunitbox.tres" id="1_oettw"]
 [ext_resource type="Texture2D" uid="uid://bfcrwhffwupfj" path="res://graphics/models/baseperson_remesh3_manface_pix.png" id="2_660cs"]
-[ext_resource type="Texture2D" uid="uid://b7nfv7gsypb51" path="res://graphics/ui/fortify.png" id="3_ixxgt"]
-[ext_resource type="Texture2D" uid="uid://c8hyp5728rfve" path="res://graphics/ui/health.png" id="4_02t0y"]
-[ext_resource type="Texture2D" uid="uid://ciwlfm2an1u4g" path="res://graphics/ui/moveicon.png" id="5_tsxtf"]
-[ext_resource type="Texture2D" uid="uid://b18tpy2qbdmi8" path="res://graphics/ui/rangeattack.png" id="6_tg1m4"]
-[ext_resource type="Texture2D" uid="uid://c31okc6ehvj7p" path="res://graphics/ui/skipturn.png" id="7_f7fa1"]
+[ext_resource type="Texture2D" uid="uid://dmv5siofpbnvf" path="res://graphics/ui/icons/fortify.png" id="3_ixxgt"]
+[ext_resource type="Texture2D" uid="uid://bq5djh0c6qljc" path="res://graphics/ui/icons/health.png" id="4_02t0y"]
+[ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="5_tg1m4"]
+[ext_resource type="Texture2D" uid="uid://dcc6q0l8asjgm" path="res://graphics/ui/icons/sword.png" id="6_f7fa1"]
+[ext_resource type="Texture2D" uid="uid://42q4ujnnxbg1" path="res://graphics/ui/icons/rangeattack.png" id="7_2hbv6"]
+[ext_resource type="Texture2D" uid="uid://pm77dn24svbk" path="res://graphics/ui/icons/skipturn.png" id="8_n2gec"]
 
 [node name="UnitInfoPanel" type="PanelContainer"]
 visible = false
@@ -79,7 +80,7 @@ layout_mode = 2
 
 [node name="MovementIcon" type="TextureRect" parent="UnitHFlow/UnitStatContainer/MovementContainer"]
 layout_mode = 2
-texture = ExtResource("5_tsxtf")
+texture = ExtResource("5_tg1m4")
 expand_mode = 2
 
 [node name="MovementLabel" type="Label" parent="UnitHFlow/UnitStatContainer/MovementContainer"]
@@ -92,7 +93,7 @@ tooltip_text = "(*) represents how many attacks the unit has left this turn"
 
 [node name="CombatStengthIcon" type="TextureRect" parent="UnitHFlow/UnitStatContainer/CombatStrengthContainer"]
 layout_mode = 2
-texture = ExtResource("4_02t0y")
+texture = ExtResource("6_f7fa1")
 expand_mode = 2
 
 [node name="CombatStrengthLabel" type="Label" parent="UnitHFlow/UnitStatContainer/CombatStrengthContainer"]
@@ -104,7 +105,7 @@ layout_mode = 2
 
 [node name="RangedStrengthIcon" type="TextureRect" parent="UnitHFlow/UnitStatContainer/RangedStrengthContainer"]
 layout_mode = 2
-texture = ExtResource("6_tg1m4")
+texture = ExtResource("7_2hbv6")
 expand_mode = 2
 
 [node name="RangedStrengthLabel" type="Label" parent="UnitHFlow/UnitStatContainer/RangedStrengthContainer"]
@@ -116,7 +117,7 @@ layout_mode = 2
 
 [node name="RangeIcon" type="TextureRect" parent="UnitHFlow/UnitStatContainer/RangeContainer"]
 layout_mode = 2
-texture = ExtResource("7_f7fa1")
+texture = ExtResource("8_n2gec")
 expand_mode = 2
 
 [node name="RangeLabel" type="Label" parent="UnitHFlow/UnitStatContainer/RangeContainer"]
@@ -133,4 +134,4 @@ layout_mode = 2
 
 [node name="MoveButton" type="Button" parent="UnitHFlow/AbilityFlowContainer/MoveMarginContainer"]
 layout_mode = 2
-icon = ExtResource("5_tsxtf")
+icon = ExtResource("5_tg1m4")

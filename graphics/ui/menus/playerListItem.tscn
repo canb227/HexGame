@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://7ni7mhe5m58b"]
 
-[ext_resource type="Texture2D" uid="uid://bf2s0ji0womei" path="res://graphics/ui/influence.png" id="1_aox8j"]
+[ext_resource type="Texture2D" uid="uid://v8ieeb82fsx8" path="res://graphics/ui/icons/influence.png" id="1_aox8j"]
 
 [node name="PlayerListItem" type="Control"]
 clip_contents = true

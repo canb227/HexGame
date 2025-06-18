@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://u42mrfvmc63x"]
 
 [ext_resource type="Texture2D" uid="uid://bc8h3f1phl6d2" path="res://graphics/ui/icons/house.png" id="1_bkivv"]
-[ext_resource type="Texture2D" uid="uid://pwd0uh0isihw" path="res://graphics/ui/icons/goldcoin2face.png" id="2_123qm"]
+[ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="2_123qm"]
 
 [node name="ConstructionItem" type="Button"]
 custom_minimum_size = Vector2(0, 64)

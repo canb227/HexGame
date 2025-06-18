@@ -1,16 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://2kpluj2xkar6"]
+[gd_scene load_steps=15 format=3 uid="uid://2kpluj2xkar6"]
 
 [ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_6gxb0"]
 [ext_resource type="Texture2D" uid="uid://b68ru2845nau3" path="res://graphics/ui/icons/quill.png" id="2_ganh1"]
 [ext_resource type="Texture2D" uid="uid://8sieeeac3bqy" path="res://graphics/ui/icons/food.png" id="3_yewga"]
 [ext_resource type="Texture2D" uid="uid://cb3r2h5cvpaus" path="res://graphics/ui/icons/gears.png" id="4_qflql"]
 [ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="5_rvxag"]
-[ext_resource type="Texture2D" uid="uid://b7ulvuy1yq2v6" path="res://graphics/ui/flask.png" id="6_14t2c"]
-[ext_resource type="Texture2D" uid="uid://ckv7gvxbnnhgk" path="res://graphics/ui/culture.png" id="7_r01fo"]
-[ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="8_tk2uu"]
-[ext_resource type="Texture2D" uid="uid://bf2s0ji0womei" path="res://graphics/ui/influence.png" id="9_k3ngi"]
+[ext_resource type="Texture2D" uid="uid://brrh1cw1vxfxn" path="res://graphics/ui/icons/science.png" id="6_6a7cx"]
+[ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="7_6gxb0"]
+[ext_resource type="Texture2D" uid="uid://d0do4lbonkkx3" path="res://graphics/ui/icons/happiness.png" id="8_ganh1"]
+[ext_resource type="Texture2D" uid="uid://v8ieeb82fsx8" path="res://graphics/ui/icons/influence.png" id="9_yewga"]
 [ext_resource type="Texture2D" uid="uid://c6t5xhjvobkka" path="res://graphics/ui/icons/arrow.png" id="10_6a7cx"]
-[ext_resource type="PackedScene" uid="uid://biggt2r4jwdw" path="res://graphics/ui/ProductionItem.tscn" id="11_6gxb0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1iin"]
 bg_color = Color(0.117647, 0.117647, 0.117647, 1)
@@ -139,7 +138,7 @@ layout_mode = 2
 
 [node name="ScienceIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/Yields/ScienceYieldBox"]
 layout_mode = 2
-texture = ExtResource("6_14t2c")
+texture = ExtResource("6_6a7cx")
 expand_mode = 4
 stretch_mode = 5
 
@@ -158,7 +157,7 @@ layout_mode = 2
 
 [node name="CultureIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/Yields/CultureYieldBox"]
 layout_mode = 2
-texture = ExtResource("7_r01fo")
+texture = ExtResource("7_6gxb0")
 expand_mode = 4
 stretch_mode = 5
 
@@ -177,7 +176,7 @@ layout_mode = 2
 
 [node name="HappinessIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/Yields/HappinessYieldBox"]
 layout_mode = 2
-texture = ExtResource("8_tk2uu")
+texture = ExtResource("8_ganh1")
 expand_mode = 4
 stretch_mode = 5
 
@@ -196,7 +195,7 @@ layout_mode = 2
 
 [node name="InfluenceIcon" type="TextureRect" parent="CityInfoPanel/CityInfoBox/Yields/InfluenceYieldBox"]
 layout_mode = 2
-texture = ExtResource("9_k3ngi")
+texture = ExtResource("9_yewga")
 expand_mode = 4
 stretch_mode = 5
 
@@ -243,9 +242,6 @@ expand_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ProductionItem" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/UnitsBox" instance=ExtResource("11_6gxb0")]
-layout_mode = 2
-
 [node name="BuildingsButton" type="Button" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox"]
 layout_mode = 2
 text = "Buildings"
@@ -268,9 +264,6 @@ expand_mode = 2
 [node name="BuildingsBox" type="VBoxContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox"]
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="ProductionItem" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox/Production/ProductionBox/BuildingsBox" instance=ExtResource("11_6gxb0")]
-layout_mode = 2
 
 [node name="Purchase" type="ScrollContainer" parent="CityInfoPanel/CityInfoBox/ConstructionTabBox"]
 visible = false

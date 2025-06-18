@@ -6,6 +6,7 @@ using System.Xml.Linq;
 public struct ResearchInfo
 {
     public int Tier;
+    public int VisualSlot;
     public string IconPath;
     public List<String> Requirements;
     public List<String> BuildingUnlocks;
@@ -58,6 +59,7 @@ public static class ResearchLoader
                 r => new ResearchInfo
                 {
                     Tier = int.Parse(r.Attribute("Tier")?.Value ?? "0"),
+                    VisualSlot = int.Parse(r.Attribute("VisualSlot")?.Value ?? "0"),
                     IconPath = r.Attribute("IconPath")?.Value ?? throw new InvalidOperationException("Missing 'IconPath' attribute"),
                     Requirements = r.Element("Requirements")?.Elements("ResearchType")
                         .Select(e => e.Value ?? throw new Exception("Invalid Stringy"))
