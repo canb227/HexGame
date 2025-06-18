@@ -12,26 +12,32 @@ public class MapGenerator
     public const int TINY_WIDTH = 44;
     public const int TINY_HEIGHT = 26;
     public const int TINY_ARCTIC_HEIGHT = 1;
+    public const int TINY_EROSION_FACTOR = 5;
 
     public const int SMALL_WIDTH = 72;
     public const int SMALL_HEIGHT = 46;
     public const int SMALL_ARCTIC_HEIGHT = 1;
+    public const int SMALL_EROSION_FACTOR = 10;
 
     public const int MEDIUM_WIDTH = 84;
     public const int MEDIUM_HEIGHT = 54;
     public const int MEDIUM_ARCTIC_HEIGHT = 2;
+    public const int MEDIUM_EROSION_FACTOR = 15;
 
     public const int LARGE_WIDTH = 96;
     public const int LARGE_HEIGHT = 60;
     public const int LARGE_ARCTIC_HEIGHT = 2;
+    public const int LARGE_EROSION_FACTOR = 20;
 
     public const int HUGE_WIDTH = 108;
     public const int HUGE_HEIGHT = 66;
     public const int HUGE_ARCTIC_HEIGHT = 2;
+    public const int HUGE_EROSION_FACTOR = 25;
 
     public const int MEGAHUGE_WIDTH = 120;
     public const int MEGAHUGE_HEIGHT = 72;
     public const int MEGAHUGE_ARCTIC_HEIGHT = 3;
+    public const int MEGAHUGE_EROSION_FACTOR = 30;
 
     public int mapWidth;
     public int mapHeight;
@@ -41,7 +47,7 @@ public class MapGenerator
     public bool generateRivers;
     public ResourceAmount resourceAmount;
     public MapType mapType;
-    public int erosionFactor = 20;
+    public int erosionFactor = 15;
 
     public int top = 0;
     public int left = 0;
@@ -107,26 +113,32 @@ public class MapGenerator
             case MapGenerator.MapSize.Tiny:
                 mapWidth = MapGenerator.TINY_WIDTH;
                 mapHeight = MapGenerator.TINY_HEIGHT;
+                erosionFactor = MapGenerator.TINY_EROSION_FACTOR;
                 break;
             case MapGenerator.MapSize.Small:
                 mapWidth = MapGenerator.SMALL_WIDTH;
                 mapHeight = MapGenerator.SMALL_HEIGHT;
+                erosionFactor = MapGenerator.SMALL_EROSION_FACTOR;
                 break;
             case MapGenerator.MapSize.Medium:
                 mapWidth = MapGenerator.MEDIUM_WIDTH;
                 mapHeight = MapGenerator.MEDIUM_HEIGHT;
+                erosionFactor = MapGenerator.MEDIUM_EROSION_FACTOR;
                 break;
             case MapGenerator.MapSize.Large:
                 mapWidth = MapGenerator.LARGE_WIDTH;
                 mapHeight = MapGenerator.LARGE_HEIGHT;
+                erosionFactor = MapGenerator.LARGE_EROSION_FACTOR;
                 break;
             case MapGenerator.MapSize.Huge:
                 mapWidth = MapGenerator.HUGE_WIDTH;
                 mapHeight = MapGenerator.HUGE_HEIGHT;
+                erosionFactor = MapGenerator.HUGE_EROSION_FACTOR;
                 break;
             case MapGenerator.MapSize.MegaHuge:
                 mapWidth = MapGenerator.MEGAHUGE_WIDTH;
                 mapHeight = MapGenerator.MEGAHUGE_HEIGHT;
+                erosionFactor = MapGenerator.MEGAHUGE_EROSION_FACTOR;
                 break;
         }
         Global.debugLog("Map Width: " + mapWidth);
@@ -366,6 +378,9 @@ public class MapGenerator
 
             if (feature == FeatureType.Road)
                 return "3";
+
+            if (feature == FeatureType.Coral)
+                return "4";
         }
         return "0";
     }
@@ -424,6 +439,13 @@ public class MapGenerator
         }
 
         GenerateCoasts();
+        ExtendCoasts();
+
+        ErodeMountains();
+        ErodeRough();
+        AddHills();
+        AddLakes();
+
         switch (mapSize)
         {
             case MapSize.Tiny:
@@ -450,6 +472,114 @@ public class MapGenerator
 
     }
 
+    private void ErodeMountains()
+    {
+        Random rng = new Random();
+        List<AbstractHex> toErode = new List<AbstractHex>();
+        for (int r = 0; r < mapHeight; r++)
+        {
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
+            {
+                AbstractHex hex = abstractHexGrid[new Hex(q, r, -q - r)];
+                if (hex.terrainType == TerrainType.Mountain)
+                {
+                    if (rng.NextDouble() < 0.2f)
+                    {
+                        toErode.Add(hex);
+                    }
+                }
+            }
+        }
+        foreach (var h in toErode)
+        {
+            AbstractHex hex = h;
+            hex.terrainType = TerrainType.Rough;
+            abstractHexGrid[hex.hex] = hex;
+        }
+    }
+
+
+    private void ErodeRough()
+    {
+        Random rng = new Random();
+        for (int r = 0; r < mapHeight; r++)
+        {
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
+            {
+                AbstractHex hex = abstractHexGrid[new Hex(q, r, -q - r)];
+                if (hex.terrainType == TerrainType.Rough)
+                {
+                    if (rng.NextDouble() < 0.2f)
+                    {
+                        hex.terrainType = TerrainType.Flat;
+                        abstractHexGrid[hex.hex] = hex;
+                    }
+                }
+            }
+        }
+    }
+
+    private void AddHills()
+    {
+        Random rng = new Random();
+        for (int r = 0; r < mapHeight; r++)
+        {
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
+            {
+                AbstractHex hex = abstractHexGrid[new Hex(q, r, -q - r)];
+                if (hex.terrainType == TerrainType.Flat)
+                {
+                    if (rng.NextDouble() < 0.2f)
+                    {
+                        hex.terrainType = TerrainType.Rough;
+                        abstractHexGrid[hex.hex] = hex;
+                    }
+                }
+            }
+        }
+    }
+
+    private void AddLakes()
+    {
+
+    }
+
+    private void ExtendCoasts()
+    {
+        Random rng = new Random();
+        List<AbstractHex> toCoastsList = new List<AbstractHex>();
+        for (int r = 0; r < mapHeight; r++)
+        {
+            int r_offset = r >> 1;
+            for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
+            {
+                AbstractHex hex = abstractHexGrid[new Hex(q, r, -q - r)];
+                if (hex.terrainType == TerrainType.Ocean)
+                {
+
+                    if (IsOceanTouchingCoast(hex))
+                    {
+                        if (rng.NextDouble() < 0.2f)
+                        {
+                            toCoastsList.Add(hex);
+                        }
+
+                    }
+
+                }
+            }
+        }
+        foreach (var h in toCoastsList)
+        {
+            AbstractHex hex = h;
+            hex.terrainType = TerrainType.Coast;
+            abstractHexGrid[hex.hex] = hex;
+        }
+
+    }
     private void AddFeatures()
     {
         Random rng = new Random();
@@ -461,7 +591,7 @@ public class MapGenerator
                 AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 if (hex.terrainType == TerrainType.Flat || hex.terrainType == TerrainType.Rough)
                 {
-                    if (rng.NextDouble() > 0.5f)
+                    if (rng.NextDouble() < 0.5f)
                     {
                         //Global.debugLog("added tree");
                         hex.features.Add(FeatureType.Forest);
@@ -469,9 +599,16 @@ public class MapGenerator
                 }
                 if (hex.terrainTemperature == TerrainTemperature.Grassland && hex.terrainType == TerrainType.Flat)
                 {
-                    if (rng.NextDouble() > 0.8f)
+                    if (rng.NextDouble() < 0.2f)
                     {
                         hex.features.Add(FeatureType.Wetland);
+                    }
+                }
+                if (hex.terrainType == TerrainType.Coast)
+                {
+                    if (rng.NextDouble() < 0.15f)
+                    {
+                        hex.features.Add(FeatureType.Coral);
                     }
                 }
 
@@ -543,7 +680,22 @@ public class MapGenerator
                         }
                     }
                 }
-                abstractHexGrid[new Hex(q,r,-q-r)] = hex;
+                if (hex.terrainType == TerrainType.Coast)
+                {
+                    if (rng.NextDouble() > 0.9f)
+                    {
+                        double resourceRoll = rng.NextDouble();
+                        if (resourceRoll < 0.2f)
+                        {
+                            hex.resourceType = ResourceType.None;
+                        }
+                        else
+                        {
+                            hex.resourceType = ResourceType.None; // Default to None if no resource found
+                        }
+                    }
+                    abstractHexGrid[new Hex(q, r, -q - r)] = hex;
+                }
             }
         }
     }
@@ -559,7 +711,7 @@ public class MapGenerator
             {
                 if(abstractHexGrid[new Hex(q,r,-q-r)].terrainType!=TerrainType.Ocean)
                 {
-                    if (HasOceanNeighbor(abstractHexGrid[new Hex(q,r,-q-r)]))
+                    if (IsLandWithOceanNeighbor(abstractHexGrid[new Hex(q,r,-q-r)]))
                     {
                         toErode.Add(abstractHexGrid[new Hex(q,r,-q-r)]);
                     }
@@ -649,27 +801,45 @@ public class MapGenerator
         return false;
 
     }
-    private bool HasOceanNeighbor(AbstractHex hex)
+
+    private bool IsOceanTouchingCoast(AbstractHex hex)
     {
         Hex testHex = hex.hex;
-        bool print = false;//(hex.hex.r == 6 && hex.hex.q == -2);
-        if (print)
-        {
-            Global.debugLog("Checking neighbors of " + testHex + " for ocean neighbors.");
-        }
-        Hex[] neighbors = testHex.WrappingNeighbors(0, mapWidth-1, mapHeight-1);
-        foreach (Hex neighbor in neighbors)
-        {
-            if (print)
-            {
-                Global.debugLog("Checking neighbor: " + neighbor);
-            }
 
-            if (abstractHexGrid[neighbor].terrainType == TerrainType.Ocean)
+        if (hex.terrainType == TerrainType.Ocean)
+        {
+            Hex[] neighbors = testHex.WrappingNeighbors(0, mapWidth - 1, mapHeight - 1);
+            foreach (Hex neighbor in neighbors)
             {
-                return true;
+                if (abstractHexGrid[neighbor].terrainType != TerrainType.Ocean && abstractHexGrid[neighbor].terrainType == TerrainType.Coast)
+                {
+                    //Global.debugLog("I am " + hex.hex.ToString() + "\n and I found neighbor that is Land!: " + abstractHexGrid[neighbor].hex.ToString());
+                    return true;
+
+                }
             }
-            
+        }
+        return false;
+
+    }
+
+
+    private bool IsLandWithOceanNeighbor(AbstractHex hex)
+    {
+        Hex testHex = hex.hex;
+
+        if (hex.terrainType != TerrainType.Ocean && hex.terrainType !=TerrainType.Coast)
+        {
+            Hex[] neighbors = testHex.WrappingNeighbors(0, mapWidth - 1, mapHeight - 1);
+            foreach (Hex neighbor in neighbors)
+            {
+                if (abstractHexGrid[neighbor].terrainType == TerrainType.Ocean)
+                {
+                    //Global.debugLog("I am " + hex.hex.ToString() + "\n and I found neighbor that is Land!: " + abstractHexGrid[neighbor].hex.ToString());
+                    return true;
+
+                }
+            }
         }
         return false;
 
