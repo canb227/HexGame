@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode depth_draw_always, blend_mix;
 
 uniform sampler2D yieldAtlas; // Texture atlas
 uniform sampler2D digitAtlas;

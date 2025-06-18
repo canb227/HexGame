@@ -63,6 +63,12 @@ public partial class GraphicGameBoard : GraphicObject
         return chunkList[chunkID].HexToGraphicalHex(hex);
     }
 
+    public void UpdateYield(Hex hex)
+    {
+        int chunkID = hexToChunkDictionary[hex];
+        chunkList[chunkID].UpdateHexYield(hex);
+    }
+
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
         //placeholder
@@ -302,10 +308,11 @@ public partial class GraphicGameBoard : GraphicObject
             yieldShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
             yieldShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
             yieldShaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
+            yieldShaderMaterial.RenderPriority = 10;
             yieldMultiMeshInstance.MaterialOverride = yieldShaderMaterial;
             yieldMultiMeshInstance.Name = "Yield" + i;
 
-            chunkList.Add(new HexChunk(multiMeshInstance, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial, chunkOffset, (float)Math.Sqrt(3) * 10.0f * (chunkSize + 1), 1.5f * 10.0f * Global.gameManager.game.mainGameBoard.bottom));//we set graphical to our default location here then update as we move it around
+            chunkList.Add(new HexChunk(multiMeshInstance, yieldMultiMeshInstance, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial, chunkOffset, (float)Math.Sqrt(3) * 10.0f * (chunkSize + 1), 1.5f * 10.0f * Global.gameManager.game.mainGameBoard.bottom));//we set graphical to our default location here then update as we move it around
 
             AddChild(multiMeshInstance);
             multiMeshInstance.AddChild(yieldMultiMeshInstance);

@@ -156,6 +156,8 @@ public partial class GraphicManager : Node3D
                 graphicObj.UpdateGraphic(GraphicUpdateType.Update);
             }
         }
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.UpdateYield(hex);
     }
 
     public void UpdateVisibility()

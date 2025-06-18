@@ -9,6 +9,7 @@ using static Google.Protobuf.Reflection.FeatureSet.Types;
 public class HexChunk
 {
     public MultiMeshInstance3D multiMeshInstance;
+    public MultiMeshInstance3D yieldMultiMeshInstance;
     public float chunkOffset;
     public Hex origin;
     public Hex graphicalOrigin;
@@ -19,9 +20,10 @@ public class HexChunk
     public ShaderMaterial terrainShaderMaterial;
     public float widthPix;
     public float heightPix;
-    public HexChunk(MultiMeshInstance3D multiMeshInstance, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial, float chunkOffset, float widthPix, float heightPix)
+    public HexChunk(MultiMeshInstance3D multiMeshInstance, MultiMeshInstance3D yieldMultiMeshInstance, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, Image heightMap, ShaderMaterial terrainShaderMaterial, float chunkOffset, float widthPix, float heightPix)
     {
         this.multiMeshInstance = multiMeshInstance;
+        this.yieldMultiMeshInstance = yieldMultiMeshInstance;
         this.ourHexes = ourHexes;
         this.origin = origin;
         this.graphicalOrigin = graphicalOrigin;
@@ -32,6 +34,16 @@ public class HexChunk
         this.widthPix = widthPix;
         this.heightPix = heightPix;
         UpdateGraphicalOrigin(graphicalOrigin);
+    }
+
+    public void UpdateHexYield(Hex hex)
+    {
+        int index = ourHexes.FindIndex(h => h.Equals(hex));
+        Dictionary<YieldType, float> yieldDict = Global.gameManager.game.mainGameBoard.gameHexDict[hex].yields.YieldsToDict();
+        for (int l = 0; l < 7; l++)
+        {
+            yieldMultiMeshInstance.Multimesh.SetInstanceCustomData(index * 7 + l, new Godot.Color(l / 7.0f, yieldDict[(YieldType)l] / 100.0f, hex.q / 255f, hex.r / 255f));//r is type, g is value, b is hex.q, a is hex.r
+        }
     }
 
     public void UpdateGraphicalOrigin(Hex newOrigin)
