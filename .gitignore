@@ -10,7 +10,6 @@
 .godot/editor/*
 .godot/
 .vs/
-*.jpg
 heightMap0.png
 heightMap1.png
 heightMap2.png
