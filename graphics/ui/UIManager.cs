@@ -19,7 +19,8 @@ public enum UIElement
     influencePerTurn,
     unitDisplay,
     endTurnButton,
-    researchTree
+    researchTree,
+    resourcePanel
 }
 
 public partial class UIManager : Node3D
@@ -51,10 +52,14 @@ public partial class UIManager : Node3D
     public HBoxContainer cultureButtonResults;
     public Label cultureButtonTurnsLeft;
 
+    public Button resourceButton;
+
     public UnitInfoPanel unitInfoPanel;
     public CityInfoPanel cityInfoPanel;
     public ResearchTreePanel researchTreePanel;
     public ResearchTreePanel cultureResearchTreePanel;
+
+    public ResourcePanel resourcePanel;
 
     public City targetCity;
     public Unit targetUnit;
@@ -62,33 +67,37 @@ public partial class UIManager : Node3D
     public bool pickScience;
     public bool pickCulture;
 
+    public bool assignResource;
+
     public bool readyToGrow;
     public bool cityNeedsProduction;
 
     public bool waitingForOrders;
+
+    public bool windowOpen = false;
 
     public UIManager(Layout layout)
     {
         this.layout = layout;
         screenUI = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/gameui.tscn").Instantiate<Control>();
 
-        goldLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/Resources/GoldLabel");
-        goldPerTurnLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/Resources/GoldPerTurnLabel");
-        sciencePerTurnLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/Resources/SciencePerTurnLabel");
-        culturePerTurnLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/Resources/CulturePerTurnLabel");
-        happinessLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/Resources/HappinessLabel");
-        happinessPerTurnLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/Resources/HappinessPerTurnLabel");
-        influenceLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/Resources/InfluenceLabel");
-        influencePerTurnLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/Resources/InfluencePerTurnLabel");
-        turnNumberLabel = screenUI.GetNode<Label>("PanelContainer/TopBar/GameInfo/TurnLabel");
+        goldLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/GoldLabel");
+        goldPerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/GoldPerTurnLabel");
+        sciencePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/SciencePerTurnLabel");
+        culturePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/CulturePerTurnLabel");
+        happinessLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/HappinessLabel");
+        happinessPerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/HappinessPerTurnLabel");
+        influenceLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/InfluenceLabel");
+        influencePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/InfluencePerTurnLabel");
+        turnNumberLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/GameInfo/TurnLabel");
 
-        scienceButton = screenUI.GetNode<Button>("ScienceTree");
+        scienceButton = screenUI.GetNode<Button>("LayerHelper/ScienceTree");
         scienceButtonLabel = scienceButton.GetNode<Label>("ResearchLabel");
         scienceButtonIcon = scienceButton.GetNode<TextureRect>("ScienceTreeIcon");
         scienceButtonResults = scienceButton.GetNode<HBoxContainer>("ResearchResultBox");
         scienceButtonTurnsLeft = scienceButton.GetNode<Label>("TurnsLeft");
 
-        cultureButton = screenUI.GetNode<Button>("CultureTree");
+        cultureButton = screenUI.GetNode<Button>("LayerHelper/CultureTree");
         cultureButtonLabel = cultureButton.GetNode<Label>("ResearchLabel");
         cultureButtonIcon = cultureButton.GetNode<TextureRect>("CultureTreeIcon");
         cultureButtonResults = cultureButton.GetNode<HBoxContainer>("ResearchResultBox");
@@ -96,6 +105,10 @@ public partial class UIManager : Node3D
 
         scienceButton.Pressed += () => ScienceTreeButtonPressed();
         cultureButton.Pressed += () => CultureTreeButtonPressed();
+
+        resourceButton = screenUI.GetNode<Button>("LayerHelper/ResourcePanel");
+
+        resourceButton.Pressed += () => ResourcePanelButtonPressed();
 
         goldLabel.Text = "0 ";
         goldPerTurnLabel.Text = "(+0) ";
@@ -129,13 +142,20 @@ public partial class UIManager : Node3D
         AddChild(cultureResearchTreePanel);
         cultureResearchTreePanel.Visible = false;
 
+        resourcePanel = new ResourcePanel();
+        resourcePanel.Name = "ResourcePanel";
+        resourcePanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        AddChild(resourcePanel);
+        resourcePanel.Visible = false;
+
+
         UpdateAll();
         AddChild(screenUI);
     }
 
     private void SetupTurnUI()
     {
-        endTurnButton = screenUI.GetNode<Button>("EndTurnButton");
+        endTurnButton = screenUI.GetNode<Button>("LayerHelper/EndTurnButton");
         endTurnButton.Pressed += endTurnButtonPressed;
     }
 
@@ -144,6 +164,7 @@ public partial class UIManager : Node3D
         endTurnButton.Visible = false;
         scienceButton.Visible = false;
         cultureButton.Visible = false;
+        resourceButton.Visible = false;
     }
 
     public void ShowGenericUIAfterTargeting()
@@ -151,6 +172,7 @@ public partial class UIManager : Node3D
         endTurnButton.Visible = true;
         scienceButton.Visible = true;
         cultureButton.Visible = true;
+        resourceButton.Visible = true;
     }
 
     public void UpdateAll()
@@ -169,6 +191,7 @@ public partial class UIManager : Node3D
         UpdateEndTurnButton();
         researchTreePanel.UpdateResearchUI();
         cultureResearchTreePanel.UpdateResearchUI();
+        resourcePanel.UpdateResourcePanel();
         UpdateResearchUI();
     }
 
@@ -224,6 +247,10 @@ public partial class UIManager : Node3D
             cultureResearchTreePanel.UpdateResearchUI();
             UpdateResearchUI();
         }
+        else if(element == UIElement.resourcePanel)
+        {
+            resourcePanel.UpdateResourcePanel();
+        }
     }
 
     public void UpdateResearchUI()
@@ -249,8 +276,8 @@ public partial class UIManager : Node3D
                 buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + BuildingLoader.buildingsDict[buildingName].IconPath);
                 scienceButtonResults.AddChild(buildingIcon);
             }
-            GD.Print(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchLeft);
-            GD.Print(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetSciencePerTurn());
+            //GD.Print(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchLeft);
+            //GD.Print(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetSciencePerTurn());
             scienceButtonTurnsLeft.Text = (Math.Ceiling(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchLeft / Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetScienceTotal())).ToString();
             cultureButtonTurnsLeft.Text = (Math.Ceiling(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch.First().researchLeft / Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetCultureTotal())).ToString();
         }
@@ -296,9 +323,25 @@ public partial class UIManager : Node3D
         unitInfoPanel.UpdateUnitPanelInfo();
     }
 
+    public void CloseCurrentWindow()
+    {
+        windowOpen = false;
+        researchTreePanel.Visible = false;
+        cultureResearchTreePanel.Visible = false;
+        resourcePanel.Visible = false;
+        scienceButton.Visible = true;
+        cultureButton.Visible = true;
+        resourceButton.Visible = true;
+    }
     private void endTurnButtonPressed()
     {
+        windowOpen = false;
         researchTreePanel.Visible = false;
+        cultureResearchTreePanel.Visible = false;
+        resourcePanel.Visible = false;
+        scienceButton.Visible = true;
+        cultureButton.Visible = true;
+        resourceButton.Visible = true;
         if (pickScience)
         {
             ScienceTreeButtonPressed();
@@ -309,14 +352,31 @@ public partial class UIManager : Node3D
             CultureTreeButtonPressed();
             return;
         }
+        if (assignResource)
+        {
+            ResourcePanelButtonPressed();
+            return;
+        }
         if (readyToGrow)
         {
+            researchTreePanel.Visible = false;
+            cultureResearchTreePanel.Visible = false;
+            resourcePanel.Visible = false;
+            scienceButton.Visible = false;
+            cultureButton.Visible = false;
+            resourceButton.Visible = false;
             ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]).GenerateGrowthTargetingPrompt();
             Global.camera.SetHexTarget(targetCity.hex);
             return;
         }
         else if(cityNeedsProduction)
         {
+            researchTreePanel.Visible = false;
+            cultureResearchTreePanel.Visible = false;
+            resourcePanel.Visible = false;
+            scienceButton.Visible = false;
+            cultureButton.Visible = false;
+            resourceButton.Visible = false;
             Global.gameManager.graphicManager.ChangeSelectedObject(targetCity.id, (GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]);
             Global.camera.SetHexTarget(targetCity.hex);
             return;
@@ -390,7 +450,7 @@ public partial class UIManager : Node3D
         foreach (int unitID in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].unitList)
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
-            if (unit.remainingMovement > 0 && unit.currentPath.Count == 0 && !unit.isSleeping)
+            if (unit.remainingMovement > 0 && unit.currentPath.Count == 0 && !unit.isSleeping && !unit.isSkipping)
             {
                 endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/moveicon.png");
                 readyToGrow = false;
@@ -406,6 +466,16 @@ public partial class UIManager : Node3D
 
         }
 
+        if(assignResource)
+        {
+            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/star.png");
+            readyToGrow = false;
+            cityNeedsProduction = false;
+            targetCity = null;
+            waitingForOrders = false;
+            return;
+        }
+
         endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/skipturn.png");
         readyToGrow = false;
         cityNeedsProduction = false;
@@ -415,7 +485,12 @@ public partial class UIManager : Node3D
 
     public void ScienceTreeButtonPressed()
     {
+        Global.gameManager.graphicManager.UnselectObject();
+        windowOpen = true;
         researchTreePanel.Visible = true;
+        scienceButton.Visible = false;
+        cultureButton.Visible = false;
+        resourceButton.Visible = false;
         var timer = new Timer();
         timer.WaitTime = 0.01; // Delay for 0.1 seconds (adjust as needed)
         timer.OneShot = true;
@@ -427,7 +502,12 @@ public partial class UIManager : Node3D
 
     public void CultureTreeButtonPressed()
     {
+        Global.gameManager.graphicManager.UnselectObject();
+        windowOpen = true;
         cultureResearchTreePanel.Visible = true;
+        scienceButton.Visible = false;
+        cultureButton.Visible = false;
+        resourceButton.Visible = false;
         var timer = new Timer();
         timer.WaitTime = 0.01; // Delay for 0.1 seconds (adjust as needed)
         timer.OneShot = true;
@@ -435,5 +515,18 @@ public partial class UIManager : Node3D
         timer.Start();
 
         timer.Timeout += () => cultureResearchTreePanel.AddLines();
+    }
+
+    public void ResourcePanelButtonPressed()
+    {
+        Global.gameManager.graphicManager.UnselectObject();
+        windowOpen = true;
+        assignResource = false;
+        resourcePanel.UpdateResourcePanel();
+        resourcePanel.Visible = true;
+        scienceButton.Visible = false;
+        cultureButton.Visible = false;
+        resourceButton.Visible = false;
+        Global.gameManager.graphicManager.uiManager.Update(UIElement.endTurnButton);
     }
 }

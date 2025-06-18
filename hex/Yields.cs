@@ -5,8 +5,44 @@ using System.Diagnostics;
 using System.Data;
 using System.IO;
 
+public enum YieldType
+{
+    food,
+    production,
+    gold,
+    science,
+    culture,
+    happiness,
+    influence
+}
 public class Yields
 {
+    public Yields()
+    {
+    }
+    public Yields(Yields yields)
+    {
+        this.food = yields.food;
+        this.production = yields.production;
+        this.gold = yields.gold;
+        this.science = yields.science;
+        this.culture = yields.culture;
+        this.happiness = yields.happiness;
+        this.influence = yields.influence;
+    }
+
+    public Dictionary<YieldType, float> YieldsToDict()
+    {
+        Dictionary<YieldType, float> temp = new();
+        temp.Add(YieldType.food, food);
+        temp.Add(YieldType.production, production);
+        temp.Add(YieldType.gold, gold);
+        temp.Add(YieldType.science, science);
+        temp.Add(YieldType.culture, culture);
+        temp.Add(YieldType.happiness, happiness);
+        temp.Add(YieldType.influence, influence);
+        return temp;
+    }
     public float food {get; set;}
     public float production {get; set;}
     public float gold {get; set;}

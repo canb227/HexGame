@@ -36,7 +36,7 @@ public partial class ResearchTreePanel : Control
         researchTree = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ResearchTreePanel.tscn").Instantiate<Control>();
         researchHBox = researchTree.GetNode<HBoxContainer>("ResearchPanel/ResearchScroll/ResearchMargin/ResearchHBox");
         closeButton = researchTree.GetNode<Button>("CloseButton");
-        closeButton.Pressed += () => this.Visible = false;
+        closeButton.Pressed += () => Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
 
         int highestTier = 0;
         foreach (KeyValuePair<string, ResearchInfo> info in researchesDict)

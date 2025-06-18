@@ -371,7 +371,15 @@ public class District
     {
         if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
         {
-            Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].unassignedResources.Add(hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType);
+            if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].IsGlobal)
+            {
+                Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].globalResources.Add(hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType);
+            }
+            else
+            {
+                Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].unassignedResources.Add(hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType);
+                if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.uiManager.assignResource = true;
+            }
         }
     }
 

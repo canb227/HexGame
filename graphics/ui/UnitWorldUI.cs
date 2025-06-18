@@ -106,7 +106,7 @@ public partial class UnitWorldUI : Node3D
         }
         newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         Transform = newTransform;
-        if (unit.teamNum == Global.gameManager.game.localPlayerTeamNum && unit.remainingMovement > 0 && unit.currentPath.Count == 0 && !unit.isSleeping)
+        if (unit.teamNum == Global.gameManager.game.localPlayerTeamNum && unit.remainingMovement > 0 && unit.currentPath.Count == 0 && !unit.isSleeping && !unit.isSkipping)
         {
             unitWorldUI.Modulate = new Color(1, 1, 1, 1.0f);
         }

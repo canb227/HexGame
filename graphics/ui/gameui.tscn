@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cqwb0y8pf7hny"]
+[gd_scene load_steps=12 format=3 uid="uid://cqwb0y8pf7hny"]
 
 [ext_resource type="Texture2D" uid="uid://b7ulvuy1yq2v6" path="res://graphics/ui/flask.png" id="2_k1wrm"]
 [ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="2_n5e1u"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://brrh1cw1vxfxn" path="res://graphics/ui/icons/science.png" id="7_e1iin"]
 [ext_resource type="Texture2D" uid="uid://drtkka4c7ph0x" path="res://graphics/ui/icons/clock.png" id="8_6wqba"]
 [ext_resource type="Texture2D" uid="uid://c31okc6ehvj7p" path="res://graphics/ui/skipturn.png" id="9_6wqba"]
+[ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="9_pepai"]
 
 [sub_resource type="Theme" id="Theme_n5e1u"]
 default_font_size = 24
@@ -22,109 +23,120 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="LayerHelper" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="LayerHelper"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 offset_right = 1204.0
 offset_bottom = 64.0
+mouse_filter = 2
 theme = SubResource("Theme_n5e1u")
 
-[node name="TopBar" type="HSplitContainer" parent="PanelContainer"]
+[node name="TopBar" type="HSplitContainer" parent="LayerHelper/PanelContainer"]
 layout_mode = 2
 mouse_filter = 0
 drag_area_highlight_in_editor = true
 
-[node name="Resources" type="HBoxContainer" parent="PanelContainer/TopBar"]
+[node name="Resources" type="HBoxContainer" parent="LayerHelper/PanelContainer/TopBar"]
 layout_mode = 2
 
-[node name="GoldIcon" type="TextureRect" parent="PanelContainer/TopBar/Resources"]
+[node name="GoldIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 layout_mode = 2
 texture = ExtResource("2_n5e1u")
 expand_mode = 2
 
-[node name="GoldLabel" type="Label" parent="PanelContainer/TopBar/Resources"]
+[node name="GoldLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 text = "Gold"
 
-[node name="GoldPerTurnLabel" type="Label" parent="PanelContainer/TopBar/Resources"]
+[node name="GoldPerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 text = "Gold"
 
-[node name="ScienceIcon" type="TextureRect" parent="PanelContainer/TopBar/Resources"]
+[node name="ScienceIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 layout_mode = 2
 texture = ExtResource("2_k1wrm")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="SciencePerTurnLabel" type="Label" parent="PanelContainer/TopBar/Resources"]
+[node name="SciencePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 text = "Science"
 
-[node name="CultureIcon" type="TextureRect" parent="PanelContainer/TopBar/Resources"]
+[node name="CultureIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 layout_mode = 2
 texture = ExtResource("3_6wqba")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="CulturePerTurnLabel" type="Label" parent="PanelContainer/TopBar/Resources"]
+[node name="CulturePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 text = "Culture"
 
-[node name="HappinessIcon" type="TextureRect" parent="PanelContainer/TopBar/Resources"]
+[node name="HappinessIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 layout_mode = 2
 texture = ExtResource("4_n5e1u")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="HappinessLabel" type="Label" parent="PanelContainer/TopBar/Resources"]
+[node name="HappinessLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 text = "Happiness"
 
-[node name="HappinessPerTurnLabel" type="Label" parent="PanelContainer/TopBar/Resources"]
+[node name="HappinessPerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 text = "Happiness"
 
-[node name="InfluenceIcon" type="TextureRect" parent="PanelContainer/TopBar/Resources"]
+[node name="InfluenceIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 layout_mode = 2
 texture = ExtResource("5_e1iin")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="InfluenceLabel" type="Label" parent="PanelContainer/TopBar/Resources"]
+[node name="InfluenceLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 text = "Influence"
 
-[node name="InfluencePerTurnLabel" type="Label" parent="PanelContainer/TopBar/Resources"]
+[node name="InfluencePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 text = "Influence"
 
-[node name="GameInfo" type="HBoxContainer" parent="PanelContainer/TopBar"]
+[node name="GameInfo" type="HBoxContainer" parent="LayerHelper/PanelContainer/TopBar"]
 layout_mode = 2
 
-[node name="TurnTitle" type="Label" parent="PanelContainer/TopBar/GameInfo"]
+[node name="TurnTitle" type="Label" parent="LayerHelper/PanelContainer/TopBar/GameInfo"]
 z_index = 1
 layout_mode = 2
 text = "Turn: "
 
-[node name="TurnLabel" type="Label" parent="PanelContainer/TopBar/GameInfo"]
+[node name="TurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/GameInfo"]
 z_index = 1
 layout_mode = 2
 text = "0"
 
-[node name="ScienceTree" type="Button" parent="."]
+[node name="ScienceTree" type="Button" parent="LayerHelper"]
 custom_minimum_size = Vector2(256, 64)
 layout_mode = 2
 offset_top = 80.0
 offset_right = 264.0
 offset_bottom = 152.0
+mouse_filter = 1
 theme_override_colors/icon_hover_color = Color(0.351563, 0.351563, 0.351563, 1)
 theme_override_colors/icon_normal_color = Color(0.309804, 0.4, 0.513726, 1)
 keep_pressed_outside = true
@@ -133,7 +145,7 @@ icon = ExtResource("7_6wqba")
 flat = true
 icon_alignment = 1
 
-[node name="ScienceTreeIcon" type="TextureRect" parent="ScienceTree"]
+[node name="ScienceTreeIcon" type="TextureRect" parent="LayerHelper/ScienceTree"]
 layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -145,7 +157,7 @@ texture = ExtResource("7_e1iin")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ResearchLabel" type="Label" parent="ScienceTree"]
+[node name="ResearchLabel" type="Label" parent="LayerHelper/ScienceTree"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -158,7 +170,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Research Name Here"
 
-[node name="ResearchResultBox" type="HBoxContainer" parent="ScienceTree"]
+[node name="ResearchResultBox" type="HBoxContainer" parent="LayerHelper/ScienceTree"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -169,7 +181,7 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TurnsLeft" type="Label" parent="ScienceTree"]
+[node name="TurnsLeft" type="Label" parent="LayerHelper/ScienceTree"]
 layout_mode = 0
 offset_left = 28.0
 offset_top = 46.0
@@ -177,7 +189,7 @@ offset_right = 57.0
 offset_bottom = 69.0
 text = "999"
 
-[node name="TurnsIcon" type="TextureRect" parent="ScienceTree"]
+[node name="TurnsIcon" type="TextureRect" parent="LayerHelper/ScienceTree"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 49.0
@@ -187,7 +199,7 @@ texture = ExtResource("8_6wqba")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="CultureTree" type="Button" parent="."]
+[node name="CultureTree" type="Button" parent="LayerHelper"]
 custom_minimum_size = Vector2(256, 64)
 layout_mode = 0
 offset_top = 165.89
@@ -201,7 +213,7 @@ icon = ExtResource("7_6wqba")
 flat = true
 icon_alignment = 1
 
-[node name="CultureTreeIcon" type="TextureRect" parent="CultureTree"]
+[node name="CultureTreeIcon" type="TextureRect" parent="LayerHelper/CultureTree"]
 layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -213,7 +225,7 @@ texture = ExtResource("3_6wqba")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ResearchLabel" type="Label" parent="CultureTree"]
+[node name="ResearchLabel" type="Label" parent="LayerHelper/CultureTree"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -226,7 +238,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Research Name Here"
 
-[node name="ResearchResultBox" type="HBoxContainer" parent="CultureTree"]
+[node name="ResearchResultBox" type="HBoxContainer" parent="LayerHelper/CultureTree"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -237,7 +249,7 @@ offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TurnsLeft" type="Label" parent="CultureTree"]
+[node name="TurnsLeft" type="Label" parent="LayerHelper/CultureTree"]
 layout_mode = 0
 offset_left = 28.0
 offset_top = 46.0
@@ -245,7 +257,7 @@ offset_right = 57.0
 offset_bottom = 69.0
 text = "999"
 
-[node name="TurnsIcon" type="TextureRect" parent="CultureTree"]
+[node name="TurnsIcon" type="TextureRect" parent="LayerHelper/CultureTree"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 49.0
@@ -255,18 +267,25 @@ texture = ExtResource("8_6wqba")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="EndTurnButton" type="Button" parent="."]
+[node name="ResourcePanel" type="Button" parent="LayerHelper"]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 80.0
+offset_right = 456.0
+offset_bottom = 152.0
+text = "Resources"
+icon = ExtResource("9_pepai")
+
+[node name="EndTurnButton" type="Button" parent="LayerHelper"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.933
-anchor_top = 0.884
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -63.816
-offset_top = -63.832
-offset_right = -13.0
-offset_bottom = -11.0
+offset_left = -128.0
+offset_top = -128.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(64, 64)

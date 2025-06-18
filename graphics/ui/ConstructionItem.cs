@@ -94,28 +94,45 @@ public partial class ConstructionItem : PanelContainer
         {
             constructionItem.Disabled = false;
         }
-        objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + buildingInfo.IconPath);
-        objectName.Text = name;
+
         turnsToBuild.Text = Math.Ceiling(buildingInfo.ProductionCost / (city.yields.production + city.productionOverflow)).ToString();
         ProductionCost.Text = buildingInfo.ProductionCost.ToString();
-        System.Type yieldType = buildingInfo.yields.GetType();
 
-        foreach (FieldInfo field in yieldType.GetFields())
+        objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + buildingInfo.IconPath);
+        objectName.Text = name;
+        GD.Print(name);
+
+        foreach (Control child in EffectListBox.GetChildren())
         {
-            float value = (float)field.GetValue(buildingInfo.yields);
-            if (value != 0)
-            {
-                string yieldName = field.Name; // Get the name of the yield (e.g., "food", "production")
+            child.QueueFree();
+        }
 
+        Dictionary<string, float> yields = new Dictionary<string, float>
+        {
+            { "food", buildingInfo.yields.food },
+            { "production", buildingInfo.yields.production },
+            { "gold", buildingInfo.yields.gold },
+            { "science", buildingInfo.yields.science },
+            { "culture", buildingInfo.yields.culture },
+            { "happiness", buildingInfo.yields.happiness },
+            { "influence", buildingInfo.yields.influence }
+        };
+
+        foreach (KeyValuePair<string, float> kvp in yields)
+        {
+            if (kvp.Value != 0)
+            {
                 HBoxContainer effectBox = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/EffectBox.tscn").Instantiate<HBoxContainer>();
 
                 TextureRect effectIcon = effectBox.GetNode<TextureRect>("EffectIcon");
-                effectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>($"res://graphics/ui/icons/{yieldName}.png");
+                effectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>($"res://graphics/ui/icons/{kvp.Key}.png");
 
                 Label effectValue = effectBox.GetNode<Label>("EffectValue");
-                effectValue.Text = value.ToString();
+                effectValue.Text = kvp.Value.ToString();
 
                 EffectListBox.AddChild(effectBox);
+
+                GD.Print($"{kvp.Key}: {kvp.Value}");
             }
         }
     }

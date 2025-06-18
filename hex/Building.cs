@@ -92,7 +92,7 @@ public class Building
 
     public void PrepareYieldRecalculate()
     {
-        yields = baseYields;
+        yields = new Yields(baseYields);
         PriorityQueue<BuildingEffect, int> orderedEffects = new();
         if (buildingEffects == null)
         {

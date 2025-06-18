@@ -1,5 +1,6 @@
 shader_type spatial;
 
+
 uniform float gameBoardWidth;
 uniform float gameBoardHeight;
 uniform float widthDiv;
@@ -39,6 +40,9 @@ void vertex() {
 }
 
 void fragment() {
+    if ((visData.r == 0.0 && visData.g == 0.0)) {
+        discard;
+    }
     float hoffset = sqrt(3) * 10.0 / 2.0;
     float voffset = 1.5 * 10.0 / 2.0;
     float terrainHeight = texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.0)/widthDiv, (hexWorldPos.x+voffset-1.0)/heightDiv)).r;

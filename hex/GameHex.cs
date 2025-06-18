@@ -193,6 +193,10 @@ public class GameHex
     public bool AddTerrainFeature(FeatureType newFeature)
     {
         this.featureSet.Add(newFeature);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.NewFeature(hex, newFeature);
+        }
         return true;
     }
 

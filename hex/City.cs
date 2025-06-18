@@ -74,10 +74,11 @@ public class City
         heldHexes = new();
         Global.gameManager.game.playerDictionary[teamNum].cityList.Add(this.id);
         districts = new();
-        citySize = 0;
-        naturalPopulation = 0;
-        readyToExpand = 0;
+        citySize = 2;
+        naturalPopulation = 2;
+        readyToExpand = 1; //we ready to expand for 
         maxDistrictSize = 2;
+        baseMaxResourcesHeld = 1;
         foodToGrow = GetFoodToGrowCost();
         yields = new();
 
@@ -584,6 +585,7 @@ public class City
 
     public void RecalculateYields()
     {
+        maxResourcesHeld = baseMaxResourcesHeld;
         yields = new();
         SetBaseHexYields();
         foreach(District district in districts)
@@ -592,11 +594,7 @@ public class City
         }
         foreach(ResourceType resource in heldResources.Values)
         {
-            ResourceInfo resourceInfo = ResourceLoader.resources[resource];
-        }
-        foreach(ResourceType resource in heldResources.Values)
-        {
-            ResourceLoader.ExecuteResourceEffect(resource);
+            ResourceLoader.ProcessFunctionString(ResourceLoader.resourceEffects[resource], id);
         }
         foreach(District district in districts)
         {
@@ -612,6 +610,10 @@ public class City
             manager.Update2DUI(UIElement.happinessPerTurn);
             manager.Update2DUI(UIElement.influencePerTurn);
             manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            foreach(Hex hex in heldHexes)
+            {
+                manager.UpdateHex(hex);
+            }
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
         }
     }

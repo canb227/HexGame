@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://bp5tecuh6da51"]
+
+[ext_resource type="Texture2D" uid="uid://bc8h3f1phl6d2" path="res://graphics/ui/icons/house.png" id="1_ttfam"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1iin"]
+bg_color = Color(0.117647, 0.117647, 0.117647, 1)
+
+[sub_resource type="Theme" id="Theme_6wqba"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_e1iin")
+
+[node name="CityDetails" type="HBoxContainer"]
+z_index = 1
+layout_direction = 2
+anchors_preset = -1
+anchor_left = 0.853
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 51.0
+grow_horizontal = 0
+grow_vertical = 2
+alignment = 2
+
+[node name="CityDetailsPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_6wqba")
+
+[node name="CityDetailsHBox" type="VBoxContainer" parent="CityDetailsPanel"]
+layout_mode = 2
+
+[node name="BuildingsLabel" type="Label" parent="CityDetailsPanel/CityDetailsHBox"]
+layout_mode = 2
+text = "Buildings:"
+
+[node name="BuildingsList" type="VBoxContainer" parent="CityDetailsPanel/CityDetailsHBox"]
+layout_mode = 2
+
+[node name="BuildingBox" type="HBoxContainer" parent="CityDetailsPanel/CityDetailsHBox/BuildingsList"]
+layout_mode = 2
+
+[node name="BuildingIcon" type="TextureRect" parent="CityDetailsPanel/CityDetailsHBox/BuildingsList/BuildingBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_ttfam")
+expand_mode = 2
+stretch_mode = 2
+
+[node name="BuildingName" type="Label" parent="CityDetailsPanel/CityDetailsHBox/BuildingsList/BuildingBox"]
+layout_mode = 2
+text = "Building Name"

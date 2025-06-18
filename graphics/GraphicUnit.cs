@@ -37,6 +37,7 @@ public partial class GraphicUnit : GraphicObject
             }
             Visible = false;
             Global.gameManager.graphicManager.toBeDeleted.Add(unit.id, this);
+            Global.gameManager.graphicManager.hexObjectDictionary[unit.hex].Remove(this);
             //Free();
         }
         else if (graphicUpdateType == GraphicUpdateType.Move || graphicUpdateType == GraphicUpdateType.Update)
@@ -52,8 +53,6 @@ public partial class GraphicUnit : GraphicObject
             node3D.Transform = newTransform;
             UpdateMovementGraphics();
             unitWorldUI.Update();
-
-            Global.gameManager.graphicManager.UpdateHexObjectDictionary(previousHex, this, unit.hex);
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
@@ -81,6 +80,10 @@ public partial class GraphicUnit : GraphicObject
         node3D.Transform = newTransform;
         Global.gameManager.graphicManager.hexObjectDictionary[unit.hex].Add(this);
         AddChild(node3D);
+        if(unit.name == "Founder")
+        {
+            Global.camera.SetHexTarget(unit.hex);
+        }
     }
 
     private void InstantiateUnitUI(Unit unit)
@@ -145,10 +148,10 @@ public partial class GraphicUnit : GraphicObject
     public override void ProcessRightClick(Hex hex)
     {
         hex = hex.WrapHex();
-        GD.Print("MOVE TOWARDS: " + hex);
+        //GD.Print("MOVE TOWARDS: " + hex);
         //unit.MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[hex], Global.gameManager.game.teamManager, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
         Global.gameManager.MoveUnit(unit.id, hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum));
-        GD.Print("home" + unit.hex);
+        //GD.Print("home" + unit.hex);
         UpdateGraphic(GraphicUpdateType.Move);
         Unselected();
         Selected();

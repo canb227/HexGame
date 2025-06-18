@@ -194,6 +194,11 @@ public class UnitEffect
             Sleep(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
+        else if (functionString == "Skip")
+        {
+            Skip(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
         throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in UnitEffect");
     }
     public bool SettleCapitalAbility(Unit unit, String cityName)
@@ -264,8 +269,17 @@ public class UnitEffect
     }
     public bool Sleep(Unit unit)
     {
-        GD.Print(unit.id + "is now sleeping");
+        //GD.Print(unit.id + "is now sleeping");
         unit.isSleeping = true;
+        unit.CancelMovement();
+        Global.gameManager.graphicManager.UnselectObject();
+        return false;
+    }
+
+    public bool Skip(Unit unit)
+    {
+        //GD.Print(unit.id + "is now sleeping");
+        unit.isSkipping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.UnselectObject();
         return false;

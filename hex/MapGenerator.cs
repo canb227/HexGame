@@ -105,7 +105,7 @@ public class MapGenerator
 
     public void InitMap()
     {
-        Global.debugLog("Starting map generation.");
+        //Global.debugLog("Starting map generation.");
 
 
         switch (mapSize)
@@ -141,8 +141,8 @@ public class MapGenerator
                 erosionFactor = MapGenerator.MEGAHUGE_EROSION_FACTOR;
                 break;
         }
-        Global.debugLog("Map Width: " + mapWidth);
-        Global.debugLog("Map Height: " + mapHeight);
+        //Global.debugLog("Map Width: " + mapWidth);
+        //Global.debugLog("Map Height: " + mapHeight);
 
         right = mapWidth - 1;
         bottom = mapHeight - 1;
@@ -150,7 +150,7 @@ public class MapGenerator
 
         if (mapType==MapType.DebugSquare || mapType==MapType.DebugRandom || mapType==MapType.DebugCoasts)
         {
-            Global.debugLog("Debug Map Type Selected, using square grid.");
+            //Global.debugLog("Debug Map Type Selected, using square grid.");
             mapWidth = 12;
             mapHeight = 12;
             right = mapWidth - 1;
@@ -357,7 +357,7 @@ public class MapGenerator
             mapData = mapData.Substring(0,mapData.Length-1);
             mapData += "\n";
         }
-        Global.debugLog("\n"+mapData);
+        //Global.debugLog("\n"+mapData);
         return mapData;
     }
     public string ParseResources(ResourceType resourceType)
