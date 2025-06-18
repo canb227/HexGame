@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://coj0wdscrlhca"]
 
 [ext_resource type="Texture2D" uid="uid://bc5l3kr1mfa7d" path="res://graphics/models/baseperson_settler_manface_pix.png" id="1_qnqfw"]
-[ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="2_1novo"]
+[ext_resource type="Texture2D" uid="uid://d0do4lbonkkx3" path="res://graphics/ui/icons/happiness.png" id="2_qnqfw"]
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="3_4f77d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skgj6"]
@@ -113,7 +113,7 @@ offset_left = 247.0
 offset_top = -14.0
 offset_right = 287.0
 offset_bottom = 26.0
-texture = ExtResource("2_1novo")
+texture = ExtResource("2_qnqfw")
 expand_mode = 2
 stretch_mode = 5
 
