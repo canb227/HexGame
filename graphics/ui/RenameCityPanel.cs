@@ -24,9 +24,7 @@ public partial class RenameCityPanel : Control
 
     private void TextSubmitted(string newText)
     {
-        city.name = newText;
-        Global.gameManager.graphicManager.UpdateGraphic(city.id, GraphicUpdateType.Update);
-        Global.gameManager.graphicManager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
+        Global.gameManager.RenameCity(city.id, newText);
         this.Visible = false;
         this.QueueFree();
     }

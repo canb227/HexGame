@@ -108,13 +108,14 @@ public partial class ResearchTreePanel : Control
     {
         if(isCultureTree)
         {
-            Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].SelectCultureResearch(researchName);
+            Global.gameManager.SelectCultureResearch(Global.gameManager.game.localPlayerTeamNum, researchName);
+            //Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].SelectCultureResearch(researchName);
         }
         else
         {
-            Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].SelectResearch(researchName);
+            Global.gameManager.SelectResearch(Global.gameManager.game.localPlayerTeamNum, researchName);
+            //Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].SelectResearch(researchName);
         }
-        Global.gameManager.graphicManager.Update2DUI(UIElement.researchTree);
     }
 
     public void UpdateResearchUI()

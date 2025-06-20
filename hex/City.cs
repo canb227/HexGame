@@ -628,7 +628,7 @@ public class City
             district.RecalculateYields();
             yields += Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].yields;
         }
-        yields.food -= naturalPopulation;
+        //yields.food -= naturalPopulation;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.Update2DUI(UIElement.goldPerTurn);
@@ -933,6 +933,17 @@ public class City
             }
         }
         return validHexes;
+    }
+
+    public void RenameCity(string name)
+    {
+        this.name = name;
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
+        }
+        
     }
     // For terrain types
     public void AddFlatYields(GameHex gameHex)

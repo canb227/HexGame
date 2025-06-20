@@ -282,7 +282,11 @@ public class Player
         }
 
         TopologicalSort(researchType);
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.Update2DUI(UIElement.endTurnButton);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+        {
+            manager2.Update2DUI(UIElement.endTurnButton);
+            manager2.Update2DUI(UIElement.researchTree);
+        }
     }
 
     public void OnResearchComplete(String researchType)
@@ -342,7 +346,11 @@ public class Player
         }
 
         TopologicalSort(researchType);
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.Update2DUI(UIElement.endTurnButton);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+        {
+            manager2.Update2DUI(UIElement.endTurnButton);
+            manager2.Update2DUI(UIElement.researchTree);
+        }
     }
 
     public void OnCultureResearchComplete(String researchType)
