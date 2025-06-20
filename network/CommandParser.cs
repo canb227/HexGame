@@ -36,6 +36,12 @@ using System.Threading.Tasks;
             case "MoveToFrontOfProductionQueue":
                 Global.gameManager.MoveToFrontOfProductionQueue((int)command.MoveToFrontOfProductionQueue.CityID, (int)command.MoveToFrontOfProductionQueue.Index, false);
                 break;
+            case "ExpandToHex":
+                Global.gameManager.ExpandToHex((int)command.ExpandToHex.CityID, new Hex((int)command.ExpandToHex.Target.Q, (int)command.ExpandToHex.Target.R, (int)command.ExpandToHex.Target.S), false);
+                break;
+            case "DevelopDistrict":
+                Global.gameManager.DevelopDistrict((int)command.DevelopDistrict.CityID, new Hex((int)command.DevelopDistrict.Target.Q, (int)command.DevelopDistrict.Target.R, (int)command.DevelopDistrict.Target.S), false);
+                break;
         }
     }
 
@@ -71,14 +77,6 @@ using System.Threading.Tasks;
         command.ActivateAbility = activateAbility;
         command.Sender = Global.clientID;
         return command;
-    }
-
-
-
-
-    internal static Command ConstructCityGrowthExpansionCommand(int cityID, Hex target)
-    {
-        throw new NotImplementedException();
     }
 
     internal static Command ConstructAddToProductionQueueCommand(int cityID, string name, Hex targetHex, bool front)
@@ -122,6 +120,38 @@ using System.Threading.Tasks;
         Command command = new Command();
         command.CommandType = "MoveToFrontOfProductionQueue";
         command.MoveToFrontOfProductionQueue = moveToFrontOfProductionQueue;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructExpandToHexCommand(int cityID, Hex target)
+    {
+        ExpandToHex expandToHex = new ExpandToHex();
+        expandToHex.CityID = (ulong)cityID;
+        expandToHex.Target = new NetworkMessages.Hex();
+        expandToHex.Target.Q = (ulong)target.q;
+        expandToHex.Target.R = (ulong)target.r;
+        expandToHex.Target.S = (ulong)target.s;
+
+        Command command = new Command();
+        command.CommandType = "ExpandToHex";
+        command.ExpandToHex = expandToHex;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructDevelopDistrictCommand(int cityID, Hex target)
+    {
+        DevelopDistrict developDistrict = new DevelopDistrict();
+        developDistrict.CityID = (ulong)cityID;
+        developDistrict.Target = new NetworkMessages.Hex();
+        developDistrict.Target.Q = (ulong)target.q;
+        developDistrict.Target.R = (ulong)target.r;
+        developDistrict.Target.S = (ulong)target.s;
+        
+        Command command = new Command();
+        command.CommandType = "DevelopDistrict";
+        command.DevelopDistrict = developDistrict;
         command.Sender = Global.clientID;
         return command;
     }

@@ -434,11 +434,11 @@ public partial class GameManager : Node
     }
 
 
-    public void CityGrowthExpansion(int cityID, Hex Target, bool local = true)
+    public void ExpandToHex(int cityID, Hex Target, bool local = true)
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructCityGrowthExpansionCommand(cityID, Target));
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructExpandToHexCommand(cityID, Target));
             return;
         }
 
@@ -449,20 +449,39 @@ public partial class GameManager : Node
             return;
         }
 
-        GameHex target = game.mainGameBoard.gameHexDict[Target];
-        if (target == null)
+        try
         {
-            Global.Log("Target hex is null");//TODO - Potential Desync
+            city.ExpandToHex(Target);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error expanding to hex: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+    }
+
+    public void DevelopDistrict(int cityID, Hex Target, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructDevelopDistrictCommand(cityID, Target));
+            return;
+        }
+
+        City city = Global.gameManager.game.cityDictionary[cityID];
+        if (city == null)
+        {
+            Global.Log("City is null"); //TODO - Potential Desync
             return;
         }
 
         try
         {
-            //docitygrowth
+            city.DevelopDistrict(Target);
         }
         catch (Exception e)
         {
-            Global.Log("Error changing production queue: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error developing district: " + e.Message); //TODO - Potential Desync
             return;
         }
     }

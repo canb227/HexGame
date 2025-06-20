@@ -58,6 +58,8 @@ message Command
 		AddToProductionQueue addToProductionQueue = 4;
 		RemoveFromProductionQueue removeFromProductionQueue = 5;
 		MoveToFrontOfProductionQueue moveToFrontOfProductionQueue = 6;
+		ExpandToHex expandToHex = 7;
+		DevelopDistrict developDistrict = 8;
 	}
 	uint64 sender = 99;
 }
@@ -78,6 +80,18 @@ message MoveToFrontOfProductionQueue
 {
 	uint64 index = 1;
 	uint64 cityID = 2;
+}
+
+message ExpandToHex
+{
+	uint64 cityID = 1;
+	Hex target = 2;
+}
+
+message DevelopDistrict
+{
+	uint64 cityID = 1;
+	Hex target = 2;
 }
 
 message MoveUnit
