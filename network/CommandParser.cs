@@ -65,14 +65,55 @@ using System.Threading.Tasks;
     }
 
 
-    internal static Command ConstructChangeProductionQueueCommand(int cityID, List<ProductionQueueType> queue)
-    {
-        throw new NotImplementedException();
-    }
+
 
     internal static Command ConstructCityGrowthExpansionCommand(int cityID, Hex target)
     {
         throw new NotImplementedException();
+    }
+
+    internal static Command ConstructAddToProductionQueueCommand(int cityID, string name, Hex targetHex, bool front)
+    {
+        AddToProductionQueue addToProductionQueue = new AddToProductionQueue();
+        addToProductionQueue.ItemName = name;
+        addToProductionQueue.CityID = (ulong)cityID;
+        addToProductionQueue.Target = new NetworkMessages.Hex();
+        addToProductionQueue.Target.Q = (ulong)targetHex.q;
+        addToProductionQueue.Target.R = (ulong)targetHex.r;
+        addToProductionQueue.Target.S = (ulong)targetHex.s;
+
+        Command command = new Command();
+        command.CommandType = "AddToProductionQueue";
+        command.AddToProductionQueue = addToProductionQueue;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructRemoveFromProductionQueueCommand(int cityID, ulong index)
+    {
+        RemoveFromProductionQueue removeFromProductionQueue = new RemoveFromProductionQueue();
+        removeFromProductionQueue.CityID = (ulong)cityID;
+        removeFromProductionQueue.Index = index;
+
+
+        Command command = new Command();
+        command.CommandType = "RemoveFromProductionQueue";
+        command.RemoveFromProductionQueue = removeFromProductionQueue;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructMoveToFrontOfProductionQueueCommand(int cityID, ulong index)
+    {
+        MoveToFrontOfProductionQueue moveToFrontOfProductionQueue = new MoveToFrontOfProductionQueue();
+        moveToFrontOfProductionQueue.CityID = (ulong)cityID;
+        moveToFrontOfProductionQueue.Index = index;
+
+        Command command = new Command();
+        command.CommandType = "MoveToFrontOfProductionQueue";
+        command.MoveToFrontOfProductionQueue = moveToFrontOfProductionQueue;
+        command.Sender = Global.clientID;
+        return command;
     }
 }
 

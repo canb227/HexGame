@@ -333,11 +333,11 @@ public partial class GameManager : Node
         }
     }
 
-    public void ChangeProductionQueue(int cityID, List<ProductionQueueType> queue, bool local = true)
+    public void AddToProductionQueue(int cityID, string name, Hex targetHex, bool front = false, bool local = true)
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructChangeProductionQueueCommand(cityID,queue));
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructAddToProductionQueueCommand(cityID,name,targetHex,front));
             return;
         }
 
@@ -348,21 +348,85 @@ public partial class GameManager : Node
             return;
         }
 
-        if (queue == null)
+        if (front)
         {
-            Global.debugLog("Queue is null"); //TODO - Potential Desync
+            try
+            {
+                city.AddToFrontOfQueue(name, targetHex);
+            }
+            catch (Exception e)
+            {
+                Global.debugLog("Error changing production queue: " + e.Message); //TODO - Potential Desync
+                return;
+            }
+        }
+        else
+        {
+            try
+            {
+                city.AddToQueue(name, targetHex);
+            }
+            catch (Exception e)
+            {
+                Global.debugLog("Error changing production queue: " + e.Message); //TODO - Potential Desync
+                return;
+            }
+        }
+
+    }
+
+    public void RemoveFromProductionQueue(int cityID, int index, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructRemoveFromProductionQueueCommand(cityID, (ulong)index));
+            return;
+        }
+
+        City city = Global.gameManager.game.cityDictionary[cityID];
+        if (city == null)
+        {
+            Global.debugLog("City is null"); //TODO - Potential Desync
             return;
         }
 
         try
         {
-            //city.SetProductionQueue(queue);
+            city.RemoveFromQueue(index);
         }
         catch (Exception e)
         {
             Global.debugLog("Error changing production queue: " + e.Message); //TODO - Potential Desync
             return;
         }
+
+    }
+
+    public void MoveToFrontOfProductionQueue(int cityID, int index, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructMoveToFrontOfProductionQueueCommand(cityID, (ulong)index));
+            return;
+        }
+
+        City city = Global.gameManager.game.cityDictionary[cityID];
+        if (city == null)
+        {
+            Global.debugLog("City is null"); //TODO - Potential Desync
+            return;
+        }
+
+        try
+        {
+            city.MoveToFrontOfProductionQueue(index);
+        }
+        catch (Exception e)
+        {
+            Global.debugLog("Error moving to front of prod queue: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+
     }
 
 
