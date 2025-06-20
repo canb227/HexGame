@@ -5,6 +5,9 @@ using Steamworks;
 
 public partial class Global : Node
 {
+
+    public const bool PRINTDEBUG = true; //Set to false to disable debug messages
+
     //Steam stuff
     public const uint STEAM_APP_ID = 480;
     public const bool DISABLE_STEAM_DEBUG = false;
@@ -24,6 +27,13 @@ public partial class Global : Node
     public static MenuManager menuManager;
     public static HexGameCamera camera;
     
+    public enum LogLevel
+    {
+        Debug,
+        Info,
+        Warning,
+        Error
+    }
 
     //This ready codeblock is the first non-engine code to run anywhere in the game, since Global is autoloaded by Godot before anything else
     public override void _Ready()
@@ -38,19 +48,19 @@ public partial class Global : Node
         SteamApps.GetLaunchCommandLine(out string commandLine, 1024);
         if (!string.IsNullOrEmpty(commandLine))
         {
-            Global.debugLog("Launch Command Line: " + commandLine);
+            Global.Log("Launch Command Line: " + commandLine);
         }
         else
         {
-            Global.debugLog("No Launch Command Line found");
+            Global.Log("No Launch Command Line found");
         }
     }
 
     public void OnGameRichPresenceJoinRequested(GameRichPresenceJoinRequested_t pCallback)
     {
-        Global.debugLog("Game Rich Presence Join Requested: " + pCallback.m_rgchConnect);
+        Global.Log("Game Rich Presence Join Requested: " + pCallback.m_rgchConnect);
         string connectString = (pCallback.m_rgchConnect);
-        Global.debugLog("Connect String: " + connectString);
+        Global.Log("Connect String: " + connectString);
         Global.menuManager.JoinLobby(ulong.Parse(connectString));
 
 
@@ -66,11 +76,11 @@ public partial class Global : Node
         if (SteamAPI.Init())
         {
             clientID = SteamUser.GetSteamID().m_SteamID;
-            Global.debugLog("Steam ID: " + clientID);
+            Global.Log("Steam ID: " + clientID);
         }
         else
         {
-            Global.debugLog("Steam not initialized");
+            Global.Log("Steam not initialized");
         }
     }
 
@@ -91,16 +101,38 @@ public partial class Global : Node
         }
     }
 
-    public static void debugLog(string message, bool addTimestamp = true)
+    public static void Log(string message, bool addTimestamp = true, LogLevel logLevel = LogLevel.Debug)
     {
+        String messagePrefix = "[NULL]";
+        switch (logLevel)
+        {
+            case LogLevel.Debug:
+                messagePrefix = "[DEBUG]";
+                break;
+            case LogLevel.Info:
+                messagePrefix = "[INFO]";
+                break;
+            case LogLevel.Warning:
+                messagePrefix = "[WARNING]";
+                break;
+            case LogLevel.Error:
+                messagePrefix = "[ERROR]";
+                break;
+        }
         if (addTimestamp)
         {
-            GD.Print("[DEBUG][" + Time.GetTimeStringFromSystem() + "] " + message);
+            messagePrefix += "[" + Time.GetTimeStringFromSystem() + "] ";
+        }
+
+        if (logLevel==LogLevel.Debug && !PRINTDEBUG)
+        {
+            return;
         }
         else
         {
-            GD.Print("[DEBUG] " + message);
+            GD.Print(messagePrefix + message);
         }
+
 
     }
 

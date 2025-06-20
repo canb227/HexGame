@@ -55,8 +55,28 @@ message Command
 	{
 		MoveUnit moveUnit = 2;
 		ActivateAbility activateAbility = 3;
+		AddToProductionQueue addToProductionQueue = 4;
+		RemoveFromProductionQueue removeFromProductionQueue = 5;
+		MoveToFrontOfProductionQueue moveToFrontOfProductionQueue = 6;
 	}
 	uint64 sender = 99;
+}
+
+message AddToProductionQueue
+{
+	string itemName = 1;
+	Hex target = 2;
+	uint64 cityID = 3;
+}
+message RemoveFromProductionQueue
+{
+	uint64 index = 1;
+	uint64 cityID = 2;
+}
+message MoveToFrontOfProductionQueue
+{
+	uint64 index = 1;
+	uint64 cityID = 2;
 }
 
 message MoveUnit
