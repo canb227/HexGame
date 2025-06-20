@@ -57,6 +57,9 @@ using System.Threading.Tasks;
             case "RemoveResourceAssignment":
                 Global.gameManager.RemoveResourceAssignment((int)command.RemoveResourceAssignment.TeamNum, new Hex((int)command.RemoveResourceAssignment.SourceHex.Q, (int)command.RemoveResourceAssignment.SourceHex.R, (int)command.RemoveResourceAssignment.SourceHex.S), false);
                 break;
+            case "EndTurn":
+                Global.gameManager.EndTurn((int)command.EndTurn.TeamNum, false);
+                break;
         }
     }
 
@@ -245,6 +248,18 @@ using System.Threading.Tasks;
         command.Sender = Global.clientID;
         return command;
 
+    }
+
+    internal static Command ConstructEndTurnCommand(int teamNum)
+    {
+        EndTurn endTurn = new EndTurn();
+        endTurn.TeamNum = (ulong)teamNum;
+
+        Command command = new Command();
+        command.CommandType = "EndTurn";
+        command.EndTurn = endTurn;
+        command.Sender = Global.clientID;
+        return command;
     }
 }
 

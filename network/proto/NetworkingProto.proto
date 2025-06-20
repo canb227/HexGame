@@ -65,8 +65,14 @@ message Command
 		SelectCulture selectCulture = 11;
 		AddResourceAssignment addResourceAssignment = 12;
 		RemoveResourceAssignment removeResourceAssignment = 13;
+		EndTurn endTurn = 14;
 	}
 	uint64 sender = 99;
+}
+
+message EndTurn
+{
+	uint64 teamNum = 1;
 }
 
 message AddResourceAssignment

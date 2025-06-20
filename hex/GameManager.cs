@@ -593,5 +593,24 @@ public partial class GameManager : Node
         }
 
     }
+    
+    public void EndTurn(int teamNum, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructEndTurnCommand(teamNum));
+            return;
+        }
+
+        try
+        {
+            Global.gameManager.game.turnManager.EndCurrentTurn(teamNum);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error ending turn: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+    }
 
 }
