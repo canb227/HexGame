@@ -69,8 +69,7 @@ public partial class ProductionQueueUIItem : PanelContainer
     public void RemoveFromQueue(int index)
     {
         Global.gameManager.RemoveFromProductionQueue(city.id, index);
-        city.RemoveFromQueue(index);
-        QueueFree();
+        //city.RemoveFromQueue(index);
     }
 }
 
