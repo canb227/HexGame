@@ -67,6 +67,7 @@ message AddToProductionQueue
 	string itemName = 1;
 	Hex target = 2;
 	uint64 cityID = 3;
+	bool front = 4;
 }
 message RemoveFromProductionQueue
 {

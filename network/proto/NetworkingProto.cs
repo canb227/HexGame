@@ -47,17 +47,18 @@ namespace NetworkMessages {
             "aW9uUXVldWUYBSABKAsyKi5OZXR3b3JrTWVzc2FnZXMuUmVtb3ZlRnJvbVBy",
             "b2R1Y3Rpb25RdWV1ZUgAElUKHG1vdmVUb0Zyb250T2ZQcm9kdWN0aW9uUXVl",
             "dWUYBiABKAsyLS5OZXR3b3JrTWVzc2FnZXMuTW92ZVRvRnJvbnRPZlByb2R1",
-            "Y3Rpb25RdWV1ZUgAEg4KBnNlbmRlchhjIAEoBEIJCgdjb21tYW5kIl4KFEFk",
+            "Y3Rpb25RdWV1ZUgAEg4KBnNlbmRlchhjIAEoBEIJCgdjb21tYW5kIm0KFEFk",
             "ZFRvUHJvZHVjdGlvblF1ZXVlEhAKCGl0ZW1OYW1lGAEgASgJEiQKBnRhcmdl",
             "dBgCIAEoCzIULk5ldHdvcmtNZXNzYWdlcy5IZXgSDgoGY2l0eUlEGAMgASgE",
-            "IjoKGVJlbW92ZUZyb21Qcm9kdWN0aW9uUXVldWUSDQoFaW5kZXgYASABKAQS",
-            "DgoGY2l0eUlEGAIgASgEIj0KHE1vdmVUb0Zyb250T2ZQcm9kdWN0aW9uUXVl",
-            "dWUSDQoFaW5kZXgYASABKAQSDgoGY2l0eUlEGAIgASgEIlEKCE1vdmVVbml0",
-            "Eg4KBnVuaXRJZBgBIAEoBBIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVz",
-            "c2FnZXMuSGV4Eg8KB2lzRW5lbXkYAyABKAgiXAoPQWN0aXZhdGVBYmlsaXR5",
-            "Eg4KBnVuaXRJZBgBIAEoBBITCgthYmlsaXR5TmFtZRgCIAEoCRIkCgZ0YXJn",
-            "ZXQYAyABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IiYKA0hleBIJCgFxGAEg",
-            "ASgEEgkKAXIYAiABKAQSCQoBcxgDIAEoBGIGcHJvdG8z"));
+            "Eg0KBWZyb250GAQgASgIIjoKGVJlbW92ZUZyb21Qcm9kdWN0aW9uUXVldWUS",
+            "DQoFaW5kZXgYASABKAQSDgoGY2l0eUlEGAIgASgEIj0KHE1vdmVUb0Zyb250",
+            "T2ZQcm9kdWN0aW9uUXVldWUSDQoFaW5kZXgYASABKAQSDgoGY2l0eUlEGAIg",
+            "ASgEIlEKCE1vdmVVbml0Eg4KBnVuaXRJZBgBIAEoBBIkCgZ0YXJnZXQYAiAB",
+            "KAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4Eg8KB2lzRW5lbXkYAyABKAgiXAoP",
+            "QWN0aXZhdGVBYmlsaXR5Eg4KBnVuaXRJZBgBIAEoBBITCgthYmlsaXR5TmFt",
+            "ZRgCIAEoCRIkCgZ0YXJnZXQYAyABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4",
+            "IiYKA0hleBIJCgFxGAEgASgEEgkKAXIYAiABKAQSCQoBcxgDIAEoBGIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -68,7 +69,7 @@ namespace NetworkMessages {
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyStatus), global::NetworkMessages.LobbyStatus.Parser, new[]{ "IsHost", "IsReady", "Team", "Faction" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Chat), global::NetworkMessages.Chat.Parser, new[]{ "Sender", "Message" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Command), global::NetworkMessages.Command.Parser, new[]{ "CommandType", "MoveUnit", "ActivateAbility", "AddToProductionQueue", "RemoveFromProductionQueue", "MoveToFrontOfProductionQueue", "Sender" }, new[]{ "Command" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.AddToProductionQueue), global::NetworkMessages.AddToProductionQueue.Parser, new[]{ "ItemName", "Target", "CityID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.AddToProductionQueue), global::NetworkMessages.AddToProductionQueue.Parser, new[]{ "ItemName", "Target", "CityID", "Front" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.RemoveFromProductionQueue), global::NetworkMessages.RemoveFromProductionQueue.Parser, new[]{ "Index", "CityID" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.MoveToFrontOfProductionQueue), global::NetworkMessages.MoveToFrontOfProductionQueue.Parser, new[]{ "Index", "CityID" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.MoveUnit), global::NetworkMessages.MoveUnit.Parser, new[]{ "UnitId", "Target", "IsEnemy" }, null, null, null, null),
@@ -2485,6 +2486,7 @@ namespace NetworkMessages {
       itemName_ = other.itemName_;
       target_ = other.target_ != null ? other.target_.Clone() : null;
       cityID_ = other.cityID_;
+      front_ = other.front_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2530,6 +2532,18 @@ namespace NetworkMessages {
       }
     }
 
+    /// <summary>Field number for the "front" field.</summary>
+    public const int FrontFieldNumber = 4;
+    private bool front_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Front {
+      get { return front_; }
+      set {
+        front_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -2548,6 +2562,7 @@ namespace NetworkMessages {
       if (ItemName != other.ItemName) return false;
       if (!object.Equals(Target, other.Target)) return false;
       if (CityID != other.CityID) return false;
+      if (Front != other.Front) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2558,6 +2573,7 @@ namespace NetworkMessages {
       if (ItemName.Length != 0) hash ^= ItemName.GetHashCode();
       if (target_ != null) hash ^= Target.GetHashCode();
       if (CityID != 0UL) hash ^= CityID.GetHashCode();
+      if (Front != false) hash ^= Front.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2588,6 +2604,10 @@ namespace NetworkMessages {
         output.WriteRawTag(24);
         output.WriteUInt64(CityID);
       }
+      if (Front != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(Front);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2610,6 +2630,10 @@ namespace NetworkMessages {
         output.WriteRawTag(24);
         output.WriteUInt64(CityID);
       }
+      if (Front != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(Front);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2628,6 +2652,9 @@ namespace NetworkMessages {
       }
       if (CityID != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      }
+      if (Front != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2652,6 +2679,9 @@ namespace NetworkMessages {
       }
       if (other.CityID != 0UL) {
         CityID = other.CityID;
+      }
+      if (other.Front != false) {
+        Front = other.Front;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2683,6 +2713,10 @@ namespace NetworkMessages {
             CityID = input.ReadUInt64();
             break;
           }
+          case 32: {
+            Front = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -2711,6 +2745,10 @@ namespace NetworkMessages {
           }
           case 24: {
             CityID = input.ReadUInt64();
+            break;
+          }
+          case 32: {
+            Front = input.ReadBool();
             break;
           }
         }
