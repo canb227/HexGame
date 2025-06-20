@@ -208,7 +208,7 @@ public partial class HexGameCamera : Camera3D
                 {
                     if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]);
+                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, wrapHex);
                         graphicCity.waitingBuildingName = "";
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }

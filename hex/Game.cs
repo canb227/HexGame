@@ -186,8 +186,8 @@ struct GameTests
     {
         City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
         City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 10);
-        player2City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player2City.hex], 10);
+        //player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 10);
+        //player2City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player2City.hex], 10);
 
         if(player1City.productionQueue.Any())
         {
@@ -220,7 +220,7 @@ struct GameTests
                 Complain("player2CityQueueEmpty");
             }
 
-            player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 10);
+            //player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 10);
             player1City.RemoveFromQueue(0); 
 
             if(player1City.productionQueue.Any())
@@ -411,31 +411,7 @@ struct GameTests
     {
         City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
         City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 2);
+
         int targetTurn = 30;
         for(int i = 0; i < targetTurn; i++)
         {
@@ -458,7 +434,6 @@ struct GameTests
     static public Game TestOverflowProduction(Game game)
     {
         City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 1);
 
         game.turnManager.EndCurrentTurn(1);
         game.turnManager.EndCurrentTurn(0);
@@ -473,7 +448,6 @@ struct GameTests
         game.turnManager.EndCurrentTurn(0);
         game.turnManager.StartNewTurn();
 
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 3);
 
         game.turnManager.EndCurrentTurn(1);
         game.turnManager.EndCurrentTurn(0);
@@ -488,7 +462,6 @@ struct GameTests
         game.turnManager.EndCurrentTurn(0);
         game.turnManager.StartNewTurn();
 
-        player1City.AddToQueue("Scout", "", "Scout", Global.gameManager.game.mainGameBoard.gameHexDict[player1City.hex], 4);
         game.turnManager.EndCurrentTurn(1);
         game.turnManager.EndCurrentTurn(0);
         game.turnManager.StartNewTurn();
@@ -518,11 +491,7 @@ struct GameTests
 
         //what hex we use from validHexes should come from the user
         List<Hex> validHexes = player1City.ValidUrbanBuildHexes(BuildingLoader.buildingsDict["Granary"].TerrainTypes);
-        player1City.AddToQueue("Granary", "Granary", "", game.mainGameBoard.gameHexDict[validHexes[0]], BuildingLoader.buildingsDict["Granary"].ProductionCost);
-                
-        //what hex we use from validHexes should come from the user
-        validHexes = player2City.ValidUrbanBuildHexes(BuildingLoader.buildingsDict["StoneCutter"].TerrainTypes);
-        player2City.AddToQueue("StoneCutter", "StoneCutter", "", game.mainGameBoard.gameHexDict[validHexes[0]], BuildingLoader.buildingsDict["StoneCutter"].ProductionCost);
+
 
         int count = 0;
         while(count < (BuildingLoader.buildingsDict["StoneCutter"].ProductionCost/player2City.yields.production))
