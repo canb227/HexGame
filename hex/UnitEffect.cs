@@ -71,14 +71,7 @@ public class UnitEffect
         }
         else if (functionName != "")
         {
-            if(abilityTarget != null)
-            {
-                return ProcessFunctionString(functionName, unitID, combatPower, abilityTarget);
-            }
-            else
-            {
-                return ProcessFunctionString(functionName, unitID, combatPower);
-            }
+            return ProcessFunctionString(functionName, unitID, combatPower, abilityTarget);
         }
         else
         {
@@ -152,7 +145,7 @@ public class UnitEffect
         }
         return property;
     }
-    bool ProcessFunctionString(String functionString, int unitID, float combatPower, GameHex abilityTarget = null)
+    bool ProcessFunctionString(String functionString, int unitID, float combatPower, GameHex abilityTarget)
     {
         if(functionString == "SettleCapitalAbility")
         {
@@ -170,14 +163,7 @@ public class UnitEffect
         }
         else if(functionString == "RangedAttack")
         {
-            if (abilityTarget != null)
-            {
-                return RangedAttack(Global.gameManager.game.unitDictionary[unitID], combatPower, abilityTarget);
-            }
-            else
-            {
-                return false;
-            }
+            return RangedAttack(Global.gameManager.game.unitDictionary[unitID], combatPower, abilityTarget);
         }
         else if(functionString == "EnableEmbarkDisembark")
         {
@@ -252,7 +238,7 @@ public class UnitEffect
         }
         if (validHex)
         {
-            new City(Global.gameManager.game.GetUniqueID(unit.teamNum), 1, cityName, false, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
+            new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, false, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
             return true;
         }

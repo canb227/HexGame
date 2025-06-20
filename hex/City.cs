@@ -20,7 +20,7 @@ public class ProductionQueueType
     public String name { get; set; }
     public String buildingType { get; set; }
     public String unitType { get; set; }
-    public GameHex targetGameHex { get; set; }
+    public GameHex targetGameHex { get; set; } //TODO save file issue
     public float productionLeft { get; set; }
     public float productionCost { get; set; }
     public String productionIconPath { get; set; }

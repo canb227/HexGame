@@ -122,7 +122,7 @@ public class Unit
         Global.gameManager.game.playerDictionary[teamNum].AddGold(-maintenanceCost);
         if(remainingMovement > 0.0f && currentPath.Any() && !isTargetEnemy)
         {
-            MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[currentPath.Last()], Global.gameManager.game.teamManager, isTargetEnemy);
+            MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[currentPath.Last()], Global.gameManager.game.teamManager, false);
         }
         if(remainingMovement >= movementSpeed && attacksLeft == maxAttackCount)
         {

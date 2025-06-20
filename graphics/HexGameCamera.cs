@@ -179,7 +179,8 @@ public partial class HexGameCamera : Camera3D
             {
                 if (((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex], Global.gameManager.game.unitDictionary[((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.usingUnitID]))
                 {
-                    ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.ActivateAbility(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]);
+                    GraphicUnit tempUnit = ((GraphicUnit)Global.gameManager.graphicManager.selectedObject);
+                    Global.gameManager.ActivateAbility(tempUnit.unit.id, tempUnit.waitingAbility.name, wrapHex); //networked command
                     Global.gameManager.graphicManager.ClearWaitForTarget();
                 }
             }

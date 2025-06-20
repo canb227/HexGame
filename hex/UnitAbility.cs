@@ -60,7 +60,7 @@ public class UnitAbility
         return this.effect;
     }
 
-    public bool ActivateAbility(GameHex abilityTarget = null)
+    public bool ActivateAbility(GameHex abilityTarget)
     {
         if (this.effect == null)
         {
@@ -74,14 +74,7 @@ public class UnitAbility
             {
                 manager.Update2DUI(UIElement.unitDisplay);
             }
-            if (abilityTarget != null)
-            {
-                return effect.Apply(usingUnitID, combatPower, abilityTarget);
-            }
-            else
-            {
-                return effect.Apply(usingUnitID, combatPower);
-            }
+            return effect.Apply(usingUnitID, combatPower, abilityTarget);
         }
         return false;
     }

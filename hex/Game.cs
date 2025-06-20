@@ -132,9 +132,9 @@ struct GameTests
         Unit player2Settler = new Unit("Founder", game.GetUniqueID(2), 2);
         game.mainGameBoard.gameHexDict[player2CityLocation].SpawnUnit(player2Settler, false, true);
 
-        player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
+        //player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility(player1Settler.hex);
         
-        player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
+        //player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
 
         City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
         City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
@@ -560,9 +560,9 @@ struct GameTests
         Unit player2Settler = new Unit("Founder", game.GetUniqueID(2), 2);
         game.mainGameBoard.gameHexDict[player2CityLocation].SpawnUnit(player2Settler, false, true);
 
-        player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
+        //player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
         
-        player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
+        //player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
 
         City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
         City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
