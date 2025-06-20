@@ -411,10 +411,12 @@ public partial class GraphicGameBoard : GraphicObject
 
     private void AddHexResource()
     {
+        //GD.Print("Add Resources");
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
         {
             if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
             {
+                //GD.Print("New Resource");
                 Global.gameManager.graphicManager.NewResource(Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType, hex);
             }
         }

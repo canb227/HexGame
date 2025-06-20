@@ -18,6 +18,7 @@ public partial class GraphicResource : GraphicObject
     public bool improved = false;
     public GraphicResource(ResourceType resource, Hex hex)
     {
+        //GD.Print(resource);
         this.hex = hex;
         Node3D temp = Godot.ResourceLoader.Load<PackedScene>("res://" + ResourceLoader.resources[resource].ModelPath).Instantiate<Node3D>();
         resourceMeshInstance = temp.GetNode<MeshInstance3D>("Resource");

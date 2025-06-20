@@ -357,7 +357,7 @@ public class MapGenerator
             mapData = mapData.Substring(0,mapData.Length-1);
             mapData += "\n";
         }
-        //Global.debugLog("\n"+mapData);
+        Global.Log("\n"+mapData);
         return mapData;
     }
     public string ParseResources(ResourceType resourceType)

@@ -108,7 +108,7 @@ public partial class ResearchTreePanel : Control
     {
         if(isCultureTree)
         {
-            Global.gameManager.SelectCultureResearch(Global.gameManager.game.localPlayerTeamNum, researchName);
+            Global.gameManager.SelectCulture(Global.gameManager.game.localPlayerTeamNum, researchName);
             //Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].SelectCultureResearch(researchName);
         }
         else

@@ -48,11 +48,13 @@ public partial class ResourcePanel : Control
         {
             if(currentButton.city != null)
             {
-                localPlayer.RemoveResource(currentButton.hex);
+                //localPlayer.RemoveResource(currentButton.hex);
+                Global.gameManager.RemoveResourceAssignment(Global.gameManager.game.localPlayerTeamNum, currentButton.hex);
             }
             if(city != null)
             {
-                localPlayer.AddResource(currentButton.hex, currentButton.resourceType, city);
+                //localPlayer.AddResource(currentButton.hex, currentButton.resourceType, city);
+                Global.gameManager.AddResourceAssignment(city.id, currentButton.resourceType, currentButton.hex);
             }
             currentButton.hex = new Hex(0, 0, 0);
             currentButton.resourceType = ResourceType.None;
