@@ -28,13 +28,13 @@ using System.Threading.Tasks;
                 Global.gameManager.MoveUnit((int)command.MoveUnit.UnitId, new Hex((int)command.MoveUnit.Target.Q, (int)command.MoveUnit.Target.R, (int)command.MoveUnit.Target.S), command.MoveUnit.IsEnemy, false);
                 break;
             case "AddToProductionQueue":
-                Global.gameManager.AddToProductionQueue((int)command.AddToProductionQueue.CityID, command.AddToProductionQueue.ItemName, new Hex((int)command.AddToProductionQueue.Target.Q, (int)command.AddToProductionQueue.Target.R, (int)command.AddToProductionQueue.Target.S), command.AddToProductionQueue.Front);
+                Global.gameManager.AddToProductionQueue((int)command.AddToProductionQueue.CityID, command.AddToProductionQueue.ItemName, new Hex((int)command.AddToProductionQueue.Target.Q, (int)command.AddToProductionQueue.Target.R, (int)command.AddToProductionQueue.Target.S), command.AddToProductionQueue.Front, false);
                 break;  
             case "RemoveFromProductionQueue":
-                Global.gameManager.RemoveFromProductionQueue((int)command.RemoveFromProductionQueue.CityID, (int)command.RemoveFromProductionQueue.Index);
+                Global.gameManager.RemoveFromProductionQueue((int)command.RemoveFromProductionQueue.CityID, (int)command.RemoveFromProductionQueue.Index, false);
                 break;
             case "MoveToFrontOfProductionQueue":
-                Global.gameManager.MoveToFrontOfProductionQueue((int)command.MoveToFrontOfProductionQueue.CityID, (int)command.MoveToFrontOfProductionQueue.Index);
+                Global.gameManager.MoveToFrontOfProductionQueue((int)command.MoveToFrontOfProductionQueue.CityID, (int)command.MoveToFrontOfProductionQueue.Index, false);
                 break;
         }
     }
