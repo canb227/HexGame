@@ -357,12 +357,16 @@ public class MapGenerator
             mapData = mapData.Substring(0,mapData.Length-1);
             mapData += "\n";
         }
-        Global.Log("\n"+mapData);
+        //Global.Log("\n"+mapData);
         return mapData;
     }
     public string ParseResources(ResourceType resourceType)
     {
-        //Global.debugLog(((char)resourceType).ToString());
+        if (resourceType!=ResourceType.None)
+        {
+            //Global.Log(resourceType.ToString());
+        }
+
         return ((char)resourceType).ToString();
     }
 
@@ -694,8 +698,9 @@ public class MapGenerator
                             hex.resourceType = ResourceType.None; // Default to None if no resource found
                         }
                     }
-                    abstractHexGrid[new Hex(q, r, -q - r)] = hex;
+
                 }
+                abstractHexGrid[new Hex(q, r, -q - r)] = hex;
             }
         }
     }
