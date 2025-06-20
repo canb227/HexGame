@@ -55,14 +55,14 @@ public partial class Lobby : Control
 
     public void CreateLobby()
     {
-        Global.debugLog("Creating new lobby.");
+        Global.Log("Creating new lobby.");
         if (singleplayer)
         {
-            Global.debugLog("Lobby in singleplayer mode.");
+            Global.Log("Lobby in singleplayer mode.");
         }
         else
         {
-            Global.debugLog("Lobby in online mode. Activating Steam Rich Presence Join to Player.");
+            Global.Log("Lobby in online mode. Activating Steam Rich Presence Join to Player.");
             SteamFriends.SetRichPresence("status", "In a lobby");
             SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
         }
@@ -95,7 +95,7 @@ public partial class Lobby : Control
     public void JoinLobby(ulong hostID)
     {
         Global.networkPeer.JoinToPeer(hostID);
-        Global.debugLog("Joining lobby: " + hostID);
+        Global.Log("Joining lobby: " + hostID);
         SteamFriends.SetRichPresence("status", "In a lobby");
         SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
         AddNewPlayerToLobby(Global.clientID, true);
@@ -104,10 +104,10 @@ public partial class Lobby : Control
     private void OnLobbyMessageReceived(LobbyMessage lobbyMessage)
     {
 
-        Global.debugLog("Lobby message received: " + lobbyMessage.MessageType + " from " + lobbyMessage.Sender);
+        Global.Log("Lobby message received: " + lobbyMessage.MessageType + " from " + lobbyMessage.Sender);
         if (lobbyMessage.Sender == Global.clientID && lobbyMessage.MessageType == "status")
         {
-            Global.debugLog("Ignoring own lobby message: " + lobbyMessage.MessageType);
+            Global.Log("Ignoring own lobby message: " + lobbyMessage.MessageType);
             return; // Ignore own messages except for startgame
         }
         switch (lobbyMessage.MessageType)
@@ -121,7 +121,7 @@ public partial class Lobby : Control
                 CheckIfGameCanStart();
                 break;
             case "leave":
-                Global.debugLog("Player left the lobby: " + lobbyMessage.Sender);
+                Global.Log("Player left the lobby: " + lobbyMessage.Sender);
                 if (PlayerStatuses.ContainsKey(lobbyMessage.Sender))
                 {
                     PlayerStatuses.Remove(lobbyMessage.Sender);
@@ -133,7 +133,7 @@ public partial class Lobby : Control
                 }
                 break;
             case "startgame":
-                Global.debugLog("Starting game from lobby message");
+                Global.Log("Starting game from lobby message");
                 //Global.debugLog(lobbyMessage.SavePayload);
                 Global.menuManager.ClearMenus();
                 Global.menuManager.loadingScreen.Show();
@@ -153,7 +153,7 @@ public partial class Lobby : Control
                     Global.gameManager.game.AddPlayer(10, 0, 0);
                     foreach (ulong playerID in PlayerStatuses.Keys)
                     {
-                        Global.debugLog("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team);
+                        Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team);
                         Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID);
                     }
                     Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
@@ -161,13 +161,13 @@ public partial class Lobby : Control
                 Global.menuManager.ClearMenus();
                 break;
             case "loadgame":
-                Global.debugLog("Loading game from host");
+                Global.Log("Loading game from host");
                 Global.gameManager.game = Global.gameManager.LoadGameRaw(lobbyMessage.MapData.MapData_);
                 GetNode<Label>("NewGameStatus").Text = "GAME LOADED";
                 GetNode<ColorRect>("newgamehide").Visible = true;
                 break;
             default:
-                Global.debugLog("Unknown lobby message type: " + lobbyMessage.MessageType);
+                Global.Log("Unknown lobby message type: " + lobbyMessage.MessageType);
                 break;
         }
 
@@ -181,7 +181,7 @@ public partial class Lobby : Control
     }
     private void OnTeamChange(long index)
     {
-        Global.debugLog("team change button pressed, index: " + index);
+        Global.Log("team change button pressed, index: " + index);
         LobbyStatus status = PlayerStatuses[Global.clientID];
         status.Team = (ulong)index + 1;
         PlayerStatuses[Global.clientID] = status;
@@ -204,7 +204,7 @@ public partial class Lobby : Control
         lobbyMessage.LobbyStatus = PlayerStatuses[Global.clientID];
         Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
 
-        Global.debugLog("Lobby change detected, updating other peers");
+        Global.Log("Lobby change detected, updating other peers");
         CheckIfGameCanStart();
     }
 
@@ -252,7 +252,7 @@ public partial class Lobby : Control
     private void OnFileSelected(string path)
     {
         string trimmedPath = path.Substring(path.LastIndexOf("/") + 1);
-        Global.debugLog("File selected: " + trimmedPath);
+        Global.Log("File selected: " + trimmedPath);
 
         Game loaded = Global.gameManager.LoadGame(trimmedPath);
 
@@ -267,7 +267,7 @@ public partial class Lobby : Control
 
     private void OnPlayerJoinEvent(ulong playerID)
     {
-        Global.debugLog("Player joined to Lobby: " + playerID);
+        Global.Log("Player joined to Lobby: " + playerID);
         AddNewPlayerToLobby(playerID, false);
     }
 
@@ -284,14 +284,14 @@ public partial class Lobby : Control
 
 	public void OnInviteButtonPressed()
     {
-        Global.debugLog("Invite button pressed");
+        Global.Log("Invite button pressed");
         Steamworks.SteamFriends.ActivateGameOverlayInviteDialog(Steamworks.SteamUser.GetSteamID());
 
     }
 
     public async void OnStartGameButtonPressed()
     {
-        Global.debugLog("Start game button pressed. Team Num: " + ((int)PlayerStatuses[Global.clientID].Team).ToString());
+        Global.Log("Start game button pressed. Team Num: " + ((int)PlayerStatuses[Global.clientID].Team).ToString());
         Global.menuManager.ClearMenus();
         Global.menuManager.loadingScreen.Show();
         await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);

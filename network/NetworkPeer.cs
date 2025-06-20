@@ -99,21 +99,21 @@ public partial class NetworkPeer : Node
     /// <param name="param"></param>
     private void OnMessageRequest(SteamNetworkingMessagesSessionRequest_t param)
     {
-        Global.debugLog("Connection request from: " + param.m_identityRemote.GetSteamID64());
+        Global.Log("Connection request from: " + param.m_identityRemote.GetSteamID64());
         if (param.m_identityRemote.GetSteamID64() == Global.clientID)
         {
-            Global.debugLog("Connection request from self, Rejected");
+            Global.Log("Connection request from self, Rejected");
             return;
         }
         else if (remotePeers.Contains(param.m_identityRemote))
         {
-            Global.debugLog("Already connected to this peer.");
+            Global.Log("Already connected to this peer.");
             AcceptSessionWithUser(ref param.m_identityRemote);
             return;
         }
         else if (privacyMode == GamePrivacyMode.OFFLINE || privacyMode == GamePrivacyMode.NONE)
         {
-            Global.debugLog("In offline mode, rejecting session.");
+            Global.Log("In offline mode, rejecting session.");
             SteamNetworkingMessages.CloseSessionWithUser(ref param.m_identityRemote);
             return;
         }
@@ -122,12 +122,12 @@ public partial class NetworkPeer : Node
             if (SteamFriends.GetFriendRelationship(param.m_identityRemote.GetSteamID()) == EFriendRelationship.k_EFriendRelationshipFriend)
             {
                 AcceptSessionWithUser(ref param.m_identityRemote);
-                Global.debugLog("Accepting session request from friend: " + param.m_identityRemote.GetSteamID64());
+                Global.Log("Accepting session request from friend: " + param.m_identityRemote.GetSteamID64());
             }
         }
         else if (privacyMode == GamePrivacyMode.PUBLIC)
         {
-            Global.debugLog("Accepting connection request, public mode.");
+            Global.Log("Accepting connection request, public mode.");
             AcceptSessionWithUser(ref param.m_identityRemote);
         }
     }
@@ -225,7 +225,7 @@ public partial class NetworkPeer : Node
     /// <param name="id">SteamID ulong to attempt to join to</param>
     public void JoinToPeer(ulong id)
     {
-        Global.debugLog("Attempting to join peer: " + id);
+        Global.Log("Attempting to join peer: " + id);
         SteamNetworkingIdentity identity = new SteamNetworkingIdentity();
         identity.SetSteamID64(id);
         JoinToPeer(identity);
@@ -309,25 +309,25 @@ public partial class NetworkPeer : Node
 
     private void OnHandshakeMessageReceived(Handshake handshake)
     {
-        Global.debugLog("Handshake received from: " + handshake.Sender);
+        Global.Log("Handshake received from: " + handshake.Sender);
         SteamNetworkingIdentity id = new SteamNetworkingIdentity();
         id.SetSteamID64(handshake.Sender);
         switch (handshake.Status)
         {
             case "JoinRequest":
-                Global.debugLog("Join request received from: " + handshake.Sender);
+                Global.Log("Join request received from: " + handshake.Sender);
                 remotePeers.Add(id);
                 PlayerJoinedEvent?.Invoke(handshake.Sender);
                 HandshakePeer(id, "JoinAccepted");
                 break;
             case "JoinAccepted":
-                Global.debugLog("Join request accepted by: " + handshake.Sender);
+                Global.Log("Join request accepted by: " + handshake.Sender);
                 remotePeers.Add(id);
                 PlayerJoinedEvent?.Invoke(handshake.Sender);
                 HandshakePeer(id, "PeersRequest");
                 break;
             case "PeersRequest":
-                Global.debugLog("Peers list request received from: " + handshake.Sender);
+                Global.Log("Peers list request received from: " + handshake.Sender);
                 Handshake handshake1 = new Handshake() { Sender = Global.clientID, Timestamp = Time.GetUnixTimeFromSystem(), Tick = Global.getTick(), Status = "PeersList" };
                 foreach (var remotePeer in remotePeers)
                 {
@@ -336,7 +336,7 @@ public partial class NetworkPeer : Node
                 SendMessageToPeer(id, handshake1, HANDSHAKE_CHANNEL);
                 break;
             case "PeersList":
-                Global.debugLog("Peers list (total peers: " + handshake.Peers.Count + " ) received from: " + handshake.Sender);
+                Global.Log("Peers list (total peers: " + handshake.Peers.Count + " ) received from: " + handshake.Sender);
                 foreach (ulong peer in handshake.Peers)
                 {
                     SteamNetworkingIdentity id2 = new SteamNetworkingIdentity();

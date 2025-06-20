@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
     private static void OnCommandMessageReceived(Command command)
     {
-        Global.debugLog("Command received: " + command.CommandType + " from " + command.Sender);
+        Global.Log("Command received: " + command.CommandType + " from " + command.Sender);
         switch (command.CommandType)
         {
             case "ActivateAbility":

@@ -11,6 +11,8 @@ using Google.Protobuf.WellKnownTypes;
 [GlobalClass]
 public partial class GameManager : Node
 {
+    private const bool DEBUGNETWORK = true;
+
     public static GameManager instance;
     public GraphicManager graphicManager;
     public Game game;
@@ -64,7 +66,7 @@ public partial class GameManager : Node
 
     public Game LoadGame(String filePath)
     {
-        Global.debugLog("Loading Game from file: " + filePath);
+        Global.Log("Loading Game from file: " + filePath);
         Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
         JsonSerializerOptions options = new JsonSerializerOptions
         {
@@ -92,7 +94,7 @@ public partial class GameManager : Node
     public void startGame(int teamNum)
     {
         Global.menuManager.ClearMenus();
-        Global.debugLog("Starting Game as team: " + teamNum);
+        Global.Log("Starting Game as team: " + teamNum);
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
@@ -117,7 +119,7 @@ public partial class GameManager : Node
 
     public void SpawnPlayers()
     {
-        Global.debugLog("Spawning Players. Total: " + game.playerDictionary.Count);
+        Global.Log("Spawning Players. Total: " + game.playerDictionary.Count);
         for (int i = 0; i < game.playerDictionary.Count; i++)
         {
             //Global.debugLog("Spawning player: " + game.playerDictionary[i]);
@@ -154,7 +156,7 @@ public partial class GameManager : Node
 
     public void startDebugGame(string savePath, int teamNum)
     {
-        Global.debugLog("Starting Game");
+        Global.Log("Starting Game");
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
@@ -167,7 +169,7 @@ public partial class GameManager : Node
 
     private void startTerrainDemo()
     {
-        Global.debugLog("Starting Game");
+        Global.Log("Starting Game");
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
@@ -186,7 +188,7 @@ public partial class GameManager : Node
 
     private void InitGraphics(Game game, Layout layout)
     {
-        Global.debugLog("Initializing Graphics");
+        Global.Log("Initializing Graphics");
         graphicManager = new GraphicManager(layout);
         if (Global.gameManager.game.mainGameBoard != null)
         {
@@ -237,38 +239,40 @@ public partial class GameManager : Node
         }
     }
 
+    
+
     public void MoveUnit(int unitID, Hex hex, bool isEnemy, bool local = true)
     {
         
         if (local)
         {
-            Global.debugLog("Local move command recevied, sending to network and loopback.");
+            Global.Log("Local move command recevied, sending to network and loopback.");
             Global.networkPeer.CommandAllPeers(CommandParser.ConstructMoveUnitCommand(unitID, hex, isEnemy));
             return;
         }
         else
         {
-            Global.debugLog("Network (or loopback) move command recevied, executing.");
+            Global.Log("Network (or loopback) move command recevied, executing.");
         }
 
 
         Unit unit = SearchUnitByID(unitID);
         if (unit == null)
         {
-            Global.debugLog("Unit is null"); //TODO - Potential Desync
+            Global.Log("Unit is null"); //TODO - Potential Desync
             return;
         }
 
         GameHex target = game.mainGameBoard.gameHexDict[hex];
         if (target == null)
         {
-            Global.debugLog("Target hex is null");//TODO - Potential Desync
+            Global.Log("Target hex is null");//TODO - Potential Desync
             return;
         }
 
         if (isEnemy != Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum))
         {
-            Global.debugLog("DESYNC ALARM");
+            Global.Log("DESYNC ALARM");
         }
         try
         {
@@ -276,7 +280,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.debugLog("Error moving unit: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error moving unit: " + e.Message); //TODO - Potential Desync
             return;
         }
     }
@@ -304,21 +308,21 @@ public partial class GameManager : Node
         Unit unit = SearchUnitByID(unitID);
         if (unit == null)
         {
-            Global.debugLog("Unit is null"); //TODO - Potential Desync
+            Global.Log("Unit is null"); //TODO - Potential Desync
             return;
         }
 
         GameHex target = game.mainGameBoard.gameHexDict[Target];
         if (target == null)
         {
-            Global.debugLog("Target hex is null"); //TODO - Potential Desync
+            Global.Log("Target hex is null"); //TODO - Potential Desync
             return;
         }
 
         UnitAbility ability = unit.abilities.Find(x => x.name == AbilityName);
         if (ability == null)
         {
-            Global.debugLog("Ability is null"); //TODO - Potential Desync
+            Global.Log("Ability is null"); //TODO - Potential Desync
             return;
         }
 
@@ -328,7 +332,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.debugLog("Error activating ability: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error activating ability: " + e.Message); //TODO - Potential Desync
             return;
         }
     }
@@ -344,7 +348,7 @@ public partial class GameManager : Node
         City city = Global.gameManager.game.cityDictionary[cityID];
         if (city == null)
         {
-            Global.debugLog("City is null"); //TODO - Potential Desync
+            Global.Log("City is null"); //TODO - Potential Desync
             return;
         }
 
@@ -356,7 +360,7 @@ public partial class GameManager : Node
             }
             catch (Exception e)
             {
-                Global.debugLog("Error changing production queue: " + e.Message); //TODO - Potential Desync
+                Global.Log("Error changing production queue: " + e.Message); //TODO - Potential Desync
                 return;
             }
         }
@@ -368,7 +372,7 @@ public partial class GameManager : Node
             }
             catch (Exception e)
             {
-                Global.debugLog("Error changing production queue: " + e.Message); //TODO - Potential Desync
+                Global.Log("Error changing production queue: " + e.Message); //TODO - Potential Desync
                 return;
             }
         }
@@ -386,7 +390,7 @@ public partial class GameManager : Node
         City city = Global.gameManager.game.cityDictionary[cityID];
         if (city == null)
         {
-            Global.debugLog("City is null"); //TODO - Potential Desync
+            Global.Log("City is null"); //TODO - Potential Desync
             return;
         }
 
@@ -396,7 +400,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.debugLog("Error changing production queue: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error changing production queue: " + e.Message); //TODO - Potential Desync
             return;
         }
 
@@ -413,7 +417,7 @@ public partial class GameManager : Node
         City city = Global.gameManager.game.cityDictionary[cityID];
         if (city == null)
         {
-            Global.debugLog("City is null"); //TODO - Potential Desync
+            Global.Log("City is null"); //TODO - Potential Desync
             return;
         }
 
@@ -423,7 +427,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.debugLog("Error moving to front of prod queue: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error moving to front of prod queue: " + e.Message); //TODO - Potential Desync
             return;
         }
 
@@ -441,14 +445,14 @@ public partial class GameManager : Node
         City city = Global.gameManager.game.cityDictionary[cityID];
         if (city == null)
         {
-            Global.debugLog("City is null"); //TODO - Potential Desync
+            Global.Log("City is null"); //TODO - Potential Desync
             return;
         }
 
         GameHex target = game.mainGameBoard.gameHexDict[Target];
         if (target == null)
         {
-            Global.debugLog("Target hex is null");//TODO - Potential Desync
+            Global.Log("Target hex is null");//TODO - Potential Desync
             return;
         }
 
@@ -458,7 +462,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.debugLog("Error changing production queue: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error changing production queue: " + e.Message); //TODO - Potential Desync
             return;
         }
     }
