@@ -192,14 +192,16 @@ public partial class HexGameCamera : Camera3D
                 {
                     if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.ExpandToHex(wrapHex);
+                        Global.gameManager.ExpandToHex(graphicCity.city.id, wrapHex);//networked command
+                        //graphicCity.city.ExpandToHex(wrapHex);
                         graphicCity.waitingToGrow = false;
                         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }
                     else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.DevelopDistrict(wrapHex);
+                        Global.gameManager.DevelopDistrict(graphicCity.city.id, wrapHex);//networked command
+                        //graphicCity.city.DevelopDistrict(wrapHex);
                         graphicCity.waitingToGrow = false;
                         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
                         Global.gameManager.graphicManager.ClearWaitForTarget();
