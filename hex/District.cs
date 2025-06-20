@@ -49,7 +49,7 @@ public class District
     }
     private void SetupDistrict(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID)
     {
-        id = Global.gameManager.game.GetUniqueID();
+        id = Global.gameManager.game.GetUniqueID(Global.gameManager.game.cityDictionary[cityID].teamNum);
         this.cityID = cityID;
         buildings = new();
         defenses = new();

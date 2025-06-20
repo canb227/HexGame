@@ -53,7 +53,7 @@ public class Building
         {
             Global.gameManager.game.builtWonders.Add(buildingType);
         }
-        id = Global.gameManager.game.GetUniqueID();
+        id = Global.gameManager.game.GetUniqueID(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[districtHex].district.cityID].teamNum);
         if(!isResource)
         {
             if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewBuilding(this);

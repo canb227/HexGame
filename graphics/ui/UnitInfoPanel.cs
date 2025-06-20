@@ -178,7 +178,7 @@ public partial class UnitInfoPanel : Node3D
         {
             if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[Global.gameManager.game.unitDictionary[ability.usingUnitID].hex], Global.gameManager.game.unitDictionary[ability.usingUnitID]))
             {
-                ability.ActivateAbility();
+                Global.gameManager.ActivateAbility(unit.id, ability.name, unit.hex); //networked command
             }
         }
         return;

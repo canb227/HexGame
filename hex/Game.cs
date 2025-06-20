@@ -65,7 +65,7 @@ public class Game
         playerDictionary.Add(teamNum, newPlayer);
     }
 
-    public int GetUniqueID()
+    public int GetUniqueID(int teamID)
     {
         return Interlocked.Increment(ref currentID);
     }
@@ -80,7 +80,7 @@ struct GameTests
     static public Game GameStartTest()
     {
         Game game = new Game(1);
-        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID());
+        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID(0));
         //test that hexes have features and such
         if (game.mainGameBoard.gameHexDict[new Hex(4, 3, -7)].terrainType != TerrainType.Flat)
         {
@@ -96,9 +96,9 @@ struct GameTests
         TestPlayerRelations(game, 1, 2, 50, 50);
         Hex player1StartLocation = new Hex(4, 3, -7);
         Hex player2StartLocation = new Hex(0, 10, -10);
-        Unit player1Settler = new Unit("Founder", game.GetUniqueID(), 1);
+        Unit player1Settler = new Unit("Founder", game.GetUniqueID(1), 1);
         game.mainGameBoard.gameHexDict[player1StartLocation].SpawnUnit(player1Settler, false, true);
-        Unit player2Settler = new Unit("Founder", game.GetUniqueID(), 2);
+        Unit player2Settler = new Unit("Founder", game.GetUniqueID(2), 2);
         game.mainGameBoard.gameHexDict[player2StartLocation].SpawnUnit(player2Settler, false, true);
 
         //player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility(player1Settler);
@@ -110,7 +110,7 @@ struct GameTests
     static public Game MapLoadTest()
     {
         Game game = new Game(1);
-        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID());
+        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID(0));
         //test that hexes have features and such
         if (game.mainGameBoard.gameHexDict[new Hex(4,3, -7)].terrainType != TerrainType.Flat)
         {
@@ -126,14 +126,14 @@ struct GameTests
         TestPlayerRelations(game, 1, 2, 50, 50);
         Hex player1CityLocation = new Hex(4, 3, -7);
         Hex player2CityLocation = new Hex(0, 10, -10);
-        Unit player1Settler = new Unit("Founder", game.GetUniqueID(), 1);
+        Unit player1Settler = new Unit("Founder", game.GetUniqueID(1), 1);
         game.mainGameBoard.gameHexDict[player1CityLocation].SpawnUnit(player1Settler, false, true);
-        Unit player2Settler = new Unit("Founder", game.GetUniqueID(), 2);
+        Unit player2Settler = new Unit("Founder", game.GetUniqueID(2), 2);
         game.mainGameBoard.gameHexDict[player2CityLocation].SpawnUnit(player2Settler, false, true);
 
-        player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
+        //player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility(player1Settler.hex);
         
-        player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
+        //player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
 
         City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
         City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
@@ -546,7 +546,7 @@ struct GameTests
     {
 
         Game game = new Game(1);
-        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID());
+        game.mainGameBoard.InitGameBoardFromFile("hex/sample", game.GetUniqueID(0));
 
         game.AddPlayer(0.0f, 0);
         game.AddPlayer(50.0f, 1);
@@ -554,14 +554,14 @@ struct GameTests
         TestPlayerRelations(game, 1, 2, 50, 50);
         Hex player1CityLocation = new Hex(4, 8, -12);
         Hex player2CityLocation = new Hex(6, 11, -17);
-        Unit player1Settler = new Unit("Founder", game.GetUniqueID(), 1);
+        Unit player1Settler = new Unit("Founder", game.GetUniqueID(1), 1);
         game.mainGameBoard.gameHexDict[player1CityLocation].SpawnUnit(player1Settler, false, true);
-        Unit player2Settler = new Unit("Founder", game.GetUniqueID(), 2);
+        Unit player2Settler = new Unit("Founder", game.GetUniqueID(2), 2);
         game.mainGameBoard.gameHexDict[player2CityLocation].SpawnUnit(player2Settler, false, true);
 
-        player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
+        //player1Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
         
-        player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
+        //player2Settler.abilities.Find(ability => ability.name == "SettleCapitalAbility").ActivateAbility();
 
         City player1City = Global.gameManager.game.cityDictionary[game.playerDictionary[1].cityList[0]];
         City player2City = Global.gameManager.game.cityDictionary[game.playerDictionary[2].cityList[0]];
