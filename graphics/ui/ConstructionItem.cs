@@ -100,7 +100,6 @@ public partial class ConstructionItem : PanelContainer
 
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + buildingInfo.IconPath);
         objectName.Text = name;
-        GD.Print(name);
 
         foreach (Control child in EffectListBox.GetChildren())
         {
@@ -132,7 +131,7 @@ public partial class ConstructionItem : PanelContainer
 
                 EffectListBox.AddChild(effectBox);
 
-                GD.Print($"{kvp.Key}: {kvp.Value}");
+                //GD.Print($"{kvp.Key}: {kvp.Value}");
             }
         }
     }

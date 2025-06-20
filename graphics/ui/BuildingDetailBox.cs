@@ -69,7 +69,7 @@ public partial class BuildingDetailBox : PanelContainer
 
                 EffectListBox.AddChild(effectBox);
 
-                GD.Print($"{kvp.Key}: {kvp.Value}");
+                //GD.Print($"{kvp.Key}: {kvp.Value}");
             }
         }
     }

@@ -191,12 +191,12 @@ struct GameTests
 
         if(player1City.productionQueue.Any())
         {
-            if(player1City.productionQueue[0].name != "Scout" | player1City.productionQueue[0].productionLeft != 10)
+            if(player1City.productionQueue[0].itemName != "Scout" | player1City.productionQueue[0].productionLeft != 10)
             {
                 Complain("player1CityFirstQueueNotScoutOrProductionWrong");
             }
         }
-        if(player2City.productionQueue.Any() & (player2City.productionQueue[0].name != "Scout" | player2City.productionQueue[0].productionLeft != 10))
+        if(player2City.productionQueue.Any() & (player2City.productionQueue[0].itemName != "Scout" | player2City.productionQueue[0].productionLeft != 10))
         {
             Complain("player2CityFirstQueueNotScoutOrProductionWrong");
         }
@@ -225,7 +225,7 @@ struct GameTests
 
             if(player1City.productionQueue.Any())
             {
-                if(player1City.productionQueue[0].name != "Scout" | player1City.productionQueue[0].productionLeft != 5)
+                if(player1City.productionQueue[0].itemName != "Scout" | player1City.productionQueue[0].productionLeft != 5)
                 {
                     Complain("player1CityAddNewRemovePartial");
                 }
