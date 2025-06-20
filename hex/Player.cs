@@ -59,6 +59,7 @@ public class Player
     public float happinessTotal { get; set; }
     public float influenceTotal { get; set; }
 
+    private int idCounter = 0;
 
     public void SetGoldTotal(float goldTotal)
     {
@@ -432,6 +433,41 @@ public class Player
     public void AddInfluence(float influence)
     {
         SetInfluenceTotal(GetInfluenceTotal() + influence);
+    }
+
+    internal int GetNextUniqueID()
+    {
+        string teamID = ""; //teamnum with minimum three digits (1 = 100, 3 = 300, 74 = 740, 600 = 600, 999 = 999)
+        if (teamNum>999)
+        {
+           throw new Exception("Team number exceeds 999, cannot generate unique ID.");
+        }
+
+        if (teamNum <0)
+        {             
+            throw new Exception("Team number cannot be negative, cannot generate unique ID.");
+        }
+
+        if (idCounter > 999999)
+        {
+            throw new Exception("IDCounter exceeds 999999, cannot generate unique ID.");
+        }
+
+        if (teamNum < 10)
+        {
+            teamID = "00" + teamNum.ToString();
+        }
+        else if (teamNum < 100)
+        {
+            teamID = "0" + teamNum.ToString();
+        }
+        else
+        {
+            teamID = teamNum.ToString();
+        }
+        string idString = idCounter.ToString() + teamID;
+        idCounter++;
+        return int.Parse(idString);
     }
 }
 

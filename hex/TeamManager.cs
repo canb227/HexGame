@@ -7,6 +7,7 @@ public class TeamManager
 {
     public Dictionary<int, Dictionary<int, int>> relationships { get; set; } = new Dictionary<int, Dictionary<int, int>>();
 
+
     public void AddTeam(int newTeamNum, int defaultRelationship)
     {
         Dictionary<int, int> newTeam = new();

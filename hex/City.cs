@@ -505,7 +505,7 @@ public class City
                 }
                 else if (productionQueue[0].unitType != "")
                 {
-                    Unit tempUnit = new Unit(productionQueue[0].name, Global.gameManager.game.GetUniqueID(), teamNum);
+                    Unit tempUnit = new Unit(productionQueue[0].name, Global.gameManager.game.GetUniqueID(teamNum), teamNum);
                     if (!productionQueue[0].targetGameHex.SpawnUnit(tempUnit, false, true))
                     {
                         tempUnit.name = "Ghost Man";

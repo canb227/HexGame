@@ -16,7 +16,7 @@ public class GameBoard
     {
     }
 
-    public void InitGameBoardFromFile(string mapName, int id)
+    public void InitGameBoardFromFile(string mapName)
     {
         gameHexDict = new();
         String mapData = System.IO.File.ReadAllText(mapName + ".map");

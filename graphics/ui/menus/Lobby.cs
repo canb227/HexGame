@@ -143,18 +143,18 @@ public partial class Lobby : Control
                 {
                     Global.gameManager.game = new Game(0);
                     Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth-1), (int)(lobbyMessage.MapData.MapHeight - 1));
-                    Global.gameManager.game.AddPlayer(10, 0);
+                    Global.gameManager.game.AddPlayer(10, 0, 0);
                     Global.gameManager.startGame(0);
                 }
                 else
                 {
                     Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
                     Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
-                    Global.gameManager.game.AddPlayer(10, 0);
-                    foreach (LobbyStatus player in PlayerStatuses.Values)
+                    Global.gameManager.game.AddPlayer(10, 0, 0);
+                    foreach (ulong playerID in PlayerStatuses.Keys)
                     {
-                        Global.debugLog("Adding player to game: " + player.Team);
-                        Global.gameManager.game.AddPlayer(10, (int)player.Team);
+                        Global.debugLog("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team);
+                        Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID);
                     }
                     Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
                 }

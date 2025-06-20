@@ -65,12 +65,12 @@ using System.Threading.Tasks;
     }
 
 
-    internal static Command ConstructChangeProductionQueueCommand(City city, List<ProductionQueueType> queue)
+    internal static Command ConstructChangeProductionQueueCommand(int cityID, List<ProductionQueueType> queue)
     {
         throw new NotImplementedException();
     }
 
-    internal static Command ConstructCityGrowthExpansionCommand(City city, Hex target)
+    internal static Command ConstructCityGrowthExpansionCommand(int cityID, Hex target)
     {
         throw new NotImplementedException();
     }

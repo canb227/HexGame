@@ -15,6 +15,7 @@ public partial class GameManager : Node
     public GraphicManager graphicManager;
     public Game game;
 
+    public Dictionary<int,ulong> teamNumToPlayerID = new Dictionary<int, ulong>();
 
     public GameManager()
     {
@@ -126,7 +127,7 @@ public partial class GameManager : Node
             }
             else
             {
-                Unit playerSettler = new Unit("Founder", game.GetUniqueID(), game.playerDictionary[i].teamNum);
+                Unit playerSettler = new Unit("Founder", game.GetUniqueID(game.playerDictionary[i].teamNum), game.playerDictionary[i].teamNum);
                 game.mainGameBoard.gameHexDict[PickRandomValidHex()].SpawnUnit(playerSettler, false, true);
             }
 
@@ -310,7 +311,7 @@ public partial class GameManager : Node
         GameHex target = game.mainGameBoard.gameHexDict[Target];
         if (target == null)
         {
-            Global.debugLog("Target hex is null");//TODO - Potential Desync
+            Global.debugLog("Target hex is null"); //TODO - Potential Desync
             return;
         }
 
@@ -332,14 +333,15 @@ public partial class GameManager : Node
         }
     }
 
-    public void ChangeProductionQueue(City city, List<ProductionQueueType> queue, bool local = true)
+    public void ChangeProductionQueue(int cityID, List<ProductionQueueType> queue, bool local = true)
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructChangeProductionQueueCommand(city,queue));
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructChangeProductionQueueCommand(cityID,queue));
             return;
         }
 
+        City city = Global.gameManager.game.cityDictionary[cityID];
         if (city == null)
         {
             Global.debugLog("City is null"); //TODO - Potential Desync
@@ -355,6 +357,40 @@ public partial class GameManager : Node
         try
         {
             //city.SetProductionQueue(queue);
+        }
+        catch (Exception e)
+        {
+            Global.debugLog("Error changing production queue: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+    }
+
+
+    public void CityGrowthExpansion(int cityID, Hex Target, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructCityGrowthExpansionCommand(cityID, Target));
+            return;
+        }
+
+        City city = Global.gameManager.game.cityDictionary[cityID];
+        if (city == null)
+        {
+            Global.debugLog("City is null"); //TODO - Potential Desync
+            return;
+        }
+
+        GameHex target = game.mainGameBoard.gameHexDict[Target];
+        if (target == null)
+        {
+            Global.debugLog("Target hex is null");//TODO - Potential Desync
+            return;
+        }
+
+        try
+        {
+            //docitygrowth
         }
         catch (Exception e)
         {

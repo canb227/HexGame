@@ -218,7 +218,7 @@ public class UnitEffect
         }
         if (validHex)
         {
-            new City(Global.gameManager.game.GetUniqueID(), unit.teamNum, cityName, true, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
+            new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, true, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
             return true;
         }
@@ -252,7 +252,7 @@ public class UnitEffect
         }
         if (validHex)
         {
-            new City(Global.gameManager.game.GetUniqueID(), 1, cityName, false, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
+            new City(Global.gameManager.game.GetUniqueID(unit.teamNum), 1, cityName, false, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
             return true;
         }
