@@ -63,11 +63,12 @@ public partial class ProductionQueueUIItem : PanelContainer
 
     public void MoveToFrontOfQueue()
     {
-        city.MoveToFrontOfProductionQueue(queueIndex);
+        Global.gameManager.MoveToFrontOfProductionQueue(city.id, queueIndex); //networked command
     }
 
     public void RemoveFromQueue(int index)
     {
+        Global.gameManager.RemoveFromProductionQueue(city.id, index);
         city.RemoveFromQueue(index);
         QueueFree();
     }

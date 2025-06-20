@@ -3,6 +3,7 @@ using NetworkMessages;
 using System.Collections.Generic;
 using System;
 using Google.Protobuf.WellKnownTypes;
+using System.Xml.Linq;
 
 [GlobalClass]
 public partial class HexGameCamera : Camera3D
@@ -208,7 +209,7 @@ public partial class HexGameCamera : Camera3D
                 {
                     if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        graphicCity.city.AddBuildingToQueue(graphicCity.waitingBuildingName, wrapHex);
+                        Global.gameManager.AddToProductionQueue(graphicCity.city.id, graphicCity.waitingBuildingName, wrapHex); //networked command
                         graphicCity.waitingBuildingName = "";
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }

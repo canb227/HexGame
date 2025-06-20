@@ -144,7 +144,7 @@ public partial class ConstructionItem : PanelContainer
         }
         if (isUnit)
         {
-            city.AddUnitToQueue(name);
+            Global.gameManager.AddToProductionQueue(city.id, name, city.hex); //networked command
         }
     }
 
