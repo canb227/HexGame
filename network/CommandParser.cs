@@ -42,6 +42,9 @@ using System.Threading.Tasks;
             case "DevelopDistrict":
                 Global.gameManager.DevelopDistrict((int)command.DevelopDistrict.CityID, new Hex((int)command.DevelopDistrict.Target.Q, (int)command.DevelopDistrict.Target.R, (int)command.DevelopDistrict.Target.S), false);
                 break;
+            case "RenameCity":
+                Global.gameManager.RenameCity((int)command.RenameCity.CityID, command.RenameCity.Name, false);
+                break;
         }
     }
 
@@ -152,6 +155,19 @@ using System.Threading.Tasks;
         Command command = new Command();
         command.CommandType = "DevelopDistrict";
         command.DevelopDistrict = developDistrict;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructRenameCityCommand(int cityID, string name)
+    {
+        RenameCity city = new RenameCity();
+        city.CityID = (ulong)cityID;
+        city.Name = name;
+
+        Command command = new Command();
+        command.CommandType = "RenameCity";
+        command.RenameCity = city;
         command.Sender = Global.clientID;
         return command;
     }

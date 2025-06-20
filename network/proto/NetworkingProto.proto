@@ -60,8 +60,15 @@ message Command
 		MoveToFrontOfProductionQueue moveToFrontOfProductionQueue = 6;
 		ExpandToHex expandToHex = 7;
 		DevelopDistrict developDistrict = 8;
+		RenameCity renameCity = 9;
 	}
 	uint64 sender = 99;
+}
+
+message RenameCity
+{
+	uint64 cityID = 1;
+	string name = 2;
 }
 
 message AddToProductionQueue

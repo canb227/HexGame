@@ -485,4 +485,31 @@ public partial class GameManager : Node
             return;
         }
     }
+
+    public void RenameCity(int cityID, string name, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructRenameCityCommand(cityID, name));
+            return;
+        }
+
+        City city = Global.gameManager.game.cityDictionary[cityID];
+        if (city == null)
+        {
+            Global.Log("City is null"); //TODO - Potential Desync
+            return;
+        }
+
+        try
+        {
+            city.RenameCity(name);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error renaming city: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+    }
+
 }
