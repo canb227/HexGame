@@ -38,7 +38,7 @@ namespace NetworkMessages {
             "IAEoAxIRCgltYXBIZWlnaHQYAyABKAMSDwoHbWFwRGF0YRgEIAEoCUIKCghf",
             "bWFwTmFtZSJNCgtMb2JieVN0YXR1cxIOCgZpc0hvc3QYASABKAgSDwoHaXNS",
             "ZWFkeRgCIAEoCBIMCgR0ZWFtGAMgASgEEg8KB2ZhY3Rpb24YBCABKAQiJwoE",
-            "Q2hhdBIOCgZzZW5kZXIYASABKAQSDwoHbWVzc2FnZRgCIAEoCSKtBQoHQ29t",
+            "Q2hhdBIOCgZzZW5kZXIYASABKAQSDwoHbWVzc2FnZRgCIAEoCSLFBgoHQ29t",
             "bWFuZBITCgtjb21tYW5kVHlwZRgBIAEoCRItCghtb3ZlVW5pdBgCIAEoCzIZ",
             "Lk5ldHdvcmtNZXNzYWdlcy5Nb3ZlVW5pdEgAEjsKD2FjdGl2YXRlQWJpbGl0",
             "eRgDIAEoCzIgLk5ldHdvcmtNZXNzYWdlcy5BY3RpdmF0ZUFiaWxpdHlIABJF",
@@ -53,24 +53,32 @@ namespace NetworkMessages {
             "ZUNpdHkYCSABKAsyGy5OZXR3b3JrTWVzc2FnZXMuUmVuYW1lQ2l0eUgAEjkK",
             "DnNlbGVjdFJlc2VhcmNoGAogASgLMh8uTmV0d29ya01lc3NhZ2VzLlNlbGVj",
             "dFJlc2VhcmNoSAASNwoNc2VsZWN0Q3VsdHVyZRgLIAEoCzIeLk5ldHdvcmtN",
-            "ZXNzYWdlcy5TZWxlY3RDdWx0dXJlSAASDgoGc2VuZGVyGGMgASgEQgkKB2Nv",
-            "bW1hbmQiNwoOU2VsZWN0UmVzZWFyY2gSDwoHdGVhbU51bRgBIAEoBBIUCgxy",
-            "ZXNlYXJjaE5hbWUYAiABKAkiNQoNU2VsZWN0Q3VsdHVyZRIPCgd0ZWFtTnVt",
-            "GAEgASgEEhMKC2N1bHR1cmVOYW1lGAIgASgJIioKClJlbmFtZUNpdHkSDgoG",
-            "Y2l0eUlEGAEgASgEEgwKBG5hbWUYAiABKAkibQoUQWRkVG9Qcm9kdWN0aW9u",
-            "UXVldWUSEAoIaXRlbU5hbWUYASABKAkSJAoGdGFyZ2V0GAIgASgLMhQuTmV0",
-            "d29ya01lc3NhZ2VzLkhleBIOCgZjaXR5SUQYAyABKAQSDQoFZnJvbnQYBCAB",
-            "KAgiOgoZUmVtb3ZlRnJvbVByb2R1Y3Rpb25RdWV1ZRINCgVpbmRleBgBIAEo",
-            "BBIOCgZjaXR5SUQYAiABKAQiPQocTW92ZVRvRnJvbnRPZlByb2R1Y3Rpb25R",
-            "dWV1ZRINCgVpbmRleBgBIAEoBBIOCgZjaXR5SUQYAiABKAQiQwoLRXhwYW5k",
-            "VG9IZXgSDgoGY2l0eUlEGAEgASgEEiQKBnRhcmdldBgCIAEoCzIULk5ldHdv",
-            "cmtNZXNzYWdlcy5IZXgiRwoPRGV2ZWxvcERpc3RyaWN0Eg4KBmNpdHlJRBgB",
-            "IAEoBBIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IlEK",
-            "CE1vdmVVbml0Eg4KBnVuaXRJZBgBIAEoBBIkCgZ0YXJnZXQYAiABKAsyFC5O",
-            "ZXR3b3JrTWVzc2FnZXMuSGV4Eg8KB2lzRW5lbXkYAyABKAgiXAoPQWN0aXZh",
-            "dGVBYmlsaXR5Eg4KBnVuaXRJZBgBIAEoBBITCgthYmlsaXR5TmFtZRgCIAEo",
-            "CRIkCgZ0YXJnZXQYAyABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IiYKA0hl",
-            "eBIJCgFxGAEgASgEEgkKAXIYAiABKAQSCQoBcxgDIAEoBGIGcHJvdG8z"));
+            "ZXNzYWdlcy5TZWxlY3RDdWx0dXJlSAASRwoVYWRkUmVzb3VyY2VBc3NpZ25t",
+            "ZW50GAwgASgLMiYuTmV0d29ya01lc3NhZ2VzLkFkZFJlc291cmNlQXNzaWdu",
+            "bWVudEgAEk0KGHJlbW92ZVJlc291cmNlQXNzaWdubWVudBgNIAEoCzIpLk5l",
+            "dHdvcmtNZXNzYWdlcy5SZW1vdmVSZXNvdXJjZUFzc2lnbm1lbnRIABIOCgZz",
+            "ZW5kZXIYYyABKARCCQoHY29tbWFuZCJmChVBZGRSZXNvdXJjZUFzc2lnbm1l",
+            "bnQSDgoGY2l0eUlEGAEgASgEEhQKDHJlc291cmNlTmFtZRgCIAEoBBInCglz",
+            "b3VyY2VIZXgYAyABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IlQKGFJlbW92",
+            "ZVJlc291cmNlQXNzaWdubWVudBIPCgd0ZWFtTnVtGAEgASgEEicKCXNvdXJj",
+            "ZUhleBgCIAEoCzIULk5ldHdvcmtNZXNzYWdlcy5IZXgiNwoOU2VsZWN0UmVz",
+            "ZWFyY2gSDwoHdGVhbU51bRgBIAEoBBIUCgxyZXNlYXJjaE5hbWUYAiABKAki",
+            "NQoNU2VsZWN0Q3VsdHVyZRIPCgd0ZWFtTnVtGAEgASgEEhMKC2N1bHR1cmVO",
+            "YW1lGAIgASgJIioKClJlbmFtZUNpdHkSDgoGY2l0eUlEGAEgASgEEgwKBG5h",
+            "bWUYAiABKAkibQoUQWRkVG9Qcm9kdWN0aW9uUXVldWUSEAoIaXRlbU5hbWUY",
+            "ASABKAkSJAoGdGFyZ2V0GAIgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleBIO",
+            "CgZjaXR5SUQYAyABKAQSDQoFZnJvbnQYBCABKAgiOgoZUmVtb3ZlRnJvbVBy",
+            "b2R1Y3Rpb25RdWV1ZRINCgVpbmRleBgBIAEoBBIOCgZjaXR5SUQYAiABKAQi",
+            "PQocTW92ZVRvRnJvbnRPZlByb2R1Y3Rpb25RdWV1ZRINCgVpbmRleBgBIAEo",
+            "BBIOCgZjaXR5SUQYAiABKAQiQwoLRXhwYW5kVG9IZXgSDgoGY2l0eUlEGAEg",
+            "ASgEEiQKBnRhcmdldBgCIAEoCzIULk5ldHdvcmtNZXNzYWdlcy5IZXgiRwoP",
+            "RGV2ZWxvcERpc3RyaWN0Eg4KBmNpdHlJRBgBIAEoBBIkCgZ0YXJnZXQYAiAB",
+            "KAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IlEKCE1vdmVVbml0Eg4KBnVuaXRJ",
+            "ZBgBIAEoBBIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4",
+            "Eg8KB2lzRW5lbXkYAyABKAgiXAoPQWN0aXZhdGVBYmlsaXR5Eg4KBnVuaXRJ",
+            "ZBgBIAEoBBITCgthYmlsaXR5TmFtZRgCIAEoCRIkCgZ0YXJnZXQYAyABKAsy",
+            "FC5OZXR3b3JrTWVzc2FnZXMuSGV4IiYKA0hleBIJCgFxGAEgASgEEgkKAXIY",
+            "AiABKAQSCQoBcxgDIAEoBGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -80,7 +88,9 @@ namespace NetworkMessages {
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.MapData), global::NetworkMessages.MapData.Parser, new[]{ "MapName", "MapWidth", "MapHeight", "MapData_" }, new[]{ "MapName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyStatus), global::NetworkMessages.LobbyStatus.Parser, new[]{ "IsHost", "IsReady", "Team", "Faction" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Chat), global::NetworkMessages.Chat.Parser, new[]{ "Sender", "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Command), global::NetworkMessages.Command.Parser, new[]{ "CommandType", "MoveUnit", "ActivateAbility", "AddToProductionQueue", "RemoveFromProductionQueue", "MoveToFrontOfProductionQueue", "ExpandToHex", "DevelopDistrict", "RenameCity", "SelectResearch", "SelectCulture", "Sender" }, new[]{ "Command" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Command), global::NetworkMessages.Command.Parser, new[]{ "CommandType", "MoveUnit", "ActivateAbility", "AddToProductionQueue", "RemoveFromProductionQueue", "MoveToFrontOfProductionQueue", "ExpandToHex", "DevelopDistrict", "RenameCity", "SelectResearch", "SelectCulture", "AddResourceAssignment", "RemoveResourceAssignment", "Sender" }, new[]{ "Command" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.AddResourceAssignment), global::NetworkMessages.AddResourceAssignment.Parser, new[]{ "CityID", "ResourceName", "SourceHex" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.RemoveResourceAssignment), global::NetworkMessages.RemoveResourceAssignment.Parser, new[]{ "TeamNum", "SourceHex" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.SelectResearch), global::NetworkMessages.SelectResearch.Parser, new[]{ "TeamNum", "ResearchName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.SelectCulture), global::NetworkMessages.SelectCulture.Parser, new[]{ "TeamNum", "CultureName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.RenameCity), global::NetworkMessages.RenameCity.Parser, new[]{ "CityID", "Name" }, null, null, null, null),
@@ -2013,6 +2023,12 @@ namespace NetworkMessages {
         case CommandOneofCase.SelectCulture:
           SelectCulture = other.SelectCulture.Clone();
           break;
+        case CommandOneofCase.AddResourceAssignment:
+          AddResourceAssignment = other.AddResourceAssignment.Clone();
+          break;
+        case CommandOneofCase.RemoveResourceAssignment:
+          RemoveResourceAssignment = other.RemoveResourceAssignment.Clone();
+          break;
       }
 
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -2156,6 +2172,30 @@ namespace NetworkMessages {
       }
     }
 
+    /// <summary>Field number for the "addResourceAssignment" field.</summary>
+    public const int AddResourceAssignmentFieldNumber = 12;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::NetworkMessages.AddResourceAssignment AddResourceAssignment {
+      get { return commandCase_ == CommandOneofCase.AddResourceAssignment ? (global::NetworkMessages.AddResourceAssignment) command_ : null; }
+      set {
+        command_ = value;
+        commandCase_ = value == null ? CommandOneofCase.None : CommandOneofCase.AddResourceAssignment;
+      }
+    }
+
+    /// <summary>Field number for the "removeResourceAssignment" field.</summary>
+    public const int RemoveResourceAssignmentFieldNumber = 13;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::NetworkMessages.RemoveResourceAssignment RemoveResourceAssignment {
+      get { return commandCase_ == CommandOneofCase.RemoveResourceAssignment ? (global::NetworkMessages.RemoveResourceAssignment) command_ : null; }
+      set {
+        command_ = value;
+        commandCase_ = value == null ? CommandOneofCase.None : CommandOneofCase.RemoveResourceAssignment;
+      }
+    }
+
     /// <summary>Field number for the "sender" field.</summary>
     public const int SenderFieldNumber = 99;
     private ulong sender_;
@@ -2182,6 +2222,8 @@ namespace NetworkMessages {
       RenameCity = 9,
       SelectResearch = 10,
       SelectCulture = 11,
+      AddResourceAssignment = 12,
+      RemoveResourceAssignment = 13,
     }
     private CommandOneofCase commandCase_ = CommandOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2223,6 +2265,8 @@ namespace NetworkMessages {
       if (!object.Equals(RenameCity, other.RenameCity)) return false;
       if (!object.Equals(SelectResearch, other.SelectResearch)) return false;
       if (!object.Equals(SelectCulture, other.SelectCulture)) return false;
+      if (!object.Equals(AddResourceAssignment, other.AddResourceAssignment)) return false;
+      if (!object.Equals(RemoveResourceAssignment, other.RemoveResourceAssignment)) return false;
       if (Sender != other.Sender) return false;
       if (CommandCase != other.CommandCase) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -2243,6 +2287,8 @@ namespace NetworkMessages {
       if (commandCase_ == CommandOneofCase.RenameCity) hash ^= RenameCity.GetHashCode();
       if (commandCase_ == CommandOneofCase.SelectResearch) hash ^= SelectResearch.GetHashCode();
       if (commandCase_ == CommandOneofCase.SelectCulture) hash ^= SelectCulture.GetHashCode();
+      if (commandCase_ == CommandOneofCase.AddResourceAssignment) hash ^= AddResourceAssignment.GetHashCode();
+      if (commandCase_ == CommandOneofCase.RemoveResourceAssignment) hash ^= RemoveResourceAssignment.GetHashCode();
       if (Sender != 0UL) hash ^= Sender.GetHashCode();
       hash ^= (int) commandCase_;
       if (_unknownFields != null) {
@@ -2307,6 +2353,14 @@ namespace NetworkMessages {
         output.WriteRawTag(90);
         output.WriteMessage(SelectCulture);
       }
+      if (commandCase_ == CommandOneofCase.AddResourceAssignment) {
+        output.WriteRawTag(98);
+        output.WriteMessage(AddResourceAssignment);
+      }
+      if (commandCase_ == CommandOneofCase.RemoveResourceAssignment) {
+        output.WriteRawTag(106);
+        output.WriteMessage(RemoveResourceAssignment);
+      }
       if (Sender != 0UL) {
         output.WriteRawTag(152, 6);
         output.WriteUInt64(Sender);
@@ -2365,6 +2419,14 @@ namespace NetworkMessages {
         output.WriteRawTag(90);
         output.WriteMessage(SelectCulture);
       }
+      if (commandCase_ == CommandOneofCase.AddResourceAssignment) {
+        output.WriteRawTag(98);
+        output.WriteMessage(AddResourceAssignment);
+      }
+      if (commandCase_ == CommandOneofCase.RemoveResourceAssignment) {
+        output.WriteRawTag(106);
+        output.WriteMessage(RemoveResourceAssignment);
+      }
       if (Sender != 0UL) {
         output.WriteRawTag(152, 6);
         output.WriteUInt64(Sender);
@@ -2411,6 +2473,12 @@ namespace NetworkMessages {
       }
       if (commandCase_ == CommandOneofCase.SelectCulture) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(SelectCulture);
+      }
+      if (commandCase_ == CommandOneofCase.AddResourceAssignment) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AddResourceAssignment);
+      }
+      if (commandCase_ == CommandOneofCase.RemoveResourceAssignment) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(RemoveResourceAssignment);
       }
       if (Sender != 0UL) {
         size += 2 + pb::CodedOutputStream.ComputeUInt64Size(Sender);
@@ -2493,6 +2561,18 @@ namespace NetworkMessages {
             SelectCulture = new global::NetworkMessages.SelectCulture();
           }
           SelectCulture.MergeFrom(other.SelectCulture);
+          break;
+        case CommandOneofCase.AddResourceAssignment:
+          if (AddResourceAssignment == null) {
+            AddResourceAssignment = new global::NetworkMessages.AddResourceAssignment();
+          }
+          AddResourceAssignment.MergeFrom(other.AddResourceAssignment);
+          break;
+        case CommandOneofCase.RemoveResourceAssignment:
+          if (RemoveResourceAssignment == null) {
+            RemoveResourceAssignment = new global::NetworkMessages.RemoveResourceAssignment();
+          }
+          RemoveResourceAssignment.MergeFrom(other.RemoveResourceAssignment);
           break;
       }
 
@@ -2603,6 +2683,24 @@ namespace NetworkMessages {
             }
             input.ReadMessage(subBuilder);
             SelectCulture = subBuilder;
+            break;
+          }
+          case 98: {
+            global::NetworkMessages.AddResourceAssignment subBuilder = new global::NetworkMessages.AddResourceAssignment();
+            if (commandCase_ == CommandOneofCase.AddResourceAssignment) {
+              subBuilder.MergeFrom(AddResourceAssignment);
+            }
+            input.ReadMessage(subBuilder);
+            AddResourceAssignment = subBuilder;
+            break;
+          }
+          case 106: {
+            global::NetworkMessages.RemoveResourceAssignment subBuilder = new global::NetworkMessages.RemoveResourceAssignment();
+            if (commandCase_ == CommandOneofCase.RemoveResourceAssignment) {
+              subBuilder.MergeFrom(RemoveResourceAssignment);
+            }
+            input.ReadMessage(subBuilder);
+            RemoveResourceAssignment = subBuilder;
             break;
           }
           case 792: {
@@ -2718,8 +2816,537 @@ namespace NetworkMessages {
             SelectCulture = subBuilder;
             break;
           }
+          case 98: {
+            global::NetworkMessages.AddResourceAssignment subBuilder = new global::NetworkMessages.AddResourceAssignment();
+            if (commandCase_ == CommandOneofCase.AddResourceAssignment) {
+              subBuilder.MergeFrom(AddResourceAssignment);
+            }
+            input.ReadMessage(subBuilder);
+            AddResourceAssignment = subBuilder;
+            break;
+          }
+          case 106: {
+            global::NetworkMessages.RemoveResourceAssignment subBuilder = new global::NetworkMessages.RemoveResourceAssignment();
+            if (commandCase_ == CommandOneofCase.RemoveResourceAssignment) {
+              subBuilder.MergeFrom(RemoveResourceAssignment);
+            }
+            input.ReadMessage(subBuilder);
+            RemoveResourceAssignment = subBuilder;
+            break;
+          }
           case 792: {
             Sender = input.ReadUInt64();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.SerializableAttribute]
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class AddResourceAssignment : pb::IMessage<AddResourceAssignment>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<AddResourceAssignment> _parser = new pb::MessageParser<AddResourceAssignment>(() => new AddResourceAssignment());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<AddResourceAssignment> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AddResourceAssignment() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AddResourceAssignment(AddResourceAssignment other) : this() {
+      cityID_ = other.cityID_;
+      resourceName_ = other.resourceName_;
+      sourceHex_ = other.sourceHex_ != null ? other.sourceHex_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AddResourceAssignment Clone() {
+      return new AddResourceAssignment(this);
+    }
+
+    /// <summary>Field number for the "cityID" field.</summary>
+    public const int CityIDFieldNumber = 1;
+    private ulong cityID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong CityID {
+      get { return cityID_; }
+      set {
+        cityID_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "resourceName" field.</summary>
+    public const int ResourceNameFieldNumber = 2;
+    private ulong resourceName_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong ResourceName {
+      get { return resourceName_; }
+      set {
+        resourceName_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "sourceHex" field.</summary>
+    public const int SourceHexFieldNumber = 3;
+    private global::NetworkMessages.Hex sourceHex_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::NetworkMessages.Hex SourceHex {
+      get { return sourceHex_; }
+      set {
+        sourceHex_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as AddResourceAssignment);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(AddResourceAssignment other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (CityID != other.CityID) return false;
+      if (ResourceName != other.ResourceName) return false;
+      if (!object.Equals(SourceHex, other.SourceHex)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (CityID != 0UL) hash ^= CityID.GetHashCode();
+      if (ResourceName != 0UL) hash ^= ResourceName.GetHashCode();
+      if (sourceHex_ != null) hash ^= SourceHex.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (CityID != 0UL) {
+        output.WriteRawTag(8);
+        output.WriteUInt64(CityID);
+      }
+      if (ResourceName != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(ResourceName);
+      }
+      if (sourceHex_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(SourceHex);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (CityID != 0UL) {
+        output.WriteRawTag(8);
+        output.WriteUInt64(CityID);
+      }
+      if (ResourceName != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(ResourceName);
+      }
+      if (sourceHex_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(SourceHex);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (CityID != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      }
+      if (ResourceName != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ResourceName);
+      }
+      if (sourceHex_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SourceHex);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(AddResourceAssignment other) {
+      if (other == null) {
+        return;
+      }
+      if (other.CityID != 0UL) {
+        CityID = other.CityID;
+      }
+      if (other.ResourceName != 0UL) {
+        ResourceName = other.ResourceName;
+      }
+      if (other.sourceHex_ != null) {
+        if (sourceHex_ == null) {
+          SourceHex = new global::NetworkMessages.Hex();
+        }
+        SourceHex.MergeFrom(other.SourceHex);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            CityID = input.ReadUInt64();
+            break;
+          }
+          case 16: {
+            ResourceName = input.ReadUInt64();
+            break;
+          }
+          case 26: {
+            if (sourceHex_ == null) {
+              SourceHex = new global::NetworkMessages.Hex();
+            }
+            input.ReadMessage(SourceHex);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            CityID = input.ReadUInt64();
+            break;
+          }
+          case 16: {
+            ResourceName = input.ReadUInt64();
+            break;
+          }
+          case 26: {
+            if (sourceHex_ == null) {
+              SourceHex = new global::NetworkMessages.Hex();
+            }
+            input.ReadMessage(SourceHex);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.SerializableAttribute]
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class RemoveResourceAssignment : pb::IMessage<RemoveResourceAssignment>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<RemoveResourceAssignment> _parser = new pb::MessageParser<RemoveResourceAssignment>(() => new RemoveResourceAssignment());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<RemoveResourceAssignment> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemoveResourceAssignment() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemoveResourceAssignment(RemoveResourceAssignment other) : this() {
+      teamNum_ = other.teamNum_;
+      sourceHex_ = other.sourceHex_ != null ? other.sourceHex_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemoveResourceAssignment Clone() {
+      return new RemoveResourceAssignment(this);
+    }
+
+    /// <summary>Field number for the "teamNum" field.</summary>
+    public const int TeamNumFieldNumber = 1;
+    private ulong teamNum_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong TeamNum {
+      get { return teamNum_; }
+      set {
+        teamNum_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "sourceHex" field.</summary>
+    public const int SourceHexFieldNumber = 2;
+    private global::NetworkMessages.Hex sourceHex_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::NetworkMessages.Hex SourceHex {
+      get { return sourceHex_; }
+      set {
+        sourceHex_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as RemoveResourceAssignment);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(RemoveResourceAssignment other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (TeamNum != other.TeamNum) return false;
+      if (!object.Equals(SourceHex, other.SourceHex)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (TeamNum != 0UL) hash ^= TeamNum.GetHashCode();
+      if (sourceHex_ != null) hash ^= SourceHex.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (TeamNum != 0UL) {
+        output.WriteRawTag(8);
+        output.WriteUInt64(TeamNum);
+      }
+      if (sourceHex_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(SourceHex);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (TeamNum != 0UL) {
+        output.WriteRawTag(8);
+        output.WriteUInt64(TeamNum);
+      }
+      if (sourceHex_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(SourceHex);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (TeamNum != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TeamNum);
+      }
+      if (sourceHex_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SourceHex);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(RemoveResourceAssignment other) {
+      if (other == null) {
+        return;
+      }
+      if (other.TeamNum != 0UL) {
+        TeamNum = other.TeamNum;
+      }
+      if (other.sourceHex_ != null) {
+        if (sourceHex_ == null) {
+          SourceHex = new global::NetworkMessages.Hex();
+        }
+        SourceHex.MergeFrom(other.SourceHex);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            TeamNum = input.ReadUInt64();
+            break;
+          }
+          case 18: {
+            if (sourceHex_ == null) {
+              SourceHex = new global::NetworkMessages.Hex();
+            }
+            input.ReadMessage(SourceHex);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            TeamNum = input.ReadUInt64();
+            break;
+          }
+          case 18: {
+            if (sourceHex_ == null) {
+              SourceHex = new global::NetworkMessages.Hex();
+            }
+            input.ReadMessage(SourceHex);
             break;
           }
         }
@@ -2745,7 +3372,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[7]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2973,7 +3600,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[8]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3201,7 +3828,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[9]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3429,7 +4056,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[10]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3740,7 +4367,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[11]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3968,7 +4595,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[12]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4196,7 +4823,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[13]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4433,7 +5060,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[14]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4670,7 +5297,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[15]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4944,7 +5571,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[16]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5218,7 +5845,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[17]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Linq;
+using System.Security.AccessControl;
 
 
 [GlobalClass]
@@ -545,6 +546,52 @@ public partial class GameManager : Node
             Global.Log("Error selecting culture tech: " + e.Message); //TODO - Potential Desync
             return;
         }
+    }
+
+    public void AddResourceAssignment(int cityID, ResourceType resourceType, Hex sourceHex, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructAddResourceAssignmentCommand(cityID, resourceType, sourceHex));
+            return;
+        }
+
+        City city = Global.gameManager.game.cityDictionary[cityID];
+        if (city == null)
+        {
+            Global.Log("City is null"); //TODO - Potential Desync
+            return;
+        }
+
+        try
+        {
+            Global.gameManager.game.playerDictionary[city.teamNum].AddResource(sourceHex, resourceType, city);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding resource assignment: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+    }
+
+    public void RemoveResourceAssignment(int teamNum, Hex sourceHex, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructRemoveResourceAssignmentCommand(teamNum, sourceHex));
+            return;
+        }
+
+        try
+        {
+            Global.gameManager.game.playerDictionary[teamNum].RemoveResource(sourceHex);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding resource assignment: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+
     }
 
 }

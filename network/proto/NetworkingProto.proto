@@ -63,8 +63,23 @@ message Command
 		RenameCity renameCity = 9;
 		SelectResearch selectResearch = 10;
 		SelectCulture selectCulture = 11;
+		AddResourceAssignment addResourceAssignment = 12;
+		RemoveResourceAssignment removeResourceAssignment = 13;
 	}
 	uint64 sender = 99;
+}
+
+message AddResourceAssignment
+{
+	uint64 cityID = 1;
+	uint64 resourceName = 2;
+	Hex sourceHex = 3;
+}
+
+message RemoveResourceAssignment
+{
+	uint64 teamNum = 1;
+	Hex sourceHex = 2;
 }
 
 message SelectResearch

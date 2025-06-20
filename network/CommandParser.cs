@@ -51,6 +51,12 @@ using System.Threading.Tasks;
             case "SelectCulture":
                 Global.gameManager.SelectCulture((int)command.SelectCulture.TeamNum, command.SelectCulture.CultureName, false);
                 break;
+            case "AddResourceAssignment":
+                Global.gameManager.AddResourceAssignment((int)command.AddResourceAssignment.CityID, (ResourceType)command.AddResourceAssignment.ResourceName, new Hex((int)command.AddResourceAssignment.SourceHex.Q, (int)command.AddResourceAssignment.SourceHex.R, (int)command.AddResourceAssignment.SourceHex.S), false);
+                break;
+            case "RemoveResourceAssignment":
+                Global.gameManager.RemoveResourceAssignment((int)command.RemoveResourceAssignment.TeamNum, new Hex((int)command.RemoveResourceAssignment.SourceHex.Q, (int)command.RemoveResourceAssignment.SourceHex.R, (int)command.RemoveResourceAssignment.SourceHex.S), false);
+                break;
         }
     }
 
@@ -203,6 +209,42 @@ using System.Threading.Tasks;
         command.SelectCulture = culture;
         command.Sender = Global.clientID;
         return command;
+    }
+
+    internal static Command ConstructAddResourceAssignmentCommand(int cityID, ResourceType resourceType, Hex sourceHex)
+    {
+        AddResourceAssignment addResourceAssignment = new AddResourceAssignment();
+        addResourceAssignment.CityID = (ulong)cityID;
+        addResourceAssignment.ResourceName = (ulong)resourceType;
+        addResourceAssignment.SourceHex = new NetworkMessages.Hex();
+        addResourceAssignment.SourceHex.Q = (ulong)sourceHex.q;
+        addResourceAssignment.SourceHex.R = (ulong)sourceHex.r;
+        addResourceAssignment.SourceHex.S = (ulong)sourceHex.s;
+
+        Command command = new Command();
+        command.CommandType = "AddResourceAssignment";
+        command.AddResourceAssignment = addResourceAssignment;
+        command.Sender = Global.clientID;
+        return command;
+
+
+    }
+
+    internal static Command ConstructRemoveResourceAssignmentCommand(int teamNum, Hex sourceHex)
+    {
+        RemoveResourceAssignment removeResourceAssignment = new RemoveResourceAssignment();
+        removeResourceAssignment.TeamNum = (ulong)teamNum;
+        removeResourceAssignment.SourceHex = new NetworkMessages.Hex();
+        removeResourceAssignment.SourceHex.Q = (ulong)sourceHex.q;
+        removeResourceAssignment.SourceHex.R = (ulong)sourceHex.r;
+        removeResourceAssignment.SourceHex.S = (ulong)sourceHex.s;
+
+        Command command = new Command();
+        command.CommandType = "RemoveResourceAssignment";
+        command.RemoveResourceAssignment = removeResourceAssignment;
+        command.Sender = Global.clientID;
+        return command;
+
     }
 }
 
