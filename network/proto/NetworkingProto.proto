@@ -61,8 +61,22 @@ message Command
 		ExpandToHex expandToHex = 7;
 		DevelopDistrict developDistrict = 8;
 		RenameCity renameCity = 9;
+		SelectResearch selectResearch = 10;
+		SelectCulture selectCulture = 11;
 	}
 	uint64 sender = 99;
+}
+
+message SelectResearch
+{
+	uint64 teamNum = 1;
+	string researchName = 2;
+}
+
+message SelectCulture
+{
+	uint64 teamNum = 1;
+	string cultureName = 2;
 }
 
 message RenameCity

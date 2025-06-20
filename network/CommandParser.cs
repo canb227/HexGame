@@ -45,6 +45,12 @@ using System.Threading.Tasks;
             case "RenameCity":
                 Global.gameManager.RenameCity((int)command.RenameCity.CityID, command.RenameCity.Name, false);
                 break;
+            case "SelectResearch":
+                Global.gameManager.SelectResearch((int)command.SelectResearch.TeamNum,command.SelectResearch.ResearchName, false);
+                break;
+            case "SelectCulture":
+                Global.gameManager.SelectCulture((int)command.SelectCulture.TeamNum, command.SelectCulture.CultureName, false);
+                break;
         }
     }
 
@@ -168,6 +174,33 @@ using System.Threading.Tasks;
         Command command = new Command();
         command.CommandType = "RenameCity";
         command.RenameCity = city;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructSelectResearchCommand(int teamNum, string researchName)
+    {
+        SelectResearch selectResearch = new SelectResearch();
+        selectResearch.TeamNum = (ulong)teamNum;
+        selectResearch.ResearchName = researchName;
+
+        Command command = new Command();
+        command.CommandType = "SelectResearch";
+        command.SelectResearch = selectResearch;
+        command.Sender = Global.clientID;
+        return command;
+
+    }
+
+    internal static Command ConstructSelectCultureCommand(int teamNum, string cultureName)
+    {
+        SelectCulture culture = new SelectCulture();
+        culture.TeamNum = (ulong)teamNum;
+        culture.CultureName = cultureName;
+
+        Command command = new Command();
+        command.CommandType = "SelectCulture";
+        command.SelectCulture = culture;
         command.Sender = Global.clientID;
         return command;
     }

@@ -1,12 +1,9 @@
 using Godot;
-using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.IO;
-using Godot;
 using System.Linq;
-using Google.Protobuf.WellKnownTypes;
+
 
 [GlobalClass]
 public partial class GameManager : Node
@@ -63,7 +60,6 @@ public partial class GameManager : Node
         string json = JsonSerializer.Serialize(game, options);
         return json;
     }
-
     public Game LoadGame(String filePath)
     {
         Global.Log("Loading Game from file: " + filePath);
@@ -88,6 +84,7 @@ public partial class GameManager : Node
         Game retVal = JsonSerializer.Deserialize<Game>(rawSave, options);
         return retVal;
     }
+
 
 
 
@@ -508,6 +505,44 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error renaming city: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+    }
+
+    public void SelectResearch(int teamNum, string techName, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructSelectResearchCommand(teamNum, techName));
+            return;
+        }
+
+        try
+        {
+            Global.gameManager.game.playerDictionary[teamNum].SelectResearch(techName);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error selecting research tech: " + e.Message); //TODO - Potential Desync
+            return;
+        }
+    }
+
+    public void SelectCulture(int teamNum, string cultureName, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructSelectCultureCommand(teamNum, cultureName));
+            return;
+        }
+
+        try
+        {
+            Global.gameManager.game.playerDictionary[teamNum].SelectCultureResearch(cultureName);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error selecting culture tech: " + e.Message); //TODO - Potential Desync
             return;
         }
     }
