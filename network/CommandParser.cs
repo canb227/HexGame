@@ -58,7 +58,7 @@ using System.Threading.Tasks;
         activateAbility.Target.S = (ulong)target.s;
 
         Command command = new();
-        command.CommandType = "MoveUnit";
+        command.CommandType = "ActivateAbility";
         command.ActivateAbility = activateAbility;
         command.Sender = Global.clientID;
         return command;
@@ -66,6 +66,11 @@ using System.Threading.Tasks;
 
 
     internal static Command ConstructChangeProductionQueueCommand(City city, List<ProductionQueueType> queue)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static Command ConstructCityGrowthExpansionCommand(City city, Hex target)
     {
         throw new NotImplementedException();
     }
