@@ -54,7 +54,7 @@ public class Unit
         this.name = unitType;
         this.teamNum = teamNum;
         this.unitType = unitType;
-    
+
         if (UnitLoader.unitsDict.TryGetValue(unitType, out UnitInfo unitInfo))
         {
             Global.gameManager.game.unitDictionary.TryAdd(id, this);
@@ -71,7 +71,7 @@ public class Unit
             {
                 AddEffect(new UnitEffect(effectName));
             }
-    
+
             foreach (String abilityName in unitInfo.Abilities.Keys)
             {
                 AddAbility(abilityName, unitInfo);

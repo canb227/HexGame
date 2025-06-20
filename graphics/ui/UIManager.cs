@@ -72,7 +72,7 @@ public partial class UIManager : Node3D
     public bool readyToGrow;
     public bool cityNeedsProduction;
 
-    public bool waitingForOrders;
+    public bool waitingForOrders = true;
 
     public bool windowOpen = false;
 
@@ -383,14 +383,14 @@ public partial class UIManager : Node3D
         }
         else if(waitingForOrders)
         {
-            //move camera to foundUnit.hex TODO
             Global.gameManager.graphicManager.ChangeSelectedObject(targetUnit.id , Global.gameManager.graphicManager.graphicObjectDictionary[targetUnit.id]);
             Global.camera.SetHexTarget(targetUnit.hex);
             return;
         }
         else
         {
-            Global.gameManager.game.turnManager.EndCurrentTurn(Global.gameManager.game.localPlayerTeamNum);
+            Global.gameManager.EndTurn(Global.gameManager.game.localPlayerTeamNum);
+            //Global.gameManager.game.turnManager.EndCurrentTurn(Global.gameManager.game.localPlayerTeamNum);
             return;
         }
     }

@@ -33,7 +33,7 @@ public class TurnManager
         if (!Global.gameManager.game.playerDictionary[teamNum].turnFinished)
         {
             Global.gameManager.game.playerDictionary[teamNum].OnTurnEnded(currentTurn);
-            if (Global.gameManager.game.mainGameBoard != null & teamNum == 0)
+            if (Global.gameManager.game.mainGameBoard != null && teamNum == 0)
             {
                 Global.gameManager.game.mainGameBoard.OnTurnEnded(currentTurn);
             }

@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://4d6apwd8mjye" path="res://graphics/ui/icons/researchButton.png" id="7_6wqba"]
 [ext_resource type="Texture2D" uid="uid://brrh1cw1vxfxn" path="res://graphics/ui/icons/science.png" id="7_e1iin"]
 [ext_resource type="Texture2D" uid="uid://drtkka4c7ph0x" path="res://graphics/ui/icons/clock.png" id="8_6wqba"]
-[ext_resource type="Texture2D" uid="uid://pm77dn24svbk" path="res://graphics/ui/icons/skipturn.png" id="9_6wqba"]
+[ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="9_6wqba"]
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="9_pepai"]
 
 [sub_resource type="Theme" id="Theme_n5e1u"]
