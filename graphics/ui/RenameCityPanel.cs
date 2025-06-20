@@ -24,7 +24,7 @@ public partial class RenameCityPanel : Control
 
     private void TextSubmitted(string newText)
     {
-        Global.gameManager.RenameCity(city, newText);
+        Global.gameManager.RenameCity(city.id, newText);
         this.Visible = false;
         this.QueueFree();
     }
