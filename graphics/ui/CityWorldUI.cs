@@ -57,9 +57,16 @@ public partial class CityWorldUI : Node3D
         cityIcon = cityWorldUI.GetNode<TextureRect>("Button/CityIcon");
         cityName = cityWorldUI.GetNode<Label>("Button/CityName");
         cityHealth = cityWorldUI.GetNode<ProgressBar>("Button/CityHealth");
-       
-        
+
         AddChild(node);
+
+        StyleBoxFlat styleBox = cityWorldUI.GetThemeStylebox("panel") as StyleBoxFlat;
+        if (styleBox != null)
+        {
+            styleBox.BorderColor = Colors.Blue;
+            cityWorldUI.AddThemeStyleboxOverride("panel", styleBox);
+        }
+
         Transform3D newTransform = Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         int newQ = (Global.gameManager.game.mainGameBoard.left + (city.hex.r >> 1) + city.hex.q) % ggb.chunkSize - (city.hex.r >> 1);

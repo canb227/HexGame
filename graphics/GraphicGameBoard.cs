@@ -83,10 +83,7 @@ public partial class GraphicGameBoard : GraphicObject
         UpdateVisibilityTexture(visible, seen);
         Global.gameManager.graphicManager.UpdateVisibility();
 
-        //AddBoard(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList(), 1, pointy);
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
-
-
     }
 
 
@@ -361,15 +358,6 @@ public partial class GraphicGameBoard : GraphicObject
             visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
         }
         visibilityTexture.Update(visibilityImage);
-    }
-
-    private void Add3DHexYields()
-    {
-        foreach (Hex hex in gameBoard.gameHexDict.Keys)
-        {
-            Point point = layout.HexToPixel(hex);
-            Global.gameManager.graphicManager.NewYields(hex, gameBoard.gameHexDict[hex].yields);
-        }
     }
 
     private void AddHexDistrictsAndCities(Layout layout)

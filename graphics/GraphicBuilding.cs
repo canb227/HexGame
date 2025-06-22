@@ -15,6 +15,7 @@ public partial class GraphicBuilding : GraphicObject
         this.layout = layout;
         node3D = new Node3D();
         InitBuilding(building);
+        UpdateGraphic(GraphicUpdateType.Visibility);
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)

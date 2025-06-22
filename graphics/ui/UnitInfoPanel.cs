@@ -135,7 +135,10 @@ public partial class UnitInfoPanel : Node3D
                 {
                     abilityButton.Disabled = false;
                 }
-
+                if (unit.teamNum != Global.gameManager.game.localPlayerTeamNum)
+                {
+                    abilityButton.Disabled = true;
+                }
                 //check if there are any valid targets
                 List<Hex> hexes = new List<Hex>();
                 foreach (Hex hex in unit.hex.WrappingRange(ability.range + 1, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))

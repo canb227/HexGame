@@ -21,6 +21,7 @@ public partial class GraphicUnit : GraphicObject
         //InstantiateUnitUI(unit);
         unitWorldUI = new UnitWorldUI(unit);
         AddChild(unitWorldUI);
+        UpdateGraphic(GraphicUpdateType.Visibility);
     }
     public override void _Ready()
     {
@@ -112,8 +113,11 @@ public partial class GraphicUnit : GraphicObject
 
     public override void Selected()
     {
-        GenerateHexLines(unit.MovementRange());
-        GenerateHexTriangles(unit.MovementRange());
+        if(unit.teamNum == Global.gameManager.game.localPlayerTeamNum)
+        {
+            GenerateHexLines(unit.MovementRange());
+            GenerateHexTriangles(unit.MovementRange());
+        }
         Global.gameManager.graphicManager.uiManager.UnitSelected(unit);
     }
 

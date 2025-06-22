@@ -378,7 +378,13 @@ public class District
             else
             {
                 Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].unassignedResources.Add(hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType);
-                if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.uiManager.assignResource = true;
+                if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+                {
+                    if(Global.gameManager.game.cityDictionary[cityID].teamNum == Global.gameManager.game.localPlayerTeamNum)
+                    {
+                        manager.uiManager.assignResource = true;
+                    }
+                }
             }
         }
     }

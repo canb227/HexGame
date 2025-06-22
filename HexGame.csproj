@@ -5,9 +5,6 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="hex\Serializer.cs.old" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.31.0" />
   </ItemGroup>
   <ItemGroup>

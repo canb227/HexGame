@@ -99,9 +99,9 @@ public partial class GameManager : Node
 
         if (game.mainGameBoard == null)
         {
-            game = GameTests.TestSlingerCombat();
-            SaveGame("test.txt");
-            game = LoadGame("test.txt");
+            //game = GameTests.TestSlingerCombat();
+            //SaveGame("test.txt");
+            //game = LoadGame("test.txt");
         }
 
 
@@ -174,9 +174,9 @@ public partial class GameManager : Node
 
         if (game.mainGameBoard == null)
         {
-            game = GameTests.TestSlingerCombat();
+/*            game = GameTests.TestSlingerCombat();
             SaveGame("test.txt");
-            game = LoadGame("test.txt");
+            game = LoadGame("test.txt");*/
         }
 
         InitGraphics(game, Global.layout);
@@ -221,7 +221,6 @@ public partial class GameManager : Node
 
         if (game.teamManager.relationships.ContainsKey(2))
         {
-
             //game.turnManager.EndCurrentTurn(2);
         }
 

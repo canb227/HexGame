@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://coj0wdscrlhca"]
+[gd_scene load_steps=11 format=3 uid="uid://coj0wdscrlhca"]
 
 [ext_resource type="Texture2D" uid="uid://bc5l3kr1mfa7d" path="res://graphics/models/baseperson_settler_manface_pix.png" id="1_qnqfw"]
 [ext_resource type="Texture2D" uid="uid://d0do4lbonkkx3" path="res://graphics/ui/icons/happiness.png" id="2_qnqfw"]
@@ -9,6 +9,13 @@ bg_color = Color(0.0823529, 0.0823529, 0.0823529, 0.862745)
 
 [sub_resource type="Theme" id="Theme_qnqfw"]
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_skgj6")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnqfw"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 
 [sub_resource type="QuadMesh" id="QuadMesh_skgj6"]
 
@@ -43,6 +50,7 @@ offset_bottom = 105.125
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_qnqfw")
+theme_override_styles/panel = SubResource("StyleBoxFlat_qnqfw")
 
 [node name="Button" type="Button" parent="SubViewport/CityWorldUI"]
 layout_mode = 2

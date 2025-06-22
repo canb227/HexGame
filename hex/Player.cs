@@ -10,7 +10,7 @@ using NetworkMessages;
 [Serializable]
 public class Player
 {
-    public Player(float goldTotal, int teamNum)
+    public Player(float goldTotal, int teamNum, Godot.Color teamColor)
     {
         this.teamNum = teamNum;
         this.goldTotal = goldTotal;
@@ -26,6 +26,7 @@ public class Player
                 seenGameHexDict.Add(hex, true);
             }
         }
+        
     }
 
     public Player()
@@ -60,6 +61,8 @@ public class Player
     public float influenceTotal { get; set; }
 
     private int idCounter = 0;
+
+    public Godot.Color teamColor;
 
     public void SetGoldTotal(float goldTotal)
     {

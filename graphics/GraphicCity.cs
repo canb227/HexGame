@@ -18,6 +18,7 @@ public partial class GraphicCity : GraphicObject
         this.layout = layout;
         //GD.Print(city.teamNum);
         InitCity(city);
+        UpdateGraphic(GraphicUpdateType.Visibility);
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)

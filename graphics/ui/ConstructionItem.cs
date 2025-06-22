@@ -84,9 +84,28 @@ public partial class ConstructionItem : PanelContainer
         }
     }
 
-    public void UpdateBuildingItem(BuildingInfo buildingInfo, String name)
+    public void UpdateBuildingItem(BuildingInfo buildingInfo, String itemName)
     {
-        if(city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes) == null || city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes).Count == 0)
+        if (BuildingLoader.buildingsDict[itemName].PerCity != 0)
+        {
+            int count = city.CountString(itemName);
+            foreach (ProductionQueueType queueItem in city.productionQueue)
+            {
+                if (queueItem.itemName == itemName)
+                {
+                    count += 1;
+                }
+            }
+            if (itemName != "" && (count >= BuildingLoader.buildingsDict[itemName].PerCity))
+            {
+                constructionItem.Disabled = true;
+            }
+        }
+        if (Global.gameManager.game.builtWonders.Contains(itemName))
+        {
+            constructionItem.Disabled = true;
+        }
+        if (city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes) == null || city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes).Count == 0)
         {
             constructionItem.Disabled = true;
         }
@@ -99,7 +118,7 @@ public partial class ConstructionItem : PanelContainer
         ProductionCost.Text = buildingInfo.ProductionCost.ToString();
 
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + buildingInfo.IconPath);
-        objectName.Text = name;
+        objectName.Text = itemName;
 
         foreach (Control child in EffectListBox.GetChildren())
         {

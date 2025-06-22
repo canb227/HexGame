@@ -20,7 +20,7 @@ public partial class GraphicYield : GraphicObject
         label = new Label3D();
         label.Billboard = BaseMaterial3D.BillboardModeEnum.Enabled;
         label.FontSize = 130;
-        label.NoDepthTest = true;
+        //label.NoDepthTest = true;
         label.OutlineModulate = new Godot.Color(0, 0, 0, 0.5f);
         label.OutlineSize = 30;
         float offsetX = 0;
