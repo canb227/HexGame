@@ -40,6 +40,7 @@ message LobbyStatus
 	bool isReady = 2;
 	uint64 team = 3;
 	uint64 faction = 4;
+	uint64 colorIndex = 5;
 }
 
 message Chat

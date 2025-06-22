@@ -8,6 +8,16 @@ using System.Runtime.InteropServices.JavaScript;
 public partial class Lobby : Control
 {
 
+    List<Color> PlayerColors = new()
+    {
+        {Colors.Red},
+        {Colors.Green},
+        {Colors.Blue},
+        {Colors.Yellow},
+        {Colors.Cyan},
+        {Colors.Magenta},
+    };
+
     VBoxContainer PlayersListBox;
     Dictionary<ulong, LobbyStatus> PlayerStatuses = new();
     Button StartGameButton;
@@ -75,11 +85,22 @@ public partial class Lobby : Control
         Control PlayerListItem = GD.Load<PackedScene>("res://graphics/ui/menus/playerListItem.tscn").Instantiate<Control>();
         PlayerListItem.GetNode<Label>("playername").Text = SteamFriends.GetFriendPersonaName(new CSteamID(id));
         PlayerListItem.GetNode<TextureRect>("icon").Texture = Global.GetMediumSteamAvatar(id);
+        foreach(Color color in PlayerColors)
+        {
+            GradientTexture2D icon = new GradientTexture2D();
+            icon.Width = 24;
+            icon.Height = 24;
+            Gradient gradient = new Gradient();
+            gradient.Colors = [color];
+            icon.Gradient = gradient;
+            PlayerListItem.GetNode<OptionButton>("colorselect").AddIconItem(icon,"");
+        }
         if(self)
         {
             PlayerListItem.GetNode<CheckButton>("ReadyButton").Toggled += onReadyChanged;
             PlayerListItem.GetNode<OptionButton>("factionselect").ItemSelected += OnFactionChange;
             PlayerListItem.GetNode<OptionButton>("teamselect").ItemSelected += OnTeamChange;
+            PlayerListItem.GetNode<OptionButton>("colorselect").ItemSelected += OnColorChange;
         }
         else
         {
@@ -89,7 +110,16 @@ public partial class Lobby : Control
         }
         PlayerListItem.Name = id.ToString();
         PlayersListBox.AddChild(PlayerListItem);
-        PlayerStatuses.Add(id, new LobbyStatus() { IsHost = isHost, IsReady = false, Faction = 0, Team = 1 });
+        PlayerStatuses.Add(id, new LobbyStatus() { IsHost = isHost, IsReady = false, Faction = 0, Team = 1, ColorIndex=0 });
+    }
+
+    private void OnColorChange(long index)
+    {
+        Global.Log("color change button pressed, index: " + index);
+        LobbyStatus status = PlayerStatuses[Global.clientID];
+        status.ColorIndex = (ulong)index;
+        PlayerStatuses[Global.clientID] = status;
+        UpdateLobbyPeers();
     }
 
     public void JoinLobby(ulong hostID)
@@ -118,6 +148,7 @@ public partial class Lobby : Control
                 PlayerListItem.GetNode<OptionButton>("teamselect").Selected = (int)lobbyMessage.LobbyStatus.Team - 1;
                 PlayerListItem.GetNode<OptionButton>("factionselect").Selected = (int)lobbyMessage.LobbyStatus.Faction;
                 PlayerListItem.GetNode<CheckButton>("ReadyButton").ButtonPressed = lobbyMessage.LobbyStatus.IsReady;
+                PlayerListItem.GetNode<OptionButton>("colorselect").Selected = (int)lobbyMessage.LobbyStatus.ColorIndex;
                 CheckIfGameCanStart();
                 break;
             case "leave":
@@ -134,31 +165,7 @@ public partial class Lobby : Control
                 break;
             case "startgame":
                 Global.Log("Starting game from lobby message");
-                //Global.debugLog(lobbyMessage.SavePayload);
-                Global.menuManager.ClearMenus();
-                Global.menuManager.loadingScreen.Show();
-
-
-                if (GetNode<CheckButton>("newgameoptions/debugmode").ButtonPressed)
-                {
-                    Global.gameManager.game = new Game(0);
-                    Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth-1), (int)(lobbyMessage.MapData.MapHeight - 1));
-                    Global.gameManager.game.AddPlayer(10, 0, 0, new Godot.Color(Colors.White));
-                    Global.gameManager.startGame(0);
-                }
-                else
-                {
-                    Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
-                    Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
-                    Global.gameManager.game.AddPlayer(10, 0, 0, new Godot.Color(Colors.White));
-                    foreach (ulong playerID in PlayerStatuses.Keys)
-                    {
-                        Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team);
-                        Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID, new Godot.Color(Colors.Blue));
-                    }
-                    Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
-                }
-                Global.menuManager.ClearMenus();
+                StartGame(lobbyMessage);
                 break;
             case "loadgame":
                 Global.Log("Loading game from host");
@@ -172,6 +179,36 @@ public partial class Lobby : Control
         }
 
     }
+
+    private void StartGame(LobbyMessage lobbyMessage)
+    {
+        //Global.debugLog(lobbyMessage.SavePayload);
+        Global.menuManager.ClearMenus();
+        Global.menuManager.loadingScreen.Show();
+        if (GetNode<CheckButton>("newgameoptions/debugmode").ButtonPressed)
+        {
+            Global.gameManager.game = new Game(0);
+            Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
+            Global.gameManager.game.AddPlayer(10, 0, 0, new Godot.Color(Colors.White));
+            Global.gameManager.startGame(0);
+        }
+        else
+        {
+            Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
+            Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
+            Global.gameManager.game.AddPlayer(10, 0, 0, new Godot.Color(Colors.White));
+            foreach (ulong playerID in PlayerStatuses.Keys)
+            {
+                Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team + " and color: " + PlayerColors[(int)PlayerStatuses[playerID].ColorIndex].ToString());
+                Global.Log("blue: " + Colors.Blue.ToString());
+                Global.Log("red: " + Colors.Red.ToString());
+                Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID, PlayerColors[(int)PlayerStatuses[playerID].ColorIndex]);
+            }
+            Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+        }
+        Global.menuManager.ClearMenus();
+    }
+
     private void onReadyChanged(bool toggledOn)
     {
         LobbyStatus status = PlayerStatuses[Global.clientID];
