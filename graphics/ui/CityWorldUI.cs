@@ -63,7 +63,7 @@ public partial class CityWorldUI : Node3D
         StyleBoxFlat styleBox = cityWorldUI.GetThemeStylebox("panel") as StyleBoxFlat;
         if (styleBox != null)
         {
-            styleBox.BorderColor = Colors.Blue;
+            styleBox.BorderColor = new Godot.Color(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].teamColor);
             cityWorldUI.AddThemeStyleboxOverride("panel", styleBox);
         }
 

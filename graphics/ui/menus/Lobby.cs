@@ -8,7 +8,7 @@ using System.Runtime.InteropServices.JavaScript;
 public partial class Lobby : Control
 {
 
-    List<Color> PlayerColors = new()
+    public List<Color> PlayerColors = new()
     {
         {Colors.Red},
         {Colors.Green},
@@ -19,7 +19,7 @@ public partial class Lobby : Control
     };
 
     VBoxContainer PlayersListBox;
-    Dictionary<ulong, LobbyStatus> PlayerStatuses = new();
+    public Dictionary<ulong, LobbyStatus> PlayerStatuses = new();
     Button StartGameButton;
     bool singleplayer = false;
     bool isHost = false;
@@ -189,14 +189,14 @@ public partial class Lobby : Control
         {
             Global.gameManager.game = new Game(0);
             Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
-            Global.gameManager.game.AddPlayer(10, 0, 0, new Godot.Color(Colors.White));
+            Global.gameManager.game.AddPlayer(10, 0, 0, PlayerColors[(int)PlayerStatuses[Global.clientID].ColorIndex]);
             Global.gameManager.startGame(0);
         }
         else
         {
             Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
             Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
-            Global.gameManager.game.AddPlayer(10, 0, 0, new Godot.Color(Colors.White));
+            Global.gameManager.game.AddPlayer(10, 0, 0, PlayerColors[(int)PlayerStatuses[Global.clientID].ColorIndex]); 
             foreach (ulong playerID in PlayerStatuses.Keys)
             {
                 Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team + " and color: " + PlayerColors[(int)PlayerStatuses[playerID].ColorIndex].ToString());
