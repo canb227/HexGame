@@ -61,6 +61,7 @@ public class Game
 
     public void AddPlayer(float startGold, int teamNum, ulong playerID, Godot.Color teamColor)
     {
+        Global.Log("Checking player to game with color:" + teamColor.ToString());
         Player newPlayer = new Player(startGold, teamNum, teamColor);
         playerDictionary.Add(teamNum, newPlayer);
         Global.gameManager.teamNumToPlayerID.Add(teamNum, playerID);

@@ -12,6 +12,7 @@ public class Player
 {
     public Player(float goldTotal, int teamNum, Godot.Color teamColor)
     {
+        this.teamColor = teamColor;
         this.teamNum = teamNum;
         this.goldTotal = goldTotal;
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
