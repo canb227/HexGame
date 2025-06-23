@@ -246,9 +246,45 @@ public class District
 
     public void DevelopDistrict(DistrictType districtType)
     {
-        maxBuildings += 1;
+        maxBuildings += 99;
         this.districtType = districtType;
         isUrban = true;
+        if (districtType == DistrictType.refinement)
+        {
+            AddBuilding(new Building("Refinery", hex, false));
+        }
+        else if (districtType == DistrictType.production)
+        {
+            AddBuilding(new Building("Industry", hex, false));
+        }
+        else if (districtType == DistrictType.gold)
+        {
+            AddBuilding(new Building("Commerce", hex, false));
+        }
+        else if (districtType == DistrictType.science)
+        {
+            AddBuilding(new Building("Campus", hex, false));
+        }
+        else if (districtType == DistrictType.culture)
+        {
+            AddBuilding(new Building("Cultural", hex, false));
+        }
+        else if (districtType == DistrictType.happiness)
+        {
+            AddBuilding(new Building("Entertainment", hex, false));
+        }
+        else if (districtType == DistrictType.influence)
+        {
+            AddBuilding(new Building("Administrative", hex, false));
+        }
+        else if (districtType == DistrictType.dock)
+        {
+            AddBuilding(new Building("Harbor", hex, false));
+        }
+        else if (districtType == DistrictType.military)
+        {
+            AddBuilding(new Building("Militaristic", hex, false));
+        }
     }
 
     public int CountString(String buildingType)

@@ -37,7 +37,6 @@ public struct BuildingInfo
 
 public static class BuildingLoader
 {
-
     public static Dictionary<String, BuildingInfo> buildingsDict;
     
     static BuildingLoader()

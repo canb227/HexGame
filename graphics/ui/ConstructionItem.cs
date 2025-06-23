@@ -106,7 +106,7 @@ public partial class ConstructionItem : PanelContainer
         {
             constructionItem.Disabled = true;
         }
-        List<Hex> validHexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes);
+        List<Hex> validHexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes, buildingInfo.DistrictType);
         if (validHexes == null || validHexes.Count == 0)
         {
             constructionItem.Disabled = true;

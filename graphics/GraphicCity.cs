@@ -88,7 +88,7 @@ public partial class GraphicCity : GraphicObject
     public void GenerateBuildingTargetingPrompt(String buildingName)
     {
         BuildingInfo buildingInfo = BuildingLoader.buildingsDict[buildingName];
-        List<Hex> hexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes);
+        List<Hex> hexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes, BuildingLoader.buildingsDict[buildingName].DistrictType);
         if (hexes.Count > 0)
         {
             Global.gameManager.graphicManager.SetWaitForTargeting(true);

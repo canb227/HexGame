@@ -186,7 +186,7 @@
 <!--End Non-Buildables-->
   
 
-  <Building Name="Granary" DistrictType="food" ProductionCost="20" GoldCost="100" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Granary" DistrictType="refinement" ProductionCost="20" GoldCost="100" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="GranaryWarehouseEffect" />
     </Effects>
@@ -215,7 +215,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="Garden" DistrictType="food" ProductionCost="40" GoldCost="200" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Garden" DistrictType="refinement" ProductionCost="40" GoldCost="200" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="GardenEffect" />
     </Effects>
@@ -235,7 +235,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="AncientWalls" ProductionCost="80" GoldCost="400" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="AncientWalls" DistrictType="citycenter" ProductionCost="80" GoldCost="400" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="AncientWallEffect" />
     </Effects>

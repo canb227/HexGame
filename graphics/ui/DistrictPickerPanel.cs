@@ -8,7 +8,7 @@ using System.Security.AccessControl;
 public partial class DistrictPickerPanel : Control
 {
     public Control control;
-    private VFlowContainer districtTypeVBox;
+    private VBoxContainer districtTypeVBox;
     private Button closeButton;
     GraphicCity targetGraphicCity;
     Hex targetHex;
@@ -21,7 +21,7 @@ public partial class DistrictPickerPanel : Control
         control = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/PickDistrictPanel.tscn").Instantiate<Control>();
         AddChild(control);
 
-        districtTypeVBox = control.GetNode<VFlowContainer>("PickDistrictPanel/DistrictTypeVBox");
+        districtTypeVBox = control.GetNode<VBoxContainer>("PickDistrictPanel/DistrictTypeVBox");
         closeButton = control.GetNode<Button>("CloseButton");
 
         closeButton.Pressed += () => CancelSelection();
@@ -97,11 +97,11 @@ public partial class DistrictPickerPanel : Control
 
     private void PrepareToBuildOnHex(DistrictType districtType)
     {
-        this.Visible = false;
         Global.gameManager.DevelopDistrict(targetGraphicCity.city.id, targetHex, districtType);//networked command
         targetGraphicCity.waitingToGrow = false;
         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
         Global.gameManager.graphicManager.ClearWaitForTarget();
+        this.QueueFree();
     }
 
     public void CancelSelection()

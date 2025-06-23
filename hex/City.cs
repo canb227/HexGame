@@ -506,7 +506,7 @@ public class City
                     toRemove.Add(queueItem);
                     continue;
                 }
-                if (!ValidUrbanBuildHex(BuildingLoader.buildingsDict[queueItem.itemName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[queueItem.targetHex]))
+                if (!ValidUrbanBuildHex(BuildingLoader.buildingsDict[queueItem.itemName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[queueItem.targetHex], BuildingLoader.buildingsDict[queueItem.itemName].DistrictType))
                 {
                     toRemove.Add(queueItem);
                     continue;
@@ -702,7 +702,7 @@ public class City
         {
             if(targetDistrict.cityID == this.id)
             {
-                targetDistrict.DevelopDistrict();
+                targetDistrict.DevelopDistrict(districtType);
                 readyToExpand -= 1;
                 RecalculateYields();
                 if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
@@ -769,15 +769,15 @@ public class City
     }
     
 
-    public bool ValidUrbanBuildHex(List<TerrainType> validTerrain, GameHex targetGameHex)
+    public bool ValidUrbanBuildHex(List<TerrainType> validTerrain, GameHex targetGameHex, DistrictType districtType)
     {
         if (validTerrain.Count == 0 || validTerrain.Contains(targetGameHex.terrainType))
         {
             //hex is owned by us so continue
             if (targetGameHex.ownedBy == teamNum)
             {
-                //hex has less than the max buildings
-                if (targetGameHex.district != null && targetGameHex.district.buildings.Count() < targetGameHex.district.maxBuildings && targetGameHex.district.cityID == id)
+                //hex has less than the max buildings and the right districtType
+                if (targetGameHex.district != null && targetGameHex.district.districtType == districtType && targetGameHex.district.buildings.Count() < targetGameHex.district.maxBuildings && targetGameHex.district.cityID == id)
                 {
                     //hex doesnt have a enemy unit
                     bool noEnemyUnit = true;
@@ -800,13 +800,13 @@ public class City
         return false;
     }
     //valid hexes to build a building
-    public List<Hex> ValidUrbanBuildHexes(List<TerrainType> validTerrain, int range=3)
+    public List<Hex> ValidUrbanBuildHexes(List<TerrainType> validTerrain, DistrictType districtType, int range=3)
     {
         List<Hex> validHexes = new();
         //gather valid targets
         foreach(Hex hex in hex.WrappingRange(range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
-            if(ValidUrbanBuildHex(validTerrain, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
+            if(ValidUrbanBuildHex(validTerrain, Global.gameManager.game.mainGameBoard.gameHexDict[hex], districtType))
             {
                 validHexes.Add(hex);
             }
