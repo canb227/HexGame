@@ -74,13 +74,14 @@ namespace NetworkMessages {
             "KAQiPQocTW92ZVRvRnJvbnRPZlByb2R1Y3Rpb25RdWV1ZRINCgVpbmRleBgB",
             "IAEoBBIOCgZjaXR5SUQYAiABKAQiQwoLRXhwYW5kVG9IZXgSDgoGY2l0eUlE",
             "GAEgASgEEiQKBnRhcmdldBgCIAEoCzIULk5ldHdvcmtNZXNzYWdlcy5IZXgi",
-            "RwoPRGV2ZWxvcERpc3RyaWN0Eg4KBmNpdHlJRBgBIAEoBBIkCgZ0YXJnZXQY",
-            "AiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IlEKCE1vdmVVbml0Eg4KBnVu",
-            "aXRJZBgBIAEoBBIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVzc2FnZXMu",
-            "SGV4Eg8KB2lzRW5lbXkYAyABKAgiXAoPQWN0aXZhdGVBYmlsaXR5Eg4KBnVu",
-            "aXRJZBgBIAEoBBITCgthYmlsaXR5TmFtZRgCIAEoCRIkCgZ0YXJnZXQYAyAB",
-            "KAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IiYKA0hleBIJCgFxGAEgASgEEgkK",
-            "AXIYAiABKAQSCQoBcxgDIAEoBGIGcHJvdG8z"));
+            "XQoPRGV2ZWxvcERpc3RyaWN0Eg4KBmNpdHlJRBgBIAEoBBIkCgZ0YXJnZXQY",
+            "AiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4EhQKDGRpc3RyaWN0VHlwZRgD",
+            "IAEoBCJRCghNb3ZlVW5pdBIOCgZ1bml0SWQYASABKAQSJAoGdGFyZ2V0GAIg",
+            "ASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleBIPCgdpc0VuZW15GAMgASgIIlwK",
+            "D0FjdGl2YXRlQWJpbGl0eRIOCgZ1bml0SWQYASABKAQSEwoLYWJpbGl0eU5h",
+            "bWUYAiABKAkSJAoGdGFyZ2V0GAMgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhl",
+            "eCImCgNIZXgSCQoBcRgBIAEoBBIJCgFyGAIgASgEEgkKAXMYAyABKARiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -101,7 +102,7 @@ namespace NetworkMessages {
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.RemoveFromProductionQueue), global::NetworkMessages.RemoveFromProductionQueue.Parser, new[]{ "Index", "CityID" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.MoveToFrontOfProductionQueue), global::NetworkMessages.MoveToFrontOfProductionQueue.Parser, new[]{ "Index", "CityID" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.ExpandToHex), global::NetworkMessages.ExpandToHex.Parser, new[]{ "CityID", "Target" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.DevelopDistrict), global::NetworkMessages.DevelopDistrict.Parser, new[]{ "CityID", "Target" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.DevelopDistrict), global::NetworkMessages.DevelopDistrict.Parser, new[]{ "CityID", "Target", "DistrictType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.MoveUnit), global::NetworkMessages.MoveUnit.Parser, new[]{ "UnitId", "Target", "IsEnemy" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.ActivateAbility), global::NetworkMessages.ActivateAbility.Parser, new[]{ "UnitId", "AbilityName", "Target" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Hex), global::NetworkMessages.Hex.Parser, new[]{ "Q", "R", "S" }, null, null, null, null)
@@ -5366,6 +5367,7 @@ namespace NetworkMessages {
     public DevelopDistrict(DevelopDistrict other) : this() {
       cityID_ = other.cityID_;
       target_ = other.target_ != null ? other.target_.Clone() : null;
+      districtType_ = other.districtType_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -5399,6 +5401,18 @@ namespace NetworkMessages {
       }
     }
 
+    /// <summary>Field number for the "districtType" field.</summary>
+    public const int DistrictTypeFieldNumber = 3;
+    private ulong districtType_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong DistrictType {
+      get { return districtType_; }
+      set {
+        districtType_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -5416,6 +5430,7 @@ namespace NetworkMessages {
       }
       if (CityID != other.CityID) return false;
       if (!object.Equals(Target, other.Target)) return false;
+      if (DistrictType != other.DistrictType) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -5425,6 +5440,7 @@ namespace NetworkMessages {
       int hash = 1;
       if (CityID != 0UL) hash ^= CityID.GetHashCode();
       if (target_ != null) hash ^= Target.GetHashCode();
+      if (DistrictType != 0UL) hash ^= DistrictType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5451,6 +5467,10 @@ namespace NetworkMessages {
         output.WriteRawTag(18);
         output.WriteMessage(Target);
       }
+      if (DistrictType != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(DistrictType);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -5469,6 +5489,10 @@ namespace NetworkMessages {
         output.WriteRawTag(18);
         output.WriteMessage(Target);
       }
+      if (DistrictType != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(DistrictType);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -5484,6 +5508,9 @@ namespace NetworkMessages {
       }
       if (target_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Target);
+      }
+      if (DistrictType != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(DistrictType);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5505,6 +5532,9 @@ namespace NetworkMessages {
           Target = new global::NetworkMessages.Hex();
         }
         Target.MergeFrom(other.Target);
+      }
+      if (other.DistrictType != 0UL) {
+        DistrictType = other.DistrictType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -5532,6 +5562,10 @@ namespace NetworkMessages {
             input.ReadMessage(Target);
             break;
           }
+          case 24: {
+            DistrictType = input.ReadUInt64();
+            break;
+          }
         }
       }
     #endif
@@ -5556,6 +5590,10 @@ namespace NetworkMessages {
               Target = new global::NetworkMessages.Hex();
             }
             input.ReadMessage(Target);
+            break;
+          }
+          case 24: {
+            DistrictType = input.ReadUInt64();
             break;
           }
         }

@@ -135,6 +135,7 @@ message DevelopDistrict
 {
 	uint64 cityID = 1;
 	Hex target = 2;
+	uint64 districtType = 3;
 }
 
 message MoveUnit

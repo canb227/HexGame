@@ -107,6 +107,7 @@ public partial class Lobby : Control
             PlayerListItem.GetNode<CheckButton>("ReadyButton").Disabled = true;
             PlayerListItem.GetNode<OptionButton>("factionselect").Disabled = true;
             PlayerListItem.GetNode<OptionButton>("teamselect").Disabled = true;
+            PlayerListItem.GetNode<OptionButton>("colorselect").Disabled = true;
         }
         PlayerListItem.Name = id.ToString();
         PlayersListBox.AddChild(PlayerListItem);

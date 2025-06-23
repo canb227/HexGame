@@ -461,7 +461,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructDevelopDistrictCommand(cityID, Target));
+            Global.networkPeer.CommandAllPeers(CommandParser.ConstructDevelopDistrictCommand(cityID, Target, districtType));
             return;
         }
 

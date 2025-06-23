@@ -40,7 +40,7 @@ using System.Threading.Tasks;
                 Global.gameManager.ExpandToHex((int)command.ExpandToHex.CityID, new Hex((int)command.ExpandToHex.Target.Q, (int)command.ExpandToHex.Target.R, (int)command.ExpandToHex.Target.S), false);
                 break;
             case "DevelopDistrict":
-                Global.gameManager.DevelopDistrict((int)command.DevelopDistrict.CityID, new Hex((int)command.DevelopDistrict.Target.Q, (int)command.DevelopDistrict.Target.R, (int)command.DevelopDistrict.Target.S), false);
+                Global.gameManager.DevelopDistrict((int)command.DevelopDistrict.CityID, new Hex((int)command.DevelopDistrict.Target.Q, (int)command.DevelopDistrict.Target.R, (int)command.DevelopDistrict.Target.S), (DistrictType)command.DevelopDistrict.DistrictType, false);
                 break;
             case "RenameCity":
                 Global.gameManager.RenameCity((int)command.RenameCity.CityID, command.RenameCity.Name, false);
@@ -158,7 +158,7 @@ using System.Threading.Tasks;
         return command;
     }
 
-    internal static Command ConstructDevelopDistrictCommand(int cityID, Hex target)
+    internal static Command ConstructDevelopDistrictCommand(int cityID, Hex target, DistrictType districtType)
     {
         DevelopDistrict developDistrict = new DevelopDistrict();
         developDistrict.CityID = (ulong)cityID;
@@ -166,6 +166,7 @@ using System.Threading.Tasks;
         developDistrict.Target.Q = (ulong)target.q;
         developDistrict.Target.R = (ulong)target.r;
         developDistrict.Target.S = (ulong)target.s;
+        developDistrict.DistrictType = (ulong)districtType;
         
         Command command = new Command();
         command.CommandType = "DevelopDistrict";
