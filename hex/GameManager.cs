@@ -457,7 +457,7 @@ public partial class GameManager : Node
         }
     }
 
-    public void DevelopDistrict(int cityID, Hex Target, bool local = true)
+    public void DevelopDistrict(int cityID, Hex Target, DistrictType districtType, bool local = true)
     {
         if (local)
         {
@@ -474,7 +474,7 @@ public partial class GameManager : Node
 
         try
         {
-            city.DevelopDistrict(Target);
+            city.DevelopDistrict(Target, districtType);
         }
         catch (Exception e)
         {

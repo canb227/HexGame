@@ -61,6 +61,8 @@ public partial class UIManager : Node3D
 
     public ResourcePanel resourcePanel;
 
+    public DistrictPickerPanel districtPickerPanel;
+
     public City targetCity;
     public Unit targetUnit;
 

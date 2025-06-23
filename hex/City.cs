@@ -695,7 +695,7 @@ public class City
         }
     }
 
-    public void DevelopDistrict(Hex hex)
+    public void DevelopDistrict(Hex hex, DistrictType districtType)
     {
         District targetDistrict = Global.gameManager.game.mainGameBoard.gameHexDict[hex].district;
         if (targetDistrict != null)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cqwb0y8pf7hny"]
+[gd_scene load_steps=12 format=3 uid="uid://cqwb0y8pf7hny"]
 
 [ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="2_n5e1u"]
 [ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="3_6wqba"]
@@ -10,8 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="9_6wqba"]
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="9_pepai"]
 
-[sub_resource type="Theme" id="Theme_n5e1u"]
+[sub_resource type="Theme" id="Theme_6wqba"]
 default_font_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pepai"]
+bg_color = Color(0.0807833, 0.0807833, 0.0807833, 0.866667)
 
 [node name="ScreenUI" type="Control"]
 layout_mode = 3
@@ -37,7 +40,8 @@ layout_mode = 2
 offset_right = 1204.0
 offset_bottom = 64.0
 mouse_filter = 2
-theme = SubResource("Theme_n5e1u")
+theme = SubResource("Theme_6wqba")
+theme_override_styles/panel = SubResource("StyleBoxFlat_pepai")
 
 [node name="TopBar" type="HSplitContainer" parent="LayerHelper/PanelContainer"]
 layout_mode = 2

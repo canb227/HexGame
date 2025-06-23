@@ -14,6 +14,7 @@ public class District
     public int id { get; set; }
     public List<Building> buildings { get; set; }
     public List<Building> defenses { get; set; }
+    public DistrictType districtType;
     public Hex hex { get; set; }
     public bool isCityCenter { get; set; }
     public bool isUrban { get; set; }
@@ -73,9 +74,11 @@ public class District
         {
             maxHealth = 50.0f;
             health = 50.0f;
+            districtType = DistrictType.citycenter;
         }
         else
         {
+            districtType = DistrictType.rural;
             bool isResource = false;
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
             {
@@ -241,9 +244,10 @@ public class District
         }
     }
 
-    public void DevelopDistrict()
+    public void DevelopDistrict(DistrictType districtType)
     {
         maxBuildings += 1;
+        this.districtType = districtType;
         isUrban = true;
     }
 

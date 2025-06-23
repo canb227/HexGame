@@ -95,6 +95,7 @@ public partial class ConstructionItem : PanelContainer
                 {
                     count += 1;
                 }
+
             }
             if (itemName != "" && (count >= BuildingLoader.buildingsDict[itemName].PerCity))
             {
@@ -105,13 +106,28 @@ public partial class ConstructionItem : PanelContainer
         {
             constructionItem.Disabled = true;
         }
-        if (city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes) == null || city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes).Count == 0)
+        List<Hex> validHexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes);
+        if (validHexes == null || validHexes.Count == 0)
         {
             constructionItem.Disabled = true;
         }
         else
         {
-            constructionItem.Disabled = false;
+            foreach (ProductionQueueType queueItem in city.productionQueue)
+            {
+                if(validHexes.Contains(queueItem.targetHex))
+                {
+                    validHexes.Remove(queueItem.targetHex);
+                }
+            }
+            if (validHexes.Count == 0)
+            {
+                constructionItem.Disabled = true;
+            }
+            else
+            {
+                constructionItem.Disabled = false;
+            }
         }
 
         turnsToBuild.Text = Math.Ceiling(buildingInfo.ProductionCost / (city.yields.production + city.productionOverflow)).ToString();

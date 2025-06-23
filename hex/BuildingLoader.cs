@@ -3,8 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
+public enum DistrictType
+{
+    citycenter,
+    rural,
+    production,
+    gold,
+    science,
+    culture,
+    happiness,
+    influence,
+    dock,
+    military,
+    refinement,
+    wonder
+}
+
 public struct BuildingInfo
 {
+    public DistrictType DistrictType;
     public int ProductionCost;
     public int GoldCost;
     public Yields yields;
@@ -37,6 +54,7 @@ public static class BuildingLoader
                 r => r.Attribute("Name").Value,
                 r => new BuildingInfo
                 {
+                    DistrictType = (DistrictType)Enum.Parse(typeof(DistrictType), r.Attribute("DistrictType").Value),
                     ProductionCost = int.Parse(r.Attribute("ProductionCost").Value),
                     GoldCost = int.Parse(r.Attribute("GoldCost").Value),
                     yields = new Yields

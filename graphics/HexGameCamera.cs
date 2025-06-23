@@ -200,11 +200,7 @@ public partial class HexGameCamera : Camera3D
                     }
                     else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        Global.gameManager.DevelopDistrict(graphicCity.city.id, wrapHex);//networked command
-                        //graphicCity.city.DevelopDistrict(wrapHex);
-                        graphicCity.waitingToGrow = false;
-                        Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
-                        Global.gameManager.graphicManager.ClearWaitForTarget();
+                        Global.gameManager.graphicManager.uiManager.districtPickerPanel = new DistrictPickerPanel(wrapHex, graphicCity);
                     }
                 }
                 else if (graphicCity.waitingBuildingName != "")

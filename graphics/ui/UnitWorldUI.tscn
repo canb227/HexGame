@@ -1,12 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://ki38tut7gbgp"]
+[gd_scene load_steps=9 format=3 uid="uid://ki38tut7gbgp"]
 
 [ext_resource type="Texture2D" uid="uid://b4dxstmrdx682" path="res://graphics/ui/icons/shoe.png" id="1_dymly"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skgj6"]
-bg_color = Color(0.0823529, 0.0823529, 0.0823529, 0.862745)
-
-[sub_resource type="Theme" id="Theme_qnqfw"]
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_skgj6")
+[sub_resource type="Theme" id="Theme_dymly"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dymly"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -45,7 +41,7 @@ size = Vector2i(50, 60)
 [node name="UnitWorldUI" type="PanelContainer" parent="SubViewport"]
 offset_right = 50.0
 offset_bottom = 60.0
-theme = SubResource("Theme_qnqfw")
+theme = SubResource("Theme_dymly")
 
 [node name="Button" type="Button" parent="SubViewport/UnitWorldUI"]
 layout_mode = 2

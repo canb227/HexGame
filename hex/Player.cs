@@ -50,6 +50,7 @@ public class Player
     public List<(UnitEffect, UnitClass)> unitResearchEffects { get; set; } = new();
     public List<(BuildingEffect, String)> buildingResearchEffects { get; set; } = new();
     public HashSet<String> allowedBuildings { get; set; } = new();
+    public HashSet<DistrictType> allowedDistricts { get; set; } = new();
     public HashSet<String> allowedUnits { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> globalResources {  get; set; } = new();
@@ -307,6 +308,7 @@ public class Player
         foreach(String buildingType in ResearchLoader.researchesDict[researchType].BuildingUnlocks)
         {
             allowedBuildings.Add(buildingType);
+            allowedDistricts.Add(BuildingLoader.buildingsDict[buildingType].DistrictType);
         }
         foreach(String effect in ResearchLoader.researchesDict[researchType].Effects)
         {
@@ -371,6 +373,7 @@ public class Player
         foreach (String buildingType in CultureResearchLoader.researchesDict[researchType].BuildingUnlocks)
         {
             allowedBuildings.Add(buildingType);
+            allowedDistricts.Add(BuildingLoader.buildingsDict[buildingType].DistrictType);
         }
         foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)
         {
