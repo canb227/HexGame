@@ -38,11 +38,14 @@ public struct BuildingInfo
 public static class BuildingLoader
 {
     public static Dictionary<String, BuildingInfo> buildingsDict;
-    
+    public static Dictionary<DistrictType, BuildingInfo> districtDict;
+
+
     static BuildingLoader()
     {
         string xmlPath = "hex/Buildings.xml";
         buildingsDict = LoadBuildingData(xmlPath);
+        districtDict = PrepDistrictData(buildingsDict);
     }
     
     public static Dictionary<String, BuildingInfo> LoadBuildingData(string xmlPath)
@@ -77,5 +80,22 @@ public static class BuildingLoader
                 }
             );
         return BuildingData;
+    }
+
+    private static Dictionary<DistrictType, BuildingInfo> PrepDistrictData(Dictionary<String, BuildingInfo> buildingDict)
+    {
+        Dictionary<DistrictType, BuildingInfo> temp = new();
+        temp.Add(DistrictType.citycenter, buildingDict["CityCenter"]);
+        temp.Add(DistrictType.rural, buildingDict["Farm"]);
+        temp.Add(DistrictType.refinement, buildingDict["Refinery"]);
+        temp.Add(DistrictType.production, buildingDict["Industry"]);
+        temp.Add(DistrictType.gold, buildingDict["Commerce"]);
+        temp.Add(DistrictType.science, buildingDict["Campus"]);
+        temp.Add(DistrictType.culture, buildingDict["Cultural"]);
+        temp.Add(DistrictType.happiness, buildingDict["Entertainment"]);
+        temp.Add(DistrictType.influence, buildingDict["Administrative"]);
+        temp.Add(DistrictType.dock, buildingDict["Harbor"]);
+        temp.Add(DistrictType.military, buildingDict["Militaristic"]);
+        return temp;
     }
 }

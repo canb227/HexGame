@@ -12,15 +12,15 @@ grow_vertical = 2
 
 [node name="PickDistrictPanel" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -136.5
-offset_top = -20.0
-offset_right = 136.5
-offset_bottom = 20.0
+anchors_preset = -1
+anchor_left = 0.382
+anchor_top = 0.469
+anchor_right = 0.618
+anchor_bottom = 0.531
+offset_left = -0.564026
+offset_top = 0.0879822
+offset_right = 0.563965
+offset_bottom = -0.0880127
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -28,15 +28,16 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="CloseButton" type="Button" parent="."]
-layout_mode = 2
-anchor_left = 2.61
-anchor_top = -7.591
-anchor_right = 2.61
-anchor_bottom = -7.591
-offset_left = -450.03
-offset_top = 294.64
-offset_right = -431.03
-offset_bottom = 314.64
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.609
+anchor_top = 0.457
+anchor_right = 0.626
+anchor_bottom = 0.488
+offset_left = 0.431946
+offset_top = -0.136017
+offset_right = -0.152039
+offset_bottom = -0.22403
 icon = ExtResource("1_edorh")
 icon_alignment = 1
 expand_icon = true

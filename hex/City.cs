@@ -835,6 +835,20 @@ public class City
                             break;
                         }
                     }
+                    //have a valid district to build
+                    bool validBuildableDistrict = false;
+                    foreach (DistrictType districtType in Global.gameManager.game.playerDictionary[teamNum].allowedDistricts)
+                    {
+                        if (BuildingLoader.districtDict[districtType].TerrainTypes.Contains(targetGameHex.terrainType) && districtType != DistrictType.citycenter)
+                        {
+                            validBuildableDistrict = true;
+                        }
+                    }
+                    if(!validBuildableDistrict)
+                    {
+                        return false;
+                    }
+
                     //have an adjacent urban district
                     bool adjacentUrbanDistrict = false;
                     foreach (Hex hex in targetGameHex.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
