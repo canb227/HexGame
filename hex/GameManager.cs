@@ -278,7 +278,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error moving unit: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
@@ -330,7 +330,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error activating ability: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
@@ -358,7 +358,7 @@ public partial class GameManager : Node
             catch (Exception e)
             {
                 Global.Log("Error changing production queue: " + e.Message); //TODO - Potential Desync
-                return;
+                throw;
             }
         }
         else
@@ -370,7 +370,7 @@ public partial class GameManager : Node
             catch (Exception e)
             {
                 Global.Log("Error changing production queue: " + e.Message); //TODO - Potential Desync
-                return;
+                throw;
             }
         }
 
@@ -398,7 +398,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error changing production queue: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
 
     }
@@ -425,7 +425,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error moving to front of prod queue: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
 
     }
@@ -453,7 +453,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error expanding to hex: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
@@ -479,7 +479,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error developing district: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
@@ -505,7 +505,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error renaming city: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
@@ -524,7 +524,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error selecting research tech: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
@@ -543,7 +543,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error selecting culture tech: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
@@ -569,7 +569,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error adding resource assignment: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
@@ -588,7 +588,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error adding resource assignment: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
 
     }
@@ -608,7 +608,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error ending turn: " + e.Message); //TODO - Potential Desync
-            return;
+            throw;
         }
     }
 
