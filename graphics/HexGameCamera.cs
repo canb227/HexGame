@@ -163,7 +163,7 @@ public partial class HexGameCamera : Camera3D
     {        
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         Hex wrapHex = hex.WrapHex();
-        //GD.Print(wrapHex);
+        GD.Print(wrapHex);
 
         GameHex gameHex;
         Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(wrapHex, out gameHex);

@@ -134,6 +134,10 @@ public partial class ResearchTreePanel : Control
         }
         foreach(Button button in buttonList)
         {
+            Label turnsLabel = button.GetNode<Label>("TurnsLabel");
+            RichTextLabel rt = button.GetNode<RichTextLabel>("ResearchName");
+            turnsLabel.Text = CalculateTurnsToFinish(rt.Text).ToString() + " Turns";
+
             int index = 0;
             bool inProgress = false;
             for (int i = 0; i < queuedResearch.Count; i++)
@@ -146,6 +150,8 @@ public partial class ResearchTreePanel : Control
                     break;
                 }
             }
+
+
 
             bool canResearch = true;
             ResearchInfo info = researchesDict[button.Name];
@@ -162,6 +168,7 @@ public partial class ResearchTreePanel : Control
             if (completedResearches.Contains(button.Name))
             {
                 button.Disabled = true;
+                turnsLabel.Visible = false;
                 button.AddThemeColorOverride("icon_disabled_color", Godot.Colors.Goldenrod);
                 button.GetNode<TextureRect>("ResearchQueue").Visible = false;
             }
@@ -250,6 +257,11 @@ public partial class ResearchTreePanel : Control
         Button researchButton = researchButtonScene.Instantiate<Button>();
         RichTextLabel rt = researchButton.GetNode<RichTextLabel>("ResearchName");
         TextureRect researchIcon = researchButton.GetNode<TextureRect>("ResearchIcon");
+        Label turnsLabel = researchButton.GetNode<Label>("TurnsLabel");
+
+
+        turnsLabel.Text = CalculateTurnsToFinish(research).ToString() + " Turns";
+
         rt.Text = research;
         researchButton.Name = research;
         researchIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + researchInfo.IconPath);
@@ -269,6 +281,64 @@ public partial class ResearchTreePanel : Control
         }
 
         return researchButton;
+    }
+
+    private float CalculateTurnsToFinish(string research)
+    {
+        Player localPlayer = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum];
+        float turns = 0.0f;
+        if (localPlayer.partialResearchDictionary.ContainsKey(research))
+        {
+            ResearchQueueType temp = localPlayer.partialResearchDictionary[research];
+            if ((localPlayer.GetSciencePerTurn() + localPlayer.scienceTotal) != 0)
+            {
+                turns = Mathf.Ceil(temp.researchLeft / (localPlayer.GetSciencePerTurn() + localPlayer.scienceTotal));
+            }
+            else
+            {
+                turns = 99f;
+            }
+        }
+        else if (ResearchLoader.researchesDict.ContainsKey(research))
+        {
+            if ((localPlayer.GetSciencePerTurn() + localPlayer.scienceTotal) != 0)
+            {
+                turns = Mathf.Ceil(ResearchLoader.tierCostDict[ResearchLoader.researchesDict[research].Tier] / (localPlayer.GetSciencePerTurn() + localPlayer.scienceTotal));
+            }
+            else
+            {
+                turns = 99f;
+            }
+        }
+        else if (localPlayer.partialCultureResearchDictionary.ContainsKey(research))
+        {
+            ResearchQueueType temp = localPlayer.partialCultureResearchDictionary[research];
+            if ((localPlayer.GetCulturePerTurn() + localPlayer.cultureTotal) != 0)
+            {
+                turns = Mathf.Ceil(temp.researchLeft / (localPlayer.GetCulturePerTurn() + localPlayer.cultureTotal));
+            }
+            else
+            {
+                turns = 99f;
+            }
+        }
+        else if (CultureResearchLoader.researchesDict.ContainsKey(research))
+        {
+            if ((localPlayer.GetSciencePerTurn() + localPlayer.scienceTotal) != 0)
+            {
+                turns = Mathf.Ceil(CultureResearchLoader.tierCostDict[CultureResearchLoader.researchesDict[research].Tier] / (localPlayer.GetSciencePerTurn() + localPlayer.scienceTotal));
+            }
+            else
+            {
+                turns = 99f;
+            }
+        }
+
+        if (turns > 99.0f)
+        {
+            turns = 99f;
+        }
+        return turns;
     }
 
     public void AddLines()

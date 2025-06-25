@@ -636,6 +636,8 @@ public class City
             manager.Update2DUI(UIElement.culturePerTurn);
             manager.Update2DUI(UIElement.happinessPerTurn);
             manager.Update2DUI(UIElement.influencePerTurn);
+            manager.Update2DUI(UIElement.researchTree);
+            manager.uiManager.UpdateResearchUI();
             manager.UpdateGraphic(id, GraphicUpdateType.Update);
             foreach(Hex hex in heldHexes)
             {

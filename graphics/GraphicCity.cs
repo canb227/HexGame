@@ -76,7 +76,7 @@ public partial class GraphicCity : GraphicObject
         //Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
         Global.gameManager.graphicManager.uiManager.endTurnButton.Visible = true;
         Global.gameManager.graphicManager.ShowAllWorldUI();
-        foreach (Node3D child in GetChildren())
+        foreach (Node child in Global.gameManager.graphicManager.GetChildren())
         {
             if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
             {
@@ -96,13 +96,18 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.HideCityInfoPanel();
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
-            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "Building"));
-            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen, "Building"));
+            GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            //ggb.chunkList[ggb.hexToChunkDictionary[city.hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "Building"));
+            //ggb.chunkList[ggb.hexToChunkDictionary[city.hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen, "Building"));
+            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "Building"));
+            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen, "Building"));
         }
     }
 
     public void GenerateGrowthTargetingPrompt()
     {
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+
         List<Hex> hexes = city.ValidExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
         List<Hex> urbanhexes = city.ValidUrbanExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
         //rural hexes
@@ -117,15 +122,15 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
         }
         if (hexes.Count > 0)
-        { 
-            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "RuralGrow"));
-            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen, "RuralGrow"));
+        {
+            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "RuralGrow"));
+            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen, "RuralGrow"));
         }
         //urban expand hexes
         if (urbanhexes.Count > 0)
         {
-            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(urbanhexes, Godot.Colors.Gold, "UrbanGrow"));
-            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(urbanhexes, Godot.Colors.Orange, "UrbanGrow"));
+            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(urbanhexes, Godot.Colors.Gold, "UrbanGrow"));
+            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(urbanhexes, Godot.Colors.Orange, "UrbanGrow"));
         }
     }
 

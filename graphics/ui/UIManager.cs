@@ -101,7 +101,7 @@ public partial class UIManager : Node3D
         cultureButtonLabel = cultureButton.GetNode<Label>("ResearchLabel");
         cultureButtonIcon = cultureButton.GetNode<TextureRect>("CultureTreeIcon");
         cultureButtonResults = cultureButton.GetNode<HBoxContainer>("ResearchResultBox");
-        cultureButtonTurnsLeft = scienceButton.GetNode<Label>("TurnsLeft");
+        cultureButtonTurnsLeft = cultureButton.GetNode<Label>("TurnsLeft");
 
         scienceButton.Pressed += () => ScienceTreeButtonPressed();
         cultureButton.Pressed += () => CultureTreeButtonPressed();
@@ -255,9 +255,10 @@ public partial class UIManager : Node3D
 
     public void UpdateResearchUI()
     {
-        if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.Any())
+        Player localPlayer = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum];
+        if (localPlayer.queuedResearch.Any())
         {
-            ResearchInfo info = ResearchLoader.researchesDict[Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchType];
+            ResearchInfo info = ResearchLoader.researchesDict[localPlayer.queuedResearch.First().researchType];
             scienceButtonLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchType;
             scienceButtonIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + info.IconPath);
             foreach (Node child in scienceButtonResults.GetChildren())
@@ -276,17 +277,14 @@ public partial class UIManager : Node3D
                 buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + BuildingLoader.buildingsDict[buildingName].IconPath);
                 scienceButtonResults.AddChild(buildingIcon);
             }
-            //GD.Print(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchLeft);
-            //GD.Print(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetSciencePerTurn());
-            scienceButtonTurnsLeft.Text = (Math.Ceiling(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchLeft / Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetScienceTotal())).ToString();
-            cultureButtonTurnsLeft.Text = (Math.Ceiling(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch.First().researchLeft / Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetCultureTotal())).ToString();
+            scienceButtonTurnsLeft.Text = (Math.Ceiling(localPlayer.queuedResearch[0].researchLeft / (localPlayer.GetSciencePerTurn() + localPlayer.GetScienceTotal()))).ToString();
         }
 
 
-        if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch.Any())
+        if (localPlayer.queuedCultureResearch.Any())
         {
-            ResearchInfo info = CultureResearchLoader.researchesDict[Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch.First().researchType];
-            cultureButtonLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch.First().researchType;
+            ResearchInfo info = CultureResearchLoader.researchesDict[localPlayer.queuedCultureResearch.First().researchType];
+            cultureButtonLabel.Text = localPlayer.queuedCultureResearch.First().researchType;
             cultureButtonIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + info.IconPath);
             foreach (Node child in cultureButtonResults.GetChildren())
             {
@@ -304,7 +302,7 @@ public partial class UIManager : Node3D
                 buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + BuildingLoader.buildingsDict[buildingName].IconPath);
                 cultureButtonResults.AddChild(buildingIcon);
             }
-            cultureButtonTurnsLeft.Text = (Math.Ceiling(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch.First().researchLeft / Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetCulturePerTurn())).ToString();
+            cultureButtonTurnsLeft.Text = Math.Ceiling(localPlayer.queuedCultureResearch[0].researchLeft / (localPlayer.GetCulturePerTurn() + localPlayer.GetCultureTotal())).ToString();
         }
     }
 

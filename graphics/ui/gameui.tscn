@@ -190,7 +190,6 @@ offset_left = 28.0
 offset_top = 46.0
 offset_right = 57.0
 offset_bottom = 69.0
-text = "999"
 
 [node name="TurnsIcon" type="TextureRect" parent="LayerHelper/ScienceTree"]
 layout_mode = 0
@@ -258,7 +257,6 @@ offset_left = 28.0
 offset_top = 46.0
 offset_right = 57.0
 offset_bottom = 69.0
-text = "999"
 
 [node name="TurnsIcon" type="TextureRect" parent="LayerHelper/CultureTree"]
 layout_mode = 0

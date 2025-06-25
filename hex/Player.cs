@@ -17,8 +17,9 @@ public class Player
         this.goldTotal = goldTotal;
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
         OnResearchComplete("Agriculture");
-        SelectResearch("FutureTech");
-        SelectCultureResearch("FutureTech");
+        OnCultureResearchComplete("Tribal Dominion");
+/*        SelectResearch("FutureTech");
+        SelectCultureResearch("FutureTech");*/
         if(teamNum == 0)
         {
             foreach(Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
@@ -234,6 +235,7 @@ public class Player
             manager.Update2DUI(UIElement.happiness);
             manager.Update2DUI(UIElement.influence);
             manager.Update2DUI(UIElement.researchTree);
+            manager.uiManager.UpdateResearchUI();
         }
     }
 

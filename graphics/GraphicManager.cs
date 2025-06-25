@@ -276,18 +276,20 @@ public partial class GraphicManager : Node3D
         {
             GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
             int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
-            Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
-            List<Point> points = layout.PolygonCorners(modHex);
-
-            Vector3 origin = new Vector3((float)points[0].y, 0.15f, (float)points[0].x);
+            Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r); 
+            Hex graphicHex = ggb.HexToGraphicHex(hex);
+            List<Point> points = layout.PolygonCorners(graphicHex);
+            GD.Print("Hex:        " + hex);
+            GD.Print("Graphic Hex " + graphicHex);
+            Vector3 origin = new Vector3((float)points[0].y, 1.15f, (float)points[0].x);
             for (int i = 1; i < 6; i++)
             {
                 st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
 
-                Vector3 pointTwo = new Vector3((float)points[i].y, 0.15f, (float)points[i].x); // Get the next point in the polygon
+                Vector3 pointTwo = new Vector3((float)points[i].y, 1.15f, (float)points[i].x); // Get the next point in the polygon
                 st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
 
-                Vector3 pointThree = new Vector3((float)points[i - 1].y, 0.15f, (float)points[i - 1].x);
+                Vector3 pointThree = new Vector3((float)points[i - 1].y, 1.15f, (float)points[i - 1].x);
                 st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
             }
         }

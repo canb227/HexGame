@@ -113,13 +113,13 @@ public partial class ConstructionItem : PanelContainer
         }
         else
         {
-            foreach (ProductionQueueType queueItem in city.productionQueue)
+/*            foreach (ProductionQueueType queueItem in city.productionQueue)
             {
-                if(validHexes.Contains(queueItem.targetHex))
+                if(validHexes.Contains(queueItem.targetHex) && BuildingLoader.buildingsDict.ContainsKey(queueItem.itemName))
                 {
                     validHexes.Remove(queueItem.targetHex);
                 }
-            }
+            }*/
             if (validHexes.Count == 0)
             {
                 constructionItem.Disabled = true;
