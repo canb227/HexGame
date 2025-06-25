@@ -76,11 +76,15 @@ public partial class GraphicCity : GraphicObject
         //Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
         Global.gameManager.graphicManager.uiManager.endTurnButton.Visible = true;
         Global.gameManager.graphicManager.ShowAllWorldUI();
-        foreach (Node child in Global.gameManager.graphicManager.GetChildren())
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        foreach (HexChunk hexChunk in ggb.chunkList)
         {
-            if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
+            foreach (Node child in hexChunk.multiMeshInstance.GetChildren())
             {
-                child.Free();
+                if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
+                {
+                    child.QueueFree();
+                }
             }
         }
     }
@@ -97,10 +101,12 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
             GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-            //ggb.chunkList[ggb.hexToChunkDictionary[city.hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "Building"));
-            //ggb.chunkList[ggb.hexToChunkDictionary[city.hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen, "Building"));
-            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "Building"));
-            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen, "Building"));
+            foreach (Hex hex in hexes)
+            {
+                Hex originHex = ggb.chunkList[ggb.hexToChunkDictionary[hex]].origin;
+                Hex adjustedHex = new Hex(hex.q - originHex.q, hex.r - originHex.r, -(hex.q - originHex.q) - (hex.r - originHex.r));
+                ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(adjustedHex, Godot.Colors.DarkGreen, "Building" + hex));
+            }
         }
     }
 
@@ -123,14 +129,22 @@ public partial class GraphicCity : GraphicObject
         }
         if (hexes.Count > 0)
         {
-            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "RuralGrow"));
-            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.DarkGreen, "RuralGrow"));
+            foreach (Hex hex in hexes)
+            {
+                Hex originHex = ggb.chunkList[ggb.hexToChunkDictionary[hex]].origin;
+                Hex adjustedHex = new Hex(hex.q - originHex.q, hex.r - originHex.r, -(hex.q - originHex.q) - (hex.r - originHex.r));
+                ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(adjustedHex, Godot.Colors.DarkGreen, "RuralGrow" + adjustedHex));
+            }
         }
         //urban expand hexes
         if (urbanhexes.Count > 0)
         {
-            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(urbanhexes, Godot.Colors.Gold, "UrbanGrow"));
-            Global.gameManager.graphicManager.AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(urbanhexes, Godot.Colors.Orange, "UrbanGrow"));
+            foreach(Hex hex in urbanhexes)
+            {
+                Hex originHex = ggb.chunkList[ggb.hexToChunkDictionary[hex]].origin;
+                Hex adjustedHex = new Hex(hex.q - originHex.q, hex.r - originHex.r, -(hex.q - originHex.q) - (hex.r - originHex.r));
+                ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(adjustedHex, Godot.Colors.Orange, "UrbanGrow"+ adjustedHex));
+            }
         }
     }
 

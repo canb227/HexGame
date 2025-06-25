@@ -205,6 +205,10 @@ public class GameHex
         ownedBy = city.teamNum;
         owningCityID = city.id;
         city.heldHexes.Add(hex);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.UpdateCityTerritory(city);
+        }
     }
 
     public bool TryClaimHex(City city)

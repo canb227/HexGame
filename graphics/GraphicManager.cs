@@ -19,7 +19,10 @@ public partial class GraphicManager : Node3D
     public UIManager uiManager;
     private bool waitForTargeting = false;
     public HexGameCamera camera;
-    
+
+    public Node3D territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb").Instantiate<Node3D>();
+
+
     public GraphicManager(Layout layout)
     {
         toBeDeleted = new();
@@ -278,7 +281,7 @@ public partial class GraphicManager : Node3D
             int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
             Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r); 
             Hex graphicHex = ggb.HexToGraphicHex(hex);
-            List<Point> points = layout.PolygonCorners(graphicHex);
+            List<Point> points = layout.PolygonCorners(hex);
             GD.Print("Hex:        " + hex);
             GD.Print("Graphic Hex " + graphicHex);
             Vector3 origin = new Vector3((float)points[0].y, 1.15f, (float)points[0].x);
@@ -309,6 +312,54 @@ public partial class GraphicManager : Node3D
             return null;
         }
     }
+
+    public MeshInstance3D GenerateSingleHexSelectionTriangles(Hex hex, Godot.Color color, string name)
+    {
+        MeshInstance3D triangles = new MeshInstance3D();
+
+        SurfaceTool st = new SurfaceTool();
+        st.Begin(Mesh.PrimitiveType.Triangles);
+        st.SetColor(color);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        //int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
+        //Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
+        //Hex graphicHex = ggb.HexToGraphicHex(hex);
+        List<Point> points = layout.PolygonCorners(hex);
+        Vector3 origin = new Vector3((float)points[0].y, 1.15f, (float)points[0].x);
+        for (int i = 1; i < 6; i++)
+        {
+            st.AddVertex(origin); // Add the origin point as the first vertex for the triangle fan
+
+            Vector3 pointTwo = new Vector3((float)points[i].y, 1.15f, (float)points[i].x); // Get the next point in the polygon
+            st.AddVertex(pointTwo); // Add the next point in the polygon as the second vertex for the triangle fan
+
+            Vector3 pointThree = new Vector3((float)points[i - 1].y, 1.15f, (float)points[i - 1].x);
+            st.AddVertex(pointThree); // Add the next point in the polygon as the third vertex for the triangle fan
+        }
+        st.GenerateNormals();
+
+        triangles.Mesh = st.Commit();
+        StandardMaterial3D material = new StandardMaterial3D();
+        material.VertexColorUseAsAlbedo = true;
+        if (triangles.GetSurfaceOverrideMaterialCount() != 0)
+        {
+            triangles.SetSurfaceOverrideMaterial(0, material);
+            triangles.Name = "TargetHexes" + name;
+            return triangles;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void UpdateCityTerritory(City city)
+    {
+        Player player = Global.gameManager.game.playerDictionary[city.teamNum];
+        player.UpdateTerritoryGraphic();
+    }
+
+
 
    public void ShowAllWorldUI()
     {
