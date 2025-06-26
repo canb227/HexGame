@@ -13,12 +13,22 @@ uniform sampler2D terrainInfo : filter_nearest;
 uniform sampler2D heightMap : filter_linear;
 
 uniform sampler2D grassTex : source_color, filter_linear;
+uniform sampler2D grassNorm : hint_normal, filter_linear;
+
 uniform sampler2D hillTex : source_color, filter_linear;
+uniform sampler2D hillNorm : hint_normal, filter_linear;
+
 uniform sampler2D rockTex : source_color, filter_linear;
+uniform sampler2D rockNorm : hint_normal, filter_linear;
+
 uniform sampler2D sandTex : source_color, filter_linear;
+uniform sampler2D sandNorm : hint_normal, filter_linear;
+
 uniform sampler2D snowTex : source_color, filter_linear;
+uniform sampler2D snowNorm : hint_normal, filter_linear;
+
 uniform sampler2D waterTex : source_color, filter_linear;
-uniform sampler2D waterNormal : hint_normal, filter_linear;
+uniform sampler2D waterNorm : hint_normal, filter_linear;
 
 varying flat vec2 visData;
 varying flat vec2 terrainData;
@@ -65,24 +75,29 @@ void fragment() {
     {
         if(terrainData.r > 0.0) //desert
         {
+            NORMAL = texture(sandNorm, UV).rgb;
             terrainColor = texture(sandTex, UV).rgb;
         }
         if(terrainData.r > 0.15) //plains
         {
             float blendfactor = 0.5;
+            NORMAL = mix(texture(sandNorm, UV), texture(grassNorm, UV), blendfactor).rgb;
             terrainColor = mix(texture(sandTex, UV), texture(grassTex, UV), blendfactor).rgb;
         }
         if(terrainData.r > 0.25) //grasslands
         {
+            NORMAL = texture(grassNorm, UV).rgb;
             terrainColor = texture(grassTex, UV).rgb;
         }
         if(terrainData.r > 0.35) //tundra
         {
             float blendfactor = 0.5;
+            NORMAL = mix(texture(snowNorm, UV), texture(grassNorm, UV), blendfactor).rgb;
             terrainColor = mix(texture(snowTex, UV), texture(grassTex, UV), blendfactor).rgb;
         }
         if(terrainData.r > 0.45) //artic
         {
+            NORMAL = texture(snowNorm, UV).rgb;
             terrainColor = texture(snowTex, UV).rgb;
         }
     }
@@ -91,25 +106,30 @@ void fragment() {
         if(terrainData.r > 0.0) //desert
         {
             float blendfactor = 0.5;
-            terrainColor = mix(texture(snowTex, UV), texture(hillTex, UV), blendfactor).rgb;
+            NORMAL = mix(texture(sandNorm, UV), texture(hillNorm, UV), blendfactor).rgb;
+            terrainColor = mix(texture(sandTex, UV), texture(hillTex, UV), blendfactor).rgb;
         }
         if(terrainData.r > 0.15) //plains
         {
             float blendfactor = 0.7;
+            NORMAL = mix(texture(sandNorm, UV), texture(hillNorm, UV), blendfactor).rgb;
             terrainColor = mix(texture(sandTex, UV), texture(hillTex, UV), blendfactor).rgb;
         }
         if(terrainData.r > 0.25) //grasslands
         {
+            NORMAL = texture(hillNorm, UV).rgb;
             terrainColor = texture(hillTex, UV).rgb;
         }
         if(terrainData.r > 0.35) //tundra
         {
             float blendfactor = 0.7;
+            NORMAL = mix(texture(snowNorm, UV), texture(hillNorm, UV), blendfactor).rgb;
             terrainColor = mix(texture(snowTex, UV), texture(hillTex, UV), blendfactor).rgb;
         }
         if(terrainData.r > 0.45) //artic
         {
             float blendfactor = 0.5;
+            NORMAL = mix(texture(snowNorm, UV), texture(hillNorm, UV), blendfactor).rgb;
             terrainColor = mix(texture(snowTex, UV), texture(hillTex, UV), blendfactor).rgb;
         }
     }
@@ -117,15 +137,18 @@ void fragment() {
     {
         if(terrainData.r > 0.0)
         {
+            NORMAL = texture(rockNorm, UV).rgb;
             terrainColor = mountainTexture.rgb;
         }
     }
     if(terrainData.g > 0.39)
     {
+        NORMAL = texture(waterNorm, UV+time*0.01).rgb;
         terrainColor = coastalTexture.rgb;
     }
     if(terrainData.g > 0.49)
     {
+        NORMAL = texture(waterNorm, UV+time*0.01).rgb;
         terrainColor = oceanTexture.rgb;
     }
 

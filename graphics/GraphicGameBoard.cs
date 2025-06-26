@@ -288,16 +288,28 @@ public partial class GraphicGameBoard : GraphicObject
 
             CompressedTexture2D grassTex = GD.Load<CompressedTexture2D>("res://graphics/textures/grass.jpg");
             terrainShaderMaterial.SetShaderParameter("grassTex", grassTex);
+            CompressedTexture2D grassNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/grass_norm.png");
+            terrainShaderMaterial.SetShaderParameter("grassNorm", grassNorm);
             CompressedTexture2D hillTex = GD.Load<CompressedTexture2D>("res://graphics/textures/hills.jpg");
             terrainShaderMaterial.SetShaderParameter("hillTex", hillTex);
+            CompressedTexture2D hillNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/hills_norm.png");
+            terrainShaderMaterial.SetShaderParameter("hillNorm", hillNorm);
             CompressedTexture2D rockTex = GD.Load<CompressedTexture2D>("res://graphics/textures/mountain.png");
             terrainShaderMaterial.SetShaderParameter("rockTex", rockTex);
+            CompressedTexture2D rockNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/rock_norm.png");
+            terrainShaderMaterial.SetShaderParameter("rockNorm", rockNorm);
             CompressedTexture2D sandTex = GD.Load<CompressedTexture2D>("res://graphics/textures/sand.jpg");
             terrainShaderMaterial.SetShaderParameter("sandTex", sandTex);
+            CompressedTexture2D sandNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/sand_norm.png");
+            terrainShaderMaterial.SetShaderParameter("sandNorm", sandNorm);
             CompressedTexture2D snowTex = GD.Load<CompressedTexture2D>("res://graphics/textures/snow.jpg");
             terrainShaderMaterial.SetShaderParameter("snowTex", snowTex);
+            CompressedTexture2D snowNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/snow_norm.png");
+            terrainShaderMaterial.SetShaderParameter("snowNorm", snowNorm);
             CompressedTexture2D waterTex = GD.Load<CompressedTexture2D>("res://graphics/textures/water.jpg");
             terrainShaderMaterial.SetShaderParameter("waterTex", waterTex);
+            CompressedTexture2D waterNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/water_norm.jpg");
+            terrainShaderMaterial.SetShaderParameter("waterNormal", waterNorm);
 
             terrainShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
             terrainShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);

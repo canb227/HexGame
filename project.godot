@@ -80,3 +80,11 @@ time={
 "type": "float",
 "value": 0.0
 }
+windStrength={
+"type": "float",
+"value": 1.0
+}
+windDirection={
+"type": "float",
+"value": 0.0
+}
