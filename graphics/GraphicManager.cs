@@ -1,4 +1,5 @@
 using Godot;
+using ImGuiNET;
 using NetworkMessages;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ public partial class GraphicManager : Node3D
     private bool waitForTargeting = false;
     public HexGameCamera camera;
     public float totalTime = 0.0f;
+
+    bool ShowDebugConsole = false;
 
     public Node3D territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb").Instantiate<Node3D>();
 
@@ -47,7 +50,9 @@ public partial class GraphicManager : Node3D
     {
         totalTime += (float)delta;
         RenderingServer.GlobalShaderParameterSet("time", totalTime);
+
     }
+
 
 
     private void ConfigureAndAddCamera()
