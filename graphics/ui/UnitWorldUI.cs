@@ -46,12 +46,11 @@ public partial class UnitWorldUI : Node3D
 
         AddChild(node);
 
-        StyleBoxFlat styleBox = unitWorldUI.GetThemeStylebox("panel") as StyleBoxFlat;
-        if (styleBox != null)
-        {
-            styleBox.BgColor = new Godot.Color(Global.gameManager.game.playerDictionary[unit.teamNum].teamColor);
-            unitWorldUI.AddThemeStyleboxOverride("panel", styleBox);
-        }
+        unitWorldUI.Theme = Global.gameManager.game.playerDictionary[unit.teamNum].theme;
+
+        StyleBoxFlat styleBox = new StyleBoxFlat();
+        styleBox.BgColor = new Godot.Color(Global.gameManager.game.playerDictionary[unit.teamNum].teamColor);
+        unitWorldUI.AddThemeStyleboxOverride("panel", styleBox);
 
         Transform3D newTransform = Transform;
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);

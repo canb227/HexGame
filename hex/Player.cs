@@ -29,7 +29,22 @@ public class Player
                 seenGameHexDict.Add(hex, true);
             }
         }
-        
+
+        theme = new Theme();
+
+        playerTerritoryMaterial = new StandardMaterial3D();
+
+        Gradient gradient = new Gradient();
+        gradient.SetColor(0, new Color(teamColor.R, teamColor.G, teamColor.B, 0.2f));
+        gradient.SetColor(1, teamColor);
+
+        GradientTexture1D gradTex = new GradientTexture1D();
+        gradTex.Gradient = gradient;
+        gradTex.Width = 256;
+
+        playerTerritoryMaterial.AlbedoTexture = gradTex;
+        playerTerritoryMaterial.Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
+
     }
 
     public Player()
@@ -69,6 +84,8 @@ public class Player
     private int idCounter = 0;
 
     public Godot.Color teamColor;
+    public StandardMaterial3D playerTerritoryMaterial;
+    public Theme theme;
 
     public void SetGoldTotal(float goldTotal)
     {
@@ -365,10 +382,13 @@ public class Player
                     {
                         int newQ = hex.q + 1;
                         int newR = hex.r - 1;
-                        Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                        if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
+                        if (newR > 0 && newR < Global.gameManager.game.mainGameBoard.bottom)
                         {
-                            mesh.QueueFree();
+                            Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
+                            if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
+                            {
+                                mesh.QueueFree();
+                            }
                         }
                     }
                     if (index == 1)
@@ -385,20 +405,26 @@ public class Player
                     {
                         int newQ = hex.q;
                         int newR = hex.r + 1;
-                        Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                        if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
+                        if (newR > 0 && newR < Global.gameManager.game.mainGameBoard.bottom)
                         {
-                            mesh.QueueFree();
+                            Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
+                            if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
+                            {
+                                mesh.QueueFree();
+                            }
                         }
                     }
                     if (index == 3)
                     {
                         int newQ = hex.q - 1;
                         int newR = hex.r + 1;
-                        Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                        if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
+                        if (newR > 0 && newR < Global.gameManager.game.mainGameBoard.bottom)
                         {
-                            mesh.QueueFree();
+                            Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
+                            if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
+                            {
+                                mesh.QueueFree();
+                            }
                         }
                     }
                     if (index == 4)
@@ -415,40 +441,16 @@ public class Player
                     {
                         int newQ = hex.q;
                         int newR = hex.r - 1;
-                        Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                        if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
+                        if (newR > 0 && newR < Global.gameManager.game.mainGameBoard.bottom)
                         {
-                            mesh.QueueFree();
+                            Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
+                            if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
+                            {
+                                mesh.QueueFree();
+                            }
                         }
                     }
-
-                    StandardMaterial3D material = new StandardMaterial3D();
-                    //material.AlbedoColor = Global.menuManager.lobby.PlayerColors[teamNum];
-
-                    Gradient gradient = new Gradient();
-                    //gradient.AddPoint(0.0f, new Color(1, 0, 0, 1));
-                    //gradient.AddPoint(1.0f, new Color(0, 1, 0, 1)); //.menuManager.lobby.PlayerColors[teamNum]
-
-                    // Clear any existing points if needed
-                    /*                    while (gradient.GetPointCount() > 0)
-                                            gradient.RemovePoint(0);*/
-
-                    //GD.Print(gradient.GetPointCount());
-                    // Add white at the start (offset 0.0)
-                    //gradient.AddPoint(0.0f, new Color(1, 1, 1)); // White
-
-                    // Add red at the end (offset 1.0)
-                    //gradient.AddPoint(1.0f, new Color(1, 0, 0)); // Red
-
-                    gradient.SetColor(0, new Color(teamColor.R, teamColor.G, teamColor.B, 0.2f));
-                    gradient.SetColor(1, teamColor);
-
-                    GradientTexture1D gradTex = new GradientTexture1D();
-                    gradTex.Gradient = gradient;
-                    gradTex.Width = 256;
-                    material.AlbedoTexture = gradTex;
-                    material.Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
-                    mesh.SetSurfaceOverrideMaterial(0, material);
+                    mesh.SetSurfaceOverrideMaterial(0, Global.gameManager.game.playerDictionary[city.teamNum].playerTerritoryMaterial);
 
                     index++;
                 }
