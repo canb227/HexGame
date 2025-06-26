@@ -212,7 +212,12 @@ public class City
     {
         if(productionQueue.Count > index)
         {
-            if(productionQueue[index].productionLeft < productionQueue[index].productionCost)
+            float prodCost = productionQueue[index].productionCost;
+            if (productionQueue[index].itemName == "Settler")
+            {
+                prodCost = productionQueue[index].productionCost + 30 * Global.gameManager.game.playerDictionary[teamNum].settlerCount;
+            }
+            if (productionQueue[index].productionLeft < prodCost)
             {
                 bool foundNewHome = false;
                 for(int i = 0; i < productionQueue.Count; i++)
@@ -287,16 +292,6 @@ public class City
         return count;
     }
 
-    public bool AddUnitToQueue(String unitType)
-    {
-        return AddToQueue(unitType, hex);
-    }
-
-    public bool AddBuildingToQueue(String buildingType, Hex targetHex)
-    { 
-        return AddToQueue(buildingType, targetHex);
-    }
-
     public bool AddToQueue(String itemName, Hex targetHex)
     {
         int count = 0;
@@ -337,7 +332,12 @@ public class City
             }
             else if(UnitLoader.unitsDict.ContainsKey(itemName))
             {
-                productionQueue.Add(new ProductionQueueType(itemName, targetHex, UnitLoader.unitsDict[itemName].ProductionCost, UnitLoader.unitsDict[itemName].ProductionCost));
+                float prodCost = UnitLoader.unitsDict[itemName].ProductionCost;
+                if (itemName == "Settler")
+                {
+                    prodCost = UnitLoader.unitsDict[itemName].ProductionCost + 30 * Global.gameManager.game.playerDictionary[teamNum].settlerCount;
+                }
+                productionQueue.Add(new ProductionQueueType(itemName, targetHex, prodCost, UnitLoader.unitsDict[itemName].ProductionCost));
             }
             else
             {
@@ -391,9 +391,14 @@ public class City
             {
                 productionQueue.Insert(0, new ProductionQueueType(itemName, targetHex, BuildingLoader.buildingsDict[itemName].ProductionCost, BuildingLoader.buildingsDict[itemName].ProductionCost));
             }
-            else if (UnitLoader.unitsDict.ContainsKey(itemName))
+            else if(UnitLoader.unitsDict.ContainsKey(itemName))
             {
-                productionQueue.Insert(0, new ProductionQueueType(itemName, targetHex, UnitLoader.unitsDict[itemName].ProductionCost, UnitLoader.unitsDict[itemName].ProductionCost));
+                float prodCost = UnitLoader.unitsDict[itemName].ProductionCost;
+                if (itemName == "Settler")
+                {
+                    prodCost = UnitLoader.unitsDict[itemName].ProductionCost + 30 * Global.gameManager.game.playerDictionary[teamNum].settlerCount;
+                }
+                productionQueue.Insert(0, new ProductionQueueType(itemName, targetHex, prodCost, UnitLoader.unitsDict[itemName].ProductionCost));
             }
             else
             {
@@ -535,7 +540,6 @@ public class City
                     Unit tempUnit = new Unit(productionQueue[0].itemName, Global.gameManager.game.GetUniqueID(teamNum), teamNum);
                     if (!Global.gameManager.game.mainGameBoard.gameHexDict[productionQueue[0].targetHex].SpawnUnit(tempUnit, false, true))
                     {
-                        tempUnit.name = "Ghost Man";
                         tempUnit.decreaseHealth(99999.9f);
                         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit);
                     }
@@ -546,7 +550,7 @@ public class City
                             Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt = unitInfo.CombatPower;
                         }
                     }
-
+                    Global.gameManager.game.playerDictionary[teamNum].IncreaseAllSettlerCost();
                 }
                 productionQueue.RemoveAt(0);
             }
@@ -568,6 +572,34 @@ public class City
             foodToGrow = GetFoodToGrowCost(); //30 + (n-1) x 3 + (n-1) ^ 3.0 we use naturalPopulation so we dont punish the placement of urban buildings
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Update);
+    }
+
+    public void IncreaseSettlerCost()
+    {
+        foreach (ProductionQueueType item in productionQueue)
+        {
+            if (productionQueue[0].itemName == "Settler")
+            {
+                item.productionLeft += 30;
+                item.productionCost += 30;
+            }
+        }
+        partialProductionDictionary["Settler"].productionLeft += 30;
+        partialProductionDictionary["Settler"].productionCost += 30;
+    }
+
+    public void DecreaseSettlerCost()
+    {
+        foreach (ProductionQueueType item in productionQueue)
+        {
+            if (productionQueue[0].itemName == "Settler")
+            {
+                item.productionLeft -= 30;
+                item.productionCost -= 30;
+            }
+        }
+        partialProductionDictionary["Settler"].productionLeft -= 30;
+        partialProductionDictionary["Settler"].productionCost -= 30;
     }
 
     public float GetFoodToGrowCost()
