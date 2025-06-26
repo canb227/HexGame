@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Diagnostics;
 using Steamworks;
+using ImGuiNET;
 
 public partial class Global : Node
 {
@@ -26,6 +27,8 @@ public partial class Global : Node
     public static NetworkPeer networkPeer;
     public static MenuManager menuManager;
     public static HexGameCamera camera;
+
+    bool ShowDebugConsole = false;
     
     public enum LogLevel
     {
@@ -87,6 +90,14 @@ public partial class Global : Node
     public override void _Process(double delta)
     {
         SteamAPI.RunCallbacks();
+        if (Input.IsActionPressed("debug"))
+        {
+            ShowDebugConsole = true;
+        }
+        if (ShowDebugConsole)
+        {
+            debugConsole();
+        }
     }
 
     public static void networkLog(string message, ulong timestamp, bool server )
@@ -151,5 +162,29 @@ public partial class Global : Node
         Image testImage = Image.CreateFromData((int)width, (int)height, false, Image.Format.Rgba8, avatarData);
         ImageTexture texture = ImageTexture.CreateFromImage(testImage);
         return texture;
+    }
+
+
+    public void debugConsole()
+    {
+        ImGui.Begin("Debug Console");
+        if (ImGui.Button("Give Full Vision"))
+        {
+            var visibleHexes = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict;
+            var visibilityChanged = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibilityChangedList;
+            var seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict;
+            foreach (GameHex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Values)
+            {
+                visibleHexes.TryAdd(hex.hex, 10);
+                seen.TryAdd(hex.hex, true);
+                visibilityChanged.Add(hex.hex);
+            }
+            Global.gameManager.graphicManager.UpdateVisibility();
+        }
+        if (ImGui.Button("Close Debug Menu"))
+        {
+            ShowDebugConsole = false;
+        }
+        ImGui.End();
     }
 }
