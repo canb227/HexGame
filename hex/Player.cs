@@ -376,7 +376,7 @@ public class Player
                     gradTex.Gradient = gradient;
                     gradTex.Width = 256;
                     material.AlbedoTexture = gradTex;
-                    material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
+                    material.Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
                     mesh.SetSurfaceOverrideMaterial(0, material);
 
                     index++;

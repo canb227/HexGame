@@ -610,14 +610,14 @@ public class City
         return true;
     }
 
-    public List<BuildingInfo> ValidBuildings()
+    public List<string> ValidBuildings()
     {
-        List<BuildingInfo> buildings = new();
+        List<string> buildings = new();
         foreach(string buildingName in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].allowedBuildings)
         {
             if(ValidBuilding(buildingName))
             {
-                buildings.Add(BuildingLoader.buildingsDict[buildingName]);
+                buildings.Add(buildingName);
             }
         }
         return buildings;
@@ -628,14 +628,14 @@ public class City
         UnitInfo unitInfo = UnitLoader.unitsDict[unitName];
         return Global.gameManager.game.mainGameBoard.gameHexDict[hex].ValidHexToSpawn(unitInfo, false, true);
     }
-    public List<UnitInfo> ValidUnits()
+    public List<string> ValidUnits()
     {
-        List<UnitInfo> units = new();
+        List<string> units = new();
         foreach(string unitName in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].allowedUnits)
         {
             if (ValidUnit(unitName))
             {
-                units.Add(UnitLoader.unitsDict[unitName]);
+                units.Add(unitName);
             }
         }
         return units;
