@@ -19,6 +19,7 @@ public partial class GraphicManager : Node3D
     public UIManager uiManager;
     private bool waitForTargeting = false;
     public HexGameCamera camera;
+    public float totalTime = 0.0f;
 
     public Node3D territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb").Instantiate<Node3D>();
 
@@ -40,6 +41,12 @@ public partial class GraphicManager : Node3D
         EnviromentManager enviromentManager = new EnviromentManager();
         AddChild(enviromentManager);
         ConfigureAndAddCamera();
+    }
+
+    public override void _Process(double delta)
+    {
+        totalTime += (float)delta;
+        RenderingServer.GlobalShaderParameterSet("time", totalTime);
     }
 
 

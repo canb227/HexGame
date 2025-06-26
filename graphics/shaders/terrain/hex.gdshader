@@ -1,5 +1,6 @@
 shader_type spatial;
 
+global uniform float time;
 
 uniform float gameBoardWidth;
 uniform float gameBoardHeight;
@@ -52,10 +53,11 @@ void fragment() {
     //terrainColor setting
     vec3 terrainColor = vec3(0.0, 0.0, 0.0);
 
+
     vec4 roughTexture = texture(hillTex, UV);//vec4 roughTexture = vec4(0.74117, 0.71764, 0.419607, 1.0); // rgb(189,183,107)
     vec4 mountainTexture = texture(rockTex, UV);//vec4 mountainTexture = vec4(0.4, 0.4, 0.4, 1.0); //rgb(105,105,105)
-    vec4 coastalTexture = texture(waterTex, UV);//vec4 coastalTexture = vec4(0.529411, 0.807843, 0.980392, 1.0); // rgb(135,206,250)
-    vec4 oceanTexture = texture(waterTex, UV);//vec4 oceanTexture = vec4(0.0, 0.0, 0.54509, 1.0); // rgb(0,0,139)
+    vec4 coastalTexture = texture(waterTex, UV+time*0.01);//vec4 coastalTexture = vec4(0.529411, 0.807843, 0.980392, 1.0); // rgb(135,206,250)
+    vec4 oceanTexture = texture(waterTex, UV+time*0.01);//vec4 oceanTexture = vec4(0.0, 0.0, 0.54509, 1.0); // rgb(0,0,139)
     oceanTexture = vec4(oceanTexture.r*0.5, oceanTexture.g*0.5, oceanTexture.b+1.0, oceanTexture.a);
 
     if(terrainData.g > 0.0) //r is temp g is type  .1 desert .2 plains .3 grass .4 tundra .5 artic
@@ -119,21 +121,11 @@ void fragment() {
     }
     if(terrainData.g > 0.39)
     {
-        if(terrainData.r > 0.0)
-        {
-            terrainColor = coastalTexture.rgb;
-        }
+        terrainColor = coastalTexture.rgb;
     }
     if(terrainData.g > 0.49)
     {
-        if(terrainData.r > 0.0)
-        {
-            terrainColor = oceanTexture.rgb;
-        }
-        if(terrainData.r > 0.19)
-        {
-            terrainColor = oceanTexture.rgb;
-        }
+        terrainColor = oceanTexture.rgb;
     }
 
 
