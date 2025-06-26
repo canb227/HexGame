@@ -93,11 +93,15 @@ public partial class AIManager: Node
     {
         foreach (AI ai in aiList)
         {
-            PickStrategy(ai);
-            HandleUnits(ai);
-            HandleCities(ai);
-            HandleResearchAndCulture(ai);
-            EndAITurn(ai);
+            if (!ai.player.turnFinished)
+            {
+                PickStrategy(ai);
+                HandleUnits(ai);
+                HandleCities(ai);
+                HandleResearchAndCulture(ai);
+                EndAITurn(ai);
+            }
+
         }
     }
 
@@ -247,7 +251,7 @@ public partial class AIManager: Node
                 }
                 else
                 {
-                    foreach (Hex hex in validMoves)
+                    foreach (Hex hex in validMoves.ToList())
                     {
                         if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Count > 0)
                         {

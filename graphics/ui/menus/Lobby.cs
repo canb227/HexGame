@@ -82,7 +82,7 @@ public partial class Lobby : Control
         {
             Id = aiID,
             IsHost = isHost,
-            IsReady = false,
+            IsReady = true,
             Faction = 0,
             Team = 1,
             ColorIndex = 0,
@@ -113,7 +113,7 @@ public partial class Lobby : Control
     private void AddNewPlayerToLobby(ulong id, bool self, bool ai)
     {
         Control PlayerListItem = GD.Load<PackedScene>("res://graphics/ui/menus/playerListItem.tscn").Instantiate<Control>();
-
+        bool isReady = false;
         if (!ai)
         {
             PlayerListItem.GetNode<Label>("playername").Text = SteamFriends.GetFriendPersonaName(new CSteamID(id));
@@ -131,6 +131,8 @@ public partial class Lobby : Control
                 }
             };
             PlayerListItem.GetNode<Label>("playername").Text = "Bot: " + id.ToString().Substring(0,5);
+            PlayerListItem.GetNode<CheckButton>("ReadyButton").ButtonPressed = true;
+            isReady = true;
         }
         foreach (Color color in PlayerColors)
         {
@@ -152,6 +154,7 @@ public partial class Lobby : Control
         }
         else
         {
+            
             PlayerListItem.GetNode<CheckButton>("ReadyButton").Disabled = true;
             PlayerListItem.GetNode<OptionButton>("factionselect").Disabled = true;
             PlayerListItem.GetNode<OptionButton>("teamselect").Disabled = true;
@@ -160,7 +163,8 @@ public partial class Lobby : Control
         }
         PlayerListItem.Name = id.ToString();
         PlayersListBox.AddChild(PlayerListItem);
-        PlayerStatuses.Add(id, new LobbyStatus() { Id=id, IsHost = isHost, IsReady = false, Faction = 0, Team = 1, ColorIndex=0, IsAI=ai });
+
+        PlayerStatuses.Add(id, new LobbyStatus() { Id=id, IsHost = isHost, IsReady = isReady, Faction = 0, Team = 1, ColorIndex=0, IsAI=ai });
     }
 
     private void OnKickButtonPressed(ulong id)
