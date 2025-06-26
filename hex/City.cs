@@ -213,10 +213,7 @@ public class City
         if(productionQueue.Count > index)
         {
             float prodCost = productionQueue[index].productionCost;
-            if (productionQueue[index].itemName == "Settler")
-            {
-                prodCost = productionQueue[index].productionCost + 30 * Global.gameManager.game.playerDictionary[teamNum].settlerCount;
-            }
+
             if (productionQueue[index].productionLeft < prodCost)
             {
                 bool foundNewHome = false;
@@ -337,7 +334,7 @@ public class City
                 {
                     prodCost = UnitLoader.unitsDict[itemName].ProductionCost + 30 * Global.gameManager.game.playerDictionary[teamNum].settlerCount;
                 }
-                productionQueue.Add(new ProductionQueueType(itemName, targetHex, prodCost, UnitLoader.unitsDict[itemName].ProductionCost));
+                productionQueue.Add(new ProductionQueueType(itemName, targetHex, prodCost, prodCost));
             }
             else
             {
@@ -398,7 +395,7 @@ public class City
                 {
                     prodCost = UnitLoader.unitsDict[itemName].ProductionCost + 30 * Global.gameManager.game.playerDictionary[teamNum].settlerCount;
                 }
-                productionQueue.Insert(0, new ProductionQueueType(itemName, targetHex, prodCost, UnitLoader.unitsDict[itemName].ProductionCost));
+                productionQueue.Insert(0, new ProductionQueueType(itemName, targetHex, prodCost, prodCost));
             }
             else
             {
@@ -580,15 +577,15 @@ public class City
         {
             if (productionQueue[0].itemName == "Settler")
             {
-                item.productionLeft += 30;
                 item.productionCost += 30;
+                item.productionLeft += 30;
             }
         }
         ProductionQueueType item2;
         if(partialProductionDictionary.TryGetValue("Settler", out item2))
         {
-            item2.productionLeft += 30;
             item2.productionCost += 30;
+            item2.productionLeft += 30;
         }
     }
 

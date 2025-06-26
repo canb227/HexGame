@@ -32,6 +32,9 @@ public partial class EnviromentManager: Node
         worldEnvironment.Environment.BackgroundMode = Godot.Environment.BGMode.Sky;
         worldEnvironment.Environment.Sky = new Godot.Sky();
         worldEnvironment.Environment.Sky.SkyMaterial = new Godot.ProceduralSkyMaterial();
+        worldEnvironment.Environment.SdfgiEnabled = true;
+        //worldEnvironment.Environment.VolumetricFogEnabled = true;
+        //worldEnvironment.Environment.VolumetricFogDensity = 0.005f;
         
     }
 

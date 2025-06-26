@@ -179,7 +179,7 @@ public partial class Global : Node
                 seen.TryAdd(hex.hex, true);
                 visibilityChanged.Add(hex.hex);
             }
-            Global.gameManager.graphicManager.UpdateVisibility();
+            Global.gameManager.graphicManager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
         }
         if (ImGui.Button("Close Debug Menu"))
         {

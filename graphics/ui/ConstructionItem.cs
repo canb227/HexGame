@@ -62,8 +62,13 @@ public partial class ConstructionItem : PanelContainer
         }
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + unitInfo.IconPath);
         objectName.Text = name;
-        turnsToBuild.Text = Math.Ceiling(unitInfo.ProductionCost / (city.yields.production + city.productionOverflow)).ToString();
-        ProductionCost.Text = unitInfo.ProductionCost.ToString();
+        float prodCost = unitInfo.ProductionCost;
+        if (name == "Settler")
+        {
+            prodCost = unitInfo.ProductionCost + 30 * Global.gameManager.game.playerDictionary[city.teamNum].settlerCount;
+        }
+        turnsToBuild.Text = Math.Ceiling(prodCost / (city.yields.production + city.productionOverflow)).ToString();
+        ProductionCost.Text = prodCost.ToString();
         if (unitInfo.MovementSpeed > 0)
         {
             HBoxContainer effectBox = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/EffectBox.tscn").Instantiate<HBoxContainer>();

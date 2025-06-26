@@ -17,10 +17,6 @@ public partial class Mainmenu : Control
 
 	public void onPlayButtonPressed()
     {
-        foreach (string str in Godot.ResourceLoader.ListDirectory("res://graphics/ui/icons/").ToList())
-        {
-            GD.PushWarning("PATH: " + str);
-        }
 		Global.menuManager.LoadLobby();
     }
 

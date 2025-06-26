@@ -418,7 +418,6 @@ public class Unit
             }
         }
         if (updateGraphic &&Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
-
     }
 
     public Dictionary<Hex, float> CalculateVision()
