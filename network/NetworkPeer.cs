@@ -370,7 +370,7 @@ public partial class NetworkPeer : Node
     ///////////////////////////////////////////////////////////////////////////////////
     /// COMMAND MANAGER
 
-    public void CommandAllPeers(Command cmd)
+    public void CommandAllPeersAndSelf(Command cmd)
     {
         CommandMessageReceivedEvent?.Invoke(cmd);
         MessageAllPeers(cmd, COMMAND_CHANNEL);
@@ -379,14 +379,14 @@ public partial class NetworkPeer : Node
     ///////////////////////////////////////////////////////////////////////////////////
     /// CHAT MANAGER
 
-    public void ChatAllPeers(string message)
+    public void ChatAllPeersAndSelf(string message)
     {
         Chat chat = new Chat() { Message = message, Sender = Global.clientID };
         ChatMessageReceivedEvent?.Invoke(chat);
         MessageAllPeers(chat, CHAT_CHANNEL);
     }
 
-    internal void LobbyMessageAllPeers(LobbyMessage lobbyMessage)
+    internal void LobbyMessageAllPeersAndSelf(LobbyMessage lobbyMessage)
     {
         LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
         MessageAllPeers(lobbyMessage, LOBBY_CHANNEL);

@@ -5,6 +5,9 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="network\proto\NetworkingProto.proto" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.31.0" />
   </ItemGroup>
   <ItemGroup>
