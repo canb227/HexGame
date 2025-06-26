@@ -36,11 +36,13 @@ message MapData
 
 message LobbyStatus
 {
+	uint64 id = 7;
 	bool isHost = 1;
 	bool isReady = 2;
 	uint64 team = 3;
 	uint64 faction = 4;
 	uint64 colorIndex = 5;
+	bool isAI = 6;
 }
 
 message Chat

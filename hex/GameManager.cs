@@ -11,6 +11,7 @@ public partial class GameManager : Node
 {
     private const bool DEBUGNETWORK = true;
 
+    public bool isHost = false;
     public static GameManager instance;
     public GraphicManager graphicManager;
     public Game game;
@@ -113,6 +114,12 @@ public partial class GameManager : Node
         Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
         //graphicManager.StartNewTurn();
+
+        if (isHost)
+        {
+            AIManager aIManager = new AIManager();
+            AddChild(aIManager);
+        }
     }
 
     public void SpawnPlayers()
@@ -148,7 +155,7 @@ public partial class GameManager : Node
             }
         }
         
-        Random rng = new Random();
+        Random rng = new Random(3);
         return list[rng.Next(list.Count)];
     }
 
@@ -216,7 +223,7 @@ public partial class GameManager : Node
         }
         if (game.teamManager.relationships.ContainsKey(0) && game.localPlayerTeamNum!=0)
         {
-            game.turnManager.EndCurrentTurn(0);
+            //game.turnManager.EndCurrentTurn(0);
         }
 
         if (game.teamManager.relationships.ContainsKey(2))
@@ -244,7 +251,7 @@ public partial class GameManager : Node
         if (local)
         {
             Global.Log("Local move command recevied, sending to network and loopback.");
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructMoveUnitCommand(unitID, hex, isEnemy));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructMoveUnitCommand(unitID, hex, isEnemy));
             return;
         }
         else
@@ -298,7 +305,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructActivateAbilityCommand(unitID, AbilityName, Target));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructActivateAbilityCommand(unitID, AbilityName, Target));
             return;
         }
 
@@ -338,7 +345,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructAddToProductionQueueCommand(cityID,name,targetHex,front));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructAddToProductionQueueCommand(cityID,name,targetHex,front));
             return;
         }
 
@@ -380,7 +387,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructRemoveFromProductionQueueCommand(cityID, (ulong)index));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructRemoveFromProductionQueueCommand(cityID, (ulong)index));
             return;
         }
 
@@ -407,7 +414,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructMoveToFrontOfProductionQueueCommand(cityID, (ulong)index));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructMoveToFrontOfProductionQueueCommand(cityID, (ulong)index));
             return;
         }
 
@@ -435,7 +442,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructExpandToHexCommand(cityID, Target));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructExpandToHexCommand(cityID, Target));
             return;
         }
 
@@ -461,7 +468,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructDevelopDistrictCommand(cityID, Target, districtType));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructDevelopDistrictCommand(cityID, Target, districtType));
             return;
         }
 
@@ -487,7 +494,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructRenameCityCommand(cityID, name));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructRenameCityCommand(cityID, name));
             return;
         }
 
@@ -513,7 +520,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructSelectResearchCommand(teamNum, techName));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSelectResearchCommand(teamNum, techName));
             return;
         }
 
@@ -532,7 +539,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructSelectCultureCommand(teamNum, cultureName));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSelectCultureCommand(teamNum, cultureName));
             return;
         }
 
@@ -551,7 +558,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructAddResourceAssignmentCommand(cityID, resourceType, sourceHex));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructAddResourceAssignmentCommand(cityID, resourceType, sourceHex));
             return;
         }
 
@@ -577,7 +584,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructRemoveResourceAssignmentCommand(teamNum, sourceHex));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructRemoveResourceAssignmentCommand(teamNum, sourceHex));
             return;
         }
 
@@ -597,7 +604,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeers(CommandParser.ConstructEndTurnCommand(teamNum));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructEndTurnCommand(teamNum));
             return;
         }
 

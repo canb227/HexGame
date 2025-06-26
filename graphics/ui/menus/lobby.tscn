@@ -153,25 +153,6 @@ offset_right = 144.0
 offset_bottom = 128.0
 text = "worldgen size"
 
-[node name="Label3" type="Label" parent="newgameoptions"]
-layout_mode = 0
-offset_left = 35.0
-offset_top = 211.0
-offset_right = 146.0
-offset_bottom = 234.0
-text = "number of AI"
-
-[node name="ainumber" type="HSlider" parent="newgameoptions"]
-layout_mode = 0
-offset_left = 159.0
-offset_top = 210.0
-offset_right = 342.0
-offset_bottom = 226.0
-max_value = 12.0
-rounded = true
-tick_count = 12
-ticks_on_borders = true
-
 [node name="debugmode" type="CheckButton" parent="newgameoptions"]
 layout_mode = 0
 offset_left = 44.0003
@@ -246,11 +227,18 @@ offset_right = 895.0
 offset_bottom = 25.0
 text = "Debug buttons"
 
+[node name="addAI" type="Button" parent="."]
+layout_mode = 0
+offset_left = 549.0
+offset_top = 9.0
+offset_right = 695.0
+offset_bottom = 51.0
+text = "Add New AI"
+
 [connection signal="pressed" from="b_invite" to="." method="OnInviteButtonPressed"]
 [connection signal="pressed" from="b_newgame" to="." method="OnStartGameButtonPressed"]
 [connection signal="pressed" from="b_loadgame" to="." method="OnLoadButtonPressed"]
 [connection signal="item_selected" from="newgameoptions/worldgentype" to="." method="_on_worldgentype_item_selected"]
 [connection signal="item_selected" from="newgameoptions/worldgensize" to="." method="_on_worldgensize_item_selected"]
-[connection signal="drag_ended" from="newgameoptions/ainumber" to="." method="_on_h_slider_drag_ended"]
 [connection signal="toggled" from="newgameoptions/debugmode" to="." method="_on_check_button_toggled"]
 [connection signal="pressed" from="chat/Button" to="." method="onChatSendButtonPressed"]

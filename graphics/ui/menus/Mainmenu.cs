@@ -45,8 +45,8 @@ public partial class Mainmenu : Control
 
         Global.gameManager.game = new Game(1);
         Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, mapGenerator.right, mapGenerator.bottom);
-        Global.gameManager.game.AddPlayer(10, 0, 0, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex]);
-        Global.gameManager.game.AddPlayer(10, 1, Global.clientID, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex]);
+        Global.gameManager.game.AddPlayer(10, 0, 0, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex], true);
+        Global.gameManager.game.AddPlayer(10, 1, Global.clientID, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex], false);
         Global.gameManager.startGame(1);
     }
 
@@ -66,8 +66,8 @@ public partial class Mainmenu : Control
 
         Global.gameManager.game = new Game(1);
         Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, mapGenerator.right, mapGenerator.bottom);
-        Global.gameManager.game.AddPlayer(10, 0, 0, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex]);
-        Global.gameManager.game.AddPlayer(10, 1, Global.clientID, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex]);
+        Global.gameManager.game.AddPlayer(10, 0, 0, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex], true);
+        Global.gameManager.game.AddPlayer(10, 1, Global.clientID, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex],false);
         Global.gameManager.startGame(1);
     }
 

@@ -10,11 +10,12 @@ using NetworkMessages;
 [Serializable]
 public class Player
 {
-    public Player(float goldTotal, int teamNum, Godot.Color teamColor)
+    public Player(float goldTotal, int teamNum, Godot.Color teamColor, bool isAI)
     {
         this.teamColor = teamColor;
         this.teamNum = teamNum;
         this.goldTotal = goldTotal;
+        this.isAI = isAI;
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
         OnResearchComplete("Agriculture");
         OnCultureResearchComplete("Tribal Dominion");
@@ -35,6 +36,7 @@ public class Player
     {
         //used for loading
     }
+    public bool isAI { get; set; } = false;
     public int teamNum { get; set; }
     public bool turnFinished { get; set; }
     public Dictionary<Hex, int> visibleGameHexDict { get; set; } = new();

@@ -31,6 +31,7 @@ public partial class Lobby : Control
         NetworkPeer.PlayerJoinedEvent += OnPlayerJoinEvent;
         NetworkPeer.LobbyMessageReceivedEvent += OnLobbyMessageReceived;
         NetworkPeer.ChatMessageReceivedEvent += NetworkPeer_ChatMessageReceivedEvent;
+        GetNode<Button>("addAI").Pressed += onAddAIButtonPressed;
         PlayersListBox = GetNode<VBoxContainer>("PlayerListBox/ScrollContainer/Players/PlayersVbox");
         StartGameButton = GetNode<Button>("b_newgame");
         StartGameButton.Disabled = true;
@@ -59,8 +60,37 @@ public partial class Lobby : Control
     {
         TextEdit chatInput = GetNode<TextEdit>("chat/chatbar");
         string message = chatInput.Text.Trim();
-        Global.networkPeer.ChatAllPeers(message);
+        Global.networkPeer.ChatAllPeersAndSelf(message);
         chatInput.Text = "";
+    }
+
+    private void onAddAIButtonPressed()
+    {
+        if (!isHost && !singleplayer)
+        {
+            Global.Log("Only host can add AI players to the lobby.");
+            return;
+        }
+        Global.Log("Adding AI player to lobby.");
+        Random rng =new Random();
+        ulong aiID = (ulong)rng.NextInt64();
+        
+        LobbyMessage lobbyMessage = new LobbyMessage();
+        lobbyMessage.Sender = Global.clientID;
+        lobbyMessage.MessageType = "addAI";
+        LobbyStatus aiStatus = new LobbyStatus()
+        {
+            Id = aiID,
+            IsHost = isHost,
+            IsReady = false,
+            Faction = 0,
+            Team = 1,
+            ColorIndex = 0,
+            IsAI = true
+        };
+        lobbyMessage.LobbyStatus = aiStatus;
+        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+        
     }
 
     public void CreateLobby()
@@ -77,15 +107,32 @@ public partial class Lobby : Control
             SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
         }
         isHost = true;
-        AddNewPlayerToLobby(Global.clientID, true);
+        AddNewPlayerToLobby(Global.clientID, true, false);
     }
 
-    private void AddNewPlayerToLobby(ulong id, bool self)
+    private void AddNewPlayerToLobby(ulong id, bool self, bool ai)
     {
         Control PlayerListItem = GD.Load<PackedScene>("res://graphics/ui/menus/playerListItem.tscn").Instantiate<Control>();
-        PlayerListItem.GetNode<Label>("playername").Text = SteamFriends.GetFriendPersonaName(new CSteamID(id));
-        PlayerListItem.GetNode<TextureRect>("icon").Texture = Global.GetMediumSteamAvatar(id);
-        foreach(Color color in PlayerColors)
+
+        if (!ai)
+        {
+            PlayerListItem.GetNode<Label>("playername").Text = SteamFriends.GetFriendPersonaName(new CSteamID(id));
+            PlayerListItem.GetNode<TextureRect>("icon").Texture = Global.GetMediumSteamAvatar(id);
+        }
+        else
+        {
+            PlayerListItem.GetNode<TextureRect>("icon").Texture = new GradientTexture2D()
+            {
+                Width = 64,
+                Height = 64,
+                Gradient = new Gradient()
+                {
+                    Colors = [Colors.Gray]
+                }
+            };
+            PlayerListItem.GetNode<Label>("playername").Text = "Bot: " + id.ToString().Substring(0,5);
+        }
+        foreach (Color color in PlayerColors)
         {
             GradientTexture2D icon = new GradientTexture2D();
             icon.Width = 24;
@@ -95,12 +142,13 @@ public partial class Lobby : Control
             icon.Gradient = gradient;
             PlayerListItem.GetNode<OptionButton>("colorselect").AddIconItem(icon,"");
         }
-        if(self)
+        if(self || (ai && isHost))
         {
-            PlayerListItem.GetNode<CheckButton>("ReadyButton").Toggled += onReadyChanged;
-            PlayerListItem.GetNode<OptionButton>("factionselect").ItemSelected += OnFactionChange;
-            PlayerListItem.GetNode<OptionButton>("teamselect").ItemSelected += OnTeamChange;
-            PlayerListItem.GetNode<OptionButton>("colorselect").ItemSelected += OnColorChange;
+            PlayerListItem.GetNode<CheckButton>("ReadyButton").Toggled += (index) => onReadyChanged(index, id);
+            PlayerListItem.GetNode<OptionButton>("factionselect").ItemSelected += (index) => OnFactionChange(index, id);
+            PlayerListItem.GetNode<OptionButton>("teamselect").ItemSelected += (index) => OnTeamChange(index, id);
+            PlayerListItem.GetNode<OptionButton>("colorselect").ItemSelected += (index) => OnColorChange(index,id);
+            PlayerListItem.GetNode<Button>("kick").Pressed += () => OnKickButtonPressed(id);
         }
         else
         {
@@ -108,19 +156,37 @@ public partial class Lobby : Control
             PlayerListItem.GetNode<OptionButton>("factionselect").Disabled = true;
             PlayerListItem.GetNode<OptionButton>("teamselect").Disabled = true;
             PlayerListItem.GetNode<OptionButton>("colorselect").Disabled = true;
+            PlayerListItem.GetNode<Button>("kick").Disabled = true;
         }
         PlayerListItem.Name = id.ToString();
         PlayersListBox.AddChild(PlayerListItem);
-        PlayerStatuses.Add(id, new LobbyStatus() { IsHost = isHost, IsReady = false, Faction = 0, Team = 1, ColorIndex=0 });
+        PlayerStatuses.Add(id, new LobbyStatus() { Id=id, IsHost = isHost, IsReady = false, Faction = 0, Team = 1, ColorIndex=0, IsAI=ai });
     }
 
-    private void OnColorChange(long index)
+    private void OnKickButtonPressed(ulong id)
+    {
+        if (isHost)
+        {
+            LobbyMessage lobbyMessage = new LobbyMessage();
+            lobbyMessage.Sender = Global.clientID;
+            lobbyMessage.MessageType = "kick";
+            lobbyMessage.LobbyStatus = PlayerStatuses[id];
+            Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+        }
+        else
+        {
+
+        }
+        
+    }
+
+    private void OnColorChange(long index, ulong id)
     {
         Global.Log("color change button pressed, index: " + index);
-        LobbyStatus status = PlayerStatuses[Global.clientID];
+        LobbyStatus status = PlayerStatuses[id];
         status.ColorIndex = (ulong)index;
-        PlayerStatuses[Global.clientID] = status;
-        UpdateLobbyPeers();
+        PlayerStatuses[id] = status;
+        UpdateLobbyPeers(id);
     }
 
     public void JoinLobby(ulong hostID)
@@ -129,7 +195,7 @@ public partial class Lobby : Control
         Global.Log("Joining lobby: " + hostID);
         SteamFriends.SetRichPresence("status", "In a lobby");
         SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
-        AddNewPlayerToLobby(Global.clientID, true);
+        AddNewPlayerToLobby(Global.clientID, true, false);
     }
 
     private void OnLobbyMessageReceived(LobbyMessage lobbyMessage)
@@ -153,11 +219,11 @@ public partial class Lobby : Control
                 CheckIfGameCanStart();
                 break;
             case "leave":
-                Global.Log("Player left the lobby: " + lobbyMessage.Sender);
-                if (PlayerStatuses.ContainsKey(lobbyMessage.Sender))
+                Global.Log("Player left the lobby: " + lobbyMessage.LobbyStatus.Id);
+                if (PlayerStatuses.ContainsKey(lobbyMessage.LobbyStatus.Id))
                 {
-                    PlayerStatuses.Remove(lobbyMessage.Sender);
-                    Control playerItem = PlayersListBox.GetNode<Control>(lobbyMessage.Sender.ToString());
+                    PlayerStatuses.Remove(lobbyMessage.LobbyStatus.Id);
+                    Control playerItem = PlayersListBox.GetNode<Control>(lobbyMessage.LobbyStatus.Id.ToString());
                     if (playerItem != null)
                     {
                         playerItem.QueueFree();
@@ -174,11 +240,44 @@ public partial class Lobby : Control
                 GetNode<Label>("NewGameStatus").Text = "GAME LOADED";
                 GetNode<ColorRect>("newgamehide").Visible = true;
                 break;
+            case "kick":
+                Global.Log("Host Kicked player from lobby: " + lobbyMessage.LobbyStatus.Id);
+                if (lobbyMessage.LobbyStatus.Id==Global.clientID)
+                {
+                    Global.Log("You have been kicked from the lobby. Returning to main menu.");
+                    LeaveLobby();
+                    Global.menuManager.ClearMenus();
+                    Global.menuManager.mainMenu.Show();
+                    return;
+                }
+                else if (PlayerStatuses.ContainsKey(lobbyMessage.LobbyStatus.Id))
+                {
+                    PlayerStatuses.Remove(lobbyMessage.LobbyStatus.Id);
+                    Control playerItem = PlayersListBox.GetNode<Control>(lobbyMessage.LobbyStatus.Id.ToString());
+                    if (playerItem != null)
+                    {
+                        playerItem.QueueFree();
+                    }
+                }
+                break;
+            case "addAI":
+                Global.Log("Adding AI player with ID: " + lobbyMessage.LobbyStatus.Id + "to lobby from message: " + lobbyMessage.Sender);
+                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, false, true);
+                break;
             default:
                 Global.Log("Unknown lobby message type: " + lobbyMessage.MessageType);
                 break;
         }
 
+    }
+
+    private void LeaveLobby()
+    {
+        LobbyMessage lobbyMessage = new LobbyMessage();
+        lobbyMessage.Sender = Global.clientID;
+        lobbyMessage.MessageType = "leave";
+        lobbyMessage.LobbyStatus = PlayerStatuses[Global.clientID];
+        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
     }
 
     private void StartGame(LobbyMessage lobbyMessage)
@@ -190,57 +289,57 @@ public partial class Lobby : Control
         {
             Global.gameManager.game = new Game(0);
             Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
-            Global.gameManager.game.AddPlayer(10, 0, 0, PlayerColors[(int)PlayerStatuses[Global.clientID].ColorIndex]);
+            Global.gameManager.game.AddPlayer(10, 0, 0, Godot.Colors.Black, false);
             Global.gameManager.startGame(0);
         }
         else
         {
             Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
             Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
-            Global.gameManager.game.AddPlayer(10, 0, 0, PlayerColors[(int)PlayerStatuses[Global.clientID].ColorIndex]); 
+            Global.gameManager.game.AddPlayer(10, 0, 0, Godot.Colors.Black,true); 
             foreach (ulong playerID in PlayerStatuses.Keys)
             {
                 Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team + " and color: " + PlayerColors[(int)PlayerStatuses[playerID].ColorIndex].ToString());
-                Global.Log("blue: " + Colors.Blue.ToString());
-                Global.Log("red: " + Colors.Red.ToString());
-                Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID, PlayerColors[(int)PlayerStatuses[playerID].ColorIndex]);
+                Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID, PlayerColors[(int)PlayerStatuses[playerID].ColorIndex], PlayerStatuses[playerID].IsAI);
             }
+            Global.gameManager.isHost = isHost;
+            
             Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
         }
         Global.menuManager.ClearMenus();
     }
 
-    private void onReadyChanged(bool toggledOn)
+    private void onReadyChanged(bool toggledOn, ulong id)
     {
-        LobbyStatus status = PlayerStatuses[Global.clientID];
+        LobbyStatus status = PlayerStatuses[id];
         status.IsReady = toggledOn;
-        PlayerStatuses[Global.clientID] = status;
-        UpdateLobbyPeers();
+        PlayerStatuses[id] = status;
+        UpdateLobbyPeers(id);
     }
-    private void OnTeamChange(long index)
+    private void OnTeamChange(long index, ulong id)
     {
         Global.Log("team change button pressed, index: " + index);
-        LobbyStatus status = PlayerStatuses[Global.clientID];
+        LobbyStatus status = PlayerStatuses[id];
         status.Team = (ulong)index + 1;
-        PlayerStatuses[Global.clientID] = status;
-        UpdateLobbyPeers();
+        PlayerStatuses[id] = status;
+        UpdateLobbyPeers(id);
     }
 
-    private void OnFactionChange(long index)
+    private void OnFactionChange(long index, ulong id)
     {
-        LobbyStatus status = PlayerStatuses[Global.clientID];
+        LobbyStatus status = PlayerStatuses[id];
         status.Team = (ulong)index;
-        PlayerStatuses[Global.clientID] = status;
-        UpdateLobbyPeers();
+        PlayerStatuses[id] = status;
+        UpdateLobbyPeers(id);
     }
 
-    private void UpdateLobbyPeers()
+    private void UpdateLobbyPeers(ulong id)
     {
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "status";
-        lobbyMessage.LobbyStatus = PlayerStatuses[Global.clientID];
-        Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
+        lobbyMessage.LobbyStatus = PlayerStatuses[id];
+        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
 
         Global.Log("Lobby change detected, updating other peers");
         CheckIfGameCanStart();
@@ -298,7 +397,7 @@ public partial class Lobby : Control
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "loadgame";
         lobbyMessage.MapData.MapData_ = Global.gameManager.SaveGameRaw(loaded);
-        Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
+        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
 
 
     }
@@ -306,7 +405,7 @@ public partial class Lobby : Control
     private void OnPlayerJoinEvent(ulong playerID)
     {
         Global.Log("Player joined to Lobby: " + playerID);
-        AddNewPlayerToLobby(playerID, false);
+        AddNewPlayerToLobby(playerID, false, false);
     }
 
     public override void _ExitTree()
@@ -342,7 +441,7 @@ public partial class Lobby : Control
 
 
 
-        mapGenerator.numberOfPlayers = (int)(PlayerStatuses.Count+ GetNode<HSlider>("newgameoptions/ainumber").Value);
+        mapGenerator.numberOfPlayers = (int)(PlayerStatuses.Count);
         mapGenerator.numberOfHumanPlayers = PlayerStatuses.Count;
         mapGenerator.generateRivers = false;
         mapGenerator.resourceAmount = MapGenerator.ResourceAmount.Medium;
@@ -362,7 +461,7 @@ public partial class Lobby : Control
 
         lobbyMessage.MapData = mapDataMessage;
 
-        Global.networkPeer.LobbyMessageAllPeers(lobbyMessage);
+        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
         
     }
 
