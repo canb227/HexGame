@@ -1,4 +1,5 @@
 using Godot;
+using ImGuiNET;
 using NetworkMessages;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ public partial class GraphicManager : Node3D
     private bool waitForTargeting = false;
     public HexGameCamera camera;
     public float totalTime = 0.0f;
+
+    bool ShowDebugConsole = false;
 
     public Node3D territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb").Instantiate<Node3D>();
 
@@ -47,8 +50,39 @@ public partial class GraphicManager : Node3D
     {
         totalTime += (float)delta;
         RenderingServer.GlobalShaderParameterSet("time", totalTime);
+        if (Input.IsActionPressed("debug"))
+        {
+            ShowDebugConsole = true;
+        }
+        if (ShowDebugConsole)
+        {
+            debugConsole();
+        }
     }
 
+
+    public void debugConsole()
+    {
+        ImGui.Begin("Debug Console");
+        if (ImGui.Button("Give Full Vision"))
+        {
+            var visibleHexes = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict;
+            var visibilityChanged = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibilityChangedList;
+            var seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict;
+            foreach (GameHex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Values)
+            {
+                visibleHexes.TryAdd(hex.hex, 10);
+                seen.TryAdd(hex.hex, true);
+                visibilityChanged.Add(hex.hex);
+            }
+            UpdateVisibility();
+        }
+        if (ImGui.Button("Close Debug Menu"))
+        {
+            ShowDebugConsole = false;
+        }
+        ImGui.End();
+    }
 
     private void ConfigureAndAddCamera()
     {
