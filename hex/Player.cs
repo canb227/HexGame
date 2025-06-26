@@ -256,6 +256,52 @@ public class Player
         turnFinished = true;
     }
 
+    public List<string> AvaliableResearches()
+    {
+        List<string> researchNames = new();
+        foreach(string research in ResearchLoader.researchesDict.Keys)
+        {
+            bool canResearch = true;
+            ResearchInfo info = ResearchLoader.researchesDict[research];
+            foreach (string requirement in info.Requirements)
+            {
+                if (!completedResearches.Contains(requirement))
+                {
+                    canResearch = false;
+                    break;
+                }
+            }
+            if(canResearch)
+            {
+                researchNames.Add(research);
+            }
+        }
+        return researchNames;
+    }
+
+    public List<string> AvaliableCultureResearches()
+    {
+        List<string> researchNames = new();
+        foreach (string research in CultureResearchLoader.researchesDict.Keys)
+        {
+            bool canResearch = true;
+            ResearchInfo info = CultureResearchLoader.researchesDict[research];
+            foreach (string requirement in info.Requirements)
+            {
+                if (!completedCultureResearches.Contains(requirement))
+                {
+                    canResearch = false;
+                    break;
+                }
+            }
+            if (canResearch)
+            {
+                researchNames.Add(research);
+            }
+        }
+        return researchNames;
+    }
+
     public void UpdateTerritoryGraphic()
     {
         GD.Print("UpdateGraphic");
