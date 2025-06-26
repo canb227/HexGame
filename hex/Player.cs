@@ -350,8 +350,33 @@ public class Player
                     }
 
                     StandardMaterial3D material = new StandardMaterial3D();
-                    material.AlbedoColor = Global.menuManager.lobby.PlayerColors[teamNum];
+                    //material.AlbedoColor = Global.menuManager.lobby.PlayerColors[teamNum];
+
+                    Gradient gradient = new Gradient();
+                    //gradient.AddPoint(0.0f, new Color(1, 0, 0, 1));
+                    //gradient.AddPoint(1.0f, new Color(0, 1, 0, 1)); //.menuManager.lobby.PlayerColors[teamNum]
+
+                    // Clear any existing points if needed
+                    /*                    while (gradient.GetPointCount() > 0)
+                                            gradient.RemovePoint(0);*/
+
+                    GD.Print(gradient.GetPointCount());
+                    // Add white at the start (offset 0.0)
+                    //gradient.AddPoint(0.0f, new Color(1, 1, 1)); // White
+
+                    // Add red at the end (offset 1.0)
+                    //gradient.AddPoint(1.0f, new Color(1, 0, 0)); // Red
+
+                    gradient.SetColor(0, new Color(teamColor.R, teamColor.G, teamColor.B, 0.2f));
+                    gradient.SetColor(1, teamColor);
+
+                    GradientTexture1D gradTex = new GradientTexture1D();
+                    gradTex.Gradient = gradient;
+                    gradTex.Width = 256;
+                    material.AlbedoTexture = gradTex;
+                    material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
                     mesh.SetSurfaceOverrideMaterial(0, material);
+
                     index++;
                 }
                 territoryLinesNode.Name = "TerritoryLines" + hex;
