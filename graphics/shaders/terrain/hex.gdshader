@@ -12,12 +12,13 @@ uniform sampler2D visibilityGrid : filter_nearest;
 uniform sampler2D terrainInfo : filter_nearest;
 uniform sampler2D heightMap : filter_linear;
 
-uniform sampler2D grassTex : filter_linear;
-uniform sampler2D hillTex : filter_linear;
-uniform sampler2D rockTex : filter_linear;
-uniform sampler2D sandTex : filter_linear;
-uniform sampler2D snowTex : filter_linear;
-uniform sampler2D waterTex : filter_linear;
+uniform sampler2D grassTex : source_color, filter_linear;
+uniform sampler2D hillTex : source_color, filter_linear;
+uniform sampler2D rockTex : source_color, filter_linear;
+uniform sampler2D sandTex : source_color, filter_linear;
+uniform sampler2D snowTex : source_color, filter_linear;
+uniform sampler2D waterTex : source_color, filter_linear;
+uniform sampler2D waterNormal : hint_normal, filter_linear;
 
 varying flat vec2 visData;
 varying flat vec2 terrainData;
