@@ -64,6 +64,7 @@ public class Player
     public float cultureTotal { get; set; }
     public float happinessTotal { get; set; }
     public float influenceTotal { get; set; }
+    public int settlerCount = 1;
 
     private int idCounter = 0;
 
@@ -300,6 +301,26 @@ public class Player
             }
         }
         return researchNames;
+    }
+
+    public void IncreaseAllSettlerCost()
+    {
+        settlerCount += 1;
+        foreach (int cityID in cityList)
+        {
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            city.IncreaseSettlerCost();
+        }
+    }
+
+    public void DecreaseAllSettlerCost()
+    {
+        settlerCount -= 1;
+        foreach (int cityID in cityList)
+        {
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            city.DecreaseSettlerCost();
+        }
     }
 
     public void UpdateTerritoryGraphic()

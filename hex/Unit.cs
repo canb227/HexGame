@@ -54,7 +54,6 @@ public class Unit
         this.name = unitType;
         this.teamNum = teamNum;
         this.unitType = unitType;
-
         if (UnitLoader.unitsDict.TryGetValue(unitType, out UnitInfo unitInfo))
         {
             Global.gameManager.game.unitDictionary.TryAdd(id, this);
@@ -360,6 +359,11 @@ public class Unit
 
     public void onDeathEffects()
     {
+        if (unitType == "Settler")
+        {
+            Global.gameManager.game.playerDictionary[teamNum].settlerCount -= 1;
+            Global.gameManager.game.playerDictionary[teamNum].DecreaseAllSettlerCost();
+        }
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
         Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this.id);
         RemoveVision(true);

@@ -204,6 +204,11 @@ public class UnitEffect
         }
         if (validHex)
         {
+            if (unit.unitType == "Founder")
+            {
+
+                Global.gameManager.game.playerDictionary[unit.teamNum].IncreaseAllSettlerCost();
+            }
             new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, true, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
             return true;
@@ -225,6 +230,10 @@ public class UnitEffect
     {
         if (unit.CanSettleHere(unit.hex, 3))
         {
+            if (unit.unitType == "Settler")
+            {
+                Global.gameManager.game.playerDictionary[unit.teamNum].IncreaseAllSettlerCost();
+            }
             new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, false, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
             return true;
