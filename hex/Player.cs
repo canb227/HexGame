@@ -332,7 +332,7 @@ public class Player
         {
             foreach (Node child in hexChunk.multiMeshInstance.GetChildren())
             {
-                if (child.Name.ToString().Contains("TerritoryLines"))
+                if (child.Name.ToString().Contains("Player"+teamNum+"TerritoryLines"))
                 {
                     child.Free();
                 }
@@ -359,7 +359,7 @@ public class Player
                 {
                     foreach(Vector3 vertex in mesh.Mesh.GetFaces())
                     {
-                        GD.Print(vertex.X + "," +vertex.Y + "," + vertex.Z);
+                        //GD.Print(vertex.X + "," +vertex.Y + "," + vertex.Z);
                     }
                     if (index == 0)
                     {
@@ -433,7 +433,7 @@ public class Player
                     /*                    while (gradient.GetPointCount() > 0)
                                             gradient.RemovePoint(0);*/
 
-                    GD.Print(gradient.GetPointCount());
+                    //GD.Print(gradient.GetPointCount());
                     // Add white at the start (offset 0.0)
                     //gradient.AddPoint(0.0f, new Color(1, 1, 1)); // White
 
@@ -452,7 +452,7 @@ public class Player
 
                     index++;
                 }
-                territoryLinesNode.Name = "TerritoryLines" + hex;
+                territoryLinesNode.Name = "Player"+teamNum+"TerritoryLines" + hex;
                 ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(territoryLinesNode);
             }
         }
