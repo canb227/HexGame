@@ -288,6 +288,10 @@ public class Player
                 int index = 0;
                 foreach (MeshInstance3D mesh in territoryLinesNode.GetChildren())
                 {
+                    foreach(Vector3 vertex in mesh.Mesh.GetFaces())
+                    {
+                        GD.Print(vertex.X + "," +vertex.Y + "," + vertex.Z);
+                    }
                     if (index == 0)
                     {
                         int newQ = hex.q + 1;

@@ -150,14 +150,11 @@ public partial class UnitInfoPanel : Node3D
                 }
                 if(ability.name == "SettleCityAbility" || ability.name == "SettleCapitalAbility")
                 {
-                    foreach (Hex hex in unit.hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+                    if(unit.CanSettleHere(unit.hex, 3))
                     {
-                        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isCityCenter)
-                        {
-                            abilityButton.Disabled = true;
-                        }
+                        abilityButton.Disabled = false;
                     }
-                    if (Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].resourceType != ResourceType.None)
+                    else
                     {
                         abilityButton.Disabled = true;
                     }

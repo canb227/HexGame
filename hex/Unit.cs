@@ -226,6 +226,22 @@ public class Unit
         }
     }
 
+    public bool CanSettleHere(Hex hex, int range)
+    {
+        foreach (Hex hexRange in hex.WrappingRange(range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hexRange].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hexRange].district.isCityCenter)
+            {
+                return false;
+            }
+        }
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
+        {
+            return false;
+        }
+        return true;
+    }
+
     //civ 6 formula
     public static float CalculateDamage(float friendlyCombatStrength, float enemyCombatStrength)
     {
@@ -238,7 +254,6 @@ public class Unit
 
     private bool DistrictCombat(GameHex targetGameHex)
     {
-
         return !decreaseHealth(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength())) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength));
     }
 

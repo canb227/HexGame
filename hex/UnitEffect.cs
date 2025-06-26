@@ -223,20 +223,7 @@ public class UnitEffect
     }
     public bool SettleCity(Unit unit, String cityName)
     {
-        bool validHex = true;
-        foreach (Hex hex in unit.hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
-        {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isCityCenter)
-            {
-                validHex = false;
-                break;
-            }
-        }
-        if (Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].resourceType != ResourceType.None)
-        {
-            validHex = false;
-        }
-        if (validHex)
+        if (unit.CanSettleHere(unit.hex, 3))
         {
             new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, false, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
