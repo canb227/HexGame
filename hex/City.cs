@@ -584,8 +584,12 @@ public class City
                 item.productionCost += 30;
             }
         }
-        partialProductionDictionary["Settler"].productionLeft += 30;
-        partialProductionDictionary["Settler"].productionCost += 30;
+        ProductionQueueType item2;
+        if(partialProductionDictionary.TryGetValue("Settler", out item2))
+        {
+            item2.productionLeft += 30;
+            item2.productionCost += 30;
+        }
     }
 
     public void DecreaseSettlerCost()
@@ -598,8 +602,12 @@ public class City
                 item.productionCost -= 30;
             }
         }
-        partialProductionDictionary["Settler"].productionLeft -= 30;
-        partialProductionDictionary["Settler"].productionCost -= 30;
+        ProductionQueueType item2;
+        if (partialProductionDictionary.TryGetValue("Settler", out item2))
+        {
+            item2.productionLeft -= 30;
+            item2.productionCost -= 30;
+        }
     }
 
     public float GetFoodToGrowCost()
@@ -645,7 +653,7 @@ public class City
     public List<string> ValidBuildings()
     {
         List<string> buildings = new();
-        foreach(string buildingName in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].allowedBuildings)
+        foreach(string buildingName in Global.gameManager.game.playerDictionary[teamNum].allowedBuildings)
         {
             if(ValidBuilding(buildingName))
             {
@@ -663,7 +671,7 @@ public class City
     public List<string> ValidUnits()
     {
         List<string> units = new();
-        foreach(string unitName in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].allowedUnits)
+        foreach(string unitName in Global.gameManager.game.playerDictionary[teamNum].allowedUnits)
         {
             if (ValidUnit(unitName))
             {

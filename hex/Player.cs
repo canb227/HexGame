@@ -359,7 +359,7 @@ public class Player
                 {
                     foreach(Vector3 vertex in mesh.Mesh.GetFaces())
                     {
-                        GD.Print(vertex.X + "," +vertex.Y + "," + vertex.Z);
+                        //GD.Print(vertex.X + "," +vertex.Y + "," + vertex.Z);
                     }
                     if (index == 0)
                     {
