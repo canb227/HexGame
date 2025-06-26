@@ -361,7 +361,6 @@ public class Unit
     {
         if (unitType == "Settler")
         {
-            Global.gameManager.game.playerDictionary[teamNum].settlerCount -= 1;
             Global.gameManager.game.playerDictionary[teamNum].DecreaseAllSettlerCost();
         }
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);

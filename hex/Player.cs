@@ -79,7 +79,7 @@ public class Player
     public float cultureTotal { get; set; }
     public float happinessTotal { get; set; }
     public float influenceTotal { get; set; }
-    public int settlerCount = 1;
+    public int settlerCount = 0;
 
     private int idCounter = 0;
 

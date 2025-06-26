@@ -547,7 +547,10 @@ public class City
                             Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt = unitInfo.CombatPower;
                         }
                     }
-                    Global.gameManager.game.playerDictionary[teamNum].IncreaseAllSettlerCost();
+                    if (productionQueue[0].itemName == "Settler")
+                    {
+                        Global.gameManager.game.playerDictionary[teamNum].IncreaseAllSettlerCost();
+                    }
                 }
                 productionQueue.RemoveAt(0);
             }
