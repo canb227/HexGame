@@ -155,7 +155,7 @@ public partial class GameManager : Node
             }
         }
         
-        Random rng = new Random(3);
+        Random rng = new Random();
         return list[rng.Next(list.Count)];
     }
 
