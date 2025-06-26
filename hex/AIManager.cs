@@ -1,4 +1,5 @@
 using Godot;
+using ImGuiNET;
 using NetworkMessages;
 using Steamworks;
 using System;
@@ -157,11 +158,11 @@ public partial class AIManager: Node
             {
                 HandleSettler(ai, unit);
             }
-            else if (unit.unitClass == (UnitClass.Recon))
+            else if ((unit.unitClass & UnitClass.Recon) == UnitClass.Recon)
             {
                 HandleScouts(ai, unit);
             }
-            else if (unit.unitClass == (UnitClass.Combat))
+            else if ((unit.unitClass & UnitClass.Combat) == UnitClass.Combat)
             {
                 HandleMilitary(ai, unit);
             }
