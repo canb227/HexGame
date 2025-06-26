@@ -582,6 +582,65 @@ public class City
 
     }
 
+    public bool ValidBuilding(string buildingName)
+    {
+        if (BuildingLoader.buildingsDict.ContainsKey(buildingName))
+        {
+            if (Global.gameManager.game.builtWonders.Contains(buildingName))
+            {
+                return false;
+            }
+            int count = 0;
+            if (buildingName != "" && BuildingLoader.buildingsDict[buildingName].PerCity != 0)
+            {
+                count = CountString(buildingName);
+                foreach (ProductionQueueType queueItem2 in productionQueue)
+                {
+                    if (queueItem2.itemName == buildingName)
+                    {
+                        count += 1;
+                    }
+                }
+                if (count > BuildingLoader.buildingsDict[buildingName].PerCity)
+                {
+                    return false;
+                }
+            }            
+        }
+        return true;
+    }
+
+    public List<BuildingInfo> ValidBuildings()
+    {
+        List<BuildingInfo> buildings = new();
+        foreach(string buildingName in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].allowedBuildings)
+        {
+            if(ValidBuilding(buildingName))
+            {
+                buildings.Add(BuildingLoader.buildingsDict[buildingName]);
+            }
+        }
+        return buildings;
+    }
+
+    public bool ValidUnit(string unitName)
+    {
+        UnitInfo unitInfo = UnitLoader.unitsDict[unitName];
+        return Global.gameManager.game.mainGameBoard.gameHexDict[hex].ValidHexToSpawn(unitInfo, false, true);
+    }
+    public List<UnitInfo> ValidUnits()
+    {
+        List<UnitInfo> units = new();
+        foreach(string unitName in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].allowedUnits)
+        {
+            if (ValidUnit(unitName))
+            {
+                units.Add(UnitLoader.unitsDict[unitName]);
+            }
+        }
+        return units;
+    }
+
     public void DistrictFell()
     {
         bool allDistrictsFell = true;
