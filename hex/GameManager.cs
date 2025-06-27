@@ -113,6 +113,8 @@ public partial class GameManager : Node
         SpawnPlayers();
         Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
+        Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
+
         foreach (Player player1 in game.playerDictionary.Values)
         {
             foreach(Player player2 in game.playerDictionary.Values)
@@ -127,6 +129,7 @@ public partial class GameManager : Node
         {
             AIManager aIManager = new AIManager();
             AddChild(aIManager);
+
         }
     }
 
@@ -173,6 +176,8 @@ public partial class GameManager : Node
         InitGraphics(game, Global.layout);
         Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
+        Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
+
     }
 
     private void startTerrainDemo()
@@ -192,6 +197,8 @@ public partial class GameManager : Node
         InitGraphics(game, Global.layout);
         Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
+        Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
+
     }
 
     private void InitGraphics(Game game, Layout layout)
@@ -239,6 +246,7 @@ public partial class GameManager : Node
         {
             game.turnManager.StartNewTurn();
             graphicManager.StartNewTurn();
+            Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
         }
         else
         {
@@ -253,7 +261,6 @@ public partial class GameManager : Node
         
         if (local)
         {
-            Global.Log("Local move command recevied, sending to network and loopback.");
             Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructMoveUnitCommand(unitID, hex, isEnemy));
             return;
         }
@@ -390,7 +397,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructRemoveFromProductionQueueCommand(cityID, (ulong)index));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructRemoveFromProductionQueueCommand(cityID, index));
             return;
         }
 
@@ -417,7 +424,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructMoveToFrontOfProductionQueueCommand(cityID, (ulong)index));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructMoveToFrontOfProductionQueueCommand(cityID, index));
             return;
         }
 

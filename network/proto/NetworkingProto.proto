@@ -39,9 +39,9 @@ message LobbyStatus
 	uint64 id = 7;
 	bool isHost = 1;
 	bool isReady = 2;
-	uint64 team = 3;
-	uint64 faction = 4;
-	uint64 colorIndex = 5;
+	int32 team = 3;
+	int32 faction = 4;
+	int32 colorIndex = 5;
 	bool isAI = 6;
 }
 
@@ -75,37 +75,37 @@ message Command
 
 message EndTurn
 {
-	uint64 teamNum = 1;
+	int32 teamNum = 1;
 }
 
 message AddResourceAssignment
 {
-	uint64 cityID = 1;
-	uint64 resourceName = 2;
+	int32 cityID = 1;
+	int32 resourceName = 2;
 	Hex sourceHex = 3;
 }
 
 message RemoveResourceAssignment
 {
-	uint64 teamNum = 1;
+	int32 teamNum = 1;
 	Hex sourceHex = 2;
 }
 
 message SelectResearch
 {
-	uint64 teamNum = 1;
+	int32 teamNum = 1;
 	string researchName = 2;
 }
 
 message SelectCulture
 {
-	uint64 teamNum = 1;
+	int32 teamNum = 1;
 	string cultureName = 2;
 }
 
 message RenameCity
 {
-	uint64 cityID = 1;
+	int32 cityID = 1;
 	string name = 2;
 }
 
@@ -113,50 +113,50 @@ message AddToProductionQueue
 {
 	string itemName = 1;
 	Hex target = 2;
-	uint64 cityID = 3;
+	int32 cityID = 3;
 	bool front = 4;
 }
 message RemoveFromProductionQueue
 {
-	uint64 index = 1;
-	uint64 cityID = 2;
+	int32 index = 1;
+	int32 cityID = 2;
 }
 message MoveToFrontOfProductionQueue
 {
-	uint64 index = 1;
-	uint64 cityID = 2;
+	int32 index = 1;
+	int32 cityID = 2;
 }
 
 message ExpandToHex
 {
-	uint64 cityID = 1;
+	int32 cityID = 1;
 	Hex target = 2;
 }
 
 message DevelopDistrict
 {
-	uint64 cityID = 1;
+	int32 cityID = 1;
 	Hex target = 2;
-	uint64 districtType = 3;
+	int32 districtType = 3;
 }
 
 message MoveUnit
 {
-	uint64 unitId = 1;
+	int32 unitId = 1;
 	Hex target = 2;
 	bool isEnemy = 3;
 }
 
 message ActivateAbility
 {
-	uint64 unitId = 1;
+	int32 unitId = 1;
 	string abilityName = 2;
 	Hex target = 3;
 }
 
 message Hex
 {
-	uint64 q = 1;
-	uint64 r = 2;
-	uint64 s = 3;
+	int32 q = 1;
+	int32 r = 2;
+	int32 s = 3;
 }

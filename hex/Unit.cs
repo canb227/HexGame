@@ -225,19 +225,24 @@ public class Unit
         }
     }
 
-    public bool CanSettleHere(Hex hex, int range)
+    public bool CanSettleHere(Hex hex, int range, bool logging = false)
     {
+        if (logging) { Global.Log("[CanSettleHere Check] Checking: " + hex); }
+        if (logging) { Global.Log("    Iterating over all hexes within the given range: " + range); }
         foreach (Hex hexRange in hex.WrappingRange(range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hexRange].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hexRange].district.isCityCenter)
             {
+                if (logging) { Global.Log("    Hex within range: " + hexRange + " contains a city center. We cannot settle here."); }
                 return false;
             }
         }
         if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
         {
+            if (logging) { Global.Log("    Target hex itself contains a resource. We cannot settle here."); }
             return false;
         }
+        if (logging) { Global.Log("    Check passed, we can settle here."); }
         return true;
     }
 
@@ -813,7 +818,7 @@ public class Unit
                 {
                     path.Add(current);
                     current = came_from[current];
-                    GD.Print(current);
+                    //GD.Print(current);
                 }
                 path.Add(start);
                 path.Reverse();

@@ -37,8 +37,8 @@ namespace NetworkMessages {
             "CgdNYXBEYXRhEhQKB21hcE5hbWUYASABKAlIAIgBARIQCghtYXBXaWR0aBgC",
             "IAEoAxIRCgltYXBIZWlnaHQYAyABKAMSDwoHbWFwRGF0YRgEIAEoCUIKCghf",
             "bWFwTmFtZSJ7CgtMb2JieVN0YXR1cxIKCgJpZBgHIAEoBBIOCgZpc0hvc3QY",
-            "ASABKAgSDwoHaXNSZWFkeRgCIAEoCBIMCgR0ZWFtGAMgASgEEg8KB2ZhY3Rp",
-            "b24YBCABKAQSEgoKY29sb3JJbmRleBgFIAEoBBIMCgRpc0FJGAYgASgIIicK",
+            "ASABKAgSDwoHaXNSZWFkeRgCIAEoCBIMCgR0ZWFtGAMgASgFEg8KB2ZhY3Rp",
+            "b24YBCABKAUSEgoKY29sb3JJbmRleBgFIAEoBRIMCgRpc0FJGAYgASgIIicK",
             "BENoYXQSDgoGc2VuZGVyGAEgASgEEg8KB21lc3NhZ2UYAiABKAki8gYKB0Nv",
             "bW1hbmQSEwoLY29tbWFuZFR5cGUYASABKAkSLQoIbW92ZVVuaXQYAiABKAsy",
             "GS5OZXR3b3JrTWVzc2FnZXMuTW92ZVVuaXRIABI7Cg9hY3RpdmF0ZUFiaWxp",
@@ -60,28 +60,28 @@ namespace NetworkMessages {
             "ZXR3b3JrTWVzc2FnZXMuUmVtb3ZlUmVzb3VyY2VBc3NpZ25tZW50SAASKwoH",
             "ZW5kVHVybhgOIAEoCzIYLk5ldHdvcmtNZXNzYWdlcy5FbmRUdXJuSAASDgoG",
             "c2VuZGVyGGMgASgEQgkKB2NvbW1hbmQiGgoHRW5kVHVybhIPCgd0ZWFtTnVt",
-            "GAEgASgEImYKFUFkZFJlc291cmNlQXNzaWdubWVudBIOCgZjaXR5SUQYASAB",
-            "KAQSFAoMcmVzb3VyY2VOYW1lGAIgASgEEicKCXNvdXJjZUhleBgDIAEoCzIU",
+            "GAEgASgFImYKFUFkZFJlc291cmNlQXNzaWdubWVudBIOCgZjaXR5SUQYASAB",
+            "KAUSFAoMcmVzb3VyY2VOYW1lGAIgASgFEicKCXNvdXJjZUhleBgDIAEoCzIU",
             "Lk5ldHdvcmtNZXNzYWdlcy5IZXgiVAoYUmVtb3ZlUmVzb3VyY2VBc3NpZ25t",
-            "ZW50Eg8KB3RlYW1OdW0YASABKAQSJwoJc291cmNlSGV4GAIgASgLMhQuTmV0",
+            "ZW50Eg8KB3RlYW1OdW0YASABKAUSJwoJc291cmNlSGV4GAIgASgLMhQuTmV0",
             "d29ya01lc3NhZ2VzLkhleCI3Cg5TZWxlY3RSZXNlYXJjaBIPCgd0ZWFtTnVt",
-            "GAEgASgEEhQKDHJlc2VhcmNoTmFtZRgCIAEoCSI1Cg1TZWxlY3RDdWx0dXJl",
-            "Eg8KB3RlYW1OdW0YASABKAQSEwoLY3VsdHVyZU5hbWUYAiABKAkiKgoKUmVu",
-            "YW1lQ2l0eRIOCgZjaXR5SUQYASABKAQSDAoEbmFtZRgCIAEoCSJtChRBZGRU",
+            "GAEgASgFEhQKDHJlc2VhcmNoTmFtZRgCIAEoCSI1Cg1TZWxlY3RDdWx0dXJl",
+            "Eg8KB3RlYW1OdW0YASABKAUSEwoLY3VsdHVyZU5hbWUYAiABKAkiKgoKUmVu",
+            "YW1lQ2l0eRIOCgZjaXR5SUQYASABKAUSDAoEbmFtZRgCIAEoCSJtChRBZGRU",
             "b1Byb2R1Y3Rpb25RdWV1ZRIQCghpdGVtTmFtZRgBIAEoCRIkCgZ0YXJnZXQY",
-            "AiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4Eg4KBmNpdHlJRBgDIAEoBBIN",
+            "AiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4Eg4KBmNpdHlJRBgDIAEoBRIN",
             "CgVmcm9udBgEIAEoCCI6ChlSZW1vdmVGcm9tUHJvZHVjdGlvblF1ZXVlEg0K",
-            "BWluZGV4GAEgASgEEg4KBmNpdHlJRBgCIAEoBCI9ChxNb3ZlVG9Gcm9udE9m",
-            "UHJvZHVjdGlvblF1ZXVlEg0KBWluZGV4GAEgASgEEg4KBmNpdHlJRBgCIAEo",
-            "BCJDCgtFeHBhbmRUb0hleBIOCgZjaXR5SUQYASABKAQSJAoGdGFyZ2V0GAIg",
+            "BWluZGV4GAEgASgFEg4KBmNpdHlJRBgCIAEoBSI9ChxNb3ZlVG9Gcm9udE9m",
+            "UHJvZHVjdGlvblF1ZXVlEg0KBWluZGV4GAEgASgFEg4KBmNpdHlJRBgCIAEo",
+            "BSJDCgtFeHBhbmRUb0hleBIOCgZjaXR5SUQYASABKAUSJAoGdGFyZ2V0GAIg",
             "ASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleCJdCg9EZXZlbG9wRGlzdHJpY3QS",
-            "DgoGY2l0eUlEGAEgASgEEiQKBnRhcmdldBgCIAEoCzIULk5ldHdvcmtNZXNz",
-            "YWdlcy5IZXgSFAoMZGlzdHJpY3RUeXBlGAMgASgEIlEKCE1vdmVVbml0Eg4K",
-            "BnVuaXRJZBgBIAEoBBIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVzc2Fn",
+            "DgoGY2l0eUlEGAEgASgFEiQKBnRhcmdldBgCIAEoCzIULk5ldHdvcmtNZXNz",
+            "YWdlcy5IZXgSFAoMZGlzdHJpY3RUeXBlGAMgASgFIlEKCE1vdmVVbml0Eg4K",
+            "BnVuaXRJZBgBIAEoBRIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVzc2Fn",
             "ZXMuSGV4Eg8KB2lzRW5lbXkYAyABKAgiXAoPQWN0aXZhdGVBYmlsaXR5Eg4K",
-            "BnVuaXRJZBgBIAEoBBITCgthYmlsaXR5TmFtZRgCIAEoCRIkCgZ0YXJnZXQY",
-            "AyABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IiYKA0hleBIJCgFxGAEgASgE",
-            "EgkKAXIYAiABKAQSCQoBcxgDIAEoBGIGcHJvdG8z"));
+            "BnVuaXRJZBgBIAEoBRITCgthYmlsaXR5TmFtZRgCIAEoCRIkCgZ0YXJnZXQY",
+            "AyABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IiYKA0hleBIJCgFxGAEgASgF",
+            "EgkKAXIYAiABKAUSCQoBcxgDIAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -1518,10 +1518,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "team" field.</summary>
     public const int TeamFieldNumber = 3;
-    private ulong team_;
+    private int team_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong Team {
+    public int Team {
       get { return team_; }
       set {
         team_ = value;
@@ -1530,10 +1530,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "faction" field.</summary>
     public const int FactionFieldNumber = 4;
-    private ulong faction_;
+    private int faction_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong Faction {
+    public int Faction {
       get { return faction_; }
       set {
         faction_ = value;
@@ -1542,10 +1542,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "colorIndex" field.</summary>
     public const int ColorIndexFieldNumber = 5;
-    private ulong colorIndex_;
+    private int colorIndex_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong ColorIndex {
+    public int ColorIndex {
       get { return colorIndex_; }
       set {
         colorIndex_ = value;
@@ -1596,9 +1596,9 @@ namespace NetworkMessages {
       if (Id != 0UL) hash ^= Id.GetHashCode();
       if (IsHost != false) hash ^= IsHost.GetHashCode();
       if (IsReady != false) hash ^= IsReady.GetHashCode();
-      if (Team != 0UL) hash ^= Team.GetHashCode();
-      if (Faction != 0UL) hash ^= Faction.GetHashCode();
-      if (ColorIndex != 0UL) hash ^= ColorIndex.GetHashCode();
+      if (Team != 0) hash ^= Team.GetHashCode();
+      if (Faction != 0) hash ^= Faction.GetHashCode();
+      if (ColorIndex != 0) hash ^= ColorIndex.GetHashCode();
       if (IsAI != false) hash ^= IsAI.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1626,17 +1626,17 @@ namespace NetworkMessages {
         output.WriteRawTag(16);
         output.WriteBool(IsReady);
       }
-      if (Team != 0UL) {
+      if (Team != 0) {
         output.WriteRawTag(24);
-        output.WriteUInt64(Team);
+        output.WriteInt32(Team);
       }
-      if (Faction != 0UL) {
+      if (Faction != 0) {
         output.WriteRawTag(32);
-        output.WriteUInt64(Faction);
+        output.WriteInt32(Faction);
       }
-      if (ColorIndex != 0UL) {
+      if (ColorIndex != 0) {
         output.WriteRawTag(40);
-        output.WriteUInt64(ColorIndex);
+        output.WriteInt32(ColorIndex);
       }
       if (IsAI != false) {
         output.WriteRawTag(48);
@@ -1664,17 +1664,17 @@ namespace NetworkMessages {
         output.WriteRawTag(16);
         output.WriteBool(IsReady);
       }
-      if (Team != 0UL) {
+      if (Team != 0) {
         output.WriteRawTag(24);
-        output.WriteUInt64(Team);
+        output.WriteInt32(Team);
       }
-      if (Faction != 0UL) {
+      if (Faction != 0) {
         output.WriteRawTag(32);
-        output.WriteUInt64(Faction);
+        output.WriteInt32(Faction);
       }
-      if (ColorIndex != 0UL) {
+      if (ColorIndex != 0) {
         output.WriteRawTag(40);
-        output.WriteUInt64(ColorIndex);
+        output.WriteInt32(ColorIndex);
       }
       if (IsAI != false) {
         output.WriteRawTag(48);
@@ -1703,14 +1703,14 @@ namespace NetworkMessages {
       if (IsReady != false) {
         size += 1 + 1;
       }
-      if (Team != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Team);
+      if (Team != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Team);
       }
-      if (Faction != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Faction);
+      if (Faction != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Faction);
       }
-      if (ColorIndex != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ColorIndex);
+      if (ColorIndex != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ColorIndex);
       }
       if (IsAI != false) {
         size += 1 + 1;
@@ -1736,13 +1736,13 @@ namespace NetworkMessages {
       if (other.IsReady != false) {
         IsReady = other.IsReady;
       }
-      if (other.Team != 0UL) {
+      if (other.Team != 0) {
         Team = other.Team;
       }
-      if (other.Faction != 0UL) {
+      if (other.Faction != 0) {
         Faction = other.Faction;
       }
-      if (other.ColorIndex != 0UL) {
+      if (other.ColorIndex != 0) {
         ColorIndex = other.ColorIndex;
       }
       if (other.IsAI != false) {
@@ -1772,15 +1772,15 @@ namespace NetworkMessages {
             break;
           }
           case 24: {
-            Team = input.ReadUInt64();
+            Team = input.ReadInt32();
             break;
           }
           case 32: {
-            Faction = input.ReadUInt64();
+            Faction = input.ReadInt32();
             break;
           }
           case 40: {
-            ColorIndex = input.ReadUInt64();
+            ColorIndex = input.ReadInt32();
             break;
           }
           case 48: {
@@ -1815,15 +1815,15 @@ namespace NetworkMessages {
             break;
           }
           case 24: {
-            Team = input.ReadUInt64();
+            Team = input.ReadInt32();
             break;
           }
           case 32: {
-            Faction = input.ReadUInt64();
+            Faction = input.ReadInt32();
             break;
           }
           case 40: {
-            ColorIndex = input.ReadUInt64();
+            ColorIndex = input.ReadInt32();
             break;
           }
           case 48: {
@@ -3061,10 +3061,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "teamNum" field.</summary>
     public const int TeamNumFieldNumber = 1;
-    private ulong teamNum_;
+    private int teamNum_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong TeamNum {
+    public int TeamNum {
       get { return teamNum_; }
       set {
         teamNum_ = value;
@@ -3094,7 +3094,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (TeamNum != 0UL) hash ^= TeamNum.GetHashCode();
+      if (TeamNum != 0) hash ^= TeamNum.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3113,9 +3113,9 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (TeamNum != 0UL) {
+      if (TeamNum != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(TeamNum);
+        output.WriteInt32(TeamNum);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -3127,9 +3127,9 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (TeamNum != 0UL) {
+      if (TeamNum != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(TeamNum);
+        output.WriteInt32(TeamNum);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -3141,8 +3141,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (TeamNum != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TeamNum);
+      if (TeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TeamNum);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3156,7 +3156,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.TeamNum != 0UL) {
+      if (other.TeamNum != 0) {
         TeamNum = other.TeamNum;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -3175,7 +3175,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            TeamNum = input.ReadUInt64();
+            TeamNum = input.ReadInt32();
             break;
           }
         }
@@ -3194,7 +3194,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            TeamNum = input.ReadUInt64();
+            TeamNum = input.ReadInt32();
             break;
           }
         }
@@ -3254,10 +3254,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "cityID" field.</summary>
     public const int CityIDFieldNumber = 1;
-    private ulong cityID_;
+    private int cityID_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong CityID {
+    public int CityID {
       get { return cityID_; }
       set {
         cityID_ = value;
@@ -3266,10 +3266,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "resourceName" field.</summary>
     public const int ResourceNameFieldNumber = 2;
-    private ulong resourceName_;
+    private int resourceName_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong ResourceName {
+    public int ResourceName {
       get { return resourceName_; }
       set {
         resourceName_ = value;
@@ -3313,8 +3313,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (CityID != 0UL) hash ^= CityID.GetHashCode();
-      if (ResourceName != 0UL) hash ^= ResourceName.GetHashCode();
+      if (CityID != 0) hash ^= CityID.GetHashCode();
+      if (ResourceName != 0) hash ^= ResourceName.GetHashCode();
       if (sourceHex_ != null) hash ^= SourceHex.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3334,13 +3334,13 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
-      if (ResourceName != 0UL) {
+      if (ResourceName != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt64(ResourceName);
+        output.WriteInt32(ResourceName);
       }
       if (sourceHex_ != null) {
         output.WriteRawTag(26);
@@ -3356,13 +3356,13 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
-      if (ResourceName != 0UL) {
+      if (ResourceName != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt64(ResourceName);
+        output.WriteInt32(ResourceName);
       }
       if (sourceHex_ != null) {
         output.WriteRawTag(26);
@@ -3378,11 +3378,11 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (CityID != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      if (CityID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CityID);
       }
-      if (ResourceName != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ResourceName);
+      if (ResourceName != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ResourceName);
       }
       if (sourceHex_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(SourceHex);
@@ -3399,10 +3399,10 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.CityID != 0UL) {
+      if (other.CityID != 0) {
         CityID = other.CityID;
       }
-      if (other.ResourceName != 0UL) {
+      if (other.ResourceName != 0) {
         ResourceName = other.ResourceName;
       }
       if (other.sourceHex_ != null) {
@@ -3427,11 +3427,11 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 16: {
-            ResourceName = input.ReadUInt64();
+            ResourceName = input.ReadInt32();
             break;
           }
           case 26: {
@@ -3457,11 +3457,11 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 16: {
-            ResourceName = input.ReadUInt64();
+            ResourceName = input.ReadInt32();
             break;
           }
           case 26: {
@@ -3527,10 +3527,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "teamNum" field.</summary>
     public const int TeamNumFieldNumber = 1;
-    private ulong teamNum_;
+    private int teamNum_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong TeamNum {
+    public int TeamNum {
       get { return teamNum_; }
       set {
         teamNum_ = value;
@@ -3573,7 +3573,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (TeamNum != 0UL) hash ^= TeamNum.GetHashCode();
+      if (TeamNum != 0) hash ^= TeamNum.GetHashCode();
       if (sourceHex_ != null) hash ^= SourceHex.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3593,9 +3593,9 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (TeamNum != 0UL) {
+      if (TeamNum != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(TeamNum);
+        output.WriteInt32(TeamNum);
       }
       if (sourceHex_ != null) {
         output.WriteRawTag(18);
@@ -3611,9 +3611,9 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (TeamNum != 0UL) {
+      if (TeamNum != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(TeamNum);
+        output.WriteInt32(TeamNum);
       }
       if (sourceHex_ != null) {
         output.WriteRawTag(18);
@@ -3629,8 +3629,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (TeamNum != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TeamNum);
+      if (TeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TeamNum);
       }
       if (sourceHex_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(SourceHex);
@@ -3647,7 +3647,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.TeamNum != 0UL) {
+      if (other.TeamNum != 0) {
         TeamNum = other.TeamNum;
       }
       if (other.sourceHex_ != null) {
@@ -3672,7 +3672,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            TeamNum = input.ReadUInt64();
+            TeamNum = input.ReadInt32();
             break;
           }
           case 18: {
@@ -3698,7 +3698,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            TeamNum = input.ReadUInt64();
+            TeamNum = input.ReadInt32();
             break;
           }
           case 18: {
@@ -3764,10 +3764,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "teamNum" field.</summary>
     public const int TeamNumFieldNumber = 1;
-    private ulong teamNum_;
+    private int teamNum_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong TeamNum {
+    public int TeamNum {
       get { return teamNum_; }
       set {
         teamNum_ = value;
@@ -3810,7 +3810,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (TeamNum != 0UL) hash ^= TeamNum.GetHashCode();
+      if (TeamNum != 0) hash ^= TeamNum.GetHashCode();
       if (ResearchName.Length != 0) hash ^= ResearchName.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3830,9 +3830,9 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (TeamNum != 0UL) {
+      if (TeamNum != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(TeamNum);
+        output.WriteInt32(TeamNum);
       }
       if (ResearchName.Length != 0) {
         output.WriteRawTag(18);
@@ -3848,9 +3848,9 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (TeamNum != 0UL) {
+      if (TeamNum != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(TeamNum);
+        output.WriteInt32(TeamNum);
       }
       if (ResearchName.Length != 0) {
         output.WriteRawTag(18);
@@ -3866,8 +3866,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (TeamNum != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TeamNum);
+      if (TeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TeamNum);
       }
       if (ResearchName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ResearchName);
@@ -3884,7 +3884,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.TeamNum != 0UL) {
+      if (other.TeamNum != 0) {
         TeamNum = other.TeamNum;
       }
       if (other.ResearchName.Length != 0) {
@@ -3906,7 +3906,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            TeamNum = input.ReadUInt64();
+            TeamNum = input.ReadInt32();
             break;
           }
           case 18: {
@@ -3929,7 +3929,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            TeamNum = input.ReadUInt64();
+            TeamNum = input.ReadInt32();
             break;
           }
           case 18: {
@@ -3992,10 +3992,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "teamNum" field.</summary>
     public const int TeamNumFieldNumber = 1;
-    private ulong teamNum_;
+    private int teamNum_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong TeamNum {
+    public int TeamNum {
       get { return teamNum_; }
       set {
         teamNum_ = value;
@@ -4038,7 +4038,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (TeamNum != 0UL) hash ^= TeamNum.GetHashCode();
+      if (TeamNum != 0) hash ^= TeamNum.GetHashCode();
       if (CultureName.Length != 0) hash ^= CultureName.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -4058,9 +4058,9 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (TeamNum != 0UL) {
+      if (TeamNum != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(TeamNum);
+        output.WriteInt32(TeamNum);
       }
       if (CultureName.Length != 0) {
         output.WriteRawTag(18);
@@ -4076,9 +4076,9 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (TeamNum != 0UL) {
+      if (TeamNum != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(TeamNum);
+        output.WriteInt32(TeamNum);
       }
       if (CultureName.Length != 0) {
         output.WriteRawTag(18);
@@ -4094,8 +4094,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (TeamNum != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TeamNum);
+      if (TeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TeamNum);
       }
       if (CultureName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(CultureName);
@@ -4112,7 +4112,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.TeamNum != 0UL) {
+      if (other.TeamNum != 0) {
         TeamNum = other.TeamNum;
       }
       if (other.CultureName.Length != 0) {
@@ -4134,7 +4134,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            TeamNum = input.ReadUInt64();
+            TeamNum = input.ReadInt32();
             break;
           }
           case 18: {
@@ -4157,7 +4157,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            TeamNum = input.ReadUInt64();
+            TeamNum = input.ReadInt32();
             break;
           }
           case 18: {
@@ -4220,10 +4220,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "cityID" field.</summary>
     public const int CityIDFieldNumber = 1;
-    private ulong cityID_;
+    private int cityID_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong CityID {
+    public int CityID {
       get { return cityID_; }
       set {
         cityID_ = value;
@@ -4266,7 +4266,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (CityID != 0UL) hash ^= CityID.GetHashCode();
+      if (CityID != 0) hash ^= CityID.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -4286,9 +4286,9 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(18);
@@ -4304,9 +4304,9 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(18);
@@ -4322,8 +4322,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (CityID != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      if (CityID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CityID);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -4340,7 +4340,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.CityID != 0UL) {
+      if (other.CityID != 0) {
         CityID = other.CityID;
       }
       if (other.Name.Length != 0) {
@@ -4362,7 +4362,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 18: {
@@ -4385,7 +4385,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 18: {
@@ -4474,10 +4474,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "cityID" field.</summary>
     public const int CityIDFieldNumber = 3;
-    private ulong cityID_;
+    private int cityID_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong CityID {
+    public int CityID {
       get { return cityID_; }
       set {
         cityID_ = value;
@@ -4524,7 +4524,7 @@ namespace NetworkMessages {
       int hash = 1;
       if (ItemName.Length != 0) hash ^= ItemName.GetHashCode();
       if (target_ != null) hash ^= Target.GetHashCode();
-      if (CityID != 0UL) hash ^= CityID.GetHashCode();
+      if (CityID != 0) hash ^= CityID.GetHashCode();
       if (Front != false) hash ^= Front.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -4552,9 +4552,9 @@ namespace NetworkMessages {
         output.WriteRawTag(18);
         output.WriteMessage(Target);
       }
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(24);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (Front != false) {
         output.WriteRawTag(32);
@@ -4578,9 +4578,9 @@ namespace NetworkMessages {
         output.WriteRawTag(18);
         output.WriteMessage(Target);
       }
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(24);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (Front != false) {
         output.WriteRawTag(32);
@@ -4602,8 +4602,8 @@ namespace NetworkMessages {
       if (target_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Target);
       }
-      if (CityID != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      if (CityID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CityID);
       }
       if (Front != false) {
         size += 1 + 1;
@@ -4629,7 +4629,7 @@ namespace NetworkMessages {
         }
         Target.MergeFrom(other.Target);
       }
-      if (other.CityID != 0UL) {
+      if (other.CityID != 0) {
         CityID = other.CityID;
       }
       if (other.Front != false) {
@@ -4662,7 +4662,7 @@ namespace NetworkMessages {
             break;
           }
           case 24: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 32: {
@@ -4696,7 +4696,7 @@ namespace NetworkMessages {
             break;
           }
           case 24: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 32: {
@@ -4759,10 +4759,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "index" field.</summary>
     public const int IndexFieldNumber = 1;
-    private ulong index_;
+    private int index_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong Index {
+    public int Index {
       get { return index_; }
       set {
         index_ = value;
@@ -4771,10 +4771,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "cityID" field.</summary>
     public const int CityIDFieldNumber = 2;
-    private ulong cityID_;
+    private int cityID_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong CityID {
+    public int CityID {
       get { return cityID_; }
       set {
         cityID_ = value;
@@ -4805,8 +4805,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Index != 0UL) hash ^= Index.GetHashCode();
-      if (CityID != 0UL) hash ^= CityID.GetHashCode();
+      if (Index != 0) hash ^= Index.GetHashCode();
+      if (CityID != 0) hash ^= CityID.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4825,13 +4825,13 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Index != 0UL) {
+      if (Index != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(Index);
+        output.WriteInt32(Index);
       }
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -4843,13 +4843,13 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Index != 0UL) {
+      if (Index != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(Index);
+        output.WriteInt32(Index);
       }
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -4861,11 +4861,11 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Index != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Index);
+      if (Index != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Index);
       }
-      if (CityID != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      if (CityID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CityID);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4879,10 +4879,10 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.Index != 0UL) {
+      if (other.Index != 0) {
         Index = other.Index;
       }
-      if (other.CityID != 0UL) {
+      if (other.CityID != 0) {
         CityID = other.CityID;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -4901,11 +4901,11 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Index = input.ReadUInt64();
+            Index = input.ReadInt32();
             break;
           }
           case 16: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
         }
@@ -4924,11 +4924,11 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            Index = input.ReadUInt64();
+            Index = input.ReadInt32();
             break;
           }
           case 16: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
         }
@@ -4987,10 +4987,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "index" field.</summary>
     public const int IndexFieldNumber = 1;
-    private ulong index_;
+    private int index_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong Index {
+    public int Index {
       get { return index_; }
       set {
         index_ = value;
@@ -4999,10 +4999,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "cityID" field.</summary>
     public const int CityIDFieldNumber = 2;
-    private ulong cityID_;
+    private int cityID_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong CityID {
+    public int CityID {
       get { return cityID_; }
       set {
         cityID_ = value;
@@ -5033,8 +5033,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Index != 0UL) hash ^= Index.GetHashCode();
-      if (CityID != 0UL) hash ^= CityID.GetHashCode();
+      if (Index != 0) hash ^= Index.GetHashCode();
+      if (CityID != 0) hash ^= CityID.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5053,13 +5053,13 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Index != 0UL) {
+      if (Index != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(Index);
+        output.WriteInt32(Index);
       }
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -5071,13 +5071,13 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Index != 0UL) {
+      if (Index != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(Index);
+        output.WriteInt32(Index);
       }
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -5089,11 +5089,11 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Index != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Index);
+      if (Index != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Index);
       }
-      if (CityID != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      if (CityID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CityID);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5107,10 +5107,10 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.Index != 0UL) {
+      if (other.Index != 0) {
         Index = other.Index;
       }
-      if (other.CityID != 0UL) {
+      if (other.CityID != 0) {
         CityID = other.CityID;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -5129,11 +5129,11 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Index = input.ReadUInt64();
+            Index = input.ReadInt32();
             break;
           }
           case 16: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
         }
@@ -5152,11 +5152,11 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            Index = input.ReadUInt64();
+            Index = input.ReadInt32();
             break;
           }
           case 16: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
         }
@@ -5215,10 +5215,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "cityID" field.</summary>
     public const int CityIDFieldNumber = 1;
-    private ulong cityID_;
+    private int cityID_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong CityID {
+    public int CityID {
       get { return cityID_; }
       set {
         cityID_ = value;
@@ -5261,7 +5261,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (CityID != 0UL) hash ^= CityID.GetHashCode();
+      if (CityID != 0) hash ^= CityID.GetHashCode();
       if (target_ != null) hash ^= Target.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -5281,9 +5281,9 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (target_ != null) {
         output.WriteRawTag(18);
@@ -5299,9 +5299,9 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (target_ != null) {
         output.WriteRawTag(18);
@@ -5317,8 +5317,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (CityID != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      if (CityID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CityID);
       }
       if (target_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Target);
@@ -5335,7 +5335,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.CityID != 0UL) {
+      if (other.CityID != 0) {
         CityID = other.CityID;
       }
       if (other.target_ != null) {
@@ -5360,7 +5360,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 18: {
@@ -5386,7 +5386,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 18: {
@@ -5453,10 +5453,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "cityID" field.</summary>
     public const int CityIDFieldNumber = 1;
-    private ulong cityID_;
+    private int cityID_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong CityID {
+    public int CityID {
       get { return cityID_; }
       set {
         cityID_ = value;
@@ -5477,10 +5477,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "districtType" field.</summary>
     public const int DistrictTypeFieldNumber = 3;
-    private ulong districtType_;
+    private int districtType_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong DistrictType {
+    public int DistrictType {
       get { return districtType_; }
       set {
         districtType_ = value;
@@ -5512,9 +5512,9 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (CityID != 0UL) hash ^= CityID.GetHashCode();
+      if (CityID != 0) hash ^= CityID.GetHashCode();
       if (target_ != null) hash ^= Target.GetHashCode();
-      if (DistrictType != 0UL) hash ^= DistrictType.GetHashCode();
+      if (DistrictType != 0) hash ^= DistrictType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5533,17 +5533,17 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (target_ != null) {
         output.WriteRawTag(18);
         output.WriteMessage(Target);
       }
-      if (DistrictType != 0UL) {
+      if (DistrictType != 0) {
         output.WriteRawTag(24);
-        output.WriteUInt64(DistrictType);
+        output.WriteInt32(DistrictType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -5555,17 +5555,17 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (CityID != 0UL) {
+      if (CityID != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(CityID);
+        output.WriteInt32(CityID);
       }
       if (target_ != null) {
         output.WriteRawTag(18);
         output.WriteMessage(Target);
       }
-      if (DistrictType != 0UL) {
+      if (DistrictType != 0) {
         output.WriteRawTag(24);
-        output.WriteUInt64(DistrictType);
+        output.WriteInt32(DistrictType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -5577,14 +5577,14 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (CityID != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(CityID);
+      if (CityID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CityID);
       }
       if (target_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Target);
       }
-      if (DistrictType != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(DistrictType);
+      if (DistrictType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DistrictType);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5598,7 +5598,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.CityID != 0UL) {
+      if (other.CityID != 0) {
         CityID = other.CityID;
       }
       if (other.target_ != null) {
@@ -5607,7 +5607,7 @@ namespace NetworkMessages {
         }
         Target.MergeFrom(other.Target);
       }
-      if (other.DistrictType != 0UL) {
+      if (other.DistrictType != 0) {
         DistrictType = other.DistrictType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -5626,7 +5626,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 18: {
@@ -5637,7 +5637,7 @@ namespace NetworkMessages {
             break;
           }
           case 24: {
-            DistrictType = input.ReadUInt64();
+            DistrictType = input.ReadInt32();
             break;
           }
         }
@@ -5656,7 +5656,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            CityID = input.ReadUInt64();
+            CityID = input.ReadInt32();
             break;
           }
           case 18: {
@@ -5667,7 +5667,7 @@ namespace NetworkMessages {
             break;
           }
           case 24: {
-            DistrictType = input.ReadUInt64();
+            DistrictType = input.ReadInt32();
             break;
           }
         }
@@ -5727,10 +5727,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "unitId" field.</summary>
     public const int UnitIdFieldNumber = 1;
-    private ulong unitId_;
+    private int unitId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong UnitId {
+    public int UnitId {
       get { return unitId_; }
       set {
         unitId_ = value;
@@ -5786,7 +5786,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (UnitId != 0UL) hash ^= UnitId.GetHashCode();
+      if (UnitId != 0) hash ^= UnitId.GetHashCode();
       if (target_ != null) hash ^= Target.GetHashCode();
       if (IsEnemy != false) hash ^= IsEnemy.GetHashCode();
       if (_unknownFields != null) {
@@ -5807,9 +5807,9 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (UnitId != 0UL) {
+      if (UnitId != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(UnitId);
+        output.WriteInt32(UnitId);
       }
       if (target_ != null) {
         output.WriteRawTag(18);
@@ -5829,9 +5829,9 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (UnitId != 0UL) {
+      if (UnitId != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(UnitId);
+        output.WriteInt32(UnitId);
       }
       if (target_ != null) {
         output.WriteRawTag(18);
@@ -5851,8 +5851,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (UnitId != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(UnitId);
+      if (UnitId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(UnitId);
       }
       if (target_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Target);
@@ -5872,7 +5872,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.UnitId != 0UL) {
+      if (other.UnitId != 0) {
         UnitId = other.UnitId;
       }
       if (other.target_ != null) {
@@ -5900,7 +5900,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            UnitId = input.ReadUInt64();
+            UnitId = input.ReadInt32();
             break;
           }
           case 18: {
@@ -5930,7 +5930,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            UnitId = input.ReadUInt64();
+            UnitId = input.ReadInt32();
             break;
           }
           case 18: {
@@ -6001,10 +6001,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "unitId" field.</summary>
     public const int UnitIdFieldNumber = 1;
-    private ulong unitId_;
+    private int unitId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong UnitId {
+    public int UnitId {
       get { return unitId_; }
       set {
         unitId_ = value;
@@ -6060,7 +6060,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (UnitId != 0UL) hash ^= UnitId.GetHashCode();
+      if (UnitId != 0) hash ^= UnitId.GetHashCode();
       if (AbilityName.Length != 0) hash ^= AbilityName.GetHashCode();
       if (target_ != null) hash ^= Target.GetHashCode();
       if (_unknownFields != null) {
@@ -6081,9 +6081,9 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (UnitId != 0UL) {
+      if (UnitId != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(UnitId);
+        output.WriteInt32(UnitId);
       }
       if (AbilityName.Length != 0) {
         output.WriteRawTag(18);
@@ -6103,9 +6103,9 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (UnitId != 0UL) {
+      if (UnitId != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(UnitId);
+        output.WriteInt32(UnitId);
       }
       if (AbilityName.Length != 0) {
         output.WriteRawTag(18);
@@ -6125,8 +6125,8 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (UnitId != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(UnitId);
+      if (UnitId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(UnitId);
       }
       if (AbilityName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AbilityName);
@@ -6146,7 +6146,7 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.UnitId != 0UL) {
+      if (other.UnitId != 0) {
         UnitId = other.UnitId;
       }
       if (other.AbilityName.Length != 0) {
@@ -6174,7 +6174,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            UnitId = input.ReadUInt64();
+            UnitId = input.ReadInt32();
             break;
           }
           case 18: {
@@ -6204,7 +6204,7 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            UnitId = input.ReadUInt64();
+            UnitId = input.ReadInt32();
             break;
           }
           case 18: {
@@ -6275,10 +6275,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "q" field.</summary>
     public const int QFieldNumber = 1;
-    private ulong q_;
+    private int q_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong Q {
+    public int Q {
       get { return q_; }
       set {
         q_ = value;
@@ -6287,10 +6287,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "r" field.</summary>
     public const int RFieldNumber = 2;
-    private ulong r_;
+    private int r_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong R {
+    public int R {
       get { return r_; }
       set {
         r_ = value;
@@ -6299,10 +6299,10 @@ namespace NetworkMessages {
 
     /// <summary>Field number for the "s" field.</summary>
     public const int SFieldNumber = 3;
-    private ulong s_;
+    private int s_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong S {
+    public int S {
       get { return s_; }
       set {
         s_ = value;
@@ -6334,9 +6334,9 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Q != 0UL) hash ^= Q.GetHashCode();
-      if (R != 0UL) hash ^= R.GetHashCode();
-      if (S != 0UL) hash ^= S.GetHashCode();
+      if (Q != 0) hash ^= Q.GetHashCode();
+      if (R != 0) hash ^= R.GetHashCode();
+      if (S != 0) hash ^= S.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -6355,17 +6355,17 @@ namespace NetworkMessages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Q != 0UL) {
+      if (Q != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(Q);
+        output.WriteInt32(Q);
       }
-      if (R != 0UL) {
+      if (R != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt64(R);
+        output.WriteInt32(R);
       }
-      if (S != 0UL) {
+      if (S != 0) {
         output.WriteRawTag(24);
-        output.WriteUInt64(S);
+        output.WriteInt32(S);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -6377,17 +6377,17 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Q != 0UL) {
+      if (Q != 0) {
         output.WriteRawTag(8);
-        output.WriteUInt64(Q);
+        output.WriteInt32(Q);
       }
-      if (R != 0UL) {
+      if (R != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt64(R);
+        output.WriteInt32(R);
       }
-      if (S != 0UL) {
+      if (S != 0) {
         output.WriteRawTag(24);
-        output.WriteUInt64(S);
+        output.WriteInt32(S);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -6399,14 +6399,14 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Q != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Q);
+      if (Q != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Q);
       }
-      if (R != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(R);
+      if (R != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(R);
       }
-      if (S != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(S);
+      if (S != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(S);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -6420,13 +6420,13 @@ namespace NetworkMessages {
       if (other == null) {
         return;
       }
-      if (other.Q != 0UL) {
+      if (other.Q != 0) {
         Q = other.Q;
       }
-      if (other.R != 0UL) {
+      if (other.R != 0) {
         R = other.R;
       }
-      if (other.S != 0UL) {
+      if (other.S != 0) {
         S = other.S;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -6445,15 +6445,15 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Q = input.ReadUInt64();
+            Q = input.ReadInt32();
             break;
           }
           case 16: {
-            R = input.ReadUInt64();
+            R = input.ReadInt32();
             break;
           }
           case 24: {
-            S = input.ReadUInt64();
+            S = input.ReadInt32();
             break;
           }
         }
@@ -6472,15 +6472,15 @@ namespace NetworkMessages {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            Q = input.ReadUInt64();
+            Q = input.ReadInt32();
             break;
           }
           case 16: {
-            R = input.ReadUInt64();
+            R = input.ReadInt32();
             break;
           }
           case 24: {
-            S = input.ReadUInt64();
+            S = input.ReadInt32();
             break;
           }
         }

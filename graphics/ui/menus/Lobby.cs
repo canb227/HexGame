@@ -188,7 +188,7 @@ public partial class Lobby : Control
     {
         Global.Log("color change button pressed, index: " + index);
         LobbyStatus status = PlayerStatuses[id];
-        status.ColorIndex = (ulong)index;
+        status.ColorIndex = (int)index;
         PlayerStatuses[id] = status;
         UpdateLobbyPeers(id);
     }
@@ -333,7 +333,7 @@ public partial class Lobby : Control
     {
         Global.Log("team change button pressed, index: " + index);
         LobbyStatus status = PlayerStatuses[id];
-        status.Team = (ulong)index + 1;
+        status.Team = (int)(index + 1);
         PlayerStatuses[id] = status;
         UpdateLobbyPeers(id);
     }
@@ -341,7 +341,7 @@ public partial class Lobby : Control
     private void OnFactionChange(long index, ulong id)
     {
         LobbyStatus status = PlayerStatuses[id];
-        status.Team = (ulong)index;
+        status.Team = (int)index;
         PlayerStatuses[id] = status;
         UpdateLobbyPeers(id);
     }

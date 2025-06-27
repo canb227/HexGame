@@ -342,7 +342,7 @@ public class Player
 
     public void UpdateTerritoryGraphic()
     {
-        GD.Print("UpdateGraphic");
+        //GD.Print("UpdateGraphic");
         //remove old lines
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         foreach (HexChunk hexChunk in ggb.chunkList)
