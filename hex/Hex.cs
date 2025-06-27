@@ -196,28 +196,33 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
 
     public int WrapDistance(Hex b)
     {
-        int leftBoundary = Global.gameManager.game.mainGameBoard.left - (r >> 1);
-        int rightBoundary = Global.gameManager.game.mainGameBoard.right - (r >> 1);
+        int leftBoundary = Global.gameManager.game.mainGameBoard.left - (b.r >> 1);
+        int rightBoundary = Global.gameManager.game.mainGameBoard.right - (b.r >> 1);
         return WrapDistance(b, leftBoundary, rightBoundary);
     }
 
     public int WrapDistance(Hex b, int left, int right)
     {
-        int leftBoundary = (int)Math.Floor(r / 2.0);
-        int rawDifference = b.q - q;
-
-        // Compute wrapped distance
-        int range = right - left;
-        int wrappedDifference = ((rawDifference % range) + range) % range;
-        if (wrappedDifference > range / 2)
+        int newQ = 0;
+        int range = (right - 1) - left;
+        if (q > b.q)
         {
-            wrappedDifference -= range;
+            if(q - b.q > range/2)
+            {
+                newQ = b.q + range + 1;
+            }
         }
-
-        int dq = Math.Abs(wrappedDifference);
-        int dr = Math.Abs(b.r - r);
-        int ds = Math.Abs(b.s - s);
-        return (int)((dq + dr + ds) / 2);
+        else
+        {
+            if (b.q - q > range / 2)
+            {
+                newQ = b.q - range - 1;
+            }
+        }
+        Hex unwrappedHex = new Hex(newQ, b.r, -newQ - b.r);
+        int dq = Math.Abs(unwrappedHex.q - q);
+        int dr = Math.Abs(unwrappedHex.r - r);
+        return Distance(unwrappedHex);
     }
 }
 
