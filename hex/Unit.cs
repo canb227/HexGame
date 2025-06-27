@@ -793,6 +793,11 @@ public class Unit
         Dictionary<Hex, Hex> came_from = new();
         came_from[start] = start;
         cost_so_far[start] = 0;
+        if(start.Equals(end))
+        {
+            totalCost = 0;
+            return new List<Hex>();
+        }
     
         while (frontier.TryDequeue(out Hex current, out float priority))
         {
@@ -808,6 +813,7 @@ public class Unit
                 {
                     path.Add(current);
                     current = came_from[current];
+                    GD.Print(current);
                 }
                 path.Add(start);
                 path.Reverse();
