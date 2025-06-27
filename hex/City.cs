@@ -870,7 +870,7 @@ public class City
     }
     
 
-    public bool ValidUrbanBuildHex(List<TerrainType> validTerrain, GameHex targetGameHex, DistrictType districtType)
+    public bool ValidUrbanBuildHex(List<TerrainType> validTerrain, GameHex targetGameHex, DistrictType districtType, string name="")
     {
         if (validTerrain.Count == 0 || validTerrain.Contains(targetGameHex.terrainType))
         {
@@ -880,6 +880,13 @@ public class City
                 //hex has less than the max buildings and the right districtType
                 if (targetGameHex.district != null && targetGameHex.district.districtType == districtType && targetGameHex.district.buildings.Count() < targetGameHex.district.maxBuildings && targetGameHex.district.cityID == id)
                 {
+                    foreach(Building building in targetGameHex.district.buildings)
+                    {
+                        if(building.name == name)
+                        {
+                            return false;
+                        }
+                    }
                     //hex doesnt have a enemy unit
                     bool noEnemyUnit = true;
                     foreach (int unitID in targetGameHex.units)
@@ -901,13 +908,13 @@ public class City
         return false;
     }
     //valid hexes to build a building
-    public List<Hex> ValidUrbanBuildHexes(List<TerrainType> validTerrain, DistrictType districtType, int range=3)
+    public List<Hex> ValidUrbanBuildHexes(List<TerrainType> validTerrain, DistrictType districtType, int range=3, string name="")
     {
         List<Hex> validHexes = new();
         //gather valid targets
         foreach(Hex hex in hex.WrappingRange(range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
-            if(ValidUrbanBuildHex(validTerrain, Global.gameManager.game.mainGameBoard.gameHexDict[hex], districtType))
+            if(ValidUrbanBuildHex(validTerrain, Global.gameManager.game.mainGameBoard.gameHexDict[hex], districtType, name))
             {
                 validHexes.Add(hex);
             }

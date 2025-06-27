@@ -349,7 +349,7 @@ public partial class AIManager: Node
 
         string buildingName = listOfValidBuildings[rng.Next(listOfValidBuildings.Count)];
         BuildingInfo buildingInfo = BuildingLoader.buildingsDict[buildingName];
-        List<Hex> validHexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes, buildingInfo.DistrictType);
+        List<Hex> validHexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes, buildingInfo.DistrictType, 3, buildingName);
 
         if (validHexes.Count > 0)
         {
