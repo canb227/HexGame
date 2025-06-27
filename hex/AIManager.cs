@@ -242,6 +242,7 @@ public partial class AIManager: Node
             }
             else if (unit.name.Equals("Settler"))
             {
+                Global.Log("Settler Detected");
                 HandleSettler(ai, unit);
             }
             else if ((unit.unitClass & UnitClass.Recon) == UnitClass.Recon)
@@ -417,6 +418,7 @@ public partial class AIManager: Node
                     target = h; //find the closest district
                 }
             }
+            Global.gameManager.game.unitDictionary.Remove(-1);
             return true;
         }
         else
@@ -541,6 +543,21 @@ public partial class AIManager: Node
     {
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         Hex target;
+        if (unit.CanSettleHere(unit.hex, 3))
+        {
+            AIActivateAbility(ai, unit, "SettleCityAbility", unit.hex);
+        }
+        else if (FindClosestValidSettleInRange(ai, unit, 6, out target))
+        {
+            AIMoveUnit(ai, unit, target);
+        }
+        else
+        {
+            RandomMoveNoAttack(ai, unit, validMoves);
+        }
+        /* Global.Log("Starting Settler Handler");
+        List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
+        Hex target;
         switch (ai.citySettlingStrategy)
         {
             case AICitySettlingStrategy.GameStart:
@@ -548,14 +565,17 @@ public partial class AIManager: Node
             case AICitySettlingStrategy.ClosestValidSettle:
                 if (unit.CanSettleHere(unit.hex, 3))
                 {
+                    Global.Log("Settler: settling here.");
                     AIActivateAbility(ai, unit, "SettleCityAbility", unit.hex);
                 }
                 else if (FindClosestValidSettleInRange(ai, unit, 6, out target))
                 {
+                    Global.Log("Settler: Can't settle here, moving towards the closest valid spot.");
                     AIMoveUnit(ai, unit, target);
                 }
                 else
                 {
+                    Global.Log("Settler: No valid settle found, moving randomly.");
                     RandomMoveNoAttack(ai, unit, validMoves);
                 }
                 break;
@@ -571,7 +591,7 @@ public partial class AIManager: Node
                 break;
             default:
                 break;
-        }
+        }*/
     }
     private void HandleFounder(AI ai, Unit unit)
     {
@@ -616,7 +636,11 @@ public partial class AIManager: Node
         switch (ai.overallProductionStrategy)
         {
             case AIOverallProductionStrategy.GameStart:
-                if (GetNumberOfUnit(ai, "Warrior") < 1)
+                if (GetNumberOfUnit(ai, "Settler") < 1)
+                {
+                    Global.gameManager.AddToProductionQueue(city.id, "Settler", city.hex);
+                }
+                else if (GetNumberOfUnit(ai, "Warrior") < 1)
                 {
                     Global.gameManager.AddToProductionQueue(city.id, "Warrior", city.hex);
                 }
