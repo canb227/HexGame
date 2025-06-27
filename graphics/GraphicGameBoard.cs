@@ -38,14 +38,14 @@ public partial class GraphicGameBoard : GraphicObject
         tempMesh = (MeshInstance3D)temp.GetChild(0);
         yieldMesh = tempMesh.Mesh;
 
-
+        Add3DHexFeatures();
         DrawBoard(layout);
     }
     public override void _Ready()
     {
         AddHexResource();
 
-        Add3DHexFeatures();
+        
         //AddHexFeatures(layout);
 
         //Add3DHexYields();
@@ -222,7 +222,7 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 Godot.Color pix = heightMap.GetPixel(x, y);
                 //pix = new Godot.Color(pix.R / 2.0f + 0.5f, 0.0f, 0.0f);
-                FractionalHex fHex = Global.layout.PixelToHex(new Point(-x + hSpace / 2.0f - chunkOffset, (y - vSpace / 2.0f)));
+                FractionalHex fHex = Global.layout.PixelToHex(new Point(-x , y));
                 Hex hex = fHex.HexRound();
                 Hex wrapHex = hex.WrapHex();
                 //heightMap.SetPixel(x, y, new Godot.Color((float)x/noiseImageSize, 0.0f, 0.0f));
@@ -237,12 +237,12 @@ public partial class GraphicGameBoard : GraphicObject
                     }
                     else if (gameHex.terrainType == TerrainType.Rough)
                     {
-                        heightMap.SetPixel(x, y, new Godot.Color(0.4f, 0.0f, 0.0f));
+                        heightMap.SetPixel(x, y, new Godot.Color(0.1f, 0.0f, 0.0f));
 
                     }
                     else if (gameHex.terrainType == TerrainType.Flat)
                     {
-                        heightMap.SetPixel(x, y, new Godot.Color(0.1f, 0.0f, 0.0f));
+                        heightMap.SetPixel(x, y, new Godot.Color(0.01f, 0.0f, 0.0f));
                     }
                     else
                     {
@@ -255,7 +255,7 @@ public partial class GraphicGameBoard : GraphicObject
                 }
             }
         }
-        heightMap.SavePng("heightMap.png");
+        //heightMap.SavePng("heightMap.png");
         GaussianBlur(heightMap, 3);
 
         //apply noise
@@ -289,11 +289,50 @@ public partial class GraphicGameBoard : GraphicObject
             MultiMeshInstance3D multiMeshInstance = new MultiMeshInstance3D();
             MultiMeshInstance3D yieldMultiMeshInstance = new MultiMeshInstance3D();
 
+            Dictionary<FeatureType, MultiMeshInstance3D> featureMultiMeshInstanceDict = new();
+            foreach (FeatureType featureType in Global.gameManager.graphicManager.featureTypeModels.Keys)
+            {
+                featureMultiMeshInstanceDict.Add(featureType, new MultiMeshInstance3D());
+            }
+
             yieldMultiMeshInstance.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
 
             MultiMesh multiMesh = new MultiMesh();
             MultiMesh yieldMultiMesh = new MultiMesh();
-            //MeshInstance3D triangles = new MeshInstance3D();
+
+            //feature stuff because its per
+            foreach (FeatureType featureType in featureMultiMeshInstanceDict.Keys)
+            {
+                if(Global.gameManager.graphicManager.featureCount.ContainsKey(featureType))
+                {
+                    MultiMesh featureMultiMesh = new();
+                    Node3D temp = Godot.ResourceLoader.Load<PackedScene>(Global.gameManager.graphicManager.featureTypeModels[featureType]).Instantiate<Node3D>();
+                    MeshInstance3D tempMesh = (MeshInstance3D)temp.GetChild(0);
+                    featureMultiMesh.Mesh = tempMesh.Mesh;
+                    featureMultiMesh.TransformFormat = MultiMesh.TransformFormatEnum.Transform3D;
+                    featureMultiMesh.UseCustomData = true;
+                    featureMultiMesh.InstanceCount = Global.gameManager.graphicManager.featureCount[featureType];
+
+                    featureMultiMeshInstanceDict[featureType].Multimesh = featureMultiMesh;
+                    int l = 0;
+                    for (int j = 0; j < hexListChunks[0].Count; j++)
+                    {
+                        Hex hex = hexListChunks[0][j];
+                        Point worldPos = layout.HexToPixel(hex);
+                        Hex realHex = subHexList[j];
+                        if (Global.gameManager.game.mainGameBoard.gameHexDict[realHex].featureSet.Contains(featureType))
+                        {
+                            Godot.Color hexData = new Godot.Color(realHex.q / 255f, realHex.r / 255f, 0, 1);
+
+                            //feature data
+                            Transform3D featurePosition = new Transform3D(Basis.Identity, new Vector3((float)worldPos.y, -1.0f, (float)worldPos.x));
+                            featureMultiMesh.SetInstanceTransform(l, featurePosition);
+                            featureMultiMeshInstanceDict[featureType].Multimesh.SetInstanceCustomData(l, hexData);
+                            l++;
+                        }
+                    }
+                }
+            }
 
             multiMesh.Mesh = hexMesh;
             multiMesh.TransformFormat = MultiMesh.TransformFormatEnum.Transform3D;
@@ -320,6 +359,8 @@ public partial class GraphicGameBoard : GraphicObject
                 Godot.Color hexData = new Godot.Color(realHex.q / 255f, realHex.r / 255f, 0, 1);
                 multiMeshInstance.Multimesh.SetInstanceCustomData(j, hexData);
 
+
+                //yield data
                 Dictionary<YieldType, float> yieldDict = Global.gameManager.game.mainGameBoard.gameHexDict[realHex].yields.YieldsToDict();
                 for(int l = 0; l < 7; l ++)
                 {
@@ -327,6 +368,16 @@ public partial class GraphicGameBoard : GraphicObject
                     Transform3D yieldTransform = new Transform3D(Basis.Identity, yieldPosition);
                     yieldMultiMesh.SetInstanceTransform(j*7+l, yieldTransform);
                     yieldMultiMeshInstance.Multimesh.SetInstanceCustomData(j*7+l, new Godot.Color(l/7.0f, yieldDict[(YieldType)l]/100.0f, realHex.q / 255f, realHex.r / 255f));//r is type, g is value, b is hex.q, a is hex.r
+                }
+
+                //feature data
+                Transform3D featurePosition = new Transform3D(Basis.Identity, new Vector3((float)worldPos.y, -1.0f, (float)worldPos.x));
+                foreach(FeatureType featureType in Global.gameManager.game.mainGameBoard.gameHexDict[realHex].featureSet)
+                {
+                    if(featureType == FeatureType.Forest)
+                    {
+                        multiMesh.SetInstanceTransform(j, transform);
+                    }
                 }
             }
             foreach (Hex hex in subHexList)
@@ -349,6 +400,11 @@ public partial class GraphicGameBoard : GraphicObject
 
             AddChild(multiMeshInstance);
             multiMeshInstance.AddChild(yieldMultiMeshInstance);
+            foreach(MultiMeshInstance3D MMI in featureMultiMeshInstanceDict.Values)
+            {
+                multiMeshInstance.AddChild(MMI);
+            }
+            
             i++;
         }
         sw.Stop();

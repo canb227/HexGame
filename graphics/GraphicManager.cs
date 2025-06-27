@@ -10,6 +10,7 @@ using System.Xml.Linq;
 
 public partial class GraphicManager : Node3D
 {
+
     public Dictionary<int, GraphicObject> graphicObjectDictionary;
     public Dictionary<Hex, List<GraphicObject>> hexObjectDictionary;
     public Dictionary<int, GraphicObject> toBeDeleted;
@@ -26,6 +27,8 @@ public partial class GraphicManager : Node3D
 
     public Node3D territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb").Instantiate<Node3D>();
 
+    public Dictionary<FeatureType, string> featureTypeModels = new();
+    public Dictionary<FeatureType, int> featureCount = new();
 
     public GraphicManager(Layout layout)
     {
@@ -44,6 +47,7 @@ public partial class GraphicManager : Node3D
         EnviromentManager enviromentManager = new EnviromentManager();
         AddChild(enviromentManager);
         ConfigureAndAddCamera();
+        SetFeatureTypeModels();
     }
 
     public override void _Process(double delta)
@@ -66,6 +70,29 @@ public partial class GraphicManager : Node3D
         AddChild(camera);
         Global.camera = camera;
         this.camera = camera;
+    }
+
+    public void SetFeatureTypeModels()
+    {
+        foreach(FeatureType featureType in Enum.GetValues(typeof(FeatureType)))
+        {
+            if(featureType == FeatureType.Forest)
+            {
+                featureTypeModels.Add(featureType, "res://graphics/models/trees.glb");
+            }
+            else if (featureType == FeatureType.River)
+            {
+                featureTypeModels.Add(featureType, "res://graphics/models/river1.glb");
+            }
+            else if (featureType == FeatureType.Road)
+            {
+                featureTypeModels.Add(featureType, "res://graphics/models/road.glb");
+            }
+            else if (featureType == FeatureType.Coral)
+            {
+                featureTypeModels.Add(featureType, "res://graphics/models/coral.glb");
+            }
+        }
     }
 
 
@@ -118,10 +145,18 @@ public partial class GraphicManager : Node3D
 
     public void NewFeature(Hex hex, FeatureType featureType)
     {
-        GraphicFeature graphicFeature = new GraphicFeature(hex, featureType);
+        if(featureCount.ContainsKey(featureType))
+        {
+            featureCount[featureType] += 1;
+        }
+        else
+        {
+            featureCount.Add(featureType, 1);
+        }
+       /* GraphicFeature graphicFeature = new GraphicFeature(hex, featureType);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         hexObjectDictionary[hex].Add(graphicFeature);
-        ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicFeature);
+        ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicFeature);*/
     }
 
     public void NewYields(Hex hex, Yields yields)

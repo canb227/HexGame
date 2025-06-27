@@ -31,9 +31,9 @@ public enum FeatureType
     Road,
     Coral,
     Wetland,
-    Fortification,
     None
 }
+
 
 [Serializable]
 public class GameHex

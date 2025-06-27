@@ -11,25 +11,25 @@ uniform float chunkCount;
 
 uniform sampler2D visibilityGrid : filter_nearest;
 uniform sampler2D terrainInfo : filter_nearest;
-uniform sampler2D heightMap : filter_linear;
+uniform sampler2D heightMap;
 
-uniform sampler2D grassTex : source_color, filter_linear;
-uniform sampler2D grassNorm : hint_normal, filter_linear;
+uniform sampler2D grassTex : source_color, filter_linear_mipmap;
+uniform sampler2D grassNorm : hint_normal, filter_linear_mipmap;
 
-uniform sampler2D hillTex : source_color, filter_linear;
-uniform sampler2D hillNorm : hint_normal, filter_linear;
+uniform sampler2D hillTex : source_color, filter_linear_mipmap;
+uniform sampler2D hillNorm : hint_normal, filter_linear_mipmap;
 
-uniform sampler2D rockTex : source_color, filter_linear;
-uniform sampler2D rockNorm : hint_normal, filter_linear;
+uniform sampler2D rockTex : source_color, filter_linear_mipmap;
+uniform sampler2D rockNorm : hint_normal, filter_linear_mipmap;
 
-uniform sampler2D sandTex : source_color, filter_linear;
-uniform sampler2D sandNorm : hint_normal, filter_linear;
+uniform sampler2D sandTex : source_color, filter_linear_mipmap;
+uniform sampler2D sandNorm : hint_normal, filter_linear_mipmap;
 
-uniform sampler2D snowTex : source_color, filter_linear;
-uniform sampler2D snowNorm : hint_normal, filter_linear;
+uniform sampler2D snowTex : source_color, filter_linear_mipmap;
+uniform sampler2D snowNorm : hint_normal, filter_linear_mipmap;
 
-uniform sampler2D waterTex : source_color, filter_linear;
-uniform sampler2D waterNorm : hint_normal, filter_linear;
+uniform sampler2D waterTex : source_color, filter_linear_mipmap;
+uniform sampler2D waterNorm : hint_normal, filter_linear_mipmap;
 
 varying flat vec2 visData;
 varying flat vec2 terrainData;
@@ -39,16 +39,14 @@ void vertex() {
     vec2 hexValue = vec2((INSTANCE_CUSTOM.rg * 255.0));
     hexWorldPos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
     //UV = vec2(VERTEX.x/4.0 + 16.0, VERTEX.z/4.0 + 16.0) / vec2(widthDiv,heightDiv);
-    float hoffset = sqrt(3) * 10.0 / 2.0;
-    float voffset = 1.5 * 10.0 / 2.0;
     
     //visibility data
     visData = texture(visibilityGrid, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg;
-    //VERTEX.y += max(visData.r, visData.g) * (texture(heightMap, vec2( ((-hexWorldPos.z)/widthDiv/chunkCount), (hexWorldPos.x+voffset-1.0)/heightDiv)).r * 10.0);// * texture(terrainInfo, hexValue.xy).r;
+
+    //heightmap data
+    VERTEX.y += max(visData.r, visData.g) * (texture(heightMap, vec2( ((-hexWorldPos.z)/widthDiv/chunkCount), (hexWorldPos.x)/heightDiv)).r * 20.0);// * texture(terrainInfo, hexValue.xy).r;
 
     //normal calculation
-
-
 
     //texture data
     terrainData = texture(terrainInfo, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg; //r is temp g is type
@@ -60,7 +58,7 @@ void fragment() {
     //}
     float hoffset = sqrt(3) * 10.0 / 2.0;
     float voffset = 1.5 * 10.0 / 2.0;
-    float terrainHeight = texture(heightMap, vec2((-hexWorldPos.z)/widthDiv/chunkCount, (hexWorldPos.x+voffset-1.0)/heightDiv)).r;
+    float terrainHeight = texture(heightMap, vec2((-hexWorldPos.z)/widthDiv/chunkCount, (hexWorldPos.x)/heightDiv)).r;
 
     //terrainColor setting
     vec3 terrainColor = vec3(0.0, 0.0, 0.0);
@@ -167,6 +165,6 @@ void fragment() {
            + visibleColor * visData.r                             // Fully visible
            + grayscaleColor * visData.g;                          // Grayscale if seen
 
-    ALBEDO = vec3(texture(heightMap, vec2((-hexWorldPos.z)/widthDiv/chunkCount, (hexWorldPos.x+voffset-1.0)/heightDiv)).r,0.0,0.0);
+    //ALBEDO = vec3(texture(heightMap, vec2((-hexWorldPos.z)/widthDiv/chunkCount, (hexWorldPos.x)/heightDiv)).r,0.0,0.0);
     //ALBEDO = vec3((hexValue.x+(floor(hexValue.y/2.0)))/gameBoardWidth, hexValue.y/gameBoardHeight, 0.0);
 }
