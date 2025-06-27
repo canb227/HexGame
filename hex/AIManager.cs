@@ -102,7 +102,7 @@ public partial class AIManager: Node
             if (player.isAI)
             {
                 AI ai = new AI { player = player};
-                aiList.Add(new AI { player=player});
+                aiList.Add(ai);
                 InitStrategy(ai);
             }
         }
@@ -554,7 +554,11 @@ public partial class AIManager: Node
             case AICitySettlingStrategy.GameStart:
                 break;
             case AICitySettlingStrategy.ClosestValidSettle:
-                if (FindClosestValidSettleInRange(ai, unit, 6, out target))
+                if (unit.CanSettleHere(unit.hex, 3))
+                {
+                    Global.gameManager.ActivateAbility(unit.id, "SettleCityAbility", unit.hex);
+                }
+                else if (FindClosestValidSettleInRange(ai, unit, 6, out target))
                 {
                     Global.gameManager.MoveUnit(unit.id, target, false);
                 }
@@ -589,10 +593,26 @@ public partial class AIManager: Node
     }
     private void HandleFounder(AI ai, Unit unit)
     {
-        Global.gameManager.ActivateAbility(unit.id, "SettleCapitalAbility", unit.hex);
+        List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
+        Hex target;
+        if (unit.CanSettleHere(unit.hex, 3))
+        {
+            Global.gameManager.ActivateAbility(unit.id, "SettleCityAbility", unit.hex);
+        }
+        else if (FindClosestValidSettleInRange(ai, unit, 6, out target))
+        {
+            Global.gameManager.MoveUnit(unit.id, target, false);
+        }
+        else
+        {
+            //no valid settle found in range, just move randomly
+            target = validMoves[rng.Next(validMoves.Count)];
+            Global.gameManager.MoveUnit(unit.id, target, false);
+        }
     }
     private void HandleCityExpansion(AI ai, City city)
     {
+        Global.Log(ai.cityExpansionStrategy.ToString() + " expansion strategy for city " + city.name + " (ID: " + city.id + ")");
         switch (ai.cityExpansionStrategy)
         {
             case AICityExpansionStrategy.GameStart:

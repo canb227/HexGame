@@ -117,7 +117,10 @@ public partial class GameManager : Node
         {
             foreach(Player player2 in game.playerDictionary.Values)
             {
-                Global.gameManager.game.teamManager.SetRelationship(player1.teamNum, player2.teamNum, -99);
+                if (player1.teamNum != player2.teamNum)
+                {
+                    Global.gameManager.game.teamManager.SetRelationship(player1.teamNum, player2.teamNum, -99);
+                }
             }
         }
         if (isHost)
