@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 public class MapGenerator
 {
-    public const int TINY_WIDTH = 56;
+    public const int TINY_WIDTH = 44;
     public const int TINY_HEIGHT = 26;
     public const int TINY_ARCTIC_HEIGHT = 1;
     public const int TINY_EROSION_FACTOR = 5;
@@ -19,7 +19,7 @@ public class MapGenerator
     public const int SMALL_ARCTIC_HEIGHT = 1;
     public const int SMALL_EROSION_FACTOR = 10;
 
-    public const int MEDIUM_WIDTH = 88;
+    public const int MEDIUM_WIDTH = 84;
     public const int MEDIUM_HEIGHT = 54;
     public const int MEDIUM_ARCTIC_HEIGHT = 2;
     public const int MEDIUM_EROSION_FACTOR = 15;
@@ -29,7 +29,7 @@ public class MapGenerator
     public const int LARGE_ARCTIC_HEIGHT = 2;
     public const int LARGE_EROSION_FACTOR = 20;
 
-    public const int HUGE_WIDTH = 104;
+    public const int HUGE_WIDTH = 108;
     public const int HUGE_HEIGHT = 66;
     public const int HUGE_ARCTIC_HEIGHT = 2;
     public const int HUGE_EROSION_FACTOR = 25;
