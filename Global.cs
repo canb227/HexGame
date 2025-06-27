@@ -181,6 +181,18 @@ public partial class Global : Node
             }
             Global.gameManager.graphicManager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
         }
+        if (ImGui.Button("Wireframe Mode"))
+        {
+            if (GetViewport().DebugDraw == Viewport.DebugDrawEnum.Wireframe)
+            {
+                GetViewport().DebugDraw = Viewport.DebugDrawEnum.Disabled;
+            }
+            else
+            {
+                GetViewport().DebugDraw = Viewport.DebugDrawEnum.Wireframe;
+            }
+            
+        }
         if (ImGui.Button("Close Debug Menu"))
         {
             ShowDebugConsole = false;
