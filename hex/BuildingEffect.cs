@@ -135,6 +135,15 @@ public class BuildingEffect
             { "MineEffect", MineEffect },
             { "LumbermillEffect", LumbermillEffect },
             { "FishingBoatEffect", FishingBoatEffect },
+            { "RefineryEffect", RefineryEffect },
+            { "IndustryEffect", IndustryEffect },
+            { "CommerceEffect", CommerceEffect },
+            { "CampusEffect", CampusEffect },
+            { "CulturalEffect", CulturalEffect },
+            { "EntertainmentEffect", EntertainmentEffect },
+            { "AdministrativeEffect", AdministrativeEffect },
+            { "HarborEffect", HarborEffect },
+            { "MilitaristicEffect", MilitaristicEffect },
             { "GranaryWarehouseEffect", GranaryWarehouseEffect },
             { "DockWarehouseEffect", DockWarehouseEffect },
             { "StoneCutterWarehouseEffect", StoneCutterWarehouseEffect },
@@ -198,6 +207,51 @@ public class BuildingEffect
     {
 
     }
+    void RefineryEffect(Building building)
+    {
+
+    }
+
+    void IndustryEffect(Building building)
+    {
+
+    }
+
+    void CommerceEffect(Building building)
+    {
+
+    }
+
+    void CampusEffect(Building building)
+    {
+
+    }
+
+    void CulturalEffect(Building building)
+    {
+
+    }
+
+    void EntertainmentEffect(Building building)
+    {
+
+    }
+
+    void AdministrativeEffect(Building building)
+    {
+
+    }
+
+    void HarborEffect(Building building)
+    {
+
+    }
+
+    void MilitaristicEffect(Building building)
+    {
+
+    }
+
     void GranaryWarehouseEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].flatYields.food += 1;
