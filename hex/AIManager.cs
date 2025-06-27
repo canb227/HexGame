@@ -163,7 +163,7 @@ public partial class AIManager: Node
             {
                 foreach (District district in city.districts)
                 {
-                    if (FindClosestEnemyUnitInRange(ai, district.hex, 2, out Hex target))
+                    if (FindClosestAnyEnemyInRange(ai, district.hex, 2, out Hex target))
                     {
                         if (!ai.urgentDefenseTargets.Contains(target))
                         {
@@ -277,13 +277,12 @@ public partial class AIManager: Node
     }
     private void HandleNavalMilitary(AI ai, Unit unit)
     {
-        Global.gameManager.ActivateAbility(unit.id, "Sleep", unit.hex);
+        AIActivateAbility(ai, unit, "Sleep", unit.hex);
     }
     private void HandleRangedMilitary(AI ai, Unit unit)
     {
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         Hex target;
-        bool isEnemyPresent = false;
         UnitAbility rangedAttack = unit.abilities.FirstOrDefault(a => a.name.Equals("RangedAttack"));
         switch (ai.militaryUnitStrategy)
         {
@@ -291,82 +290,69 @@ public partial class AIManager: Node
                 break;
             case AIMilitaryUnitStrategy.RANDOM:
                 target = validMoves[rng.Next(validMoves.Count)];
-                if (Global.gameManager.game.mainGameBoard.gameHexDict[target].units.Count > 0)
-                {
-                    foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[target].units)
-                    {
-                        if (Global.gameManager.game.unitDictionary[unitID].teamNum != ai.player.teamNum)
-                        {
-                            isEnemyPresent = true;
-                        }
-                    }
-                }
-                if (target.WrapDistance(unit.hex)<=rangedAttack.range)
-                {
-                    Global.gameManager.ActivateAbility(unit.id, "RangedAttack", target);
-                }
-                else
-                {
-                    Global.gameManager.MoveUnit(unit.id, target, isEnemyPresent);
-                }
-                break;
-            case AIMilitaryUnitStrategy.RANDOM_AGGRESSIVE:
-                if (FindClosestEnemyUnitInRange(ai, unit.hex, 6, out target))
+                if (IsRangedAttackableHex(ai,target))
                 {
                     if (target.WrapDistance(unit.hex) <= rangedAttack.range)
                     {
-                        Global.gameManager.ActivateAbility(unit.id, "RangedAttack", target);
+                        AIActivateAbility(ai, unit, "RangedAttack", target);
+                        break;
                     }
                     else
                     {
-                        Global.gameManager.MoveUnit(unit.id, target, isEnemyPresent);
+                        AIMoveUnit(ai, unit, target);
                     }
-                    Global.gameManager.MoveUnit(unit.id, target, true);
                 }
                 else
                 {
-                    //no enemy unit found in range, just move randomly
-                    target = validMoves[rng.Next(validMoves.Count)];
-                    Global.gameManager.MoveUnit(unit.id, target, false);
+                    AIMoveUnit(ai, unit, target);
+                }
+                break;
+            case AIMilitaryUnitStrategy.RANDOM_AGGRESSIVE:
+                if (FindClosestAnyEnemyInRange(ai, unit.hex, 6, out target))
+                {
+                    if (target.WrapDistance(unit.hex) <= rangedAttack.range)
+                    {
+                        AIActivateAbility(ai, unit, "RangedAttack", target);
+                    }
+                    else
+                    {
+                        AIMoveUnit(ai, unit, target);
+                    }
+                }
+                else
+                {
+                    RandomMoveNoAttack(ai, unit, validMoves);
                 }
                 break;
             default:
                 throw new NotImplementedException($"Military strategy {ai.militaryUnitStrategy} is not implemented.");
         }
     }
+
+    private void AIActivateAbility(AI ai, Unit unit, string abilityName, Hex target)
+    {
+        Global.gameManager.ActivateAbility(unit.id, abilityName, target);
+    }
+
     private void HandleMeleeMilitary(AI ai, Unit unit)
     {
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
-        Hex target;
-        bool isEnemyPresent = false;
         switch (ai.militaryUnitStrategy)
         {
             case AIMilitaryUnitStrategy.GameStart:
                 break;
             case AIMilitaryUnitStrategy.RANDOM:
-                target = validMoves[rng.Next(validMoves.Count)];
-                if (Global.gameManager.game.mainGameBoard.gameHexDict[target].units.Count > 0)
-                {
-                    foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[target].units)
-                    {
-                        if (Global.gameManager.game.unitDictionary[unitID].teamNum != ai.player.teamNum)
-                        {
-                            isEnemyPresent = true;
-                        }
-                    }
-                }
-                Global.gameManager.MoveUnit(unit.id, target, isEnemyPresent);
+                RandomMoveOrAttack(ai, unit, validMoves);
                 break;
             case AIMilitaryUnitStrategy.RANDOM_AGGRESSIVE:
-                if (FindClosestEnemyUnitInRange(ai, unit.hex, 6, out target))
+                if (FindClosestAnyEnemyInRange(ai, unit.hex, 6, out Hex target))
                 {
-                    Global.gameManager.MoveUnit(unit.id, target, true);
+                    AIMoveUnit(ai, unit, target);
                 }
                 else
                 {
                     //no enemy unit found in range, just move randomly
-                    target = validMoves[rng.Next(validMoves.Count)];
-                    Global.gameManager.MoveUnit(unit.id, target, false);
+                    RandomMoveOrAttack(ai, unit, validMoves);
                 }
                 break;
             default:
@@ -374,7 +360,39 @@ public partial class AIManager: Node
         }
 
     }
-    private bool FindClosestEnemyUnitInRange(AI ai, Hex hex, int range, out Hex target)
+
+    private void AIMoveUnit(AI ai, Unit unit, Hex target)
+    {
+        if (IsSafeHex(ai, target))
+        {
+            Global.gameManager.MoveUnit(unit.id, target, false);
+        }
+        else
+        {
+            Global.gameManager.MoveUnit(unit.id, target, true);
+        }
+    }
+
+    private void RandomMoveOrAttack(AI ai, Unit unit, List<Hex> validMoves)
+    {
+        Hex target = validMoves[rng.Next(validMoves.Count)]; 
+        AIMoveUnit(ai, unit, target);
+    }
+
+    private void RandomMoveNoAttack(AI ai, Unit unit, List<Hex> validMoves)
+    {
+        List<Hex> safeMoves = new List<Hex>();
+        foreach (Hex hex in validMoves.ToList())
+        {
+            if (IsSafeHex(ai,hex))
+            {
+                safeMoves.Add(hex);
+            }
+        }
+        Hex target = safeMoves[rng.Next(safeMoves.Count)];
+        AIMoveUnit(ai, unit, target);
+    }
+    private bool FindClosestAnyEnemyInRange(AI ai, Hex hex, int range, out Hex target)
     {
         Unit unit = new Unit("Warrior",-1,ai.player.teamNum); 
         unit.hex = hex; //create a dummy unit at the given hex
@@ -382,119 +400,101 @@ public partial class AIManager: Node
         List<Hex> targets = new();
         foreach (Hex h in hexesInRange)
         {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[h].units.Count>0)
+            if (!IsSafeHex(ai,hex))
             {
-                foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[h].units)
-                {
-                    if (IsEnemy(Global.gameManager.game.unitDictionary[unitID].teamNum))
-                    {
-                        targets.Add(h); //found an enemy unit in range
-                        break; //no need to check other units in this hex
-                    }
-                }
+                targets.Add(h); //found an enemy unit in range
             }
         }
         if (targets.Count > 0)
         {
+            target = targets[0];
+            float lowCost = float.MaxValue;
             foreach (Hex h in targets)
             {
-                float lowCost = float.MaxValue;
-                float cost = 0f;
-                unit.PathFind(unit.hex, h, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out cost);
+                unit.PathFind(unit.hex, h, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out float cost);
                 if (cost < lowCost)
                 {
                     target = h; //find the closest district
-                    return true;
                 }
             }
+            return true;
         }
-        Global.gameManager.game.unitDictionary.Remove(-1);
-        target = new Hex(); //return an empty hex if no district found
-        return false; //no enemy district found in range
-    }
-    private bool FindClosestAnyTargetInRange(AI ai, Unit unit, int range, out Hex target)
-    {
-        List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
-        List<Hex> targets = new();
-        foreach (Hex h in hexesInRange)
+        else
         {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[h].units.Count > 0)
-            {
-                foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[h].units)
-                {
-                    if (IsEnemy(Global.gameManager.game.unitDictionary[unitID].teamNum))
-                    {
-                        targets.Add(h); //found an enemy unit in range
-                        break; //no need to check other units in this hex
-                    }
-                }
-            }
-            else if (Global.gameManager.game.mainGameBoard.gameHexDict[h].district != null)
-            {
-                if (IsEnemy(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[h].district.cityID].teamNum))
-                {
-                    if (Global.gameManager.game.mainGameBoard.gameHexDict[h].district.health > 0)
-                    {
-                        targets.Add(h); //found an enemy district in range
-                    }
-                }
-            }
+            Global.gameManager.game.unitDictionary.Remove(-1);
+            target = new Hex(); //return an empty hex if no district found
+            return false; //no enemy district found in range
         }
-        if (targets.Count > 0)
-        {
-            foreach (Hex hex in targets)
-            {
-                float lowCost = float.MaxValue;
-                float cost = 0f;
-                unit.PathFind(unit.hex, hex, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out cost);
-                if (cost < lowCost)
-                {
-                    target = hex; //find the closest district
-                    return true;
-                }
-            }
-        }
-        target = new Hex(); //return an empty hex if no district found
-        return false; //no enemy district found in range
     }
-    private bool FindClosestEnemyDistrictInRange(AI ai, Unit unit, int range, out Hex target)
+
+    private bool IsEnemy(int selfTeam, int otherTeam)
     {
-        List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
-        List<Hex> targets = new();
-        foreach (Hex h in hexesInRange)
+        return Global.gameManager.game.teamManager.GetEnemies(selfTeam).Contains(otherTeam);
+    }
+
+    private bool IsSafeHex(AI ai, Hex hex)
+    {
+        //check if the hex is safe from enemy units
+        foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[hex].units)
         {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[h].district!=null)
+            Unit unit = Global.gameManager.game.unitDictionary[unitID];
+            if (IsEnemy(ai.player.teamNum, unit.teamNum))
             {
-                if (IsEnemy(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[h].district.cityID].teamNum))
-                {
-                    if (Global.gameManager.game.mainGameBoard.gameHexDict[h].district.health>0)
-                    {
-                        targets.Add(h); //found an enemy district in range
-                    }
-                }
+                return false; //hex is not safe, it has an enemy unit
             }
         }
-        if (targets.Count > 0)
-        {   
-           foreach(Hex hex in targets)
-           {
-                float lowCost = float.MaxValue;
-                float cost = 0f;
-                unit.PathFind(unit.hex, hex, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out cost);
-                if (cost<lowCost)
-                {
-                    target = hex; //find the closest district
-                    return true;
-                }
-           }
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.health > 0)
+        {
+            if (IsEnemy(ai.player.teamNum, Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].teamNum))
+            {
+                return false; //hex is not safe, it has an enemy district
+            }
         }
-        target = new Hex(); //return an empty hex if no district found
-        return false; //no enemy district found in range
+        return true; //hex is safe
     }
-    private bool IsEnemy(int teamNum)
+
+    private bool IsMeleeAttackableHex(AI ai, Hex hex)
     {
-        return Global.gameManager.game.teamManager.GetEnemies(Global.gameManager.game.localPlayerTeamNum).Contains(teamNum);
+        //check if the hex is safe from enemy units
+        foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[hex].units)
+        {
+            Unit unit = Global.gameManager.game.unitDictionary[unitID];
+            if (IsEnemy(ai.player.teamNum, unit.teamNum))
+            {
+                return true; 
+            }
+        }
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.health > 0)
+        {
+            if (IsEnemy(ai.player.teamNum, Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].teamNum))
+            {
+                return true; 
+            }
+        }
+        return false; 
     }
+
+    private bool IsRangedAttackableHex(AI ai, Hex hex)
+    {
+        //check if the hex is safe from enemy units
+        foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[hex].units)
+        {
+            Unit unit = Global.gameManager.game.unitDictionary[unitID];
+            if (IsEnemy(ai.player.teamNum, unit.teamNum))
+            {
+                return true; 
+            }
+        }
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.health > 0)
+        {
+            if (IsEnemy(ai.player.teamNum, Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].teamNum))
+            {
+                return true; 
+            }
+        }
+        return false; 
+    }
+
     private bool FindClosestValidSettleInRange(AI ai, Unit unit, int range, out Hex target)
     {
         List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
@@ -531,15 +531,7 @@ public partial class AIManager: Node
             case AIScoutStrategy.GameStart:
                 break;
             case AIScoutStrategy.RANDOM:
-                foreach (Hex hex in validMoves.ToList())
-                {
-                    if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Count > 0)
-                    {
-                        validMoves.Remove(hex);
-                    }
-                }
-                Hex target = validMoves[rng.Next(validMoves.Count)];
-                Global.gameManager.MoveUnit(unit.id, target, false);
+                RandomMoveNoAttack(ai, unit, validMoves);
                 break;
             default:
                 break;
@@ -556,35 +548,25 @@ public partial class AIManager: Node
             case AICitySettlingStrategy.ClosestValidSettle:
                 if (unit.CanSettleHere(unit.hex, 3))
                 {
-                    Global.gameManager.ActivateAbility(unit.id, "SettleCityAbility", unit.hex);
+                    AIActivateAbility(ai, unit, "SettleCityAbility", unit.hex);
                 }
                 else if (FindClosestValidSettleInRange(ai, unit, 6, out target))
                 {
-                    Global.gameManager.MoveUnit(unit.id, target, false);
+                    AIMoveUnit(ai, unit, target);
                 }
                 else
                 {
-                    //no valid settle found in range, just move randomly
-                    target = validMoves[rng.Next(validMoves.Count)];
-                    Global.gameManager.MoveUnit(unit.id, target, false);
+                    RandomMoveNoAttack(ai, unit, validMoves);
                 }
                 break;
             case AICitySettlingStrategy.RANDOM:
                 if (unit.CanSettleHere(unit.hex,3))
                 {
-                    Global.gameManager.ActivateAbility(unit.id, "SettleCityAbility", unit.hex);
+                    AIActivateAbility(ai, unit, "SettleCityAbility", unit.hex);
                 }
                 else
                 {
-                    foreach (Hex hex in validMoves.ToList())
-                    {
-                        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Count > 0)
-                        {
-                            validMoves.Remove(hex);
-                        }
-                    }
-                    target = validMoves[rng.Next(validMoves.Count)];
-                    Global.gameManager.MoveUnit(unit.id, target, false);
+                    RandomMoveNoAttack(ai, unit, validMoves);
                 }
                 break;
             default:
@@ -597,17 +579,15 @@ public partial class AIManager: Node
         Hex target;
         if (unit.CanSettleHere(unit.hex, 3))
         {
-            Global.gameManager.ActivateAbility(unit.id, "SettleCapitalAbility", unit.hex);
+            AIActivateAbility(ai, unit, "SettleCapitalAbility", unit.hex);
         }
         else if (FindClosestValidSettleInRange(ai, unit, 6, out target))
         {
-            Global.gameManager.MoveUnit(unit.id, target, false);
+            AIMoveUnit(ai, unit, target);
         }
         else
         {
-            //no valid settle found in range, just move randomly
-            target = validMoves[rng.Next(validMoves.Count)];
-            Global.gameManager.MoveUnit(unit.id, target, false);
+            RandomMoveNoAttack(ai, unit, validMoves);
         }
     }
     private void HandleCityExpansion(AI ai, City city)
