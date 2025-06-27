@@ -23,7 +23,7 @@ public class District
     public List<Hex> visibleHexes { get; set; } = new();
     public float health { get; set; } = 0.0f;
     public float maxHealth{ get; set; } = 0.0f;
-    public int maxBuildings { get; set; }  = 1;
+    public int maxBuildings { get; set; }  = 99;
     public int maxDefenses { get; set; } = 1;
     public int turnsUntilHealing { get; set; } = 0;
 

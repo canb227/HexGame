@@ -972,36 +972,6 @@ public class City
                         return true;
                     }
                 }
-                //hex has a urban district with space to expand
-                
-                else if (targetGameHex.district != null && targetGameHex.district.isUrban && targetGameHex.district.maxBuildings < maxDistrictSize)
-                {
-                    //hex doesnt have a enemy unit
-                    bool noEnemyUnit = true;
-                    foreach (int unitID in targetGameHex.units)
-                    {
-                        Unit unit = Global.gameManager.game.unitDictionary[unitID];
-                        if (Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(unit.teamNum))
-                        {
-                            noEnemyUnit = false;
-                            break;
-                        }
-                    }
-                    //have an adjacent urban district
-                    bool adjacentUrbanDistrict = false;
-                    foreach (Hex hex in targetGameHex.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
-                    {
-                        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID == id)
-                        {
-                            adjacentUrbanDistrict = true;
-                            break;
-                        }
-                    }
-                    if (noEnemyUnit && adjacentUrbanDistrict)
-                    {
-                        return true;
-                    }
-                }
             }
         }
         return false;
