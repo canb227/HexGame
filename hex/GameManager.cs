@@ -113,8 +113,13 @@ public partial class GameManager : Node
         SpawnPlayers();
         Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
-        //graphicManager.StartNewTurn();
-
+        foreach (Player player1 in game.playerDictionary.Values)
+        {
+            foreach(Player player2 in game.playerDictionary.Values)
+            {
+                Global.gameManager.game.teamManager.SetRelationship(player1.teamNum, player2.teamNum, -99);
+            }
+        }
         if (isHost)
         {
             AIManager aIManager = new AIManager();
@@ -125,23 +130,18 @@ public partial class GameManager : Node
     public void SpawnPlayers()
     {
         Global.Log("Spawning Players. Total: " + game.playerDictionary.Count);
-        for (int i = 0; i < game.playerDictionary.Count; i++)
+        foreach (Player player in game.playerDictionary.Values)
         {
-            //Global.debugLog("Spawning player: " + game.playerDictionary[i]);
-            if (game.playerDictionary[i].teamNum == 0)
+            if (player.teamNum == 0)
             {
                 //Global.debugLog("Skipping player spawn for team 0");
             }
             else
             {
-                Unit playerSettler = new Unit("Founder", game.GetUniqueID(game.playerDictionary[i].teamNum), game.playerDictionary[i].teamNum);
+                Unit playerSettler = new Unit("Founder", game.GetUniqueID(player.teamNum), player.teamNum);
                 game.mainGameBoard.gameHexDict[PickRandomValidHex()].SpawnUnit(playerSettler, false, true);
             }
-
         }
-
-
-
     }
 
     public Hex PickRandomValidHex()
@@ -149,7 +149,7 @@ public partial class GameManager : Node
         List<Hex> list = new List<Hex>();
         foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
         {
-            if (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null)
+            if (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null && game.mainGameBoard.gameHexDict[hex].resourceType==ResourceType.None)
             {
                 list.Add(hex);
             }

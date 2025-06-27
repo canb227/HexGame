@@ -223,6 +223,8 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
         return (int)((dq + dr + ds) / 2);
     }
 
+    
+
 }
 
 public struct FractionalHex

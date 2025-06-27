@@ -296,8 +296,11 @@ public partial class Lobby : Control
             Global.gameManager.game.AddPlayer(10, 0, 0, Godot.Colors.Black, false);
             foreach (ulong playerID in PlayerStatuses.Keys)
             {
-                Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team + " and color: " + PlayerColors[(int)PlayerStatuses[playerID].ColorIndex].ToString());
-                Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID, PlayerColors[(int)PlayerStatuses[playerID].ColorIndex], PlayerStatuses[playerID].IsAI);
+                if (playerID!=Global.clientID)
+                {
+                    Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team + " and color: " + PlayerColors[(int)PlayerStatuses[playerID].ColorIndex].ToString());
+                    Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID, PlayerColors[(int)PlayerStatuses[playerID].ColorIndex], PlayerStatuses[playerID].IsAI);
+                }
             }
             Global.gameManager.isHost = isHost;
             Global.gameManager.startGame(0);
