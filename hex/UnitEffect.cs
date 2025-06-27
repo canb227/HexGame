@@ -236,7 +236,7 @@ public class UnitEffect
     }
     public bool SettleCity(Unit unit, String cityName)
     {
-        if (unit.CanSettleHere(unit.hex, 3))
+        if (unit.CanSettleHere(unit.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }))
         {
             if (unit.unitType == "Settler")
             {
