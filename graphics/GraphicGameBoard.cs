@@ -2,6 +2,7 @@ using Godot;
 using NetworkMessages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime;
@@ -115,8 +116,51 @@ public partial class GraphicGameBoard : GraphicObject
 
     private void AddBoard(List<Hex> hexList, int chunkCount, Layout pointy)
     {
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+        CompressedTexture2D grassTex = GD.Load<CompressedTexture2D>("res://graphics/textures/grass.jpg");
+        CompressedTexture2D grassNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/grass_norm.png");
+        CompressedTexture2D hillTex = GD.Load<CompressedTexture2D>("res://graphics/textures/hills.jpg");
+        CompressedTexture2D hillNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/hills_norm.png");
+        CompressedTexture2D rockTex = GD.Load<CompressedTexture2D>("res://graphics/textures/mountain.png");
+        CompressedTexture2D rockNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/rock_norm.png");
+        CompressedTexture2D sandTex = GD.Load<CompressedTexture2D>("res://graphics/textures/sand.jpg");
+        CompressedTexture2D sandNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/sand_norm.png");
+        CompressedTexture2D snowTex = GD.Load<CompressedTexture2D>("res://graphics/textures/snow.jpg");
+        CompressedTexture2D snowNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/snow_norm.png");
+        CompressedTexture2D waterTex = GD.Load<CompressedTexture2D>("res://graphics/textures/water.jpg");
+        CompressedTexture2D waterNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/water_norm.jpg");
+
+
+        terrainInfoImage = GenerateTerrainInfoImage();
+        ImageTexture terrainInfoTexture = ImageTexture.CreateFromImage(terrainInfoImage);
+
+        ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
+        terrainShaderMaterial.Shader = terrainShader;
+        terrainShaderMaterial.SetShaderParameter("terrainInfo", terrainInfoTexture);
+
+        terrainShaderMaterial.SetShaderParameter("grassTex", grassTex);
+        terrainShaderMaterial.SetShaderParameter("grassNorm", grassNorm);
+        terrainShaderMaterial.SetShaderParameter("hillTex", hillTex);
+        terrainShaderMaterial.SetShaderParameter("hillNorm", hillNorm);
+        terrainShaderMaterial.SetShaderParameter("rockTex", rockTex);
+        terrainShaderMaterial.SetShaderParameter("rockNorm", rockNorm);
+        terrainShaderMaterial.SetShaderParameter("sandTex", sandTex);
+        terrainShaderMaterial.SetShaderParameter("sandNorm", sandNorm);
+        terrainShaderMaterial.SetShaderParameter("snowTex", snowTex);
+        terrainShaderMaterial.SetShaderParameter("snowNorm", snowNorm);
+        terrainShaderMaterial.SetShaderParameter("waterTex", waterTex);
+        terrainShaderMaterial.SetShaderParameter("waterNormal", waterNorm);
+
+
         int boardWidth = Global.gameManager.game.mainGameBoard.right - Global.gameManager.game.mainGameBoard.left;
-        chunkSize = (int) Math.Ceiling((float)boardWidth/chunkCount);
+        chunkSize = (int)Math.Ceiling((float)boardWidth / chunkCount);
+
+        terrainShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
+        terrainShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
+        terrainShaderMaterial.SetShaderParameter("widthDiv", Math.Sqrt(3) * 10.0f * (chunkSize));
+        terrainShaderMaterial.SetShaderParameter("heightDiv", 1.5 * 10.0 * Global.gameManager.game.mainGameBoard.bottom);
+
         List<List<Hex>> hexListChunks = new List<List<Hex>>();
         for (int chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
         {
@@ -141,7 +185,7 @@ public partial class GraphicGameBoard : GraphicObject
         List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
         List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
         UpdateVisibilityTexture(visible, seen);
-
+        terrainShaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
         Vector3[] yieldOffsets = new Vector3[] {
             new Vector3( 0.0f, 1.0f,  4.0f),
             new Vector3( 0.0f, 1.0f,  0.0f), 
@@ -151,6 +195,93 @@ public partial class GraphicGameBoard : GraphicObject
             new Vector3(-3.0f, 1.0f,  3.0f),
             new Vector3(-3.0f, 1.0f, -3.0f),
         };
+
+
+
+
+        ShaderMaterial yieldShaderMaterial = new ShaderMaterial();
+        yieldShaderMaterial.Shader = yieldShader;
+
+        float hSpace = (float)Math.Sqrt(3) * 10.0f;
+        float vSpace = 10.0f;
+        float chunkOffset = 0;
+
+
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.Frequency = 0.05f;
+        int noiseImageSizeX = (int)((chunkSize) * chunkCount * hSpace);
+        int noiseImageSizeY = (int)(Global.gameManager.game.mainGameBoard.bottom * 1.5f * 10);
+
+        //noise.Offset = new Vector3((float)(hSpace/2.0f - chunkOffset), 0.0f, 0.0f);
+        Image heightMap = Godot.Image.CreateEmpty(noiseImageSizeX, noiseImageSizeY, false, Image.Format.Rgba8);
+        Image noiseMap = noise.GetSeamlessImage(noiseImageSizeX, noiseImageSizeY);
+
+        for (int x = 0; x < noiseImageSizeX; x++)
+        {
+            for (int y = 0; y < noiseImageSizeY; y++)
+            {
+                Godot.Color pix = heightMap.GetPixel(x, y);
+                //pix = new Godot.Color(pix.R / 2.0f + 0.5f, 0.0f, 0.0f);
+                FractionalHex fHex = Global.layout.PixelToHex(new Point(-x + hSpace / 2.0f - chunkOffset, (y - vSpace / 2.0f)));
+                Hex hex = fHex.HexRound();
+                Hex wrapHex = hex.WrapHex();
+                //heightMap.SetPixel(x, y, new Godot.Color((float)x/noiseImageSize, 0.0f, 0.0f));
+                //GD.Print(wrapHex);
+
+                if (Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(wrapHex, out GameHex gameHex))
+                {
+                    //GD.Print(x + ", " + y + " " + wrapHex);
+                    if (gameHex.terrainType == TerrainType.Mountain)
+                    {
+                        heightMap.SetPixel(x, y, new Godot.Color(1.0f, 0.0f, 0.0f));
+                    }
+                    else if (gameHex.terrainType == TerrainType.Rough)
+                    {
+                        heightMap.SetPixel(x, y, new Godot.Color(0.4f, 0.0f, 0.0f));
+
+                    }
+                    else if (gameHex.terrainType == TerrainType.Flat)
+                    {
+                        heightMap.SetPixel(x, y, new Godot.Color(0.1f, 0.0f, 0.0f));
+                    }
+                    else
+                    {
+                        heightMap.SetPixel(x, y, new Godot.Color(0.0f, 0.0f, 0.0f));
+                    }
+                }
+                else
+                {
+                    heightMap.SetPixel(x, y, new Godot.Color(0.0f, 0.0f, 0.0f));
+                }
+            }
+        }
+        heightMap.SavePng("heightMap.png");
+        GaussianBlur(heightMap, 3);
+
+        //apply noise
+        for (int x = 0; x < noiseImageSizeX; x++)
+        {
+            for (int y = 0; y < noiseImageSizeY; y++)
+            {
+                heightMap.SetPixel(x, y, new Godot.Color(noiseMap.GetPixel(x, y).R * heightMap.GetPixel(x, y).R, 0.0f, 0.0f));
+            }
+        }
+        heightMap.SavePng("heightMapBlurredNoised.png");
+
+        heightMapTexture = ImageTexture.CreateFromImage(heightMap);
+        terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
+        terrainShaderMaterial.SetShaderParameter("chunkCount", chunkCount);
+
+
+        CompressedTexture2D yieldAtlasTexture = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/yieldsatlas.png");
+        CompressedTexture2D digitAtlasTexture = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/numberatlas.png");
+
+        //ImageTexture yieldAtlasTexture = ImageTexture.CreateFromImage(yieldAtlas);
+        yieldShaderMaterial.SetShaderParameter("yieldAtlas", yieldAtlasTexture);
+        yieldShaderMaterial.SetShaderParameter("digitAtlas", digitAtlasTexture);
+        yieldShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
+        yieldShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
+        yieldShaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
 
         int i = 0;
         foreach(List<Hex> subHexList in hexListChunks)
@@ -204,133 +335,13 @@ public partial class GraphicGameBoard : GraphicObject
             }
             //triangles.Mesh = GenerateHexTriangles(subHexList, hexListChunks[0], i, pointy);
 
-            ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
-            terrainShaderMaterial.Shader = terrainShader;
-
-            ShaderMaterial yieldShaderMaterial = new ShaderMaterial();
-            yieldShaderMaterial.Shader = yieldShader;
-
-            float hSpace = (float)Math.Sqrt(3) * 10.0f;
-            float vSpace = 10.0f;
-            float chunkOffset = (float)(i * chunkSize * hSpace);
-
-
-            FastNoiseLite noise = new FastNoiseLite();
-            noise.Frequency = 0.05f;
-            int noiseImageSizeX = (int)((chunkSize+1) * hSpace);
-            int noiseImageSizeY = (int)(Global.gameManager.game.mainGameBoard.bottom * 1.5f * 10);
-
-            noise.Offset = new Vector3((float)(hSpace/2.0f - chunkOffset), 0.0f, 0.0f);
-            Image heightMap = Godot.Image.CreateEmpty(noiseImageSizeX, noiseImageSizeY, false, Image.Format.Rgba8);
-            Image noiseMap = noise.GetImage(noiseImageSizeX, noiseImageSizeY);
-
-            for (int x = 0; x < noiseImageSizeX; x++)
-            {
-                for(int y = 0; y < noiseImageSizeY; y++)
-                {
-                    Godot.Color pix = heightMap.GetPixel(x, y);
-                    //pix = new Godot.Color(pix.R / 2.0f + 0.5f, 0.0f, 0.0f);
-                    FractionalHex fHex = Global.layout.PixelToHex(new Point(-x + hSpace/2.0f - chunkOffset, (y - vSpace/2.0f)));
-                    Hex hex = fHex.HexRound(); 
-                    Hex wrapHex = hex.WrapHex();
-                    //heightMap.SetPixel(x, y, new Godot.Color((float)x/noiseImageSize, 0.0f, 0.0f));
-                    //GD.Print(wrapHex);
-                    
-                    if (Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(wrapHex, out GameHex gameHex))
-                    {
-                        //GD.Print(x + ", " + y + " " + wrapHex);
-                        if (gameHex.terrainType == TerrainType.Mountain)
-                        {
-                            heightMap.SetPixel(x, y, new Godot.Color(1.0f, 0.0f, 0.0f));
-                        }
-                        else if (gameHex.terrainType == TerrainType.Rough)
-                        {
-                            heightMap.SetPixel(x, y, new Godot.Color(0.4f, 0.0f, 0.0f));
-
-                        }
-                        else if (gameHex.terrainType == TerrainType.Flat)
-                        {
-                            heightMap.SetPixel(x, y, new Godot.Color(0.1f, 0.0f, 0.0f));
-                        }
-                        else
-                        {
-                            heightMap.SetPixel(x, y, new Godot.Color(0.0f, 0.0f, 0.0f));
-                        }
-                    }
-                    else
-                    {
-                        heightMap.SetPixel(x, y, new Godot.Color(0.0f, 0.0f, 0.0f));
-                    }
-                }
-            }
-            //heightMap.SavePng("heightMap" + i + ".png");
-            GaussianBlur(heightMap, 3);
-            //heightMap.SavePng("heightMapBlurred" + i + ".png");
-
-            //apply noise
-            for (int x = 0; x < noiseImageSizeX; x++)
-            {
-                for (int y = 0; y < noiseImageSizeY; y++)
-                {
-                    heightMap.SetPixel(x, y, new Godot.Color(noiseMap.GetPixel(x,y).R * heightMap.GetPixel(x,y).R, 0.0f, 0.0f));    
-                }
-            }
-
-            heightMapTexture = ImageTexture.CreateFromImage(heightMap);
-
-
-            terrainInfoImage = GenerateTerrainInfoImage();
-            ImageTexture terrainInfoTexture = ImageTexture.CreateFromImage(terrainInfoImage);
-
-            terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
-            terrainShaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
-            terrainShaderMaterial.SetShaderParameter("terrainInfo", terrainInfoTexture);
-
-            CompressedTexture2D grassTex = GD.Load<CompressedTexture2D>("res://graphics/textures/grass.jpg");
-            terrainShaderMaterial.SetShaderParameter("grassTex", grassTex);
-            CompressedTexture2D grassNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/grass_norm.png");
-            terrainShaderMaterial.SetShaderParameter("grassNorm", grassNorm);
-            CompressedTexture2D hillTex = GD.Load<CompressedTexture2D>("res://graphics/textures/hills.jpg");
-            terrainShaderMaterial.SetShaderParameter("hillTex", hillTex);
-            CompressedTexture2D hillNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/hills_norm.png");
-            terrainShaderMaterial.SetShaderParameter("hillNorm", hillNorm);
-            CompressedTexture2D rockTex = GD.Load<CompressedTexture2D>("res://graphics/textures/mountain.png");
-            terrainShaderMaterial.SetShaderParameter("rockTex", rockTex);
-            CompressedTexture2D rockNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/rock_norm.png");
-            terrainShaderMaterial.SetShaderParameter("rockNorm", rockNorm);
-            CompressedTexture2D sandTex = GD.Load<CompressedTexture2D>("res://graphics/textures/sand.jpg");
-            terrainShaderMaterial.SetShaderParameter("sandTex", sandTex);
-            CompressedTexture2D sandNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/sand_norm.png");
-            terrainShaderMaterial.SetShaderParameter("sandNorm", sandNorm);
-            CompressedTexture2D snowTex = GD.Load<CompressedTexture2D>("res://graphics/textures/snow.jpg");
-            terrainShaderMaterial.SetShaderParameter("snowTex", snowTex);
-            CompressedTexture2D snowNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/snow_norm.png");
-            terrainShaderMaterial.SetShaderParameter("snowNorm", snowNorm);
-            CompressedTexture2D waterTex = GD.Load<CompressedTexture2D>("res://graphics/textures/water.jpg");
-            terrainShaderMaterial.SetShaderParameter("waterTex", waterTex);
-            CompressedTexture2D waterNorm = GD.Load<CompressedTexture2D>("res://graphics/textures/water_norm.jpg");
-            terrainShaderMaterial.SetShaderParameter("waterNormal", waterNorm);
-
-            terrainShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
-            terrainShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
-            terrainShaderMaterial.SetShaderParameter("chunkOffset", chunkOffset);
-            terrainShaderMaterial.SetShaderParameter("widthDiv", Math.Sqrt(3) * 10.0f * (chunkSize+1));
-            terrainShaderMaterial.SetShaderParameter("heightDiv", 1.5 * 10.0 * Global.gameManager.game.mainGameBoard.bottom);
 
 
             multiMeshInstance.MaterialOverride = terrainShaderMaterial;
+            //multiMeshInstance.SetInstanceShaderParameter("chunkOffset", chunkOffset);
             multiMeshInstance.Name = "GameBoardTerrain" + i;
 
-            CompressedTexture2D yieldAtlasTexture = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/yieldsatlas.png");
-            CompressedTexture2D digitAtlasTexture = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/numberatlas.png");
-
-            //ImageTexture yieldAtlasTexture = ImageTexture.CreateFromImage(yieldAtlas);
-            yieldShaderMaterial.SetShaderParameter("yieldAtlas", yieldAtlasTexture);
-            yieldShaderMaterial.SetShaderParameter("digitAtlas", digitAtlasTexture);
-            yieldShaderMaterial.SetShaderParameter("gameBoardWidth", Global.gameManager.game.mainGameBoard.right);
-            yieldShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
-            yieldShaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
-            yieldShaderMaterial.RenderPriority = 10;
+            //yieldShaderMaterial.RenderPriority = 10;
             yieldMultiMeshInstance.MaterialOverride = yieldShaderMaterial;
             yieldMultiMeshInstance.Name = "Yield" + i;
 
@@ -340,6 +351,8 @@ public partial class GraphicGameBoard : GraphicObject
             multiMeshInstance.AddChild(yieldMultiMeshInstance);
             i++;
         }
+        sw.Stop();
+        GD.Print(sw.ElapsedMilliseconds);
     }
 
     private Godot.Color PackYields(Dictionary<YieldType, float> yields)

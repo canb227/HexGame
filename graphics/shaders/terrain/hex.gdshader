@@ -6,7 +6,8 @@ uniform float gameBoardWidth;
 uniform float gameBoardHeight;
 uniform float widthDiv;
 uniform float heightDiv;
-uniform float chunkOffset;
+//uniform float chunkOffset;
+uniform float chunkCount;
 
 uniform sampler2D visibilityGrid : filter_nearest;
 uniform sampler2D terrainInfo : filter_nearest;
@@ -43,7 +44,7 @@ void vertex() {
     
     //visibility data
     visData = texture(visibilityGrid, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg;
-    VERTEX.y += max(visData.r, visData.g) * (texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.0)/widthDiv, (hexWorldPos.x+voffset-1.0)/heightDiv)).r * 10.0);// * texture(terrainInfo, hexValue.xy).r;
+    //VERTEX.y += max(visData.r, visData.g) * (texture(heightMap, vec2( ((-hexWorldPos.z)/widthDiv/chunkCount), (hexWorldPos.x+voffset-1.0)/heightDiv)).r * 10.0);// * texture(terrainInfo, hexValue.xy).r;
 
     //normal calculation
 
@@ -59,7 +60,7 @@ void fragment() {
     //}
     float hoffset = sqrt(3) * 10.0 / 2.0;
     float voffset = 1.5 * 10.0 / 2.0;
-    float terrainHeight = texture(heightMap, vec2((-hexWorldPos.z+hoffset-chunkOffset+1.0)/widthDiv, (hexWorldPos.x+voffset-1.0)/heightDiv)).r;
+    float terrainHeight = texture(heightMap, vec2((-hexWorldPos.z)/widthDiv/chunkCount, (hexWorldPos.x+voffset-1.0)/heightDiv)).r;
 
     //terrainColor setting
     vec3 terrainColor = vec3(0.0, 0.0, 0.0);
@@ -166,6 +167,6 @@ void fragment() {
            + visibleColor * visData.r                             // Fully visible
            + grayscaleColor * visData.g;                          // Grayscale if seen
 
-    //ALBEDO = vec3(visData, 0.0);
+    ALBEDO = vec3(texture(heightMap, vec2((-hexWorldPos.z)/widthDiv/chunkCount, (hexWorldPos.x+voffset-1.0)/heightDiv)).r,0.0,0.0);
     //ALBEDO = vec3((hexValue.x+(floor(hexValue.y/2.0)))/gameBoardWidth, hexValue.y/gameBoardHeight, 0.0);
 }

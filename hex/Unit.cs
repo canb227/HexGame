@@ -619,7 +619,7 @@ public class Unit
         isSkipping = false;
         this.isTargetEnemy = isTargetEnemy;
         
-        currentPath = PathFind(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex,Global.gameManager.game.teamManager, movementCosts, movementSpeed);
+        currentPath = PathFind(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex,Global.gameManager.game.teamManager, movementCosts, movementSpeed, out float temp);
         currentPath.Remove(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex);
         while (currentPath.Count > 0)
         {
@@ -785,7 +785,7 @@ public class Unit
         return start.WrapDistance(end);
     }
 
-    public List<Hex> PathFind(Hex start, Hex end, TeamManager teamManager, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed)
+    public List<Hex> PathFind(Hex start, Hex end, TeamManager teamManager, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed, out float totalCost)
     {
         PriorityQueue<Hex, float> frontier = new();
         frontier.Enqueue(start, 0);
@@ -800,6 +800,7 @@ public class Unit
             {
                 if (cost_so_far[current] > 10000)
                 {
+                    totalCost = cost_so_far[current];
                     return new List<Hex>();
                 }
                 List<Hex> path = new List<Hex>();
@@ -810,6 +811,7 @@ public class Unit
                 }
                 path.Add(start);
                 path.Reverse();
+                totalCost = cost_so_far[current];
                 return path;
             }
     
@@ -827,6 +829,7 @@ public class Unit
             }
         }
         //if the end is unreachable return an empty path
+        totalCost = 999999;
         return new List<Hex>();
     }
 }
