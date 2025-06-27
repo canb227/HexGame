@@ -213,7 +213,7 @@ public class GameHex
 
     public bool TryClaimHex(City city)
     {
-        if(ownedBy == -1)
+        if(ownedBy == -1 && hex.Distance(city.hex) <= 3)
         {
             ClaimHex(city);
             return true;
