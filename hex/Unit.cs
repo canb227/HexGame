@@ -780,6 +780,10 @@ public class Unit
         {
             moveCost = Math.Min(moveCost, unitMovementSpeed);
         }
+        if(moveCost < 0)
+        {
+            moveCost = 888888;
+        }
         return moveCost;
     }
 
@@ -818,6 +822,15 @@ public class Unit
                 {
                     path.Add(current);
                     current = came_from[current];
+                    if(path.Count > 20)
+                    {
+                        GD.Print("PATH:");
+                        foreach(Hex p in path)
+                        {
+                            GD.Print(p);
+                        }
+                        throw new Exception("Buh");
+                    }
                     //GD.Print(current);
                 }
                 path.Add(start);
