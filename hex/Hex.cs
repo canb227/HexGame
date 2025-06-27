@@ -209,7 +209,6 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
         {
             if(q - b.q > range/2)
             {
-                GD.Print("q-b.q" + (q - b.q));
                 newQ = b.q + range + 1;
             }
         }
@@ -217,14 +216,12 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
         {
             if (b.q - q > range / 2)
             {
-                GD.Print("b.q-q" + (b.q - q));
                 newQ = b.q - range - 1;
             }
         }
         Hex unwrappedHex = new Hex(newQ, b.r, -newQ - b.r);
         int dq = Math.Abs(unwrappedHex.q - q);
         int dr = Math.Abs(unwrappedHex.r - r);
-        GD.Print(this + "|" + b + "|" + unwrappedHex + "|" + left + "|" + right + "|" + range + "|" + Distance(unwrappedHex) + "|" + Math.Abs(dq + dr));
         return Distance(unwrappedHex);
     }
 }
