@@ -150,7 +150,7 @@ public partial class UnitInfoPanel : Node3D
                 }
                 if(ability.name == "SettleCityAbility" || ability.name == "SettleCapitalAbility")
                 {
-                    if(unit.CanSettleHere(unit.hex, 3, new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}))
+                    if(unit.CanSettleHere(unit.hex, 3, new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, false))
                     {
                         abilityButton.Disabled = false;
                     }

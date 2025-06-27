@@ -585,13 +585,14 @@ public partial class AIManager: Node
 
     private bool FindClosestValidSettleInRange(AI ai, Unit unit, int range, out Hex target)
     {
+        bool debugCanSettleHere = false;
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] FindClosestValidSettleInRange Function Start"); }
         List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
         if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] WrappingRange provides the following set of hexes in range: " + string.Join(",",hexesInRange)); }
         List<Hex> targets = new();
         foreach (Hex h in hexesInRange)
         {
-            if (unit.CanSettleHere(h, 3 , new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}))
+            if (unit.CanSettleHere(h, 3 , new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, debugCanSettleHere))
             {
                 //if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Found a valid settle hex: " + h); }
                 targets.Add(h); //found a valid settle hex in range
@@ -648,7 +649,7 @@ public partial class AIManager: Node
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         Hex target;
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Checking to see if I can settle where I stand unitLocation: " + unit.hex); }
-        if (unit.CanSettleHere(unit.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }, true))
+        if (unit.CanSettleHere(unit.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }, false))
         {
             if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Current hex is valid to settle - settling"); }
             AIActivateAbility(ai, unit, "SettleCityAbility", unit.hex);
@@ -712,7 +713,7 @@ public partial class AIManager: Node
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         Hex target;
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Checking to see if I can settle where I stand unitLocation: " + unit.hex); }
-        if (unit.CanSettleHere(unit.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }, true))
+        if (unit.CanSettleHere(unit.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }, false))
         {
             if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Current hex is valid to settle - settling"); }
             AIActivateAbility(ai, unit, "SettleCapitalAbility", unit.hex);
