@@ -213,7 +213,7 @@ public class GameHex
 
     public bool TryClaimHex(City city)
     {
-        if(ownedBy == -1)
+        if(ownedBy == -1 && hex.Distance(city.hex) <= 3)
         {
             ClaimHex(city);
             return true;
@@ -247,7 +247,7 @@ public class GameHex
     //if flexible is true look for adjacent spaces to place
     public bool SpawnUnit(Unit newUnit, bool stackable, bool flexible)
     {
-        if((!stackable & units.Any()) | newUnit.movementCosts[(TerrainMoveType)terrainType] > 100) //if they cant stack and their are units or the hex is invalid for this unit
+        if((!stackable && units.Any()) || newUnit.movementCosts[(TerrainMoveType)terrainType] > 100 || newUnit.movementCosts[(TerrainMoveType)terrainType] < 0) //if they cant stack and their are units or the hex is invalid for this unit
         {
             if (flexible)
             {
@@ -262,7 +262,7 @@ public class GameHex
             }
             return false;
         }
-        else if(newUnit.movementCosts[(TerrainMoveType)terrainType] < 100)//if they cant stack and there aren't units or they can stack and units are/aren't there and the hex is valid for this unit
+        else if(newUnit.movementCosts[(TerrainMoveType)terrainType] < 100 && newUnit.movementCosts[(TerrainMoveType)terrainType] >= 0)//if they cant stack and there aren't units or they can stack and units are/aren't there and the hex is valid for this unit
         {
             units.Add(newUnit.id);
             newUnit.SpawnSetup(this);

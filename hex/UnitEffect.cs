@@ -225,6 +225,14 @@ public class UnitEffect
         {
             unit.movementCosts[TerrainMoveType.Disembark] = 0;
         }
+        if (unit.movementCosts[TerrainMoveType.Coast] < 0)
+        {
+            unit.movementCosts[TerrainMoveType.Coast] = unit.movementCosts[TerrainMoveType.Coast] * -1;
+        }
+        if (unit.movementCosts[TerrainMoveType.Ocean] < 0)
+        {
+            unit.movementCosts[TerrainMoveType.Ocean] = unit.movementCosts[TerrainMoveType.Ocean] * -1;
+        }
     }
     public bool SettleCity(Unit unit, String cityName)
     {
