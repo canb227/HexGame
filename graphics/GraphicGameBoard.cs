@@ -222,7 +222,7 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 Godot.Color pix = heightMap.GetPixel(x, y);
                 //pix = new Godot.Color(pix.R / 2.0f + 0.5f, 0.0f, 0.0f);
-                FractionalHex fHex = Global.layout.PixelToHex(new Point(-x + hSpace / 2.0f - chunkOffset, (y - vSpace / 2.0f)));
+                FractionalHex fHex = Global.layout.PixelToHex(new Point(-x, (y)));
                 Hex hex = fHex.HexRound();
                 Hex wrapHex = hex.WrapHex();
                 //heightMap.SetPixel(x, y, new Godot.Color((float)x/noiseImageSize, 0.0f, 0.0f));
@@ -237,12 +237,12 @@ public partial class GraphicGameBoard : GraphicObject
                     }
                     else if (gameHex.terrainType == TerrainType.Rough)
                     {
-                        heightMap.SetPixel(x, y, new Godot.Color(0.4f, 0.0f, 0.0f));
+                        heightMap.SetPixel(x, y, new Godot.Color(0.2f, 0.0f, 0.0f));
 
                     }
                     else if (gameHex.terrainType == TerrainType.Flat)
                     {
-                        heightMap.SetPixel(x, y, new Godot.Color(0.1f, 0.0f, 0.0f));
+                        heightMap.SetPixel(x, y, new Godot.Color(0.05f, 0.0f, 0.0f));
                     }
                     else
                     {
@@ -256,7 +256,7 @@ public partial class GraphicGameBoard : GraphicObject
             }
         }
         heightMap.SavePng("heightMap.png");
-        GaussianBlur(heightMap, 3);
+        GaussianBlur(heightMap, 7);
 
         //apply noise
         for (int x = 0; x < noiseImageSizeX; x++)
