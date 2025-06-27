@@ -196,25 +196,22 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
 
     public int WrapDistance(Hex b)
     {
-        int leftBoundary = (int)Math.Floor(r / 2.0);
-        int rightBoundary = Global.gameManager.game.mainGameBoard.right - leftBoundary;
-        return WrapDistance(b, rightBoundary);
+        int leftBoundary = Global.gameManager.game.mainGameBoard.left - (r >> 1);
+        int rightBoundary = Global.gameManager.game.mainGameBoard.right - (r >> 1);
+        return WrapDistance(b, leftBoundary, rightBoundary);
     }
 
-    public int WrapDistance(Hex b, int rightBoundary)
+    public int WrapDistance(Hex b, int left, int right)
     {
         int leftBoundary = (int)Math.Floor(r / 2.0);
         int rawDifference = b.q - q;
 
         // Compute wrapped distance
-        int wrappedDifference = rawDifference;
-        if (rawDifference < leftBoundary)
+        int range = right - left;
+        int wrappedDifference = ((rawDifference % range) + range) % range;
+        if (wrappedDifference > range / 2)
         {
-            wrappedDifference += (rightBoundary - leftBoundary);
-        }
-        else if (rawDifference > rightBoundary)
-        {
-            wrappedDifference -= (rightBoundary - leftBoundary);
+            wrappedDifference -= range;
         }
 
         int dq = Math.Abs(wrappedDifference);
@@ -222,9 +219,6 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
         int ds = Math.Abs(b.s - s);
         return (int)((dq + dr + ds) / 2);
     }
-
-    
-
 }
 
 public struct FractionalHex

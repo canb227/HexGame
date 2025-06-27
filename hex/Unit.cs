@@ -582,7 +582,7 @@ public class Unit
                     }
                 }
             }
-            else if(!targetGameHex.units.Any() && (targetGameHex.district!=null && targetGameHex.district.health == 0 && !Global.gameManager.game.teamManager.GetAllies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum)))
+            else if(!targetGameHex.units.Any() && (targetGameHex.district==null || targetGameHex.district.health == 0 && !Global.gameManager.game.teamManager.GetAllies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum)))
             {
                 SetRemainingMovement(remainingMovement - moveCost);
                 Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
