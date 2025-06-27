@@ -597,7 +597,7 @@ public partial class AIManager: Node
         Hex target;
         if (unit.CanSettleHere(unit.hex, 3))
         {
-            Global.gameManager.ActivateAbility(unit.id, "SettleCityAbility", unit.hex);
+            Global.gameManager.ActivateAbility(unit.id, "SettleCapitalAbility", unit.hex);
         }
         else if (FindClosestValidSettleInRange(ai, unit, 6, out target))
         {
