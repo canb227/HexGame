@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using NetworkMessages;
 using System;
 using System.Collections.Generic;
@@ -150,7 +150,7 @@ public partial class UnitInfoPanel : Node3D
                 }
                 if(ability.name == "SettleCityAbility" || ability.name == "SettleCapitalAbility")
                 {
-                    if(unit.CanSettleHere(unit.hex, 3))
+                    if(unit.CanSettleHere(unit.hex, 3, new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}))
                     {
                         abilityButton.Disabled = false;
                     }

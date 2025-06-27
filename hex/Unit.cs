@@ -225,7 +225,7 @@ public class Unit
         }
     }
 
-    public bool CanSettleHere(Hex hex, int range, bool logging = false)
+    public bool CanSettleHere(Hex hex, int range, List<TerrainType> allowedTerrainTypes, bool logging = false)
     {
         if (logging) { Global.Log("[CanSettleHere Check] Checking: " + hex); }
         if (logging) { Global.Log("    Iterating over all hexes within the given range: " + range); }
@@ -240,6 +240,11 @@ public class Unit
         if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
         {
             if (logging) { Global.Log("    Target hex itself contains a resource. We cannot settle here."); }
+            return false;
+        }
+        if (!allowedTerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType))
+        {
+            if (logging) { Global.Log("    Target hex itself Is not an allowed terrain type. We cannot settle here."); }
             return false;
         }
         if (logging) { Global.Log("    Check passed, we can settle here."); }
@@ -824,11 +829,11 @@ public class Unit
                     current = came_from[current];
                     if(path.Count > 20)
                     {
-                        GD.Print("PATH:");
+                        /*GD.Print("PATH:");
                         foreach(Hex p in path)
                         {
                             GD.Print(p);
-                        }
+                        }*/
                         throw new Exception("Buh");
                     }
                     //GD.Print(current);
