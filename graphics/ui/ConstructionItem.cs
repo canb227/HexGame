@@ -100,7 +100,6 @@ public partial class ConstructionItem : PanelContainer
                 {
                     count += 1;
                 }
-
             }
             if (itemName != "" && (count >= BuildingLoader.buildingsDict[itemName].PerCity))
             {
@@ -111,7 +110,22 @@ public partial class ConstructionItem : PanelContainer
         {
             constructionItem.Disabled = true;
         }
-        List<Hex> validHexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes, buildingInfo.DistrictType);
+        List<Hex> validHexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes, buildingInfo.DistrictType, 3, itemName);
+        List<Hex> toRemove = new();
+        foreach (ProductionQueueType queueItem in city.productionQueue)
+        {
+            foreach (Hex hex in validHexes)
+            {
+                if (queueItem.itemName == itemName && queueItem.targetHex.Equals(hex))
+                {
+                    toRemove.Add(hex);
+                }
+            }
+        }
+        foreach(Hex hex in toRemove)
+        {
+            validHexes.Remove(hex);
+        }
         if (validHexes == null || validHexes.Count == 0)
         {
             constructionItem.Disabled = true;
