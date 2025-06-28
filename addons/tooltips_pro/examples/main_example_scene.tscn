@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://hqukdxyemyvu"]
+[gd_scene load_steps=22 format=3 uid="uid://hqukdxyemyvu"]
 
 [ext_resource type="Script" uid="uid://c7aqh1k1lpowr" path="res://addons/tooltips_pro/examples/scripts/example_collision_object_3d.gd" id="1_0dv7n"]
 [ext_resource type="Script" uid="uid://coqwnstoj346c" path="res://addons/tooltips_pro/scripts/tooltip_trigger.gd" id="1_253dj"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://crfbnmkpsksog" path="res://icon.svg" id="3_mbkqn"]
 [ext_resource type="Script" uid="uid://beg0gmkmyjp2g" path="res://addons/tooltips_pro/examples/scripts/example_focus_settings.gd" id="4_wecet"]
 [ext_resource type="StyleBox" uid="uid://d2esi4ulp5w30" path="res://addons/tooltips_pro/examples/resources/styles/PanelStyleBoxFlat.tres" id="6_iigk5"]
+[ext_resource type="Resource" uid="uid://fmex0mp7jdgn" path="res://addons/tooltips_pro/resources/tooltip_settings.tres" id="8_cfwst"]
 [ext_resource type="Script" uid="uid://o4l2kbmriymr" path="res://addons/tooltips_pro/examples/scripts/example_input_manager.gd" id="10_iigk5"]
 [ext_resource type="Resource" uid="uid://colo1bdg23i7a" path="res://addons/tooltips_pro/examples/tooltip_settings/tooltip_settings_focus.tres" id="11_4nisf"]
 [ext_resource type="FontFile" uid="uid://dtt2d32rueqpm" path="res://addons/tooltips_pro/examples/resources/fonts/JetBrainsMonoNL-SemiBold.ttf" id="12_1bsmh"]
@@ -257,6 +258,8 @@ focus_next = NodePath("../Button4")
 text = "Trigger Element"
 script = ExtResource("1_253dj")
 tooltip_alignment = 1
+origin = 2
+tooltip_settings_override = ExtResource("8_cfwst")
 tooltip_strings = Array[String](["Alignment: Top Center"])
 
 [node name="Button4" type="Button" parent="UICanvasLayer/HBoxContainer/VBoxContainerLeft/AlignmentExample/HBoxContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("remote_element_node")]
