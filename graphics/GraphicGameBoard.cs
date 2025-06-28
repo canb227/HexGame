@@ -256,7 +256,7 @@ public partial class GraphicGameBoard : GraphicObject
                 }
             }
         }
-        heightMap.SavePng("heightMap.png");
+        //heightMap.SavePng("heightMap.png");
         GaussianBlur(heightMap, 7);
 
         //apply noise
@@ -267,7 +267,7 @@ public partial class GraphicGameBoard : GraphicObject
                 heightMap.SetPixel(x, y, new Godot.Color(noiseMap.GetPixel(x, y).R * heightMap.GetPixel(x, y).R, 0.0f, 0.0f));
             }
         }
-        heightMap.SavePng("heightMapBlurredNoised.png");
+        //heightMap.SavePng("heightMapBlurredNoised.png");
 
         heightMapTexture = ImageTexture.CreateFromImage(heightMap);
         terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
