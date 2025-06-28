@@ -585,45 +585,46 @@ public partial class AIManager: Node
 
     private bool FindClosestValidSettleInRange(AI ai, Unit unit, int range, out Hex target)
     {
-        bool debugCanSettleHere = false;
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] FindClosestValidSettleInRange Function Start"); }
         List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
-        if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] WrappingRange provides the following set of hexes in range: " + string.Join(",",hexesInRange)); }
+        //if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] WrappingRange provides the following set of hexes in range: " + string.Join(",",hexesInRange)); }
         List<Hex> targets = new();
         foreach (Hex h in hexesInRange)
         {
-            if (unit.CanSettleHere(h, 3 , new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, debugCanSettleHere))
+            if (unit.CanSettleHere(h, 3 , new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, false))
             {
                 //if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Found a valid settle hex: " + h); }
                 targets.Add(h); //found a valid settle hex in range
             }
         }
-        if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Of those, these are valid settle hexes: " + string.Join(",", hexesInRange)); }
+        //if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Of those, these are valid settle hexes: " + string.Join(",", hexesInRange)); }
         target = new Hex();
         float lowCost = float.MaxValue;
         if (targets.Count > 0)
         {
             foreach (Hex hex in targets)
             {
-                if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Testing pathfind distance to: " + hex + " from unit location : " + unit.hex); }
+                //if (AIDEBUG) { Global.Log("    [AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Testing pathfind distance to potential settle location: " + hex + " from unit location : " + unit.hex); }
 
                 float cost = float.MaxValue;
                 unit.PathFind(unit.hex, hex, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out cost);
                 
                 if (cost < lowCost)
                 {
-                    if (AIDEBUG) { Global.Log("        path cost: " + cost + " is new shortest!"); }
+                    //if (AIDEBUG) { Global.Log("        path cost: " + cost + " is new shortest!"); }
                     lowCost = cost;
                     target = hex;
                 }
                 else
                 {
-                    if (AIDEBUG) { Global.Log("        path cost: " + cost + " is too high, discarding."); }
+                    //if (AIDEBUG) { Global.Log("        path cost: " + cost + " is too high, discarding."); }
                 }
             }
+            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Found a settle location within range: " + target); }
             return true;
         }
-         //return an empty hex if no district found
+        //return an empty hex if no district found
+        if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] No valid settle location within range."); }
         return false; //no enemy district found in range
     }
     private void HandleScouts(AI ai, Unit unit)
