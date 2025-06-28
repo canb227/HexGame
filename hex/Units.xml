@@ -151,7 +151,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Galley" Class="Combat, Naval" ProductionCost="75" GoldCost="300" MovementSpeed="3.0" SightRange="3.0" CombatPower="15.0" HealingFactor="5" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Galley" Class="Combat, Naval" ProductionCost="75" GoldCost="300" MovementSpeed="3.0" SightRange="3.0" CombatPower="15.0" HealingFactor="5" IconPath="graphics/ui/icons/boat.png" ModelPath="graphics/models/galley.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
       <TerrainMoveType Name="Rough" Value="9999" />
@@ -177,7 +177,7 @@
       <TerrainMoveType Name="Coral" Value="1" />
     </SightCosts>
   </Unit>
-  <Unit Name="Slinger" Class="Combat, Land, Ranged" ProductionCost="50" GoldCost="200" MovementSpeed="2.0" SightRange="3.0" CombatPower="5.0" HealingFactor="0" MaintenanceCost="1" IconPath="graphics/models/baseperson_remesh3_manface_pix.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Slinger" Class="Combat, Land, Ranged" ProductionCost="50" GoldCost="200" MovementSpeed="2.0" SightRange="3.0" CombatPower="5.0" HealingFactor="0" MaintenanceCost="1" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />

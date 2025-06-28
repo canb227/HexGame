@@ -14,7 +14,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="CityCenter" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="5.0" ProductionYield="5.0" GoldYield="5.0" ScienceYield="1.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/huts.glb">
+  <Building Name="CityCenter" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="5.0" ProductionYield="5.0" GoldYield="5.0" ScienceYield="1.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
     <Effects>
       <Effect Name="WaterSupplyEffect" />
       <Effect Name="CityCenterWallEffect" />
@@ -185,7 +185,7 @@
 <!--End Non-Buildables-->
   
 
-  <Building Name="Granary" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Granary" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="GranaryWarehouseEffect" />
     </Effects>
@@ -195,7 +195,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="Dock" DistrictType="dock" ProductionCost="25" GoldCost="120" FoodYield="0.0" ProductionYield="0.0" GoldYield="2.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Dock" DistrictType="dock" ProductionCost="25" GoldCost="120" FoodYield="0.0" ProductionYield="0.0" GoldYield="2.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/dock.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="DockWarehouseEffect" />
     </Effects>
@@ -204,7 +204,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="StoneCutter" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="StoneCutter" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/stonecutter.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="StoneCutterWarehouseEffect" />
     </Effects>
@@ -214,7 +214,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="Garden" DistrictType="refinement" ProductionCost="40" GoldCost="200" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Garden" DistrictType="refinement" ProductionCost="40" GoldCost="200" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/garden.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="GardenEffect" />
     </Effects>
@@ -224,7 +224,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="Library" DistrictType="science" ProductionCost="40" GoldCost="200" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="2.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Library" DistrictType="science" ProductionCost="40" GoldCost="200" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="2.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/library.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="LibraryEffect" />
     </Effects>
@@ -234,7 +234,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="AncientWalls" DistrictType="citycenter" ProductionCost="80" GoldCost="400" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="AncientWalls" DistrictType="citycenter" ProductionCost="80" GoldCost="400" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/ancientwalls.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="AncientWallEffect" />
     </Effects>
@@ -244,7 +244,7 @@
       <TerrainType>Mountain</TerrainType>
     </TerrainTypes>
   </Building>
-    <Building Name="Monument" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+    <Building Name="Monument" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/monument.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="MonumentEffect"/>
     </Effects>
@@ -253,7 +253,7 @@
       <TerrainType>Rough</TerrainType>
     </TerrainTypes>
   </Building>
-  <Building Name="Ampitheater" DistrictType="culture" ProductionCost="40" GoldCost="200" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="2.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Ampitheater" DistrictType="culture" ProductionCost="40" GoldCost="200" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="2.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/ampitheater.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="AmpitheaterEffect"/>
     </Effects>
