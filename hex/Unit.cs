@@ -827,15 +827,15 @@ public class Unit
                 {
                     path.Add(current);
                     current = came_from[current];
-                    if(path.Count > 20)
+/*                    if(path.Count > 20)
                     {
-                        /*GD.Print("PATH:");
+                        GD.Print("PATH:");
                         foreach(Hex p in path)
                         {
                             GD.Print(p);
-                        }*/
+                        }
                         throw new Exception("Buh");
-                    }
+                    }*/
                     //GD.Print(current);
                 }
                 path.Add(start);
