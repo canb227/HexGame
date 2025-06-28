@@ -17,6 +17,22 @@ public partial class Lobby : Control
         {Colors.Yellow},
         {Colors.Cyan},
         {Colors.Magenta},
+        {Colors.Orange},
+        {Colors.Purple},
+        {Colors.Brown},
+        {Colors.Gray},
+        {Colors.Pink},
+        {Colors.Lime},
+        {Colors.Teal},
+        {Colors.Violet},
+        {Colors.Gold},
+        {Colors.Silver},
+        {Colors.Beige},
+        {Colors.Maroon},
+        {Colors.Olive},
+        {Colors.Turquoise},
+        {Colors.Salmon},
+        {Colors.Lavender},
     };
 
     VBoxContainer PlayersListBox;
@@ -26,6 +42,7 @@ public partial class Lobby : Control
     bool isHost = false;
     int teamCounter = 1;
     List<int> teamNums = new List<int>();
+    List<int> teamColors = new();
     private int MAXTEAMS = 99;
 
     // Called when the node enters the scene tree for the first time.
@@ -88,7 +105,7 @@ public partial class Lobby : Control
             IsReady = true,
             Faction = 0,
             Team = GetNextTeamNum(),
-            ColorIndex = 0,
+            ColorIndex = GetNextTeamColor(),
             IsAI = true
         };
         lobbyMessage.LobbyStatus = aiStatus;
@@ -96,11 +113,27 @@ public partial class Lobby : Control
         
     }
 
+    private int GetNextTeamColor()
+    {
+        if (teamColors.Count == 0)
+        {
+            Global.Log("No more team colors available, returning default color index 0.");
+            return 0; // Return default color index if no colors are available
+        }
+        int ret = teamColors[0];
+        teamColors.RemoveAt(0);
+        return ret;
+    }
+
     public void CreateLobby()
     {
         for (int i = 1; i < MAXTEAMS; i++)
         {
             teamNums.Add(i);
+        }
+        for (int i = 0; i < PlayerColors.Count; i++)
+        {
+            teamColors.Add(i);
         }
         Global.Log("Creating new lobby.");
         if (singleplayer)
@@ -115,7 +148,7 @@ public partial class Lobby : Control
         }
         isHost = true;
 
-        AddNewPlayerToLobby(Global.clientID, GetNextTeamNum(), true, false);
+        AddNewPlayerToLobby(Global.clientID, GetNextTeamNum(), GetNextTeamColor(), true, false);
     }
 
     private int GetNextTeamNum()
@@ -125,7 +158,7 @@ public partial class Lobby : Control
         return ret;
     }
 
-    private void AddNewPlayerToLobby(ulong id, int teamNum, bool self, bool ai)
+    private void AddNewPlayerToLobby(ulong id, int teamNum, int teamColorIndex, bool self, bool ai)
     {
         Control PlayerListItem = GD.Load<PackedScene>("res://graphics/ui/menus/playerListItem.tscn").Instantiate<Control>();
         bool isReady = false;
@@ -177,11 +210,12 @@ public partial class Lobby : Control
             PlayerListItem.GetNode<Button>("kick").Disabled = true;
         }
         PlayerListItem.GetNode<OptionButton>("teamselect").Disabled = true;
+        PlayerListItem.GetNode<OptionButton>("colorselect").Selected = teamColorIndex; // Color index is 0-indexed in the code, but 1-indexed in the UI
         PlayerListItem.GetNode<OptionButton>("teamselect").Selected = teamNum-1; // Teams are 1-indexed in the UI, but 0-indexed in the code
         PlayerListItem.Name = id.ToString();
         PlayersListBox.AddChild(PlayerListItem);
 
-        PlayerStatuses.Add(id, new LobbyStatus() { Id=id, IsHost = isHost, IsReady = isReady, Faction = 0, Team = teamNum, ColorIndex=0, IsAI=ai });
+        PlayerStatuses.Add(id, new LobbyStatus() { Id=id, IsHost = isHost, IsReady = isReady, Faction = 0, Team = teamNum, ColorIndex=teamColorIndex, IsAI=ai });
     }
 
     private void OnKickButtonPressed(ulong id)
@@ -194,6 +228,8 @@ public partial class Lobby : Control
             lobbyMessage.LobbyStatus = PlayerStatuses[id];
             teamNums.Add(PlayerStatuses[id].Team);
             teamNums.Sort();
+            teamColors.Add(PlayerStatuses[id].ColorIndex);
+            teamColors.Sort();
             Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
 
         }
@@ -250,6 +286,8 @@ public partial class Lobby : Control
                     {
                         teamNums.Add(PlayerStatuses[lobbyMessage.LobbyStatus.Id].Team);
                         teamNums.Sort();
+                        teamColors.Add(PlayerStatuses[lobbyMessage.LobbyStatus.Id].ColorIndex);
+                        teamColors.Sort();
                     }
                     PlayerStatuses.Remove(lobbyMessage.LobbyStatus.Id);
                     Control playerItem = PlayersListBox.GetNode<Control>(lobbyMessage.LobbyStatus.Id.ToString());
@@ -292,11 +330,11 @@ public partial class Lobby : Control
                 break;
             case "addAI":
                 Global.Log("Adding AI player with ID: " + lobbyMessage.LobbyStatus.Id + "to lobby from message: " + lobbyMessage.Sender);
-                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, false, true);
+                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, lobbyMessage.LobbyStatus.ColorIndex, false, true);
                 break;
             case "addPlayer":
                 Global.Log("Adding player with ID: " + lobbyMessage.LobbyStatus.Id + " to lobby from message: " + lobbyMessage.Sender);
-                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, false, false);
+                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, lobbyMessage.LobbyStatus.ColorIndex, false, false);
                 break;
             default:
                 Global.Log("Unknown lobby message type: " + lobbyMessage.MessageType);
@@ -461,7 +499,7 @@ public partial class Lobby : Control
                 IsReady = false,
                 Faction = 0,
                 Team = GetNextTeamNum(),
-                ColorIndex = 0,
+                ColorIndex = GetNextTeamColor(),
                 IsAI = false
             };
             lobbyMessage.LobbyStatus = lobbyStatus;
