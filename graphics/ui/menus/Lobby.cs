@@ -4,6 +4,7 @@ using Steamworks;
 using System.Collections.Generic;
 using NetworkMessages;
 using System.Runtime.InteropServices.JavaScript;
+using System.Linq;
 
 public partial class Lobby : Control
 {
@@ -23,7 +24,9 @@ public partial class Lobby : Control
     Button StartGameButton;
     bool singleplayer = false;
     bool isHost = false;
-
+    int teamCounter = 1;
+    List<int> teamNums = new List<int>();
+    private int MAXTEAMS = 99;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -84,7 +87,7 @@ public partial class Lobby : Control
             IsHost = isHost,
             IsReady = true,
             Faction = 0,
-            Team = 1,
+            Team = GetNextTeamNum(),
             ColorIndex = 0,
             IsAI = true
         };
@@ -95,6 +98,10 @@ public partial class Lobby : Control
 
     public void CreateLobby()
     {
+        for (int i = 1; i < MAXTEAMS; i++)
+        {
+            teamNums.Add(i);
+        }
         Global.Log("Creating new lobby.");
         if (singleplayer)
         {
@@ -107,10 +114,18 @@ public partial class Lobby : Control
             SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
         }
         isHost = true;
-        AddNewPlayerToLobby(Global.clientID, true, false);
+
+        AddNewPlayerToLobby(Global.clientID, GetNextTeamNum(), true, false);
     }
 
-    private void AddNewPlayerToLobby(ulong id, bool self, bool ai)
+    private int GetNextTeamNum()
+    {
+        int ret = teamNums[0];
+        teamNums.RemoveAt(0);
+        return ret;
+    }
+
+    private void AddNewPlayerToLobby(ulong id, int teamNum, bool self, bool ai)
     {
         Control PlayerListItem = GD.Load<PackedScene>("res://graphics/ui/menus/playerListItem.tscn").Instantiate<Control>();
         bool isReady = false;
@@ -161,10 +176,12 @@ public partial class Lobby : Control
             PlayerListItem.GetNode<OptionButton>("colorselect").Disabled = true;
             PlayerListItem.GetNode<Button>("kick").Disabled = true;
         }
+        PlayerListItem.GetNode<OptionButton>("teamselect").Disabled = true;
+        PlayerListItem.GetNode<OptionButton>("teamselect").Selected = teamNum-1; // Teams are 1-indexed in the UI, but 0-indexed in the code
         PlayerListItem.Name = id.ToString();
         PlayersListBox.AddChild(PlayerListItem);
 
-        PlayerStatuses.Add(id, new LobbyStatus() { Id=id, IsHost = isHost, IsReady = isReady, Faction = 0, Team = 1, ColorIndex=0, IsAI=ai });
+        PlayerStatuses.Add(id, new LobbyStatus() { Id=id, IsHost = isHost, IsReady = isReady, Faction = 0, Team = teamNum, ColorIndex=0, IsAI=ai });
     }
 
     private void OnKickButtonPressed(ulong id)
@@ -175,7 +192,10 @@ public partial class Lobby : Control
             lobbyMessage.Sender = Global.clientID;
             lobbyMessage.MessageType = "kick";
             lobbyMessage.LobbyStatus = PlayerStatuses[id];
+            teamNums.Add(PlayerStatuses[id].Team);
+            teamNums.Sort();
             Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+
         }
         else
         {
@@ -199,7 +219,7 @@ public partial class Lobby : Control
         Global.Log("Joining lobby: " + hostID);
         SteamFriends.SetRichPresence("status", "In a lobby");
         SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
-        AddNewPlayerToLobby(Global.clientID, true, false);
+        //AddNewPlayerToLobby(Global.clientID, 0, true, false);
     }
 
     private void OnLobbyMessageReceived(LobbyMessage lobbyMessage)
@@ -209,29 +229,35 @@ public partial class Lobby : Control
         if (lobbyMessage.Sender == Global.clientID && lobbyMessage.MessageType == "status")
         {
             Global.Log("Ignoring own lobby message: " + lobbyMessage.MessageType);
-            return; // Ignore own messages except for startgame
+            //return; // Ignore own messages except for startgame
         }
         switch (lobbyMessage.MessageType)
         {
             case "status":
-                PlayerStatuses[lobbyMessage.Sender] = lobbyMessage.LobbyStatus;
+                PlayerStatuses[lobbyMessage.LobbyStatus.Id] = lobbyMessage.LobbyStatus;
                 Control PlayerListItem = PlayersListBox.GetNode<Control>(lobbyMessage.Sender.ToString());
-                PlayerListItem.GetNode<OptionButton>("teamselect").Selected = (int)lobbyMessage.LobbyStatus.Team - 1;
-                PlayerListItem.GetNode<OptionButton>("factionselect").Selected = (int)lobbyMessage.LobbyStatus.Faction;
+                PlayerListItem.GetNode<OptionButton>("teamselect").Selected = lobbyMessage.LobbyStatus.Team - 1;
+                PlayerListItem.GetNode<OptionButton>("factionselect").Selected = lobbyMessage.LobbyStatus.Faction;
                 PlayerListItem.GetNode<CheckButton>("ReadyButton").ButtonPressed = lobbyMessage.LobbyStatus.IsReady;
-                PlayerListItem.GetNode<OptionButton>("colorselect").Selected = (int)lobbyMessage.LobbyStatus.ColorIndex;
+                PlayerListItem.GetNode<OptionButton>("colorselect").Selected = lobbyMessage.LobbyStatus.ColorIndex;
                 CheckIfGameCanStart();
                 break;
             case "leave":
                 Global.Log("Player left the lobby: " + lobbyMessage.LobbyStatus.Id);
                 if (PlayerStatuses.ContainsKey(lobbyMessage.LobbyStatus.Id))
                 {
+                    if (isHost)
+                    {
+                        teamNums.Add(PlayerStatuses[lobbyMessage.LobbyStatus.Id].Team);
+                        teamNums.Sort();
+                    }
                     PlayerStatuses.Remove(lobbyMessage.LobbyStatus.Id);
                     Control playerItem = PlayersListBox.GetNode<Control>(lobbyMessage.LobbyStatus.Id.ToString());
                     if (playerItem != null)
                     {
                         playerItem.QueueFree();
                     }
+
                 }
                 break;
             case "startgame":
@@ -266,7 +292,11 @@ public partial class Lobby : Control
                 break;
             case "addAI":
                 Global.Log("Adding AI player with ID: " + lobbyMessage.LobbyStatus.Id + "to lobby from message: " + lobbyMessage.Sender);
-                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, false, true);
+                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, false, true);
+                break;
+            case "addPlayer":
+                Global.Log("Adding player with ID: " + lobbyMessage.LobbyStatus.Id + " to lobby from message: " + lobbyMessage.Sender);
+                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, false, false);
                 break;
             default:
                 Global.Log("Unknown lobby message type: " + lobbyMessage.MessageType);
@@ -418,7 +448,30 @@ public partial class Lobby : Control
     private void OnPlayerJoinEvent(ulong playerID)
     {
         Global.Log("Player joined to Lobby: " + playerID);
-        AddNewPlayerToLobby(playerID, false, false);
+        if (isHost)
+        { 
+            Global.Log("Adding player to lobby: " + playerID);
+            LobbyMessage lobbyMessage = new LobbyMessage();
+            lobbyMessage.Sender = Global.clientID;
+            lobbyMessage.MessageType = "addPlayer";
+            LobbyStatus lobbyStatus = new LobbyStatus()
+            {
+                Id = playerID,
+                IsHost = false,
+                IsReady = false,
+                Faction = 0,
+                Team = GetNextTeamNum(),
+                ColorIndex = 0,
+                IsAI = false
+            };
+            lobbyMessage.LobbyStatus = lobbyStatus;
+            Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+        }
+        else
+        {
+            
+        }
+
     }
 
     public override void _ExitTree()

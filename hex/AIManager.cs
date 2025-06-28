@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 public partial class AIManager: Node
 {
-    const bool AIDEBUG = true; 
+    const bool AIDEBUG = false; 
     List<AI> aiList = new List<AI>();
     Random rng = new Random();
 
