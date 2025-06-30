@@ -314,7 +314,8 @@ public partial class Lobby : Control
                 {
                     Global.Log("You have been kicked from the lobby. Returning to main menu.");
                     LeaveLobby();
-                    Global.menuManager.ChangeMenu(MenuManager.UI_Mainmenu);
+                    
+                    
 
                     return;
                 }
@@ -350,6 +351,8 @@ public partial class Lobby : Control
         lobbyMessage.MessageType = "leave";
         lobbyMessage.LobbyStatus = PlayerStatuses[Global.clientID];
         Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+        Global.networkPeer.DisconnectFromAllPeers();
+        Global.menuManager.ChangeMenu(MenuManager.UI_Mainmenu);
     }
 
     private void StartGame(LobbyMessage lobbyMessage)

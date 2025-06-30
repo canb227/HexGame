@@ -32,7 +32,10 @@ public partial class MenuManager : Node
         {
             Global.menuManager.ChangeMenu(UI_Pause);
         }
+        
     }
+
+
     public void LoadLobby()
     {
         ChangeMenu(UI_Lobby);
@@ -54,12 +57,14 @@ public partial class MenuManager : Node
         {
             CurrentMenu = loadedMenus[scenePath];
             CurrentMenu.Show();
+            CurrentMenu.MoveToFront();
         }
         else
         {
             CurrentMenu = (Control)Godot.ResourceLoader.Load<PackedScene>(scenePath).Instantiate();
             AddChild(CurrentMenu);
             CurrentMenu.Show();
+            CurrentMenu.MoveToFront();
         }
     }
 
