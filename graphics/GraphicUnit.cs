@@ -57,7 +57,7 @@ public partial class GraphicUnit : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(unit.hex))
+            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(unit.hex))
             {
                 this.Visible = true;
                 unitWorldUI.Visible = true;

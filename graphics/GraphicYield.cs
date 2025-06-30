@@ -141,7 +141,7 @@ public partial class GraphicYield : GraphicObject
         }
         if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(hex))
+            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hex))
             {
                 if (value != 0)
                 {
@@ -149,7 +149,7 @@ public partial class GraphicYield : GraphicObject
                     label.Visible = true;
                 }
             }
-            else if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(hex))
+            else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
             {
                 if (value != 0)
                 {

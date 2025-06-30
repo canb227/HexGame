@@ -29,6 +29,10 @@ theme = SubResource("Theme_6wqba")
 [node name="CityDetailsHBox" type="VBoxContainer" parent="CityDetailsPanel"]
 layout_mode = 2
 
+[node name="ExportButton" type="Button" parent="CityDetailsPanel/CityDetailsHBox"]
+layout_mode = 2
+text = "Configure Exports"
+
 [node name="BuildingsLabel" type="Label" parent="CityDetailsPanel/CityDetailsHBox"]
 layout_mode = 2
 text = "Buildings:"

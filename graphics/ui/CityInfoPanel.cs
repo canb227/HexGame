@@ -55,6 +55,8 @@ public partial class CityInfoPanel : Node3D
 
 
     private HBoxContainer cityDetails;
+    private CityExportPanel cityExports;
+
     private VBoxContainer buildingsList;
 
 
@@ -122,7 +124,16 @@ public partial class CityInfoPanel : Node3D
         cityDetails = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityDetailsPanel.tscn").Instantiate<HBoxContainer>();
         cityDetails.Visible = false;
         buildingsList = cityDetails.GetNode<VBoxContainer>("CityDetailsPanel/CityDetailsHBox/BuildingsList");
+
         AddChild(cityDetails);
+
+        cityExports = new CityExportPanel();
+        cityExports.Visible = false;
+
+        AddChild(cityExports);
+
+
+        
     }
 
 
@@ -142,11 +153,7 @@ public partial class CityInfoPanel : Node3D
         UnitArrowImage.FlipV = !UnitArrowImage.FlipV;
     }
 
-    public void CitySelected(City city)
-    {
-        this.city = city;
-        ShowCityInfoPanel();
-    }
+
 
     public void ShowCityInfoPanel()
     {
@@ -158,9 +165,29 @@ public partial class CityInfoPanel : Node3D
         UpdateCityPanelInfo();
     }
 
+    public void ShowCityExportPanel()
+    {
+        cityExports.Visible = true;
+        cityInfoPanel.Visible = false;
+    }
+
+    public void HideCityExportPanel()
+    {
+        cityInfoPanel.Visible = true;
+        cityExports.Visible = false;
+    }
+
+    public void CitySelected(City city)
+    {
+        this.city = city;
+        cityExports.city = null;
+        ShowCityInfoPanel();
+    }
+
     public void CityUnselected()
     {
         this.city = null;
+        cityExports.city = null;
         HideCityInfoPanel();
     }
 
@@ -171,6 +198,7 @@ public partial class CityInfoPanel : Node3D
         Global.gameManager.graphicManager.uiManager.resourceButton.Visible = true;
         cityInfoPanel.Visible = false;
         cityDetails.Visible = false;
+        cityExports.Visible = false;
         foreach (Control child in ProductionQueue.GetChildren())
         {
             if (child.Name != "OffsetLabel")
@@ -182,6 +210,7 @@ public partial class CityInfoPanel : Node3D
 
     public void UpdateCityPanelInfo()
     {
+        cityExports.UpdateCityExportPanel();
         if (cityInfoPanel.Visible && city != null)
         {
             CityName.Text = city.name;

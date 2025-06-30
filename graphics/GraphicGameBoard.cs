@@ -79,8 +79,8 @@ public partial class GraphicGameBoard : GraphicObject
     //updates the vis texture and tells objects to update their vis data
     private void SimpleRedrawBoard(Layout pointy)
     {
-        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
-        List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        List<Hex> seen = Global.gameManager.game.localPlayerRef.seenGameHexDict.Keys.ToList();
+        List<Hex> visible = Global.gameManager.game.localPlayerRef.visibleGameHexDict.Keys.ToList();
         UpdateVisibilityTexture(visible, seen);
         Global.gameManager.graphicManager.UpdateVisibility();
 
@@ -91,8 +91,8 @@ public partial class GraphicGameBoard : GraphicObject
 
     private void DrawBoard(Layout pointy)
     {
-        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
-        List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        List<Hex> seen = Global.gameManager.game.localPlayerRef.seenGameHexDict.Keys.ToList();
+        List<Hex> visible = Global.gameManager.game.localPlayerRef.visibleGameHexDict.Keys.ToList();
         List<Hex> all = gameBoard.gameHexDict.Keys.ToList();
 
         HashSet<Hex> seenHexSet = new HashSet<Hex>(seen);
@@ -183,8 +183,8 @@ public partial class GraphicGameBoard : GraphicObject
         }
         visibilityImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rg8);
         visibilityTexture = ImageTexture.CreateFromImage(visibilityImage);
-        List<Hex> seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.Keys.ToList();
-        List<Hex> visible = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.Keys.ToList();
+        List<Hex> seen = Global.gameManager.game.localPlayerRef.seenGameHexDict.Keys.ToList();
+        List<Hex> visible = Global.gameManager.game.localPlayerRef.visibleGameHexDict.Keys.ToList();
         UpdateVisibilityTexture(visible, seen);
         terrainShaderMaterial.SetShaderParameter("visibilityGrid", visibilityTexture);
         Vector3[] yieldOffsets = new Vector3[] {
@@ -256,7 +256,7 @@ public partial class GraphicGameBoard : GraphicObject
                 }
             }
         }
-        heightMap.SavePng("heightMap.png");
+        //heightMap.SavePng("heightMap.png");
         GaussianBlur(heightMap, 7);
 
         //apply noise
@@ -267,7 +267,7 @@ public partial class GraphicGameBoard : GraphicObject
                 heightMap.SetPixel(x, y, new Godot.Color(noiseMap.GetPixel(x, y).R * heightMap.GetPixel(x, y).R, 0.0f, 0.0f));
             }
         }
-        heightMap.SavePng("heightMapBlurredNoised.png");
+        //heightMap.SavePng("heightMapBlurredNoised.png");
 
         heightMapTexture = ImageTexture.CreateFromImage(heightMap);
         terrainShaderMaterial.SetShaderParameter("heightMap", heightMapTexture);
