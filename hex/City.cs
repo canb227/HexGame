@@ -77,6 +77,7 @@ public class City
         baseMaxResourcesHeld = 1;
         foodToGrow = GetFoodToGrowCost();
         yields = new();
+        myYields = new();
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
@@ -106,6 +107,8 @@ public class City
     public List<District> districts { get; set; } = new();
     public Hex hex { get; set; }
     public Yields yields { get; set; }
+    public Yields myYields { get; set; }
+    public Dictionary<YieldType, int> exportCount { get; set; } = new();
     public int citySize { get; set; }
     public int naturalPopulation { get; set; }
     public float foodToGrow{ get; set; }
@@ -709,25 +712,52 @@ public class City
         }
     }
 
-    public void RecalculateYields()
+    public void MyYieldsRecalculateYields()
     {
         maxResourcesHeld = baseMaxResourcesHeld;
         yields = new();
+        myYields = new();
         SetBaseHexYields();
-        foreach(District district in districts)
+        foreach (District district in districts)
         {
-            district.PrepareYieldRecalculate();            
+            district.PrepareYieldRecalculate();
         }
-        foreach(ResourceType resource in heldResources.Values)
+        foreach (District district in districts)
+        {
+            district.RecalculateYields();
+            myYields += Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].yields;
+        }
+        foreach (ResourceType resource in heldResources.Values)
         {
             ResourceLoader.ProcessFunctionString(ResourceLoader.resourceEffects[resource], id);
         }
-        foreach(District district in districts)
+        myYields.food -= naturalPopulation * 0.25f;
+        foreach(YieldType export in exportCount.Keys)
         {
-            district.RecalculateYields();
-            yields += Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].yields;
+            if(export == YieldType.food)
+            {
+                myYields.food = 0;
+            }
         }
-        //yields.food -= naturalPopulation;
+    }
+
+    public void RecalculateYields()
+    {
+        MyYieldsRecalculateYields();
+        yields += myYields;
+        foreach (ExportRoute exportRoute in Global.gameManager.game.tradeExportManager.exportRouteDictionary)
+        {
+            if(exportRoute.targetCityID == id)
+            {
+                if (exportRoute.exportType == YieldType.food)
+                {
+                    City sourceCity = Global.gameManager.game.cityDictionary[exportRoute.sourceCityID];
+                    yields.food += sourceCity.myYields.food/ sourceCity.exportCount[exportRoute.exportType];
+                }
+            }
+        }
+
+
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.Update2DUI(UIElement.goldPerTurn);
@@ -1025,6 +1055,30 @@ public class City
             }
         }
         return validHexes;
+    }
+
+
+    public void NewExport(YieldType exportType)
+    {
+        if(exportCount.Keys.Contains(exportType))
+        {
+            exportCount[exportType] += 1;
+        }
+        else
+        {
+            exportCount.Add(exportType, 1);
+        }
+    }
+    public void RemoveExport(YieldType exportType)
+    {
+        if (exportCount.Keys.Contains(exportType) && exportCount[exportType] > 1)
+        {
+            exportCount[exportType] = 1;
+        }
+        else
+        {
+            exportCount.Remove(exportType);
+        }
     }
 
     public void RenameCity(string name)

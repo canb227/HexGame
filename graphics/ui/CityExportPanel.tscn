@@ -1,13 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5jbif3jghxyh"]
+[gd_scene load_steps=4 format=3 uid="uid://c5jbif3jghxyh"]
 
 [ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_ufi11"]
-[ext_resource type="Texture2D" uid="uid://8sieeeac3bqy" path="res://graphics/ui/icons/food.png" id="3_ccc74"]
-[ext_resource type="Texture2D" uid="uid://cb3r2h5cvpaus" path="res://graphics/ui/icons/gears.png" id="4_evi2w"]
-[ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="5_sy6vx"]
-[ext_resource type="Texture2D" uid="uid://brrh1cw1vxfxn" path="res://graphics/ui/icons/science.png" id="6_dum64"]
-[ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="7_5t3fp"]
-[ext_resource type="Texture2D" uid="uid://d0do4lbonkkx3" path="res://graphics/ui/icons/happiness.png" id="8_vlnxb"]
-[ext_resource type="Texture2D" uid="uid://v8ieeb82fsx8" path="res://graphics/ui/icons/influence.png" id="9_5736h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1iin"]
 bg_color = Color(0.117647, 0.117647, 0.117647, 1)
@@ -18,12 +11,13 @@ PanelContainer/styles/panel = SubResource("StyleBoxFlat_e1iin")
 [node name="CityExportUI" type="HBoxContainer"]
 z_index = 1
 anchors_preset = -1
-anchor_right = 0.159
+anchor_right = 0.174
 anchor_bottom = 0.994
-offset_top = 71.0
-offset_right = 298.832
+offset_top = 64.0
+offset_right = 281.552
 offset_bottom = -1.112
-grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="CityExportPanel" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(256, 256)
@@ -45,148 +39,6 @@ icon = ExtResource("1_ufi11")
 flat = true
 icon_alignment = 2
 expand_icon = true
-
-[node name="CityNameBox" type="HBoxContainer" parent="CityExportPanel/CityExportBox"]
-layout_mode = 2
-alignment = 1
-
-[node name="CityName" type="Label" parent="CityExportPanel/CityExportBox/CityNameBox"]
-layout_mode = 2
-text = "CityNameHere"
-horizontal_alignment = 1
-
-[node name="Yields" type="HBoxContainer" parent="CityExportPanel/CityExportBox"]
-layout_mode = 2
-alignment = 1
-
-[node name="FoodYieldBox" type="VBoxContainer" parent="CityExportPanel/CityExportBox/Yields"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-
-[node name="FoodIcon" type="TextureRect" parent="CityExportPanel/CityExportBox/Yields/FoodYieldBox"]
-layout_mode = 2
-texture = ExtResource("3_ccc74")
-expand_mode = 4
-stretch_mode = 5
-
-[node name="FoodYield" type="Label" parent="CityExportPanel/CityExportBox/Yields/FoodYieldBox"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 1
-
-[node name="Label" type="Label" parent="CityExportPanel/CityExportBox/Yields"]
-layout_mode = 2
-text = "  "
-
-[node name="ProductionYieldBox" type="VBoxContainer" parent="CityExportPanel/CityExportBox/Yields"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-
-[node name="ProductionIcon" type="TextureRect" parent="CityExportPanel/CityExportBox/Yields/ProductionYieldBox"]
-layout_mode = 2
-texture = ExtResource("4_evi2w")
-expand_mode = 4
-stretch_mode = 5
-
-[node name="ProductionYield" type="Label" parent="CityExportPanel/CityExportBox/Yields/ProductionYieldBox"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 1
-
-[node name="Label6" type="Label" parent="CityExportPanel/CityExportBox/Yields"]
-layout_mode = 2
-text = "   "
-
-[node name="GoldYieldBox" type="VBoxContainer" parent="CityExportPanel/CityExportBox/Yields"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-
-[node name="GoldIcon" type="TextureRect" parent="CityExportPanel/CityExportBox/Yields/GoldYieldBox"]
-layout_mode = 2
-texture = ExtResource("5_sy6vx")
-expand_mode = 4
-stretch_mode = 5
-
-[node name="GoldYield" type="Label" parent="CityExportPanel/CityExportBox/Yields/GoldYieldBox"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 1
-
-[node name="Label5" type="Label" parent="CityExportPanel/CityExportBox/Yields"]
-layout_mode = 2
-text = "   "
-
-[node name="ScienceYieldBox" type="VBoxContainer" parent="CityExportPanel/CityExportBox/Yields"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-
-[node name="ScienceIcon" type="TextureRect" parent="CityExportPanel/CityExportBox/Yields/ScienceYieldBox"]
-layout_mode = 2
-texture = ExtResource("6_dum64")
-expand_mode = 4
-stretch_mode = 5
-
-[node name="ScienceYield" type="Label" parent="CityExportPanel/CityExportBox/Yields/ScienceYieldBox"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 1
-
-[node name="Label4" type="Label" parent="CityExportPanel/CityExportBox/Yields"]
-layout_mode = 2
-text = "   "
-
-[node name="CultureYieldBox" type="VBoxContainer" parent="CityExportPanel/CityExportBox/Yields"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-
-[node name="CultureIcon" type="TextureRect" parent="CityExportPanel/CityExportBox/Yields/CultureYieldBox"]
-layout_mode = 2
-texture = ExtResource("7_5t3fp")
-expand_mode = 4
-stretch_mode = 5
-
-[node name="CultureYield" type="Label" parent="CityExportPanel/CityExportBox/Yields/CultureYieldBox"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 1
-
-[node name="Label3" type="Label" parent="CityExportPanel/CityExportBox/Yields"]
-layout_mode = 2
-text = "   "
-
-[node name="HappinessYieldBox" type="VBoxContainer" parent="CityExportPanel/CityExportBox/Yields"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-
-[node name="HappinessIcon" type="TextureRect" parent="CityExportPanel/CityExportBox/Yields/HappinessYieldBox"]
-layout_mode = 2
-texture = ExtResource("8_vlnxb")
-expand_mode = 4
-stretch_mode = 5
-
-[node name="HappinessYield" type="Label" parent="CityExportPanel/CityExportBox/Yields/HappinessYieldBox"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="CityExportPanel/CityExportBox/Yields"]
-layout_mode = 2
-text = "   "
-
-[node name="InfluenceYieldBox" type="VBoxContainer" parent="CityExportPanel/CityExportBox/Yields"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-
-[node name="InfluenceIcon" type="TextureRect" parent="CityExportPanel/CityExportBox/Yields/InfluenceYieldBox"]
-layout_mode = 2
-texture = ExtResource("9_5736h")
-expand_mode = 4
-stretch_mode = 5
-
-[node name="InfluenceYield" type="Label" parent="CityExportPanel/CityExportBox/Yields/InfluenceYieldBox"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 1
 
 [node name="ExportScrollContainer" type="ScrollContainer" parent="CityExportPanel/CityExportBox"]
 layout_mode = 2

@@ -79,30 +79,33 @@ public partial class HexGameCamera : Camera3D
         this.zoomAmount = Mathf.Lerp(this.zoomAmount, 0f, 0.5f);
     }
 
-    public override void _UnhandledInput(InputEvent iEvent)
+    public override void _Input(InputEvent iEvent)
     {
-
-        if (iEvent is InputEventKey eventKey && eventKey.Pressed)
+        if (iEvent.IsActionPressed("pause"))
         {
-            if (eventKey.Keycode == Key.Escape) // In Godot 4, use Keycode instead of Scancode
+            if (Global.gameManager.graphicManager.uiManager.windowOpen)
             {
-                if(Global.gameManager.graphicManager.uiManager.windowOpen)
+                Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+                GetViewport().SetInputAsHandled();
+            }
+            else
+            {
+                if (Global.gameManager.graphicManager.GetWaitForTargeting())
                 {
-                    Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+                    Global.gameManager.graphicManager.ClearWaitForTarget();
+                    GetViewport().SetInputAsHandled();
                 }
-                else
+                else if (Global.gameManager.graphicManager.selectedObject != null)
                 {
-                    if (Global.gameManager.graphicManager.GetWaitForTargeting())
-                    {
-                        Global.gameManager.graphicManager.ClearWaitForTarget();
-                    }
-                    else
-                    {
-                        Global.gameManager.graphicManager.UnselectObject();
-                    }
+                    Global.gameManager.graphicManager.UnselectObject();
+                    GetViewport().SetInputAsHandled();
                 }
             }
         }
+    }
+
+    public override void _UnhandledInput(InputEvent iEvent)
+    {
         if (!blockClick && iEvent is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
         {
             Vector2 mouse_pos = GetViewport().GetMousePosition();

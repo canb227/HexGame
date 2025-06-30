@@ -56,6 +56,7 @@ public partial class CityInfoPanel : Node3D
 
     private HBoxContainer cityDetails;
     private CityExportPanel cityExports;
+    private Button openExportsButton;
 
     private VBoxContainer buildingsList;
 
@@ -112,6 +113,7 @@ public partial class CityInfoPanel : Node3D
         Purchase = cityUI.GetNode<ScrollContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase");
         PurchaseBox = cityUI.GetNode<VBoxContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox");
 
+
         ProductionQueuePanel = cityUI.GetNode<PanelContainer>("ProductionQueuePanel");
         ProductionQueue = ProductionQueuePanel.GetNode<VBoxContainer>("ScrollContainer/ProductionQueue");
         OffsetLabel = ProductionQueuePanel.GetNode<Label>("ScrollContainer/ProductionQueue/OffsetLabel");
@@ -121,9 +123,14 @@ public partial class CityInfoPanel : Node3D
         BuildingsButton.Pressed += () => ToggleBuildingsBoxVisibility();
         UnitsButton.Pressed += () => ToggleUnitBoxVisibility();
 
+
         cityDetails = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityDetailsPanel.tscn").Instantiate<HBoxContainer>();
         cityDetails.Visible = false;
         buildingsList = cityDetails.GetNode<VBoxContainer>("CityDetailsPanel/CityDetailsHBox/BuildingsList");
+        openExportsButton = cityDetails.GetNode<Button>("CityDetailsPanel/CityDetailsHBox/ExportButton");
+        openExportsButton.Pressed += () => ShowCityExportPanel();
+
+
 
         AddChild(cityDetails);
 
@@ -157,6 +164,7 @@ public partial class CityInfoPanel : Node3D
 
     public void ShowCityInfoPanel()
     {
+        cityUI.Visible = true;
         cityInfoPanel.Visible = true;
         cityDetails.Visible = true;
         Global.gameManager.graphicManager.uiManager.scienceButton.Visible = false;
@@ -167,6 +175,7 @@ public partial class CityInfoPanel : Node3D
 
     public void ShowCityExportPanel()
     {
+        cityExports.UpdateCityExportPanel(city);
         cityExports.Visible = true;
         cityInfoPanel.Visible = false;
     }
@@ -196,6 +205,7 @@ public partial class CityInfoPanel : Node3D
         Global.gameManager.graphicManager.uiManager.scienceButton.Visible = true;
         Global.gameManager.graphicManager.uiManager.cultureButton.Visible = true;
         Global.gameManager.graphicManager.uiManager.resourceButton.Visible = true;
+        cityUI.Visible = false;
         cityInfoPanel.Visible = false;
         cityDetails.Visible = false;
         cityExports.Visible = false;
@@ -210,79 +220,82 @@ public partial class CityInfoPanel : Node3D
 
     public void UpdateCityPanelInfo()
     {
-        cityExports.UpdateCityExportPanel();
-        if (cityInfoPanel.Visible && city != null)
+        if(city != null)
         {
-            CityName.Text = city.name;
-            FoodYield.Text = city.yields.food.ToString();
-            ProductionYield.Text = city.yields.production.ToString();
-            GoldYield.Text = city.yields.gold.ToString();
-            ScienceYield.Text = city.yields.science.ToString();
-            CultureYield.Text = city.yields.culture.ToString();
-            HappinessYield.Text = city.yields.happiness.ToString();
-            InfluenceYield.Text = city.yields.influence.ToString();
-
-            if (city.teamNum == Global.gameManager.game.localPlayerTeamNum)
+            cityExports.UpdateCityExportPanel(city);
+            if (cityInfoPanel.Visible)
             {
-                foreach (Control child in UnitsBox.GetChildren())
+                CityName.Text = city.name;
+                FoodYield.Text = city.yields.food.ToString();
+                ProductionYield.Text = city.yields.production.ToString();
+                GoldYield.Text = city.yields.gold.ToString();
+                ScienceYield.Text = city.yields.science.ToString();
+                CultureYield.Text = city.yields.culture.ToString();
+                HappinessYield.Text = city.yields.happiness.ToString();
+                InfluenceYield.Text = city.yields.influence.ToString();
+
+                if (city.teamNum == Global.gameManager.game.localPlayerTeamNum)
                 {
-                    child.QueueFree();
-                }
-                foreach (Control child in BuildingsBox.GetChildren())
-                {
-                    child.QueueFree();
-                }
-                RenameCityButton.Disabled = false;
-                foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedUnits)
-                {
-                    if (itemName != "")
+                    foreach (Control child in UnitsBox.GetChildren())
                     {
-                        ConstructionItem item = new ConstructionItem(city, itemName, false, true);
-                        UnitsBox.AddChild(item);
+                        child.QueueFree();
+                    }
+                    foreach (Control child in BuildingsBox.GetChildren())
+                    {
+                        child.QueueFree();
+                    }
+                    RenameCityButton.Disabled = false;
+                    foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedUnits)
+                    {
+                        if (itemName != "")
+                        {
+                            ConstructionItem item = new ConstructionItem(city, itemName, false, true);
+                            UnitsBox.AddChild(item);
+                        }
+                    }
+                    foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedBuildings)
+                    {
+                        if (itemName != "")
+                        {
+                            ConstructionItem item = new ConstructionItem(city, itemName, true, false);
+                            BuildingsBox.AddChild(item);
+                        }
                     }
                 }
-                foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedBuildings)
+                else
                 {
-                    if (itemName != "")
+                    RenameCityButton.Disabled = true;
+                }
+                /*foreach (PurchaseItem item in purchaseItems)
+                {
+                    PurchaseBox.AddChild(item);
+                }*/
+
+                foreach (Control child in ProductionQueue.GetChildren())
+                {
+                    if (child.Name != "OffsetLabel")
                     {
-                        ConstructionItem item = new ConstructionItem(city, itemName, true, false);
-                        BuildingsBox.AddChild(item);
+                        child.QueueFree();
                     }
                 }
-            }
-            else
-            {
-                RenameCityButton.Disabled = true;
-            }
-            /*foreach (PurchaseItem item in purchaseItems)
-            {
-                PurchaseBox.AddChild(item);
-            }*/
+                for (int i = 0; i < city.productionQueue.Count; i++)
+                {
+                    ProductionQueue.AddChild(new ProductionQueueUIItem(city, i));
+                }
 
-            foreach (Control child in ProductionQueue.GetChildren())
-            {
-                if(child.Name != "OffsetLabel")
+                //update the ui stuff
+                foreach (Control child in buildingsList.GetChildren())
                 {
                     child.QueueFree();
                 }
-            }
-            for (int i = 0; i < city.productionQueue.Count; i++)
-            {
-                ProductionQueue.AddChild(new ProductionQueueUIItem(city, i));
-            }
-
-            //update the ui stuff
-            foreach(Control child in buildingsList.GetChildren())
-            {
-                child.QueueFree();
-            }
-            foreach(District district in city.districts)
-            {
-                if(district.isUrban)
+                foreach (District district in city.districts)
                 {
-                    foreach (Building building in district.buildings)
+                    if (district.isUrban)
                     {
-                        buildingsList.AddChild(new BuildingDetailBox(city, building));
+                        foreach (Building building in district.buildings)
+                        {
+                            buildingsList.AddChild(new BuildingDetailBox(city, building));
+                        }
                     }
                 }
             }

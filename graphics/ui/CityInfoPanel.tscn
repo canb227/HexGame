@@ -26,10 +26,10 @@ PanelContainer/styles/panel = SubResource("StyleBoxFlat_pepai")
 [node name="CityUI" type="HBoxContainer"]
 z_index = 1
 anchors_preset = -1
-anchor_right = 0.159
+anchor_right = 0.165
 anchor_bottom = 0.994
-offset_top = 71.0
-offset_right = 298.832
+offset_top = 64.0
+offset_right = 291.92
 offset_bottom = -1.112
 grow_vertical = 2
 
