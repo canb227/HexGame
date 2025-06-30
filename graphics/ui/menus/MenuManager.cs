@@ -1,49 +1,66 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 
-public partial class MenuManager : Control
+public partial class MenuManager : Node
 {
 
 	Control CurrentMenu = null;
-    public Control loadingScreen;
-    public Control mainMenu;
-    public Lobby lobby;
+    Control CurrentPopup = null;
+    public Lobby lobby = null;
+
+    public Dictionary<string,Control> loadedMenus = new Dictionary<string,Control>();
+
+    public const string UI_Mainmenu = "res://graphics/ui/menus/mainmenu.tscn";
+    public const string UI_Pause = "res://graphics/ui/menus/PauseMenu.tscn";
+    public const string UI_Lobby = "res://graphics/ui/menus/lobby.tscn";
+    public const string UI_LoadingScreen = "res://graphics/ui/menus/LoadingScreen.tscn";
 
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 		Global.menuManager = this;
-        loadingScreen = GetNode<Control>("LoadingScreen");
-        mainMenu = GetNode<Control>("Mainmenu");
-        lobby = GetNode<Lobby>("Lobby");
-
-        mainMenu.Show();
+        ChangeMenu(UI_Mainmenu);
 	}
 
-    
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("pause") && Global.gameManager.gameStarted)
+        {
+            Global.menuManager.ChangeMenu(UI_Pause);
+        }
+    }
     public void LoadLobby()
     {
-        ClearMenus();
-        lobby.Show();
-        lobby.CreateLobby();
+        ChangeMenu(UI_Lobby);
+        lobby = ((Lobby)CurrentMenu);
+        lobby.CreateLobby(); 
     }
 
     public void JoinLobby(ulong id)
     {
-        ClearMenus();
-        lobby.Show();
+        ChangeMenu(UI_Lobby);
+        lobby = ((Lobby)CurrentMenu);
         lobby.JoinLobby(id);
     }
+
     public void ChangeMenu(string scenePath)
     {
-        if (CurrentMenu != null)
+        ClearMenus();
+        if (loadedMenus.ContainsKey(scenePath))
         {
-            RemoveChild(CurrentMenu);
+            CurrentMenu = loadedMenus[scenePath];
+            CurrentMenu.Show();
         }
-        CurrentMenu = (Control)Godot.ResourceLoader.Load<PackedScene>(scenePath).Instantiate();
-		AddChild(CurrentMenu);
+        else
+        {
+            CurrentMenu = (Control)Godot.ResourceLoader.Load<PackedScene>(scenePath).Instantiate();
+            AddChild(CurrentMenu);
+            CurrentMenu.Show();
+        }
     }
 
     internal void ClearMenus()
@@ -52,6 +69,25 @@ public partial class MenuManager : Control
         foreach (Control child in GetChildren())
         {
             child.Hide();
+        }
+    }
+
+    internal void SpawnPopup(string scenePath)
+    {
+        if (CurrentPopup != null)
+        {
+            RemoveChild(CurrentPopup);
+        }
+        CurrentPopup = (Control)Godot.ResourceLoader.Load<PackedScene>(scenePath).Instantiate();
+        AddChild(CurrentPopup);
+    }
+
+
+    public void ClearPopup()
+    {
+        if (CurrentPopup != null)
+        {
+            RemoveChild(CurrentPopup);
         }
     }
 }

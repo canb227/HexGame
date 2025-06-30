@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7ou8twj128cu"]
+
+[ext_resource type="Script" uid="uid://t0tl553q1r8f" path="res://graphics/ui/menus/PopupQuitConfirm.cs" id="1_1dya3"]
+
+[node name="PopupQuitConfirm" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1dya3")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.243924
+anchor_top = 0.390432
+anchor_right = 0.727431
+anchor_bottom = 0.612654
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+anchor_left = 0.342014
+anchor_top = 0.408951
+anchor_right = 0.62066
+anchor_bottom = 0.444444
+text = "Are you sure you want to close the game?"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.360243
+anchor_top = 0.444444
+anchor_right = 0.598958
+anchor_bottom = 0.479938
+text = "UNSAVED PROGRESS WILL BE LOST"
+metadata/_edit_use_anchors_ = true
+
+[node name="quitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.588542
+anchor_top = 0.506173
+anchor_right = 0.71441
+anchor_bottom = 0.597222
+text = "QUIT"
+metadata/_edit_use_anchors_ = true
+
+[node name="backButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.260417
+anchor_top = 0.506173
+anchor_right = 0.393229
+anchor_bottom = 0.597222
+text = "Go Back"
+metadata/_edit_use_anchors_ = true

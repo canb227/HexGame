@@ -15,6 +15,7 @@ public partial class GameManager : Node
     public static GameManager instance;
     public GraphicManager graphicManager;
     public Game game;
+    public bool gameStarted = false;
 
     public Dictionary<int,ulong> teamNumToPlayerID = new Dictionary<int, ulong>();
 
@@ -111,10 +112,9 @@ public partial class GameManager : Node
         InitGraphics(game, Global.layout);
 
         SpawnPlayers();
-        Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
         Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
-
+        gameStarted = true;
         foreach (Player player1 in game.playerDictionary.Values)
         {
             foreach(Player player2 in game.playerDictionary.Values)
@@ -174,8 +174,8 @@ public partial class GameManager : Node
         game = LoadGame(savePath);
         game.localPlayerTeamNum = teamNum;
         InitGraphics(game, Global.layout);
-        Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
+        gameStarted = true;
         Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
 
     }
@@ -195,8 +195,8 @@ public partial class GameManager : Node
         }
 
         InitGraphics(game, Global.layout);
-        Global.menuManager.Hide();
         Global.menuManager.ClearMenus();
+        gameStarted = true;
         Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
 
     }

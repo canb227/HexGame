@@ -314,8 +314,8 @@ public partial class Lobby : Control
                 {
                     Global.Log("You have been kicked from the lobby. Returning to main menu.");
                     LeaveLobby();
-                    Global.menuManager.ClearMenus();
-                    Global.menuManager.mainMenu.Show();
+                    Global.menuManager.ChangeMenu(MenuManager.UI_Mainmenu);
+
                     return;
                 }
                 else if (PlayerStatuses.ContainsKey(lobbyMessage.LobbyStatus.Id))
@@ -355,8 +355,7 @@ public partial class Lobby : Control
     private void StartGame(LobbyMessage lobbyMessage)
     {
         //Global.debugLog(lobbyMessage.SavePayload);
-        Global.menuManager.ClearMenus();
-        Global.menuManager.loadingScreen.Show();
+        Global.menuManager.ChangeMenu(MenuManager.UI_LoadingScreen);
         if (GetNode<CheckButton>("newgameoptions/debugmode").ButtonPressed)
         {
             Global.gameManager.game = new Game(0);
@@ -533,8 +532,7 @@ public partial class Lobby : Control
     public async void OnStartGameButtonPressed()
     {
         Global.Log("Start game button pressed. Team Num: " + ((int)PlayerStatuses[Global.clientID].Team).ToString());
-        Global.menuManager.ClearMenus();
-        Global.menuManager.loadingScreen.Show();
+        Global.menuManager.ChangeMenu(MenuManager.UI_LoadingScreen);
         await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
 
 

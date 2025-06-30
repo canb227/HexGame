@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://da7uev2cugfiu"]
+
+[ext_resource type="Script" uid="uid://dwcsi7lmgyolf" path="res://graphics/ui/menus/PauseMenu.cs" id="1_ou8pa"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ou8pa")
+
+[node name="BlockUIInput" type="Control" parent="."]
+anchors_preset = 0
+anchor_right = 0.999132
+anchor_bottom = 1.00154
+metadata/_edit_use_anchors_ = true
+
+[node name="PausePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.265625
+anchor_top = 0.0709877
+anchor_right = 0.671007
+anchor_bottom = 0.927469
+metadata/_edit_use_anchors_ = true
+
+[node name="quitButton" type="Button" parent="."]
+layout_mode = 0
+anchor_left = 0.282118
+anchor_top = 0.850309
+anchor_right = 0.37066
+anchor_bottom = 0.907407
+text = "Quit"
+metadata/_edit_use_anchors_ = true
+
+[node name="resumeButton" type="Button" parent="."]
+layout_mode = 0
+anchor_left = 0.521701
+anchor_top = 0.777778
+anchor_right = 0.650174
+anchor_bottom = 0.902778
+text = "Resume"
+metadata/_edit_use_anchors_ = true
+
+[node name="loadButton" type="Button" parent="."]
+layout_mode = 0
+anchor_left = 0.357639
+anchor_top = 0.521605
+anchor_right = 0.578993
+anchor_bottom = 0.617284
+text = "Load Game"
+metadata/_edit_use_anchors_ = true
+
+[node name="saveButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.357639
+anchor_top = 0.412037
+anchor_right = 0.578993
+anchor_bottom = 0.507716
+text = "Save Game"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.422743
+anchor_top = 0.0910494
+anchor_right = 0.508396
+anchor_bottom = 0.132491
+text = "Pause Menu"
+metadata/_edit_use_anchors_ = true
