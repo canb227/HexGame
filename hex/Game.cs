@@ -21,6 +21,8 @@ public class Game
     public TurnManager turnManager { get; set; }
     private int currentID = 0;
 
+    public Player localPlayerRef;
+
     public int CurrentID
     {
         get => currentID;
@@ -64,6 +66,10 @@ public class Game
         Global.Log("Checking player to game with color:" + teamColor.ToString());
         Player newPlayer = new Player(startGold, teamNum, teamColor, isAI);
         playerDictionary.Add(teamNum, newPlayer);
+        if(teamNum == localPlayerTeamNum)
+        {
+            localPlayerRef = newPlayer;
+        }
         Global.gameManager.teamNumToPlayerID.Add(teamNum, playerID);
     }
 

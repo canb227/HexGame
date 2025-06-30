@@ -177,14 +177,14 @@ public partial class UIManager : Node3D
 
     public void UpdateAll()
     {
-        goldLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetGoldTotal().ToString() + " ";
-        goldPerTurnLabel.Text = "(+" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetGoldPerTurn().ToString() + ")  ";
-        sciencePerTurnLabel.Text = " +" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetSciencePerTurn().ToString() + "  ";
-        culturePerTurnLabel.Text = " +" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetCulturePerTurn().ToString() + "  ";
-        happinessLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetHappinessTotal().ToString() + " ";
-        happinessPerTurnLabel.Text = "(+" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetHappinessPerTurn().ToString() + ")  ";
-        influenceLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetInfluenceTotal().ToString() + " ";
-        influencePerTurnLabel.Text = "(+" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetInfluencePerTurn().ToString() + ")  ";
+        goldLabel.Text = Global.gameManager.game.localPlayerRef.GetGoldTotal().ToString() + " ";
+        goldPerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetGoldPerTurn().ToString() + ")  ";
+        sciencePerTurnLabel.Text = " +" + Global.gameManager.game.localPlayerRef.GetSciencePerTurn().ToString() + "  ";
+        culturePerTurnLabel.Text = " +" + Global.gameManager.game.localPlayerRef.GetCulturePerTurn().ToString() + "  ";
+        happinessLabel.Text = Global.gameManager.game.localPlayerRef.GetHappinessTotal().ToString() + " ";
+        happinessPerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetHappinessPerTurn().ToString() + ")  ";
+        influenceLabel.Text = Global.gameManager.game.localPlayerRef.GetInfluenceTotal().ToString() + " ";
+        influencePerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetInfluencePerTurn().ToString() + ")  ";
         turnNumberLabel.Text = " " + Global.gameManager.game.turnManager.currentTurn;
 
         UpdateUnitUIDisplay();
@@ -199,35 +199,35 @@ public partial class UIManager : Node3D
     {
         if (element == UIElement.gold)
         {
-            goldLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetGoldTotal().ToString() + " ";
+            goldLabel.Text = Global.gameManager.game.localPlayerRef.GetGoldTotal().ToString() + " ";
         }
         else if (element == UIElement.goldPerTurn)
         {
-            goldPerTurnLabel.Text = "(+" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetGoldPerTurn().ToString() + ")  ";
+            goldPerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetGoldPerTurn().ToString() + ")  ";
         }
         else if (element == UIElement.sciencePerTurn)
         {
-            sciencePerTurnLabel.Text = " +" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetSciencePerTurn().ToString() + "  ";
+            sciencePerTurnLabel.Text = " +" + Global.gameManager.game.localPlayerRef.GetSciencePerTurn().ToString() + "  ";
         }
         else if (element == UIElement.culturePerTurn)
         {
-            culturePerTurnLabel.Text = " +" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetCulturePerTurn().ToString() + "  ";
+            culturePerTurnLabel.Text = " +" + Global.gameManager.game.localPlayerRef.GetCulturePerTurn().ToString() + "  ";
         }
         else if (element == UIElement.happiness)
         {
-            happinessLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetHappinessTotal().ToString() + " ";
+            happinessLabel.Text = Global.gameManager.game.localPlayerRef.GetHappinessTotal().ToString() + " ";
         }
         else if (element == UIElement.happinessPerTurn)
         {
-            happinessPerTurnLabel.Text = "(+" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetHappinessPerTurn().ToString() + ")  ";
+            happinessPerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetHappinessPerTurn().ToString() + ")  ";
         }
         else if (element == UIElement.influence)
         {
-            influenceLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetInfluenceTotal().ToString() + " ";
+            influenceLabel.Text = Global.gameManager.game.localPlayerRef.GetInfluenceTotal().ToString() + " ";
         }
         else if (element == UIElement.influencePerTurn)
         {
-            influencePerTurnLabel.Text = "(+" + Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].GetInfluencePerTurn().ToString() + ")  ";
+            influencePerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetInfluencePerTurn().ToString() + ")  ";
         }
         else if (element == UIElement.turnNumber)
         {
@@ -255,11 +255,11 @@ public partial class UIManager : Node3D
 
     public void UpdateResearchUI()
     {
-        Player localPlayer = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum];
+        Player localPlayer = Global.gameManager.game.localPlayerRef;
         if (localPlayer.queuedResearch.Any())
         {
             ResearchInfo info = ResearchLoader.researchesDict[localPlayer.queuedResearch.First().researchType];
-            scienceButtonLabel.Text = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.First().researchType;
+            scienceButtonLabel.Text = Global.gameManager.game.localPlayerRef.queuedResearch.First().researchType;
             scienceButtonIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + info.IconPath);
             foreach (Node child in scienceButtonResults.GetChildren())
             {
@@ -395,7 +395,7 @@ public partial class UIManager : Node3D
     
     private void UpdateEndTurnButton()
     {
-        if(Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch.Count == 0)
+        if(Global.gameManager.game.localPlayerRef.queuedResearch.Count == 0)
         {
             pickScience = true;
             endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/science.png");
@@ -406,7 +406,7 @@ public partial class UIManager : Node3D
             pickScience = false;
         }
 
-        if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch.Count == 0)
+        if (Global.gameManager.game.localPlayerRef.queuedCultureResearch.Count == 0)
         {
             pickCulture = true;
             endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/culture.png");
@@ -419,7 +419,7 @@ public partial class UIManager : Node3D
 
         bool cityReadyToGrow = false;
         City foundCity = null;
-        foreach(int cityID in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].cityList)
+        foreach(int cityID in Global.gameManager.game.localPlayerRef.cityList)
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
             if (city.readyToExpand > 0)
@@ -445,7 +445,7 @@ public partial class UIManager : Node3D
 
         bool unitNeedsOrders = false;
         Unit foundUnit = null;
-        foreach (int unitID in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].unitList)
+        foreach (int unitID in Global.gameManager.game.localPlayerRef.unitList)
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
             if (unit.remainingMovement > 0 && unit.currentPath.Count == 0 && !unit.isSleeping && !unit.isSkipping)

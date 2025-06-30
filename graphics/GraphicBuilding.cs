@@ -26,7 +26,7 @@ public partial class GraphicBuilding : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(building.districtHex))
+            if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(building.districtHex))
             {
                 this.Visible = true;
             }

@@ -28,7 +28,7 @@ public partial class ResourcePanel : Control
 
         CityList = resourceControl.GetNode<VBoxContainer>("ResourcePanel/ResourceHBox/MarginContainer3/VBoxContainer/MarginContainer/CityScroll/CityList");
 
-        foreach(int cityIndex in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].cityList)
+        foreach(int cityIndex in Global.gameManager.game.localPlayerRef.cityList)
         {
             ResourceCityPanel rCP = new ResourceCityPanel(Global.gameManager.game.cityDictionary[cityIndex], this);
             CityList.AddChild(rCP);
@@ -43,7 +43,7 @@ public partial class ResourcePanel : Control
 
     public void AssignCurrentResource(City city)
     {
-        Player localPlayer = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum];
+        Player localPlayer = Global.gameManager.game.localPlayerRef;
         if (currentButton != null && currentButton.resourceType != ResourceType.None)
         {
             if(currentButton.city != null)
@@ -86,7 +86,7 @@ public partial class ResourcePanel : Control
             {
                 child.QueueFree();
             }
-            foreach (int cityIndex in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].cityList)
+            foreach (int cityIndex in Global.gameManager.game.localPlayerRef.cityList)
             {
                 ResourceCityPanel rCP = new ResourceCityPanel(Global.gameManager.game.cityDictionary[cityIndex], this);
                 CityList.AddChild(rCP);
@@ -97,7 +97,7 @@ public partial class ResourcePanel : Control
             {
                 child.QueueFree();
             }
-            foreach (KeyValuePair<Hex, ResourceType> unassignedResource in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].unassignedResources)
+            foreach (KeyValuePair<Hex, ResourceType> unassignedResource in Global.gameManager.game.localPlayerRef.unassignedResources)
             {
                 ResourceButton rb = new ResourceButton(unassignedResource.Key, unassignedResource.Value, this, null);
                 UnassignedResourcesBox.AddChild(rb);
@@ -115,7 +115,7 @@ public partial class ResourcePanel : Control
             {
                 child.QueueFree();
             }
-            foreach (KeyValuePair<Hex, ResourceType> globalResource in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].globalResources)
+            foreach (KeyValuePair<Hex, ResourceType> globalResource in Global.gameManager.game.localPlayerRef.globalResources)
             {
                 TextureRect globalIcon = new TextureRect();//Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ResourceGlobalIcon.tscn").Instantiate<TextureRect>();
                 globalIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[globalResource.Value].IconPath);

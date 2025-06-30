@@ -170,9 +170,9 @@ public partial class Global : Node
         ImGui.Begin("Debug Console");
         if (ImGui.Button("Give Full Vision"))
         {
-            var visibleHexes = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict;
-            var visibilityChanged = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibilityChangedList;
-            var seen = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict;
+            var visibleHexes = Global.gameManager.game.localPlayerRef.visibleGameHexDict;
+            var visibilityChanged = Global.gameManager.game.localPlayerRef.visibilityChangedList;
+            var seen = Global.gameManager.game.localPlayerRef.seenGameHexDict;
             foreach (GameHex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Values)
             {
                 visibleHexes.TryAdd(hex.hex, 10);

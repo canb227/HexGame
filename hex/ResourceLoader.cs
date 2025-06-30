@@ -35,6 +35,7 @@ public enum ResourceType
 public struct ResourceInfo
 {
     public string Name { get; set; }
+    public string Description { get; set; }
     public string IconPath { get; set; }
     public string ModelPath { get; set; }
     public string ImprovementType { get; set; }
@@ -128,6 +129,7 @@ public static class ResourceLoader
                 r => new ResourceInfo
                 {
                     Name = r.Attribute("Name").Value,
+                    Description = r.Attribute("Description").Value,
                     IconPath = r.Attribute("IconPath").Value,
                     ModelPath = r.Attribute("ModelPath").Value,
                     ImprovementType = r.Attribute("ImprovementType").Value,
@@ -142,6 +144,12 @@ public static class ResourceLoader
             );
 
         return resourceData;
+    }
+    public static string GenerateYieldsString(ResourceType resourceType)
+    {
+        string yields = "";
+
+        return yields;
     }
     public static bool ProcessFunctionString(String functionString, int cityID)
     {

@@ -101,7 +101,7 @@ public partial class GraphicResource : GraphicObject
         }
         if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(hex))
+            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hex))
             {
                 greyScaleShaderMaterial.SetShaderParameter("enabled", false);
                 //greyScale3DShaderMaterial.SetShaderParameter("enabled", false);
@@ -113,7 +113,7 @@ public partial class GraphicResource : GraphicObject
                     improvementMeshInstance.Visible = true;
                 }
             }
-            else if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(hex))
+            else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
             {
                 greyScaleShaderMaterial.SetShaderParameter("enabled", true);
                 //greyScale3DShaderMaterial.SetShaderParameter("enabled", true);

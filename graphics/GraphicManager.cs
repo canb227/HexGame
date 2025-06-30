@@ -177,14 +177,14 @@ public partial class GraphicManager : Node3D
 
     public void UpdateVisibility()
     {
-        foreach(Hex hex in Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibilityChangedList)
+        foreach(Hex hex in Global.gameManager.game.localPlayerRef.visibilityChangedList)
         {
             foreach(GraphicObject graphicObj in hexObjectDictionary[hex])
             {
                 graphicObj.UpdateGraphic(GraphicUpdateType.Visibility);
             }
         }
-        Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibilityChangedList.Clear();
+        Global.gameManager.game.localPlayerRef.visibilityChangedList.Clear();
         foreach(Player player in Global.gameManager.game.playerDictionary.Values)
         {
             player.UpdateTerritoryGraphic();

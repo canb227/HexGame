@@ -33,7 +33,7 @@ public partial class GraphicCity : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(city.hex) || Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(city.hex))
+            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(city.hex) || Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(city.hex))
             {
                 this.Visible = true;
                 cityWorldUI.Visible = true;

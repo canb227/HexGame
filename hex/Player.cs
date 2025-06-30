@@ -361,7 +361,7 @@ public class Player
             City city = Global.gameManager.game.cityDictionary[(int)cityID];
             foreach (Hex hex in city.heldHexes)
             {
-                if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(hex))
+                if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
                 {
                     Node3D territoryLinesNode = (Node3D)Global.gameManager.graphicManager.territoryLinesScene.GetChild(0).Duplicate();
 

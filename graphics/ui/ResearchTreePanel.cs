@@ -109,12 +109,12 @@ public partial class ResearchTreePanel : Control
         if(isCultureTree)
         {
             Global.gameManager.SelectCulture(Global.gameManager.game.localPlayerTeamNum, researchName);
-            //Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].SelectCultureResearch(researchName);
+            //Global.gameManager.game.localPlayerRef.SelectCultureResearch(researchName);
         }
         else
         {
             Global.gameManager.SelectResearch(Global.gameManager.game.localPlayerTeamNum, researchName);
-            //Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].SelectResearch(researchName);
+            //Global.gameManager.game.localPlayerRef.SelectResearch(researchName);
         }
     }
 
@@ -124,13 +124,13 @@ public partial class ResearchTreePanel : Control
         HashSet<String> completedResearches = new();
         if(isCultureTree)
         {
-            queuedResearch = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedCultureResearch;
-            completedResearches = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].completedCultureResearches;
+            queuedResearch = Global.gameManager.game.localPlayerRef.queuedCultureResearch;
+            completedResearches = Global.gameManager.game.localPlayerRef.completedCultureResearches;
         }
         else
         {
-            queuedResearch = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].queuedResearch;
-            completedResearches = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].completedResearches;
+            queuedResearch = Global.gameManager.game.localPlayerRef.queuedResearch;
+            completedResearches = Global.gameManager.game.localPlayerRef.completedResearches;
         }
         foreach(Button button in buttonList)
         {
@@ -285,7 +285,7 @@ public partial class ResearchTreePanel : Control
 
     private float CalculateTurnsToFinish(string research)
     {
-        Player localPlayer = Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum];
+        Player localPlayer = Global.gameManager.game.localPlayerRef;
         float turns = 0.0f;
         if (localPlayer.partialResearchDictionary.ContainsKey(research))
         {

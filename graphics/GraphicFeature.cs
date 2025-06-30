@@ -75,12 +75,12 @@ public partial class GraphicFeature : GraphicObject
     {
         if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].visibleGameHexDict.ContainsKey(hex))
+            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hex))
             {
                 this.Visible = true;
                 featureModel.Visible = true;
             }
-            else if (Global.gameManager.game.playerDictionary[Global.gameManager.game.localPlayerTeamNum].seenGameHexDict.ContainsKey(hex))
+            else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
             {
                 this.Visible = true;
                 featureModel.Visible = true;

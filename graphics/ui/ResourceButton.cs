@@ -28,7 +28,7 @@ public partial class ResourceButton : Control
         resourceButton.Set("origin", 3);
         resourceButton.Set("tooltip_alignment", 1);
         resourceButton.Set("overflow_mode", 1);
-        resourceButton.Call("add_tooltipstring", "Hello here is the tooltip is holds information");
+        resourceButton.Call("add_tooltipstring", ResourceLoader.resources[resourceType].Name + ":" + ResourceLoader.resources[resourceType].Description + " ");
         AddChild(resourceButton);
     }
 }
