@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 [Serializable]
 public class TradeExportManager
 {
-    public HashSet<ExportRoute> exportRouteDictionary { get; set; } = new();
+    public HashSet<ExportRoute> exportRouteHashSet { get; set; } = new();
 
     public TradeExportManager()
     {
@@ -15,7 +15,7 @@ public class TradeExportManager
     public void NewExportRoute(int city, int targetCity, YieldType exportType)
     {
         Global.gameManager.game.cityDictionary[city].NewExport(exportType);
-        exportRouteDictionary.Add(new ExportRoute(city, targetCity, exportType));
+        exportRouteHashSet.Add(new ExportRoute(city, targetCity, exportType));
         Global.gameManager.game.cityDictionary[city].RecalculateYields();
         Global.gameManager.game.cityDictionary[targetCity].RecalculateYields();
     }
@@ -23,7 +23,7 @@ public class TradeExportManager
     public void RemoveExportRoute(int city, int targetCity, YieldType exportType)
     {
         Global.gameManager.game.cityDictionary[city].RemoveExport(exportType);
-        exportRouteDictionary.Remove(new ExportRoute(city, targetCity, exportType));
+        exportRouteHashSet.Remove(new ExportRoute(city, targetCity, exportType));
         Global.gameManager.game.cityDictionary[city].RecalculateYields();
         Global.gameManager.game.cityDictionary[targetCity].RecalculateYields();
     }

@@ -25,5 +25,8 @@ public class ExportRoute
         }
         return false;
     }
-
+    public override int GetHashCode()
+    {
+        return (sourceCityID, targetCityID, exportType).GetHashCode();
+    }
 }

@@ -747,7 +747,7 @@ public class City
     {
         MyYieldsRecalculateYields();
 
-        foreach (ExportRoute exportRoute in Global.gameManager.game.tradeExportManager.exportRouteDictionary)
+        foreach (ExportRoute exportRoute in Global.gameManager.game.tradeExportManager.exportRouteHashSet)
         {
             if(exportRoute.targetCityID == id)
             {

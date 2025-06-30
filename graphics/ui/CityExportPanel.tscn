@@ -46,14 +46,3 @@ size_flags_vertical = 3
 
 [node name="ExportVBox" type="VBoxContainer" parent="CityExportPanel/CityExportBox/ExportScrollContainer"]
 layout_mode = 2
-
-[node name="CityContainer" type="VBoxContainer" parent="CityExportPanel/CityExportBox/ExportScrollContainer/ExportVBox"]
-layout_mode = 2
-
-[node name="CityName" type="Label" parent="CityExportPanel/CityExportBox/ExportScrollContainer/ExportVBox/CityContainer"]
-layout_mode = 2
-text = "City Name"
-
-[node name="ExportFoodCheckbox" type="CheckBox" parent="CityExportPanel/CityExportBox/ExportScrollContainer/ExportVBox/CityContainer"]
-layout_mode = 2
-text = "Export Surplus Food"

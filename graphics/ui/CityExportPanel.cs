@@ -48,7 +48,13 @@ public partial class CityExportPanel : PanelContainer
                 Label cityName = new Label();
                 cityName.Text = targetCity.name;
                 CheckButton exportFoodCheckBox = new CheckButton();
-                if (Global.gameManager.game.tradeExportManager.exportRouteDictionary.Contains(new ExportRoute(city.id, cityID, YieldType.food)))
+                GD.Print(city.id + " " + cityID);
+                foreach(ExportRoute route in Global.gameManager.game.tradeExportManager.exportRouteHashSet)
+                {
+                    GD.Print(route.sourceCityID + " " + route.targetCityID + " " + route.exportType);
+                }
+                GD.Print(Global.gameManager.game.tradeExportManager.exportRouteHashSet.Contains(new ExportRoute(city.id, cityID, YieldType.food)));
+                if (Global.gameManager.game.tradeExportManager.exportRouteHashSet.Contains(new ExportRoute(city.id, cityID, YieldType.food)))
                 {
                     exportFoodCheckBox.SetPressedNoSignal(true);
                 }
@@ -63,7 +69,6 @@ public partial class CityExportPanel : PanelContainer
 
     private void ExportFoodCheckBoxed(bool isOn, CheckButton exportFoodCheckBox, City targetCity)
     {
-        GD.Print("EXPORT CHECKBOX PRESSED" + isOn);
         if (isOn)
         {
             Global.gameManager.game.tradeExportManager.NewExportRoute(city.id, targetCity.id, YieldType.food);
