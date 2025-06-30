@@ -417,6 +417,16 @@ public partial class UIManager : Node3D
             pickCulture = false;
         }
 
+        if (assignResource)
+        {
+            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/star.png");
+            readyToGrow = false;
+            cityNeedsProduction = false;
+            targetCity = null;
+            waitingForOrders = false;
+            return;
+        }
+
         bool cityReadyToGrow = false;
         City foundCity = null;
         foreach(int cityID in Global.gameManager.game.localPlayerRef.cityList)
@@ -464,15 +474,6 @@ public partial class UIManager : Node3D
 
         }
 
-        if(assignResource)
-        {
-            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/star.png");
-            readyToGrow = false;
-            cityNeedsProduction = false;
-            targetCity = null;
-            waitingForOrders = false;
-            return;
-        }
 
         endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/skipturn.png");
         readyToGrow = false;

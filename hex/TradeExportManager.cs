@@ -12,6 +12,16 @@ public class TradeExportManager
     public TradeExportManager()
     {
     }
+    public void RecalculateExportsFromCity(int sourceCity)
+    {
+        foreach(ExportRoute export in exportRouteHashSet)
+        {
+            if(export.sourceCityID == sourceCity)
+            {
+                Global.gameManager.game.cityDictionary[export.targetCityID].RecalculateYields();
+            }
+        }
+    }
     public void NewExportRoute(int city, int targetCity, YieldType exportType)
     {
         Global.gameManager.game.cityDictionary[city].NewExport(exportType);

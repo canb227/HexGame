@@ -226,13 +226,13 @@ public partial class CityInfoPanel : Node3D
             if (cityInfoPanel.Visible)
             {
                 CityName.Text = city.name;
-                FoodYield.Text = city.yields.food.ToString();
-                ProductionYield.Text = city.yields.production.ToString();
-                GoldYield.Text = city.yields.gold.ToString();
-                ScienceYield.Text = city.yields.science.ToString();
-                CultureYield.Text = city.yields.culture.ToString();
-                HappinessYield.Text = city.yields.happiness.ToString();
-                InfluenceYield.Text = city.yields.influence.ToString();
+                FoodYield.Text = Math.Round(city.yields.food).ToString();
+                ProductionYield.Text = Math.Round(city.yields.production).ToString();
+                GoldYield.Text = Math.Round(city.yields.gold).ToString();
+                ScienceYield.Text = Math.Round(city.yields.science).ToString();
+                CultureYield.Text = Math.Round(city.yields.culture).ToString();
+                HappinessYield.Text = Math.Round(city.yields.happiness).ToString();
+                InfluenceYield.Text = Math.Round(city.yields.influence).ToString();
 
                 if (city.teamNum == Global.gameManager.game.localPlayerTeamNum)
                 {
