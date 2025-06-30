@@ -80,7 +80,8 @@ public class Player
     public float happinessTotal { get; set; }
     public float influenceTotal { get; set; }
     public int settlerCount = 0;
-
+    public int exportCount = 0;
+    public int exportCap = 2;
     private int idCounter = 0;
 
     public Godot.Color teamColor;
@@ -247,6 +248,20 @@ public class Player
             {
                 OnCultureResearchComplete(queuedCultureResearch[0].researchType);
                 queuedCultureResearch.RemoveAt(0);
+            }
+        }
+        if(exportCount > exportCap)
+        {
+            foreach (int cityID in cityList)
+            {
+                foreach(ExportRoute route in Global.gameManager.game.tradeExportManager.exportRouteList.AsEnumerable().Reverse().ToList())
+                {
+                    if (route.sourceCityID == cityID)
+                    {
+                        Global.gameManager.game.tradeExportManager.RemoveExportRoute(route.sourceCityID, route.targetCityID, route.exportType);
+                        break;
+                    }
+                }
             }
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))

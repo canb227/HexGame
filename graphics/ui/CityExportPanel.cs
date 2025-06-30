@@ -49,14 +49,18 @@ public partial class CityExportPanel : PanelContainer
                 cityName.Text = targetCity.name;
                 CheckButton exportFoodCheckBox = new CheckButton();
                 GD.Print(city.id + " " + cityID);
-                foreach(ExportRoute route in Global.gameManager.game.tradeExportManager.exportRouteHashSet)
+                foreach(ExportRoute route in Global.gameManager.game.tradeExportManager.exportRouteList)
                 {
                     GD.Print(route.sourceCityID + " " + route.targetCityID + " " + route.exportType);
                 }
-                GD.Print(Global.gameManager.game.tradeExportManager.exportRouteHashSet.Contains(new ExportRoute(city.id, cityID, YieldType.food)));
-                if (Global.gameManager.game.tradeExportManager.exportRouteHashSet.Contains(new ExportRoute(city.id, cityID, YieldType.food)))
+                GD.Print(Global.gameManager.game.tradeExportManager.exportRouteList.Contains(new ExportRoute(city.id, cityID, YieldType.food)));
+                if (Global.gameManager.game.tradeExportManager.exportRouteList.Contains(new ExportRoute(city.id, cityID, YieldType.food)))
                 {
                     exportFoodCheckBox.SetPressedNoSignal(true);
+                }
+                if (Global.gameManager.game.playerDictionary[city.teamNum].exportCount >= Global.gameManager.game.playerDictionary[city.teamNum].exportCap && !exportFoodCheckBox.ButtonPressed)
+                {
+                    exportFoodCheckBox.Disabled = true;
                 }
                 exportFoodCheckBox.Text = "Export Surplus Food to this City";
                 cityBox.AddChild(cityName);

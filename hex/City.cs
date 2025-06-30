@@ -739,15 +739,18 @@ public class City
     public void RecalculateYields()
     {
         MyYieldsRecalculateYields();
-
+        //int exportCost = 0;
         foreach (YieldType export in exportCount.Keys)
         {
+            //exportCost += 2;
             if (export == YieldType.food)
             {
                 yields.food = 0;
             }
         }
-        foreach (ExportRoute exportRoute in Global.gameManager.game.tradeExportManager.exportRouteHashSet)
+        //yields.gold -= exportCost;
+        //no gold cost for exports just a cap
+        foreach (ExportRoute exportRoute in Global.gameManager.game.tradeExportManager.exportRouteList)
         {
             if(exportRoute.targetCityID == id)
             {
