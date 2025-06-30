@@ -732,11 +732,13 @@ public class City
             ResourceLoader.ProcessFunctionString(ResourceLoader.resourceEffects[resource], id);
         }
         myYields.food -= naturalPopulation * 0.25f;
-        foreach(YieldType export in exportCount.Keys)
+        //myYields will hold onto the pre-export/import values
+        yields += myYields;
+        foreach (YieldType export in exportCount.Keys)
         {
             if(export == YieldType.food)
             {
-                myYields.food = 0;
+                yields.food = 0;
             }
         }
     }
@@ -744,11 +746,12 @@ public class City
     public void RecalculateYields()
     {
         MyYieldsRecalculateYields();
-        yields += myYields;
+
         foreach (ExportRoute exportRoute in Global.gameManager.game.tradeExportManager.exportRouteDictionary)
         {
             if(exportRoute.targetCityID == id)
             {
+                Global.gameManager.game.cityDictionary[exportRoute.sourceCityID].MyYieldsRecalculateYields();
                 if (exportRoute.exportType == YieldType.food)
                 {
                     City sourceCity = Global.gameManager.game.cityDictionary[exportRoute.sourceCityID];

@@ -47,21 +47,24 @@ public partial class CityExportPanel : PanelContainer
                 HBoxContainer cityBox = new HBoxContainer();
                 Label cityName = new Label();
                 cityName.Text = targetCity.name;
-                CheckBox exportFoodCheckBox = new CheckBox();
-                exportFoodCheckBox.ToggleMode = true;
+                CheckButton exportFoodCheckBox = new CheckButton();
+                if (Global.gameManager.game.tradeExportManager.exportRouteDictionary.Contains(new ExportRoute(city.id, cityID, YieldType.food)))
+                {
+                    exportFoodCheckBox.SetPressedNoSignal(true);
+                }
                 exportFoodCheckBox.Text = "Export Surplus Food to this City";
-                exportFoodCheckBox.Name = cityID.ToString();
                 cityBox.AddChild(cityName);
                 cityBox.AddChild(exportFoodCheckBox);
-                exportFoodCheckBox.Pressed += () => ExportFoodCheckBoxed(exportFoodCheckBox, targetCity);
+                exportFoodCheckBox.Toggled += (isOn) => ExportFoodCheckBoxed(isOn, exportFoodCheckBox, targetCity);
                 cityList.AddChild(cityBox);
             }
         }
     }
 
-    private void ExportFoodCheckBoxed(CheckBox exportFoodCheckBox, City targetCity)
+    private void ExportFoodCheckBoxed(bool isOn, CheckButton exportFoodCheckBox, City targetCity)
     {
-        if(exportFoodCheckBox.ButtonPressed)
+        GD.Print("EXPORT CHECKBOX PRESSED" + isOn);
+        if (isOn)
         {
             Global.gameManager.game.tradeExportManager.NewExportRoute(city.id, targetCity.id, YieldType.food);
         }
