@@ -46,8 +46,9 @@ public class Player
         playerTerritoryMaterial.Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
 
         //default diplomatic actions
-        diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Make Peace"));
-
+        diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Give Gold", true, false));
+        diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Give Gold Per Turn", true, true));
+        diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Make Peace", false, false));
     }
 
     public Player()

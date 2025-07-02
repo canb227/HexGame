@@ -1,8 +1,10 @@
 ﻿using Godot;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using static NetworkPeer;
 
 public enum UIElement
 {
@@ -58,6 +60,8 @@ public partial class UIManager : Node3D
 
     public Button tradeExportButton;
 
+    public HBoxContainer playerList;
+
     public UnitInfoPanel unitInfoPanel;
     public CityInfoPanel cityInfoPanel;
     public ResearchTreePanel researchTreePanel;
@@ -68,6 +72,8 @@ public partial class UIManager : Node3D
     public TradeExportPanel tradeExportPanel;
 
     public TradeRoutePickerPanel tradeRoutePickerPanel;
+
+    public DiplomacyPanel diplomacyPanel;
 
     public City targetCity;
     public Unit targetUnit;
@@ -124,6 +130,25 @@ public partial class UIManager : Node3D
         tradeExportButton = screenUI.GetNode<Button>("LayerHelper/TradeExportButton");
         tradeExportButton.Pressed += () => TradeExportPanelButtonPressed();
 
+        playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
+        foreach(Player player in Global.gameManager.game.playerDictionary.Values)
+        {
+            if(player.teamNum != 0)
+            {
+                Button icon = new();
+                if (player.isAI)
+                {
+                    icon.Icon = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/blankperson.png");
+                }
+                else
+                {
+                    icon.Icon = Global.GetMediumSteamAvatar(Global.gameManager.teamNumToPlayerID[player.teamNum]);
+                }
+                icon.Pressed += () => DiplomacyButtonPressed(player.teamNum);
+                playerList.AddChild(icon);
+            }
+        }
+
         goldLabel.Text = "0 ";
         goldPerTurnLabel.Text = "(+0) ";
         sciencePerTurnLabel.Text = "+0 ";
@@ -173,6 +198,12 @@ public partial class UIManager : Node3D
         tradeRoutePickerPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
         AddChild(tradeRoutePickerPanel);
         tradeRoutePickerPanel.Visible = false;
+
+        diplomacyPanel = new DiplomacyPanel();
+        diplomacyPanel.Name = "DiplomacyPanel";
+        diplomacyPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        AddChild(diplomacyPanel);
+        diplomacyPanel.Visible = false;
 
 
         UpdateAll();
@@ -351,6 +382,7 @@ public partial class UIManager : Node3D
         resourcePanel.Visible = false;
         tradeExportPanel.Visible = false;
         tradeRoutePickerPanel.Visible = false;
+        diplomacyPanel.Visible = false;
         ShowGenericUI();
     }
     private void endTurnButtonPressed()
@@ -548,6 +580,15 @@ public partial class UIManager : Node3D
         HideGenericUI();
     }
 
+    public void DiplomacyButtonPressed(int teamNum)
+    {
+        Global.gameManager.graphicManager.UnselectObject();
+        windowOpen = true;
+        diplomacyPanel.Visible = true;
+        diplomacyPanel.UpdateDiplomacyPanel(teamNum, (null,null));
+        HideGenericUI();
+    }
+
     public void OpenTradeMenu(Unit unit)
     {
         windowOpen = true;
@@ -562,6 +603,7 @@ public partial class UIManager : Node3D
         cultureButton.Visible = false;
         resourceButton.Visible = false;
         tradeExportButton.Visible = false;
+        playerList.Visible = false;
     }
     public void ShowGenericUI()
     {
@@ -569,5 +611,6 @@ public partial class UIManager : Node3D
         cultureButton.Visible = true;
         resourceButton.Visible = true;
         tradeExportButton.Visible = true;
+        playerList.Visible = true;
     }
 }

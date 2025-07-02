@@ -15,41 +15,55 @@ PanelContainer/styles/panel = SubResource("StyleBoxFlat_ccq4d")
 [node name="TradeExportControl" type="Control"]
 z_index = 2
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = 3.0
-offset_right = 6.0
-offset_bottom = 3.0
+offset_top = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 132.0
-offset_top = 24.0
-offset_right = -764.0
-offset_bottom = -368.0
+anchor_left = 0.111
+anchor_top = 0.027
+anchor_right = 0.889
+anchor_bottom = 0.89
+offset_left = -10.872
+offset_top = 2.232
+offset_right = -11.1281
+offset_bottom = 2.23999
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.111
+anchor_top = 0.0598904
+anchor_right = 0.337
+anchor_bottom = 0.43
+offset_left = -0.479996
+offset_top = 0.0240002
+offset_right = -0.223999
+offset_bottom = 0.0639954
 texture = ExtResource("1_gokmr")
 expand_mode = 2
 stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="OtherImage" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.993827
-offset_left = 768.0
-offset_top = 23.0
-offset_right = -128.0
-offset_bottom = -365.0
+anchor_left = 0.667
+anchor_top = 0.06
+anchor_right = 0.89
+anchor_bottom = 0.430288
+offset_left = -0.384033
+offset_top = 0.32
+offset_right = -0.128052
+offset_bottom = -0.288025
 texture = ExtResource("1_gokmr")
 expand_mode = 2
 stretch_mode = 5
@@ -58,13 +72,14 @@ metadata/_edit_use_anchors_ = true
 [node name="TradeExportPanel" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = -357.0
-offset_right = -32.0
-offset_bottom = -64.0
+anchor_left = 0.13
+anchor_top = 0.45
+anchor_right = 0.87
+anchor_bottom = 0.87
+offset_left = -0.256001
+offset_top = 0.0479736
+offset_right = 0.255981
+offset_bottom = 0.23999
 grow_horizontal = 2
 grow_vertical = 0
 theme = SubResource("Theme_6p02p")
@@ -73,44 +88,139 @@ theme = SubResource("Theme_6p02p")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PlayerItemsScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox"]
+[node name="PlayerItemsPanel" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TradeExportPanel/TradeExportHBox/PlayerItemsPanel"]
+layout_mode = 2
+text = "Player Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerItemsScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox/PlayerItemsPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="PlayerItems" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/PlayerItemsScroll"]
+[node name="PlayerItems" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/PlayerItemsPanel/PlayerItemsScroll"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="PlayerOfferScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox"]
+[node name="PlayerOfferPanel" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TradeExportPanel/TradeExportHBox/PlayerOfferPanel"]
+layout_mode = 2
+text = "Player Offer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerOfferScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox/PlayerOfferPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="PlayerOffer" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/PlayerOfferScroll"]
+[node name="PlayerOffer" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/PlayerOfferPanel/PlayerOfferScroll"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="OtherOfferScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox"]
+[node name="OtherOfferPanel" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TradeExportPanel/TradeExportHBox/OtherOfferPanel"]
+layout_mode = 2
+text = "Other Player Offer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OtherOfferScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox/OtherOfferPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="OtherOffer" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/OtherOfferScroll"]
+[node name="OtherOffer" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/OtherOfferPanel/OtherOfferScroll"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="OtherItemsScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox"]
+[node name="OtherItemsPanel" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TradeExportPanel/TradeExportHBox/OtherItemsPanel"]
+layout_mode = 2
+text = "Other Player Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OtherItemsScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox/OtherItemsPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="OtherItems" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/OtherItemsScroll"]
+[node name="OtherItems" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/OtherItemsPanel/OtherItemsScroll"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="CloseButton" type="Button" parent="."]
 layout_mode = 2
-anchor_left = 0.995
-anchor_top = -0.005
-anchor_right = 0.995
-anchor_bottom = -0.005
-offset_left = -63.24
-offset_top = 277.24
-offset_right = -14.24
-offset_bottom = 326.24
+anchor_left = 0.889
+anchor_top = 0.03
+anchor_right = 0.889
+anchor_bottom = 0.03
+offset_left = -25.1281
+offset_top = -24.52
+offset_right = 23.8719
+offset_bottom = 24.48
 icon = ExtResource("1_xou54")
 icon_alignment = 1
 expand_icon = true
+
+[node name="AcceptButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.352
+anchor_top = 0.322
+anchor_right = 0.464
+anchor_bottom = 0.39
+offset_left = -0.504028
+offset_top = 0.279968
+offset_right = 0.471985
+offset_bottom = 0.279984
+text = "ACCEPT"
+
+[node name="DeclineButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.535
+anchor_top = 0.322
+anchor_right = 0.648
+anchor_bottom = 0.39
+offset_left = -0.320007
+offset_top = 0.279968
+offset_right = -0.495972
+offset_bottom = 0.279984
+text = "DECLINE"
+
+[node name="DeclareWarButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.453
+anchor_top = 0.101
+anchor_right = 0.546
+anchor_bottom = 0.154
+offset_left = 0.143982
+offset_top = 0.0159988
+offset_right = 0.00799561
+offset_bottom = 0.0639954
+text = "Declare War"

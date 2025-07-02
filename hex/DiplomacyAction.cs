@@ -7,28 +7,64 @@ using System.Threading.Tasks;
 [Serializable]
 public class DiplomacyAction
 {
-    int teamNum;
+    public int teamNum;
     public string actionName;
-    public DiplomacyAction(int teamNum, string actionName)
+    public bool hasDuration;
+    public int duration;
+    public int targetTeamNum;
+    public bool hasQuantity;
+    public float quantity = 0;
+    public DiplomacyAction(int teamNum, string actionName, bool hasQuantity, bool hasDuration)
     {
         this.teamNum = teamNum;
         this.actionName = actionName;
+        this.hasQuantity = hasQuantity;
+        this.hasDuration = hasDuration;
     }
 
-    public void ActivateAction(object actionParameter1, object actionParameter2)
+    public void ActivateAction()
     {
         if (actionName == "Give Gold")
         {
-            GiveGold((int)actionParameter1, (int)actionParameter2);
+            GiveGold(targetTeamNum, quantity);
         }
         if (actionName == "Make Peace")
         {
-            MakePeace((int)actionParameter1);
+            MakePeace(targetTeamNum);
         }
     }
 
+    public bool ActionValid(int targetTeamNum)
+    {
+        if(actionName == "Give Gold")
+        {
+            if (Global.gameManager.game.playerDictionary[teamNum].goldTotal <= 0)
+            {
+                return false;
+            }
+        }
 
-    private void GiveGold(int targetTeamNum, int goldAmount)
+        if(actionName == "Give Gold Per Turn")
+        {
+            if (Global.gameManager.game.playerDictionary[teamNum].GetGoldPerTurn() <= 0)
+            {
+                return false;
+            }
+        }
+
+        if(actionName == "Make Peace")
+        {
+            if(!Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(targetTeamNum))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    private void GiveGold(int targetTeamNum, float goldAmount)
     {
         Global.gameManager.game.playerDictionary[teamNum].goldTotal -= goldAmount;
         Global.gameManager.game.playerDictionary[targetTeamNum].goldTotal += goldAmount;
