@@ -96,6 +96,15 @@ public class Player
     public int tradeRouteCount { get; set; }
     private int idCounter { get; set; } = 0;
 
+    public float foodDifficultyModifier = 1.0f;
+    public float productionDifficultyModifier = 1.0f;
+    public float goldDifficultyModifier = 1.0f;
+    public float scienceDifficultyModifier = 1.0f;
+    public float cultureDifficultyModifier = 1.0f;
+    public float happinessDifficultyModifier = 1.0f;
+    public float influenceDifficultyModifier = 1.0f;
+    public float combatPowerDifficultyModifier = 0.0f;
+
     public Godot.Color teamColor;
     public StandardMaterial3D playerTerritoryMaterial;
     public Theme theme;

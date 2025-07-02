@@ -734,6 +734,15 @@ public class City
         {
             ResourceLoader.ProcessFunctionString(ResourceLoader.resourceEffects[resource], id);
         }
+        //difficulty mods
+        myYields.food *= Global.gameManager.game.playerDictionary[teamNum].foodDifficultyModifier;
+        myYields.production *= Global.gameManager.game.playerDictionary[teamNum].productionDifficultyModifier;
+        myYields.gold *= Global.gameManager.game.playerDictionary[teamNum].goldDifficultyModifier;
+        myYields.science *= Global.gameManager.game.playerDictionary[teamNum].scienceDifficultyModifier;
+        myYields.culture *= Global.gameManager.game.playerDictionary[teamNum].cultureDifficultyModifier;
+        myYields.happiness *= Global.gameManager.game.playerDictionary[teamNum].happinessDifficultyModifier;
+        myYields.influence *= Global.gameManager.game.playerDictionary[teamNum].influenceDifficultyModifier;
+
         myYields.food -= naturalPopulation * 0.25f;
         yields += myYields;
         //myYields will hold onto the pre-export/import values

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public class DiplomacyAction
 {
     int teamNum;
-    string actionName;
+    public string actionName;
     public DiplomacyAction(int teamNum, string actionName)
     {
         this.teamNum = teamNum;

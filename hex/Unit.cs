@@ -182,6 +182,8 @@ public class Unit
         {
             effect.Apply(id);
         }
+        //difficulty mod
+        combatStrength += Global.gameManager.game.playerDictionary[teamNum].combatPowerDifficultyModifier;
         UpdateVision();
     }
 

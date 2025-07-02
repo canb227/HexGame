@@ -16,9 +16,10 @@ public partial class DiplomacyPanel : Control
     private VBoxContainer otherOffer;
     private VBoxContainer otherItems;
 
-
-
     private Button closeButton;
+
+    private List<DiplomacyAction> playerOffers;
+    private List<DiplomacyAction> otherOffers;
 
     public DiplomacyPanel()
     {
@@ -38,8 +39,7 @@ public partial class DiplomacyPanel : Control
     public void Update(UIElement element)
     {
     }
-    private List<DiplomacyAction> playerOffers;
-    private List<DiplomacyAction> otherOffers;
+
     public void UpdateDiplomacyPanel(int otherTeamNum)
     {
         playerOffers = new();
@@ -61,22 +61,35 @@ public partial class DiplomacyPanel : Control
         {
             child.QueueFree();
         }
-        //playerItems
+        //items
+        AddItems(playerItems, playerOffers);
+        AddItems(otherItems, otherOffers);
+        //offers
+        //?
+
+    }
+
+    private void AddItems(VBoxContainer items, List<DiplomacyAction> offers)
+    {
         Button goldButton = new Button();
         goldButton.Text = "Give Gold";
         DiplomacyAction gold = new DiplomacyAction(Global.gameManager.game.localPlayerTeamNum, "Give Gold");
-        goldButton.Pressed += () => playerOffers.Add(gold);
-        playerItems.AddChild(goldButton);
+        goldButton.Pressed += () => offers.Add(gold);
+        items.AddChild(goldButton);
 
         Button goldPerTurnButton = new Button();
         goldPerTurnButton.Text = "Give Gold Per Turn";
         DiplomacyAction goldPerTurn = new DiplomacyAction(Global.gameManager.game.localPlayerTeamNum, "Give Gold Per Turn");
-        goldButton.Pressed += () => playerOffers.Add(goldPerTurn);
-        playerItems.AddChild(goldButton);
+        goldButton.Pressed += () => offers.Add(goldPerTurn);
+        items.AddChild(goldPerTurnButton);
+
         foreach (DiplomacyAction diplomacyAction in Global.gameManager.game.localPlayerRef.diplomaticActionHashSet)
         {
             //Button
+            Button button = new Button();
+            button.Text = diplomacyAction.actionName;
+            goldButton.Pressed += () => offers.Add(diplomacyAction);
+            items.AddChild(button);
         }
-
     }
 }
