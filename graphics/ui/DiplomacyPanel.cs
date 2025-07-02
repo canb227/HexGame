@@ -7,83 +7,76 @@ using System.Security.AccessControl;
 
 public partial class DiplomacyPanel : Control
 {
-    public Control tradeExportControl;
-    private Label ActiveExportsLabel;
-    private FlowContainer ActiveExportsFlowBox;
-    private FlowContainer ActiveTradeFlowBox;
-    private FlowContainer IncomingTradeFlowBox;
+    public Control diplomacyPanelControl;
+    private TextureRect playerImage;
+    private TextureRect otherImage;
+
+    private VBoxContainer playerItems;
+    private VBoxContainer playerOffer;
+    private VBoxContainer otherOffer;
+    private VBoxContainer otherItems;
 
 
-    private VBoxContainer CityList;
 
     private Button closeButton;
 
     public DiplomacyPanel()
     {
-        tradeExportControl = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/TradeAndExportPanel.tscn").Instantiate<Control>();
-        AddChild(tradeExportControl);
+        diplomacyPanelControl = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/DiplomacyPanel.tscn").Instantiate<Control>();
+        AddChild(diplomacyPanelControl);
 
-        ActiveExportsLabel = tradeExportControl.GetNode<Label>("TradeExportPanel/TradeExportHBox/ActiveExportsMarginContainer/ExportsVBox/ActiveExportsLabel");
-        ActiveExportsFlowBox = tradeExportControl.GetNode<HFlowContainer>("TradeExportPanel/TradeExportHBox/ActiveExportsMarginContainer/ExportsVBox/ActiveExportsScrollBox/ActiveExportsFlowBox");
-        ActiveTradeFlowBox = tradeExportControl.GetNode<HFlowContainer>("TradeExportPanel/TradeExportHBox/ActiveTradeMarginContainer/TradeVBox/ActiveTradeScrollBox/ActiveTradeFlowBox");
-        IncomingTradeFlowBox = tradeExportControl.GetNode<HFlowContainer>("TradeExportPanel/TradeExportHBox/RecievingTradeMarginContainer/TradeVBox/ActiveTradeScrollBox/ActiveTradeFlowBox");
+        playerItems = diplomacyPanelControl.GetNode<VBoxContainer>("TradeExportPanel/TradeExportHBox/PlayerItemsScroll/PlayerItems");
+        playerOffer = diplomacyPanelControl.GetNode<VBoxContainer>("TradeExportPanel/TradeExportHBox/PlayerOfferScroll/PlayerOffer");
+        otherOffer = diplomacyPanelControl.GetNode<VBoxContainer>("TradeExportPanel/TradeExportHBox/OtherOfferScroll/OtherOffer");
+        otherItems = diplomacyPanelControl.GetNode<VBoxContainer>("TradeExportPanel/TradeExportHBox/OtherItemsScroll/OtherItems");
 
-        closeButton = tradeExportControl.GetNode<Button>("CloseButton"); ;
+        closeButton = diplomacyPanelControl.GetNode<Button>("CloseButton"); ;
         closeButton.Pressed += () => Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
-        UpdateTradeExportPanel();
+        //UpdateDiplomacyPanel();
     }
     
     public void Update(UIElement element)
     {
     }
-
-    public void UpdateTradeExportPanel()
+    private List<DiplomacyAction> playerOffers;
+    private List<DiplomacyAction> otherOffers;
+    public void UpdateDiplomacyPanel(int otherTeamNum)
     {
-        if (tradeExportControl.Visible)
+        playerOffers = new();
+        otherOffers = new();
+        //remove old stuff
+        foreach (Control child in playerItems.GetChildren())
         {
-            //active exports
-            foreach (Control child in ActiveExportsFlowBox.GetChildren())
-            {
-                child.QueueFree();
-            }
-            ActiveExportsLabel.Text = "Active Exports ("+Global.gameManager.game.localPlayerRef.exportCount+"/"+Global.gameManager.game.localPlayerRef.exportCap+")";
-            foreach (ExportRoute exportRoute in Global.gameManager.game.localPlayerRef.exportRouteList)
-            {
-                foreach (int cityID in Global.gameManager.game.localPlayerRef.cityList)
-                {
-                    if (exportRoute.sourceCityID == cityID)
-                    {
-                        HBoxContainer cityBox = new HBoxContainer();
-                        Label cityName = new Label();
-                        cityName.Text = Global.gameManager.game.cityDictionary[exportRoute.targetCityID].name;
-                        CheckButton exportFoodCheckBox = new CheckButton();
-                        exportFoodCheckBox.SetPressedNoSignal(true);
-                        exportFoodCheckBox.Text = "Export Surplus Food to this City";
-                        cityBox.AddChild(cityName);
-                        cityBox.AddChild(exportFoodCheckBox);
-                        exportFoodCheckBox.Toggled += (isOn) => ExportFoodCheckBoxed(isOn, exportFoodCheckBox, exportRoute.sourceCityID, exportRoute.targetCityID);
-                        ActiveExportsFlowBox.AddChild(cityBox);
-                    }
-                }
-            }
-
-            //active trade routes
-
-            //incoming trade routes
+            child.QueueFree();
         }
-    }
-
-
-    private void ExportFoodCheckBoxed(bool isOn, CheckButton exportFoodCheckBox, int sourceCityID, int targetCityID)
-    {
-        ActiveExportsLabel.Text = "Active Exports (" + Global.gameManager.game.localPlayerRef.exportCount + "/" + Global.gameManager.game.localPlayerRef.exportCap + ")";
-        if (isOn)
+        foreach (Control child in playerOffer.GetChildren())
         {
-            Global.gameManager.game.localPlayerRef.NewExportRoute(sourceCityID, targetCityID, YieldType.food);
+            child.QueueFree();
         }
-        else
+        foreach (Control child in otherOffer.GetChildren())
         {
-            Global.gameManager.game.localPlayerRef.RemoveExportRoute(sourceCityID, targetCityID, YieldType.food);
+            child.QueueFree();
         }
+        foreach (Control child in otherItems.GetChildren())
+        {
+            child.QueueFree();
+        }
+        //playerItems
+        Button goldButton = new Button();
+        goldButton.Text = "Give Gold";
+        DiplomacyAction gold = new DiplomacyAction(Global.gameManager.game.localPlayerTeamNum, "Give Gold");
+        goldButton.Pressed += () => playerOffers.Add(gold);
+        playerItems.AddChild(goldButton);
+
+        Button goldPerTurnButton = new Button();
+        goldPerTurnButton.Text = "Give Gold Per Turn";
+        DiplomacyAction goldPerTurn = new DiplomacyAction(Global.gameManager.game.localPlayerTeamNum, "Give Gold Per Turn");
+        goldButton.Pressed += () => playerOffers.Add(goldPerTurn);
+        playerItems.AddChild(goldButton);
+        foreach (DiplomacyAction diplomacyAction in Global.gameManager.game.localPlayerRef.diplomaticActionHashSet)
+        {
+            //Button
+        }
+
     }
 }

@@ -132,6 +132,8 @@ public class City
     public int maxResourcesHeld{ get; set; }
     public int readyToExpand{ get; set; }
 
+    public ProductionQueueType lastProduced { get; set; }
+
     private void AddCityCenter(bool isCapital)
     {
         District district;
@@ -529,7 +531,7 @@ public class City
             productionOverflow = Math.Max(productionOverflow - productionLeftTemp, 0);
             if (productionQueue[0].productionLeft <= 0)
             {
-                GD.Print(BuildingLoader.buildingsDict.ContainsKey(productionQueue[0].itemName) + " " + UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName));
+                //GD.Print(BuildingLoader.buildingsDict.ContainsKey(productionQueue[0].itemName) + " " + UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName));
                 if (BuildingLoader.buildingsDict.ContainsKey(productionQueue[0].itemName))
                 {
                     BuildOnHex(productionQueue[0].targetHex, productionQueue[0].itemName);
@@ -555,6 +557,7 @@ public class City
                         Global.gameManager.game.playerDictionary[teamNum].IncreaseAllSettlerCost();
                     }
                 }
+                lastProduced = productionQueue[0];
                 productionQueue.RemoveAt(0);
             }
         }

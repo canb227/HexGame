@@ -45,6 +45,9 @@ public class Player
         playerTerritoryMaterial.AlbedoTexture = gradTex;
         playerTerritoryMaterial.Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
 
+        //default diplomatic actions
+        diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Make Peace"));
+
     }
 
     public Player()
@@ -72,7 +75,9 @@ public class Player
     public HashSet<String> allowedUnits { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> globalResources {  get; set; } = new();
+    public HashSet<DiplomacyAction> diplomaticActionHashSet { get; set; } = new();
 
+    public GovernmentType government { get; set; } = new();
     public float strongestUnitBuilt { get; set; } = 0.0f;
 
     public float goldTotal { get; set; }
@@ -799,4 +804,21 @@ public class ResearchQueueType
     public int researchCost { get; set; }
     public int researchLeft { get; set; }
 
+}
+
+public enum GovernmentType
+{
+    Tribal,
+
+    Autocracy,
+    ClassicalRepublic,
+    Oligarchy,
+
+    MerchantRepublic,
+    Monarchy,
+    Theocracy,
+
+    Communism,
+    Democracy,
+    Facism
 }
