@@ -7,6 +7,7 @@ using Godot;
 using System.Reflection;
 using NetworkMessages;
 using System.IO;
+using System.Text;
 
 public enum ProductionType
 {
@@ -79,6 +80,8 @@ public class City
         yields = new();
         myYields = new();
 
+        UpdateNearbyHexes();
+
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.NewCity(this);
@@ -92,6 +95,7 @@ public class City
 
 
     }
+
 
     public City()
     {
@@ -133,6 +137,15 @@ public class City
     public int readyToExpand{ get; set; }
 
     public int lastProducedUnitID { get; set; }
+
+    private void UpdateNearbyHexes()
+    {
+        foreach (Hex hex in hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].withinCityRange= true;
+        }
+    }
+
 
     private void AddCityCenter(bool isCapital)
     {
