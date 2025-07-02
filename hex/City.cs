@@ -132,7 +132,7 @@ public class City
     public int maxResourcesHeld{ get; set; }
     public int readyToExpand{ get; set; }
 
-    public ProductionQueueType lastProduced { get; set; }
+    public int lastProducedUnitID { get; set; }
 
     private void AddCityCenter(bool isCapital)
     {
@@ -538,13 +538,14 @@ public class City
                 }
                 else if (UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName))
                 {
-                    GD.Print("Try spawn unit");
+                    //GD.Print("Try spawn unit");
                     Unit tempUnit = new Unit(productionQueue[0].itemName, Global.gameManager.game.GetUniqueID(teamNum), teamNum);
                     if (!Global.gameManager.game.mainGameBoard.gameHexDict[productionQueue[0].targetHex].SpawnUnit(tempUnit, false, true))
                     {
                         tempUnit.decreaseHealth(99999.9f);
                         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit);
                     }
+                    lastProducedUnitID = tempUnit.id;
                     if (UnitLoader.unitsDict.TryGetValue(tempUnit.unitType, out UnitInfo unitInfo))
                     {
                         if (unitInfo.CombatPower > Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt)
@@ -557,7 +558,6 @@ public class City
                         Global.gameManager.game.playerDictionary[teamNum].IncreaseAllSettlerCost();
                     }
                 }
-                lastProduced = productionQueue[0];
                 productionQueue.RemoveAt(0);
             }
         }
