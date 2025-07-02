@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://denbrn41deiro"]
+[gd_scene load_steps=5 format=3 uid="uid://denbrn41deiro"]
 
+[ext_resource type="Texture2D" uid="uid://bfcrwhffwupfj" path="res://graphics/models/baseperson_remesh3_manface_pix.png" id="1_gokmr"]
 [ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_xou54"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccq4d"]
@@ -26,109 +27,59 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 648.0
+offset_bottom = 648.0
+texture = ExtResource("1_gokmr")
+expand_mode = 2
+stretch_mode = 4
+
 [node name="TradeExportPanel" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 54.0
-offset_top = 68.0
-offset_right = -72.0
-offset_bottom = -46.0
+offset_left = 32.0
+offset_top = -357.0
+offset_right = -32.0
+offset_bottom = -64.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 theme = SubResource("Theme_6p02p")
 
 [node name="TradeExportHBox" type="HBoxContainer" parent="TradeExportPanel"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ActiveExportsMarginContainer" type="MarginContainer" parent="TradeExportPanel/TradeExportHBox"]
+[node name="PlayerItemsScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 64
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 64
-
-[node name="ExportsVBox" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/ActiveExportsMarginContainer"]
-layout_mode = 2
-
-[node name="ActiveExportsLabel" type="Label" parent="TradeExportPanel/TradeExportHBox/ActiveExportsMarginContainer/ExportsVBox"]
-layout_mode = 2
-text = "Active Exports:"
-
-[node name="ActiveExportsScrollBox" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox/ActiveExportsMarginContainer/ExportsVBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
 horizontal_scroll_mode = 0
 
-[node name="ActiveExportsFlowBox" type="HFlowContainer" parent="TradeExportPanel/TradeExportHBox/ActiveExportsMarginContainer/ExportsVBox/ActiveExportsScrollBox"]
-custom_minimum_size = Vector2(72.385, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ActiveTradeMarginContainer" type="MarginContainer" parent="TradeExportPanel/TradeExportHBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 64
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 64
-
-[node name="TradeVBox" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/ActiveTradeMarginContainer"]
+[node name="PlayerItems" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/PlayerItemsScroll"]
 layout_mode = 2
 
-[node name="ActiveTradeLabel" type="Label" parent="TradeExportPanel/TradeExportHBox/ActiveTradeMarginContainer/TradeVBox"]
+[node name="PlayerOfferScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox"]
 layout_mode = 2
-text = "Active Foreign Trade Routes:"
-
-[node name="ActiveTradeScrollBox" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox/ActiveTradeMarginContainer/TradeVBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
 horizontal_scroll_mode = 0
 
-[node name="ActiveTradeFlowBox" type="HFlowContainer" parent="TradeExportPanel/TradeExportHBox/ActiveTradeMarginContainer/TradeVBox/ActiveTradeScrollBox"]
-custom_minimum_size = Vector2(72.385, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="RecievingTradeMarginContainer" type="MarginContainer" parent="TradeExportPanel/TradeExportHBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 64
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 64
-
-[node name="TradeVBox" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/RecievingTradeMarginContainer"]
+[node name="PlayerOffer" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/PlayerOfferScroll"]
 layout_mode = 2
 
-[node name="ForeignTradeLabel" type="Label" parent="TradeExportPanel/TradeExportHBox/RecievingTradeMarginContainer/TradeVBox"]
+[node name="OtherOfferScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox"]
 layout_mode = 2
-text = "Incoming Foreign Trade Routes:"
-
-[node name="ActiveTradeScrollBox" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox/RecievingTradeMarginContainer/TradeVBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
 horizontal_scroll_mode = 0
 
-[node name="ActiveTradeFlowBox" type="HFlowContainer" parent="TradeExportPanel/TradeExportHBox/RecievingTradeMarginContainer/TradeVBox/ActiveTradeScrollBox"]
-custom_minimum_size = Vector2(72.385, 0)
+[node name="OtherOffer" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/OtherOfferScroll"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+
+[node name="OtherItemsScroll" type="ScrollContainer" parent="TradeExportPanel/TradeExportHBox"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="OtherItems" type="VBoxContainer" parent="TradeExportPanel/TradeExportHBox/OtherItemsScroll"]
+layout_mode = 2
 
 [node name="CloseButton" type="Button" parent="."]
 layout_mode = 2
@@ -136,10 +87,10 @@ anchor_left = 0.995
 anchor_top = -0.005
 anchor_right = 0.995
 anchor_bottom = -0.005
-offset_left = -97.2401
-offset_top = 52.24
-offset_right = -48.2401
-offset_bottom = 101.24
+offset_left = -63.24
+offset_top = 277.24
+offset_right = -14.24
+offset_bottom = 326.24
 icon = ExtResource("1_xou54")
 icon_alignment = 1
 expand_icon = true
