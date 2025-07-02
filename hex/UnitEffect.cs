@@ -185,6 +185,11 @@ public class UnitEffect
             Skip(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
+        else if (functionString == "Trade")
+        {
+            Trade(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
         throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in UnitEffect");
     }
     public bool SettleCapitalAbility(Unit unit, String cityName)
@@ -272,6 +277,17 @@ public class UnitEffect
         unit.isSkipping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.UnselectObject();
+        return false;
+    }
+
+    public bool Trade(Unit unit)
+    {
+        if (Global.gameManager.game.playerDictionary[unit.teamNum].maxTradeCount < Global.gameManager.game.playerDictionary[unit.teamNum].tradeRouteCount)
+        if(unit.teamNum == Global.gameManager.game.localPlayerTeamNum)
+        {
+            Global.gameManager.graphicManager.uiManager.OpenTradeMenu(unit);
+        }
+        //Global.gameManager.game.playerDictionary[unit.teamNum].NewTradeRoute(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].district.cityID], );
         return false;
     }
 }

@@ -72,6 +72,7 @@ public class Player
     public HashSet<String> allowedUnits { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> globalResources {  get; set; } = new();
+
     public float strongestUnitBuilt { get; set; } = 0.0f;
 
     public float goldTotal { get; set; }
@@ -80,9 +81,15 @@ public class Player
     public float happinessTotal { get; set; }
     public float influenceTotal { get; set; }
     public int settlerCount = 0;
-    public int exportCount = 0;
-    public int exportCap = 2;
-    private int idCounter = 0;
+    //exports and trade
+    public List<ExportRoute> exportRouteList { get; set; } = new();
+    public List<TradeRoute> tradeRouteList { get; set; } = new();
+    public List<TradeRoute> outgoingTradeRouteList { get; set; } = new();
+    public int exportCount { get; set; }
+    public int exportCap { get; set; } = 2;
+    public int maxTradeCount { get; set; } = 2;
+    public int tradeRouteCount { get; set; }
+    private int idCounter { get; set; } = 0;
 
     public Godot.Color teamColor;
     public StandardMaterial3D playerTerritoryMaterial;
@@ -254,11 +261,11 @@ public class Player
         {
             foreach (int cityID in cityList)
             {
-                foreach(ExportRoute route in Global.gameManager.game.tradeExportManager.exportRouteList.AsEnumerable().Reverse().ToList())
+                foreach(ExportRoute route in exportRouteList.AsEnumerable().Reverse().ToList())
                 {
                     if (route.sourceCityID == cityID)
                     {
-                        Global.gameManager.game.tradeExportManager.RemoveExportRoute(route.sourceCityID, route.targetCityID, route.exportType);
+                        RemoveExportRoute(route.sourceCityID, route.targetCityID, route.exportType);
                         break;
                     }
                 }
@@ -642,17 +649,84 @@ public class Player
     
     public bool RemoveLostResource(Hex hex)
     {
+
         foreach (int cityID in cityList)
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
             if (city.heldResources.Remove(hex))
             {
-                return true;
+                //check all outgoing traderoutes for this player to remove the resource from all trade routes using this city
+                foreach (TradeRoute route in outgoingTradeRouteList)
+                {
+                    if (route.targetCityID == cityID)
+                    {
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[route.homeCityID].teamNum].RemoveLostResource(hex);
+                    }
+                }
+                break;
             }
         }
         globalResources.Remove(hex);
         unassignedResources.Remove(hex);
-        return false;
+        return true;
+    }
+
+    public void RecalculateExportsFromCity(int sourceCity)
+    {
+        foreach (ExportRoute export in exportRouteList)
+        {
+            if (export.sourceCityID == sourceCity)
+            {
+                Global.gameManager.game.cityDictionary[export.targetCityID].RecalculateYields();
+            }
+        }
+    }
+    public void NewExportRoute(int city, int targetCity, YieldType exportType)
+    {
+        exportCount++;
+        Global.gameManager.game.cityDictionary[city].NewExport(exportType);
+        exportRouteList.Add(new ExportRoute(city, targetCity, exportType));
+        Global.gameManager.game.cityDictionary[city].RecalculateYields();
+        Global.gameManager.game.cityDictionary[targetCity].RecalculateYields();
+    }
+
+    public void RemoveExportRoute(int city, int targetCity, YieldType exportType)
+    {
+        exportCount--;
+        Global.gameManager.game.cityDictionary[city].RemoveExport(exportType);
+        exportRouteList.Remove(new ExportRoute(city, targetCity, exportType));
+        Global.gameManager.game.cityDictionary[city].RecalculateYields();
+        Global.gameManager.game.cityDictionary[targetCity].RecalculateYields();
+    }
+
+    public void NewTradeRoute(int homeCity, int targetCity)
+    {
+        TradeRoute route = new TradeRoute(homeCity, targetCity);
+        tradeRouteList.Add(route);
+        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[targetCity].teamNum].outgoingTradeRouteList.Add(route);
+        List<ResourceType> resources = new();
+        foreach (District district in Global.gameManager.game.cityDictionary[targetCity].districts)
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].resourceType != ResourceType.None)
+            {
+                unassignedResources.Add(district.hex, Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].resourceType);
+            }
+        }
+        tradeRouteCount++;
+    }
+    public void RemoveTradeRoute(int homeCity, int targetCity)
+    {
+        TradeRoute route = new TradeRoute(homeCity, targetCity);
+        tradeRouteList.Remove(route);
+        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[targetCity].teamNum].outgoingTradeRouteList.Remove(route);
+        foreach (District district in Global.gameManager.game.cityDictionary[targetCity].districts)
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].resourceType != ResourceType.None)
+            {
+                RemoveLostResource(district.hex);
+            }
+        }
+        tradeRouteCount--;
     }
 
     public void AddGold(float gold)

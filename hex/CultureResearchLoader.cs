@@ -74,6 +74,7 @@ public static class CultureResearchLoader
         Dictionary<String, Action<Player>> effectFunctions = new Dictionary<string, Action<Player>>
         {
             { "TribalDominionEffect", TribalDominionEffect },
+            { "ForeignTradeEffect", ForeignTradeEffect },
             { "SongwritingEffect", SongwritingEffect },
             { "FutureTechEffect", FutureTechEffect }
         };
@@ -88,6 +89,11 @@ public static class CultureResearchLoader
         }
     }
     static void TribalDominionEffect(Player player)
+    {
+
+    }
+
+    static void ForeignTradeEffect(Player player)
     {
 
     }

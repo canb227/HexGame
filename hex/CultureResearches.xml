@@ -10,6 +10,17 @@
             <Effect Name="TribalDominionEffect" />
         </Effects>
     </Research>
+    <Research Name="ForeignTrade" Tier="1" IconPath="graphics/ui/icons/happiness.png">
+        <Requirements>
+            <ResearchType>Tribal Dominion</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Trader"/>
+        </UnitUnlocks> 
+        <Effects>
+            <Effect Name="ForeignTradeEffect" />
+        </Effects>
+    </Research>
     <Research Name="Songwriting" Tier="1" IconPath="graphics/ui/icons/happiness.png">
         <Requirements>
             <ResearchType>Tribal Dominion</ResearchType>

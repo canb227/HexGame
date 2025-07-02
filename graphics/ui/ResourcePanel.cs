@@ -34,7 +34,7 @@ public partial class ResourcePanel : Control
             CityList.AddChild(rCP);
         }
 
-        closeButton = resourceControl.GetNode<Button>("CloseButton"); ;
+        closeButton = resourceControl.GetNode<Button>("CloseButton");
 
         closeButton.Pressed += () => Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
         UpdateResourcePanel();

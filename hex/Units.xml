@@ -217,4 +217,40 @@
       </Ability>
     </Abilities>
   </Unit>
+    <Unit Name="Trader" Class="Civilian" ProductionCost="50" GoldCost="200" MovementSpeed="3.0" SightRange="2.0" CombatPower="5.0" HealingFactor="0" MaintenanceCost="0" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="Trade" UsageCount="1" IconPath="graphics/ui/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidBuildingTypes>
+            <BuildingType Name = "CityCenter" />
+            <BuildingType Name = "Palace" />
+          </ValidBuildingTypes>
+        </TargetSpecification>
+      </Ability>
+    </Abilities>
+  </Unit>
 </Units>

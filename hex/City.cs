@@ -750,7 +750,7 @@ public class City
         }
         //yields.gold -= exportCost;
         //no gold cost for exports just a cap
-        foreach (ExportRoute exportRoute in Global.gameManager.game.tradeExportManager.exportRouteList)
+        foreach (ExportRoute exportRoute in Global.gameManager.game.playerDictionary[teamNum].exportRouteList)
         {
             if(exportRoute.targetCityID == id)
             {
@@ -1069,7 +1069,7 @@ public class City
         if(exportCount.Keys.Contains(exportType))
         {
             exportCount[exportType] += 1;
-            Global.gameManager.game.tradeExportManager.RecalculateExportsFromCity(this.id);
+            Global.gameManager.game.playerDictionary[teamNum].RecalculateExportsFromCity(this.id);
         }
         else
         {

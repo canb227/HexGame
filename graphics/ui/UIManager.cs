@@ -39,6 +39,8 @@ public partial class UIManager : Node3D
     public Label influencePerTurnLabel;
     public Label turnNumberLabel;
 
+    public Button menuButton;
+
     public Button scienceButton;
     public Label scienceButtonLabel;
     public TextureRect scienceButtonIcon;
@@ -54,12 +56,18 @@ public partial class UIManager : Node3D
 
     public Button resourceButton;
 
+    public Button tradeExportButton;
+
     public UnitInfoPanel unitInfoPanel;
     public CityInfoPanel cityInfoPanel;
     public ResearchTreePanel researchTreePanel;
     public ResearchTreePanel cultureResearchTreePanel;
 
     public ResourcePanel resourcePanel;
+
+    public TradeExportPanel tradeExportPanel;
+
+    public TradeRoutePickerPanel tradeRoutePickerPanel;
 
     public City targetCity;
     public Unit targetUnit;
@@ -91,6 +99,10 @@ public partial class UIManager : Node3D
         influencePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/InfluencePerTurnLabel");
         turnNumberLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/GameInfo/TurnLabel");
 
+        menuButton = screenUI.GetNode<Button>("LayerHelper/PanelContainer/TopBar/GameInfo/MenuButton");
+
+        menuButton.Pressed += () => Global.menuManager.ChangeMenu(MenuManager.UI_Pause);
+
         scienceButton = screenUI.GetNode<Button>("LayerHelper/ScienceTree");
         scienceButtonLabel = scienceButton.GetNode<Label>("ResearchLabel");
         scienceButtonIcon = scienceButton.GetNode<TextureRect>("ScienceTreeIcon");
@@ -107,8 +119,10 @@ public partial class UIManager : Node3D
         cultureButton.Pressed += () => CultureTreeButtonPressed();
 
         resourceButton = screenUI.GetNode<Button>("LayerHelper/ResourcePanel");
-
         resourceButton.Pressed += () => ResourcePanelButtonPressed();
+
+        tradeExportButton = screenUI.GetNode<Button>("LayerHelper/TradeExportButton");
+        tradeExportButton.Pressed += () => TradeExportPanelButtonPressed();
 
         goldLabel.Text = "0 ";
         goldPerTurnLabel.Text = "(+0) ";
@@ -148,6 +162,18 @@ public partial class UIManager : Node3D
         AddChild(resourcePanel);
         resourcePanel.Visible = false;
 
+        tradeExportPanel = new TradeExportPanel();
+        tradeExportPanel.Name = "TradeExportPanel";
+        tradeExportPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        AddChild(tradeExportPanel);
+        tradeExportPanel.Visible = false;
+
+        tradeRoutePickerPanel = new TradeRoutePickerPanel();
+        tradeRoutePickerPanel.Name = "TradeRoutePickerPanel";
+        tradeRoutePickerPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        AddChild(tradeRoutePickerPanel);
+        tradeRoutePickerPanel.Visible = false;
+
 
         UpdateAll();
         AddChild(screenUI);
@@ -162,17 +188,13 @@ public partial class UIManager : Node3D
     public void HideGenericUIForTargeting()
     {
         endTurnButton.Visible = false;
-        scienceButton.Visible = false;
-        cultureButton.Visible = false;
-        resourceButton.Visible = false;
+        HideGenericUI();
     }
 
     public void ShowGenericUIAfterTargeting()
     {
         endTurnButton.Visible = true;
-        scienceButton.Visible = true;
-        cultureButton.Visible = true;
-        resourceButton.Visible = true;
+        ShowGenericUI();
     }
 
     public void UpdateAll()
@@ -327,9 +349,9 @@ public partial class UIManager : Node3D
         researchTreePanel.Visible = false;
         cultureResearchTreePanel.Visible = false;
         resourcePanel.Visible = false;
-        scienceButton.Visible = true;
-        cultureButton.Visible = true;
-        resourceButton.Visible = true;
+        tradeExportPanel.Visible = false;
+        tradeRoutePickerPanel.Visible = false;
+        ShowGenericUI();
     }
     private void endTurnButtonPressed()
     {
@@ -337,9 +359,7 @@ public partial class UIManager : Node3D
         researchTreePanel.Visible = false;
         cultureResearchTreePanel.Visible = false;
         resourcePanel.Visible = false;
-        scienceButton.Visible = true;
-        cultureButton.Visible = true;
-        resourceButton.Visible = true;
+        ShowGenericUI();
         if (pickScience)
         {
             ScienceTreeButtonPressed();
@@ -360,9 +380,7 @@ public partial class UIManager : Node3D
             researchTreePanel.Visible = false;
             cultureResearchTreePanel.Visible = false;
             resourcePanel.Visible = false;
-            scienceButton.Visible = false;
-            cultureButton.Visible = false;
-            resourceButton.Visible = false;
+            HideGenericUI();
             ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]).GenerateGrowthTargetingPrompt();
             Global.camera.SetHexTarget(targetCity.hex);
             return;
@@ -372,9 +390,7 @@ public partial class UIManager : Node3D
             researchTreePanel.Visible = false;
             cultureResearchTreePanel.Visible = false;
             resourcePanel.Visible = false;
-            scienceButton.Visible = false;
-            cultureButton.Visible = false;
-            resourceButton.Visible = false;
+            HideGenericUI();
             Global.gameManager.graphicManager.ChangeSelectedObject(targetCity.id, (GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]);
             Global.camera.SetHexTarget(targetCity.hex);
             return;
@@ -487,9 +503,7 @@ public partial class UIManager : Node3D
         Global.gameManager.graphicManager.UnselectObject();
         windowOpen = true;
         researchTreePanel.Visible = true;
-        scienceButton.Visible = false;
-        cultureButton.Visible = false;
-        resourceButton.Visible = false;
+        HideGenericUI();
         var timer = new Timer();
         timer.WaitTime = 0.01; // Delay for 0.1 seconds (adjust as needed)
         timer.OneShot = true;
@@ -504,9 +518,7 @@ public partial class UIManager : Node3D
         Global.gameManager.graphicManager.UnselectObject();
         windowOpen = true;
         cultureResearchTreePanel.Visible = true;
-        scienceButton.Visible = false;
-        cultureButton.Visible = false;
-        resourceButton.Visible = false;
+        HideGenericUI();
         var timer = new Timer();
         timer.WaitTime = 0.01; // Delay for 0.1 seconds (adjust as needed)
         timer.OneShot = true;
@@ -523,9 +535,39 @@ public partial class UIManager : Node3D
         assignResource = false;
         resourcePanel.UpdateResourcePanel();
         resourcePanel.Visible = true;
+        HideGenericUI();
+        Global.gameManager.graphicManager.uiManager.Update(UIElement.endTurnButton);
+    }
+
+    public void TradeExportPanelButtonPressed()
+    {
+        Global.gameManager.graphicManager.UnselectObject();
+        windowOpen = true;
+        tradeExportPanel.Visible = true;
+        tradeExportPanel.UpdateTradeExportPanel();
+        HideGenericUI();
+    }
+
+    public void OpenTradeMenu(Unit unit)
+    {
+        windowOpen = true;
+        tradeRoutePickerPanel.Visible = true;
+        tradeRoutePickerPanel.UpdateTradeRoutePickerPanel(unit);
+        HideGenericUI();
+    }
+
+    public void HideGenericUI()
+    {
         scienceButton.Visible = false;
         cultureButton.Visible = false;
         resourceButton.Visible = false;
-        Global.gameManager.graphicManager.uiManager.Update(UIElement.endTurnButton);
+        tradeExportButton.Visible = false;
+    }
+    public void ShowGenericUI()
+    {
+        scienceButton.Visible = true;
+        cultureButton.Visible = true;
+        resourceButton.Visible = true;
+        tradeExportButton.Visible = true;
     }
 }

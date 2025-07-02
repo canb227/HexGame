@@ -69,7 +69,7 @@ public partial class CityInfoPanel : Node3D
     {
         cityUI = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityInfoPanel.tscn").Instantiate<HBoxContainer>();
         AddChild(cityUI);
-
+        cityUI.Visible = false;
         cityInfoPanel = cityUI.GetNode<PanelContainer>("CityInfoPanel");
         CityInfoBox = cityUI.GetNode<VBoxContainer>("CityInfoPanel/CityInfoBox");
         CloseCityInfoBox = cityUI.GetNode<HBoxContainer>("CityInfoPanel/CityInfoBox/CloseCityInfoBox");
@@ -167,9 +167,7 @@ public partial class CityInfoPanel : Node3D
         cityUI.Visible = true;
         cityInfoPanel.Visible = true;
         cityDetails.Visible = true;
-        Global.gameManager.graphicManager.uiManager.scienceButton.Visible = false;
-        Global.gameManager.graphicManager.uiManager.cultureButton.Visible = false;
-        Global.gameManager.graphicManager.uiManager.resourceButton.Visible = false;
+        Global.gameManager.graphicManager.uiManager.HideGenericUI();
         UpdateCityPanelInfo();
     }
 
@@ -202,9 +200,7 @@ public partial class CityInfoPanel : Node3D
 
     public void HideCityInfoPanel()
     {
-        Global.gameManager.graphicManager.uiManager.scienceButton.Visible = true;
-        Global.gameManager.graphicManager.uiManager.cultureButton.Visible = true;
-        Global.gameManager.graphicManager.uiManager.resourceButton.Visible = true;
+        Global.gameManager.graphicManager.uiManager.ShowGenericUI();
         cityUI.Visible = false;
         cityInfoPanel.Visible = false;
         cityDetails.Visible = false;

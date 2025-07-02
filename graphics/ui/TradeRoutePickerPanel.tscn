@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://23pbf4q07r7w"]
+
+[ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_48kk0"]
+[ext_resource type="Texture2D" uid="uid://8sieeeac3bqy" path="res://graphics/ui/icons/food.png" id="2_y42ph"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1iin"]
+bg_color = Color(0.117647, 0.117647, 0.117647, 1)
+
+[sub_resource type="Theme" id="Theme_6wqba"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_e1iin")
+
+[node name="TradeRouteBox" type="HBoxContainer"]
+z_index = 1
+anchors_preset = -1
+anchor_right = 0.174
+anchor_bottom = 0.994
+offset_top = 64.0
+offset_right = 281.552
+offset_bottom = -1.112
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TradeRoutePanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_6wqba")
+
+[node name="TradeRouteVBox" type="VBoxContainer" parent="TradeRoutePanel"]
+layout_mode = 2
+
+[node name="CloseTradeRouteBox" type="HBoxContainer" parent="TradeRoutePanel/TradeRouteVBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="CloseTradeRouteButton" type="Button" parent="TradeRoutePanel/TradeRouteVBox/CloseTradeRouteBox"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("1_48kk0")
+flat = true
+icon_alignment = 2
+expand_icon = true
+
+[node name="TradeRouteScrollBox" type="ScrollContainer" parent="TradeRoutePanel/TradeRouteVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TradeRouteVBox" type="VBoxContainer" parent="TradeRoutePanel/TradeRouteVBox/TradeRouteScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TradeRoutePanel/TradeRouteVBox/TradeRouteScrollBox/TradeRouteVBox"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TradeRoutePanel/TradeRouteVBox/TradeRouteScrollBox/TradeRouteVBox/VBoxContainer"]
+layout_mode = 2
+text = "PlayerName - CityName"
+
+[node name="HFlowContainer" type="HFlowContainer" parent="TradeRoutePanel/TradeRouteVBox/TradeRouteScrollBox/TradeRouteVBox/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="TradeRoutePanel/TradeRouteVBox/TradeRouteScrollBox/TradeRouteVBox/VBoxContainer/HFlowContainer"]
+layout_mode = 2
+texture = ExtResource("2_y42ph")
+expand_mode = 3
+
+[node name="Button" type="Button" parent="TradeRoutePanel/TradeRouteVBox/TradeRouteScrollBox/TradeRouteVBox/VBoxContainer"]
+layout_mode = 2
+text = "Start Trade"
