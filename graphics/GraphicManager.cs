@@ -24,7 +24,7 @@ public partial class GraphicManager : Node3D
 
     bool ShowDebugConsole = false;
 
-    public Node3D territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb").Instantiate<Node3D>();
+    public PackedScene territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb");
 
 
     public GraphicManager(Layout layout)
