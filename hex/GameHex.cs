@@ -49,6 +49,7 @@ public class GameHex
         this.units = units;
         this.district = district;
         this.ownedBy = -1;
+        this.withinCityRange = false;
         RecalculateYields();
     }
 
@@ -62,6 +63,7 @@ public class GameHex
     public HashSet<FeatureType> featureSet { get; set; } = new();
     public List<int> units { get; set; } = new();
     public District? district { get; set; }
+    public bool withinCityRange { get; set; }
 
     public Yields yields { get; set; }
 

@@ -14,6 +14,7 @@ public partial class GameManager : Node
     public bool isHost = false;
     public static GameManager instance;
     public GraphicManager graphicManager;
+    public AIManager AIManager;
     public Game game;
     public bool gameStarted = false;
 
@@ -113,8 +114,7 @@ public partial class GameManager : Node
 
         SpawnPlayers();
         Global.menuManager.ClearMenus();
-        Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
-        gameStarted = true;
+
         foreach (Player player1 in game.playerDictionary.Values)
         {
             foreach(Player player2 in game.playerDictionary.Values)
@@ -127,10 +127,12 @@ public partial class GameManager : Node
         }
         if (isHost)
         {
-            AIManager aIManager = new AIManager();
-            AddChild(aIManager);
-
+           this.AIManager = new AIManager();
+           AIManager.InitAI();
         }
+        game.turnManager.StartNewTurn();
+        graphicManager.StartNewTurn();
+        gameStarted = true;
     }
 
     public void SpawnPlayers()
@@ -176,7 +178,6 @@ public partial class GameManager : Node
         InitGraphics(game, Global.layout);
         Global.menuManager.ClearMenus();
         gameStarted = true;
-        Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
 
     }
 
@@ -246,7 +247,6 @@ public partial class GameManager : Node
         {
             game.turnManager.StartNewTurn();
             graphicManager.StartNewTurn();
-            Global.Log("NEWTURN: " + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "///////////////////////////////////////////NEWTURN" + game.turnManager.currentTurn + "");
         }
         else
         {

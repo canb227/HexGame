@@ -231,14 +231,19 @@ public partial class Unit: GodotObject
     {
         if (logging) { Global.Log("[CanSettleHere Check] Checking: " + hex); }
         if (logging) { Global.Log("    Iterating over all hexes within the given range: " + range); }
-        foreach (Hex hexRange in hex.WrappingRange(range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isCityCenter)
         {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[hexRange].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hexRange].district.isCityCenter)
-            {
-                if (logging) { Global.Log("    Hex within range: " + hexRange + " contains a city center. We cannot settle here."); }
-                return false;
-            }
+            if (logging) { Global.Log("    Hex contains a district. We cannot settle here."); }
+            return false;
         }
+
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].withinCityRange)
+        {
+            if (logging) { Global.Log("    Hex is in range of a city. We cannot settle here."); }
+            return false;
+        }
+        
         if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
         {
             if (logging) { Global.Log("    Target hex itself contains a resource. We cannot settle here."); }

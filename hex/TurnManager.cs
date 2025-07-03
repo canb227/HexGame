@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Data;
 using System.IO;
+using System.Threading.Tasks;
 
 [Serializable]
 public class TurnManager
 {
-    public int currentTurn { get; set; } = 1;
+    public int currentTurn { get; set; } = 0;
 
-    public void StartNewTurn()
+    public async void StartNewTurn()
     {
         currentTurn++;
+        Global.Log("NEWTURN: " + currentTurn + "///////////////////////////////////////////NEWTURN" + currentTurn + "///////////////////////////////////////////////////////NEWTURN " + currentTurn + " ///////////////////////////////////////////NEWTURN" + currentTurn + "");
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.CallDeferred("Update2DUI", (int)UIElement.turnNumber);
@@ -26,6 +28,7 @@ public class TurnManager
         {
             Global.gameManager.game.mainGameBoard.OnTurnStarted(currentTurn);
         }
+        Global.gameManager.AIManager.OnTurnStart();
     }
     public void EndCurrentTurn(int teamNum)
     {

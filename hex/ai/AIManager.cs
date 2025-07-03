@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static AIUtils;
-public partial class AIManager: Node
+public partial class AIManager
 {
-    const bool AIDEBUG = false; 
+    const bool AIDEBUG = true; 
     List<AI> aiList = new List<AI>();
     Random rng = new Random();
 
@@ -22,7 +22,7 @@ public partial class AIManager: Node
     int right;
     int left;
 
-    public override void _Ready()
+    public void InitAI()
     {
         top = Global.gameManager.game.mainGameBoard.top;
         bottom = Global.gameManager.game.mainGameBoard.bottom;
@@ -76,7 +76,7 @@ public partial class AIManager: Node
                 break;
         }
     }
-    public override void _Process(double delta)
+    public void OnTurnStart()
     {
         foreach (AI ai in aiList)
         {
@@ -334,11 +334,11 @@ public partial class AIManager: Node
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         RandomMoveNoAttack(ai, unit, validMoves);
     }
-    private void HandleSettler(AI ai, Unit unit)
+    private async void HandleSettler(AI ai, Unit unit)
     {
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Settler Unit subroutine"); }
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
-        Hex target;
+        
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Checking to see if I can settle where I stand unitLocation: " + unit.hex); }
         if (unit.CanSettleHere(unit.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }, false))
         {
@@ -355,7 +355,9 @@ public partial class AIManager: Node
         }
         else
         {
+            Hex target = new();
             if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Current hex is NOT VALID for settling - searching within range 6 for a valid settle hex"); }
+           
             if (FindClosestValidSettleInRange(ai, unit, 9, out target))
             {
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Of these, picking the closest valid settle hex: "+target.ToString()+" - moving towards it"); }
