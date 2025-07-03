@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -76,7 +77,7 @@ public partial class AIManager
                 break;
         }
     }
-    public void OnTurnStart()
+    public bool OnTurnStart()
     {
         foreach (AI ai in aiList)
         {
@@ -101,7 +102,9 @@ public partial class AIManager
             }
 
         }
+        return true;
     }
+
 
     private void HandleSettlers(AI ai)
     {

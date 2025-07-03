@@ -605,7 +605,7 @@ public partial class Unit: GodotObject
                                 { "r", hex.r },
                                 { "s", hex.s }
                             };
-                            Global.gameManager.graphicManager.CallDeferred("UpdateHexObjectDictionary", previousHexData, manager.graphicObjectDictionary[id], hexData);
+                            Global.gameManager.graphicManager.CallDeferred("UpdateHexObjectDictionary", previousHexData, id, hexData);
                         }
                         return true;
                     }
@@ -634,7 +634,7 @@ public partial class Unit: GodotObject
                                 { "r", hex.r },
                                 { "s", hex.s }
                             };
-                    Global.gameManager.graphicManager.CallDeferred("UpdateHexObjectDictionary", previousHexData, manager.graphicObjectDictionary[id], hexData);
+                    Global.gameManager.graphicManager.CallDeferred("UpdateHexObjectDictionary", previousHexData, id, hexData);
 
                 }
                 return true;

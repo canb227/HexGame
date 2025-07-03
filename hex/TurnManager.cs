@@ -11,6 +11,7 @@ public class TurnManager
 {
     public int currentTurn { get; set; } = 0;
 
+
     public async void StartNewTurn()
     {
         currentTurn++;
@@ -28,7 +29,14 @@ public class TurnManager
         {
             Global.gameManager.game.mainGameBoard.OnTurnStarted(currentTurn);
         }
-        Global.gameManager.AIManager.OnTurnStart();
+        
+        //Run AI on a new thread
+        await Task.Run(() => Global.gameManager.AIManager.OnTurnStart());
+
+        //Run AI on main thread
+        //Global.gameManager.AIManager.OnTurnStart()
+
+
     }
     public void EndCurrentTurn(int teamNum)
     {

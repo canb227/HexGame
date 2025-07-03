@@ -151,8 +151,11 @@ public partial class GraphicManager : Node3D
         }
     }
 
-    public void UpdateHexObjectDictionary(Hex previousHex, GraphicObject graphicObj, Hex newHex)
+    public void UpdateHexObjectDictionary(Godot.Collections.Dictionary previousHexData, int id, Godot.Collections.Dictionary newHexData)
     {
+        GraphicObject graphicObj = graphicObjectDictionary[id];
+        Hex previousHex = new Hex((int)previousHexData["q"], (int)previousHexData["r"], (int)previousHexData["s"]);
+        Hex newHex = new Hex((int)newHexData["q"], (int)newHexData["r"], (int)newHexData["s"]);
         hexObjectDictionary[previousHex].Remove(graphicObj);
         graphicObj.previousHex = newHex;
         hexObjectDictionary[newHex].Add(graphicObj);
