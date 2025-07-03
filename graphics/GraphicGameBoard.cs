@@ -372,7 +372,7 @@ public partial class GraphicGameBoard : GraphicObject
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         foreach (HexChunk hexChunk in ggb.chunkList)
         {
-            foreach (Node child in hexChunk.multiMeshInstance.GetChildren())
+            foreach (Node child in hexChunk.multiMeshInstance.GetChildren().ToList())
             {
                 if (child.Name.ToString().Contains("Player" + teamNum + "TerritoryLines"))
                 {
@@ -388,7 +388,7 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
                 {
-                    Node3D territoryLinesNode = (Node3D)Global.gameManager.graphicManager.territoryLinesScene.GetChild(0).Duplicate();
+                    Node3D territoryLinesNode = (Node3D)Global.gameManager.graphicManager.territoryLinesScene.Instantiate<Node3D>();
 
                     int newHexQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
                     Hex modHex = new Hex(newHexQ, hex.r, -newHexQ - hex.r);
@@ -399,12 +399,8 @@ public partial class GraphicGameBoard : GraphicObject
                     territoryLinesNode.Transform = newTransform;
 
                     int index = 0;
-                    foreach (MeshInstance3D mesh in territoryLinesNode.GetChildren())
+                    foreach (MeshInstance3D mesh in territoryLinesNode.GetChildren().ToList())
                     {
-                        foreach (Vector3 vertex in mesh.Mesh.GetFaces())
-                        {
-                            //GD.Print(vertex.X + "," +vertex.Y + "," + vertex.Z);
-                        }
                         if (index == 0)
                         {
                             int newQ = hex.q + 1;
