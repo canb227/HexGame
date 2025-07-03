@@ -51,7 +51,7 @@ public partial class DiplomacyPanel : Control
     {
     }
 
-    public void UpdateDiplomacyPanel(int otherTeamNum, (List<DiplomacyAction>, List<DiplomacyAction>) diplomaticOffer)
+    public void UpdateDiplomacyPanel(int otherTeamNum, (List<DiplomacyAction>, List<DiplomacyAction>) diplomaticOffer) //item 1 is what they are offering item 2 is what we are offering
     {
         this.otherTeamNum = otherTeamNum;
         playerOffers = new();
@@ -79,8 +79,22 @@ public partial class DiplomacyPanel : Control
         //offers
         if (diplomaticOffer.Item1 != null)
         {
+            acceptButton.Text = "Accept";
+            //item 1 is what they are offering item 2 is what we are offering
             activeOffer = true;
+            foreach(DiplomacyAction action in diplomaticOffer.Item1)
+            {
+                AddOffer(action, otherItemsBox, otherOfferBox, otherOffers);
+            }
+            foreach (DiplomacyAction action in diplomaticOffer.Item2)
+            {
+                AddOffer(action, playerItemsBox, playerOfferBox, playerOffers);
+            }
             //add the offer to the visuals and set our offer lists
+        }
+        else
+        {
+            acceptButton.Text = "Offer";
         }
     }
 
@@ -91,16 +105,17 @@ public partial class DiplomacyPanel : Control
             diplomacyAction.targetTeamNum = otherTeamNum;
 
             Button button = new Button();
+            button.Name = diplomacyAction.actionName + "Button";
             button.Text = diplomacyAction.actionName;
             button.Disabled = !diplomacyAction.ActionValid(otherTeamNum);
-            button.Pressed += () => AddOffer(button, diplomacyAction, offers, offersBox);
+            button.Pressed += () => AddOffer(diplomacyAction, items, offersBox, offers);
             items.AddChild(button);
         }
     }
 
-    private void AddOffer(Button sourceButton, DiplomacyAction action, List<DiplomacyAction> offers, VBoxContainer offersBox)
+    private void AddOffer(DiplomacyAction action, VBoxContainer items, VBoxContainer offersBox, List<DiplomacyAction> offers)
     {
-        sourceButton.Disabled = true;
+        items.GetNode<Button>(action.actionName + "Button").Disabled = true;
         HBoxContainer box = new HBoxContainer();
         box.Name = action.actionName;
         offers.Add(action);
@@ -145,6 +160,8 @@ public partial class DiplomacyPanel : Control
     private void SendDeal()
     {
         //networked message
+
+        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
     private void AcceptDeal()
     {
@@ -160,6 +177,8 @@ public partial class DiplomacyPanel : Control
     }
     private void DeclineDeal()
     {
+        //networked message
+
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
 

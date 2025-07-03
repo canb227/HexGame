@@ -388,7 +388,7 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
                 {
-                    Node3D territoryLinesNode = (Node3D)Global.gameManager.graphicManager.territoryLinesScene.Instantiate<Node3D>();
+                    Node3D territoryLinesNode = (Node3D)Global.gameManager.graphicManager.territoryLinesScene.Instantiate<Node3D>().GetChild(0);
 
                     int newHexQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
                     Hex modHex = new Hex(newHexQ, hex.r, -newHexQ - hex.r);
@@ -478,7 +478,7 @@ public partial class GraphicGameBoard : GraphicObject
                         index++;
                     }
                     territoryLinesNode.Name = "Player" + teamNum + "TerritoryLines" + hex;
-                    ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(territoryLinesNode);
+                    territoryLinesNode.Reparent(ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance, false);
                 }
             }
         }
