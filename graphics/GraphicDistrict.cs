@@ -27,10 +27,10 @@ public partial class GraphicDistrict : GraphicObject
     private void InitDistrict(District district)
     {
         //TODO rework for multiple buildings
-        foreach(Building building in district.buildings)
+/*        foreach(Building building in district.buildings)
         {
             Global.gameManager.graphicManager.NewBuilding(building);
-        }
+        }*/
         //district doesnt have its own mesh currently
     }
 

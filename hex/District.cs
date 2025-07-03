@@ -8,7 +8,7 @@ using System.Text;
 using System.IO;
 
 [Serializable]
-public class District
+public partial class District : GodotObject
 {
 
     public int id { get; set; }
@@ -68,7 +68,7 @@ public class District
         this.isCityCenter = isCityCenter;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.NewDistrict(this);
+            manager.CallDeferred("NewDistrict", this);
         }
         if (isCityCenter)
         {
@@ -176,7 +176,7 @@ public class District
         health = Math.Max(0.0f, health);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.UpdateGraphic(Global.gameManager.game.cityDictionary[cityID].id, GraphicUpdateType.Update);
+            manager.CallDeferred("UpdateGraphic", Global.gameManager.game.cityDictionary[cityID].id, (int)GraphicUpdateType.Update);
         }
         if (health <= 0.0f)
         {
@@ -343,7 +343,7 @@ public class District
     {
         RemoveVision();
         AddVision();
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
 
     public void RemoveVision()
@@ -365,7 +365,7 @@ public class District
             }
         }
         visibleHexes.Clear();
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
     public void AddVision()
     {
@@ -404,7 +404,7 @@ public class District
                 }
             }
         }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(Global.gameManager.game.mainGameBoard.id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
 
     public void AddResource()

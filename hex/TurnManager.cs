@@ -15,8 +15,8 @@ public class TurnManager
         currentTurn++;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.Update2DUI(UIElement.turnNumber);
-            manager.Update2DUI(UIElement.unitDisplay);
+            manager.CallDeferred("Update2DUI", (int)UIElement.turnNumber);
+            manager.CallDeferred("Update2DUI", (int)UIElement.unitDisplay);
         }
         foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {

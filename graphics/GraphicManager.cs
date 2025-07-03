@@ -116,8 +116,9 @@ public partial class GraphicManager : Node3D
         ggb.chunkList[ggb.hexToChunkDictionary[graphicCity.city.hex]].multiMeshInstance.AddChild(graphicCity);
     }
 
-    public void NewFeature(Hex hex, FeatureType featureType)
+    public void NewFeature(Godot.Collections.Dictionary hexData, FeatureType featureType)
     {
+        Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
         GraphicFeature graphicFeature = new GraphicFeature(hex, featureType);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         hexObjectDictionary[hex].Add(graphicFeature);
@@ -162,8 +163,9 @@ public partial class GraphicManager : Node3D
         uiManager.Update(element);
     }
 
-    public void UpdateHex(Hex hex)
+    public void UpdateHex(Godot.Collections.Dictionary hexData)
     {
+        Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
         foreach (GraphicObject graphicObj in hexObjectDictionary[hex])
         {
             if(IsInstanceValid(graphicObj))

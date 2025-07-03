@@ -267,7 +267,7 @@ public class UnitEffect
         //GD.Print(unit.id + "is now sleeping");
         unit.isSleeping = true;
         unit.CancelMovement();
-        Global.gameManager.graphicManager.UnselectObject();
+        Global.gameManager.graphicManager.CallDeferred("UnselectObject");
         return false;
     }
 
@@ -276,7 +276,7 @@ public class UnitEffect
         //GD.Print(unit.id + "is now sleeping");
         unit.isSkipping = true;
         unit.CancelMovement();
-        Global.gameManager.graphicManager.UnselectObject();
+        Global.gameManager.graphicManager.CallDeferred("UnselectObject");
         return false;
     }
 
@@ -285,7 +285,7 @@ public class UnitEffect
         if (Global.gameManager.game.playerDictionary[unit.teamNum].maxTradeCount < Global.gameManager.game.playerDictionary[unit.teamNum].tradeRouteCount)
         if(unit.teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            Global.gameManager.graphicManager.uiManager.OpenTradeMenu(unit);
+            Global.gameManager.graphicManager.uiManager.CallDeferred("OpenTradeMenu", unit);
         }
         //Global.gameManager.game.playerDictionary[unit.teamNum].NewTradeRoute(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].district.cityID], );
         return false;

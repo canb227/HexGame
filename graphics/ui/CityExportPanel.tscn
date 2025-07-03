@@ -10,7 +10,7 @@ PanelContainer/styles/panel = SubResource("StyleBoxFlat_e1iin")
 
 [node name="CityExportUI" type="HBoxContainer"]
 z_index = 1
-anchors_preset = -1
+anchors_preset = 9
 anchor_bottom = 1.0
 offset_top = 64.0
 offset_right = 256.0

@@ -7,7 +7,7 @@ using Godot;
 using System.IO;
 
 [Serializable]
-public class Building
+public partial class Building : GodotObject
 {
     public String name { get; set; }
     public int id { get; set; }
@@ -56,7 +56,7 @@ public class Building
         id = Global.gameManager.game.GetUniqueID(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[districtHex].district.cityID].teamNum);
         if(!isResource)
         {
-            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.NewBuilding(this);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewBuilding", this);
         }
     }
 

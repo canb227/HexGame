@@ -195,7 +195,14 @@ public class GameHex
         this.featureSet.Add(newFeature);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.NewFeature(hex, newFeature);
+            var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+
+            manager.CallDeferred("NewFeature", data, (int)newFeature);
         }
         return true;
     }
@@ -207,7 +214,7 @@ public class GameHex
         city.heldHexes.Add(hex);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.UpdateCityTerritory(city);
+            manager.CallDeferred("UpdateCityTerritory", city);
         }
     }
 

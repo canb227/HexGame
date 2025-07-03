@@ -54,7 +54,7 @@ public class ProductionQueueType
 
 
 [Serializable]
-public class City
+public partial class City : GodotObject
 {
     public City(int id, int teamNum, String name, bool isCapital, GameHex gameHex)
     {
@@ -81,7 +81,7 @@ public class City
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.NewCity(this);
+            manager.CallDeferred("NewCity", this);
         }
         AddCityCenter(isCapital);
         this.isCapital = isCapital;
@@ -241,12 +241,12 @@ public class City
             if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
                 manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
-                manager.UpdateGraphic(id, GraphicUpdateType.Update);
-                manager.Update2DUI(UIElement.endTurnButton);
+                manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+                manager.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
             }
             return true;
         }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.Update2DUI(UIElement.endTurnButton);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
         return false;
     }
 
@@ -279,7 +279,7 @@ public class City
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
-            manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
         }
         return true;
     }
@@ -349,8 +349,8 @@ public class City
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
-            manager.UpdateGraphic(id, GraphicUpdateType.Update);
-            manager.Update2DUI(UIElement.endTurnButton);
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+            manager.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
 
         }
         return true;
@@ -410,7 +410,7 @@ public class City
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
-            manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            manager.CallDeferred("UpdateGraphic", id, (int)(int)GraphicUpdateType.Update);
         }
         return true;
     }
@@ -435,9 +435,9 @@ public class City
         {
             if(manager.selectedObjectID == id)
             {
-                manager.UnselectObject();
+                manager.CallDeferred("UnselectObject");
             }
-            manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
         }
         return true;
     }
@@ -448,7 +448,7 @@ public class City
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
-            manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
         }
     }
 
@@ -561,7 +561,7 @@ public class City
                 productionQueue.RemoveAt(0);
             }
         }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.Update2DUI(UIElement.endTurnButton);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
 
         if (productionQueue.Any() == false)
         {
@@ -577,7 +577,7 @@ public class City
             foodStockpile = Math.Max(0.0f, foodStockpile - foodToGrow);
             foodToGrow = GetFoodToGrowCost(); //30 + (n-1) x 3 + (n-1) ^ 3.0 we use naturalPopulation so we dont punish the placement of urban buildings
         }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.UpdateGraphic(id, GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
     }
 
     public void IncreaseSettlerCost()
@@ -778,17 +778,23 @@ public class City
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.Update2DUI(UIElement.goldPerTurn);
-            manager.Update2DUI(UIElement.sciencePerTurn);
-            manager.Update2DUI(UIElement.culturePerTurn);
-            manager.Update2DUI(UIElement.happinessPerTurn);
-            manager.Update2DUI(UIElement.influencePerTurn);
-            manager.Update2DUI(UIElement.researchTree);
+            manager.CallDeferred("Update2DUI", (int)UIElement.goldPerTurn);
+            manager.CallDeferred("Update2DUI", (int)UIElement.sciencePerTurn);
+            manager.CallDeferred("Update2DUI", (int)UIElement.culturePerTurn);
+            manager.CallDeferred("Update2DUI", (int)UIElement.happinessPerTurn);
+            manager.CallDeferred("Update2DUI", (int)UIElement.influencePerTurn);
+            manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
             manager.uiManager.UpdateResearchUI();
-            manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
             foreach(Hex hex in heldHexes)
             {
-                manager.UpdateHex(hex);
+                var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+                manager.CallDeferred("UpdateHex", data);
             }
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
         }
@@ -833,9 +839,14 @@ public class City
             RecalculateYields();
             if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
-                manager.UpdateHex(hex);
-                manager.UpdateGraphic(id, GraphicUpdateType.Update);
-                manager.ClearWaitForTarget();
+                var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+                manager.CallDeferred("UpdateHex", data); manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+                manager.CallDeferred("ClearWaitForTarget");
             }
         }
         else
@@ -856,7 +867,7 @@ public class City
                 RecalculateYields();
                 if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
                 {
-                    manager.ClearWaitForTarget();
+                    manager.CallDeferred("ClearWaitForTarget");
                 }
             }
         }
@@ -1106,7 +1117,7 @@ public class City
         this.name = name;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.UpdateGraphic(id, GraphicUpdateType.Update);
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
         }
         

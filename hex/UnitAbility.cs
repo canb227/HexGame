@@ -72,7 +72,7 @@ public class UnitAbility
             currentCharges -= 1;
             if(Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
-                manager.Update2DUI(UIElement.unitDisplay);
+                manager.CallDeferred("Update2DUI", (int)UIElement.unitDisplay);
             }
             return effect.Apply(usingUnitID, combatPower, abilityTarget);
         }
