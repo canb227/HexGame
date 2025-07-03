@@ -255,13 +255,13 @@ public static class AIUtils
     }
     public static bool FindClosestAnyEnemyInRange(AI ai, Hex hex, int range, out Hex target)
     {
-        Unit unit = new Unit("Warrior", -1, ai.player.teamNum);
+        Unit unit = new Unit("Warrior", -ai.player.teamNum, ai.player.teamNum);
         unit.hex = hex; //create a dummy unit at the given hex
         List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
         List<Hex> targets = new();
         foreach (Hex h in hexesInRange)
         {
-            if (!IsSafeHex(ai, hex))
+            if (!IsSafeHex(ai, h))
             {
                 targets.Add(h); //found an enemy unit in range
             }
@@ -278,12 +278,45 @@ public static class AIUtils
                     target = h; //find the closest district
                 }
             }
-            Global.gameManager.game.unitDictionary.Remove(-1);
+            Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+            ai.player.unitList.Remove(-ai.player.teamNum);
             return true;
         }
         else
         {
-            Global.gameManager.game.unitDictionary.Remove(-1);
+            Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+            ai.player.unitList.Remove(-ai.player.teamNum);
+            target = new Hex(); //return an empty hex if no district found
+            return false; //no enemy district found in range
+        }
+    }
+    public static bool FindClosestAnyEnemyInRange(AI ai, Unit unit, int range, out Hex target)
+    {
+        List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
+        List<Hex> targets = new();
+        foreach (Hex h in hexesInRange)
+        {
+            if (!IsSafeHex(ai, h))
+            {
+                targets.Add(h); //found an enemy unit in range
+            }
+        }
+        if (targets.Count > 0)
+        {
+            target = targets[0];
+            float lowCost = float.MaxValue;
+            foreach (Hex h in targets)
+            {
+                unit.PathFind(unit.hex, h, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out float cost);
+                if (cost < lowCost)
+                {
+                    target = h; //find the closest district
+                }
+            }
+            return true;
+        }
+        else
+        {
             target = new Hex(); //return an empty hex if no district found
             return false; //no enemy district found in range
         }
@@ -379,11 +412,15 @@ public static class AIUtils
             {
                 foreach (District district in city.districts)
                 {
-                    unit.PathFind(unit.hex, district.hex, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out float cost);
-                    if (cost < lowCost)
+                    if (district.health > 0)
                     {
-                        target = district.hex;
+                        unit.PathFind(unit.hex, district.hex, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out float cost);
+                        if (cost < lowCost)
+                        {
+                            target = district.hex;
+                        }
                     }
+
                 }
 
             }

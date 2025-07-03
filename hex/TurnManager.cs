@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Data;
 using System.IO;
 using System.Threading.Tasks;
+using static AIUtils;
 
 [Serializable]
 public class TurnManager
@@ -12,7 +13,7 @@ public class TurnManager
     public int currentTurn { get; set; } = 0;
 
 
-    public async void StartNewTurn()
+    public void StartNewTurn()
     {
         currentTurn++;
         Global.Log("NEWTURN: " + currentTurn + "///////////////////////////////////////////NEWTURN" + currentTurn + "///////////////////////////////////////////////////////NEWTURN " + currentTurn + " ///////////////////////////////////////////NEWTURN" + currentTurn + "");
@@ -29,9 +30,15 @@ public class TurnManager
         {
             Global.gameManager.game.mainGameBoard.OnTurnStarted(currentTurn);
         }
-        
+
         //Run AI on a new thread
-        await Task.Run(() => Global.gameManager.AIManager.OnTurnStart());
+        Task AIThread = Task.Run(() => Global.gameManager.AIManager.OnTurnStart());
+        /*try
+        {
+            AIThread.Wait();
+        }
+        catch (Exception ex) { throw; }*/
+
 
         //Run AI on main thread
         //Global.gameManager.AIManager.OnTurnStart()

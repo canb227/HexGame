@@ -9,7 +9,7 @@ using System.Linq;
 public partial class Global : Node
 {
 
-    public const bool PRINTDEBUG = true; //Set to false to disable debug messages
+    public const bool PRINTDEBUG = false; //Set to false to disable debug messages
 
     //Steam stuff
     public const uint STEAM_APP_ID = 480;

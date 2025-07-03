@@ -999,6 +999,10 @@ public partial class City : GodotObject
         if (validTerrain.Count == 0 || validTerrain.Contains(targetGameHex.terrainType))
         {
             //hex is owned by us so continue
+            if (targetGameHex.resourceType != ResourceType.None)
+            {
+                return false;
+            }
             if (targetGameHex.ownedBy == teamNum)
             {
                 //hex does have a rural district
