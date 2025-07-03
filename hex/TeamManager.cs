@@ -100,4 +100,13 @@ public class TeamManager
 
         return enemies;
     }
+
+    public void AddPendingDeal(DiplomacyDeal deal)
+    {
+        Global.gameManager.game.teamManager.pendingDeals.Add(deal);
+        if(deal.receivingTeamNum == Global.gameManager.game.localPlayerTeamNum)
+        {
+            Global.gameManager.graphicManager.uiManager.CallDeferred("NewDiplomaticDeal", deal);
+        }
+    }
 }

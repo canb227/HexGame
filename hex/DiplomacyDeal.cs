@@ -7,10 +7,16 @@ using System.Threading.Tasks;
 [Serializable]
 public class DiplomacyDeal
 {
-
-    public DiplomacyDeal()
+    public int sendingTeamNum;
+    public int receivingTeamNum;
+    public List<DiplomacyAction> senderOfferingList;
+    public List<DiplomacyAction> receivingOfferingList;
+    public DiplomacyDeal(int sendingTeamNum, int receivingTeamNum, List<DiplomacyAction> senderOfferingList, List<DiplomacyAction> receivingOfferingList)
     {
-
+        this.sendingTeamNum = sendingTeamNum;
+        this.receivingTeamNum = receivingTeamNum;
+        this.senderOfferingList = senderOfferingList;
+        this.receivingOfferingList = receivingOfferingList;
     }
 
 }

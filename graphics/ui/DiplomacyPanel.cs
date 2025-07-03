@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Security.AccessControl;
+using static System.Net.Mime.MediaTypeNames;
 
 public partial class DiplomacyPanel : Control
 {
@@ -25,6 +26,7 @@ public partial class DiplomacyPanel : Control
 
     private int otherTeamNum;
     public bool activeOffer;
+    private DiplomacyDeal currentOffer;
     public DiplomacyPanel()
     {
         diplomacyPanelControl = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/DiplomacyPanel.tscn").Instantiate<Control>();
@@ -51,7 +53,7 @@ public partial class DiplomacyPanel : Control
     {
     }
 
-    public void UpdateDiplomacyPanel(int otherTeamNum, (List<DiplomacyAction>, List<DiplomacyAction>) diplomaticOffer) //item 1 is what they are offering item 2 is what we are offering
+    public void UpdateDiplomacyPanel(int otherTeamNum, DiplomacyDeal diplomaticOffer) //item 1 is what they are offering item 2 is what we are offering
     {
         this.otherTeamNum = otherTeamNum;
         playerOffers = new();
@@ -77,16 +79,16 @@ public partial class DiplomacyPanel : Control
         AddItems(Global.gameManager.game.localPlayerTeamNum, playerItemsBox, playerOfferBox, playerOffers);
         AddItems(otherTeamNum, otherItemsBox, otherOfferBox, otherOffers);
         //offers
-        if (diplomaticOffer.Item1 != null)
+        if (diplomaticOffer != null)
         {
             acceptButton.Text = "Accept";
-            //item 1 is what they are offering item 2 is what we are offering
+            currentOffer = diplomaticOffer;
             activeOffer = true;
-            foreach(DiplomacyAction action in diplomaticOffer.Item1)
+            foreach(DiplomacyAction action in diplomaticOffer.senderOfferingList)
             {
                 AddOffer(action, otherItemsBox, otherOfferBox, otherOffers);
             }
-            foreach (DiplomacyAction action in diplomaticOffer.Item2)
+            foreach (DiplomacyAction action in diplomaticOffer.receivingOfferingList)
             {
                 AddOffer(action, playerItemsBox, playerOfferBox, playerOffers);
             }
@@ -127,7 +129,7 @@ public partial class DiplomacyPanel : Control
         {
             LineEdit lineEdit = new LineEdit();
             lineEdit.SizeFlagsHorizontal = SizeFlags.ExpandFill;
-            lineEdit.TextSubmitted += (text) => SetActionQuantity(lineEdit, action, text);
+            lineEdit.TextChanged += (text) => SetActionQuantity(lineEdit, action, text);
             box.AddChild(lineEdit);
         }
         offersBox.AddChild(box);
@@ -160,12 +162,17 @@ public partial class DiplomacyPanel : Control
     private void SendDeal()
     {
         //networked message
+        DiplomacyDeal newOffer = new DiplomacyDeal(Global.gameManager.game.localPlayerTeamNum, otherTeamNum, playerOffers, otherOffers);
+        Global.gameManager.game.teamManager.AddPendingDeal(newOffer);
 
+        //
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
     private void AcceptDeal()
     {
-        foreach(DiplomacyAction action in playerOffers)
+        //networked message
+        Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer);
+        foreach (DiplomacyAction action in playerOffers)
         {
             action.ActivateAction();
         }
@@ -173,12 +180,14 @@ public partial class DiplomacyPanel : Control
         {
             action.ActivateAction();
         }
+        //
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
     private void DeclineDeal()
     {
         //networked message
-
+        Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer);
+        //
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
 

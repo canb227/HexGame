@@ -75,6 +75,8 @@ public partial class UIManager : Node3D
 
     public DiplomacyPanel diplomacyPanel;
 
+    public HBoxContainer actionQueue;
+
     public City targetCity;
     public Unit targetUnit;
 
@@ -129,6 +131,8 @@ public partial class UIManager : Node3D
 
         tradeExportButton = screenUI.GetNode<Button>("LayerHelper/TradeExportButton");
         tradeExportButton.Pressed += () => TradeExportPanelButtonPressed();
+
+        actionQueue = screenUI.GetNode<HBoxContainer>("ActionQueue");
 
         playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
         foreach(Player player in Global.gameManager.game.playerDictionary.Values)
@@ -580,12 +584,23 @@ public partial class UIManager : Node3D
         HideGenericUI();
     }
 
-    public void DiplomacyButtonPressed(int teamNum)
+    public void DiplomacyButtonPressed(int targetTeamNum, DiplomacyDeal deal)
     {
+        if(deal == null)
+        {
+            foreach(DiplomacyDeal pendingDeal in Global.gameManager.game.teamManager.pendingDeals)
+            {
+                if(pendingDeal.sendingTeamNum == targetTeamNum && pendingDeal.receivingTeamNum == Global.gameManager.game.localPlayerTeamNum)
+                {
+                    deal = pendingDeal;
+                    break;
+                }
+            }
+        }
         Global.gameManager.graphicManager.UnselectObject();
         windowOpen = true;
         diplomacyPanel.Visible = true;
-        diplomacyPanel.UpdateDiplomacyPanel(teamNum, (null,null));
+        diplomacyPanel.UpdateDiplomacyPanel(targetTeamNum, deal);
         HideGenericUI();
     }
 
@@ -612,5 +627,13 @@ public partial class UIManager : Node3D
         resourceButton.Visible = true;
         tradeExportButton.Visible = true;
         playerList.Visible = true;
+    }
+
+    public void NewDiplomaticDeal(DiplomacyDeal deal)
+    {
+        Button dealButton = new Button();
+        dealButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomacy.png");
+        dealButton.Pressed += () => DiplomacyButtonPressed(deal.sendingTeamNum, deal);
+        actionQueue.AddChild(dealButton);
     }
 }
