@@ -30,6 +30,7 @@ public partial class GraphicUnit : GraphicObject
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
+        if (!IsInstanceValid(this)) { return; }
         if (graphicUpdateType == GraphicUpdateType.Remove)
         {
             if(Global.gameManager.graphicManager.selectedObjectID == unit.id)

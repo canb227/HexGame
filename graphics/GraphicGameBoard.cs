@@ -381,7 +381,7 @@ public partial class GraphicGameBoard : GraphicObject
             }
         }
         //calculate where to draw lines
-        foreach (int cityID in Global.gameManager.game.playerDictionary[teamNum].cityList)
+        foreach (int cityID in Global.gameManager.game.playerDictionary[teamNum].cityList.ToList())
         {
             City city = Global.gameManager.game.cityDictionary[(int)cityID];
             foreach (Hex hex in city.heldHexes)
