@@ -797,7 +797,7 @@ public partial class City : GodotObject
             manager.CallDeferred("Update2DUI", (int)UIElement.happinessPerTurn);
             manager.CallDeferred("Update2DUI", (int)UIElement.influencePerTurn);
             manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
-            manager.uiManager.UpdateResearchUI();
+            manager.uiManager.CallDeferred("UpdateResearchUI");
             manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
             foreach(Hex hex in heldHexes)
             {
