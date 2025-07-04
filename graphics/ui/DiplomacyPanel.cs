@@ -110,11 +110,16 @@ public partial class DiplomacyPanel : Control
             button.Name = diplomacyAction.actionName + "Button";
             button.Text = diplomacyAction.actionName;
             button.Disabled = !diplomacyAction.ActionValid(otherTeamNum);
-            button.Pressed += () => AddOffer(diplomacyAction, items, offersBox, offers);
+            button.Pressed += () => AddVoidingOffer(diplomacyAction, items, offersBox, offers);
             items.AddChild(button);
         }
     }
 
+    private void AddVoidingOffer(DiplomacyAction action, VBoxContainer items, VBoxContainer offersBox, List<DiplomacyAction> offers)
+    {
+        CancelActiveOffer();
+        AddOffer(action, items, offersBox, offers);
+    }
     private void AddOffer(DiplomacyAction action, VBoxContainer items, VBoxContainer offersBox, List<DiplomacyAction> offers)
     {
         items.GetNode<Button>(action.actionName + "Button").Disabled = true;
@@ -129,6 +134,7 @@ public partial class DiplomacyPanel : Control
         {
             LineEdit lineEdit = new LineEdit();
             lineEdit.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+            lineEdit.Text = ((int)Math.Round(action.quantity)).ToString();
             lineEdit.TextChanged += (text) => SetActionQuantity(lineEdit, action, text);
             box.AddChild(lineEdit);
         }
@@ -137,6 +143,7 @@ public partial class DiplomacyPanel : Control
 
     private void RemoveOffer(DiplomacyAction action, List<DiplomacyAction> offers, VBoxContainer offersBox)
     {
+        CancelActiveOffer();
         offers.Remove(action);
         foreach (Node child in offersBox.GetChildren())
         {
@@ -145,6 +152,13 @@ public partial class DiplomacyPanel : Control
                 child.QueueFree();
             }
         }
+    }
+
+    private void CancelActiveOffer()
+    {
+        activeOffer = false;
+        Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer);
+        acceptButton.Text = "Offer";
     }
 
     private void ProcessDeal()

@@ -132,7 +132,7 @@ public partial class UIManager : Node3D
         tradeExportButton = screenUI.GetNode<Button>("LayerHelper/TradeExportButton");
         tradeExportButton.Pressed += () => TradeExportPanelButtonPressed();
 
-        actionQueue = screenUI.GetNode<HBoxContainer>("ActionQueue");
+        actionQueue = screenUI.GetNode<HBoxContainer>("ActionQueueScrollBox/ActionQueue");
 
         playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
         foreach(Player player in Global.gameManager.game.playerDictionary.Values)
@@ -148,7 +148,7 @@ public partial class UIManager : Node3D
                 {
                     icon.Icon = Global.GetMediumSteamAvatar(Global.gameManager.teamNumToPlayerID[player.teamNum]);
                 }
-                icon.Pressed += () => DiplomacyButtonPressed(player.teamNum);
+                icon.Pressed += () => DiplomacyButtonPressed(player.teamNum, null);
                 playerList.AddChild(icon);
             }
         }
@@ -584,6 +584,12 @@ public partial class UIManager : Node3D
         HideGenericUI();
     }
 
+    public void DiplomacyActionButtonPressed(Button dealButton, int targetTeamNum, DiplomacyDeal deal)
+    {
+        dealButton.QueueFree();
+        DiplomacyButtonPressed(targetTeamNum, deal);
+    }
+
     public void DiplomacyButtonPressed(int targetTeamNum, DiplomacyDeal deal)
     {
         if(deal == null)
@@ -632,8 +638,12 @@ public partial class UIManager : Node3D
     public void NewDiplomaticDeal(DiplomacyDeal deal)
     {
         Button dealButton = new Button();
+        dealButton.CustomMinimumSize = new Vector2(64, 64);
+        dealButton.ExpandIcon = true;
         dealButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomacy.png");
-        dealButton.Pressed += () => DiplomacyButtonPressed(deal.sendingTeamNum, deal);
+        dealButton.Pressed += () => DiplomacyActionButtonPressed(dealButton, deal.sendingTeamNum, deal);
         actionQueue.AddChild(dealButton);
+        actionQueue.MoveChild(dealButton, 0);
+        
     }
 }
