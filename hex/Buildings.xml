@@ -263,6 +263,7 @@
     </TerrainTypes>
   </Building>
 
+<!-- World Wonders -->
 
   <Building Name="Stonehenge" DistrictType="wonder" ProductionCost="200" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="4.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="True" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
     <Effects>
@@ -270,6 +271,17 @@
     </Effects>
     <TerrainTypes>
       <TerrainType>Flat</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+<!-- NPC Buildings -->
+  <Building Name="GoblinDen" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="2.0" ProductionYield="3.0" GoldYield="5.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
+    <Effects>
+      <Effect Name="GoblinDenEffect" />
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
     </TerrainTypes>
   </Building>
 

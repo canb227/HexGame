@@ -21,7 +21,7 @@ public enum BuildingEffectType
 
 public class BuildingEffect
 {
-    public BuildingEffect(BuildingEffectType effectType, EffectOperation effectOperation, float effectMagnitude, int priority, Action<object> applyFunction)
+    public BuildingEffect(BuildingEffectType effectType, EffectOperation effectOperation, float effectMagnitude, int priority)
     {
         this.effectType = effectType;
         this.effectOperation = effectOperation;

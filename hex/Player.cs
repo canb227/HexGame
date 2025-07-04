@@ -6,6 +6,7 @@ using System.Data;
 using Godot;
 using System.IO;
 using NetworkMessages;
+using System.Drawing;
 
 [Serializable]
 public class Player
@@ -16,14 +17,21 @@ public class Player
         this.teamNum = teamNum;
         this.goldTotal = goldTotal;
         this.isAI = isAI;
+
+        SetBaseHexYields();
+        SetGovernment(GovernmentType.Tribal);
+        PlayerEffect.ProcessFunctionString("AddTribalGovernmentEffect", this); //you should only apply government effects once and they are permanent
+        administrativeCityCost = 20;
+        administrativePopulationCost = 2;
+        cityLimit = 2;
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
         OnResearchComplete("Agriculture");
         OnCultureResearchComplete("Tribal Dominion");
-/*        SelectResearch("FutureTech");
-        SelectCultureResearch("FutureTech");*/
-        if(teamNum == 0)
+        /*        SelectResearch("FutureTech");
+                SelectCultureResearch("FutureTech");*/
+        if (teamNum == 0)
         {
-            foreach(Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
+            foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
             {
                 visibleGameHexDict.Add(hex, 99);
                 seenGameHexDict.Add(hex, true);
@@ -35,7 +43,7 @@ public class Player
         playerTerritoryMaterial = new StandardMaterial3D();
 
         Gradient gradient = new Gradient();
-        gradient.SetColor(0, new Color(teamColor.R, teamColor.G, teamColor.B, 0.2f));
+        gradient.SetColor(0, new Godot.Color(teamColor.R, teamColor.G, teamColor.B, 0.2f));
         gradient.SetColor(1, teamColor);
 
         GradientTexture1D gradTex = new GradientTexture1D();
@@ -69,23 +77,33 @@ public class Player
     public HashSet<String> completedCultureResearches { get; set; } = new();
     public List<int> unitList { get; set; } = new();
     public List<int> cityList { get; set; } = new();
-    public List<(UnitEffect, UnitClass)> unitResearchEffects { get; set; } = new();
-    public List<(BuildingEffect, String)> buildingResearchEffects { get; set; } = new();
+    public List<(string, UnitEffect, UnitClass)> unitPlayerEffects { get; set; } = new();
+    public List<(string, BuildingEffect, String)> buildingPlayerEffects { get; set; } = new();
     public HashSet<String> allowedBuildings { get; set; } = new();
     public HashSet<DistrictType> allowedDistricts { get; set; } = new();
     public HashSet<String> allowedUnits { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
-    public Dictionary<Hex, ResourceType> globalResources {  get; set; } = new();
+    public Dictionary<Hex, ResourceType> globalResources { get; set; } = new();
     public HashSet<DiplomacyAction> diplomaticActionHashSet { get; set; } = new();
 
-    public GovernmentType government { get; set; } = new();
+    public GovernmentType government { get; set; }
     public float strongestUnitBuilt { get; set; } = 0.0f;
 
     public float goldTotal { get; set; }
     public float scienceTotal { get; set; }
     public float cultureTotal { get; set; }
+
+
+    // happinessTotal reaches administrativeupkeep you get a golden age, golden age locks happinessTotal at 100? 
+    //provides a boost, if happinessTotal reaches some negative number enter a dark age lock happinessTotal at 0 provides some effect, bad but someway to help resolve happiness deficit happinessTotal
     public float happinessTotal { get; set; }
+    public int goldenAgeTurnsLeft { get; set; } = 0;
+    public int darkAgeTurnsLeft { get; set; } = 0;
     public float influenceTotal { get; set; }
+    public float administrativeUpkeep { get; set; } = 100; //administrativeUpkeep is increased by each city and each population
+    public float administrativeCityCost { get; set; }
+    public float administrativePopulationCost { get; set; } 
+    public int cityLimit { get; set; }
     public int settlerCount = 0;
     //exports and trade
     public List<ExportRoute> exportRouteList { get; set; } = new();
@@ -96,6 +114,16 @@ public class Player
     public int maxTradeCount { get; set; } = 2;
     public int tradeRouteCount { get; set; }
     private int idCounter { get; set; } = 0;
+    public Yields flatYields { get; set; } = new();
+    public Yields roughYields { get; set; } = new();
+    public Yields mountainYields { get; set; } = new();
+    public Yields coastalYields { get; set; } = new();
+    public Yields oceanYields { get; set; } = new();
+    public Yields desertYields { get; set; } = new();
+    public Yields plainsYields { get; set; } = new();
+    public Yields grasslandYields { get; set; } = new();
+    public Yields tundraYields { get; set; } = new();
+    public Yields arcticYields { get; set; } = new();
 
     public float foodDifficultyModifier = 1.0f;
     public float productionDifficultyModifier = 1.0f;
@@ -109,6 +137,22 @@ public class Player
     public Godot.Color teamColor;
     public StandardMaterial3D playerTerritoryMaterial;
     public Theme theme;
+
+    private void SetBaseHexYields()
+    {
+        flatYields.food = 1;
+        roughYields.production = 1;
+        //mountainYields.production += 0;
+        coastalYields.food = 1;
+        oceanYields.gold = 1;
+
+        desertYields.gold = 1;
+        plainsYields.production = 1;
+        grasslandYields.food = 1;
+        tundraYields.happiness = 1;
+        //arcticYields
+
+    }
 
     public void SetGoldTotal(float goldTotal)
     {
@@ -238,6 +282,7 @@ public class Player
     public void OnTurnStarted(int turnNumber)
     {
         turnFinished = false;
+        administrativeUpkeep = 100;
         foreach (int unitID in unitList)
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
@@ -247,6 +292,8 @@ public class Player
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
             city.OnTurnStarted(turnNumber);
+            administrativeUpkeep += city.naturalPopulation * administrativePopulationCost;
+            administrativeUpkeep += administrativeCityCost;
         }
         if(queuedResearch.Any())
         {
@@ -272,7 +319,38 @@ public class Player
                 queuedCultureResearch.RemoveAt(0);
             }
         }
-        if(exportCount > exportCap)
+        
+        // happinessTotal reaches administrativeupkeep you get a golden age, golden age locks happinessTotal at 100? 
+        //provides a boost, if happinessTotal reaches some negative number enter a dark age lock happinessTotal at 0 provides some effect, bad but someway to help resolve happiness deficit happinessTotal
+        if(happinessTotal > administrativeUpkeep)
+        {
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+            {
+                manager2.uiManager.CallDeferred("SetTopBarColor", Godot.Colors.Goldenrod);
+            }
+            goldenAgeTurnsLeft = 30;
+            darkAgeTurnsLeft = 0;
+            happinessTotal = 0;
+        }
+        else if(happinessTotal < -100)
+        {
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+            {
+                manager2.uiManager.CallDeferred("SetTopBarColor", Godot.Colors.Gray);
+            }
+            darkAgeTurnsLeft = 30;
+            goldenAgeTurnsLeft = 0;
+            happinessTotal = 0;
+        }
+        if(goldenAgeTurnsLeft > 0)
+        {
+            goldenAgeTurnsLeft -= 1;
+        }
+        if(darkAgeTurnsLeft > 0)
+        {
+            darkAgeTurnsLeft -= 1;
+        }
+        if (exportCount > exportCap)
         {
             foreach (int cityID in cityList)
             {
@@ -288,9 +366,7 @@ public class Player
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.CallDeferred("Update2DUI", (int)UIElement.gold);
-            manager.CallDeferred("Update2DUI", (int)UIElement.happiness);
-            manager.CallDeferred("Update2DUI", (int)UIElement.influence);
+            manager.uiManager.CallDeferred("UpdateAll");
             manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
             manager.uiManager.UpdateResearchUI();
         }
@@ -379,8 +455,8 @@ public class Player
 
     public void UpdateTerritoryGraphic()
     {
-        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        ggb.CallDeferred("UpdateTerritoryGraphic", teamNum);
+        //GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        //ggb.CallDeferred("UpdateTerritoryGraphic", teamNum);
     }
 
     public void SelectResearch(String researchType)
@@ -648,6 +724,18 @@ public class Player
         SetInfluenceTotal(GetInfluenceTotal() + influence);
     }
 
+    public void SetGovernment(GovernmentType governmentType)
+    {
+        if(government != null)
+        {
+            if(government == GovernmentType.Tribal)
+            {
+                PlayerEffect.RemoveTribalGovernmentEffect(this);
+            }
+        }
+        government = governmentType;
+    }
+
     internal int GetNextUniqueID()
     {
         string teamID = ""; //teamnum with minimum three digits (1 = 100, 3 = 300, 74 = 740, 600 = 600, 999 = 999)
@@ -699,19 +787,4 @@ public class ResearchQueueType
 
 }
 
-public enum GovernmentType
-{
-    Tribal,
 
-    Autocracy,
-    ClassicalRepublic,
-    Oligarchy,
-
-    MerchantRepublic,
-    Monarchy,
-    Theocracy,
-
-    Communism,
-    Democracy,
-    Facism
-}

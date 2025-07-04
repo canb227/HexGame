@@ -78,6 +78,7 @@ public partial class Unit: GodotObject
             //generic abilities
             AddGenericAbility("Sleep", "graphics/ui/icons/sleep.png");
             AddGenericAbility("Skip", "graphics/ui/icons/skipturn.png");
+            RecalculateEffects();
         }
         else
         {
@@ -90,14 +91,6 @@ public partial class Unit: GodotObject
     public void SpawnSetup(GameHex targetGameHex)
     {
         hex = targetGameHex.hex;
-        foreach ((UnitEffect, UnitClass) effect in Global.gameManager.game.playerDictionary[teamNum].unitResearchEffects)
-        {
-            if (unitClass.HasFlag(effect.Item2))
-            {
-                AddEffect(effect.Item1);
-            }
-        }
-        //Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this);
         Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
         AddVision(true);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewUnit", this);
@@ -158,6 +151,7 @@ public partial class Unit: GodotObject
 
     public void RecalculateEffects()
     {
+
         //must reset all to base and recalculate
         if (UnitLoader.unitsDict.TryGetValue(unitType, out UnitInfo unitInfo))
         {
@@ -172,7 +166,14 @@ public partial class Unit: GodotObject
         //0 means it is applied first 100 means it is applied "last" (highest number last)
         //so multiply/divide effects should be 20 and add/subtract will be 10 to give wiggle room
         PriorityQueue<UnitEffect, int> orderedEffects = new();
-        foreach(UnitEffect effect1 in effects)
+        foreach ((string, UnitEffect, UnitClass) effectTuple in Global.gameManager.game.playerDictionary[teamNum].unitPlayerEffects)
+        {
+            if (unitClass.HasFlag(effectTuple.Item3))
+            {
+                orderedEffects.Enqueue(effectTuple.Item2, effectTuple.Item2.priority);
+            }
+        }
+        foreach (UnitEffect effect1 in effects)
         {
             orderedEffects.Enqueue(effect1, effect1.priority);
         }

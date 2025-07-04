@@ -170,6 +170,10 @@ public partial class UnitInfoPanel : Node3D
 
     private void AbilityButtonPressed(UnitAbility ability, Button sourceButton)
     {
+        if (Global.gameManager.game.localPlayerRef.turnFinished)
+        {
+            return;
+        }
         if (ability.validTargetTypes.TargetUnits || ability.validTargetTypes.TargetRuralBuildings || ability.validTargetTypes.TargetUrbanBuildings ||ability.validTargetTypes.TargetTiles)
         {
             ((GraphicUnit)Global.gameManager.graphicManager.graphicObjectDictionary[unit.id]).GenerateTargetingPrompt(ability);

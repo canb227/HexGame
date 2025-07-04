@@ -75,7 +75,10 @@ public partial class UIManager : Node3D
 
     public DiplomacyPanel diplomacyPanel;
 
-    public HBoxContainer actionQueue;
+    public VBoxContainer actionQueue;
+
+    public PanelContainer topBarPanel;
+    public Label goldenAgeLabel;
 
     public City targetCity;
     public Unit targetUnit;
@@ -106,6 +109,8 @@ public partial class UIManager : Node3D
         influenceLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/InfluenceLabel");
         influencePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/InfluencePerTurnLabel");
         turnNumberLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/GameInfo/TurnLabel");
+        topBarPanel = screenUI.GetNode<PanelContainer>("LayerHelper/PanelContainer");
+        goldenAgeLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/HappinessNeededForGoldenAge");
 
         menuButton = screenUI.GetNode<Button>("LayerHelper/PanelContainer/TopBar/GameInfo/MenuButton");
 
@@ -132,7 +137,7 @@ public partial class UIManager : Node3D
         tradeExportButton = screenUI.GetNode<Button>("LayerHelper/TradeExportButton");
         tradeExportButton.Pressed += () => TradeExportPanelButtonPressed();
 
-        actionQueue = screenUI.GetNode<HBoxContainer>("ActionQueueScrollBox/ActionQueue");
+        actionQueue = screenUI.GetNode<VBoxContainer>("ActionQueueScrollBox/ActionQueue");
 
         playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
         foreach(Player player in Global.gameManager.game.playerDictionary.Values)
@@ -234,14 +239,15 @@ public partial class UIManager : Node3D
 
     public void UpdateAll()
     {
-        goldLabel.Text = Global.gameManager.game.localPlayerRef.GetGoldTotal().ToString() + " ";
-        goldPerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetGoldPerTurn().ToString() + ")  ";
-        sciencePerTurnLabel.Text = " +" + Global.gameManager.game.localPlayerRef.GetSciencePerTurn().ToString() + "  ";
-        culturePerTurnLabel.Text = " +" + Global.gameManager.game.localPlayerRef.GetCulturePerTurn().ToString() + "  ";
-        happinessLabel.Text = Global.gameManager.game.localPlayerRef.GetHappinessTotal().ToString() + " ";
-        happinessPerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetHappinessPerTurn().ToString() + ")  ";
-        influenceLabel.Text = Global.gameManager.game.localPlayerRef.GetInfluenceTotal().ToString() + " ";
-        influencePerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetInfluencePerTurn().ToString() + ")  ";
+        goldLabel.Text = Math.Round(Global.gameManager.game.localPlayerRef.GetGoldTotal()).ToString() + " ";
+        goldPerTurnLabel.Text = "(+" + Math.Round(Global.gameManager.game.localPlayerRef.GetGoldPerTurn()).ToString() + ")  ";
+        sciencePerTurnLabel.Text = " +" + Math.Round(Global.gameManager.game.localPlayerRef.GetSciencePerTurn()).ToString() + "  ";
+        culturePerTurnLabel.Text = " +" + Math.Round(Global.gameManager.game.localPlayerRef.GetCulturePerTurn()).ToString() + "  ";
+        happinessLabel.Text = Math.Round(Global.gameManager.game.localPlayerRef.GetHappinessTotal()).ToString() + " ";
+        happinessPerTurnLabel.Text = "(+" + Math.Round(Global.gameManager.game.localPlayerRef.GetHappinessPerTurn()).ToString() + ")";
+        goldenAgeLabel.Text = "/" + Math.Round(Global.gameManager.game.localPlayerRef.administrativeUpkeep).ToString() + "  ";
+        influenceLabel.Text = Math.Round(Global.gameManager.game.localPlayerRef.GetInfluenceTotal()).ToString() + " ";
+        influencePerTurnLabel.Text = "(+" + Math.Round(Global.gameManager.game.localPlayerRef.GetInfluencePerTurn()).ToString() + ")  ";
         turnNumberLabel.Text = " " + Global.gameManager.game.turnManager.currentTurn;
 
         UpdateUnitUIDisplay();
@@ -256,35 +262,35 @@ public partial class UIManager : Node3D
     {
         if (element == UIElement.gold)
         {
-            goldLabel.Text = Global.gameManager.game.localPlayerRef.GetGoldTotal().ToString() + " ";
+            goldLabel.Text = Math.Round(Global.gameManager.game.localPlayerRef.GetGoldTotal()).ToString() + " ";
         }
         else if (element == UIElement.goldPerTurn)
         {
-            goldPerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetGoldPerTurn().ToString() + ")  ";
+            goldPerTurnLabel.Text = "(+" + Math.Round(Global.gameManager.game.localPlayerRef.GetGoldPerTurn()).ToString() + ")  ";
         }
         else if (element == UIElement.sciencePerTurn)
         {
-            sciencePerTurnLabel.Text = " +" + Global.gameManager.game.localPlayerRef.GetSciencePerTurn().ToString() + "  ";
+            sciencePerTurnLabel.Text = " +" + Math.Round(Global.gameManager.game.localPlayerRef.GetSciencePerTurn()).ToString() + "  ";
         }
         else if (element == UIElement.culturePerTurn)
         {
-            culturePerTurnLabel.Text = " +" + Global.gameManager.game.localPlayerRef.GetCulturePerTurn().ToString() + "  ";
+            culturePerTurnLabel.Text = " +" + Math.Round(Global.gameManager.game.localPlayerRef.GetCulturePerTurn()).ToString() + "  ";
         }
         else if (element == UIElement.happiness)
         {
-            happinessLabel.Text = Global.gameManager.game.localPlayerRef.GetHappinessTotal().ToString() + " ";
+            happinessLabel.Text = Math.Round(Global.gameManager.game.localPlayerRef.GetHappinessTotal()).ToString() + " ";
         }
         else if (element == UIElement.happinessPerTurn)
         {
-            happinessPerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetHappinessPerTurn().ToString() + ")  ";
+            happinessPerTurnLabel.Text = "(+" + Math.Round(Global.gameManager.game.localPlayerRef.GetHappinessPerTurn()).ToString() + ")";
         }
         else if (element == UIElement.influence)
         {
-            influenceLabel.Text = Global.gameManager.game.localPlayerRef.GetInfluenceTotal().ToString() + " ";
+            influenceLabel.Text = Math.Round(Global.gameManager.game.localPlayerRef.GetInfluenceTotal()).ToString() + " ";
         }
         else if (element == UIElement.influencePerTurn)
         {
-            influencePerTurnLabel.Text = "(+" + Global.gameManager.game.localPlayerRef.GetInfluencePerTurn().ToString() + ")  ";
+            influencePerTurnLabel.Text = "(+" + Math.Round(Global.gameManager.game.localPlayerRef.GetInfluencePerTurn()).ToString() + ")  ";
         }
         else if (element == UIElement.turnNumber)
         {
@@ -308,6 +314,13 @@ public partial class UIManager : Node3D
         {
             resourcePanel.UpdateResourcePanel();
         }
+    }
+
+    public void SetTopBarColor(Godot.Color color)
+    {
+        StyleBoxFlat styleBox = new StyleBoxFlat();
+        styleBox.BgColor = color;
+        topBarPanel.AddThemeStyleboxOverride("panel", styleBox);
     }
 
     public void UpdateResearchUI()
@@ -440,6 +453,7 @@ public partial class UIManager : Node3D
         else
         {
             Global.gameManager.EndTurn(Global.gameManager.game.localPlayerTeamNum);
+            CloseCurrentWindow();
             //Global.gameManager.game.turnManager.EndCurrentTurn(Global.gameManager.game.localPlayerTeamNum);
             return;
         }
@@ -586,13 +600,21 @@ public partial class UIManager : Node3D
 
     public void DiplomacyActionButtonPressed(Button dealButton, int targetTeamNum, DiplomacyDeal deal)
     {
+        if (Global.gameManager.game.localPlayerRef.turnFinished)
+        {
+            return;
+        }
         dealButton.QueueFree();
         DiplomacyButtonPressed(targetTeamNum, deal);
     }
 
     public void DiplomacyButtonPressed(int targetTeamNum, DiplomacyDeal deal)
     {
-        if(deal == null)
+        if (Global.gameManager.game.localPlayerRef.turnFinished)
+        {
+            return;
+        }
+        if (deal == null)
         {
             foreach(DiplomacyDeal pendingDeal in Global.gameManager.game.teamManager.pendingDeals)
             {

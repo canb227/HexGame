@@ -83,7 +83,7 @@ public class UnitEffect
             {
                 Global.gameManager.game.unitDictionary[unitID].sightRange = ApplyOperation(Global.gameManager.game.unitDictionary[unitID].sightRange);
             }
-            else if(effectType == UnitEffectType.SightRange)
+            else if(effectType == UnitEffectType.CombatStrength)
             {
                 Global.gameManager.game.unitDictionary[unitID].combatStrength = ApplyOperation(Global.gameManager.game.unitDictionary[unitID].combatStrength);
             }
@@ -147,6 +147,9 @@ public class UnitEffect
     }
     bool ProcessFunctionString(String functionString, int unitID, float combatPower, GameHex abilityTarget)
     {
+        //effects
+
+        //abilities
         if(functionString == "SettleCapitalAbility")
         {
             return SettleCapitalAbility(Global.gameManager.game.unitDictionary[unitID], "CapitalCityName");

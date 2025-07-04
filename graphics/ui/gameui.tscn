@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dxyx7s8fwhyqg" path="res://graphics/ui/icons/circle.png" id="9_4wkif"]
 [ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="9_6wqba"]
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="9_pepai"]
-[ext_resource type="Texture2D" uid="uid://8sieeeac3bqy" path="res://graphics/ui/icons/food.png" id="11_ltrvr"]
+[ext_resource type="Texture2D" uid="uid://dlg1iwgvuurac" path="res://graphics/ui/icons/diplomacy.png" id="11_4wkif"]
 
 [sub_resource type="Theme" id="Theme_6wqba"]
 default_font_size = 24
@@ -97,6 +97,10 @@ z_index = 1
 layout_mode = 2
 
 [node name="HappinessPerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+z_index = 1
+layout_mode = 2
+
+[node name="HappinessNeededForGoldenAge" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
 z_index = 1
 layout_mode = 2
 
@@ -308,24 +312,32 @@ icon = ExtResource("9_6wqba")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ActionQueue" type="VBoxContainer" parent="."]
+[node name="ActionQueueScrollBox" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -64.0
 offset_top = 64.0
-offset_bottom = -136.0
+offset_bottom = -128.0
 grow_horizontal = 0
 grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="ActionQueue" type="VBoxContainer" parent="ActionQueueScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 alignment = 2
 
-[node name="WaitingAction" type="TextureRect" parent="ActionQueue"]
+[node name="Button" type="Button" parent="ActionQueueScrollBox/ActionQueue"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
-texture = ExtResource("11_ltrvr")
-expand_mode = 2
-stretch_mode = 5
+icon = ExtResource("11_4wkif")
+icon_alignment = 1
+expand_icon = true
 
 [node name="PlayerList" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 64)

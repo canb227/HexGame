@@ -108,14 +108,14 @@ public static class ResearchLoader
     }
     static void SailingEffect(Player player)
     {
-       player.unitResearchEffects.Add((new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
+       player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
     }
     static void PotteryEffect(Player player)
     {
     }
     static void AnimalHusbandryEffect(Player player)
     {
-        player.unitResearchEffects.Add((new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Recon));
+        player.unitPlayerEffects.Add(("AnimalHusbandry", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Recon));
     }
     static void IrrigationEffect(Player player)
     {

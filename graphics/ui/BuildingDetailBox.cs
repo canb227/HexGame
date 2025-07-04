@@ -37,7 +37,6 @@ public partial class BuildingDetailBox : PanelContainer
     {
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + buildingInfo.IconPath);
         objectName.Text = name;
-        GD.Print(name);
         System.Type yieldType = buildingInfo.yields.GetType();
         foreach(Control child in EffectListBox.GetChildren())
         {

@@ -71,15 +71,14 @@ public partial class City : GodotObject
         heldHexes = new();
         Global.gameManager.game.playerDictionary[teamNum].cityList.Add(this.id);
         districts = new();
-        citySize = 2;
         naturalPopulation = 2;
         readyToExpand = 1; //we ready to expand for 
         maxDistrictSize = 2;
-        baseMaxResourcesHeld = 1;
+        baseMaxResourcesHeld = 3;
         foodToGrow = GetFoodToGrowCost();
         yields = new();
         myYields = new();
-
+        SetBaseHexYields();
         UpdateNearbyHexes();
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
@@ -89,9 +88,8 @@ public partial class City : GodotObject
         AddCityCenter(isCapital);
         this.isCapital = isCapital;
         this.wasCapital = isCapital;
-
         RecalculateYields();
-        SetBaseHexYields();
+
 
 
     }
@@ -113,7 +111,6 @@ public partial class City : GodotObject
     public Yields yields { get; set; }
     public Yields myYields { get; set; }
     public Dictionary<YieldType, int> exportCount { get; set; } = new();
-    public int citySize { get; set; }
     public int naturalPopulation { get; set; }
     public float foodToGrow{ get; set; }
     public float foodStockpile{ get; set; }
@@ -137,8 +134,10 @@ public partial class City : GodotObject
     public int readyToExpand{ get; set; }
 
     public int lastProducedUnitID { get; set; }
+    public int cityRange = 3;
 
-    private void UpdateNearbyHexes()
+
+    protected void UpdateNearbyHexes()
     {
         foreach (Hex hex in hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
@@ -147,7 +146,7 @@ public partial class City : GodotObject
     }
 
 
-    private void AddCityCenter(bool isCapital)
+    protected void AddCityCenter(bool isCapital)
     {
         District district;
         if (isCapital)
@@ -161,7 +160,7 @@ public partial class City : GodotObject
         districts.Add(district);
     }
 
-    private void SetBaseHexYields()
+    protected void SetBaseHexYields()
     {
         flatYields = new();
         roughYields = new();
@@ -173,18 +172,19 @@ public partial class City : GodotObject
         grasslandYields = new();
         tundraYields = new();
         arcticYields = new();
-        
-        flatYields.food += 1;
-        roughYields.production += 1;
+
+        flatYields += Global.gameManager.game.playerDictionary[teamNum].flatYields;
+        roughYields += Global.gameManager.game.playerDictionary[teamNum].roughYields;
         //mountainYields.production += 0;
-        coastalYields.food += 1;
-        oceanYields.gold += 1;
+        coastalYields += Global.gameManager.game.playerDictionary[teamNum].coastalYields;
+        oceanYields += Global.gameManager.game.playerDictionary[teamNum].oceanYields;
         
-        desertYields.gold += 1;
-        plainsYields.production += 1;
-        grasslandYields.food += 1;
-        tundraYields.happiness += 1;
+        desertYields += Global.gameManager.game.playerDictionary[teamNum].desertYields;
+        plainsYields += Global.gameManager.game.playerDictionary[teamNum].plainsYields;
+        grasslandYields += Global.gameManager.game.playerDictionary[teamNum].grasslandYields;
+        tundraYields += Global.gameManager.game.playerDictionary[teamNum].tundraYields;
         //arcticYields
+
     }
 
     public (List<String>, List<String>) GetProducables()
@@ -472,6 +472,7 @@ public partial class City : GodotObject
             district.HealForTurn(10.0f);
         }
         RecalculateYields();
+
         productionOverflow += yields.production;
         Global.gameManager.game.playerDictionary[teamNum].AddGold(yields.gold);
         Global.gameManager.game.playerDictionary[teamNum].AddScience(yields.science);
@@ -733,7 +734,11 @@ public partial class City : GodotObject
         maxResourcesHeld = baseMaxResourcesHeld;
         yields = new();
         myYields = new();
-        SetBaseHexYields();
+        //SetBaseHexYields();
+        foreach (Hex hex in heldHexes)
+        {
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].RecalculateYields();
+        }
         foreach (District district in districts)
         {
             district.PrepareYieldRecalculate();
@@ -756,6 +761,7 @@ public partial class City : GodotObject
         myYields.happiness *= Global.gameManager.game.playerDictionary[teamNum].happinessDifficultyModifier;
         myYields.influence *= Global.gameManager.game.playerDictionary[teamNum].influenceDifficultyModifier;
 
+        yields.happiness += -0.5f * naturalPopulation;
         myYields.food -= naturalPopulation * 0.25f;
         yields += myYields;
         //myYields will hold onto the pre-export/import values
@@ -763,6 +769,7 @@ public partial class City : GodotObject
 
     public void RecalculateYields()
     {
+        SetBaseHexYields();
         MyYieldsRecalculateYields();
         //int exportCost = 0;
         foreach (YieldType export in exportCount.Keys)
@@ -927,11 +934,11 @@ public partial class City : GodotObject
         return false;
     }
     //valid hexes for a rural district
-    public List<Hex> ValidExpandHexes(List<TerrainType> validTerrain, int range = 3)
+    public List<Hex> ValidExpandHexes(List<TerrainType> validTerrain)
     {
         List<Hex> validHexes = new();
         //gather valid targets
-        foreach(Hex hex in hex.WrappingRange(range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        foreach(Hex hex in hex.WrappingRange(cityRange, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
             if(ValidExpandHex(validTerrain, Global.gameManager.game.mainGameBoard.gameHexDict[hex]))
             {

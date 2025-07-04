@@ -27,9 +27,9 @@ public partial class District : GodotObject
     public int maxDefenses { get; set; } = 1;
     public int turnsUntilHealing { get; set; } = 0;
 
-    public District(GameHex gameHex, String initialString, bool isCityCenter, bool isUrban, int cityID)
+    public District(GameHex gameHex, String initialString, bool isCityCenter, bool isUrban, int cityID, bool isEncampment = false)
     {
-        SetupDistrict(gameHex, isCityCenter, isUrban, cityID);
+        SetupDistrict(gameHex, isCityCenter, isUrban, cityID, !isEncampment);
         bool isResource = false;
         if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
         {
@@ -39,16 +39,16 @@ public partial class District : GodotObject
 
     }
 
-    public District(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID)
+    public District(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID, bool isEncampment = false)
     {
-        SetupDistrict(gameHex, isCityCenter, isUrban, cityID);
+        SetupDistrict(gameHex, isCityCenter, isUrban, cityID, !isEncampment);
     }
 
     public District()
     {
 
     }
-    private void SetupDistrict(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID)
+    protected void SetupDistrict(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID, bool claimSurronding = true)
     {
         id = Global.gameManager.game.GetUniqueID(Global.gameManager.game.cityDictionary[cityID].teamNum);
         this.cityID = cityID;
@@ -59,11 +59,13 @@ public partial class District : GodotObject
 
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].ClaimHex(Global.gameManager.game.cityDictionary[cityID]);
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].district = this;
-        foreach (Hex hex in gameHex.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        if(claimSurronding)
         {
-            Global.gameManager.game.mainGameBoard.gameHexDict[hex].TryClaimHex(Global.gameManager.game.cityDictionary[cityID]);
+            foreach (Hex hex in gameHex.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[hex].TryClaimHex(Global.gameManager.game.cityDictionary[cityID]);
+            }
         }
-
 
         this.isCityCenter = isCityCenter;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
@@ -325,7 +327,7 @@ public partial class District : GodotObject
         if(buildings.Count() < maxBuildings)
         {
             buildings.Add(building);
-            Global.gameManager.game.cityDictionary[cityID].citySize += 1;
+            //Global.gameManager.game.cityDictionary[cityID].citySize += 1;
             Global.gameManager.game.cityDictionary[cityID].RecalculateYields();
         }
     }

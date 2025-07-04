@@ -70,10 +70,8 @@ public class GameHex
     public void RecalculateYields()
     {
         yields = new();
-        //if the district is urban the buildings will set our yields
-        City temp;
         
-        if ((Global.gameManager.game.cityDictionary.TryGetValue(owningCityID, out temp) && district == null) || (district != null && !district.isUrban))
+        if (Global.gameManager.game.cityDictionary.Keys.Contains(owningCityID))
         {
             //calculate the rural value
             if(terrainType == TerrainType.Flat)
@@ -126,7 +124,7 @@ public class GameHex
                 yields.food += 1;
             }
         }
-        else if(district == null)
+        else
         {
             SetUnownedHexYields();
         }

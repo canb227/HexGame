@@ -192,7 +192,11 @@ public partial class ConstructionItem : PanelContainer
 
     private void AddItemToQueue(String name, bool isBuilding, bool isUnit)
     {
-        if(isBuilding)
+        if (Global.gameManager.game.localPlayerRef.turnFinished)
+        {
+            return;
+        }
+        if (isBuilding)
         {
             ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[city.id]).GenerateBuildingTargetingPrompt(name);
         }
