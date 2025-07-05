@@ -326,8 +326,10 @@ public partial class UIManager : Node3D
     public void UpdateResearchUI()
     {
         Player localPlayer = Global.gameManager.game.localPlayerRef;
+
         if (localPlayer.queuedResearch.Any())
         {
+            GD.Print(localPlayer.queuedResearch[0].researchType);
             ResearchInfo info = ResearchLoader.researchesDict[localPlayer.queuedResearch.First().researchType];
             scienceButtonLabel.Text = Global.gameManager.game.localPlayerRef.queuedResearch.First().researchType;
             scienceButtonIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + info.IconPath);
@@ -348,6 +350,17 @@ public partial class UIManager : Node3D
                 scienceButtonResults.AddChild(buildingIcon);
             }
             scienceButtonTurnsLeft.Text = (Math.Ceiling(localPlayer.queuedResearch[0].researchLeft / (localPlayer.GetSciencePerTurn() + localPlayer.GetScienceTotal()))).ToString();
+        }
+        else
+        {
+            GD.Print("no queue");
+            scienceButtonLabel.Text = "Select a Research";
+            scienceButtonIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/science.png");
+            scienceButtonTurnsLeft.Text = "-";
+            foreach (Node child in scienceButtonResults.GetChildren())
+            {
+                child.QueueFree();
+            }
         }
 
 
@@ -374,6 +387,17 @@ public partial class UIManager : Node3D
             }
             cultureButtonTurnsLeft.Text = Math.Ceiling(localPlayer.queuedCultureResearch[0].researchLeft / (localPlayer.GetCulturePerTurn() + localPlayer.GetCultureTotal())).ToString();
         }
+        else
+        {
+            cultureButtonLabel.Text = "Select a Research";
+            cultureButtonIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/culture.png");
+            cultureButtonTurnsLeft.Text = "-";
+            foreach (Node child in cultureButtonResults.GetChildren())
+            {
+                child.QueueFree();
+            }
+        }
+        GD.Print("UI Update");
     }
 
     public void UnitSelected(Unit unit)

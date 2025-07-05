@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-public enum NeutralType
-{
-    Goblins
-}
+
 public partial class Encampment : City
 {
     public bool isCaptured = false;
@@ -29,8 +26,8 @@ public partial class Encampment : City
         heldHexes = new();
         Global.gameManager.game.playerDictionary[teamNum].cityList.Add(this.id);
         districts = new();
-        naturalPopulation = 2;
-        readyToExpand = 1;
+        naturalPopulation = 1;
+        readyToExpand = 0;
         maxDistrictSize = 2;
         baseMaxResourcesHeld = 3;
         foodToGrow = GetFoodToGrowCost();

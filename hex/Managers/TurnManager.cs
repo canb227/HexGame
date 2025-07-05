@@ -24,7 +24,7 @@ public class TurnManager
         }
         foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {
-            player.OnTurnStarted(currentTurn);
+            player.OnTurnStarted(currentTurn, true);
         }
         if(Global.gameManager.game.mainGameBoard != null)
         {

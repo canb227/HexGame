@@ -7,14 +7,14 @@ using static Godot.GodotThread;
 
 public static class PlayerEffect
 {
-    public static void ProcessFunctionString(String functionString, Player player)
+    public static void ProcessFunctionString(String functionString, BasePlayer player)
     {
-        Dictionary<String, Action<Player>> effectFunctions = new Dictionary<string, Action<Player>>
+        Dictionary<String, Action<BasePlayer>> effectFunctions = new Dictionary<string, Action<BasePlayer>>
         {
             { "AddTribalGovernmentEffect", AddTribalGovernmentEffect },
         };
 
-        if (effectFunctions.TryGetValue(functionString, out Action<Player> effectFunction))
+        if (effectFunctions.TryGetValue(functionString, out Action<BasePlayer> effectFunction))
         {
             effectFunction(player);
         }
@@ -23,20 +23,20 @@ public static class PlayerEffect
             throw new ArgumentException($"Function '{functionString}' not recognized in PlayerEffect");
         }
     }
-    public static void AddTribalGovernmentEffect(Player player)
+    public static void AddTribalGovernmentEffect(BasePlayer player)
     {
         player.flatYields.food += 1; //all flat land makes +1 food
         player.buildingPlayerEffects.Add(("TribalGovernment", new BuildingEffect(BuildingEffectType.ProductionCost, EffectOperation.Multiply, 0.90f, 0), "")); //buildings are 10% cheaper (DOESNT WORK CURRENTLY
         player.unitPlayerEffects.Add(("TribalGovernment", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 2, 0), UnitClass.Land)); //increase land strength by +2
     }
-    public static void RemoveTribalGovernmentEffect(Player player)
+    public static void RemoveTribalGovernmentEffect(BasePlayer player)
     {
         player.flatYields.food -= 1; //remove all flat land makes +1 food
         RemovePlayerBuildingEffects("TribalGovernment", player);
         RemovePlayerUnitEffects("TribalGovernment", player);
     }
 
-    static void RemovePlayerBuildingEffects(string name, Player player)
+    static void RemovePlayerBuildingEffects(string name, BasePlayer player)
     {
         List<(string, BuildingEffect, string)> toRemove = new();
         foreach ((string, BuildingEffect, string) effect in player.buildingPlayerEffects)
@@ -51,7 +51,7 @@ public static class PlayerEffect
             player.buildingPlayerEffects.Remove(effect);
         }
     }
-    static void RemovePlayerUnitEffects(string name, Player player)
+    static void RemovePlayerUnitEffects(string name, BasePlayer player)
     {
         List<(string, UnitEffect, UnitClass)> toRemoveUnit = new();
         foreach ((string, UnitEffect, UnitClass) effect in player.unitPlayerEffects)

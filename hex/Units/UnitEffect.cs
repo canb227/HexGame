@@ -214,9 +214,11 @@ public class UnitEffect
         {
             if (unit.unitType == "Founder")
             {
-
                 Global.gameManager.game.playerDictionary[unit.teamNum].IncreaseAllSettlerCost();
             }
+            Global.gameManager.game.playerDictionary[unit.teamNum].OnResearchComplete("Agriculture");
+            Global.gameManager.game.playerDictionary[unit.teamNum].OnCultureResearchComplete("Tribal Dominion");
+
             new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, true, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
             return true;
