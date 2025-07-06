@@ -12,18 +12,33 @@ public enum FactionType
 public static class FactionLoader
 {
     public static Dictionary<FactionType, HashSet<TerrainType>> factionPlacementDict = new();
+    public static Dictionary<FactionType, String> factionCapitalBuildingDict = new();
     static FactionLoader()
     {
         //Humans
         HashSet<TerrainType> validPlacement = new();
         validPlacement.Add(TerrainType.Flat);
         validPlacement.Add(TerrainType.Rough);
-        factionPlacementDict.Add(FactionType.Goblins, validPlacement);
+        factionPlacementDict.Add(FactionType.Human, validPlacement);
+        factionCapitalBuildingDict.Add(FactionType.Human, "Palace");
 
         //Goblins
         validPlacement = new();
         validPlacement.Add(TerrainType.Flat);
         validPlacement.Add(TerrainType.Rough);
         factionPlacementDict.Add(FactionType.Goblins, validPlacement);
+        factionCapitalBuildingDict.Add(FactionType.Goblins, "GoblinGen");
+    }
+
+    public static string GetFactionCapitalBuilding(FactionType faction)
+    {
+        if(faction == FactionType.Goblins)
+        {
+            return "GoblinDen";
+        }
+        else
+        {
+            return "CityCenter";
+        }
     }
 }

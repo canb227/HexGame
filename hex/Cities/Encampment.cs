@@ -5,9 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+public enum FactionOwnership
+{
+    Free,
+    Occupied,
+    Vassalized
+}
 public partial class Encampment : City
 {
-    public bool isCaptured = false;
+    public FactionOwnership ownershipState = FactionOwnership.Free;
+    public int overlordTeamNum = -1;
+
     public Encampment(int id, int teamNum, String name, bool isCapital, GameHex gameHex)
     {
         cityRange = 2;
@@ -49,13 +57,49 @@ public partial class Encampment : City
         District district;
         if (Global.gameManager.game.playerDictionary[teamNum].faction == FactionType.Goblins)
         {
-            district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], "GoblinDen", true, true, id);
+            district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], FactionLoader.GetFactionCapitalBuilding(Global.gameManager.game.playerDictionary[teamNum].faction), true, true, id);
         }
         else
         {
             district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], "GoblinDen", true, true, id);
         }
         districts.Add(district);
+    }
+
+    public new void OnTurnStarted(int turnNumber)
+    {
+        base.OnTurnStartedBody();
+    }
+
+    public new void RecalculateYields()
+    {
+        base.RecalculateYields();
+        if (ownershipState == FactionOwnership.Occupied)
+        {
+            myYields.production = myYields.production * 0.75f;
+            yields.production = yields.production * 0.25f;
+        }
+    }
+
+    public void EncampmentOccupied(int overlord)
+    {
+        foreach (int cityID in Global.gameManager.game.playerDictionary[overlordTeamNum].cityList)
+        {
+            Global.gameManager.game.playerDictionary[overlordTeamNum].NewExportRoute(id, cityID, YieldType.production);
+        }
+    }
+
+    public void EncampmentFreed()
+    {
+        if(overlordTeamNum != -1)
+        {
+            overlordTeamNum = -1;
+            ownershipState = FactionOwnership.Free;
+            foreach (int cityID in Global.gameManager.game.playerDictionary[overlordTeamNum].cityList)
+            {
+                Global.gameManager.game.playerDictionary[overlordTeamNum].RemoveExportRoute(id, cityID, YieldType.production);
+            }
+        }
     }
 
     public new void ExpandToHex(Hex hex)

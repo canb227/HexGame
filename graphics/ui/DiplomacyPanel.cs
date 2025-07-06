@@ -46,6 +46,10 @@ public partial class DiplomacyPanel : Control
         declineButton = diplomacyPanelControl.GetNode<Button>("DeclineButton");
         declineButton.Pressed += () => DeclineDeal();
 
+        playerImage = diplomacyPanelControl.GetNode<TextureRect>("PlayerImage");
+        otherImage = diplomacyPanelControl.GetNode<TextureRect>("OtherImage");
+
+
         //UpdateDiplomacyPanel();
     }
 
@@ -55,6 +59,19 @@ public partial class DiplomacyPanel : Control
 
     public void UpdateDiplomacyPanel(int otherTeamNum, DiplomacyDeal diplomaticOffer) //item 1 is what they are offering item 2 is what we are offering
     {
+        Player player = Global.gameManager.game.playerDictionary[otherTeamNum];
+        Texture2D icon = new();
+        if (player.isAI)
+        {
+            icon = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/blankperson.png");
+        }
+        else
+        {
+            icon = Global.GetMediumSteamAvatar(Global.gameManager.teamNumToPlayerID[player.teamNum]);
+        }
+        playerImage.Texture = Global.GetMediumSteamAvatar(Global.gameManager.teamNumToPlayerID[Global.gameManager.game.localPlayerTeamNum]);
+        otherImage.Texture = icon;
+
         this.otherTeamNum = otherTeamNum;
         playerOffers = new();
         otherOffers = new();
@@ -161,9 +178,6 @@ public partial class DiplomacyPanel : Control
     {
         if (activeOffer)
         {
-            //networked message
-            Global.gameManager.RemovePendingDeal(currentOffer.id);
-            //
             Global.gameManager.graphicManager.uiManager.RemoveDiplomaticDealUI(currentOffer);
             acceptButton.Text = "Offer";
             activeOffer = false;
@@ -203,6 +217,7 @@ public partial class DiplomacyPanel : Control
     }
     private void DeclineDeal()
     {
+        Global.gameManager.RemovePendingDeal(currentOffer.id);
         CancelActiveOffer();
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }

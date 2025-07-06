@@ -476,6 +476,11 @@ public partial class City : GodotObject
             district.HealForTurn(10.0f);
         }
         RecalculateYields();
+        OnTurnStartedBody();
+    }
+
+    protected void OnTurnStartedBody()
+    {
 
         productionOverflow += yields.production;
         Player player = (Player)Global.gameManager.game.playerDictionary[teamNum];
@@ -488,7 +493,7 @@ public partial class City : GodotObject
         for (int i = 0; i < productionQueue.Count; i++)
         {
             ProductionQueueType queueItem = productionQueue[i];
-            if(BuildingLoader.buildingsDict.ContainsKey(queueItem.itemName))
+            if (BuildingLoader.buildingsDict.ContainsKey(queueItem.itemName))
             {
                 if (Global.gameManager.game.builtWonders.Contains(queueItem.itemName))
                 {
@@ -796,6 +801,11 @@ public partial class City : GodotObject
                 {
                     City sourceCity = Global.gameManager.game.cityDictionary[exportRoute.sourceCityID];
                     yields.food += sourceCity.myYields.food/ sourceCity.exportCount[exportRoute.exportType];
+                }
+                else if (exportRoute.exportType == YieldType.production)
+                {
+                    City sourceCity = Global.gameManager.game.cityDictionary[exportRoute.sourceCityID];
+                    yields.production += sourceCity.myYields.production / sourceCity.exportCount[exportRoute.exportType];
                 }
             }
         }

@@ -29,6 +29,7 @@ public struct BuildingInfo
     public int PerCity;
     public int PerPlayer;
     public bool Wonder;
+    public bool isFactionUnique;
     public String IconPath;
     public String ModelPath;
     public List<String> Effects;

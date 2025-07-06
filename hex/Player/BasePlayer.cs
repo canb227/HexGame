@@ -70,6 +70,18 @@ public class BasePlayer
     public Yields tundraYields { get; set; } = new();
     public Yields arcticYields { get; set; } = new();
 
+    public int baseFlat;
+    public int baseRough;
+    public int baseMountain;
+    public int baseCoastal;
+    public int baseOcean;
+
+    public int baseDesert;
+    public int basePlains;
+    public int baseGrassland;
+    public int baseTundra;
+    public int baseArctic;
+
     public float foodDifficultyModifier = 1.0f;
     public float productionDifficultyModifier = 1.0f;
     public float goldDifficultyModifier = 1.0f;
@@ -85,7 +97,7 @@ public class BasePlayer
 
     private void SetBaseHexYields()
     {
-        flatYields.food = 1;
+        //flatYields += baseFlat;
         roughYields.production = 1;
         //mountainYields.production += 0;
         coastalYields.food = 1;

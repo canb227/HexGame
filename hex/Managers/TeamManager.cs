@@ -1,3 +1,4 @@
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -103,6 +104,7 @@ public class TeamManager
 
     public void AddPendingDeal(DiplomacyDeal deal)
     {
+        GD.Print("my deal id" + deal.id);
         Global.gameManager.game.teamManager.pendingDeals.Add(deal.id, deal);
         if(deal.toTeamNum == Global.gameManager.game.localPlayerTeamNum)
         {
@@ -125,5 +127,6 @@ public class TeamManager
         {
             action.ActivateAction();
         }
+        Global.gameManager.RemovePendingDeal(id);
     }
 }

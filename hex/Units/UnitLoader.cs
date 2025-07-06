@@ -29,6 +29,7 @@ public struct UnitInfo
     public float CombatPower { get; set; }
     public int HealingFactor { get; set; }
     public int MaintenanceCost { get; set; }
+    public bool isFactionUnique { get; set; }
     public String IconPath { get; set; }
     public String ModelPath {  get; set; }
     public Dictionary<TerrainMoveType, float> MovementCosts { get; set; }

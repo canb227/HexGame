@@ -693,10 +693,8 @@ public partial class UIManager : Node3D
 
     public void RemoveDiplomaticDealUI(DiplomacyDeal deal)
     {
-        GD.Print("Check against:" + deal.fromTeamNum.ToString());
         foreach (Node child in actionQueue.GetChildren())
         {
-            GD.Print("WE are:" + child.Name.ToString());
             if (child.Name.ToString().Contains(deal.fromTeamNum.ToString()))
             {
                 child.QueueFree();

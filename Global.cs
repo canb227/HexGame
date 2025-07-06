@@ -31,15 +31,6 @@ public partial class Global : Node
     public static HexGameCamera camera;
 
     bool ShowDebugConsole = false;
-
-    public static ConcurrentQueue<Action> gameLogicActions = new();
-
-    public static void GameThreadInvoke(Action action)
-    {
-        gameLogicActions.Enqueue(action);
-    }
-
-
     
     public enum LogLevel
     {
@@ -108,14 +99,6 @@ public partial class Global : Node
         if (ShowDebugConsole)
         {
             debugConsole();
-        }
-        while (gameLogicActions.Any())
-        {
-            bool gotAction = gameLogicActions.TryDequeue(out Action result);
-            if (gotAction && result != null)
-            {
-                result.Invoke();
-            }
         }
     }
 
