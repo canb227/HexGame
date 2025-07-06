@@ -5,6 +5,7 @@ using System.Linq;
 using System.Diagnostics;
 using Godot;
 using System;
+using static AIUtils;
 
 
 public static class AIUtils
@@ -23,15 +24,23 @@ public static class AIUtils
     public class AI
     {
         public Player player;
+
         public AIPersonality personality = AIPersonality.Standard;
-        public AIUnitProductionStrategy unitProductionStrategy = AIUnitProductionStrategy.GameStart;
-        public AIBuildingProductionStrategy buildingProductionStrategy = AIBuildingProductionStrategy.GameStart;
-        public AICityExpansionStrategy cityExpansionStrategy = AICityExpansionStrategy.GameStart;
-        public AICitySettlingStrategy citySettlingStrategy = AICitySettlingStrategy.GameStart;
-        public AIMilitaryUnitStrategy militaryUnitStrategy = AIMilitaryUnitStrategy.GameStart;
-        public AIScoutStrategy scoutStrategy = AIScoutStrategy.GameStart;
-        public AIStrategicState strategicState = AIStrategicState.GameStart;
-        public AIOverallProductionStrategy overallProductionStrategy = AIOverallProductionStrategy.GameStart;
+        public AIDefenseArmyBuildingStrategy AIDefenseArmyBuildingStrategy;
+        public AIDefenseArmyMovementStrategy AIDefenseArmyMovementStrategy;
+        public AIDefenseArmyThreatStrategy AIDefenseArmyThreatStrategy;
+        
+        public AIAttackArmyBuildingStrategy AIAttackArmyBuildingStrategy;
+        public AIAttackArmyBuildupStrategy AIAttackArmyBuildupStrategy;
+        public AIAttackArmyMovementStrategy AIAttackArmyMovementStrategy;
+        public AIAttackArmyRetreatStrategy AIAttackArmyRetreatStrategy;
+
+        public AICityExpansionStrategy AICityExpansionStrategy;
+
+        public AIMilitaryUnitRetreatStrategy AIMilitaryUnitRetreatStrategy;
+
+        public AIPickBuildingStrategy AIPickBuildingStrategy;
+        public AIPickProductionStrategy AIPickProductionStrategy;
 
         public Dictionary<int, AICity> cities = new();
         public List<int> allDefenders = new();
@@ -42,11 +51,24 @@ public static class AIUtils
         public bool isAttacking = false;
         public bool hasAttackTarget = false;
         public Hex attackTarget;
-        
 
+        public bool canBuildSettler = true;
+        public bool canSettleCities = true;
+        public bool canResearch = true;
+        public bool canCulture = true;
+        
         public int desiredDefendersPerCity;
-        internal float cityScoreThresholdPerTurn;
+        public float desiredDefendersPerCityPerTurnScaling;
+
+        public int desiredAttackersInArmy;
+        public float desiredAttackersInArmyPerTurnScaling;
+
+        public int desiredCityCount;
+        public float desiredCityCountPerTurnScaling;
+
+        public float cityScoreThresholdPerTurn;
     }
+
     public class AICity
     {
         public int cityID = 0;
@@ -61,65 +83,122 @@ public static class AIUtils
             cityID = id;
         }
     }
-    //Internal AI Data Class Block Done
 
-    //Strategy Enum Block Start
-    public enum AIStrategicState
+    //Internal AI Data Class Block Done
+    public enum AICityExpansionStrategy
     {
-        GameStart,
-        War,
-        Expansion,
-        Economic
+        NONE,
+        Random,
+        FocusResources,
     }
+
+    public enum AIMilitaryUnitRetreatStrategy
+    {
+        NoRetreat,
+        FleeIfHurt,
+        FleeIfAlmostDead,
+        
+    }
+
+    public enum AIDefenseArmyBuildingStrategy
+    {
+        RandomMix,
+        FavorRanged,
+        FavorMelee,
+        AllRanged,
+        AllMelee,
+        Balanced,
+        DontBuildDefenseArmy,
+    }
+
+    public enum AIDefenseArmyMovementStrategy
+    {
+        WaitNearCity,
+        WanderWithinBorders,
+        SmartPositioning,
+        NONE
+    }
+
+    public enum AIDefenseArmyThreatStrategy
+    {
+        CityThreatFirst,
+        NearbyThreatFirst,
+        DontUseDefenseArmy,
+        NONE,
+    }
+    
+    public enum AIAttackArmyBuildingStrategy
+    {
+        Random,
+        RandomNoNaval,
+        AllRanged,
+        AllSiege,
+        AllMelee,
+        AllNaval,
+        FavorRanged,
+        FavorSiege,
+        FavorMelee,
+        FavorNaval,
+        Balanced,
+        BalancedNoNaval,
+        NoAttackArmy,
+    }
+
+    public enum AIAttackArmyMovementStrategy
+    {
+        DirectToTarget,
+        AttackMove,
+        PathConstrainedAttackMove,
+    }
+
+    public enum AIAttackArmyBuildupStrategy
+    {
+        NoBuildup,
+        WaitForGlobalCount,
+        WaitForLocalGroup,
+    }
+
+
+    public enum AIAttackArmyRetreatStrategy
+    {
+        NoRetreat,
+        RetreatToNearestOwnedCity,
+    }
+
     public enum AIPersonality
     {
+        NONE,
         Standard,
         Aggressive,
         Defensive,
         Economic,
-        RANDOM
-    }
-    public enum AIOverallProductionStrategy
-    {
-
-        GameStart,
-        RANDOM
-    }
-    public enum AIUnitProductionStrategy
-    {
-        GameStart,
-        RANDOM
-    }
-    public enum AIBuildingProductionStrategy
-    {
-        GameStart,
-        RANDOM
-    }
-    public enum AICityExpansionStrategy
-    {
-        GameStart,
-        RANDOM
-    }
-    public enum AICitySettlingStrategy
-    {
-        GameStart,
-        ClosestValidSettle,
-        ClosestRecommendedSettle,
-        RANDOM
-    }
-    public enum AIMilitaryUnitStrategy
-    {
-        GameStart,
         RANDOM,
-        RANDOM_AGGRESSIVE,
+        MinorDumbAggro,
+        MinorDumbDefense,
+        MinorSmartAggro,
+        MinorSmartDefensive,
     }
-    public enum AIScoutStrategy
-    {
-        GameStart,
-        RANDOM
-    }
-    //Strategy Enum Block Done
 
+    public enum AIPickBuildingStrategy
+    {
+        Random,
+        FocusFood,
+        FocusCulture,
+        FocusProduction,
+        FocusResearch,
+        FocusMilitary,
+        Balanced
+    }
+
+    public enum AIPickProductionStrategy
+    {
+        Random,
+        OnlyEcon,
+        OnlyArmy,
+        FocusEcon,
+        FocusArmy,
+        Balanced,
+    }
     //Gamestate Modifiers Block Start
     public static void EndAITurn(AI ai)
     {
@@ -602,6 +681,32 @@ public static class AIUtils
             if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Attempting to build specific building: " + buildingName + " FAILED."); }
             return false;
         }
+    }
+    public static string PickRandomMeleeMilitaryUnit(AI ai,City city)
+    {
+        List<string> validUnits = new();
+        foreach (string unit in city.ValidUnits().ToList())
+        {
+            if ((UnitLoader.unitsDict[unit].Class & UnitClass.Infantry) == UnitClass.Infantry)
+            {
+                validUnits.Add(unit);
+            }
+        }
+        Global.Log(validUnits.Count.ToString());
+        return validUnits[rng.Next(validUnits.Count)];
+    }
+    public static string PickRandomNonMeleeMilitaryUnit(AI ai, City city)
+    {
+        List<string> validUnits = new();
+        foreach (string unit in city.ValidUnits().ToList())
+        {
+            if (((UnitLoader.unitsDict[unit].Class & UnitClass.Combat) == UnitClass.Combat) && ((UnitLoader.unitsDict[unit].Class & UnitClass.Infantry) != UnitClass.Infantry))
+            {
+                validUnits.Add(unit);
+            }
+        }
+        Global.Log(validUnits.Count.ToString());
+        return validUnits[rng.Next(validUnits.Count)];
     }
     //City Helpers Block Done
 

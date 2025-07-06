@@ -35,60 +35,93 @@ public partial class AIManager
             {
                 AI ai = new AI { player = player };
                 aiList.Add(ai);
-                if (ai.player.teamNum == 0)
-                {
-                    if (AIDEBUG) { Global.Log("Skipping normal AI for team 0"); }
-                }
-                else
-                {
-                    if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] AI Created"); }
-                    InitStrategy(ai);
-                }
-
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] AI Created"); }
+                InitStrategy(ai);
             }
         }
     }
     private void InitStrategy(AI ai)
     {
+
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Picking Strategies based on personality"); }
-        switch (ai.personality)
+        switch (ai.player.faction)
         {
-            case AIPersonality.RANDOM:
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Random Personality"); }
-                ai.unitProductionStrategy = AIUnitProductionStrategy.RANDOM;
-                ai.buildingProductionStrategy = AIBuildingProductionStrategy.RANDOM;
-                ai.cityExpansionStrategy = AICityExpansionStrategy.RANDOM;
-                ai.overallProductionStrategy = AIOverallProductionStrategy.RANDOM;
-                ai.citySettlingStrategy = AICitySettlingStrategy.RANDOM;
-                ai.militaryUnitStrategy = AIMilitaryUnitStrategy.RANDOM;
-                ai.scoutStrategy = AIScoutStrategy.RANDOM;
-                ai.desiredDefendersPerCity = 2;
+            case FactionType.Human:
+                ai.personality = PickMajorAIPersonality(ai,ai.player.faction);
+                switch (ai.personality)
+                {
+                    case AIPersonality.Standard:
+                        if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Major AI - Standard Personality"); }
+                        ai.canBuildSettler = true;
+                        ai.canSettleCities = true;
+                        ai.canResearch = true;
+                        ai.canCulture = true;
+                        ai.desiredCityCount = 4;
+                        ai.desiredCityCountPerTurnScaling = 1 / 50;
+                        ai.desiredDefendersPerCity = 2;
+                        ai.desiredDefendersPerCityPerTurnScaling = 1/50;
+                        ai.desiredAttackersInArmy = 4;
+                        ai.desiredAttackersInArmyPerTurnScaling = 1/50;
+                        ai.AIAttackArmyBuildingStrategy = AIAttackArmyBuildingStrategy.Balanced;
+                        ai.AIAttackArmyBuildupStrategy = AIAttackArmyBuildupStrategy.WaitForGlobalCount;
+                        ai.AIAttackArmyMovementStrategy = AIAttackArmyMovementStrategy.AttackMove;
+                        ai.AIAttackArmyRetreatStrategy = AIAttackArmyRetreatStrategy.RetreatToNearestOwnedCity;
+                        ai.AIMilitaryUnitRetreatStrategy = AIMilitaryUnitRetreatStrategy.FleeIfAlmostDead;
+                        ai.AIDefenseArmyBuildingStrategy = AIDefenseArmyBuildingStrategy.Balanced;
+                        ai.AIDefenseArmyMovementStrategy = AIDefenseArmyMovementStrategy.WanderWithinBorders;
+                        ai.AIDefenseArmyThreatStrategy = AIDefenseArmyThreatStrategy.CityThreatFirst;
+                        ai.AIPickProductionStrategy = AIPickProductionStrategy.Balanced;
+                        ai.AIPickBuildingStrategy = AIPickBuildingStrategy.Balanced;
+                        ai.desiredDefendersPerCity = 2;
+                        break;
+                }
                 break;
-            case AIPersonality.Standard:
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Standard Personality"); }
-                ai.unitProductionStrategy = AIUnitProductionStrategy.RANDOM;
-                ai.buildingProductionStrategy = AIBuildingProductionStrategy.RANDOM;
-                ai.overallProductionStrategy = AIOverallProductionStrategy.GameStart;
-                ai.cityExpansionStrategy = AICityExpansionStrategy.RANDOM;
-                ai.citySettlingStrategy = AICitySettlingStrategy.ClosestValidSettle;
-                ai.militaryUnitStrategy = AIMilitaryUnitStrategy.RANDOM_AGGRESSIVE;
-                ai.scoutStrategy = AIScoutStrategy.RANDOM;
-                ai.desiredDefendersPerCity = 2;
+            case FactionType.Goblins:
+                ai.personality = PickMinorAIPersonality(ai, ai.player.faction);
+                switch (ai.personality)
+                {
+                    case AIPersonality.MinorDumbAggro:
+                        ai.canBuildSettler = false;
+                        ai.canSettleCities = false;
+                        ai.canResearch = true;
+                        ai.canCulture = true;
+                        ai.desiredCityCount = 1;
+                        ai.desiredCityCountPerTurnScaling = 0;
+                        ai.desiredDefendersPerCity = 0;
+                        ai.desiredDefendersPerCityPerTurnScaling = 0;
+                        ai.desiredAttackersInArmy = 2;
+                        ai.desiredAttackersInArmyPerTurnScaling = 0;
+                        ai.AIAttackArmyBuildingStrategy = AIAttackArmyBuildingStrategy.FavorMelee;
+                        ai.AIAttackArmyBuildupStrategy = AIAttackArmyBuildupStrategy.WaitForGlobalCount;
+                        ai.AIAttackArmyMovementStrategy = AIAttackArmyMovementStrategy.AttackMove;
+                        ai.AIAttackArmyRetreatStrategy = AIAttackArmyRetreatStrategy.NoRetreat;
+                        ai.AIMilitaryUnitRetreatStrategy = AIMilitaryUnitRetreatStrategy.NoRetreat;
+                        ai.AIDefenseArmyBuildingStrategy = AIDefenseArmyBuildingStrategy.DontBuildDefenseArmy;
+                        ai.AIDefenseArmyMovementStrategy = AIDefenseArmyMovementStrategy.NONE;
+                        ai.AIDefenseArmyThreatStrategy = AIDefenseArmyThreatStrategy.NONE;
+                        ai.AIPickProductionStrategy = AIPickProductionStrategy.FocusArmy;
+                        ai.AIPickBuildingStrategy = AIPickBuildingStrategy.FocusProduction;
+                        break;
+                }
                 break;
         }
     }
+
+    private AIPersonality PickMinorAIPersonality(AI ai, FactionType faction)
+    {
+        if (faction == FactionType.Goblins)
+        {
+            return AIPersonality.MinorDumbAggro;
+        }
+        return AIPersonality.NONE;
+    }
+
     public bool OnTurnStart()
     {
         foreach (AI ai in aiList)
         {
             if (!ai.player.turnFinished)
             {
-                if (ai.player.teamNum == 0)
-                {
-                    if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Skipping AI processing for team 0"); }
-                    EndAITurn(ai); //end turn for team 0 AI
-                    continue; //skip AI for team 0
-                }
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Hasn't ended turn - iterating through logic"); }
                 HandleSettlers(ai);
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Starting City Handling"); }
@@ -131,12 +164,17 @@ public partial class AIManager
 
     private void HandleSettlers(AI ai)
     {
+        if (!ai.canSettleCities)
+        {
+            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] This AI can't use settlers, but has one or more. Skipping them."); }
+            return;
+        }
         foreach (int unitID in ai.player.unitList.ToList())
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
             if (unit.unitType == "Settler" || unit.unitType == "Founder")
             {
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unit: {unit.name} with type {unit.unitType} is a settler."); }
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unitName: {unit.name} with type {unit.unitType} is a settler."); }
                 HandleSettler(ai, unit);
             }
         }
@@ -150,12 +188,12 @@ public partial class AIManager
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
             if (ai.allDefenders.Contains(unitID))
             {
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unit: {unit.name} with type {unit.unitType} is a defender, skipping general handling."); }
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unitName: {unit.name} with type {unit.unitType} is a defender, skipping general handling."); }
                 continue; //this unit will be handled as a defender - with special AI
             }
             else if (ai.attackers.Contains(unitID))
             {
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unit: {unit.name} with type {unit.unitType} is an attacker, skipping general handling."); }
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unitName: {unit.name} with type {unit.unitType} is an attacker, skipping general handling."); }
                 continue; //this unit will be handled as an attacker - with special AI
             }
             else if (unit.unitType=="Settler" || unit.unitType=="Founder")
@@ -166,17 +204,17 @@ public partial class AIManager
             {
                 if ((unit.unitClass & UnitClass.Recon) == UnitClass.Recon)
                 {
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unit: {unit.name} with type {unit.unitType} is a scout."); }
+                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unitName: {unit.name} with type {unit.unitType} is a scout."); }
                     HandleScout(ai,unit);
                 }
                 else if ((unit.unitClass & UnitClass.Combat) == UnitClass.Combat)
                 {
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unit: {unit.name} with type {unit.unitType} is a military unit."); }
+                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unitName: {unit.name} with type {unit.unitType} is a military unitName."); }
                     HandleMilitary(ai,unit);
                 }
                 else
                 {
-                    throw new Exception("AI tried to manage a unit it doesnt understand:"+unit.unitClass);
+                    throw new Exception("AI tried to manage a unitName it doesnt understand:"+unit.unitClass);
 
                 }
             }
@@ -275,51 +313,85 @@ public partial class AIManager
     private void HandleDefenderUnitsForCity(AI ai, int cityID)
     {
         List<Hex> threats = new();
-        foreach (District district in Global.gameManager.game.cityDictionary[cityID].districts)
+        switch (ai.AIDefenseArmyThreatStrategy)
         {
-            List<Hex> localThreats = FindAllEnemiesInRange(ai, district.hex, 5);
-            foreach (Hex hex in localThreats)
-            {
-                if (!threats.Contains(hex))
+            case AIDefenseArmyThreatStrategy.CityThreatFirst:
+                foreach (District district in Global.gameManager.game.cityDictionary[cityID].districts)
                 {
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Adding new threat to city threat tracker"); }
-                    threats.Add(hex);
+                    List<Hex> localThreats = FindAllEnemiesInRange(ai, district.hex, 5);
+                    foreach (Hex hex in localThreats)
+                    {
+                        if (!threats.Contains(hex))
+                        {
+                            if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Adding new threat to city threat tracker"); }
+                            threats.Add(hex);
+                        }
+                    }
                 }
-            }
+                foreach (int defender in ai.cities[cityID].defenderUnits)
+                {
+                    Unit unit = Global.gameManager.game.unitDictionary[defender];
+                    if (!ai.player.unitList.Contains(defender))
+                    {
+                        if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Defender dead updating record."); }
+                        ai.cities[cityID].defenderUnits.Remove(defender);
+                        ai.allDefenders.Remove(defender);
+                        continue;
+                    }
+                    if (threats.Count > 0)
+                    {
+                        if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Defender intercepting threat to city."); }
+                        MilitaryUnitMoveOrAttack(ai, Global.gameManager.game.unitDictionary[defender], PickClosest(ai, threats, defender));
+                    }
+                    else
+                    {
+                        if (FindClosestAnyEnemyInRange(ai, unit.hex, 4, out Hex target))
+                        {
+                            if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Defender attacking nearby enemy."); }
+                            MilitaryUnitMoveOrAttack(ai, unit, target);
+                        }
+                        else
+                        {
+                            MoveDefender(ai, unit,cityID);
+                        }
+                    }
+                }
+                break;
+            case AIDefenseArmyThreatStrategy.NearbyThreatFirst:
+                throw new NotImplementedException();
+                break;
+            case AIDefenseArmyThreatStrategy.DontUseDefenseArmy:
+                throw new NotImplementedException();
+                break;
+            case AIDefenseArmyThreatStrategy.NONE:
+                break;
+            default:
+                break;
         }
 
-        foreach (int defender in ai.cities[cityID].defenderUnits)
-        {
-            Unit unit = Global.gameManager.game.unitDictionary[defender];
-            if (!ai.player.unitList.Contains(defender))
-            {
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Defender dead updating record."); }
-                ai.cities[cityID].defenderUnits.Remove(defender);
-                ai.allDefenders.Remove(defender);
-                continue;
-            }
-            if (threats.Count > 0)
-            {
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Defender intercepting threat to city."); }
-                MilitaryUnitMoveOrAttack(ai, Global.gameManager.game.unitDictionary[defender], PickClosest(ai, threats, defender));
-            }
-            else
-            {
-                if (FindClosestAnyEnemyInRange(ai, unit.hex, 4, out Hex target))
-                {
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Defender attacking nearby enemy."); }
-                    MilitaryUnitMoveOrAttack(ai, unit, target);
-                }
-                else
-                {
-                    City city = Global.gameManager.game.cityDictionary[cityID];
-                    Hex t = city.heldHexes.ToList()[rng.Next(city.heldHexes.Count)];
-                    MilitaryUnitMoveOrAttack(ai, Global.gameManager.game.unitDictionary[defender], t);
-                }
+    }
 
-            }
+    private void MoveDefender(AI ai, Unit defender, int cityID)
+    {
+        switch (ai.AIDefenseArmyMovementStrategy)
+        {
+            case AIDefenseArmyMovementStrategy.WaitNearCity:
+                break;
+            case AIDefenseArmyMovementStrategy.WanderWithinBorders:
+                City city = Global.gameManager.game.cityDictionary[cityID];
+                Hex t = city.heldHexes.ToList()[rng.Next(city.heldHexes.Count)];
+                MilitaryUnitMoveOrAttack(ai, defender, t);
+                break;
+            case AIDefenseArmyMovementStrategy.SmartPositioning:
+                throw new NotImplementedException();
+                break;
+            case AIDefenseArmyMovementStrategy.NONE:
+                break;
+            default:
+                break;
         }
     }
+
     private void HandleDefenderUnitsForAllCities(AI ai)
     {
         foreach (int cityID in ai.player.cityList)
@@ -361,33 +433,21 @@ public partial class AIManager
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         Hex target;
         UnitAbility rangedAttack = unit.abilities.FirstOrDefault(a => a.name.Equals("RangedAttack"));
-        switch (ai.militaryUnitStrategy)
+
+        if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Using RANDOM_AGGRESSIVE ranged military strategy"); }
+        if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Searching for t within range 6"); }
+        if (FindClosestAnyEnemyInRange(ai, unit.hex, 6, out target))
         {
-            case AIMilitaryUnitStrategy.GameStart:
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Using GameStart ranged military strategy - UNIMPLEMENTED"); }
-                break;
-            case AIMilitaryUnitStrategy.RANDOM:
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Using RANDOM ranged military strategy"); }
-                target = validMoves[rng.Next(validMoves.Count)];
-                MilitaryUnitMoveOrAttack(ai, unit, target);
-                break;
-            case AIMilitaryUnitStrategy.RANDOM_AGGRESSIVE:
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Using RANDOM_AGGRESSIVE ranged military strategy"); }
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Searching for t within range 6"); }
-                if (FindClosestAnyEnemyInRange(ai, unit.hex, 6, out target))
-                {
-                    MilitaryUnitMoveOrAttack(ai,unit,target);
-                }
-                else
-                {
-                    if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] No Target in range - moving randomly."); }
-                    RandomMoveNoAttack(ai, unit, validMoves);
-                }
-                break;
-            default:
-                throw new NotImplementedException($"Military strategy {ai.militaryUnitStrategy} is not implemented.");
+            MilitaryUnitMoveOrAttack(ai, unit, target);
         }
+        else
+        {
+            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] No Target in range - moving randomly."); }
+            RandomMoveNoAttack(ai, unit, validMoves);
+        }
+ 
     }
+
     private void HandleMeleeMilitary(AI ai, Unit unit)
     {
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Melee Military subroutine"); }
@@ -411,8 +471,13 @@ public partial class AIManager
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         RandomMoveNoAttack(ai, unit, validMoves);
     }
-    private async void HandleSettler(AI ai, Unit unit)
+    private void HandleSettler(AI ai, Unit unit)
     {
+        if(!ai.canSettleCities)
+        {
+            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] This AI can't use settlers, but has one. Skipping it."); }
+            return;
+        }
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Settler Unit subroutine"); }
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         
@@ -468,22 +533,40 @@ public partial class AIManager
                 ai.cities.Add(city.id, new AICity(city.id));
             }
 
-            
+            if (city is Encampment e)
+            {
+                if (e.overlordTeamNum >= 0)
+                {
+                
+                }
+                switch (e.ownershipState)
+                {
+                    case FactionOwnership.Free:
+                        break;
+                    case FactionOwnership.Occupied:
+                        break;
+                    case FactionOwnership.Vassalized:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
 
             if (city.lastProducedUnitID != 0)
             {
                 Unit lastProducedUnit = Global.gameManager.game.unitDictionary[city.lastProducedUnitID];
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] We finished building a unit last turn. This unit: {lastProducedUnit.name} with type {lastProducedUnit.unitType}."); }
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] We finished building a unitName last turn. This unitName: {lastProducedUnit.name} with type {lastProducedUnit.unitType}."); }
                 if (ai.cities[city.id].currentlyBuildingDefender)
                 {
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] We had requested a defender, assigning that unit as defender"); }
+                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] We had requested a defender, assigning that unitName as defender"); }
                     ai.cities[city.id].defenderUnits.Add(lastProducedUnit.id);
                     ai.allDefenders.Add(lastProducedUnit.id);
                     ai.cities[city.id].currentlyBuildingDefender = false;
                 }
                 else if (ai.cities[city.id].currentlyBuildingAttacker)
                 {
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] We had requested a attacker, assigning that unit as attacker"); }
+                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] We had requested a attacker, assigning that unitName as attacker"); }
                     ai.attackers.Add(lastProducedUnit.id);
                     ai.cities[city.id].currentlyBuildingAttacker = false;
                 }
@@ -516,31 +599,34 @@ public partial class AIManager
     private void HandleCityExpansion(AI ai, City city)
     {
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Handle city expansion subroutine"); }
-        switch (ai.cityExpansionStrategy)
+        List<Hex> validRuralExpandHexes = city.ValidExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
+        List<Hex> validUrbanExpandHexes = city.ValidUrbanExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
+        List<Hex> allValidHexes = validRuralExpandHexes.Concat(validUrbanExpandHexes).ToList();
+        switch (ai.AICityExpansionStrategy)
         {
-            case AICityExpansionStrategy.GameStart:
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Using GameStart Expansion Strategy"); }
+            case AICityExpansionStrategy.NONE:
                 break;
-            case AICityExpansionStrategy.RANDOM:
+            case AICityExpansionStrategy.Random:
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Using RANDOM Expansion Strategy"); }
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Generating List of valid rural expansion hexes"); }
-                List<Hex> validExpandHexes = city.ValidExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] List of valid rural expansion hexes: " + string.Join(",",validExpandHexes)); }
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Generating List of valid urban expansion hexes"); }
-                List<Hex> validUrbanExpandHexes = city.ValidUrbanExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] List of valid urban expansion hexes: " + string.Join(",", validUrbanExpandHexes)); }
-                List<Hex> allValidHexes = validExpandHexes.Concat(validUrbanExpandHexes).ToList();
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Full list of valid expansion hexes: " + string.Join(",", allValidHexes)); }
-                Hex target = allValidHexes[rng.Next(allValidHexes.Count)];
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Expanding to random t from list: " + target); }
-                Global.gameManager.ExpandToHex(city.id, target);
+                Global.gameManager.ExpandToHex(city.id, allValidHexes[rng.Next(allValidHexes.Count)]);
+                break;
+            case AICityExpansionStrategy.FocusResources:
+                foreach(Hex hex in validRuralExpandHexes)
+                {
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
+                    {
+                        Global.gameManager.ExpandToHex(city.id, hex);
+                        return;
+                    }
+                }
+                Global.gameManager.ExpandToHex(city.id, allValidHexes[rng.Next(allValidHexes.Count)]);
                 break;
             default:
                 break;
         }
 
-
     }
+
     private void HandleCityProduction(AI ai, City city)
     {
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Handle city production subroutine"); }
@@ -553,7 +639,7 @@ public partial class AIManager
             aiCity.currentlyBuildingDefender = true;
             Global.gameManager.AddToProductionQueue(city.id, PickRandomLandMilitaryUnit(ai, city), city.hex);
         }
-        else if (AssessSettlerNeed(ai))
+        else if (ai.canBuildSettler && AssessSettlerNeed(ai))
         {
             if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] City has enough defenders, building a settler."); }
             Global.gameManager.AddToProductionQueue(city.id, "Settler", city.hex);
@@ -565,28 +651,42 @@ public partial class AIManager
         }
         else
         {
+            double econThreshold = 0.5f;
+            switch (ai.AIPickProductionStrategy)
+            {
+                case AIPickProductionStrategy.Random:
+                    econThreshold = 0.5f;
+                    break;
+                case AIPickProductionStrategy.OnlyEcon:
+                    econThreshold = 1f;
+                    break;
+                case AIPickProductionStrategy.OnlyArmy:
+                    econThreshold = 0f;
+                    break;
+                case AIPickProductionStrategy.FocusEcon:
+                    econThreshold = .75f;
+                    break;
+                case AIPickProductionStrategy.FocusArmy:
+                    econThreshold = 0.25f;
+                    break;
+                case AIPickProductionStrategy.Balanced:
+                    econThreshold = 0.5f;
+                    break;
+                default:
+                    econThreshold = 0.5f;
+                    break;
+            }
             double decision = rng.NextDouble();
-            if (decision < 0.5f && AssessMilitaryNeed(ai, city, out string unit))
+            if (decision < econThreshold && city.ValidBuildings().Count > 0)
             {
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Defenders,Settlers,LocalEcon all good - building army."); }
-                Global.gameManager.AddToProductionQueue(city.id, unit, city.hex);
-                aiCity.currentlyBuildingAttacker = true;
-            }
-            else if (AssessGlobalEconNeed(ai, city, out string gBuilding))
-            {
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Defenders,Settlers,LocalEcon all good - building global econ."); }
+                AssessGlobalEconNeed(ai, city, out string gBuilding);
                 AttemptBuildingSpecificAtRandomValidHex(gBuilding, ai, city);
-            }
-            else if (city.ValidBuildings().Count>0)
-            {
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Random build fall back"); }
-                //random build fallback
-                List<string> listOfValidBuildings = city.ValidBuildings();
-                AttemptAnyBuildingAtRandomValidHex(listOfValidBuildings, ai, city);
             }
             else
             {
-                throw new Exception("AI literally cant build anything");
+                PickMilitaryUnit(ai, city, out string unit);
+                Global.gameManager.AddToProductionQueue(city.id, unit, city.hex);
+                aiCity.currentlyBuildingAttacker = true;
             }
         }
     }
@@ -598,23 +698,92 @@ public partial class AIManager
         return true;
     }
 
-    private bool AssessMilitaryNeed(AI ai, City city, out string unit)
+    private bool PickMilitaryUnit(AI ai, City city, out string unitName)
     {
-        if (ai.attackers.Count<GetDesiredArmySize(ai))
+        int melee = 0;
+        int ranged = 0;
+        int siege = 0;
+        int naval = 0;
+        unitName = null;
+        foreach (int unitID in ai.attackers)
         {
-            unit = PickRandomLandMilitaryUnit(ai,city);
-            return true;
+            Unit unit = Global.gameManager.game.unitDictionary[unitID];
+            if ((unit.unitClass & UnitClass.Naval) == UnitClass.Naval)
+            {
+                naval++;
+            }
+            else if ((unit.unitClass & UnitClass.Ranged) == UnitClass.Ranged)
+            {
+                ranged++;
+            }
+            else if ((unit.unitClass & UnitClass.Infantry) == UnitClass.Infantry)
+            {
+                melee++;
+            }
+            else if ((unit.unitClass & UnitClass.Siege) == UnitClass.Siege)
+            {
+                siege++;
+            }
         }
-        else
+        int total = melee + ranged + siege + naval;
+        float meleeRatio = melee / total;
+        float rangedRatio = ranged / total;
+        float siegeRatio = siege / total;
+        float navalRatio = naval / total;   
+        switch (ai.AIAttackArmyBuildingStrategy)
         {
-            unit = null;
-            return false;
+            case AIAttackArmyBuildingStrategy.Random:
+                break;
+            case AIAttackArmyBuildingStrategy.RandomNoNaval:
+                unitName = PickRandomLandMilitaryUnit(ai, city);
+                break;
+            case AIAttackArmyBuildingStrategy.AllRanged:
+                break;
+            case AIAttackArmyBuildingStrategy.AllSiege:
+                break;
+            case AIAttackArmyBuildingStrategy.AllMelee:
+                break;
+            case AIAttackArmyBuildingStrategy.AllNaval:
+                break;
+            case AIAttackArmyBuildingStrategy.FavorRanged:
+                break;
+            case AIAttackArmyBuildingStrategy.FavorSiege:
+                break;
+            case AIAttackArmyBuildingStrategy.FavorMelee:
+                if (meleeRatio<0.75f)
+                {
+                    unitName = PickRandomMeleeMilitaryUnit(ai, city);
+                }
+                else
+                {
+                    unitName = PickRandomNonMeleeMilitaryUnit(ai, city);
+                }
+                return true;
+            case AIAttackArmyBuildingStrategy.FavorNaval:
+                break;
+            case AIAttackArmyBuildingStrategy.Balanced:
+                if (meleeRatio < 0.4f)
+                {
+                    unitName = PickRandomMeleeMilitaryUnit(ai, city);
+                }
+                else
+                {
+                    unitName = PickRandomNonMeleeMilitaryUnit(ai, city);
+                }
+                break;
+            case AIAttackArmyBuildingStrategy.BalancedNoNaval:
+                break;
+            case AIAttackArmyBuildingStrategy.NoAttackArmy:
+                break;
+            default:
+                break;
         }
+        return false;
     }
 
     private int GetDesiredArmySize(AI ai)
     {
-        return (int)Math.Floor(1+(0.15*Global.gameManager.game.turnManager.currentTurn));
+        return ai.desiredAttackersInArmy + (int)Math.Floor((ai.desiredAttackersInArmyPerTurnScaling * Global.gameManager.game.turnManager.currentTurn));
     }
 
     private bool AssessLocalEconNeed(AI ai, City city, out string toBuild)
@@ -631,33 +800,54 @@ public partial class AIManager
     private void HandleResearchAndCulture(AI ai)
     {
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Research and Culture subroutine"); }
-        if (ai.player.queuedResearch.Count == 0)
+        if (ai.canResearch)
         {
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] No research queued - picking a random available one"); }
-            string researchName = ai.player.AvaliableResearches()[rng.Next(ai.player.AvaliableResearches().Count)];
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Selected research: " + researchName); }
-            Global.gameManager.SelectResearch(ai.player.teamNum, researchName);
+            if (ai.player.queuedResearch.Count == 0)
+            {
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] No research queued - picking a random available one"); }
+                string researchName = ai.player.AvaliableResearches()[rng.Next(ai.player.AvaliableResearches().Count)];
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Selected research: " + researchName); }
+                Global.gameManager.SelectResearch(ai.player.teamNum, researchName);
+            }
+            else
+            {
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Research already Queued, no change needed."); }
+            }
         }
         else
         {
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Research already Queued, no change needed."); }
+            if (AIDEBUG)
+            {
+                Global.Log("[AI#" + ai.player.teamNum + "] This AI doesn't do research. Skipping.");
+            }
         }
 
-        if (ai.player.queuedCultureResearch.Count == 0)
+        if (ai.canCulture)
         {
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] No culture queued - picking a random available one"); }
-            string cultureName = ai.player.AvaliableCultureResearches()[rng.Next(ai.player.AvaliableCultureResearches().Count)];
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Selected culture: " + cultureName); }
-            Global.gameManager.SelectCulture(ai.player.teamNum, cultureName);
+            if (ai.player.queuedCultureResearch.Count == 0)
+            {
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] No culture queued - picking a random available one"); }
+                string cultureName = ai.player.AvaliableCultureResearches()[rng.Next(ai.player.AvaliableCultureResearches().Count)];
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Selected culture: " + cultureName); }
+                Global.gameManager.SelectCulture(ai.player.teamNum, cultureName);
+            }
+            else
+            {
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Culture already Queued, no change needed."); }
+            }
         }
         else
         {
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Culture already Queued, no change needed."); }
+            if (AIDEBUG)
+            {
+                Global.Log("[AI#" + ai.player.teamNum + "] This AI doesn't do Culture. Skipping.");
+            }
         }
+
     }
-
-
-
-
+    private AIPersonality PickMajorAIPersonality(AI ai, FactionType faction)
+    {
+        return AIPersonality.Standard;
+    }
 }
 

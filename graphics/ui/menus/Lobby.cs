@@ -40,7 +40,7 @@ public partial class Lobby : Control
     Button StartGameButton;
     bool singleplayer = false;
     bool isHost = false;
-    int teamCounter = 1;
+    int teamCounter = 0;
     List<int> teamNums = new List<int>();
     List<int> teamColors = new();
     private int MAXTEAMS = 99;
@@ -55,6 +55,8 @@ public partial class Lobby : Control
         PlayersListBox = GetNode<VBoxContainer>("PlayerListBox/ScrollContainer/Players/PlayersVbox");
         StartGameButton = GetNode<Button>("b_newgame");
         StartGameButton.Disabled = true;
+
+
 
         foreach (var size in Enum.GetNames(typeof(MapGenerator.MapSize)))
         {
@@ -192,7 +194,11 @@ public partial class Lobby : Control
             icon.Gradient = gradient;
             PlayerListItem.GetNode<OptionButton>("colorselect").AddIconItem(icon,"");
         }
-        if(self || (ai && isHost))
+        foreach (var faction in Enum.GetNames(typeof(FactionType)))
+        {
+            PlayerListItem.GetNode<OptionButton>("factionselect").AddItem(faction);
+        }
+        if (self || (ai && isHost))
         {
             PlayerListItem.GetNode<CheckButton>("ReadyButton").Toggled += (index) => onReadyChanged(index, id);
             PlayerListItem.GetNode<OptionButton>("factionselect").ItemSelected += (index) => OnFactionChange(index, id);
@@ -359,7 +365,8 @@ public partial class Lobby : Control
     {
         //Global.debugLog(lobbyMessage.SavePayload);
         Global.menuManager.ChangeMenu(MenuManager.UI_LoadingScreen);
-        if (GetNode<CheckButton>("newgameoptions/debugmode").ButtonPressed)
+        
+        /*if (GetNode<CheckButton>("newgameoptions/debugmode").ButtonPressed)
         {
             Global.gameManager.game = new Game(0);
             Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
@@ -377,18 +384,21 @@ public partial class Lobby : Control
         }
         else
         {
-            Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
-            Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
-            Global.gameManager.game.AddPlayer(10, 0, 0, Godot.Colors.Black,true); 
-            foreach (ulong playerID in PlayerStatuses.Keys)
-            {
-                Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team + " and color: " + PlayerColors[(int)PlayerStatuses[playerID].ColorIndex].ToString());
-                Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID, PlayerColors[(int)PlayerStatuses[playerID].ColorIndex], PlayerStatuses[playerID].IsAI);
-            }
-            Global.gameManager.isHost = isHost;
-            
-            Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
+
+        }*/
+
+
+        Global.gameManager.game = new Game((int)PlayerStatuses[Global.clientID].Team);
+        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
+        //Global.gameManager.game.AddPlayer(10, 0, 0, Godot.Colors.Black,true); 
+        foreach (ulong playerID in PlayerStatuses.Keys)
+        {
+            Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + PlayerStatuses[playerID].Team + " and color: " + PlayerColors[(int)PlayerStatuses[playerID].ColorIndex].ToString());
+            Global.gameManager.game.AddPlayer(10, (int)PlayerStatuses[playerID].Team, playerID, PlayerColors[(int)PlayerStatuses[playerID].ColorIndex], PlayerStatuses[playerID].IsAI);
         }
+        Global.gameManager.isHost = isHost;
+
+        Global.gameManager.startGame((int)PlayerStatuses[Global.clientID].Team);
         Global.menuManager.ClearMenus();
     }
 
