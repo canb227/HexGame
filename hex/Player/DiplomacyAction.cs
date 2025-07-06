@@ -13,7 +13,7 @@ public class DiplomacyAction
     public int duration;
     public int targetTeamNum;
     public bool hasQuantity;
-    public float quantity = 0;
+    public int quantity = 0;
     public DiplomacyAction(int teamNum, string actionName, bool hasQuantity, bool hasDuration)
     {
         this.teamNum = teamNum;
@@ -64,7 +64,7 @@ public class DiplomacyAction
     }
 
 
-    private void GiveGold(int targetTeamNum, float goldAmount)
+    private void GiveGold(int targetTeamNum, int goldAmount)
     {
         Global.gameManager.game.playerDictionary[teamNum].goldTotal -= goldAmount;
         Global.gameManager.game.playerDictionary[targetTeamNum].goldTotal += goldAmount;

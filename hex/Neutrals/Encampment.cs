@@ -8,12 +8,10 @@ using System.Threading.Tasks;
 public partial class Encampment : City
 {
     public bool isCaptured = false;
-    public NeutralType neutralType;
-    public Encampment(int id, int teamNum, String name, bool isCapital, NeutralType neutralType, GameHex gameHex)
+    public Encampment(int id, int teamNum, String name, bool isCapital, GameHex gameHex)
     {
         cityRange = 2;
 
-        this.neutralType = neutralType;
         Global.gameManager.game.cityDictionary.Add(id, this);
         this.id = id;
         originalCapitalTeamID = id;
@@ -49,14 +47,14 @@ public partial class Encampment : City
     public void AddEncampmentCenter()
     {
         District district;
-        if (neutralType == NeutralType.Goblins)
+/*        if (((MinorPlayer)Global.gameManager.game.playerDictionary[teamNum]).neutralType == NeutralType.Goblins)
         {
             district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], "GoblinDen", true, true, id);
         }
         else
         {
             district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], "GoblinDen", true, true, id);
-        }
+        }*/
         districts.Add(district);
     }
 

@@ -638,9 +638,9 @@ public partial class UIManager : Node3D
         }
         if (deal == null && Global.gameManager.game.teamManager.pendingDeals.Any())
         {
-            foreach(DiplomacyDeal pendingDeal in Global.gameManager.game.teamManager.pendingDeals)
+            foreach(DiplomacyDeal pendingDeal in Global.gameManager.game.teamManager.pendingDeals.Values)
             {
-                if(pendingDeal.sendingTeamNum == targetTeamNum && pendingDeal.receivingTeamNum == Global.gameManager.game.localPlayerTeamNum)
+                if(pendingDeal.fromTeamNum == targetTeamNum && pendingDeal.toTeamNum == Global.gameManager.game.localPlayerTeamNum)
                 {
                     deal = pendingDeal;
                     break;
@@ -682,22 +682,22 @@ public partial class UIManager : Node3D
     public void NewDiplomaticDeal(DiplomacyDeal deal)
     {
         Button dealButton = new Button();
-        dealButton.Name = deal.sendingTeamNum.ToString();
+        dealButton.Name = deal.fromTeamNum.ToString();
         dealButton.CustomMinimumSize = new Vector2(64, 64);
         dealButton.ExpandIcon = true;
         dealButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomacy.png");
-        dealButton.Pressed += () => DiplomacyActionButtonPressed(dealButton, deal.sendingTeamNum, deal);
+        dealButton.Pressed += () => DiplomacyActionButtonPressed(dealButton, deal.fromTeamNum, deal);
         actionQueue.AddChild(dealButton);
         actionQueue.MoveChild(dealButton, 0);
     }
 
     public void RemoveDiplomaticDeal(DiplomacyDeal deal)
     {
-        GD.Print("Check against:" + deal.sendingTeamNum.ToString());
+        GD.Print("Check against:" + deal.fromTeamNum.ToString());
         foreach (Node child in actionQueue.GetChildren())
         {
             GD.Print("WE are:" + child.Name.ToString());
-            if (child.Name.ToString().Contains(deal.sendingTeamNum.ToString()))
+            if (child.Name.ToString().Contains(deal.fromTeamNum.ToString()))
             {
                 child.QueueFree();
                 break;

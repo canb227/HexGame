@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 [Serializable]
 public partial class DiplomacyDeal : GodotObject
 {
-    public int sendingTeamNum;
-    public int receivingTeamNum;
-    public List<DiplomacyAction> senderOfferingList;
-    public List<DiplomacyAction> receivingOfferingList;
-    public DiplomacyDeal(int sendingTeamNum, int receivingTeamNum, List<DiplomacyAction> senderOfferingList, List<DiplomacyAction> receivingOfferingList)
+    public int id;
+    public int fromTeamNum;
+    public int toTeamNum;
+
+    public List<DiplomacyAction> offersList;
+    public List<DiplomacyAction> requestsList;
+    public DiplomacyDeal(int fromTeamNum, int toTeamNum, List<DiplomacyAction> offersList, List<DiplomacyAction> requestsList)
     {
-        this.sendingTeamNum = sendingTeamNum;
-        this.receivingTeamNum = receivingTeamNum;
-        this.senderOfferingList = senderOfferingList;
-        this.receivingOfferingList = receivingOfferingList;
+        this.id = Global.gameManager.game.playerDictionary[fromTeamNum].GetNextUniqueID();
+        this.fromTeamNum = fromTeamNum;
+        this.toTeamNum = toTeamNum;
+        this.offersList = offersList;
+        this.requestsList = requestsList;
     }
 
 }

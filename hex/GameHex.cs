@@ -49,7 +49,8 @@ public class GameHex
         this.units = units;
         this.district = district;
         this.ownedBy = -1;
-        this.withinCityRange = false;
+        this.withinCityRange = 0;
+        this.rangeToNearestCity = -1;
         RecalculateYields();
     }
 
@@ -63,7 +64,8 @@ public class GameHex
     public HashSet<FeatureType> featureSet { get; set; } = new();
     public List<int> units { get; set; } = new();
     public District? district { get; set; }
-    public bool withinCityRange { get; set; }
+    public int withinCityRange { get; set; } = 0;
+    public int rangeToNearestCity { get; set; } = 9;
 
     public Yields yields { get; set; }
 

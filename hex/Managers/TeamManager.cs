@@ -6,7 +6,7 @@ using System.IO;
 public class TeamManager
 {
     public Dictionary<int, Dictionary<int, int>> relationships { get; set; } = new Dictionary<int, Dictionary<int, int>>();
-    public List<DiplomacyDeal> pendingDeals { get; set; } = new();
+    public Dictionary<int, DiplomacyDeal> pendingDeals { get; set; } = new();
 
     public void AddTeam(int newTeamNum, int defaultRelationship)
     {
@@ -103,10 +103,22 @@ public class TeamManager
 
     public void AddPendingDeal(DiplomacyDeal deal)
     {
-        Global.gameManager.game.teamManager.pendingDeals.Add(deal);
-        if(deal.receivingTeamNum == Global.gameManager.game.localPlayerTeamNum)
+        Global.gameManager.game.teamManager.pendingDeals.Add(deal.id, deal);
+        if(deal.toTeamNum == Global.gameManager.game.localPlayerTeamNum)
         {
             Global.gameManager.graphicManager.uiManager.CallDeferred("NewDiplomaticDeal", deal);
+        }
+    }
+
+    public void ExecuteDeal(int id)
+    {
+        foreach (DiplomacyAction action in Global.gameManager.game.teamManager.pendingDeals[id].requestsList)
+        {
+            action.ActivateAction();
+        }
+        foreach (DiplomacyAction action in Global.gameManager.game.teamManager.pendingDeals[id].offersList)
+        {
+            action.ActivateAction();
         }
     }
 }

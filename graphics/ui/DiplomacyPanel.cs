@@ -84,11 +84,11 @@ public partial class DiplomacyPanel : Control
             acceptButton.Text = "Accept";
             currentOffer = diplomaticOffer;
             activeOffer = true;
-            foreach(DiplomacyAction action in diplomaticOffer.senderOfferingList)
+            foreach(DiplomacyAction action in diplomaticOffer.offersList)
             {
                 AddOffer(action, otherItemsBox, otherOfferBox, otherOffers);
             }
-            foreach (DiplomacyAction action in diplomaticOffer.receivingOfferingList)
+            foreach (DiplomacyAction action in diplomaticOffer.requestsList)
             {
                 AddOffer(action, playerItemsBox, playerOfferBox, playerOffers);
             }
@@ -134,7 +134,7 @@ public partial class DiplomacyPanel : Control
         {
             LineEdit lineEdit = new LineEdit();
             lineEdit.SizeFlagsHorizontal = SizeFlags.ExpandFill;
-            lineEdit.Text = ((int)Math.Round(action.quantity)).ToString();
+            lineEdit.Text = action.quantity.ToString();
             lineEdit.TextChanged += (text) => SetActionQuantity(lineEdit, action, text);
             box.AddChild(lineEdit);
         }
@@ -155,10 +155,15 @@ public partial class DiplomacyPanel : Control
         }
     }
 
+    public void DeclineDeal(int dealID)
+    {
+        Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer.id);
+    }
+
     private void CancelActiveOffer()
     {
         //networked message
-        Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer);
+        DeclineDeal(currentOffer.id);
 
         if (activeOffer)
         {
@@ -182,24 +187,20 @@ public partial class DiplomacyPanel : Control
 
     private void SendDeal()
     {
-        //networked message
-        DiplomacyDeal newOffer = new DiplomacyDeal(Global.gameManager.game.localPlayerTeamNum, otherTeamNum, playerOffers, otherOffers);
-        Global.gameManager.game.teamManager.AddPendingDeal(newOffer);
 
+        DiplomacyDeal newOffer = new DiplomacyDeal(Global.gameManager.game.localPlayerTeamNum, otherTeamNum, playerOffers, otherOffers);
+        //networked message
+        Global.gameManager.game.teamManager.AddPendingDeal(newOffer);
         //
+
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
+
     private void AcceptDeal()
     {
         CancelActiveOffer();
-        foreach (DiplomacyAction action in playerOffers)
-        {
-            action.ActivateAction();
-        }
-        foreach(DiplomacyAction action in otherOffers)
-        {
-            action.ActivateAction();
-        }
+        //networked message
+        Global.gameManager.game.teamManager.ExecuteDeal(currentOffer.id);
         //
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
@@ -211,12 +212,12 @@ public partial class DiplomacyPanel : Control
 
     private void SetActionQuantity(LineEdit lineEdit, DiplomacyAction action, string text)
     {
-        float quantity = text.ToFloat();
+        int quantity = text.ToInt();
         if(action.actionName == "Give Gold")
         {
             if (quantity > Global.gameManager.game.playerDictionary[action.teamNum].goldTotal)
             {
-                quantity = Global.gameManager.game.playerDictionary[action.teamNum].goldTotal;
+                quantity = (int)Global.gameManager.game.playerDictionary[action.teamNum].goldTotal;
                 lineEdit.Text = quantity.ToString();
                 action.quantity = quantity;
             }
@@ -230,7 +231,7 @@ public partial class DiplomacyPanel : Control
         {
             if (quantity > Global.gameManager.game.playerDictionary[action.teamNum].GetGoldPerTurn())
             {
-                quantity = Global.gameManager.game.playerDictionary[action.teamNum].GetGoldPerTurn();
+                quantity = (int)Global.gameManager.game.playerDictionary[action.teamNum].GetGoldPerTurn();
                 lineEdit.Text = quantity.ToString();
                 action.quantity = quantity;
             }

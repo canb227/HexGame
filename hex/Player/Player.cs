@@ -547,5 +547,17 @@ public class Player : BasePlayer
         SetInfluenceTotal(GetInfluenceTotal() + influence);
     }
 }
+public class ResearchQueueType
+{
 
+    public ResearchQueueType(String researchType, int researchCost, int researchLeft)
+    {
+        this.researchType = researchType;
+        this.researchCost = researchCost;
+        this.researchLeft = researchLeft;
+    }
+    public String researchType { get; set; }
+    public int researchCost { get; set; }
+    public int researchLeft { get; set; }
 
+}

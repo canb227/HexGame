@@ -141,7 +141,11 @@ public partial class City : GodotObject
     {
         foreach (Hex hex in hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
-            Global.gameManager.game.mainGameBoard.gameHexDict[hex].withinCityRange= true;
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].withinCityRange += 1;
+        }
+        foreach (Hex hex in hex.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity = hex.WrapDistance(this.hex);
         }
     }
 
@@ -898,7 +902,7 @@ public partial class City : GodotObject
         if (validTerrain.Count == 0 || validTerrain.Contains(targetGameHex.terrainType))
         {
             //hex is owned by us so continue
-            if (targetGameHex.ownedBy == -1 | targetGameHex.ownedBy == teamNum)
+            if (targetGameHex.ownedBy == -1)
             {
                 //hex does not have a district
                 if (targetGameHex.district == null)
