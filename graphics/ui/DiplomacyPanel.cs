@@ -61,19 +61,19 @@ public partial class DiplomacyPanel : Control
         //remove old stuff
         foreach (Control child in playerItemsBox.GetChildren())
         {
-            child.QueueFree();
+            child.Free();
         }
         foreach (Control child in playerOfferBox.GetChildren())
         {
-            child.QueueFree();
+            child.Free();
         }
         foreach (Control child in otherOfferBox.GetChildren())
         {
-            child.QueueFree();
+            child.Free();
         }
         foreach (Control child in otherItemsBox.GetChildren())
         {
-            child.QueueFree();
+            child.Free();
         }
         //items
         AddItems(Global.gameManager.game.localPlayerTeamNum, playerItemsBox, playerOfferBox, playerOffers);
@@ -128,7 +128,7 @@ public partial class DiplomacyPanel : Control
         offers.Add(action);
         Button button = new Button();
         button.Text = action.actionName;
-        button.Pressed += () => RemoveOffer(action, offers, offersBox);
+        button.Pressed += () => RemoveOffer(action, items, offers, offersBox);
         box.AddChild(button);
         if (action.hasQuantity)
         {
@@ -141,8 +141,9 @@ public partial class DiplomacyPanel : Control
         offersBox.AddChild(box);
     }
 
-    private void RemoveOffer(DiplomacyAction action, List<DiplomacyAction> offers, VBoxContainer offersBox)
+    private void RemoveOffer(DiplomacyAction action, VBoxContainer items, List<DiplomacyAction> offers, VBoxContainer offersBox)
     {
+        items.GetNode<Button>(action.actionName + "Button").Disabled = false;
         CancelActiveOffer();
         offers.Remove(action);
         foreach (Node child in offersBox.GetChildren())
@@ -156,9 +157,15 @@ public partial class DiplomacyPanel : Control
 
     private void CancelActiveOffer()
     {
-        activeOffer = false;
+        //networked message
         Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer);
-        acceptButton.Text = "Offer";
+
+        if (activeOffer)
+        {
+            Global.gameManager.graphicManager.uiManager.RemoveDiplomaticDeal(currentOffer);
+            acceptButton.Text = "Offer";
+        }
+        activeOffer = false;
     }
 
     private void ProcessDeal()
@@ -184,8 +191,7 @@ public partial class DiplomacyPanel : Control
     }
     private void AcceptDeal()
     {
-        //networked message
-        Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer);
+        CancelActiveOffer();
         foreach (DiplomacyAction action in playerOffers)
         {
             action.ActivateAction();
@@ -199,9 +205,7 @@ public partial class DiplomacyPanel : Control
     }
     private void DeclineDeal()
     {
-        //networked message
-        Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer);
-        //
+        CancelActiveOffer();
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
 

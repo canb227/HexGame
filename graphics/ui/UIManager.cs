@@ -353,7 +353,6 @@ public partial class UIManager : Node3D
         }
         else
         {
-            GD.Print("no queue");
             scienceButtonLabel.Text = "Select a Research";
             scienceButtonIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/science.png");
             scienceButtonTurnsLeft.Text = "-";
@@ -397,7 +396,6 @@ public partial class UIManager : Node3D
                 child.QueueFree();
             }
         }
-        GD.Print("UI Update");
     }
 
     public void UnitSelected(Unit unit)
@@ -638,7 +636,7 @@ public partial class UIManager : Node3D
         {
             return;
         }
-        if (deal == null)
+        if (deal == null && Global.gameManager.game.teamManager.pendingDeals.Any())
         {
             foreach(DiplomacyDeal pendingDeal in Global.gameManager.game.teamManager.pendingDeals)
             {
@@ -684,12 +682,26 @@ public partial class UIManager : Node3D
     public void NewDiplomaticDeal(DiplomacyDeal deal)
     {
         Button dealButton = new Button();
+        dealButton.Name = deal.sendingTeamNum.ToString();
         dealButton.CustomMinimumSize = new Vector2(64, 64);
         dealButton.ExpandIcon = true;
         dealButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomacy.png");
         dealButton.Pressed += () => DiplomacyActionButtonPressed(dealButton, deal.sendingTeamNum, deal);
         actionQueue.AddChild(dealButton);
         actionQueue.MoveChild(dealButton, 0);
-        
+    }
+
+    public void RemoveDiplomaticDeal(DiplomacyDeal deal)
+    {
+        GD.Print("Check against:" + deal.sendingTeamNum.ToString());
+        foreach (Node child in actionQueue.GetChildren())
+        {
+            GD.Print("WE are:" + child.Name.ToString());
+            if (child.Name.ToString().Contains(deal.sendingTeamNum.ToString()))
+            {
+                child.QueueFree();
+                break;
+            }
+        }
     }
 }

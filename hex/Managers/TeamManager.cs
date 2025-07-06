@@ -6,7 +6,7 @@ using System.IO;
 public class TeamManager
 {
     public Dictionary<int, Dictionary<int, int>> relationships { get; set; } = new Dictionary<int, Dictionary<int, int>>();
-    public List<DiplomacyDeal> pendingDeals { get; set; }
+    public List<DiplomacyDeal> pendingDeals { get; set; } = new();
 
     public void AddTeam(int newTeamNum, int defaultRelationship)
     {

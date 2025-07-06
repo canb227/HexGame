@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cqwb0y8pf7hny"]
+[gd_scene load_steps=13 format=3 uid="uid://cqwb0y8pf7hny"]
 
 [ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="2_n5e1u"]
 [ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="3_6wqba"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://dxyx7s8fwhyqg" path="res://graphics/ui/icons/circle.png" id="9_4wkif"]
 [ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="9_6wqba"]
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="9_pepai"]
-[ext_resource type="Texture2D" uid="uid://dlg1iwgvuurac" path="res://graphics/ui/icons/diplomacy.png" id="11_4wkif"]
 
 [sub_resource type="Theme" id="Theme_6wqba"]
 default_font_size = 24
@@ -331,13 +330,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
-
-[node name="Button" type="Button" parent="ActionQueueScrollBox/ActionQueue"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-icon = ExtResource("11_4wkif")
-icon_alignment = 1
-expand_icon = true
 
 [node name="PlayerList" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 64)
