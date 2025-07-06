@@ -478,11 +478,12 @@ public partial class City : GodotObject
         RecalculateYields();
 
         productionOverflow += yields.production;
-        Global.gameManager.game.playerDictionary[teamNum].AddGold(yields.gold);
-        Global.gameManager.game.playerDictionary[teamNum].AddScience(yields.science);
-        Global.gameManager.game.playerDictionary[teamNum].AddCulture(yields.culture);
-        Global.gameManager.game.playerDictionary[teamNum].AddHappiness(yields.happiness);
-        Global.gameManager.game.playerDictionary[teamNum].AddInfluence(yields.influence);
+        Player player = (Player)Global.gameManager.game.playerDictionary[teamNum];
+        player.AddGold(yields.gold);
+        player.AddScience(yields.science);
+        player.AddCulture(yields.culture);
+        player.AddHappiness(yields.happiness);
+        player.AddInfluence(yields.influence);
         List<ProductionQueueType> toRemove = new List<ProductionQueueType>();
         for (int i = 0; i < productionQueue.Count; i++)
         {

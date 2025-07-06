@@ -48,11 +48,12 @@ public partial class CityExportPanel : PanelContainer
                 Label cityName = new Label();
                 cityName.Text = targetCity.name;
                 CheckButton exportFoodCheckBox = new CheckButton();
-                if (Global.gameManager.game.playerDictionary[city.teamNum].exportRouteList.Contains(new ExportRoute(city.id, cityID, YieldType.food)))
+                Player player = (Player)Global.gameManager.game.playerDictionary[city.teamNum];
+                if (player.exportRouteList.Contains(new ExportRoute(city.id, cityID, YieldType.food)))
                 {
                     exportFoodCheckBox.SetPressedNoSignal(true);
                 }
-                if (Global.gameManager.game.playerDictionary[city.teamNum].exportCount >= Global.gameManager.game.playerDictionary[city.teamNum].exportCap && !exportFoodCheckBox.ButtonPressed)
+                if (player.exportCount >= player.exportCap && !exportFoodCheckBox.ButtonPressed)
                 {
                     exportFoodCheckBox.Disabled = true;
                 }
@@ -67,13 +68,14 @@ public partial class CityExportPanel : PanelContainer
 
     private void ExportFoodCheckBoxed(bool isOn, CheckButton exportFoodCheckBox, City targetCity)
     {
+        Player player = (Player)Global.gameManager.game.playerDictionary[city.teamNum];
         if (isOn)
         {
-            Global.gameManager.game.playerDictionary[city.teamNum].NewExportRoute(city.id, targetCity.id, YieldType.food);
+            player.NewExportRoute(city.id, targetCity.id, YieldType.food);
         }
         else
         {
-            Global.gameManager.game.playerDictionary[city.teamNum].RemoveExportRoute(city.id, targetCity.id, YieldType.food);
+            player.RemoveExportRoute(city.id, targetCity.id, YieldType.food);
         }
     }
 }

@@ -110,6 +110,11 @@ public class TeamManager
         }
     }
 
+    public void RemoveDeal(int dealID)
+    {
+        Global.gameManager.game.teamManager.pendingDeals.Remove(dealID);
+    }
+
     public void ExecuteDeal(int id)
     {
         foreach (DiplomacyAction action in Global.gameManager.game.teamManager.pendingDeals[id].requestsList)

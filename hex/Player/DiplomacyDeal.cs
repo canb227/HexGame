@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 public partial class DiplomacyDeal : GodotObject
 {
     public int id;
-    public int fromTeamNum;
-    public int toTeamNum;
+    public int fromTeamNum; //sendingTeamNum;
+    public int toTeamNum; //receivingTeamNum;
 
-    public List<DiplomacyAction> offersList;
-    public List<DiplomacyAction> requestsList;
+    public List<DiplomacyAction> offersList; //offersList;
+    public List<DiplomacyAction> requestsList; //requestsList;
     public DiplomacyDeal(int fromTeamNum, int toTeamNum, List<DiplomacyAction> offersList, List<DiplomacyAction> requestsList)
     {
         this.id = Global.gameManager.game.playerDictionary[fromTeamNum].GetNextUniqueID();

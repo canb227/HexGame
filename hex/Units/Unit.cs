@@ -111,7 +111,7 @@ public partial class Unit: GodotObject
 
     public void OnTurnEnded(int turnNumber)
     {
-        Global.gameManager.game.playerDictionary[teamNum].AddGold(-maintenanceCost);
+        ((Player)Global.gameManager.game.playerDictionary[teamNum]).AddGold(-maintenanceCost);
         if(remainingMovement > 0.0f && currentPath.Any() && !isTargetEnemy)
         {
             MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[currentPath.Last()], Global.gameManager.game.teamManager, false);
@@ -385,7 +385,7 @@ public partial class Unit: GodotObject
     {
         if (unitType == "Settler")
         {
-            Global.gameManager.game.playerDictionary[teamNum].DecreaseAllSettlerCost();
+            ((Player)Global.gameManager.game.playerDictionary[teamNum]).DecreaseAllSettlerCost();
         }
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
         Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this.id);

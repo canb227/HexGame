@@ -691,7 +691,7 @@ public partial class UIManager : Node3D
         actionQueue.MoveChild(dealButton, 0);
     }
 
-    public void RemoveDiplomaticDeal(DiplomacyDeal deal)
+    public void RemoveDiplomaticDealUI(DiplomacyDeal deal)
     {
         GD.Print("Check against:" + deal.fromTeamNum.ToString());
         foreach (Node child in actionQueue.GetChildren())

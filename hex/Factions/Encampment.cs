@@ -47,15 +47,15 @@ public partial class Encampment : City
     public void AddEncampmentCenter()
     {
         District district;
-/*        if (((MinorPlayer)Global.gameManager.game.playerDictionary[teamNum]).neutralType == NeutralType.Goblins)
+        if (Global.gameManager.game.playerDictionary[teamNum].faction == FactionType.Goblins)
         {
             district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], "GoblinDen", true, true, id);
         }
         else
         {
             district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], "GoblinDen", true, true, id);
-        }*/
-        //districts.Add(district);
+        }
+        districts.Add(district);
     }
 
     public new void ExpandToHex(Hex hex)

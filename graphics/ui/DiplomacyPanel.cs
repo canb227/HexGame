@@ -155,22 +155,19 @@ public partial class DiplomacyPanel : Control
         }
     }
 
-    public void DeclineDeal(int dealID)
-    {
-        Global.gameManager.game.teamManager.pendingDeals.Remove(currentOffer.id);
-    }
+
 
     private void CancelActiveOffer()
     {
-        //networked message
-        DeclineDeal(currentOffer.id);
-
         if (activeOffer)
         {
-            Global.gameManager.graphicManager.uiManager.RemoveDiplomaticDeal(currentOffer);
+            //networked message
+            Global.gameManager.RemovePendingDeal(currentOffer.id);
+            //
+            Global.gameManager.graphicManager.uiManager.RemoveDiplomaticDealUI(currentOffer);
             acceptButton.Text = "Offer";
+            activeOffer = false;
         }
-        activeOffer = false;
     }
 
     private void ProcessDeal()
@@ -190,7 +187,7 @@ public partial class DiplomacyPanel : Control
 
         DiplomacyDeal newOffer = new DiplomacyDeal(Global.gameManager.game.localPlayerTeamNum, otherTeamNum, playerOffers, otherOffers);
         //networked message
-        Global.gameManager.game.teamManager.AddPendingDeal(newOffer);
+        Global.gameManager.AddPendingDeal(newOffer.id, newOffer.fromTeamNum, newOffer.toTeamNum, newOffer.requestsList, newOffer.offersList);
         //
 
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
@@ -200,7 +197,7 @@ public partial class DiplomacyPanel : Control
     {
         CancelActiveOffer();
         //networked message
-        Global.gameManager.game.teamManager.ExecuteDeal(currentOffer.id);
+        Global.gameManager.ExecutePendingDeal(currentOffer.id);
         //
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
@@ -212,8 +209,12 @@ public partial class DiplomacyPanel : Control
 
     private void SetActionQuantity(LineEdit lineEdit, DiplomacyAction action, string text)
     {
-        int quantity = text.ToInt();
-        if(action.actionName == "Give Gold")
+        int quantity = 0;
+        if (text.Any())
+        {
+            quantity = text.ToInt();
+        }
+        if (action.actionName == "Give Gold")
         {
             if (quantity > Global.gameManager.game.playerDictionary[action.teamNum].goldTotal)
             {
