@@ -503,11 +503,6 @@ public partial class NetworkPeer : Node
     ///////////////////////////////////////////////////////////////////////////////////
     /// LOBBY MANAGER
 
-    internal void LobbyMessageAllPeers(LobbyMessage lobbyMessage)
-    {
-        //LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
-        MessageAllPeers(lobbyMessage, LOBBY_CHANNEL);
-    }
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -533,6 +528,14 @@ public partial class NetworkPeer : Node
     {
         LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
         MessageAllPeers(lobbyMessage, LOBBY_CHANNEL);
+    }
+
+    internal void SendLobbyMessageToPeer(LobbyMessage lobbyMessage, ulong to)
+    {
+        LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
+        SteamNetworkingIdentity id = new SteamNetworkingIdentity();
+        id.SetSteamID(new CSteamID(to));
+        SendMessageToPeer(id, lobbyMessage, LOBBY_CHANNEL);
     }
 }
 

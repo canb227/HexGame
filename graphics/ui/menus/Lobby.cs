@@ -3,7 +3,6 @@ using System;
 using Steamworks;
 using System.Collections.Generic;
 using NetworkMessages;
-using System.Runtime.InteropServices.JavaScript;
 using System.Linq;
 
 public partial class Lobby : Control
@@ -49,6 +48,7 @@ public partial class Lobby : Control
     public override void _Ready()
 	{
         NetworkPeer.PlayerJoinedEvent += OnPlayerJoinEvent;
+        NetworkPeer.JoinedToPlayerEvent += OnJoinedToPlayer;
         NetworkPeer.LobbyMessageReceivedEvent += OnLobbyMessageReceived;
         NetworkPeer.ChatMessageReceivedEvent += NetworkPeer_ChatMessageReceivedEvent;
         GetNode<Button>("addAI").Pressed += onAddAIButtonPressed;
@@ -70,6 +70,11 @@ public partial class Lobby : Control
         }
         GetNode<OptionButton>("newgameoptions/worldgentype").Selected = (int)MapGenerator.MapType.DebugSquare;
 
+    }
+
+    private void OnJoinedToPlayer(ulong playerID)
+    {
+        
     }
 
     private void NetworkPeer_ChatMessageReceivedEvent(Chat chat)
@@ -261,7 +266,6 @@ public partial class Lobby : Control
         Global.Log("Joining lobby: " + hostID);
         SteamFriends.SetRichPresence("status", "In a lobby");
         SteamFriends.SetRichPresence("connect", Global.clientID.ToString());
-        //AddNewPlayerToLobby(Global.clientID, 0, true, false);
     }
 
     private void OnLobbyMessageReceived(LobbyMessage lobbyMessage)
@@ -500,7 +504,14 @@ public partial class Lobby : Control
         Global.Log("Player joined to Lobby: " + playerID);
         if (isHost)
         { 
-            Global.Log("Adding player to lobby: " + playerID);
+            foreach(LobbyStatus status in PlayerStatuses.Values)
+            {
+                LobbyMessage catchupStatus = new LobbyMessage();
+                catchupStatus.Sender = Global.clientID;
+                catchupStatus.MessageType = "addPlayer";
+                catchupStatus.LobbyStatus = status;
+                Global.networkPeer.SendLobbyMessageToPeer(catchupStatus,playerID);
+            }
             LobbyMessage lobbyMessage = new LobbyMessage();
             lobbyMessage.Sender = Global.clientID;
             lobbyMessage.MessageType = "addPlayer";
