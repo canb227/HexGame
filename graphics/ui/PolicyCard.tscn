@@ -1,0 +1,98 @@
+[gd_scene load_steps=7 format=3 uid="uid://cxff0y10bxtmc"]
+
+[ext_resource type="Texture2D" uid="uid://brrh1cw1vxfxn" path="res://graphics/ui/icons/science.png" id="1_i6s2o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jm1mn"]
+bg_color = Color(0.56, 0.205707, 0.1512, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_o2um7"]
+font_size = 12
+shadow_color = Color(0, 0, 0, 0.568627)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smkqm"]
+bg_color = Color(0, 0, 0, 0.611765)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2bmfi"]
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_u1vxa"]
+shadow_color = Color(0, 0, 0, 0.67451)
+
+[node name="PolicyButton" type="Button"]
+custom_minimum_size = Vector2(136, 160)
+offset_right = 136.0
+offset_bottom = 160.0
+
+[node name="PolicyPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(128, 160)
+layout_mode = 2
+offset_right = 136.0
+offset_bottom = 160.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_jm1mn")
+
+[node name="PolicyVBox" type="VBoxContainer" parent="PolicyPanel"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PolicyPanel/PolicyVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TitleLabel" type="Label" parent="PolicyPanel/PolicyVBox/MarginContainer"]
+layout_mode = 2
+text = "Online Communities"
+label_settings = SubResource("LabelSettings_o2um7")
+horizontal_alignment = 1
+
+[node name="Filler" type="Control" parent="PolicyPanel/PolicyVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DescriptionMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="DescriptionPanelBox" type="PanelContainer" parent="PolicyPanel/PolicyVBox/DescriptionMarginBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_smkqm")
+
+[node name="DescriptionLabel" type="Label" parent="PolicyPanel/PolicyVBox/DescriptionMarginBox/DescriptionPanelBox"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "You like get more science its pretty neet"
+label_settings = SubResource("LabelSettings_2bmfi")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Filler2" type="Control" parent="PolicyPanel/PolicyVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EffectMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="EffectHBox" type="HBoxContainer" parent="PolicyPanel/PolicyVBox/EffectMarginBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="EffectIcon" type="TextureRect" parent="PolicyPanel/PolicyVBox/EffectMarginBox/EffectHBox"]
+layout_mode = 2
+texture = ExtResource("1_i6s2o")
+expand_mode = 3
+
+[node name="EffectLabel" type="Label" parent="PolicyPanel/PolicyVBox/EffectMarginBox/EffectHBox"]
+layout_mode = 2
+text = "+2"
+label_settings = SubResource("LabelSettings_u1vxa")

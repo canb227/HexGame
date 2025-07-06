@@ -913,7 +913,7 @@ public partial class City : GodotObject
         if (validTerrain.Count == 0 || validTerrain.Contains(targetGameHex.terrainType))
         {
             //hex is owned by us so continue
-            if (targetGameHex.ownedBy == -1)
+            if (targetGameHex.ownedBy == -1 || targetGameHex.ownedBy == teamNum)
             {
                 //hex does not have a district
                 if (targetGameHex.district == null)
@@ -960,6 +960,7 @@ public partial class City : GodotObject
                 validHexes.Add(hex);
             }
         }
+        Global.Log(validHexes.Count().ToString());
         return validHexes;
     }
     

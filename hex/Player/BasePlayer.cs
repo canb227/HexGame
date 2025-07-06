@@ -11,6 +11,7 @@ using System.Drawing;
 [Serializable]
 public class BasePlayer
 {
+    public AudioStreamPlayer audioPlayer = new();
     public BasePlayer(int teamNum, Godot.Color teamColor, bool isAI)
     {
         this.teamColor = teamColor;
@@ -201,6 +202,15 @@ public class BasePlayer
             city.OnTurnEnded(turnNumber);
         }
         turnFinished = true;
+        List<int> waitingPlayers = Global.gameManager.game.turnManager.CheckTurnStatus();
+        if (waitingPlayers.Count() == 1)
+        {
+            if (waitingPlayers[0] == Global.gameManager.game.localPlayerTeamNum)
+            {
+                audioPlayer.Stream = GD.Load<AudioStream>("res://audio/soundeffects/LastPlayer.wav");
+                audioPlayer.Play();
+            }
+        }
     }
 
     public void UpdateTerritoryGraphic()
