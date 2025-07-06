@@ -1,5 +1,5 @@
 <Units>
-  <Unit Name="Founder" Class="Civilian, Land" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="4.0" CombatPower="10.0" HealingFactor="20" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/baseperson_settler.glb">
+  <Unit Name="Founder" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="4.0" CombatPower="10.0" HealingFactor="20" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/baseperson_settler.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -38,7 +38,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Settler" Class="Civilian, Land" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="3.0" CombatPower="5.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/baseperson_settler.glb">
+  <Unit Name="Settler" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="3.0" CombatPower="5.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/baseperson_settler.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -217,7 +217,7 @@
       </Ability>
     </Abilities>
   </Unit>
-    <Unit Name="Trader" Class="Civilian" ProductionCost="50" GoldCost="200" MovementSpeed="3.0" SightRange="2.0" CombatPower="5.0" HealingFactor="0" MaintenanceCost="0" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+    <Unit Name="Trader" Class="Civilian" Faction="Human" ProductionCost="50" GoldCost="200" MovementSpeed="3.0" SightRange="2.0" CombatPower="5.0" HealingFactor="0" MaintenanceCost="0" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />

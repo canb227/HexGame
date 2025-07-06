@@ -104,7 +104,6 @@ public class TeamManager
 
     public void AddPendingDeal(DiplomacyDeal deal)
     {
-        GD.Print("my deal id" + deal.id);
         Global.gameManager.game.teamManager.pendingDeals.Add(deal.id, deal);
         if(deal.toTeamNum == Global.gameManager.game.localPlayerTeamNum)
         {

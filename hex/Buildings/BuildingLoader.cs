@@ -22,6 +22,7 @@ public enum DistrictType
 public struct BuildingInfo
 {
     public DistrictType DistrictType;
+    public FactionType FactionType;
     public int ProductionCost;
     public int GoldCost;
     public Yields yields;
@@ -58,6 +59,7 @@ public static class BuildingLoader
                 r => new BuildingInfo
                 {
                     DistrictType = (DistrictType)Enum.Parse(typeof(DistrictType), r.Attribute("DistrictType").Value),
+                    FactionType = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
                     ProductionCost = int.Parse(r.Attribute("ProductionCost").Value),
                     GoldCost = int.Parse(r.Attribute("GoldCost").Value),
                     yields = new Yields

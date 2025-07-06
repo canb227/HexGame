@@ -353,7 +353,7 @@ public partial class GraphicGameBoard : GraphicObject
             i++;
         }
         sw.Stop();
-        GD.Print(sw.ElapsedMilliseconds);
+        Global.Log(sw.ElapsedMilliseconds.ToString());
     }
 
     private Godot.Color PackYields(Dictionary<YieldType, float> yields)

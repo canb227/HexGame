@@ -6,6 +6,7 @@ using System.Xml.Linq;
 public struct ResearchInfo
 {
     public int Tier;
+    public FactionType FactionType;
     public int VisualSlot;
     public string IconPath;
     public List<String> Requirements;
@@ -59,6 +60,7 @@ public static class ResearchLoader
                 r => new ResearchInfo
                 {
                     Tier = int.Parse(r.Attribute("Tier")?.Value ?? "0"),
+                    FactionType = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
                     VisualSlot = int.Parse(r.Attribute("VisualSlot")?.Value ?? "0"),
                     IconPath = r.Attribute("IconPath")?.Value ?? throw new InvalidOperationException("Missing 'IconPath' attribute"),
                     Requirements = r.Element("Requirements")?.Elements("ResearchType")

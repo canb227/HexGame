@@ -329,7 +329,6 @@ public partial class UIManager : Node3D
 
         if (localPlayer.queuedResearch.Any())
         {
-            GD.Print(localPlayer.queuedResearch[0].researchType);
             ResearchInfo info = ResearchLoader.researchesDict[localPlayer.queuedResearch.First().researchType];
             scienceButtonLabel.Text = Global.gameManager.game.localPlayerRef.queuedResearch.First().researchType;
             scienceButtonIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + info.IconPath);

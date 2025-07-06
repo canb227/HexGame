@@ -166,7 +166,7 @@ public partial class HexGameCamera : Camera3D
     {        
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         Hex wrapHex = hex.WrapHex();
-        GD.Print(wrapHex);
+        Global.Log(wrapHex.ToString());
         if(Global.gameManager.game.localPlayerRef.turnFinished)
         {
             return;
@@ -266,7 +266,7 @@ public partial class HexGameCamera : Camera3D
         Hex wrapHex = hex.WrapHex();
         GameHex wrappedHex = Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex];
 //        GameHex unwrappedHex = Global.gameManager.game.mainGameBoard.gameHexDict[hex];
-        GD.Print("Hex: " + hex + " | Wrapped to: " + wrapHex);
+        Global.Log("Hex: " + hex + " | Wrapped to: " + wrapHex);
         //GD.Print("Wrapped Hex Info|TerrainType: " + wrappedHex.terrainType);
        // GD.Print("Unwrapped Hex Info|TerrainType: " + unwrappedHex.terrainType);
         if (Global.gameManager.graphicManager.selectedObject != null)

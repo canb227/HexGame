@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 public enum FactionType
 {
+    All,
     Human,
     Goblins
 }
@@ -39,6 +40,18 @@ public static class FactionLoader
         else
         {
             return "CityCenter";
+        }
+    }
+
+    public static bool IsFactionMinor(FactionType faction)
+    {
+        if(faction == FactionType.Human)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

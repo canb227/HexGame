@@ -22,6 +22,7 @@ public enum UnitClass
 public struct UnitInfo
 {
     public UnitClass Class { get; set; }
+    public FactionType Faction { get; set; }
     public int ProductionCost { get; set; }
     public int GoldCost { get; set; }
     public float MovementSpeed { get; set; }
@@ -56,6 +57,7 @@ public static class UnitLoader
                 r => new UnitInfo
                 {
                     Class = Enum.TryParse<UnitClass>(r.Attribute("Class")?.Value, out var unitClass) ? unitClass : UnitClass.None,
+                    Faction = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
                     ProductionCost = int.TryParse(r.Attribute("ProductionCost")?.Value, out var productionCost) ? productionCost : 0,
                     GoldCost = int.TryParse(r.Attribute("GoldCost")?.Value, out var goldCost) ? goldCost : 0,
                     MovementSpeed = float.TryParse(r.Attribute("MovementSpeed")?.Value, out var movementSpeed) ? movementSpeed : 0.0f,

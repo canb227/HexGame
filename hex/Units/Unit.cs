@@ -245,7 +245,7 @@ public partial class Unit: GodotObject
             return false;
         }
 
-        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity <= range)
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity <= range && Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity > 0)
         {
             if (logging) { Global.Log("    Hex is in range of a city. We cannot settle here."); }
             return false;

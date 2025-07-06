@@ -48,6 +48,7 @@ public static class CultureResearchLoader
                 r => new ResearchInfo
                 {
                     Tier = int.Parse(r.Attribute("Tier")?.Value ?? "0"),
+                    FactionType = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
                     IconPath = r.Attribute("IconPath")?.Value ?? throw new InvalidOperationException("Missing 'IconPath' attribute"),
                     Requirements = r.Element("Requirements")?.Elements("ResearchType")
                         .Select(e => e.Value ?? throw new Exception("Invalid Stringy"))

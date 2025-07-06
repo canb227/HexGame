@@ -532,11 +532,53 @@ public class Player : BasePlayer
     }
     public void AddScience(float science)
     {
-        SetScienceTotal(GetScienceTotal() + science);
+        if(isAI && FactionLoader.IsFactionMinor(faction))
+        {
+            int playerCount = 0;
+            int globalScienceTotal = 0;
+            foreach (Player player in Global.gameManager.game.playerDictionary.Values)
+            {
+                if(!FactionLoader.IsFactionMinor(player.faction))
+                {
+                    playerCount++;
+                    foreach (int cityID in player.cityList)
+                    {
+                        globalScienceTotal += (int)Math.Round(Global.gameManager.game.cityDictionary[cityID].yields.science);
+                    }
+                }
+            }
+            globalScienceTotal /= playerCount;
+            SetScienceTotal(GetScienceTotal() + globalScienceTotal);
+        }
+        else
+        {
+            SetScienceTotal(GetScienceTotal() + science);
+        }
     }
     public void AddCulture(float culture)
     {
-        SetCultureTotal(GetCultureTotal() + culture);
+        if (isAI && FactionLoader.IsFactionMinor(faction))
+        {
+            int playerCount = 0;
+            int globalCultureTotal = 0;
+            foreach (Player player in Global.gameManager.game.playerDictionary.Values)
+            {
+                if (!FactionLoader.IsFactionMinor(player.faction))
+                {
+                    playerCount++;
+                    foreach (int cityID in player.cityList)
+                    {
+                        globalCultureTotal += (int)Math.Round(Global.gameManager.game.cityDictionary[cityID].yields.science);
+                    }
+                }
+            }
+            globalCultureTotal /= playerCount;
+            SetCultureTotal(GetCultureTotal() + globalCultureTotal);
+        }
+        else
+        {
+            SetCultureTotal(GetCultureTotal() + culture);
+        }
     }
     public void AddHappiness(float happiness)
     {
