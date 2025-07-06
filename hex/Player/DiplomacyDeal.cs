@@ -14,9 +14,9 @@ public partial class DiplomacyDeal : GodotObject
 
     public List<DiplomacyAction> offersList; //offersList;
     public List<DiplomacyAction> requestsList; //requestsList;
-    public DiplomacyDeal(int fromTeamNum, int toTeamNum, List<DiplomacyAction> offersList, List<DiplomacyAction> requestsList)
+    public DiplomacyDeal(int id, int fromTeamNum, int toTeamNum, List<DiplomacyAction> offersList, List<DiplomacyAction> requestsList)
     {
-        this.id = Global.gameManager.game.playerDictionary[fromTeamNum].GetNextUniqueID();
+        this.id = id;
         this.fromTeamNum = fromTeamNum;
         this.toTeamNum = toTeamNum;
         this.offersList = offersList;

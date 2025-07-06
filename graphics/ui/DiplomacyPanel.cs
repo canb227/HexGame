@@ -185,7 +185,7 @@ public partial class DiplomacyPanel : Control
     private void SendDeal()
     {
 
-        DiplomacyDeal newOffer = new DiplomacyDeal(Global.gameManager.game.localPlayerTeamNum, otherTeamNum, playerOffers, otherOffers);
+        DiplomacyDeal newOffer = new DiplomacyDeal(Global.gameManager.game.localPlayerRef.GetNextUniqueID(), Global.gameManager.game.localPlayerTeamNum, otherTeamNum, playerOffers, otherOffers);
         //networked message
         Global.gameManager.AddPendingDeal(newOffer.id, newOffer.fromTeamNum, newOffer.toTeamNum, newOffer.requestsList, newOffer.offersList);
         //
