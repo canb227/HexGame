@@ -678,7 +678,7 @@ public partial class GameManager : Node
 
         try
         {
-            Global.gameManager.game.teamManager.AddPendingDeal(new DiplomacyDeal(fromTeamNum, toTeamNum, offers, requests));
+            Global.gameManager.game.teamManager.AddPendingDeal(new DiplomacyDeal(dealID,fromTeamNum, toTeamNum, offers, requests));
         }
         catch (Exception e)
         {
