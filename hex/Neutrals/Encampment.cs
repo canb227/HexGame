@@ -55,7 +55,7 @@ public partial class Encampment : City
         {
             district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], "GoblinDen", true, true, id);
         }*/
-        districts.Add(district);
+        //districts.Add(district);
     }
 
     public new void ExpandToHex(Hex hex)
