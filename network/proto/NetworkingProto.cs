@@ -39,7 +39,7 @@ namespace NetworkMessages {
             "bWFwTmFtZSJ7CgtMb2JieVN0YXR1cxIKCgJpZBgHIAEoBBIOCgZpc0hvc3QY",
             "ASABKAgSDwoHaXNSZWFkeRgCIAEoCBIMCgR0ZWFtGAMgASgFEg8KB2ZhY3Rp",
             "b24YBCABKAUSEgoKY29sb3JJbmRleBgFIAEoBRIMCgRpc0FJGAYgASgIIicK",
-            "BENoYXQSDgoGc2VuZGVyGAEgASgEEg8KB21lc3NhZ2UYAiABKAki8gYKB0Nv",
+            "BENoYXQSDgoGc2VuZGVyGAEgASgEEg8KB21lc3NhZ2UYAiABKAkisQgKB0Nv",
             "bW1hbmQSEwoLY29tbWFuZFR5cGUYASABKAkSLQoIbW92ZVVuaXQYAiABKAsy",
             "GS5OZXR3b3JrTWVzc2FnZXMuTW92ZVVuaXRIABI7Cg9hY3RpdmF0ZUFiaWxp",
             "dHkYAyABKAsyIC5OZXR3b3JrTWVzc2FnZXMuQWN0aXZhdGVBYmlsaXR5SAAS",
@@ -58,30 +58,45 @@ namespace NetworkMessages {
             "bWVudBgMIAEoCzImLk5ldHdvcmtNZXNzYWdlcy5BZGRSZXNvdXJjZUFzc2ln",
             "bm1lbnRIABJNChhyZW1vdmVSZXNvdXJjZUFzc2lnbm1lbnQYDSABKAsyKS5O",
             "ZXR3b3JrTWVzc2FnZXMuUmVtb3ZlUmVzb3VyY2VBc3NpZ25tZW50SAASKwoH",
-            "ZW5kVHVybhgOIAEoCzIYLk5ldHdvcmtNZXNzYWdlcy5FbmRUdXJuSAASDgoG",
-            "c2VuZGVyGGMgASgEQgkKB2NvbW1hbmQiGgoHRW5kVHVybhIPCgd0ZWFtTnVt",
-            "GAEgASgFImYKFUFkZFJlc291cmNlQXNzaWdubWVudBIOCgZjaXR5SUQYASAB",
-            "KAUSFAoMcmVzb3VyY2VOYW1lGAIgASgFEicKCXNvdXJjZUhleBgDIAEoCzIU",
-            "Lk5ldHdvcmtNZXNzYWdlcy5IZXgiVAoYUmVtb3ZlUmVzb3VyY2VBc3NpZ25t",
-            "ZW50Eg8KB3RlYW1OdW0YASABKAUSJwoJc291cmNlSGV4GAIgASgLMhQuTmV0",
-            "d29ya01lc3NhZ2VzLkhleCI3Cg5TZWxlY3RSZXNlYXJjaBIPCgd0ZWFtTnVt",
-            "GAEgASgFEhQKDHJlc2VhcmNoTmFtZRgCIAEoCSI1Cg1TZWxlY3RDdWx0dXJl",
-            "Eg8KB3RlYW1OdW0YASABKAUSEwoLY3VsdHVyZU5hbWUYAiABKAkiKgoKUmVu",
-            "YW1lQ2l0eRIOCgZjaXR5SUQYASABKAUSDAoEbmFtZRgCIAEoCSJtChRBZGRU",
-            "b1Byb2R1Y3Rpb25RdWV1ZRIQCghpdGVtTmFtZRgBIAEoCRIkCgZ0YXJnZXQY",
-            "AiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4Eg4KBmNpdHlJRBgDIAEoBRIN",
-            "CgVmcm9udBgEIAEoCCI6ChlSZW1vdmVGcm9tUHJvZHVjdGlvblF1ZXVlEg0K",
-            "BWluZGV4GAEgASgFEg4KBmNpdHlJRBgCIAEoBSI9ChxNb3ZlVG9Gcm9udE9m",
-            "UHJvZHVjdGlvblF1ZXVlEg0KBWluZGV4GAEgASgFEg4KBmNpdHlJRBgCIAEo",
-            "BSJDCgtFeHBhbmRUb0hleBIOCgZjaXR5SUQYASABKAUSJAoGdGFyZ2V0GAIg",
-            "ASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleCJdCg9EZXZlbG9wRGlzdHJpY3QS",
-            "DgoGY2l0eUlEGAEgASgFEiQKBnRhcmdldBgCIAEoCzIULk5ldHdvcmtNZXNz",
-            "YWdlcy5IZXgSFAoMZGlzdHJpY3RUeXBlGAMgASgFIlEKCE1vdmVVbml0Eg4K",
-            "BnVuaXRJZBgBIAEoBRIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVzc2Fn",
-            "ZXMuSGV4Eg8KB2lzRW5lbXkYAyABKAgiXAoPQWN0aXZhdGVBYmlsaXR5Eg4K",
-            "BnVuaXRJZBgBIAEoBRITCgthYmlsaXR5TmFtZRgCIAEoCRIkCgZ0YXJnZXQY",
-            "AyABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IiYKA0hleBIJCgFxGAEgASgF",
-            "EgkKAXIYAiABKAUSCQoBcxgDIAEoBWIGcHJvdG8z"));
+            "ZW5kVHVybhgOIAEoCzIYLk5ldHdvcmtNZXNzYWdlcy5FbmRUdXJuSAASOQoO",
+            "YWRkUGVuZGluZ0RlYWwYDyABKAsyHy5OZXR3b3JrTWVzc2FnZXMuQWRkUGVu",
+            "ZGluZ0RlYWxIABI/ChFyZW1vdmVQZW5kaW5nRGVhbBgQIAEoCzIiLk5ldHdv",
+            "cmtNZXNzYWdlcy5SZW1vdmVQZW5kaW5nRGVhbEgAEkEKEkV4ZWN1dGVQZW5k",
+            "aW5nRGVhbBgRIAEoCzIjLk5ldHdvcmtNZXNzYWdlcy5FeGVjdXRlUGVuZGlu",
+            "Z0RlYWxIABIOCgZzZW5kZXIYYyABKARCCQoHY29tbWFuZCLOAQoOQWRkUGVu",
+            "ZGluZ0RlYWwSDgoGZGVhbElEGAEgASgFEhMKC2Zyb21UZWFtTnVtGAIgASgF",
+            "EhEKCXRvVGVhbU51bRgDIAEoBRJCChByZXF1ZXN0ZWRBY3Rpb25zGAQgAygL",
+            "MiguTmV0d29ya01lc3NhZ2VzLkRpcGxvbWF0aWNBY3Rpb25NZXNzYWdlEkAK",
+            "Dm9mZmVyZWRBY3Rpb25zGAUgAygLMiguTmV0d29ya01lc3NhZ2VzLkRpcGxv",
+            "bWF0aWNBY3Rpb25NZXNzYWdlIiQKEkV4ZWN1dGVQZW5kaW5nRGVhbBIOCgZk",
+            "ZWFsSUQYASABKAUiIwoRUmVtb3ZlUGVuZGluZ0RlYWwSDgoGZGVhbElEGAEg",
+            "ASgFIsEBChdEaXBsb21hdGljQWN0aW9uTWVzc2FnZRIVCghhY3Rpb25JRBgB",
+            "IAEoBUgAiAEBEhMKC2Zyb21UZWFtTnVtGAIgASgFEhEKCXRvVGVhbU51bRgD",
+            "IAEoBRISCgpBY3Rpb25OYW1lGAQgASgJEhUKCGR1cmF0aW9uGAUgASgFSAGI",
+            "AQESFQoIcXVhbnRpdHkYBiABKAVIAogBAUILCglfYWN0aW9uSURCCwoJX2R1",
+            "cmF0aW9uQgsKCV9xdWFudGl0eSIaCgdFbmRUdXJuEg8KB3RlYW1OdW0YASAB",
+            "KAUiZgoVQWRkUmVzb3VyY2VBc3NpZ25tZW50Eg4KBmNpdHlJRBgBIAEoBRIU",
+            "CgxyZXNvdXJjZU5hbWUYAiABKAUSJwoJc291cmNlSGV4GAMgASgLMhQuTmV0",
+            "d29ya01lc3NhZ2VzLkhleCJUChhSZW1vdmVSZXNvdXJjZUFzc2lnbm1lbnQS",
+            "DwoHdGVhbU51bRgBIAEoBRInCglzb3VyY2VIZXgYAiABKAsyFC5OZXR3b3Jr",
+            "TWVzc2FnZXMuSGV4IjcKDlNlbGVjdFJlc2VhcmNoEg8KB3RlYW1OdW0YASAB",
+            "KAUSFAoMcmVzZWFyY2hOYW1lGAIgASgJIjUKDVNlbGVjdEN1bHR1cmUSDwoH",
+            "dGVhbU51bRgBIAEoBRITCgtjdWx0dXJlTmFtZRgCIAEoCSIqCgpSZW5hbWVD",
+            "aXR5Eg4KBmNpdHlJRBgBIAEoBRIMCgRuYW1lGAIgASgJIm0KFEFkZFRvUHJv",
+            "ZHVjdGlvblF1ZXVlEhAKCGl0ZW1OYW1lGAEgASgJEiQKBnRhcmdldBgCIAEo",
+            "CzIULk5ldHdvcmtNZXNzYWdlcy5IZXgSDgoGY2l0eUlEGAMgASgFEg0KBWZy",
+            "b250GAQgASgIIjoKGVJlbW92ZUZyb21Qcm9kdWN0aW9uUXVldWUSDQoFaW5k",
+            "ZXgYASABKAUSDgoGY2l0eUlEGAIgASgFIj0KHE1vdmVUb0Zyb250T2ZQcm9k",
+            "dWN0aW9uUXVldWUSDQoFaW5kZXgYASABKAUSDgoGY2l0eUlEGAIgASgFIkMK",
+            "C0V4cGFuZFRvSGV4Eg4KBmNpdHlJRBgBIAEoBRIkCgZ0YXJnZXQYAiABKAsy",
+            "FC5OZXR3b3JrTWVzc2FnZXMuSGV4Il0KD0RldmVsb3BEaXN0cmljdBIOCgZj",
+            "aXR5SUQYASABKAUSJAoGdGFyZ2V0GAIgASgLMhQuTmV0d29ya01lc3NhZ2Vz",
+            "LkhleBIUCgxkaXN0cmljdFR5cGUYAyABKAUiUQoITW92ZVVuaXQSDgoGdW5p",
+            "dElkGAEgASgFEiQKBnRhcmdldBgCIAEoCzIULk5ldHdvcmtNZXNzYWdlcy5I",
+            "ZXgSDwoHaXNFbmVteRgDIAEoCCJcCg9BY3RpdmF0ZUFiaWxpdHkSDgoGdW5p",
+            "dElkGAEgASgFEhMKC2FiaWxpdHlOYW1lGAIgASgJEiQKBnRhcmdldBgDIAEo",
+            "CzIULk5ldHdvcmtNZXNzYWdlcy5IZXgiJgoDSGV4EgkKAXEYASABKAUSCQoB",
+            "chgCIAEoBRIJCgFzGAMgASgFYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -91,7 +106,11 @@ namespace NetworkMessages {
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.MapData), global::NetworkMessages.MapData.Parser, new[]{ "MapName", "MapWidth", "MapHeight", "MapData_" }, new[]{ "MapName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyStatus), global::NetworkMessages.LobbyStatus.Parser, new[]{ "Id", "IsHost", "IsReady", "Team", "Faction", "ColorIndex", "IsAI" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Chat), global::NetworkMessages.Chat.Parser, new[]{ "Sender", "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Command), global::NetworkMessages.Command.Parser, new[]{ "CommandType", "MoveUnit", "ActivateAbility", "AddToProductionQueue", "RemoveFromProductionQueue", "MoveToFrontOfProductionQueue", "ExpandToHex", "DevelopDistrict", "RenameCity", "SelectResearch", "SelectCulture", "AddResourceAssignment", "RemoveResourceAssignment", "EndTurn", "Sender" }, new[]{ "Command" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Command), global::NetworkMessages.Command.Parser, new[]{ "CommandType", "MoveUnit", "ActivateAbility", "AddToProductionQueue", "RemoveFromProductionQueue", "MoveToFrontOfProductionQueue", "ExpandToHex", "DevelopDistrict", "RenameCity", "SelectResearch", "SelectCulture", "AddResourceAssignment", "RemoveResourceAssignment", "EndTurn", "AddPendingDeal", "RemovePendingDeal", "ExecutePendingDeal", "Sender" }, new[]{ "Command" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.AddPendingDeal), global::NetworkMessages.AddPendingDeal.Parser, new[]{ "DealID", "FromTeamNum", "ToTeamNum", "RequestedActions", "OfferedActions" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.ExecutePendingDeal), global::NetworkMessages.ExecutePendingDeal.Parser, new[]{ "DealID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.RemovePendingDeal), global::NetworkMessages.RemovePendingDeal.Parser, new[]{ "DealID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.DiplomaticActionMessage), global::NetworkMessages.DiplomaticActionMessage.Parser, new[]{ "ActionID", "FromTeamNum", "ToTeamNum", "ActionName", "Duration", "Quantity" }, new[]{ "ActionID", "Duration", "Quantity" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.EndTurn), global::NetworkMessages.EndTurn.Parser, new[]{ "TeamNum" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.AddResourceAssignment), global::NetworkMessages.AddResourceAssignment.Parser, new[]{ "CityID", "ResourceName", "SourceHex" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.RemoveResourceAssignment), global::NetworkMessages.RemoveResourceAssignment.Parser, new[]{ "TeamNum", "SourceHex" }, null, null, null, null),
@@ -2147,6 +2166,15 @@ namespace NetworkMessages {
         case CommandOneofCase.EndTurn:
           EndTurn = other.EndTurn.Clone();
           break;
+        case CommandOneofCase.AddPendingDeal:
+          AddPendingDeal = other.AddPendingDeal.Clone();
+          break;
+        case CommandOneofCase.RemovePendingDeal:
+          RemovePendingDeal = other.RemovePendingDeal.Clone();
+          break;
+        case CommandOneofCase.ExecutePendingDeal:
+          ExecutePendingDeal = other.ExecutePendingDeal.Clone();
+          break;
       }
 
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -2326,6 +2354,42 @@ namespace NetworkMessages {
       }
     }
 
+    /// <summary>Field number for the "addPendingDeal" field.</summary>
+    public const int AddPendingDealFieldNumber = 15;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::NetworkMessages.AddPendingDeal AddPendingDeal {
+      get { return commandCase_ == CommandOneofCase.AddPendingDeal ? (global::NetworkMessages.AddPendingDeal) command_ : null; }
+      set {
+        command_ = value;
+        commandCase_ = value == null ? CommandOneofCase.None : CommandOneofCase.AddPendingDeal;
+      }
+    }
+
+    /// <summary>Field number for the "removePendingDeal" field.</summary>
+    public const int RemovePendingDealFieldNumber = 16;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::NetworkMessages.RemovePendingDeal RemovePendingDeal {
+      get { return commandCase_ == CommandOneofCase.RemovePendingDeal ? (global::NetworkMessages.RemovePendingDeal) command_ : null; }
+      set {
+        command_ = value;
+        commandCase_ = value == null ? CommandOneofCase.None : CommandOneofCase.RemovePendingDeal;
+      }
+    }
+
+    /// <summary>Field number for the "ExecutePendingDeal" field.</summary>
+    public const int ExecutePendingDealFieldNumber = 17;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::NetworkMessages.ExecutePendingDeal ExecutePendingDeal {
+      get { return commandCase_ == CommandOneofCase.ExecutePendingDeal ? (global::NetworkMessages.ExecutePendingDeal) command_ : null; }
+      set {
+        command_ = value;
+        commandCase_ = value == null ? CommandOneofCase.None : CommandOneofCase.ExecutePendingDeal;
+      }
+    }
+
     /// <summary>Field number for the "sender" field.</summary>
     public const int SenderFieldNumber = 99;
     private ulong sender_;
@@ -2355,6 +2419,9 @@ namespace NetworkMessages {
       AddResourceAssignment = 12,
       RemoveResourceAssignment = 13,
       EndTurn = 14,
+      AddPendingDeal = 15,
+      RemovePendingDeal = 16,
+      ExecutePendingDeal = 17,
     }
     private CommandOneofCase commandCase_ = CommandOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2399,6 +2466,9 @@ namespace NetworkMessages {
       if (!object.Equals(AddResourceAssignment, other.AddResourceAssignment)) return false;
       if (!object.Equals(RemoveResourceAssignment, other.RemoveResourceAssignment)) return false;
       if (!object.Equals(EndTurn, other.EndTurn)) return false;
+      if (!object.Equals(AddPendingDeal, other.AddPendingDeal)) return false;
+      if (!object.Equals(RemovePendingDeal, other.RemovePendingDeal)) return false;
+      if (!object.Equals(ExecutePendingDeal, other.ExecutePendingDeal)) return false;
       if (Sender != other.Sender) return false;
       if (CommandCase != other.CommandCase) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -2422,6 +2492,9 @@ namespace NetworkMessages {
       if (commandCase_ == CommandOneofCase.AddResourceAssignment) hash ^= AddResourceAssignment.GetHashCode();
       if (commandCase_ == CommandOneofCase.RemoveResourceAssignment) hash ^= RemoveResourceAssignment.GetHashCode();
       if (commandCase_ == CommandOneofCase.EndTurn) hash ^= EndTurn.GetHashCode();
+      if (commandCase_ == CommandOneofCase.AddPendingDeal) hash ^= AddPendingDeal.GetHashCode();
+      if (commandCase_ == CommandOneofCase.RemovePendingDeal) hash ^= RemovePendingDeal.GetHashCode();
+      if (commandCase_ == CommandOneofCase.ExecutePendingDeal) hash ^= ExecutePendingDeal.GetHashCode();
       if (Sender != 0UL) hash ^= Sender.GetHashCode();
       hash ^= (int) commandCase_;
       if (_unknownFields != null) {
@@ -2498,6 +2571,18 @@ namespace NetworkMessages {
         output.WriteRawTag(114);
         output.WriteMessage(EndTurn);
       }
+      if (commandCase_ == CommandOneofCase.AddPendingDeal) {
+        output.WriteRawTag(122);
+        output.WriteMessage(AddPendingDeal);
+      }
+      if (commandCase_ == CommandOneofCase.RemovePendingDeal) {
+        output.WriteRawTag(130, 1);
+        output.WriteMessage(RemovePendingDeal);
+      }
+      if (commandCase_ == CommandOneofCase.ExecutePendingDeal) {
+        output.WriteRawTag(138, 1);
+        output.WriteMessage(ExecutePendingDeal);
+      }
       if (Sender != 0UL) {
         output.WriteRawTag(152, 6);
         output.WriteUInt64(Sender);
@@ -2568,6 +2653,18 @@ namespace NetworkMessages {
         output.WriteRawTag(114);
         output.WriteMessage(EndTurn);
       }
+      if (commandCase_ == CommandOneofCase.AddPendingDeal) {
+        output.WriteRawTag(122);
+        output.WriteMessage(AddPendingDeal);
+      }
+      if (commandCase_ == CommandOneofCase.RemovePendingDeal) {
+        output.WriteRawTag(130, 1);
+        output.WriteMessage(RemovePendingDeal);
+      }
+      if (commandCase_ == CommandOneofCase.ExecutePendingDeal) {
+        output.WriteRawTag(138, 1);
+        output.WriteMessage(ExecutePendingDeal);
+      }
       if (Sender != 0UL) {
         output.WriteRawTag(152, 6);
         output.WriteUInt64(Sender);
@@ -2623,6 +2720,15 @@ namespace NetworkMessages {
       }
       if (commandCase_ == CommandOneofCase.EndTurn) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(EndTurn);
+      }
+      if (commandCase_ == CommandOneofCase.AddPendingDeal) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AddPendingDeal);
+      }
+      if (commandCase_ == CommandOneofCase.RemovePendingDeal) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RemovePendingDeal);
+      }
+      if (commandCase_ == CommandOneofCase.ExecutePendingDeal) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(ExecutePendingDeal);
       }
       if (Sender != 0UL) {
         size += 2 + pb::CodedOutputStream.ComputeUInt64Size(Sender);
@@ -2723,6 +2829,24 @@ namespace NetworkMessages {
             EndTurn = new global::NetworkMessages.EndTurn();
           }
           EndTurn.MergeFrom(other.EndTurn);
+          break;
+        case CommandOneofCase.AddPendingDeal:
+          if (AddPendingDeal == null) {
+            AddPendingDeal = new global::NetworkMessages.AddPendingDeal();
+          }
+          AddPendingDeal.MergeFrom(other.AddPendingDeal);
+          break;
+        case CommandOneofCase.RemovePendingDeal:
+          if (RemovePendingDeal == null) {
+            RemovePendingDeal = new global::NetworkMessages.RemovePendingDeal();
+          }
+          RemovePendingDeal.MergeFrom(other.RemovePendingDeal);
+          break;
+        case CommandOneofCase.ExecutePendingDeal:
+          if (ExecutePendingDeal == null) {
+            ExecutePendingDeal = new global::NetworkMessages.ExecutePendingDeal();
+          }
+          ExecutePendingDeal.MergeFrom(other.ExecutePendingDeal);
           break;
       }
 
@@ -2860,6 +2984,33 @@ namespace NetworkMessages {
             }
             input.ReadMessage(subBuilder);
             EndTurn = subBuilder;
+            break;
+          }
+          case 122: {
+            global::NetworkMessages.AddPendingDeal subBuilder = new global::NetworkMessages.AddPendingDeal();
+            if (commandCase_ == CommandOneofCase.AddPendingDeal) {
+              subBuilder.MergeFrom(AddPendingDeal);
+            }
+            input.ReadMessage(subBuilder);
+            AddPendingDeal = subBuilder;
+            break;
+          }
+          case 130: {
+            global::NetworkMessages.RemovePendingDeal subBuilder = new global::NetworkMessages.RemovePendingDeal();
+            if (commandCase_ == CommandOneofCase.RemovePendingDeal) {
+              subBuilder.MergeFrom(RemovePendingDeal);
+            }
+            input.ReadMessage(subBuilder);
+            RemovePendingDeal = subBuilder;
+            break;
+          }
+          case 138: {
+            global::NetworkMessages.ExecutePendingDeal subBuilder = new global::NetworkMessages.ExecutePendingDeal();
+            if (commandCase_ == CommandOneofCase.ExecutePendingDeal) {
+              subBuilder.MergeFrom(ExecutePendingDeal);
+            }
+            input.ReadMessage(subBuilder);
+            ExecutePendingDeal = subBuilder;
             break;
           }
           case 792: {
@@ -3002,8 +3153,1157 @@ namespace NetworkMessages {
             EndTurn = subBuilder;
             break;
           }
+          case 122: {
+            global::NetworkMessages.AddPendingDeal subBuilder = new global::NetworkMessages.AddPendingDeal();
+            if (commandCase_ == CommandOneofCase.AddPendingDeal) {
+              subBuilder.MergeFrom(AddPendingDeal);
+            }
+            input.ReadMessage(subBuilder);
+            AddPendingDeal = subBuilder;
+            break;
+          }
+          case 130: {
+            global::NetworkMessages.RemovePendingDeal subBuilder = new global::NetworkMessages.RemovePendingDeal();
+            if (commandCase_ == CommandOneofCase.RemovePendingDeal) {
+              subBuilder.MergeFrom(RemovePendingDeal);
+            }
+            input.ReadMessage(subBuilder);
+            RemovePendingDeal = subBuilder;
+            break;
+          }
+          case 138: {
+            global::NetworkMessages.ExecutePendingDeal subBuilder = new global::NetworkMessages.ExecutePendingDeal();
+            if (commandCase_ == CommandOneofCase.ExecutePendingDeal) {
+              subBuilder.MergeFrom(ExecutePendingDeal);
+            }
+            input.ReadMessage(subBuilder);
+            ExecutePendingDeal = subBuilder;
+            break;
+          }
           case 792: {
             Sender = input.ReadUInt64();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.SerializableAttribute]
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class AddPendingDeal : pb::IMessage<AddPendingDeal>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<AddPendingDeal> _parser = new pb::MessageParser<AddPendingDeal>(() => new AddPendingDeal());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<AddPendingDeal> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AddPendingDeal() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AddPendingDeal(AddPendingDeal other) : this() {
+      dealID_ = other.dealID_;
+      fromTeamNum_ = other.fromTeamNum_;
+      toTeamNum_ = other.toTeamNum_;
+      requestedActions_ = other.requestedActions_.Clone();
+      offeredActions_ = other.offeredActions_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AddPendingDeal Clone() {
+      return new AddPendingDeal(this);
+    }
+
+    /// <summary>Field number for the "dealID" field.</summary>
+    public const int DealIDFieldNumber = 1;
+    private int dealID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int DealID {
+      get { return dealID_; }
+      set {
+        dealID_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fromTeamNum" field.</summary>
+    public const int FromTeamNumFieldNumber = 2;
+    private int fromTeamNum_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int FromTeamNum {
+      get { return fromTeamNum_; }
+      set {
+        fromTeamNum_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "toTeamNum" field.</summary>
+    public const int ToTeamNumFieldNumber = 3;
+    private int toTeamNum_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ToTeamNum {
+      get { return toTeamNum_; }
+      set {
+        toTeamNum_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "requestedActions" field.</summary>
+    public const int RequestedActionsFieldNumber = 4;
+    private static readonly pb::FieldCodec<global::NetworkMessages.DiplomaticActionMessage> _repeated_requestedActions_codec
+        = pb::FieldCodec.ForMessage(34, global::NetworkMessages.DiplomaticActionMessage.Parser);
+    private readonly pbc::RepeatedField<global::NetworkMessages.DiplomaticActionMessage> requestedActions_ = new pbc::RepeatedField<global::NetworkMessages.DiplomaticActionMessage>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::NetworkMessages.DiplomaticActionMessage> RequestedActions {
+      get { return requestedActions_; }
+    }
+
+    /// <summary>Field number for the "offeredActions" field.</summary>
+    public const int OfferedActionsFieldNumber = 5;
+    private static readonly pb::FieldCodec<global::NetworkMessages.DiplomaticActionMessage> _repeated_offeredActions_codec
+        = pb::FieldCodec.ForMessage(42, global::NetworkMessages.DiplomaticActionMessage.Parser);
+    private readonly pbc::RepeatedField<global::NetworkMessages.DiplomaticActionMessage> offeredActions_ = new pbc::RepeatedField<global::NetworkMessages.DiplomaticActionMessage>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::NetworkMessages.DiplomaticActionMessage> OfferedActions {
+      get { return offeredActions_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as AddPendingDeal);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(AddPendingDeal other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DealID != other.DealID) return false;
+      if (FromTeamNum != other.FromTeamNum) return false;
+      if (ToTeamNum != other.ToTeamNum) return false;
+      if(!requestedActions_.Equals(other.requestedActions_)) return false;
+      if(!offeredActions_.Equals(other.offeredActions_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DealID != 0) hash ^= DealID.GetHashCode();
+      if (FromTeamNum != 0) hash ^= FromTeamNum.GetHashCode();
+      if (ToTeamNum != 0) hash ^= ToTeamNum.GetHashCode();
+      hash ^= requestedActions_.GetHashCode();
+      hash ^= offeredActions_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (DealID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DealID);
+      }
+      if (FromTeamNum != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(FromTeamNum);
+      }
+      if (ToTeamNum != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(ToTeamNum);
+      }
+      requestedActions_.WriteTo(output, _repeated_requestedActions_codec);
+      offeredActions_.WriteTo(output, _repeated_offeredActions_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (DealID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DealID);
+      }
+      if (FromTeamNum != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(FromTeamNum);
+      }
+      if (ToTeamNum != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(ToTeamNum);
+      }
+      requestedActions_.WriteTo(ref output, _repeated_requestedActions_codec);
+      offeredActions_.WriteTo(ref output, _repeated_offeredActions_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (DealID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DealID);
+      }
+      if (FromTeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FromTeamNum);
+      }
+      if (ToTeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ToTeamNum);
+      }
+      size += requestedActions_.CalculateSize(_repeated_requestedActions_codec);
+      size += offeredActions_.CalculateSize(_repeated_offeredActions_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(AddPendingDeal other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DealID != 0) {
+        DealID = other.DealID;
+      }
+      if (other.FromTeamNum != 0) {
+        FromTeamNum = other.FromTeamNum;
+      }
+      if (other.ToTeamNum != 0) {
+        ToTeamNum = other.ToTeamNum;
+      }
+      requestedActions_.Add(other.requestedActions_);
+      offeredActions_.Add(other.offeredActions_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            DealID = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            FromTeamNum = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            ToTeamNum = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            requestedActions_.AddEntriesFrom(input, _repeated_requestedActions_codec);
+            break;
+          }
+          case 42: {
+            offeredActions_.AddEntriesFrom(input, _repeated_offeredActions_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            DealID = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            FromTeamNum = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            ToTeamNum = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            requestedActions_.AddEntriesFrom(ref input, _repeated_requestedActions_codec);
+            break;
+          }
+          case 42: {
+            offeredActions_.AddEntriesFrom(ref input, _repeated_offeredActions_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.SerializableAttribute]
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ExecutePendingDeal : pb::IMessage<ExecutePendingDeal>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ExecutePendingDeal> _parser = new pb::MessageParser<ExecutePendingDeal>(() => new ExecutePendingDeal());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ExecutePendingDeal> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ExecutePendingDeal() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ExecutePendingDeal(ExecutePendingDeal other) : this() {
+      dealID_ = other.dealID_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ExecutePendingDeal Clone() {
+      return new ExecutePendingDeal(this);
+    }
+
+    /// <summary>Field number for the "dealID" field.</summary>
+    public const int DealIDFieldNumber = 1;
+    private int dealID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int DealID {
+      get { return dealID_; }
+      set {
+        dealID_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ExecutePendingDeal);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ExecutePendingDeal other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DealID != other.DealID) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DealID != 0) hash ^= DealID.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (DealID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DealID);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (DealID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DealID);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (DealID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DealID);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ExecutePendingDeal other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DealID != 0) {
+        DealID = other.DealID;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            DealID = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            DealID = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.SerializableAttribute]
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class RemovePendingDeal : pb::IMessage<RemovePendingDeal>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<RemovePendingDeal> _parser = new pb::MessageParser<RemovePendingDeal>(() => new RemovePendingDeal());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<RemovePendingDeal> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemovePendingDeal() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemovePendingDeal(RemovePendingDeal other) : this() {
+      dealID_ = other.dealID_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemovePendingDeal Clone() {
+      return new RemovePendingDeal(this);
+    }
+
+    /// <summary>Field number for the "dealID" field.</summary>
+    public const int DealIDFieldNumber = 1;
+    private int dealID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int DealID {
+      get { return dealID_; }
+      set {
+        dealID_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as RemovePendingDeal);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(RemovePendingDeal other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DealID != other.DealID) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DealID != 0) hash ^= DealID.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (DealID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DealID);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (DealID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DealID);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (DealID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DealID);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(RemovePendingDeal other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DealID != 0) {
+        DealID = other.DealID;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            DealID = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            DealID = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.SerializableAttribute]
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class DiplomaticActionMessage : pb::IMessage<DiplomaticActionMessage>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<DiplomaticActionMessage> _parser = new pb::MessageParser<DiplomaticActionMessage>(() => new DiplomaticActionMessage());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<DiplomaticActionMessage> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[10]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public DiplomaticActionMessage() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public DiplomaticActionMessage(DiplomaticActionMessage other) : this() {
+      _hasBits0 = other._hasBits0;
+      actionID_ = other.actionID_;
+      fromTeamNum_ = other.fromTeamNum_;
+      toTeamNum_ = other.toTeamNum_;
+      actionName_ = other.actionName_;
+      duration_ = other.duration_;
+      quantity_ = other.quantity_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public DiplomaticActionMessage Clone() {
+      return new DiplomaticActionMessage(this);
+    }
+
+    /// <summary>Field number for the "actionID" field.</summary>
+    public const int ActionIDFieldNumber = 1;
+    private readonly static int ActionIDDefaultValue = 0;
+
+    private int actionID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ActionID {
+      get { if ((_hasBits0 & 1) != 0) { return actionID_; } else { return ActionIDDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        actionID_ = value;
+      }
+    }
+    /// <summary>Gets whether the "actionID" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasActionID {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "actionID" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearActionID() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "fromTeamNum" field.</summary>
+    public const int FromTeamNumFieldNumber = 2;
+    private int fromTeamNum_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int FromTeamNum {
+      get { return fromTeamNum_; }
+      set {
+        fromTeamNum_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "toTeamNum" field.</summary>
+    public const int ToTeamNumFieldNumber = 3;
+    private int toTeamNum_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ToTeamNum {
+      get { return toTeamNum_; }
+      set {
+        toTeamNum_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ActionName" field.</summary>
+    public const int ActionNameFieldNumber = 4;
+    private string actionName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ActionName {
+      get { return actionName_; }
+      set {
+        actionName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "duration" field.</summary>
+    public const int DurationFieldNumber = 5;
+    private readonly static int DurationDefaultValue = 0;
+
+    private int duration_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Duration {
+      get { if ((_hasBits0 & 2) != 0) { return duration_; } else { return DurationDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        duration_ = value;
+      }
+    }
+    /// <summary>Gets whether the "duration" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasDuration {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "duration" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearDuration() {
+      _hasBits0 &= ~2;
+    }
+
+    /// <summary>Field number for the "quantity" field.</summary>
+    public const int QuantityFieldNumber = 6;
+    private readonly static int QuantityDefaultValue = 0;
+
+    private int quantity_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Quantity {
+      get { if ((_hasBits0 & 4) != 0) { return quantity_; } else { return QuantityDefaultValue; } }
+      set {
+        _hasBits0 |= 4;
+        quantity_ = value;
+      }
+    }
+    /// <summary>Gets whether the "quantity" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasQuantity {
+      get { return (_hasBits0 & 4) != 0; }
+    }
+    /// <summary>Clears the value of the "quantity" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearQuantity() {
+      _hasBits0 &= ~4;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as DiplomaticActionMessage);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(DiplomaticActionMessage other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ActionID != other.ActionID) return false;
+      if (FromTeamNum != other.FromTeamNum) return false;
+      if (ToTeamNum != other.ToTeamNum) return false;
+      if (ActionName != other.ActionName) return false;
+      if (Duration != other.Duration) return false;
+      if (Quantity != other.Quantity) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasActionID) hash ^= ActionID.GetHashCode();
+      if (FromTeamNum != 0) hash ^= FromTeamNum.GetHashCode();
+      if (ToTeamNum != 0) hash ^= ToTeamNum.GetHashCode();
+      if (ActionName.Length != 0) hash ^= ActionName.GetHashCode();
+      if (HasDuration) hash ^= Duration.GetHashCode();
+      if (HasQuantity) hash ^= Quantity.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasActionID) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ActionID);
+      }
+      if (FromTeamNum != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(FromTeamNum);
+      }
+      if (ToTeamNum != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(ToTeamNum);
+      }
+      if (ActionName.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(ActionName);
+      }
+      if (HasDuration) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Duration);
+      }
+      if (HasQuantity) {
+        output.WriteRawTag(48);
+        output.WriteInt32(Quantity);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasActionID) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ActionID);
+      }
+      if (FromTeamNum != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(FromTeamNum);
+      }
+      if (ToTeamNum != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(ToTeamNum);
+      }
+      if (ActionName.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(ActionName);
+      }
+      if (HasDuration) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Duration);
+      }
+      if (HasQuantity) {
+        output.WriteRawTag(48);
+        output.WriteInt32(Quantity);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasActionID) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ActionID);
+      }
+      if (FromTeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FromTeamNum);
+      }
+      if (ToTeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ToTeamNum);
+      }
+      if (ActionName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ActionName);
+      }
+      if (HasDuration) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Duration);
+      }
+      if (HasQuantity) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Quantity);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(DiplomaticActionMessage other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasActionID) {
+        ActionID = other.ActionID;
+      }
+      if (other.FromTeamNum != 0) {
+        FromTeamNum = other.FromTeamNum;
+      }
+      if (other.ToTeamNum != 0) {
+        ToTeamNum = other.ToTeamNum;
+      }
+      if (other.ActionName.Length != 0) {
+        ActionName = other.ActionName;
+      }
+      if (other.HasDuration) {
+        Duration = other.Duration;
+      }
+      if (other.HasQuantity) {
+        Quantity = other.Quantity;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            ActionID = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            FromTeamNum = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            ToTeamNum = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            ActionName = input.ReadString();
+            break;
+          }
+          case 40: {
+            Duration = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            Quantity = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ActionID = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            FromTeamNum = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            ToTeamNum = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            ActionName = input.ReadString();
+            break;
+          }
+          case 40: {
+            Duration = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            Quantity = input.ReadInt32();
             break;
           }
         }
@@ -3029,7 +4329,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[7]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3220,7 +4520,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[8]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3494,7 +4794,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[9]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3731,7 +5031,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[10]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3959,7 +5259,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[11]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4187,7 +5487,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[12]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4415,7 +5715,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[13]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4726,7 +6026,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[14]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4954,7 +6254,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[15]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5182,7 +6482,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[16]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5419,7 +6719,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[17]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5693,7 +6993,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[18]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5967,7 +7267,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[19]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6241,7 +7541,7 @@ namespace NetworkMessages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[20]; }
+      get { return global::NetworkMessages.NetworkingProtoReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

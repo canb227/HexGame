@@ -69,8 +69,40 @@ message Command
 		AddResourceAssignment addResourceAssignment = 12;
 		RemoveResourceAssignment removeResourceAssignment = 13;
 		EndTurn endTurn = 14;
+		AddPendingDeal addPendingDeal = 15;
+		RemovePendingDeal removePendingDeal = 16;
+		ExecutePendingDeal ExecutePendingDeal = 17;
 	}
 	uint64 sender = 99;
+}
+
+message AddPendingDeal
+{
+	int32 dealID = 1;
+	int32 fromTeamNum = 2;
+	int32 toTeamNum = 3;
+	repeated DiplomaticActionMessage requestedActions = 4;
+	repeated DiplomaticActionMessage offeredActions = 5;
+}
+
+message ExecutePendingDeal
+{
+	int32 dealID = 1;
+}
+
+message RemovePendingDeal
+{
+	 int32 dealID = 1;
+}
+
+message DiplomaticActionMessage
+{
+	optional int32 actionID = 1;
+	int32 fromTeamNum = 2;
+	int32 toTeamNum = 3;
+	string ActionName = 4;
+	optional int32 duration = 5;
+	optional int32 quantity = 6;
 }
 
 message EndTurn

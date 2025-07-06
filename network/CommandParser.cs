@@ -82,6 +82,28 @@ using System.Threading.Tasks;
                 if (COMMANDDEBUG) { Global.Log(prefix + "EndTurn Command received: TeamNum: " + command.EndTurn.TeamNum); }
                 Global.gameManager.EndTurn((int)command.EndTurn.TeamNum, false);
                 break;
+            case "ExecutePendingDeal":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Execute Pending Deal Command received from {command.Sender} to Execute Deal: {command.ExecutePendingDeal.DealID}"); }
+                Global.gameManager.ExecutePendingDeal(command.ExecutePendingDeal.DealID,false);
+                break;
+            case "RemovePendingDeal":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Remove Pending Deal Command received from {command.Sender} to Remove Deal: {command.RemovePendingDeal.DealID}"); }
+                Global.gameManager.RemovePendingDeal(command.RemovePendingDeal.DealID, false);
+                break;
+            case "AddPendingDeal":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Add Pending Deal Command received from {command.Sender} to Add Deal: {command.AddPendingDeal.DealID}"); }
+                List<DiplomacyAction> requests = new();
+                foreach (DiplomaticActionMessage request in command.AddPendingDeal.RequestedActions)
+                {
+                    requests.Add(DiplomaticActionMessageToDiplomacyAction(request));
+                }
+                List<DiplomacyAction> offers = new();
+                foreach (DiplomaticActionMessage offer in command.AddPendingDeal.OfferedActions)
+                {
+                    offers.Add(DiplomaticActionMessageToDiplomacyAction(offer));
+                }
+                Global.gameManager.AddPendingDeal(command.AddPendingDeal.DealID, command.AddPendingDeal.FromTeamNum, command.AddPendingDeal.ToTeamNum, requests, offers, false);
+                break;
         }
     }
 
@@ -283,6 +305,89 @@ using System.Threading.Tasks;
         command.EndTurn = endTurn;
         command.Sender = Global.clientID;
         return command;
+    }
+
+    internal static Command ConstructExecutePendingDealCommand(int dealID)
+    {
+        ExecutePendingDeal execute = new();
+        execute.DealID = dealID;
+
+        Command command = new Command();
+        command.CommandType = "ExecutePendingDeal";
+        command.ExecutePendingDeal = execute;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructRemovePendingDealCommand(int dealID)
+    {
+        RemovePendingDeal remove = new();
+        remove.DealID = dealID;
+
+        Command command = new Command();
+        command.CommandType = "RemovePendingDeal";
+        command.RemovePendingDeal = remove;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructAddPendingDealCommand(int dealID, int fromTeamNum, int toTeamNum, List<DiplomacyAction> requests, List<DiplomacyAction> offers)
+    {
+        AddPendingDeal add = new();
+        add.DealID = dealID;
+        add.FromTeamNum = fromTeamNum;
+        add.ToTeamNum = toTeamNum;
+
+        foreach (DiplomacyAction action in requests)
+        {
+            add.RequestedActions.Add(DiplomacyActionToDiplomaticActionMessage(action));
+        }
+
+        foreach (DiplomacyAction action in offers)
+        {
+            add.OfferedActions.Add(DiplomacyActionToDiplomaticActionMessage(action));
+        }
+
+
+        Command command = new Command();
+        command.CommandType = "AddPendingDeal";
+        command.AddPendingDeal = add;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    public static DiplomaticActionMessage DiplomacyActionToDiplomaticActionMessage(DiplomacyAction action)
+    {
+        DiplomaticActionMessage message = new DiplomaticActionMessage();
+        message.FromTeamNum = action.teamNum;
+        message.ToTeamNum = action.targetTeamNum;
+        message.ActionName = action.actionName;
+        if (action.hasDuration)
+        {
+            message.Duration = action.duration;
+        }
+        if (action.hasQuantity)
+        {
+            message.Quantity = action.quantity;
+        }
+        return message;
+    }
+
+    public static DiplomacyAction DiplomaticActionMessageToDiplomacyAction(DiplomaticActionMessage message)
+    {
+        DiplomacyAction action = new();
+        action.actionName = message.ActionName;
+        action.teamNum = message.FromTeamNum;
+        action.targetTeamNum = message.ToTeamNum;
+        if (action.hasDuration = message.HasDuration)
+        {
+            action.duration = message.Duration;
+        }
+        if (action.hasQuantity = message.HasQuantity)
+        {
+            action.quantity = message.Quantity;
+        }
+        return action;
     }
 }
 

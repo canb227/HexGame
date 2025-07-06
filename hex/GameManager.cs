@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Linq;
 using System.Security.AccessControl;
+using NetworkMessages;
 
 
 [GlobalClass]
@@ -629,4 +630,60 @@ public partial class GameManager : Node
         }
     }
 
+    internal void ExecutePendingDeal(int dealID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructExecutePendingDealCommand(dealID));
+            return;
+        }
+
+        try
+        {
+            Global.gameManager.game.teamManager.ExecuteDeal(dealID);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error executing pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void RemovePendingDeal(int dealID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructRemovePendingDealCommand(dealID));
+            return;
+        }
+
+        try
+        {
+            Global.gameManager.game.teamManager.RemoveDeal(dealID);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error removing pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void AddPendingDeal(int dealID, int fromTeamNum, int toTeamNum, List<DiplomacyAction> requests, List<DiplomacyAction> offers, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructAddPendingDealCommand(dealID,fromTeamNum,toTeamNum,requests,offers));
+            return;
+        }
+
+        try
+        {
+            Global.gameManager.game.teamManager.AddPendingDeal(new DiplomacyDeal(fromTeamNum, toTeamNum, offers, requests));
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
 }
