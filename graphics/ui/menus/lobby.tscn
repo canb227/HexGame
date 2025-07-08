@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dnnuohdigjyac"]
 
-[ext_resource type="Script" uid="uid://cgggtowuctq74" path="res://graphics/ui/menus/Lobby.cs" id="1_2ypmt"]
+[ext_resource type="Script" uid="uid://csa7x7skgdl67" path="res://graphics/ui/menus/Lobby.cs" id="1_2ypmt"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3
@@ -21,27 +21,38 @@ grow_vertical = 2
 color = Color(0.164058, 0.157242, 0.151379, 1)
 
 [node name="title2" type="Label" parent="."]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 95.0
-offset_bottom = 31.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.03
+anchor_right = 0.02
+anchor_bottom = 0.03
+offset_left = -15.04
+offset_top = -11.44
+offset_right = 71.96
+offset_bottom = 11.56
 text = "Lobby"
 
 [node name="NewGameStatus" type="Label" parent="."]
-layout_mode = 0
-offset_left = 903.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.822
+anchor_right = 0.822
+offset_left = -43.944
 offset_top = 57.0
-offset_right = 990.0
+offset_right = 43.056
 offset_bottom = 80.0
 text = "NEW GAME"
 
 [node name="ReadyStatus" type="Label" parent="."]
-layout_mode = 0
-offset_left = 967.0
-offset_top = 522.0
-offset_right = 1117.0
-offset_bottom = 545.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.656
+anchor_right = 0.656
+offset_left = 94.288
+offset_top = 490.0
+offset_right = 244.288
+offset_bottom = 513.0
 text = "Players NOT READY"
 
 [node name="PlayerListBox" type="Control" parent="."]
@@ -92,73 +103,111 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 
 [node name="b_invite" type="Button" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.019
+anchor_bottom = 0.019
 offset_left = 186.0
-offset_top = 12.0
+offset_top = -0.312001
 offset_right = 450.0
-offset_bottom = 47.0
+offset_bottom = 34.688
 text = "Invite Players"
 
 [node name="b_newgame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 928.0
-offset_top = 556.0
-offset_right = 1139.0
-offset_bottom = 637.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.658
+anchor_right = 0.658
+offset_left = 162.984
+offset_top = 535.0
+offset_right = 373.984
+offset_bottom = 616.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "Start Game"
 
 [node name="b_loadgame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 748.0
-offset_top = 557.0
-offset_right = 912.0
-offset_bottom = 638.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.655
+anchor_right = 0.655
+offset_left = -18.5601
+offset_top = 536.0
+offset_right = 145.44
+offset_bottom = 617.0
 text = "Load Game"
 
 [node name="newgameoptions" type="Control" parent="."]
 layout_mode = 1
-anchor_left = 0.66059
-anchor_top = 0.188272
-anchor_right = 0.980035
-anchor_bottom = 0.779321
+anchor_left = 0.661
+anchor_right = 0.661
+offset_left = -0.472351
+offset_top = 122.0
+offset_right = 367.528
+offset_bottom = 423.0
 metadata/_edit_use_anchors_ = true
 
 [node name="worldgentype" type="OptionButton" parent="newgameoptions"]
-layout_mode = 0
-offset_left = 165.0
-offset_top = 20.0
-offset_right = 327.0
-offset_bottom = 55.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.074
+anchor_top = 0.098
+anchor_right = 1.074
+anchor_bottom = 0.098
+offset_left = -230.233
+offset_top = -17.534
+offset_right = -68.2327
+offset_bottom = 17.466
 
 [node name="Label" type="Label" parent="newgameoptions"]
-layout_mode = 0
-offset_left = 31.0
-offset_top = 25.0
-offset_right = 142.0
-offset_bottom = 48.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.067
+anchor_top = 0.095
+anchor_right = 1.067
+anchor_bottom = 0.095
+offset_left = -361.657
+offset_top = -11.385
+offset_right = -250.657
+offset_bottom = 11.615
 text = "worldgen type"
 
 [node name="worldgensize" type="OptionButton" parent="newgameoptions"]
-layout_mode = 0
-offset_left = 165.0
-offset_top = 97.0
-offset_right = 327.0
-offset_bottom = 132.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.071
+anchor_top = 0.09
+anchor_right = 1.071
+anchor_bottom = 0.09
+offset_left = -229.129
+offset_top = 62.53
+offset_right = -67.1288
+offset_bottom = 97.53
 
 [node name="Label2" type="Label" parent="newgameoptions"]
-layout_mode = 0
-offset_left = 33.0
-offset_top = 105.0
-offset_right = 144.0
-offset_bottom = 128.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.07
+anchor_top = 0.095
+anchor_right = 1.07
+anchor_bottom = 0.095
+offset_left = -360.761
+offset_top = 68.615
+offset_right = -249.761
+offset_bottom = 91.615
 text = "worldgen size"
 
 [node name="debugmode" type="CheckButton" parent="newgameoptions"]
-layout_mode = 0
-offset_left = 44.0003
-offset_top = 279.0
-offset_right = 323.0
-offset_bottom = 334.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.06
+anchor_top = 0.8
+anchor_right = 1.06
+anchor_bottom = 0.8
+offset_left = -346.08
+offset_top = -27.3998
+offset_right = -67.0807
+offset_bottom = 27.6002
 text = "Debug mode (team 0, SP only)"
 
 [node name="newgamehide" type="ColorRect" parent="."]
@@ -176,11 +225,14 @@ grow_vertical = 2
 color = Color(0.364706, 0.352941, 0.345098, 0.807843)
 
 [node name="chat" type="Control" parent="."]
-anchors_preset = 0
+layout_mode = 1
+anchor_top = 0.5
+anchor_right = 0.605
+anchor_bottom = 0.985
 offset_left = 18.0
-offset_top = 322.0
-offset_right = 697.0
-offset_bottom = 638.0
+offset_top = -2.0
+offset_right = 0.039978
+offset_bottom = -0.280029
 
 [node name="chatbar" type="TextEdit" parent="chat"]
 layout_mode = 0
@@ -204,35 +256,49 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 
 [node name="Button" type="Button" parent="chat"]
-layout_mode = 0
-offset_left = 593.0
-offset_top = 271.0
-offset_right = 683.0
-offset_bottom = 315.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.873
+anchor_top = 0.858
+anchor_right = 1.006
+anchor_bottom = 1.0
+offset_left = 0.232971
+offset_top = -0.128021
+offset_right = -0.0740356
+offset_bottom = -1.0
 text = "Send"
 
 [node name="debugresetlobby" type="Button" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.037
+anchor_bottom = 0.037
 offset_left = 732.0
-offset_top = 24.0
+offset_top = 0.0240002
 offset_right = 863.0
-offset_bottom = 55.0
+offset_bottom = 31.024
 text = "Reset Player list"
 
 [node name="debuglabel" type="Label" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.021
+anchor_bottom = 0.021
 offset_left = 738.0
-offset_top = 2.0
+offset_top = -11.608
 offset_right = 895.0
-offset_bottom = 25.0
+offset_bottom = 11.392
 text = "Debug buttons"
 
 [node name="addAI" type="Button" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.014
+anchor_bottom = 0.014
 offset_left = 549.0
-offset_top = 9.0
+offset_top = -0.0720005
 offset_right = 695.0
-offset_bottom = 51.0
+offset_bottom = 41.928
 text = "Add New AI"
 
 [connection signal="pressed" from="b_invite" to="." method="OnInviteButtonPressed"]

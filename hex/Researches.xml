@@ -1,5 +1,5 @@
 <Researches> //'City Center' 'Farm' 'Mine' 'Hunting Camp' 'Fishing Boat' 'Whaling Ship'
-    <Research Name="Agriculture" Tier="0" VisualSlot="0" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="Agriculture" Tier="0" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <BuildingUnlocks>
             <BuildingType Name="Granary" />
         </BuildingUnlocks>
@@ -11,7 +11,7 @@
             <Effect Name="AgricultureEffect" />
         </Effects>
     </Research>  
-    <Research Name="Sailing" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="Sailing" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
@@ -25,7 +25,7 @@
             <Effect Name="SailingEffect" />
         </Effects>
     </Research>
-    <Research Name="Pottery" Tier="1" VisualSlot="0" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="Pottery" Tier="1" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
@@ -36,7 +36,7 @@
             <Effect Name="PotteryEffect" />
         </Effects>
     </Research>
-    <Research Name="AnimalHusbandry" Tier="1" VisualSlot="0" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="AnimalHusbandry" Tier="1" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
@@ -47,7 +47,7 @@
             <Effect Name="AnimalHusbandryEffect" />
         </Effects>
     </Research>
-    <Research Name="Irrigation" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="Irrigation" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Pottery</ResearchType>
             <ResearchType>AnimalHusbandry</ResearchType>
@@ -59,7 +59,7 @@
             <Effect Name="IrrigationEffect" />
         </Effects>
     </Research>
-    <Research Name="Writing" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="Writing" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <Requirements>
         <ResearchType>Pottery</ResearchType>
         </Requirements>
@@ -70,7 +70,7 @@
             <Effect Name="WritingEffect" />
         </Effects>
     </Research>
-    <Research Name="Masonry" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="Masonry" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <Requirements>
         <ResearchType>AnimalHusbandry</ResearchType>
         </Requirements>
@@ -81,7 +81,7 @@
             <Effect Name="MasonryEffect" />
         </Effects>
     </Research>
-    <Research Name="FutureTech" Tier="18" VisualSlot="0" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="FutureTech" Tier="18" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Pottery</ResearchType>
             <ResearchType>Masonry</ResearchType>

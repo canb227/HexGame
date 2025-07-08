@@ -10,7 +10,7 @@
             <Effect Name="TribalDominionEffect" />
         </Effects>
     </Research>
-    <Research Name="ForeignTrade" Tier="1" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="ForeignTrade" Tier="1" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
             <ResearchType>Tribal Dominion</ResearchType>
         </Requirements>
@@ -21,7 +21,7 @@
             <Effect Name="ForeignTradeEffect" />
         </Effects>
     </Research>
-    <Research Name="Songwriting" Tier="1" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="Songwriting" Tier="1" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
             <ResearchType>Tribal Dominion</ResearchType>
         </Requirements>
@@ -32,7 +32,7 @@
             <Effect Name="SongwritingEffect" />
         </Effects>
     </Research>
-    <Research Name="FutureTech" Tier="18" IconPath="graphics/ui/icons/happiness.png">
+    <Research Name="FutureTech" Tier="18" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
             <ResearchType>Songwriting</ResearchType>
             <ResearchType>Tribal Dominion</ResearchType>

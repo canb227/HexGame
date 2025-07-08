@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Xml;
 using static Google.Protobuf.Reflection.FeatureSet.Types;
@@ -26,6 +27,9 @@ public partial class GraphicGameBoard : GraphicObject
     private Image visibilityImage;
     private ImageTexture visibilityTexture;
     private Image terrainInfoImage;
+
+    public Image heightMap;
+
     public GraphicGameBoard(GameBoard gameBoard, Layout layout)
     {
         this.gameBoard = gameBoard;
@@ -346,12 +350,13 @@ public partial class GraphicGameBoard : GraphicObject
             yieldMultiMeshInstance.MaterialOverride = yieldShaderMaterial;
             yieldMultiMeshInstance.Name = "Yield" + i;
 
-            chunkList.Add(new HexChunk(multiMeshInstance, yieldMultiMeshInstance, subHexList, subHexList.First(), subHexList.First(), heightMap, terrainShaderMaterial, chunkOffset, (float)Math.Sqrt(3) * 10.0f * (chunkSize + 1), 1.5f * 10.0f * Global.gameManager.game.mainGameBoard.bottom));//we set graphical to our default location here then update as we move it around
+            chunkList.Add(new HexChunk(multiMeshInstance, yieldMultiMeshInstance, subHexList, subHexList.First(), subHexList.First(), terrainShaderMaterial, chunkOffset, (float)Math.Sqrt(3) * 10.0f * (chunkSize + 1), 1.5f * 10.0f * Global.gameManager.game.mainGameBoard.bottom));//we set graphical to our default location here then update as we move it around
 
             AddChild(multiMeshInstance);
             multiMeshInstance.AddChild(yieldMultiMeshInstance);
             i++;
         }
+        this.heightMap = heightMap;
         sw.Stop();
         Global.Log(sw.ElapsedMilliseconds.ToString());
     }
@@ -393,7 +398,7 @@ public partial class GraphicGameBoard : GraphicObject
                     int newHexQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
                     Hex modHex = new Hex(newHexQ, hex.r, -newHexQ - hex.r);
                     Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
-                    float height = 2.0f;//ggb.chunkList[ggb.hexToChunkDictionary[hex]].Vector3ToHeightMapVal(territoryLinesNode.Transform.Origin); //TODO
+                    float height = ggb.Vector3ToHeightMapVal(territoryLinesNode.Transform.Origin);
                     Transform3D newTransform = territoryLinesNode.Transform;
                     newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
                     territoryLinesNode.Transform = newTransform;
@@ -588,13 +593,29 @@ public partial class GraphicGameBoard : GraphicObject
         GD.PushWarning("NOT IMPLEMENTED");
     }
 
-    public override void _Process(double delta)
-    {
-
-    }
     public override void RemoveTargetingPrompt()
     {
         GD.PushWarning("NOT IMPLEMENTED");
+    }
+
+
+    public float Vector3ToHeightMapVal(Vector3 pixel)
+    {
+        //GD.PushWarning("NOT IMPLEMENTED"); //TODO
+        Vector3 wrappedPixel = WrapPixel(pixel);
+        float height = heightMap.GetPixel((int)(wrappedPixel.X), (int)wrappedPixel.Y).R;
+        return 0.0f;
+    }
+
+    public Vector3 WrapPixel(Vector3 pixel)
+    {
+        int width = heightMap.GetWidth();
+        int newX = (int)pixel.X % width;
+        if (newX < 0)
+        {
+            newX = width + newX % width;
+        }
+        return new Vector3(newX, pixel.Y, pixel.Z);
     }
 
     public void GaussianBlur(Image image, int radius)

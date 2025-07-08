@@ -42,7 +42,7 @@ public partial class GraphicResource : GraphicObject
         Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 0.0f, (float)hexPoint.x);
-        float height = ggb.chunkList[ggb.hexToChunkDictionary[hex]].Vector3ToHeightMapVal(newTransform.Origin); //TODO
+        float height = ggb.Vector3ToHeightMapVal(newTransform.Origin); //TODO
         newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
         resourceMeshInstance.Transform = newTransform;
         improvementMeshInstance.Transform = newTransform;

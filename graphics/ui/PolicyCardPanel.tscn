@@ -52,33 +52,138 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="AssignedVBox" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="AssignedMilitaryVBox" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AssignedLabel" type="Label" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/AssignedVBox"]
+[node name="Control" type="Control" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox"]
+custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
-text = "Assigned Policy Cards:"
 
-[node name="AssignedPolicyInnerMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/AssignedVBox"]
+[node name="AssignedLabel" type="Label" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox"]
+layout_mode = 2
+text = "Military Policies"
+horizontal_alignment = 1
+
+[node name="AssignedPolicyInnerMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 16
+theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 0
+theme_override_constants/margin_bottom = 8
 
-[node name="AssignedPolicyFlowBox" type="HFlowContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/AssignedVBox/AssignedPolicyInnerMarginBox"]
+[node name="AssignedPolicyFlowBox" type="HFlowContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox/AssignedPolicyInnerMarginBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="PolicyButton" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox" instance=ExtResource("1_y8t24")]
 layout_mode = 2
 
-[node name="PolicyButton" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/AssignedVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox" instance=ExtResource("1_y8t24")]
+[node name="PolicyButton2" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox" instance=ExtResource("1_y8t24")]
 layout_mode = 2
 
-[node name="PolicyButton2" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/AssignedVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox" instance=ExtResource("1_y8t24")]
+[node name="PolicyButton3" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox" instance=ExtResource("1_y8t24")]
 layout_mode = 2
 
-[node name="PolicyButton3" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/AssignedVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox" instance=ExtResource("1_y8t24")]
+[node name="ColorRect" type="ColorRect" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox"]
+custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
+color = Color(0.0901961, 0.0901961, 0.0901961, 1)
+
+[node name="AssignedEconomicVBox" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedEconomicVBox"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="AssignedLabel" type="Label" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedEconomicVBox"]
+layout_mode = 2
+text = "Economic Policies"
+horizontal_alignment = 1
+
+[node name="AssignedPolicyInnerMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedEconomicVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="AssignedPolicyFlowBox" type="HFlowContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedEconomicVBox/AssignedPolicyInnerMarginBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedEconomicVBox"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.0901961, 0.0901961, 0.0901961, 1)
+
+[node name="AssignedDiplomaticVBox" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedDiplomaticVBox"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="AssignedLabel" type="Label" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedDiplomaticVBox"]
+layout_mode = 2
+text = "Diplomatic Policies"
+horizontal_alignment = 1
+
+[node name="AssignedPolicyInnerMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedDiplomaticVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="AssignedPolicyFlowBox" type="HFlowContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedDiplomaticVBox/AssignedPolicyInnerMarginBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedDiplomaticVBox"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.0901961, 0.0901961, 0.0901961, 1)
+
+[node name="AssignedHeroicVBox" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedHeroicVBox"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="AssignedLabel" type="Label" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedHeroicVBox"]
+layout_mode = 2
+text = "Heroic (Wildcard) Policies"
+horizontal_alignment = 1
+
+[node name="AssignedPolicyInnerMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedHeroicVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="AssignedPolicyFlowBox" type="HFlowContainer" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedHeroicVBox/AssignedPolicyInnerMarginBox"]
+layout_mode = 2
+alignment = 1
 
 [node name="UnassignedPolicyMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyHBox"]
 layout_mode = 2
@@ -89,25 +194,28 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/UnassignedPolicyMarginBox"]
-layout_mode = 2
-
-[node name="UnassignedPolicyLabel" type="Label" parent="PolicyPanel/PolicyHBox/UnassignedPolicyMarginBox/VBoxContainer"]
-layout_mode = 2
-text = "Unassigned Policy Cards:"
-
-[node name="UnassingedPolicyScroll" type="ScrollContainer" parent="PolicyPanel/PolicyHBox/UnassignedPolicyMarginBox/VBoxContainer"]
+[node name="UnassingedPolicyScroll" type="ScrollContainer" parent="PolicyPanel/PolicyHBox/UnassignedPolicyMarginBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 horizontal_scroll_mode = 0
 
-[node name="UnassignedPolicyBox" type="HFlowContainer" parent="PolicyPanel/PolicyHBox/UnassignedPolicyMarginBox/VBoxContainer/UnassingedPolicyScroll"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/UnassignedPolicyMarginBox/UnassingedPolicyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UnassignedPolicyLabel" type="Label" parent="PolicyPanel/PolicyHBox/UnassignedPolicyMarginBox/UnassingedPolicyScroll/VBoxContainer"]
+layout_mode = 2
+text = "Unassigned  Policy Cards:"
+horizontal_alignment = 1
+
+[node name="UnassignedPolicyBox" type="HFlowContainer" parent="PolicyPanel/PolicyHBox/UnassignedPolicyMarginBox/UnassingedPolicyScroll/VBoxContainer"]
 custom_minimum_size = Vector2(72.385, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+alignment = 1
 
 [node name="CloseButton" type="Button" parent="."]
 layout_mode = 2

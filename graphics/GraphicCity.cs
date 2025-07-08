@@ -75,6 +75,10 @@ public partial class GraphicCity : GraphicObject
         Global.gameManager.graphicManager.uiManager.cityInfoPanel.CitySelected(city);
         //Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
         Global.gameManager.graphicManager.uiManager.endTurnButton.Visible = true;
+        if (Global.gameManager.graphicManager.uiManager.waitingOnLocalPlayer)
+        {
+            Global.gameManager.graphicManager.uiManager.waitingOnYouPanel.Visible = true;
+        }
         Global.gameManager.graphicManager.ShowAllWorldUI();
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         foreach (HexChunk hexChunk in ggb.chunkList)

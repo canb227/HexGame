@@ -17,6 +17,7 @@ public partial class GameManager : Node
     public GraphicManager graphicManager;
     public AIManager AIManager;
     public Game game;
+    public AudioManager audioManager = new();
     public bool gameStarted = false;
 
     public Dictionary<int,ulong> teamNumToPlayerID = new Dictionary<int, ulong>();
@@ -26,6 +27,7 @@ public partial class GameManager : Node
         instance = this;
         Global.gameManager = this;
         game = new Game();
+        AddChild(audioManager);
         //startTerrainDemo();
     }
 

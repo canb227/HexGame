@@ -60,6 +60,8 @@ public partial class UIManager : Node3D
 
     public Button tradeExportButton;
 
+    public Button governmentButton;
+
     public HBoxContainer playerList;
 
     public UnitInfoPanel unitInfoPanel;
@@ -71,14 +73,20 @@ public partial class UIManager : Node3D
 
     public TradeExportPanel tradeExportPanel;
 
+    public PolicyPanel policyPanel;
+
     public TradeRoutePickerPanel tradeRoutePickerPanel;
 
     public DiplomacyPanel diplomacyPanel;
+
+
 
     public VBoxContainer actionQueue;
 
     public PanelContainer topBarPanel;
     public Label goldenAgeLabel;
+    public PanelContainer waitingOnYouPanel;
+    public bool waitingOnLocalPlayer;
 
     public City targetCity;
     public Unit targetUnit;
@@ -137,12 +145,18 @@ public partial class UIManager : Node3D
         tradeExportButton = screenUI.GetNode<Button>("LayerHelper/TradeExportButton");
         tradeExportButton.Pressed += () => TradeExportPanelButtonPressed();
 
+        governmentButton = screenUI.GetNode<Button>("LayerHelper/GovernmentButton");
+        governmentButton.Pressed += () => GovernmentButtonPressed();
+
         actionQueue = screenUI.GetNode<VBoxContainer>("ActionQueueScrollBox/ActionQueue");
 
+        waitingOnYouPanel = screenUI.GetNode<PanelContainer>("LayerHelper/EndTurnButton/WaitingOnPlayerPanel");
+        waitingOnYouPanel.Visible = false;
+
         playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
-        foreach(Player player in Global.gameManager.game.playerDictionary.Values)
+        foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {
-            if(player.teamNum != 0)
+            if (player.teamNum != 0)
             {
                 Button icon = new();
                 if (player.isAI)
@@ -167,7 +181,7 @@ public partial class UIManager : Node3D
         influenceLabel.Text = "0 ";
         influencePerTurnLabel.Text = "(+0) ";
         SetupTurnUI();
-        
+
         unitInfoPanel = new UnitInfoPanel();
         unitInfoPanel.Name = "UnitInfoPanel";
         AddChild(unitInfoPanel);
@@ -202,6 +216,12 @@ public partial class UIManager : Node3D
         AddChild(tradeExportPanel);
         tradeExportPanel.Visible = false;
 
+        policyPanel = new PolicyPanel();
+        policyPanel.Name = "PolicyPanel";
+        policyPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        AddChild(policyPanel);
+        policyPanel.Visible = false;
+
         tradeRoutePickerPanel = new TradeRoutePickerPanel();
         tradeRoutePickerPanel.Name = "TradeRoutePickerPanel";
         tradeRoutePickerPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
@@ -228,12 +248,17 @@ public partial class UIManager : Node3D
     public void HideGenericUIForTargeting()
     {
         endTurnButton.Visible = false;
+        waitingOnYouPanel.Visible = false;
         HideGenericUI();
     }
 
     public void ShowGenericUIAfterTargeting()
     {
         endTurnButton.Visible = true;
+        if (waitingOnLocalPlayer)
+        {
+            waitingOnYouPanel.Visible = true;
+        }
         ShowGenericUI();
     }
 
@@ -310,7 +335,7 @@ public partial class UIManager : Node3D
             cultureResearchTreePanel.UpdateResearchUI();
             UpdateResearchUI();
         }
-        else if(element == UIElement.resourcePanel)
+        else if (element == UIElement.resourcePanel)
         {
             resourcePanel.UpdateResourcePanel();
         }
@@ -419,6 +444,7 @@ public partial class UIManager : Node3D
         cultureResearchTreePanel.Visible = false;
         resourcePanel.Visible = false;
         tradeExportPanel.Visible = false;
+        policyPanel.Visible = false;
         tradeRoutePickerPanel.Visible = false;
         diplomacyPanel.Visible = false;
         ShowGenericUI();
@@ -455,7 +481,7 @@ public partial class UIManager : Node3D
             Global.camera.SetHexTarget(targetCity.hex);
             return;
         }
-        else if(cityNeedsProduction)
+        else if (cityNeedsProduction)
         {
             researchTreePanel.Visible = false;
             cultureResearchTreePanel.Visible = false;
@@ -465,9 +491,9 @@ public partial class UIManager : Node3D
             Global.camera.SetHexTarget(targetCity.hex);
             return;
         }
-        else if(waitingForOrders)
+        else if (waitingForOrders)
         {
-            Global.gameManager.graphicManager.ChangeSelectedObject(targetUnit.id , Global.gameManager.graphicManager.graphicObjectDictionary[targetUnit.id]);
+            Global.gameManager.graphicManager.ChangeSelectedObject(targetUnit.id, Global.gameManager.graphicManager.graphicObjectDictionary[targetUnit.id]);
             Global.camera.SetHexTarget(targetUnit.hex);
             return;
         }
@@ -479,10 +505,10 @@ public partial class UIManager : Node3D
             return;
         }
     }
-    
+
     private void UpdateEndTurnButton()
     {
-        if(Global.gameManager.game.localPlayerRef.queuedResearch.Count == 0)
+        if (Global.gameManager.game.localPlayerRef.queuedResearch.Count == 0)
         {
             pickScience = true;
             endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/science.png");
@@ -516,7 +542,7 @@ public partial class UIManager : Node3D
 
         bool cityReadyToGrow = false;
         City foundCity = null;
-        foreach(int cityID in Global.gameManager.game.localPlayerRef.cityList)
+        foreach (int cityID in Global.gameManager.game.localPlayerRef.cityList)
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
             if (city.readyToExpand > 0)
@@ -529,7 +555,7 @@ public partial class UIManager : Node3D
                 cityNeedsProduction = false;
                 return;
             }
-            if(city.productionQueue.Count == 0)
+            if (city.productionQueue.Count == 0)
             {
                 endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/gears.png");
                 readyToGrow = false;
@@ -619,6 +645,16 @@ public partial class UIManager : Node3D
         HideGenericUI();
     }
 
+    public void GovernmentButtonPressed()
+    {
+        Global.gameManager.graphicManager.UnselectObject();
+        windowOpen = true;
+        policyPanel.Visible = true;
+        policyPanel.UpdatePolicyPanel();
+        HideGenericUI();
+    }
+    
+
     public void DiplomacyActionButtonPressed(Button dealButton, int targetTeamNum, DiplomacyDeal deal)
     {
         if (Global.gameManager.game.localPlayerRef.turnFinished)
@@ -637,9 +673,9 @@ public partial class UIManager : Node3D
         }
         if (deal == null && Global.gameManager.game.teamManager.pendingDeals.Any())
         {
-            foreach(DiplomacyDeal pendingDeal in Global.gameManager.game.teamManager.pendingDeals.Values)
+            foreach (DiplomacyDeal pendingDeal in Global.gameManager.game.teamManager.pendingDeals.Values)
             {
-                if(pendingDeal.fromTeamNum == targetTeamNum && pendingDeal.toTeamNum == Global.gameManager.game.localPlayerTeamNum)
+                if (pendingDeal.fromTeamNum == targetTeamNum && pendingDeal.toTeamNum == Global.gameManager.game.localPlayerTeamNum)
                 {
                     deal = pendingDeal;
                     break;
@@ -667,6 +703,7 @@ public partial class UIManager : Node3D
         cultureButton.Visible = false;
         resourceButton.Visible = false;
         tradeExportButton.Visible = false;
+        governmentButton.Visible = false;
         playerList.Visible = false;
     }
     public void ShowGenericUI()
@@ -675,7 +712,23 @@ public partial class UIManager : Node3D
         cultureButton.Visible = true;
         resourceButton.Visible = true;
         tradeExportButton.Visible = true;
+        governmentButton.Visible = true;
         playerList.Visible = true;
+    }
+
+    public void GameWaitingOnLocalPlayer()
+    {
+        if (!waitingOnLocalPlayer)
+        {
+            waitingOnYouPanel.Visible = true;
+            waitingOnLocalPlayer = true;
+        }
+    }
+
+    public void NotWaitingOnLocalPlayer()
+    {
+        waitingOnLocalPlayer = false;
+        waitingOnYouPanel.Visible = false;
     }
 
     public void NewDiplomaticDeal(DiplomacyDeal deal)

@@ -11,7 +11,6 @@ using System.Drawing;
 [Serializable]
 public class BasePlayer
 {
-    public AudioStreamPlayer audioPlayer = new();
     public BasePlayer(int teamNum, Godot.Color teamColor, bool isAI)
     {
         this.teamColor = teamColor;
@@ -70,6 +69,13 @@ public class BasePlayer
     public Yields grasslandYields { get; set; } = new();
     public Yields tundraYields { get; set; } = new();
     public Yields arcticYields { get; set; } = new();
+
+    public List<PolicyCard> unassignedPolicyCards { get; set; } = new();
+    public List<PolicyCard> activePolicyCards { get; set; } = new();
+    public int militaryPolicySlots { get; set; } = 0;
+    public int economicPolicySlots { get; set; } = 0;
+    public int diplomaticPolicySlots { get; set; } = 0;
+    public int heroicPolicySlots { get; set; } = 0;
 
     public int baseFlat;
     public int baseRough;
@@ -183,6 +189,8 @@ public class BasePlayer
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager) && updateUI)
         {
+
+            manager.uiManager.CallDeferred("NotWaitingOnLocalPlayer");
             manager.uiManager.CallDeferred("UpdateAll");
             manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
             manager.uiManager.UpdateResearchUI();
@@ -203,12 +211,15 @@ public class BasePlayer
         }
         turnFinished = true;
         List<int> waitingPlayers = Global.gameManager.game.turnManager.CheckTurnStatus();
-        if (waitingPlayers.Count() == 1)
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            if (waitingPlayers[0] == Global.gameManager.game.localPlayerTeamNum)
+            if (waitingPlayers.Count() == 1)
             {
-                audioPlayer.Stream = GD.Load<AudioStream>("res://audio/soundeffects/LastPlayer.wav");
-                audioPlayer.Play();
+                if (waitingPlayers[0] == Global.gameManager.game.localPlayerTeamNum)
+                {
+                    manager.uiManager.CallDeferred("GameWaitingOnLocalPlayer");
+                    Global.gameManager.audioManager.CallDeferred("PlayAudio", "res://audio/soundeffects/LastPlayer.wav");
+                }
             }
         }
     }

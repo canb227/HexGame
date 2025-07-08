@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class PolicyCard
+{
+    public bool isMilitary { get; set; }
+    public bool isEconomic { get; set; }
+    public bool isDiplomatic { get; set; }
+    public bool isHeroic { get; set; }
+    public string title { get; set; }
+    public string description { get; set; }
+
+    public PolicyCard(string title = "", string description = "", bool isMilitary = false, bool isEconomic = false, bool isDiplomatic=false, bool isHeroic = false)
+    {
+        this.title = title;
+        this.description = description;
+        this.isMilitary = isMilitary;
+        this.isEconomic = isEconomic;
+        this.isDiplomatic = isDiplomatic;
+        this.isHeroic = isHeroic;
+    }
+    public PolicyCard()
+    {
+
+    }
+    public void CalculateEffects()
+    {
+
+    }
+
+    public bool SameType(PolicyCard other)
+    {
+        if(isMilitary && other.isMilitary)
+        {
+            return true;
+        }
+        if(isEconomic && other.isEconomic)
+        {
+            return true;
+        }
+        if(isDiplomatic && other.isDiplomatic)
+        {
+            return true;
+        }
+        if(isHeroic && other.isHeroic)
+        {
+            return true;
+        }
+        return false;
+    }
+}

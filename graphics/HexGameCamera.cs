@@ -163,7 +163,8 @@ public partial class HexGameCamera : Camera3D
     }
 
     private void ProcessHexLeftClick(Hex hex)
-    {        
+    {
+        //Global.gameManager.audioManager.PlayAudio("res://audio/soundeffects/LastPlayer.wav");
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         Hex wrapHex = hex.WrapHex();
         Global.Log(wrapHex.ToString());

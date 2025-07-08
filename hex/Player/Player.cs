@@ -25,6 +25,9 @@ public class Player : BasePlayer
         diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Give Gold", true, false));
         diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Give Gold Per Turn", true, true));
         diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Make Peace", false, false));
+
+        //default policy cards
+        unassignedPolicyCards.Add(new PolicyCard("Combat", "Make goodrer at the fighting", true));
     }
 
     public Player()
@@ -65,6 +68,9 @@ public class Player : BasePlayer
     public int exportCap { get; set; } = 2;
     public int maxTradeCount { get; set; } = 2;
     public int tradeRouteCount { get; set; }
+
+
+
     private int idCounter { get; set; } = 0;
 
     private void SetBaseHexYields()

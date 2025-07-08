@@ -47,11 +47,11 @@ public static class FactionLoader
     {
         if(faction == FactionType.Human)
         {
-            return true;
+            return false;
         }
         else
         {
-            return false;
+            return true;
         }
     }
 }

@@ -46,7 +46,7 @@ public partial class GraphicFeature : GraphicObject
         int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
         Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
-        float height = ggb.chunkList[ggb.hexToChunkDictionary[hex]].Vector3ToHeightMapVal(featureModel.Transform.Origin);
+        float height = ggb.Vector3ToHeightMapVal(featureModel.Transform.Origin);
         newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
         featureModel.Transform = newTransform;
         this.Visible = false;

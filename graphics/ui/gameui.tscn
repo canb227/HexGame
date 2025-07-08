@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cqwb0y8pf7hny"]
+[gd_scene load_steps=15 format=3 uid="uid://cqwb0y8pf7hny"]
 
 [ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="2_n5e1u"]
 [ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="3_6wqba"]
@@ -10,12 +10,16 @@
 [ext_resource type="Texture2D" uid="uid://dxyx7s8fwhyqg" path="res://graphics/ui/icons/circle.png" id="9_4wkif"]
 [ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="9_6wqba"]
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="9_pepai"]
+[ext_resource type="Texture2D" uid="uid://cu344k74oa32p" path="res://graphics/ui/icons/government.png" id="10_4wkif"]
 
 [sub_resource type="Theme" id="Theme_6wqba"]
 default_font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pepai"]
 bg_color = Color(0.0807833, 0.0807833, 0.0807833, 0.866667)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pepai"]
+shadow_color = Color(0, 0, 0, 1)
 
 [node name="ScreenUI" type="Control"]
 layout_mode = 3
@@ -294,22 +298,48 @@ offset_bottom = 417.0
 text = "Trade and Export"
 icon = ExtResource("9_4wkif")
 
+[node name="GovernmentButton" type="Button" parent="LayerHelper"]
+offset_left = -2.0
+offset_top = 439.0
+offset_right = 260.0
+offset_bottom = 511.0
+text = "Government"
+icon = ExtResource("10_4wkif")
+expand_icon = true
+
 [node name="EndTurnButton" type="Button" parent="LayerHelper"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+anchors_preset = -1
+anchor_left = 0.944
+anchor_top = 0.901
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -128.0
-offset_top = -128.0
+offset_left = -63.488
+offset_top = -63.848
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(64, 64)
 icon = ExtResource("9_6wqba")
 icon_alignment = 1
 expand_icon = true
+
+[node name="WaitingOnPlayerPanel" type="PanelContainer" parent="LayerHelper/EndTurnButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.969
+anchor_right = 0.969
+offset_left = -217.032
+offset_top = -28.0
+offset_right = -0.0320053
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="WaitingOnYouLabel" type="Label" parent="LayerHelper/EndTurnButton/WaitingOnPlayerPanel"]
+layout_mode = 2
+text = "The Game is Waiting on You!"
+label_settings = SubResource("LabelSettings_pepai")
 
 [node name="ActionQueueScrollBox" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -319,7 +349,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -64.0
 offset_top = 64.0
-offset_bottom = -128.0
+offset_bottom = -161.0
 grow_horizontal = 0
 grow_vertical = 2
 horizontal_scroll_mode = 0

@@ -25,7 +25,10 @@ public static class PlayerEffect
     }
     public static void AddTribalGovernmentEffect(BasePlayer player)
     {
-        player.flatYields.food += 1; //all flat land makes +1 food
+        //player.flatYields.food += 1; //all flat land makes +1 food
+        player.militaryPolicySlots += 1;
+        player.economicPolicySlots += 1;
+        player.diplomaticPolicySlots += 1;
         player.buildingPlayerEffects.Add(("TribalGovernment", new BuildingEffect(BuildingEffectType.ProductionCost, EffectOperation.Multiply, 0.90f, 0), "")); //buildings are 10% cheaper (DOESNT WORK CURRENTLY
         player.unitPlayerEffects.Add(("TribalGovernment", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 2, 0), UnitClass.Land)); //increase land strength by +2
     }
