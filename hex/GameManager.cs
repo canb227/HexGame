@@ -688,4 +688,153 @@ public partial class GameManager : Node
             throw;
         }
     }
+
+    internal void NewExportRoute(int fromCityID, int toCityID, YieldType yieldType, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructNewExportRouteCommand(fromCityID, toCityID, yieldType));
+            return;
+        }
+
+        
+        try
+        {
+            int teamNum = Global.gameManager.game.cityDictionary[fromCityID].teamNum;
+            Global.gameManager.game.playerDictionary[teamNum].NewExportRoute(fromCityID, toCityID, yieldType);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void RemoveExportRoute(int fromCityID, int toCityID, YieldType yieldType, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructRemoveExportRouteCommand(fromCityID, toCityID, yieldType));
+            return;
+        }
+
+
+        try
+        {
+            int teamNum = Global.gameManager.game.cityDictionary[fromCityID].teamNum;
+            Global.gameManager.game.playerDictionary[teamNum].RemoveExportRoute(fromCityID, toCityID, yieldType);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void NewTradeRoute(int fromCityID, int toCityID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructNewTradeRouteCommand(fromCityID, toCityID));
+            return;
+        }
+
+
+        try
+        {
+            int teamNum = Global.gameManager.game.cityDictionary[fromCityID].teamNum;
+            Global.gameManager.game.playerDictionary[teamNum].NewTradeRoute(fromCityID, toCityID);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void RemoveTradeRoute(int fromCityID, int toCityID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructRemoveTradeRouteCommand(fromCityID, toCityID));
+            return;
+        }
+
+
+        try
+        {
+            int teamNum = Global.gameManager.game.cityDictionary[fromCityID].teamNum;
+            Global.gameManager.game.playerDictionary[teamNum].RemoveTradeRoute(fromCityID, toCityID);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void AssignPolicyCard(int teamNum, int policyCardID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructAssignPolicyCardCommand(teamNum, policyCardID));
+            return;
+        }
+
+
+        try
+        {
+            Global.gameManager.game.playerDictionary[teamNum].AssignPolicyCard(policyCardID);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void UnassignPolicyCard(int teamNum, int policyCardID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructUnassignPolicyCardCommand(teamNum, policyCardID));
+            return;
+        }
+
+
+        try
+        {
+            Global.gameManager.game.playerDictionary[teamNum].UnassignPolicyCard(policyCardID);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void SetGovernment(int teamNum, GovernmentType govType, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSetGovernmentCommand(teamNum, govType));
+            return;
+        }
+
+
+        try
+        {
+            Global.gameManager.game.playerDictionary[teamNum].SetGovernment(govType);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error setting government: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    internal void SpawnUnit(string unitType, int id, int teamNum, NetworkMessages.Hex position, bool stackable, bool flexible, bool local = true)
+    {
+        throw new NotImplementedException();
+    }
 }

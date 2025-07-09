@@ -72,8 +72,71 @@ message Command
 		AddPendingDeal addPendingDeal = 15;
 		RemovePendingDeal removePendingDeal = 16;
 		ExecutePendingDeal ExecutePendingDeal = 17;
+		NewExportRoute NewExportRoute = 18;
+		RemoveExportRoute RemoveExportRoute = 19;
+		NewTradeRoute NewTradeRoute = 20;
+		RemoveTradeRoute RemoveTradeRoute = 21;
+		AssignPolicyCard AssignPolicyCard = 22;
+		UnassignPolicyCard UnassignPolicyCard = 23;
+		SetGovernment SetGovernment = 24;
+		SpawnUnit SpawnUnit = 25;
 	}
 	uint64 sender = 99;
+}
+
+
+message NewExportRoute 
+{
+	int32 fromCityID = 1;
+	int32 toCityID = 2;
+	int32 yieldType = 3;
+}
+
+message RemoveExportRoute
+{
+	int32 fromCityID = 1;
+	int32 toCityID = 2;
+	int32 yieldType = 3;
+}
+
+message NewTradeRoute
+{
+	int32 fromCityID = 1;
+	int32 toCityID = 2;
+}
+
+message RemoveTradeRoute
+{
+	int32 fromCityID = 1;
+	int32 toCityID = 2;
+}
+
+message AssignPolicyCard
+{
+	int32 teamNum = 1;
+	int32 policyCardID = 2;
+}
+
+message UnassignPolicyCard
+{
+	int32 teamNum = 1;
+	int32 policyCardID = 2;
+}
+
+message SetGovernment
+{
+	int32 teamNum = 1;
+	int32 govType = 2;
+}
+
+message SpawnUnit
+{
+	string unitType = 1;
+	int32 id = 2;
+	int32 teamNum = 3;
+	Hex position = 4;
+	bool stackable = 5;
+	bool flexible = 6;
 }
 
 message AddPendingDeal

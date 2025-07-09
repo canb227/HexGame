@@ -104,6 +104,30 @@ using System.Threading.Tasks;
                 }
                 Global.gameManager.AddPendingDeal(command.AddPendingDeal.DealID, command.AddPendingDeal.FromTeamNum, command.AddPendingDeal.ToTeamNum, requests, offers, false);
                 break;
+            case "NewExportRoute":
+                Global.gameManager.NewExportRoute(command.NewExportRoute.FromCityID, command.NewExportRoute.ToCityID, (YieldType)command.NewExportRoute.YieldType,false);
+                break;
+            case "RemoveExportRoute":
+                Global.gameManager.RemoveExportRoute(command.RemoveExportRoute.FromCityID, command.RemoveExportRoute.ToCityID, (YieldType)command.RemoveExportRoute.YieldType,false);
+                break;
+            case "NewTradeRoute":
+                Global.gameManager.NewTradeRoute(command.NewTradeRoute.FromCityID, command.NewTradeRoute.ToCityID,false);
+                break;
+            case "RemoveTradeRoute":
+                Global.gameManager.RemoveTradeRoute(command.RemoveTradeRoute.FromCityID, command.RemoveTradeRoute.ToCityID,false);
+                break;
+            case "AssignPolicyCard":
+                Global.gameManager.AssignPolicyCard(command.AssignPolicyCard.TeamNum, command.AssignPolicyCard.PolicyCardID,false);
+                break;
+            case "UnassignPolicyCard":
+                Global.gameManager.UnassignPolicyCard(command.UnassignPolicyCard.TeamNum, command.UnassignPolicyCard.PolicyCardID,false);
+                break;
+            case "SetGovernment":
+                Global.gameManager.SetGovernment(command.SetGovernment.TeamNum, (GovernmentType)command.SetGovernment.GovType,false);
+                break;
+            case "SpawnUnit":
+                Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.Id, command.SpawnUnit.TeamNum, command.SpawnUnit.Position, command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
+                break;
         }
     }
 
@@ -388,6 +412,100 @@ using System.Threading.Tasks;
             action.quantity = message.Quantity;
         }
         return action;
+    }
+
+    internal static Command ConstructSetGovernmentCommand(int teamNum, GovernmentType govType)
+    {
+        SetGovernment setGovernment = new SetGovernment();
+        setGovernment.TeamNum = teamNum;
+        setGovernment.GovType = (int)govType;
+
+        Command command = new Command();
+        command.CommandType = "SetGovernment";
+        command.SetGovernment = setGovernment;
+        command.Sender = Global.clientID;
+        return command;
+
+    }
+
+    internal static Command ConstructAssignPolicyCardCommand(int teamNum, int policyCardID)
+    {
+        AssignPolicyCard assignPolicyCard = new AssignPolicyCard();
+        assignPolicyCard.TeamNum = teamNum;
+        assignPolicyCard.PolicyCardID  = policyCardID;
+
+        Command command = new Command();
+        command.CommandType = "AssignPolicyCard";
+        command.AssignPolicyCard = assignPolicyCard;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructRemoveTradeRouteCommand(int fromCityID, int toCityID)
+    {
+        RemoveTradeRoute removeTradeRoute = new();
+        removeTradeRoute.FromCityID = fromCityID;
+        removeTradeRoute.ToCityID = toCityID;
+
+        Command command = new();
+        command.CommandType = "RemoveTradeRoute";
+        command.RemoveTradeRoute = removeTradeRoute;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructNewTradeRouteCommand(int fromCityID, int toCityID)
+    {
+        NewTradeRoute newTradeRoute = new NewTradeRoute();
+        newTradeRoute.FromCityID = fromCityID;
+        newTradeRoute.ToCityID = toCityID;
+
+        Command command = new();
+        command.CommandType = "NewTradeRoute";
+        command.NewTradeRoute = newTradeRoute;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructRemoveExportRouteCommand(int fromCityID, int toCityID, YieldType yieldType)
+    {
+        RemoveExportRoute removeExportRoute = new();
+        removeExportRoute.FromCityID=fromCityID;
+        removeExportRoute.ToCityID=toCityID;
+        removeExportRoute.YieldType = (int)yieldType;
+        
+        Command command = new();
+        command.CommandType = "RemoveExportRoute";
+        command.RemoveExportRoute = removeExportRoute;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructNewExportRouteCommand(int fromCityID, int toCityID, YieldType yieldType)
+    {
+        NewExportRoute newExportRoute = new();
+        newExportRoute.FromCityID = fromCityID;
+        newExportRoute.ToCityID = toCityID;
+        newExportRoute.YieldType = (int)yieldType;
+
+        Command command = new();
+        command.CommandType = "NewExportRoute";
+        command.NewExportRoute = newExportRoute;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructUnassignPolicyCardCommand(int teamNum, int policyCardID)
+    {
+        UnassignPolicyCard unassignPolicyCard = new UnassignPolicyCard();
+        unassignPolicyCard.TeamNum = teamNum;
+        unassignPolicyCard.PolicyCardID = policyCardID;
+
+        Command command = new Command();
+        command.CommandType = "UnassignPolicyCard";
+        command.UnassignPolicyCard = unassignPolicyCard;
+        command.Sender = Global.clientID;
+        return command;
     }
 }
 
