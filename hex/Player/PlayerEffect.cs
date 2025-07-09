@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,21 +23,6 @@ public static class PlayerEffect
         {
             throw new ArgumentException($"Function '{functionString}' not recognized in PlayerEffect");
         }
-    }
-    public static void AddTribalGovernmentEffect(BasePlayer player)
-    {
-        //player.flatYields.food += 1; //all flat land makes +1 food
-        player.militaryPolicySlots += 1;
-        player.economicPolicySlots += 1;
-        player.diplomaticPolicySlots += 1;
-        player.buildingPlayerEffects.Add(("TribalGovernment", new BuildingEffect(BuildingEffectType.ProductionCost, EffectOperation.Multiply, 0.90f, 0), "")); //buildings are 10% cheaper (DOESNT WORK CURRENTLY
-        player.unitPlayerEffects.Add(("TribalGovernment", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 2, 0), UnitClass.Land)); //increase land strength by +2
-    }
-    public static void RemoveTribalGovernmentEffect(BasePlayer player)
-    {
-        player.flatYields.food -= 1; //remove all flat land makes +1 food
-        RemovePlayerBuildingEffects("TribalGovernment", player);
-        RemovePlayerUnitEffects("TribalGovernment", player);
     }
 
     static void RemovePlayerBuildingEffects(string name, BasePlayer player)
@@ -67,6 +53,61 @@ public static class PlayerEffect
         foreach (var effect in toRemoveUnit)
         {
             player.unitPlayerEffects.Remove(effect);
+        }
+    }
+
+    public static void AddTribalGovernmentEffect(BasePlayer player)
+    {
+        //player.flatYields.food += 1; //all flat land makes +1 food
+        player.militaryPolicySlots += 1;
+        player.economicPolicySlots += 1;
+        player.diplomaticPolicySlots += 1;
+        player.buildingPlayerEffects.Add(("TribalGovernment", new BuildingEffect(BuildingEffectType.ProductionCost, EffectOperation.Multiply, 0.90f, 0), "")); //buildings are 10% cheaper (DOESNT WORK CURRENTLY
+        player.unitPlayerEffects.Add(("TribalGovernment", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 2, 0), UnitClass.Land)); //increase land strength by +2
+        foreach (int unitID in player.unitList)
+        {
+            Global.gameManager.game.unitDictionary[unitID].RecalculateEffects();
+        }
+    }
+    public static void RemoveTribalGovernmentEffect(BasePlayer player)
+    {
+        player.flatYields.food -= 1; //remove all flat land makes +1 food
+        RemovePlayerBuildingEffects("TribalGovernment", player);
+        RemovePlayerUnitEffects("TribalGovernment", player);
+        foreach (int unitID in player.unitList)
+        {
+            Global.gameManager.game.unitDictionary[unitID].RecalculateEffects();
+        }
+    }
+
+    public static string GetGovernmentTypeTitle(GovernmentType governmentType)
+    {
+        switch (governmentType)
+        {
+            case GovernmentType.Tribal:
+                return "Tribal";
+            default:
+                return "NOT PROVIDED";
+        }
+    }
+    public static string GetGovernmentTypeDescription(GovernmentType governmentType)
+    {
+        switch (governmentType)
+        {
+            case GovernmentType.Tribal:
+                return "+1 Military Policy Slot\n+1 Economic Policy Slot\n+1 Diplomatic Policy Slot\n+2 Combat Strength to All Land Units";
+            default:
+                return "NOT PROVIDED";
+        }
+    }
+    public static Texture2D GetGovernmentTypeIcon(GovernmentType governmentType)
+    {
+        switch (governmentType)
+        {
+            case GovernmentType.Tribal:
+                return GD.Load<CompressedTexture2D>("res://graphics/ui/icons/government.png");
+            default:
+                return GD.Load<CompressedTexture2D>("res://graphics/ui/icons/government.png");
         }
     }
 }

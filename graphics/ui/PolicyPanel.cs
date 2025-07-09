@@ -9,6 +9,7 @@ using System.Security.AccessControl;
 public partial class PolicyPanel : Control
 {
     public bool governmentPickerOpen = false;
+    public GovernmentType targetGovernmentType;
 
     public Control policyControl;
 
@@ -153,7 +154,8 @@ public partial class PolicyPanel : Control
     private void AcceptGovernmentChange()
     {
         //networked message
-
+        Global.gameManager.game.localPlayerRef.SetGovernment(targetGovernmentType);
+        UpdatePolicyPanel();
         CloseGovernmentSwitchPanel();
     }
 
@@ -162,8 +164,17 @@ public partial class PolicyPanel : Control
         CloseGovernmentSwitchPanel();
     }
 
-    private void OpenGovernmentSwitchPanel(GovernmentType governmentType)
+    private void OpenGovernmentSwitchPanel(GovernmentType targetGovernmentType)
     {
+        this.targetGovernmentType = targetGovernmentType;
+        FromGovernmentIcon.Texture = PlayerEffect.GetGovernmentTypeIcon(Global.gameManager.game.localPlayerRef.government);
+        FromGovernmentTitle.Text = PlayerEffect.GetGovernmentTypeTitle(Global.gameManager.game.localPlayerRef.government);
+        FromGovernmentDescription.Text = PlayerEffect.GetGovernmentTypeDescription(Global.gameManager.game.localPlayerRef.government);
+
+        TargetGovernmentIcon.Texture = PlayerEffect.GetGovernmentTypeIcon(targetGovernmentType);
+        TargetGovernmentTitle.Text = PlayerEffect.GetGovernmentTypeTitle(targetGovernmentType);
+        TargetGovernmentDescription.Text = PlayerEffect.GetGovernmentTypeDescription(targetGovernmentType);
+
         GovernmentSwitchPanel.Visible = true;
         governmentPickerOpen = true;
     }
@@ -239,6 +250,9 @@ public partial class PolicyPanel : Control
 
 
             //government section
+            CurrentGovernmentIcon.Texture = PlayerEffect.GetGovernmentTypeIcon(Global.gameManager.game.localPlayerRef.government);
+            CurrentGovernmentTitle.Text = PlayerEffect.GetGovernmentTypeTitle(Global.gameManager.game.localPlayerRef.government);
+            CurrentGovernmentDescription.Text = PlayerEffect.GetGovernmentTypeDescription(Global.gameManager.game.localPlayerRef.government);
             foreach (Control child in AvaliableGovernmentVBox.GetChildren())
             {
                 child.QueueFree();
@@ -252,14 +266,17 @@ public partial class PolicyPanel : Control
             AvaliableGovernmentVBox.AddChild(label);
             foreach (GovernmentType governmentType in Global.gameManager.game.localPlayerRef.avaliableGovernments)
             {
-                Button govButton = new Button();
-                govButton.Icon = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/diplomacy.png");
-                govButton.ExpandIcon = true;
-                govButton.Text = governmentType.ToString();
-                govButton.CustomMinimumSize = new Vector2(64, 64);
-                govButton.SizeFlagsHorizontal = SizeFlags.Fill;
-                govButton.Pressed += () => OpenGovernmentSwitchPanel(governmentType);
-                AvaliableGovernmentVBox.AddChild(govButton);
+                if(Global.gameManager.game.localPlayerRef.government != governmentType)
+                {
+                    Button govButton = new Button();
+                    govButton.Icon = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/diplomacy.png");
+                    govButton.ExpandIcon = true;
+                    govButton.Text = governmentType.ToString();
+                    govButton.CustomMinimumSize = new Vector2(64, 64);
+                    govButton.SizeFlagsHorizontal = SizeFlags.Fill;
+                    govButton.Pressed += () => OpenGovernmentSwitchPanel(governmentType);
+                    AvaliableGovernmentVBox.AddChild(govButton);
+                }
             }
         }
     }
