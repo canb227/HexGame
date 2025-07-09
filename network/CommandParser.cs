@@ -130,6 +130,7 @@ using System.Threading.Tasks;
                 break;
             case "SetDiplomaticState":
                 Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState);
+                break;
         }
     }
 
