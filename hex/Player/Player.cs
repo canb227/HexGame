@@ -196,7 +196,7 @@ public class Player : BasePlayer
         //provides a boost, if happinessTotal reaches some negative number enter a dark age lock happinessTotal at 0 provides some effect, bad but someway to help resolve happiness deficit happinessTotal
         if(happinessTotal > administrativeUpkeep)
         {
-            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+            if (Global.gameManager.game.localPlayerTeamNum == teamNum && Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
             {
                 manager2.uiManager.CallDeferred("SetTopBarColor", Godot.Colors.Goldenrod);
             }
@@ -206,7 +206,7 @@ public class Player : BasePlayer
         }
         else if(happinessTotal < -100)
         {
-            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+            if (Global.gameManager.game.localPlayerTeamNum == teamNum && Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
             {
                 manager2.uiManager.CallDeferred("SetTopBarColor", Godot.Colors.Gray);
             }
