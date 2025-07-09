@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bio583b82v0vr"]
+[gd_scene load_steps=11 format=3 uid="uid://bio583b82v0vr"]
 
 [ext_resource type="Texture2D" uid="uid://xlnirj0x3i1a" path="res://graphics/ui/icons/xmark.png" id="1_esn7w"]
 [ext_resource type="PackedScene" uid="uid://cxff0y10bxtmc" path="res://graphics/ui/PolicyCard.tscn" id="1_y8t24"]
+[ext_resource type="Texture2D" uid="uid://cu344k74oa32p" path="res://graphics/ui/icons/government.png" id="2_jm1mn"]
+[ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="3_o2um7"]
+[ext_resource type="Texture2D" uid="uid://dlg1iwgvuurac" path="res://graphics/ui/icons/diplomacy.png" id="4_smkqm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccq4d"]
 bg_color = Color(0.137255, 0.137255, 0.137255, 0.968627)
@@ -11,6 +14,23 @@ MarginContainer/constants/margin_bottom = 30
 MarginContainer/constants/margin_left = 30
 MarginContainer/constants/margin_top = 15
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ccq4d")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8t24"]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o2um7"]
+bg_color = Color(0.06, 0.06, 0.06, 0.843137)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smkqm"]
+bg_color = Color(0.13, 0.13, 0.13, 0.984314)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.439049, 0.439049, 0.439049, 1)
 
 [node name="PolicyBox" type="Control"]
 z_index = 2
@@ -88,6 +108,7 @@ alignment = 1
 
 [node name="PolicyButton" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox" instance=ExtResource("1_y8t24")]
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_y8t24")
 
 [node name="PolicyButton2" parent="PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox" instance=ExtResource("1_y8t24")]
 layout_mode = 2
@@ -185,6 +206,11 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 alignment = 1
 
+[node name="ColorRect2" type="ColorRect" parent="PolicyPanel/PolicyHBox"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
 [node name="UnassignedPolicyMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -216,6 +242,251 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="PolicyPanel/PolicyHBox"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+color = Color(0, 0, 0, 1)
+
+[node name="GovernmentMarginBox" type="MarginContainer" parent="PolicyPanel/PolicyHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox"]
+layout_mode = 2
+
+[node name="CurrentGovernmentLabel" type="Label" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer"]
+custom_minimum_size = Vector2(5.135, 0)
+layout_mode = 2
+text = "Current Goverment:"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CurrentGovernmentIcon" type="TextureRect" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_jm1mn")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="CurrentGovernmentTitle" type="Label" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer"]
+custom_minimum_size = Vector2(1.27, 0)
+layout_mode = 2
+text = "Tribal:"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CurrentGovernmentDescription" type="Label" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer"]
+custom_minimum_size = Vector2(1.27, 0)
+layout_mode = 2
+text = "+1 Military Policy Slot
++1 Economic Policy Slot
++1 Diplomatic Policy Slot
++2 Combat Strength to all land units"
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 4
+
+[node name="ColorRect" type="ColorRect" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="GarovernmentSelectionScroll" type="ScrollContainer" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+horizontal_scroll_mode = 0
+
+[node name="AvaliableGovernmentVBox" type="VBoxContainer" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/GarovernmentSelectionScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AvaliableGovernmentLabel" type="Label" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/GarovernmentSelectionScroll/AvaliableGovernmentVBox"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "Avaliable Governments"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="AvaliableGovernmentButton" type="Button" parent="PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/GarovernmentSelectionScroll/AvaliableGovernmentVBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Democracy"
+icon = ExtResource("4_smkqm")
+expand_icon = true
+
+[node name="GovernmentSwitchPanelControl" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 54.0
+offset_top = 68.0
+offset_right = -72.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="GovernmentSwitchPanelControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o2um7")
+
+[node name="GovernmentSwitchPanel" type="PanelContainer" parent="GovernmentSwitchPanelControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -459.0
+offset_top = -242.0
+offset_right = 477.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_smkqm")
+
+[node name="GovernmentSwitchVBox" type="VBoxContainer" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel"]
+layout_mode = 2
+
+[node name="SwitchGovernmentLabel" type="Label" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox"]
+layout_mode = 2
+text = "Switch Active Government?"
+horizontal_alignment = 1
+
+[node name="Governments" type="HBoxContainer" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.21
+
+[node name="TargetGovernment" type="VBoxContainer" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ToLabel" type="Label" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/TargetGovernment"]
+layout_mode = 2
+text = "To:"
+horizontal_alignment = 1
+
+[node name="TargetGovernmentIcon" type="TextureRect" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/TargetGovernment"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("4_smkqm")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="TargetGovernmentTitle" type="Label" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/TargetGovernment"]
+custom_minimum_size = Vector2(1.27, 0)
+layout_mode = 2
+text = "Democracy"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TargetGovernmentDescription" type="Label" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/TargetGovernment"]
+custom_minimum_size = Vector2(1.27, 0)
+layout_mode = 2
+text = "+2 Economic Policy Slot
++2 Diplomatic Policy Slot
++1 Gold per Trade Route"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+texture = ExtResource("3_o2um7")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+
+[node name="CurrentGovernment" type="VBoxContainer" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FromLabel" type="Label" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/CurrentGovernment"]
+layout_mode = 2
+text = "From:"
+horizontal_alignment = 1
+
+[node name="CurrentGovernmentIcon" type="TextureRect" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/CurrentGovernment"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_jm1mn")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="CurrentGovernmentTitle" type="Label" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/CurrentGovernment"]
+custom_minimum_size = Vector2(1.27, 0)
+layout_mode = 2
+text = "Tribal"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CurrentGovernmentDescription" type="Label" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/CurrentGovernment"]
+custom_minimum_size = Vector2(1.27, 0)
+layout_mode = 2
+text = "+1 Military Policy Slot
++1 Economic Policy Slot
++1 Diplomatic Policy Slot
++2 Combat Strength to all land units"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+text = "Accept"
+
+[node name="Control" type="Control" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.5
+
+[node name="Button2" type="Button" parent="GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+text = "Decline"
 
 [node name="CloseButton" type="Button" parent="."]
 layout_mode = 2

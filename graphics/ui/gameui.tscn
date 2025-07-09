@@ -299,6 +299,7 @@ text = "Trade and Export"
 icon = ExtResource("9_4wkif")
 
 [node name="GovernmentButton" type="Button" parent="LayerHelper"]
+layout_mode = 0
 offset_left = -2.0
 offset_top = 439.0
 offset_right = 260.0

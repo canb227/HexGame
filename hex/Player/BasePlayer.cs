@@ -18,6 +18,10 @@ public class BasePlayer
         this.isAI = isAI;
 
         SetBaseHexYields();
+        avaliableGovernments.Add(GovernmentType.Tribal);
+        //testing
+        avaliableGovernments.Add(GovernmentType.Democracy);
+        //
         SetGovernment(GovernmentType.Tribal);
         PlayerEffect.ProcessFunctionString("AddTribalGovernmentEffect", this); //you should only apply government effects once and they are permanent
 
@@ -57,6 +61,7 @@ public class BasePlayer
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> globalResources { get; set; } = new();
     public GovernmentType government { get; set; }
+    public HashSet<GovernmentType> avaliableGovernments { get; set;} = new();
     public float strongestUnitBuilt { get; set; } = 0.0f;
     private int idCounter { get; set; } = 0;
     public Yields flatYields { get; set; } = new();

@@ -96,6 +96,7 @@ layout_mode = 2
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1
+anchors_preset = 0
 offset_left = -6.0
 offset_top = -6.0
 offset_right = 150.0

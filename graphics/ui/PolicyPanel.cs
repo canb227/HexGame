@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 
 public partial class PolicyPanel : Control
 {
+    public bool governmentPickerOpen = false;
+
     public Control policyControl;
 
     private FlowContainer AssignedMilitaryPolicyCards;
@@ -16,11 +19,31 @@ public partial class PolicyPanel : Control
 
     private FlowContainer UnassignedPolicyCards;
 
-    private Button UnassignedResourceButton;
-    private HFlowContainer GlobalResources;
+    //government section
+    private Label CurrentGovernmentLabel;
+    private TextureRect CurrentGovernmentIcon;
+    private Label CurrentGovernmentTitle;
+    private Label CurrentGovernmentDescription;
 
+    private Label AvaliableGovernmentLabel;
+    private VBoxContainer AvaliableGovernmentVBox;
 
-    private VBoxContainer CityList;
+    //government popup
+    private Control GovernmentSwitchPanel;
+
+    private Label ToLabel;
+    private TextureRect TargetGovernmentIcon;
+    private Label TargetGovernmentTitle;
+    private Label TargetGovernmentDescription;
+
+    private Label FromLabel;
+    private TextureRect FromGovernmentIcon;
+    private Label FromGovernmentTitle;
+    private Label FromGovernmentDescription;
+
+    private Button acceptButton;
+    private Button declineButton;
+
 
     private Button closeButton;
 
@@ -29,6 +52,7 @@ public partial class PolicyPanel : Control
         policyControl = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/PolicyCardPanel.tscn").Instantiate<Control>();
         AddChild(policyControl);
 
+        //policy section
         AssignedMilitaryPolicyCards = policyControl.GetNode<FlowContainer>("PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedMilitaryVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox");
         AssignedEconomicPolicyCards = policyControl.GetNode<FlowContainer>("PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedEconomicVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox");
         AssignedDiplomaticPolicyCards = policyControl.GetNode<FlowContainer>("PolicyPanel/PolicyHBox/AssignedPolicyMarginBox/ScrollContainer/VBoxContainer/AssignedDiplomaticVBox/AssignedPolicyInnerMarginBox/AssignedPolicyFlowBox");
@@ -39,6 +63,37 @@ public partial class PolicyPanel : Control
         closeButton = policyControl.GetNode<Button>("CloseButton");
 
         closeButton.Pressed += () => Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+
+
+        //government section 
+        CurrentGovernmentLabel = policyControl.GetNode<Label>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/CurrentGovernmentLabel");
+        CurrentGovernmentIcon = policyControl.GetNode<TextureRect>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/CurrentGovernmentIcon");
+        CurrentGovernmentTitle = policyControl.GetNode<Label>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/CurrentGovernmentTitle");
+        CurrentGovernmentDescription = policyControl.GetNode<Label>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/CurrentGovernmentDescription");
+
+        AvaliableGovernmentLabel = policyControl.GetNode<Label>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/GarovernmentSelectionScroll/AvaliableGovernmentVBox/AvaliableGovernmentLabel");
+        AvaliableGovernmentVBox = policyControl.GetNode<VBoxContainer>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/GarovernmentSelectionScroll/AvaliableGovernmentVBox");
+
+        //we make the buttons for avaliable governments
+
+        //government popup
+        GovernmentSwitchPanel = policyControl.GetNode<Control>("GovernmentSwitchPanelControl");
+
+        ToLabel = policyControl.GetNode<Label>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/TargetGovernment/ToLabel");
+        TargetGovernmentIcon = policyControl.GetNode<TextureRect>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/TargetGovernment/TargetGovernmentIcon");
+        TargetGovernmentTitle = policyControl.GetNode<Label>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/TargetGovernment/TargetGovernmentTitle");
+        TargetGovernmentDescription = policyControl.GetNode<Label>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/TargetGovernment/TargetGovernmentDescription");
+
+        FromLabel = policyControl.GetNode<Label>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/CurrentGovernment/FromLabel");
+        FromGovernmentIcon = policyControl.GetNode<TextureRect>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/CurrentGovernment/CurrentGovernmentIcon");
+        FromGovernmentTitle = policyControl.GetNode<Label>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/CurrentGovernment/CurrentGovernmentTitle");
+        FromGovernmentDescription = policyControl.GetNode<Label>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/Governments/CurrentGovernment/CurrentGovernmentDescription");
+
+        acceptButton = policyControl.GetNode<Button>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/MarginContainer/HBoxContainer/Button");
+        acceptButton.Pressed += () => AcceptGovernmentChange();
+        declineButton = policyControl.GetNode<Button>("GovernmentSwitchPanelControl/GovernmentSwitchPanel/GovernmentSwitchVBox/MarginContainer/HBoxContainer/Button2");
+        declineButton.Pressed += () => DeclineGovernmentChange();
+
         UpdatePolicyPanel();
     }
     
@@ -46,21 +101,17 @@ public partial class PolicyPanel : Control
     {
         if(currentCard != null && !policyCard.Equals(currentCard))
         {
-            GD.Print("outer");
             if(policyCard.isBlank && policyCard.isForUnassignment)
             {
-                GD.Print("unassign");
                 UnassignCurrentCard(policyCard);
             }
             else
             {
-                GD.Print("assign");
                 AssignCurrentPolicyCard(policyCard);
             }
         }
         else
         {
-            GD.Print("select");
             SelectNewPolicy(policyCard);
         }
     }
@@ -97,6 +148,30 @@ public partial class PolicyPanel : Control
         {
             currentCard = policyCard;
         }
+    }
+
+    private void AcceptGovernmentChange()
+    {
+        //networked message
+
+        CloseGovernmentSwitchPanel();
+    }
+
+    private void DeclineGovernmentChange()
+    {
+        CloseGovernmentSwitchPanel();
+    }
+
+    private void OpenGovernmentSwitchPanel(GovernmentType governmentType)
+    {
+        GovernmentSwitchPanel.Visible = true;
+        governmentPickerOpen = true;
+    }
+
+    public void CloseGovernmentSwitchPanel()
+    {
+        GovernmentSwitchPanel.Visible = false;
+        governmentPickerOpen = false;
     }
 
 
@@ -162,6 +237,30 @@ public partial class PolicyPanel : Control
             AssignedHeroicPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", false, false, false, true), true, false, this));
             UnassignedPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", false, false, false, true), true, true, this));
 
+
+            //government section
+            foreach (Control child in AvaliableGovernmentVBox.GetChildren())
+            {
+                child.QueueFree();
+            }
+            Label label = new Label();
+            label.Text = "Avaliable Governments";
+            label.HorizontalAlignment = HorizontalAlignment.Center;
+            label.VerticalAlignment = VerticalAlignment.Center;
+            label.AutowrapMode = TextServer.AutowrapMode.Word;
+            label.CustomMinimumSize = new Vector2(1, 1);
+            AvaliableGovernmentVBox.AddChild(label);
+            foreach (GovernmentType governmentType in Global.gameManager.game.localPlayerRef.avaliableGovernments)
+            {
+                Button govButton = new Button();
+                govButton.Icon = GD.Load<CompressedTexture2D>("res://graphics/ui/icons/diplomacy.png");
+                govButton.ExpandIcon = true;
+                govButton.Text = governmentType.ToString();
+                govButton.CustomMinimumSize = new Vector2(64, 64);
+                govButton.SizeFlagsHorizontal = SizeFlags.Fill;
+                govButton.Pressed += () => OpenGovernmentSwitchPanel(governmentType);
+                AvaliableGovernmentVBox.AddChild(govButton);
+            }
         }
     }
 }

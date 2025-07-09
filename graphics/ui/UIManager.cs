@@ -444,7 +444,14 @@ public partial class UIManager : Node3D
         cultureResearchTreePanel.Visible = false;
         resourcePanel.Visible = false;
         tradeExportPanel.Visible = false;
-        policyPanel.Visible = false;
+        if(policyPanel.governmentPickerOpen)
+        {
+            policyPanel.CloseGovernmentSwitchPanel();
+        }
+        else
+        {
+            policyPanel.Visible = false;
+        }
         tradeRoutePickerPanel.Visible = false;
         diplomacyPanel.Visible = false;
         ShowGenericUI();
