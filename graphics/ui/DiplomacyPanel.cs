@@ -65,7 +65,7 @@ public partial class DiplomacyPanel : Control
     {
         if(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace)
         {
-            Global.gameManager.game.teamManager.SetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum, DiplomaticState.War);
+            Global.gameManager.SetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum, DiplomaticState.War);
         }
     }
 
