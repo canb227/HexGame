@@ -67,9 +67,38 @@ public partial class TradeExportPanel : Control
                 }
             }
 
-            //active trade routes
-
-            //incoming trade routes
+            //active/incoming trade routes
+            foreach (TradeRoute tradeRoute in Global.gameManager.game.localPlayerRef.tradeRouteList)
+            {
+                FlowContainer tradeBox = new();
+                foreach (District district in Global.gameManager.game.cityDictionary[tradeRoute.targetCityID].districts)
+                {
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].resourceType != ResourceType.None)
+                    {
+                        TextureRect resourceIcon = new();
+                        resourceIcon.CustomMinimumSize = new Vector2(64, 64);
+                        resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].resourceType].IconPath);
+                        tradeBox.AddChild(resourceIcon);
+                    }
+                }
+                ActiveTradeFlowBox.AddChild(tradeBox);
+            }
+            //outgoing trade routes
+            foreach (TradeRoute tradeRoute in Global.gameManager.game.localPlayerRef.outgoingTradeRouteList)
+            {
+                FlowContainer tradeBox = new();
+                foreach (District district in Global.gameManager.game.cityDictionary[tradeRoute.targetCityID].districts)
+                {
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].resourceType != ResourceType.None)
+                    {
+                        TextureRect resourceIcon = new();
+                        resourceIcon.CustomMinimumSize = new Vector2(64, 64);
+                        resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].resourceType].IconPath);
+                        tradeBox.AddChild(resourceIcon);
+                    }
+                }
+                IncomingTradeFlowBox.AddChild(tradeBox);
+            }
         }
     }
 
@@ -79,11 +108,11 @@ public partial class TradeExportPanel : Control
         ActiveExportsLabel.Text = "Active Exports (" + Global.gameManager.game.localPlayerRef.exportCount + "/" + Global.gameManager.game.localPlayerRef.exportCap + ")";
         if (isOn)
         {
-            Global.gameManager.game.localPlayerRef.NewExportRoute(sourceCityID, targetCityID, YieldType.food);
+            Global.gameManager.NewExportRoute(sourceCityID, targetCityID, YieldType.food);
         }
         else
         {
-            Global.gameManager.game.localPlayerRef.RemoveExportRoute(sourceCityID, targetCityID, YieldType.food);
+            Global.gameManager.RemoveExportRoute(sourceCityID, targetCityID, YieldType.food);
         }
     }
 }

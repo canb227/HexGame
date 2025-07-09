@@ -71,9 +71,9 @@ public class DiplomacyAction
         Global.gameManager.game.playerDictionary[teamNum].goldTotal -= goldAmount;
         Global.gameManager.game.playerDictionary[targetTeamNum].goldTotal += goldAmount;
     }
-    private void MakePeace(int targeTeamNum)
+    private void MakePeace(int targetTeamNum)
     {
-        //MAKE PEACE
+        //MAKE PEACE TODO
     }
 
 }

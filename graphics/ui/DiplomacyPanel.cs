@@ -20,6 +20,7 @@ public partial class DiplomacyPanel : Control
     private Button closeButton;
     private Button acceptButton;
     private Button declineButton;
+    private Button declareWarButton;
 
     private List<DiplomacyAction> playerOffers;
     private List<DiplomacyAction> otherOffers;
@@ -46,6 +47,9 @@ public partial class DiplomacyPanel : Control
         declineButton = diplomacyPanelControl.GetNode<Button>("DeclineButton");
         declineButton.Pressed += () => DeclineDeal();
 
+        declareWarButton = diplomacyPanelControl.GetNode<Button>("DeclareWarButton");
+        declareWarButton.Pressed += () => DeclareWar();
+
         playerImage = diplomacyPanelControl.GetNode<TextureRect>("PlayerImage");
         otherImage = diplomacyPanelControl.GetNode<TextureRect>("OtherImage");
 
@@ -57,8 +61,19 @@ public partial class DiplomacyPanel : Control
     {
     }
 
+    private void DeclareWar()
+    {
+        if(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace)
+        {
+            Global.gameManager.game.teamManager.SetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum, DiplomaticState.War);
+        }
+    }
+
     public void UpdateDiplomacyPanel(int otherTeamNum, DiplomacyDeal diplomaticOffer) //item 1 is what they are offering item 2 is what we are offering
     {
+        this.otherTeamNum = otherTeamNum;
+        declineButton.Visible = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace;
+        declineButton.Disabled = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) != DiplomaticState.Peace;
         Player player = Global.gameManager.game.playerDictionary[otherTeamNum];
         Texture2D icon = new();
         if (player.isAI)
@@ -72,7 +87,6 @@ public partial class DiplomacyPanel : Control
         playerImage.Texture = Global.GetMediumSteamAvatar(Global.gameManager.teamNumToPlayerID[Global.gameManager.game.localPlayerTeamNum]);
         otherImage.Texture = icon;
 
-        this.otherTeamNum = otherTeamNum;
         playerOffers = new();
         otherOffers = new();
         //remove old stuff
@@ -221,6 +235,8 @@ public partial class DiplomacyPanel : Control
         CancelActiveOffer();
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }
+
+
 
     private void SetActionQuantity(LineEdit lineEdit, DiplomacyAction action, string text)
     {

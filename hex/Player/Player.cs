@@ -532,6 +532,21 @@ public class Player : BasePlayer
         tradeRouteCount--;
     }
 
+    public void AssignPolicyCard(int policyCardID)
+    {
+        PolicyCard policyCard = PolicyCardLoader.policyCardDictionary[policyCardID];
+        Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Remove(policyCard);
+        Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Add(policyCard);
+        Global.gameManager.game.playerDictionary[teamNum].unassignedPolicyCards.Remove(policyCard);
+    }
+
+    public void UnassignPolicyCard(int policyCardID)
+    {
+        PolicyCard policyCard = PolicyCardLoader.policyCardDictionary[policyCardID];
+        Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Remove(policyCard);
+        Global.gameManager.game.playerDictionary[teamNum].unassignedPolicyCards.Add(policyCard);
+    }
+
     public void AddGold(float gold)
     {
         SetGoldTotal(GetGoldTotal() + gold);

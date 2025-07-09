@@ -2,22 +2,34 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+public enum DiplomaticState
+{
+    War,
+    Peace,
+    ForcedPeace,
+    Ally
+}
 [Serializable]
 public class TeamManager
 {
     public Dictionary<int, Dictionary<int, int>> relationships { get; set; } = new Dictionary<int, Dictionary<int, int>>();
+    public Dictionary<int, Dictionary<int, DiplomaticState>> diplomaticStates { get; set; } = new();
     public Dictionary<int, DiplomacyDeal> pendingDeals { get; set; } = new();
 
     public void AddTeam(int newTeamNum, int defaultRelationship)
     {
         Dictionary<int, int> newTeam = new();
+        Dictionary<int, DiplomaticState> newStates = new();
         foreach(int oldTeamNum in relationships.Keys)
         {
             relationships[oldTeamNum].Add(newTeamNum, defaultRelationship);
+            diplomaticStates[oldTeamNum].Add(newTeamNum, DiplomaticState.Peace);
+
             newTeam.Add(oldTeamNum, defaultRelationship);
+            newStates.Add(oldTeamNum, DiplomaticState.Peace);
         }
         relationships.Add(newTeamNum, newTeam);
+        diplomaticStates.Add(newTeamNum, newStates);
     }
     public void SetRelationship(int team1, int team2, int relationship)
     {
@@ -27,31 +39,30 @@ public class TeamManager
         }
 
         relationships[team1][team2] = relationship;
+
+
         //relationships[team2][team1] = relationship; //for symmetric relationships
     }
 
-    public void IncreaseRelationship(int team1, int team2, int relationshipChange)
+    public void SetDiplomaticState(int team1, int team2, DiplomaticState diplomaticState)
     {
         if (!relationships.ContainsKey(team1) || !relationships.ContainsKey(team2))
         {
             throw new Exception("One or both teams do not exist.");
         }
 
-        relationships[team1][team2] += relationshipChange;
-        relationships[team1][team2] = Math.Min(relationships[team1][team2], 100);
-        //relationships[team2][team1] = relationship; //for symmetric relationships
+        diplomaticStates[team1][team2] = diplomaticState;
+        diplomaticStates[team2][team1] = diplomaticState;
     }
 
-    public void DecreaseRelationship(int team1, int team2, int relationshipChange)
+    public DiplomaticState GetDiplomaticState(int team1, int team2)
     {
-        if (!relationships.ContainsKey(team1) || !relationships.ContainsKey(team2))
+        if (diplomaticStates.ContainsKey(team1) && diplomaticStates[team1].ContainsKey(team2))
         {
-            throw new Exception("One or both teams do not exist.");
+            return diplomaticStates[team1][team2];
         }
 
-        relationships[team1][team2] -= relationshipChange;
-        relationships[team1][team2] = Math.Max(relationships[team1][team2], 0);
-        //relationships[team2][team1] = relationship; //for symmetric relationships
+        return DiplomaticState.War; // Default state for missing teams
     }
 
     public int GetRelationship(int team1, int team2)
@@ -64,16 +75,17 @@ public class TeamManager
         return -99; // Default relationship
     }
 
+
     public List<int> GetAllies(int teamId)
     {
         var allies = new List<int>();
 
-        if (relationships.ContainsKey(teamId))
+        if (diplomaticStates.ContainsKey(teamId))
         {
-            Dictionary<int, int> relationshipDict = relationships[teamId];
-            foreach (int relationshipID in relationshipDict.Keys)
+            Dictionary<int, DiplomaticState> diplomaticStatesDict = diplomaticStates[teamId];
+            foreach (int relationshipID in diplomaticStatesDict.Keys)
             {
-                if (relationshipDict[relationshipID] >= 80)
+                if (diplomaticStatesDict[relationshipID] == DiplomaticState.Ally)
                 {
                     allies.Add(relationshipID);
                 }
@@ -87,12 +99,12 @@ public class TeamManager
     {
         var enemies = new List<int>();
 
-        if (relationships.ContainsKey(teamId))
+        if (diplomaticStates.ContainsKey(teamId))
         {
-            Dictionary<int, int> relationshipDict = relationships[teamId];
-            foreach (int relationshipID in relationshipDict.Keys)
+            Dictionary<int, DiplomaticState> diplomaticStatesDict = diplomaticStates[teamId];
+            foreach (int relationshipID in diplomaticStatesDict.Keys)
             {
-                if (relationshipDict[relationshipID] <= 0)
+                if (diplomaticStatesDict[relationshipID] == DiplomaticState.War)
                 {
                     enemies.Add(relationshipID);
                 }

@@ -69,29 +69,11 @@ public partial class TradeRoutePickerPanel : Control
                         tradeBox.AddChild(flowContainer);
                         Button button = new Button();
                         button.Text = "Start Trade Route";
-                        button.Pressed += () => Global.gameManager.game.playerDictionary[unit.teamNum].NewTradeRoute(Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].district.cityID, tempGameHex.district.cityID);
+                        button.Pressed += () => Global.gameManager.NewTradeRoute(Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].district.cityID, tempGameHex.district.cityID);
                         tradeBox.AddChild(button);
                     }
                 }
             }
-        }
-/*        foreach(TradeRoute tradeRoute in Global.gameManager.game.playerDictionary[unit.teamNum].tradeRouteList)
-        {
-            
-        }*/
-    }
-
-
-    private void ExportFoodCheckBoxed(bool isOn, CheckButton exportFoodCheckBox, int sourceCityID, int targetCityID)
-    {
-        ActiveExportsLabel.Text = "Active Exports (" + Global.gameManager.game.localPlayerRef.exportCount + "/" + Global.gameManager.game.localPlayerRef.exportCap + ")";
-        if (isOn)
-        {
-            Global.gameManager.game.localPlayerRef.NewExportRoute(sourceCityID, targetCityID, YieldType.food);
-        }
-        else
-        {
-            Global.gameManager.game.localPlayerRef.RemoveExportRoute(sourceCityID, targetCityID, YieldType.food);
         }
     }
 }

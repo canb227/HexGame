@@ -71,11 +71,13 @@ public partial class CityExportPanel : PanelContainer
         Player player = (Player)Global.gameManager.game.playerDictionary[city.teamNum];
         if (isOn)
         {
-            player.NewExportRoute(city.id, targetCity.id, YieldType.food);
+            //networked message
+            Global.gameManager.NewExportRoute(city.id, targetCity.id, YieldType.food);
         }
         else
         {
-            player.RemoveExportRoute(city.id, targetCity.id, YieldType.food);
+            //networked message
+            Global.gameManager.RemoveExportRoute(city.id, targetCity.id, YieldType.food);
         }
     }
 }

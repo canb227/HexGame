@@ -4,8 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+public static class PolicyCardLoader
+{
+    public static Dictionary<int, PolicyCard> policyCardDictionary = new();
+}
+
 public class PolicyCard
 {
+    public int staticID { get; set; }
     public bool isMilitary { get; set; }
     public bool isEconomic { get; set; }
     public bool isDiplomatic { get; set; }
@@ -25,6 +31,18 @@ public class PolicyCard
     public PolicyCard()
     {
 
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is PolicyCard)
+        {
+            if (((PolicyCard)obj).staticID == staticID)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public void CalculateEffects()
     {

@@ -104,11 +104,11 @@ public partial class PolicyPanel : Control
         {
             if(policyCard.isBlank && policyCard.isForUnassignment)
             {
-                UnassignCurrentCard(policyCard);
+                UnassignCurrentCard(Global.gameManager.game.localPlayerTeamNum, policyCard);
             }
             else
             {
-                AssignCurrentPolicyCard(policyCard);
+                AssignCurrentPolicyCard(Global.gameManager.game.localPlayerTeamNum, policyCard);
             }
         }
         else
@@ -117,21 +117,19 @@ public partial class PolicyPanel : Control
         }
     }
 
-    public void UnassignCurrentCard(GraphicPolicyCard policyCard)
+    public void UnassignCurrentCard(int teamNum, GraphicPolicyCard policyCard)
     {
-        Global.gameManager.game.localPlayerRef.activePolicyCards.Remove(currentCard.policyCard);
-        Global.gameManager.game.localPlayerRef.unassignedPolicyCards.Add(currentCard.policyCard);
+        //networked message
+        Global.gameManager.UnassignPolicyCard(teamNum, policyCard.policyCard.staticID);
         currentCard = null;
         UpdatePolicyPanel();
     }
-    public void AssignCurrentPolicyCard(GraphicPolicyCard targetCard)
+    public void AssignCurrentPolicyCard(int teamNum, GraphicPolicyCard targetCard)
     {
-        Player localPlayer = Global.gameManager.game.localPlayerRef;
         if (currentCard != null && targetCard.isBlank && (currentCard.policyCard.SameType(targetCard.policyCard) || targetCard.policyCard.isHeroic))
         {
-            Global.gameManager.game.localPlayerRef.activePolicyCards.Remove(currentCard.policyCard);
-            Global.gameManager.game.localPlayerRef.activePolicyCards.Add(currentCard.policyCard);
-            Global.gameManager.game.localPlayerRef.unassignedPolicyCards.Remove(currentCard.policyCard);
+            //networked message
+            Global.gameManager.AssignPolicyCard(teamNum, targetCard.policyCard.staticID);
             currentCard = null;
             UpdatePolicyPanel();
         }
@@ -154,7 +152,7 @@ public partial class PolicyPanel : Control
     private void AcceptGovernmentChange()
     {
         //networked message
-        Global.gameManager.game.localPlayerRef.SetGovernment(targetGovernmentType);
+        Global.gameManager.SetGovernment(Global.gameManager.game.localPlayerTeamNum, targetGovernmentType);
         UpdatePolicyPanel();
         CloseGovernmentSwitchPanel();
     }
