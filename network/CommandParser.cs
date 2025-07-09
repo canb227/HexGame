@@ -128,6 +128,8 @@ using System.Threading.Tasks;
             case "SpawnUnit":
                 Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.Id, command.SpawnUnit.TeamNum, command.SpawnUnit.Position, command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
                 break;
+            case "SetDiplomaticState":
+                Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState);
         }
     }
 
@@ -505,6 +507,20 @@ using System.Threading.Tasks;
         command.CommandType = "UnassignPolicyCard";
         command.UnassignPolicyCard = unassignPolicyCard;
         command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructSetDiplomaticStateCommand(int teamNumOne, int teamNumTwo, DiplomaticState diplomaticState)
+    {
+        SetDiplomaticState setDiplomaticState = new SetDiplomaticState();
+        setDiplomaticState.TeamNumOne = teamNumOne;
+        setDiplomaticState.TeamNumTwo = teamNumTwo;
+        setDiplomaticState.DiplomaticState=(int)diplomaticState;
+
+        Command command = new();
+        command.CommandType = "SetDiplomaticState";
+        command.SetDiplomaticState = setDiplomaticState;
+        command.Sender= Global.clientID;
         return command;
     }
 }

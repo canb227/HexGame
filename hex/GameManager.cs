@@ -705,7 +705,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error adding export route: " + e.Message); //TODO - Potential Desync
             throw;
         }
     }
@@ -726,7 +726,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error remove export route: " + e.Message); //TODO - Potential Desync
             throw;
         }
     }
@@ -747,7 +747,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error adding trade route: " + e.Message); //TODO - Potential Desync
             throw;
         }
     }
@@ -768,7 +768,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error removing trade route: " + e.Message); //TODO - Potential Desync
             throw;
         }
     }
@@ -788,7 +788,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error assigning policy card: " + e.Message); //TODO - Potential Desync
             throw;
         }
     }
@@ -808,7 +808,7 @@ public partial class GameManager : Node
         }
         catch (Exception e)
         {
-            Global.Log("Error adding pending deal: " + e.Message); //TODO - Potential Desync
+            Global.Log("Error unassigning policy card: " + e.Message); //TODO - Potential Desync
             throw;
         }
     }
@@ -836,5 +836,25 @@ public partial class GameManager : Node
     internal void SpawnUnit(string unitType, int id, int teamNum, NetworkMessages.Hex position, bool stackable, bool flexible, bool local = true)
     {
         throw new NotImplementedException();
+    }
+
+    internal void SetDiplomaticState(int teamNumOne, int teamNumTwo, DiplomaticState diplomaticState, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSetDiplomaticStateCommand(teamNumOne, teamNumTwo, diplomaticState));
+            return;
+        }
+
+
+        try
+        {
+            Global.gameManager.game.teamManager.SetDiplomaticState(teamNumOne,teamNumTwo,diplomaticState);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error setting diplomatic state: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
     }
 }
