@@ -80,10 +80,17 @@ message Command
 		UnassignPolicyCard UnassignPolicyCard = 23;
 		SetGovernment SetGovernment = 24;
 		SpawnUnit SpawnUnit = 25;
+		SetDiplomaticState SetDiplomaticState = 26;
 	}
 	uint64 sender = 99;
 }
 
+message SetDiplomaticState
+{
+	int32 teamNumOne = 1;
+	int32 teamNumTwo = 2;
+	int32 diplomaticState = 3;
+}
 
 message NewExportRoute 
 {
