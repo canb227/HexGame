@@ -146,7 +146,6 @@ public class BuildingEffect
             { "MilitaristicEffect", MilitaristicEffect },
             { "GranaryEffect", GranaryEffect },
             { "DockWarehouseEffect", DockWarehouseEffect },
-            { "ShrineEffect", ShrineEffect },
             { "StoneCutterWarehouseEffect", StoneCutterWarehouseEffect },
             { "GardenEffect", GardenEffect },
             { "LibraryEffect", LibraryEffect },
