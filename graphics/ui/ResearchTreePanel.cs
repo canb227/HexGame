@@ -3,6 +3,7 @@ using NetworkMessages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Linq;
 
@@ -48,25 +49,26 @@ public partial class ResearchTreePanel : Control
         }
         for (int i = 0; i <= highestTier; i++)
         {
-            researchTierDict[i] = new List<string> { "BLANK0", "BLANK1", "BLANK2", "BLANK3", "BLANK4", "BLANK5", "BLANK6", "BLANK7" };
+            researchTierDict[i] = new List<string>() {"", "", "", "", "", "", "", ""};
         }
         foreach (KeyValuePair<string, ResearchInfo> info in researchesDict)
         {
             researchTierDict[info.Value.Tier][info.Value.VisualSlot] = info.Key;
         }
 
-        mostResearchesInATier = 0;
+        mostResearchesInATier = 8;
+
         numberOfTiers = researchTierDict.Keys.Count;
         foreach (int key in researchTierDict.Keys.OrderByDescending(k => k))
         {
-            if (researchTierDict[key].Count > mostResearchesInATier)
+/*            if (researchTierDict[key].Count > mostResearchesInATier)
             {
                 mostResearchesInATier = researchTierDict[key].Count;
-            }
+            }*/
 
             foreach (string researchName in researchTierDict[key])
             {
-                if (!researchName.Contains("BLANK"))
+                if (!researchName.Contains("BLANK") && researchName != "")
                 {
                     ResearchInfo info = researchesDict[researchName];
                     foreach (string requirement in info.Requirements)
@@ -76,7 +78,7 @@ public partial class ResearchTreePanel : Control
                         while (tierDelta > 1)
                         {
                             tierDelta--;
-                            researchTierDict[info.Tier - tierDelta].Add(researchName + "|" + requirement + "\\" + "BLANK" + (info.Tier - tierDelta));
+                            researchTierDict[info.Tier - tierDelta][info.VisualSlot] = (researchName + "|" + requirement + "\\" + "BLANK" + (info.Tier - tierDelta));
                         }
                     }
                 }
@@ -87,10 +89,13 @@ public partial class ResearchTreePanel : Control
         int index = 0;
         foreach (int key in researchTierDict.Keys.OrderByDescending(k => k))
         {
-            while (researchTierDict[key].Count < mostResearchesInATier)
+            for (int i = 0; i < researchTierDict[key].Count; i++)
             {
-                researchTierDict[key].Add("BLANK"+index);
-                index++;
+                if (researchTierDict[key][i] == "")
+                {
+                    researchTierDict[key][i] = ("BLANK" + index);
+                    index++;
+                }
             }
         }
 
