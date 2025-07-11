@@ -692,7 +692,7 @@ public static class AIUtils
                 validUnits.Add(unit);
             }
         }
-        Global.Log(validUnits.Count.ToString());
+        //Global.Log(validUnits.Count.ToString());
         return validUnits[rng.Next(validUnits.Count)];
     }
     public static string PickRandomNonMeleeMilitaryUnit(AI ai, City city)
@@ -705,7 +705,7 @@ public static class AIUtils
                 validUnits.Add(unit);
             }
         }
-        Global.Log(validUnits.Count.ToString());
+       // Global.Log(validUnits.Count.ToString());
         return validUnits[rng.Next(validUnits.Count)];
     }
     //City Helpers Block Done

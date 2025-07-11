@@ -105,6 +105,10 @@ public partial class AIManager
                 }
                 break;
         }
+        foreach (var player in Global.gameManager.game.playerDictionary.Keys)
+        {
+            Global.gameManager.game.teamManager.SetDiplomaticState(ai.player.teamNum, player, DiplomaticState.War);
+        }
     }
 
     private AIPersonality PickMinorAIPersonality(AI ai, FactionType faction)
@@ -122,6 +126,7 @@ public partial class AIManager
         {
             if (!ai.player.turnFinished)
             {
+                
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Hasn't ended turn - iterating through logic"); }
                 HandleSettlers(ai);
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Starting City Handling"); }
@@ -328,7 +333,7 @@ public partial class AIManager
                         }
                     }
                 }
-                foreach (int defender in ai.cities[cityID].defenderUnits)
+                foreach (int defender in ai.cities[cityID].defenderUnits.ToList())
                 {
                     Unit unit = Global.gameManager.game.unitDictionary[defender];
                     if (!ai.player.unitList.Contains(defender))
@@ -726,6 +731,10 @@ public partial class AIManager
             }
         }
         int total = melee + ranged + siege + naval;
+        if (total <1)
+        {
+            total = 1;
+        }
         float meleeRatio = melee / total;
         float rangedRatio = ranged / total;
         float siegeRatio = siege / total;
