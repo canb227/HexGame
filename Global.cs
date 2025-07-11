@@ -26,6 +26,7 @@ public partial class Global : Node
     //If the compiler gives you trouble with Global.[varname], try using Global.instance.[varname]
     public static Layout layout;
     public static GameManager gameManager;
+    public static Lobby lobby;
     public static NetworkPeer networkPeer;
     public static MenuManager menuManager;
     public static HexGameCamera camera;
@@ -66,7 +67,7 @@ public partial class Global : Node
         Global.Log("Game Rich Presence Join Requested: " + pCallback.m_rgchConnect);
         string connectString = (pCallback.m_rgchConnect);
         Global.Log("Connect String: " + connectString);
-        Global.menuManager.JoinLobby(ulong.Parse(connectString));
+        Global.lobby.AttemptToJoinLobby(ulong.Parse(connectString));
 
 
     }

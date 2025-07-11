@@ -102,40 +102,19 @@ public partial class GameManager : Node
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
-
-        if (game.mainGameBoard == null)
-        {
-            //game = GameTests.TestSlingerCombat();
-            //SaveGame("test.txt");
-            //game = LoadGame("test.txt");
-        }
-
-
         game.localPlayerTeamNum = teamNum;
-
         InitGraphics(game, Global.layout);
-
-        SpawnPlayers();
         Global.menuManager.ClearMenus();
-
-        foreach (Player player1 in game.playerDictionary.Values)
-        {
-            foreach(Player player2 in game.playerDictionary.Values)
-            {
-                if (player1.teamNum != player2.teamNum)
-                {
-                    Global.gameManager.game.teamManager.SetRelationship(player1.teamNum, player2.teamNum, -99);
-                }
-            }
-        }
         if (isHost)
         {
+           SpawnPlayers();
            this.AIManager = new AIManager();
            AIManager.InitAI();
         }
         game.turnManager.StartNewTurn();
         graphicManager.StartNewTurn();
         gameStarted = true;
+        //MoveCameraToStartLocation();
     }
 
     public void SpawnPlayers()
