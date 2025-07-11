@@ -369,6 +369,11 @@ public partial class NetworkPeer : Node
 
         //Steamworks.Net/ Steamworks API function to send the message. See the Steamworks API
         EResult result = SendMessageToUser(ref remotePeer, ptr, (uint)data.Length, sendFlags, channel);
+
+        if (result!=EResult.k_EResultOK)
+        {
+            Global.Log("Error sending message: " + result.ToString());
+        }
     }
 
     /// <summary>

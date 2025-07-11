@@ -96,7 +96,7 @@ public partial class Lobby : Control
                 catchupStatus.Sender = Global.clientID;
                 catchupStatus.MessageType = "addPlayer";
                 catchupStatus.LobbyStatus = status;
-                Global.networkPeer.SendLobbyMessageToPeer(catchupStatus, playerID);
+                //Global.networkPeer.SendLobbyMessageToPeer(catchupStatus, playerID);
             }
             LobbyMessage lobbyMessage = new LobbyMessage();
             lobbyMessage.Sender = Global.clientID;
@@ -112,6 +112,7 @@ public partial class Lobby : Control
                 IsAI = false
             };
             lobbyMessage.LobbyStatus = lobbyStatus;
+            Global.networkPeer.SendLobbyMessageToPeer(lobbyMessage, playerID);
             Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
         }
         else
@@ -352,7 +353,12 @@ public partial class Lobby : Control
                 break;
             case "addPlayer":
                 Global.Log("Adding player with ID: " + lobbyMessage.LobbyStatus.Id + " to lobby from message: " + lobbyMessage.Sender);
-                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, lobbyMessage.LobbyStatus.ColorIndex, false, false);
+                bool isSelf = false;
+                if (lobbyMessage.LobbyStatus.Id==Global.clientID)
+                {
+                    isSelf = true;
+                }
+                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, lobbyMessage.LobbyStatus.ColorIndex, isSelf, false);
                 break;
             default:
                 Global.Log("Unknown lobby message type: " + lobbyMessage.MessageType);
