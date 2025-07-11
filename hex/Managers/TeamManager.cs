@@ -95,6 +95,25 @@ public class TeamManager
         return allies;
     }
 
+    public List<int> GetNeutralPlayers(int teamId)
+    {
+        var neutrals = new List<int>();
+
+        if (diplomaticStates.ContainsKey(teamId))
+        {
+            Dictionary<int, DiplomaticState> diplomaticStatesDict = diplomaticStates[teamId];
+            foreach (int relationshipID in diplomaticStatesDict.Keys)
+            {
+                if (diplomaticStatesDict[relationshipID] == DiplomaticState.Peace || diplomaticStatesDict[relationshipID] == DiplomaticState.ForcedPeace)
+                {
+                    neutrals.Add(relationshipID);
+                }
+            }
+        }
+
+        return neutrals;
+    }
+
     public List<int> GetEnemies(int teamId)
     {
         var enemies = new List<int>();

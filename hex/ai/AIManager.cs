@@ -238,7 +238,7 @@ public partial class AIManager
             {
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Army dead, retreating."); }
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new gather t"); }
-                Unit unit = new Unit("Scout", -ai.player.teamNum, ai.player.teamNum);
+                Unit unit = new Unit("Scout", 0,-ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.attackTarget;
                 ai.gatherTarget = FindClosestFriendlyCity(ai, unit);
                 ai.hasGatherTarget = true;
@@ -254,7 +254,7 @@ public partial class AIManager
             {
 
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Attack t dead, retargeting."); }
-                Unit unit = new Unit("Scout", -ai.player.teamNum, ai.player.teamNum);
+                Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.attackTarget;
                 ai.attackTarget = FindClosestEnemyDistrict(ai, Global.gameManager.game.unitDictionary[-ai.player.teamNum]);
                 GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
@@ -270,7 +270,7 @@ public partial class AIManager
             if (ai.attackers.Count >= GetDesiredArmySize(ai))
             {
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Army size hit, starting attack."); }
-                Unit unit = new Unit("Scout", -ai.player.teamNum, ai.player.teamNum);
+                Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.gatherTarget;
                 ai.attackTarget = FindClosestEnemyDistrict(ai, Global.gameManager.game.unitDictionary[-ai.player.teamNum]);
                 GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];

@@ -7,6 +7,16 @@ using System.Threading.Tasks;
 public static class PolicyCardLoader
 {
     public static Dictionary<int, PolicyCard> policyCardDictionary = new();
+    static int index = 0;
+    static PolicyCardLoader()
+    {
+        policyCardDictionary.Add(NextPolicyCardIndex(), new PolicyCard("", "", false, false, false, false));
+    }
+
+    static int NextPolicyCardIndex()
+    {
+        return index++;
+    }
 }
 
 public class PolicyCard

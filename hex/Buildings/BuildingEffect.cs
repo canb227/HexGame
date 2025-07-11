@@ -144,16 +144,32 @@ public class BuildingEffect
             { "AdministrativeEffect", AdministrativeEffect },
             { "HarborEffect", HarborEffect },
             { "MilitaristicEffect", MilitaristicEffect },
-            { "GranaryWarehouseEffect", GranaryWarehouseEffect },
+            { "GranaryEffect", GranaryEffect },
             { "DockWarehouseEffect", DockWarehouseEffect },
+            { "ShrineEffect", ShrineEffect },
             { "StoneCutterWarehouseEffect", StoneCutterWarehouseEffect },
             { "GardenEffect", GardenEffect },
             { "LibraryEffect", LibraryEffect },
             { "AncientWallEffect", AncientWallEffect },
             { "AmpitheaterEffect", AmpitheaterEffect },
-            { "StonehengeEffect", StonehengeEffect },
             { "CityCenterWallEffect", CityCenterWallEffect },
-            { "MonumentEffect", MonumentEffect }
+            { "MonumentEffect", MonumentEffect },
+            { "ShrineEffect", ShrineEffect }, 
+            { "BarracksEffect", BarracksEffect },
+            { "WatermillEffect", WatermillEffect },
+            { "LighthouseEffect", LighthouseEffect }, 
+            { "MarketEffect", MarketEffect }, 
+            { "StablesEffect", StablesEffect }, 
+            { "AqueductEffect", AqueductEffect }, 
+            { "WorkshopEffect", WorkshopEffect }, 
+            { "UniversityEffect", UniversityEffect }, 
+            { "ArmoryEffect", ArmoryEffect }, 
+            { "MedievalWallsEffect", MedievalWallsEffect },
+            { "StonehengeEffect", StonehengeEffect },
+            { "ColossusEffect", ColossusEffect },
+            { "PetraEffect", PetraEffect },
+            { "TerracottaArmyEffect", TerracottaArmyEffect },
+            { "MachuPicchuEffect", MachuPicchuEffect },
         };
         
         if (effectFunctions.TryGetValue(functionString, out Action<Building> effectFunction))
@@ -252,14 +268,16 @@ public class BuildingEffect
 
     }
 
-    void GranaryWarehouseEffect(Building building)
+    void GranaryEffect(Building building)
     {
-        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].flatYields.food += 1;
+        
     }
     void DockWarehouseEffect(Building building)
     {
-        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].coastalYields.food += 1;
     }
+
+
+
     void StoneCutterWarehouseEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].roughYields.production += 1;
@@ -287,10 +305,6 @@ public class BuildingEffect
     {
 
     }
-    void StonehengeEffect(Building building)
-    {
-        //stonehenge effect TODO
-    }
     void CityCenterWallEffect(Building building)
     {
         if(!Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.hasWalls)
@@ -300,4 +314,83 @@ public class BuildingEffect
             Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.hasWalls = true;
         }
     }
+
+    void ShrineEffect(Building building)
+    {
+        //something with the hero I think
+    }
+    void BarracksEffect(Building building)
+    {
+        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].infantryProductionCombatModifier += 1;
+    }
+
+    void WatermillEffect(Building building)
+    {
+
+    }
+    void LighthouseEffect(Building building)
+    {
+        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].coastalYields.food += 1;
+        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].navalProductionCombatModifier += 1;
+    }
+
+    void MarketEffect(Building building)
+    {
+        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].maxResourcesHeld += 1;
+    }
+
+    void StablesEffect(Building building)
+    {
+        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].cavalryProductionCombatModifier += 1;
+    }
+
+    void AqueductEffect(Building building)
+    {
+    }
+
+    void WorkshopEffect(Building building)
+    {
+    }
+
+    void UniversityEffect(Building building)
+    {
+    }
+
+    void ArmoryEffect(Building building)
+    {
+    }
+
+    void MedievalWallsEffect(Building building)
+    {
+    }
+
+    //world wonders
+
+    void StonehengeEffect(Building building)
+    {
+    }
+
+    void ColossusEffect(Building building)
+    {
+        City city = Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID];
+        city.additionalTradeRoutes += 1;
+    }
+
+    void PetraEffect(Building building)
+    {
+        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].desertYields.food += 2;
+        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].desertYields.gold += 2;
+        Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].desertYields.production += 1;
+    }
+
+    void TerracottaArmyEffect(Building building)
+    {
+        //provide some bonus to all units
+    }
+
+    void MachuPicchuEffect(Building building)
+    {
+        //mountains provide a adjacency bonus to districts in all cities
+    }
+
 }

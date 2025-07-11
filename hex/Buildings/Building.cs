@@ -107,7 +107,10 @@ public partial class Building : GodotObject
         }
         foreach ((string, BuildingEffect, String) effectName in Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[districtHex].district.cityID].teamNum].buildingPlayerEffects)
         {
-            orderedEffects.Enqueue(effectName.Item2, effectName.Item2.priority);
+            if(effectName.Item3 == "" || effectName.Item3 == name)
+            {
+                orderedEffects.Enqueue(effectName.Item2, effectName.Item2.priority);
+            }
         }
         foreach (BuildingEffect effect1 in buildingEffects)
         {

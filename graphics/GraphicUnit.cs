@@ -48,7 +48,7 @@ public partial class GraphicUnit : GraphicObject
             GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
             Point graphicalHexPoint = Global.gameManager.graphicManager.layout.HexToPixel(ggb.HexToGraphicHex(unit.hex)); //use for X and Z
             float height = ggb.Vector3ToHeightMapVal(node3D.Transform.Origin); //TODO
-            Global.Log(height.ToString());
+            //Global.Log(height.ToString());
             newTransform.Origin = new Vector3((float)graphicalHexPoint.y, height, (float)graphicalHexPoint.x);
 
 
@@ -155,7 +155,10 @@ public partial class GraphicUnit : GraphicObject
     {
         hex = hex.WrapHex();
         Global.gameManager.MoveUnit(unit.id, hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum)); //networked command
-        UpdateGraphic(GraphicUpdateType.Move);
+        foreach(Unit unit in Global.gameManager.game.unitDictionary.Values)
+        {
+            Global.gameManager.graphicManager.graphicObjectDictionary[unit.id].UpdateGraphic(GraphicUpdateType.Move);
+        }
         Unselected();
         Selected();
     }

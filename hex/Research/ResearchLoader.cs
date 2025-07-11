@@ -94,6 +94,25 @@ public static class ResearchLoader
             { "IrrigationEffect", IrrigationEffect },
             { "WritingEffect", WritingEffect },
             { "MasonryEffect", MasonryEffect },
+            { "MiningEffect", MiningEffect },
+            { "AstrologyEffect", AstrologyEffect },
+            { "ArcheryEffect", ArcheryEffect },
+            { "BronzeWorkingEffect", BronzeWorkingEffect },
+            { "WheelEffect", WheelEffect },
+            { "CelestialNavigationEffect", CelestialNavigationEffect },
+            { "CurrencyEffect", CurrencyEffect },
+            { "HorsebackRidingEffect", HorsebackRidingEffect },
+            { "IronWorkingEffect", IronWorkingEffect },
+            { "ShipbuildingEffect", ShipbuildingEffect },
+            { "MathematicsEffect", MathematicsEffect },
+            { "EngineeringEffect", EngineeringEffect },
+            { "MilitaryTacticsEffect", MilitaryTacticsEffect },
+            { "ApprenticeshipEffect", ApprenticeshipEffect },
+            { "MachineryEffect", MachineryEffect },
+            { "EducationEffect", EducationEffect },
+            { "StirrupsEffect", StirrupsEffect },
+            { "MilitaryEngineeringEffect", MilitaryEngineeringEffect },
+            { "CastlesEffect", CastlesEffect }
         };
         
         if (effectFunctions.TryGetValue(functionString, out Action<Player> effectFunction))
@@ -117,7 +136,7 @@ public static class ResearchLoader
     }
     static void AnimalHusbandryEffect(Player player)
     {
-        player.unitPlayerEffects.Add(("AnimalHusbandry", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Recon));
+        //player.unitPlayerEffects.Add(("AnimalHusbandry", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Recon));
     }
     static void IrrigationEffect(Player player)
     {
@@ -128,4 +147,83 @@ public static class ResearchLoader
     static void MasonryEffect(Player player)
     {
     }
+    static void MiningEffect(Player player)
+    {
+    }
+
+    static void AstrologyEffect(Player player)
+    {
+    }
+
+    static void ArcheryEffect(Player player)
+    {
+    }
+
+    static void BronzeWorkingEffect(Player player)
+    {
+    }
+
+    static void WheelEffect(Player player)
+    {
+    }
+
+    static void CelestialNavigationEffect(Player player)
+    {
+    }
+
+    static void CurrencyEffect(Player player)
+    {
+    }
+
+    static void HorsebackRidingEffect(Player player)
+    {
+    }
+
+    static void IronWorkingEffect(Player player)
+    {
+    }
+
+    static void ShipbuildingEffect(Player player)
+    {
+    }
+
+    static void MathematicsEffect(Player player)
+    {
+        player.unitPlayerEffects.Add(("Mathematics", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Naval));
+    }
+
+    static void EngineeringEffect(Player player)
+    {
+    }
+
+    static void MilitaryTacticsEffect(Player player)
+    {
+    }
+
+    static void ApprenticeshipEffect(Player player)
+    {
+        player.buildingPlayerEffects.Add(("Apprenticeship", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Mine"));
+    }
+
+    static void MachineryEffect(Player player)
+    {
+    }
+
+    static void EducationEffect(Player player)
+    {
+    }
+
+    static void StirrupsEffect(Player player)
+    {
+        player.buildingPlayerEffects.Add(("Stirrups", new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1.0f, 5), "Pasture"));
+    }
+
+    static void MilitaryEngineeringEffect(Player player)
+    {
+    }
+
+    static void CastlesEffect(Player player)
+    {
+    }
+
 }

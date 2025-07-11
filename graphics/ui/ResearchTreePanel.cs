@@ -48,11 +48,11 @@ public partial class ResearchTreePanel : Control
         }
         for (int i = 0; i <= highestTier; i++)
         {
-            researchTierDict[i] = new List<string>();
+            researchTierDict[i] = new List<string> { "BLANK0", "BLANK1", "BLANK2", "BLANK3", "BLANK4", "BLANK5", "BLANK6", "BLANK7" };
         }
         foreach (KeyValuePair<string, ResearchInfo> info in researchesDict)
         {
-            researchTierDict[info.Value.Tier].Add(info.Key);
+            researchTierDict[info.Value.Tier][info.Value.VisualSlot] = info.Key;
         }
 
         mostResearchesInATier = 0;
@@ -200,10 +200,10 @@ public partial class ResearchTreePanel : Control
     {
         researchTiers = new();
         //here is our shuffle then build
-        foreach (List<string> list in researchTierDict.Values)
+/*        foreach (List<string> list in researchTierDict.Values)
         {
             Shuffle(list);
-        }
+        }*/
 
         for (int i = numberOfTiers - 1; i >= 0; i--)
         {

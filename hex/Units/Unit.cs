@@ -35,7 +35,9 @@ public partial class Unit: GodotObject
     public float sightRange { get; set; } = 3.0f;
     public float health { get; set; } = 100.0f;
     public float combatStrength { get; set; } = 10.0f;
+    public float baseCombatStrength { get; set; }
     public float maintenanceCost { get; set; } = 1.0f;
+    public float baseMaintenanceCost { get; set; }
     public int maxAttackCount { get; set; } = 1;
     public int attacksLeft { get; set; } = 1;
     public int healingFactor { get; set; }
@@ -48,7 +50,7 @@ public partial class Unit: GodotObject
     public bool isTargetEnemy { get; set; }
     public bool isSleeping { get; set; }
     public bool isSkipping { get; set; }
-    public Unit(String unitType, int id, int teamNum)
+    public Unit(String unitType, int combatModifier, int id, int teamNum)
     {
         this.id = id;
         this.name = unitType;
@@ -63,8 +65,10 @@ public partial class Unit: GodotObject
             this.movementSpeed = unitInfo.MovementSpeed;
             this.sightRange = unitInfo.SightRange;
             this.healingFactor = unitInfo.HealingFactor;
-            this.combatStrength = unitInfo.CombatPower;
+            this.combatStrength = unitInfo.CombatPower + combatModifier;
+            this.baseCombatStrength = unitInfo.CombatPower + combatModifier;
             this.maintenanceCost = unitInfo.MaintenanceCost;
+            this.baseMaintenanceCost = unitInfo.MaintenanceCost;
 
             foreach (String effectName in unitInfo.Effects)
             {
@@ -159,8 +163,8 @@ public partial class Unit: GodotObject
             sightCosts = unitInfo.SightCosts;
             movementSpeed = unitInfo.MovementSpeed;
             sightRange = unitInfo.SightRange;
-            combatStrength = unitInfo.CombatPower;
-            maintenanceCost = unitInfo.MaintenanceCost;
+            combatStrength = baseCombatStrength;
+            maintenanceCost = baseMaintenanceCost;
         }
         //also order all effects, multiply/divide after add/subtract priority
         //0 means it is applied first 100 means it is applied "last" (highest number last)
