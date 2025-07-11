@@ -185,9 +185,9 @@
 <!--End Non-Buildables-->
   
 
-  <Building Name="Granary" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Granary" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
     <Effects>
-      <Effect Name="GranaryWarehouseEffect" />
+      <Effect Name="GranaryEffect" />
     </Effects>
     <TerrainTypes>
       <TerrainType>Flat</TerrainType>
@@ -195,18 +195,9 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="Dock" DistrictType="dock" ProductionCost="25" GoldCost="120" FoodYield="0.0" ProductionYield="0.0" GoldYield="2.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/dock.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Shrine" DistrictType="influence" ProductionCost="70" GoldCost="280" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="1.0" InfluenceYield="2.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
     <Effects>
-      <Effect Name="DockWarehouseEffect" />
-    </Effects>
-    <TerrainTypes>
-      <TerrainType>Coast</TerrainType>
-    </TerrainTypes>
-  </Building>
-
-  <Building Name="StoneCutter" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/stonecutter.png" ModelPath="graphics/models/granary.glb">
-    <Effects>
-      <Effect Name="StoneCutterWarehouseEffect" />
+      <Effect Name="ShrineEffect"/>
     </Effects>
     <TerrainTypes>
       <TerrainType>Flat</TerrainType>
@@ -214,17 +205,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="Garden" DistrictType="refinement" ProductionCost="40" GoldCost="200" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/garden.png" ModelPath="graphics/models/granary.glb">
-    <Effects>
-      <Effect Name="GardenEffect" />
-    </Effects>
-    <TerrainTypes>
-      <TerrainType>Flat</TerrainType>
-      <TerrainType>Rough</TerrainType>
-    </TerrainTypes>
-  </Building>
-
-  <Building Name="Library" DistrictType="science" ProductionCost="40" GoldCost="200" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="2.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/library.png" ModelPath="graphics/models/granary.glb">
+    <Building Name="Library" DistrictType="science" ProductionCost="90" GoldCost="360" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="2.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/library.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="LibraryEffect" />
     </Effects>
@@ -234,7 +215,8 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="AncientWalls" DistrictType="citycenter" ProductionCost="80" GoldCost="400" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/ancientwalls.png" ModelPath="graphics/models/granary.glb">
+  
+  <Building Name="AncientWalls" DistrictType="citycenter" ProductionCost="80" GoldCost="400" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/ancientwalls.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="AncientWallEffect" />
     </Effects>
@@ -244,7 +226,108 @@
       <TerrainType>Mountain</TerrainType>
     </TerrainTypes>
   </Building>
-    <Building Name="Monument" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/monument.png" ModelPath="graphics/models/granary.glb">
+
+  <Building Name="Barracks" DistrictType="military" ProductionCost="90" GoldCost="360" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="BarracksEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Watermill" DistrictType="citycenter" ProductionCost="90" GoldCost="360" FoodYield="1.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="WatermillEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Lighthouse" DistrictType="dock" ProductionCost="90" GoldCost="360" FoodYield="1.0" ProductionYield="0.0" GoldYield="1.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="LighthouseEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Coast</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Market" DistrictType="gold" ProductionCost="120" GoldCost="480" FoodYield="0.0" ProductionYield="0.0" GoldYield="3.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="MarketEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Stables" DistrictType="military" ProductionCost="120" GoldCost="480" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="StablesEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Aqueduct" DistrictType="citycenter" ProductionCost="160" GoldCost="640" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="4.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="AqueductEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Workshop" DistrictType="production" ProductionCost="195" GoldCost="780" FoodYield="0.0" ProductionYield="3.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="WorkshopEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="University" DistrictType="science" ProductionCost="250" GoldCost="1000" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="4.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="2" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="UniversityEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Armory" DistrictType="military" ProductionCost="195" GoldCost="780" FoodYield="0.0" ProductionYield="3.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="2" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="ArmoryEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="MedievalWalls" DistrictType="citycenter" ProductionCost="220" GoldCost="1000" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="MedievalWallsEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+ <!-- Culture Research Buildings -->
+  <Building Name="Monument" DistrictType="citycenter" ProductionCost="20" GoldCost="100" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/monument.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="MonumentEffect"/>
     </Effects>
@@ -263,7 +346,17 @@
     </TerrainTypes>
   </Building>
 
+
 <!-- World Wonders -->
+
+  <Building Name="HangingGardens" DistrictType="wonder" ProductionCost="180" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="True" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="HangingGardensEffect" />
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+    </TerrainTypes>
+  </Building>
 
   <Building Name="Stonehenge" DistrictType="wonder" ProductionCost="200" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="4.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="True" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
     <Effects>
@@ -271,6 +364,46 @@
     </Effects>
     <TerrainTypes>
       <TerrainType>Flat</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  
+  <Building Name="Colossus" DistrictType="wonder" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="3.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="ColossusEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Petra" DistrictType="wonder" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="PetraEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="TerracottaArmy" DistrictType="wonder" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="TerracottaArmyEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="MachuPicchu" DistrictType="wonder" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="4.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="MachuPicchuEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Mountain</TerrainType>
     </TerrainTypes>
   </Building>
 

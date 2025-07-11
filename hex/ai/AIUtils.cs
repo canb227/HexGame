@@ -305,7 +305,7 @@ public static class AIUtils
             return target;
         }
         Unit unit = Global.gameManager.game.unitDictionary[unitID];
-        Unit fakeUnit = new Unit(unit.unitType, -1, ai.player.teamNum);
+        Unit fakeUnit = new Unit(unit.unitType, 0, -1, ai.player.teamNum);
         fakeUnit.hex = unit.hex; //create a dummy unit at the given hex
         float lowCost = float.MaxValue;
         foreach (Hex h in options)
@@ -334,7 +334,7 @@ public static class AIUtils
     }
     public static bool FindClosestAnyEnemyInRange(AI ai, Hex hex, int range, out Hex target)
     {
-        Unit unit = new Unit("Warrior", -ai.player.teamNum, ai.player.teamNum);
+        Unit unit = new Unit("Warrior", 0,-ai.player.teamNum, ai.player.teamNum);
         unit.hex = hex; //create a dummy unit at the given hex
         List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
         List<Hex> targets = new();

@@ -287,7 +287,7 @@ public class UnitEffect
 
     public bool Trade(Unit unit)
     {
-        if (Global.gameManager.game.playerDictionary[unit.teamNum].maxTradeCount < Global.gameManager.game.playerDictionary[unit.teamNum].tradeRouteCount)
+        if (Global.gameManager.game.playerDictionary[unit.teamNum].GetMaxTradeRoutes() < Global.gameManager.game.playerDictionary[unit.teamNum].tradeRouteCount)
         if(unit.teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
             Global.gameManager.graphicManager.uiManager.CallDeferred("OpenTradeMenu", unit);

@@ -66,7 +66,7 @@ public class Player : BasePlayer
     public List<TradeRoute> outgoingTradeRouteList { get; set; } = new();
     public int exportCount { get; set; }
     public int exportCap { get; set; } = 2;
-    public int maxTradeCount { get; set; } = 2;
+    public int baseMaxTradeRoutes { get; set; } = 2;
     public int tradeRouteCount { get; set; }
 
 
@@ -500,6 +500,18 @@ public class Player : BasePlayer
         exportRouteList.Remove(new ExportRoute(city, targetCity, exportType));
         Global.gameManager.game.cityDictionary[city].RecalculateYields();
         Global.gameManager.game.cityDictionary[targetCity].RecalculateYields();
+    }
+
+
+    public int GetMaxTradeRoutes()
+    {
+        int maxTradeRoutes = baseMaxTradeRoutes;
+        foreach (int cityID in cityList)
+        {
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            maxTradeRoutes += city.additionalTradeRoutes;
+        }
+        return maxTradeRoutes;
     }
 
     public void NewTradeRoute(int homeCity, int targetCity)

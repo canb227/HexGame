@@ -1,0 +1,15 @@
+Shrine
+Barracks
+Watermill
+Lighthouse
+Market
+Stables
+Colossus
+Petra
+Aqueduct
+TerracottaArmy
+MachuPicchu
+Workshop
+University
+Armory
+MedievalWalls

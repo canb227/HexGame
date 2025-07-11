@@ -1,42 +1,28 @@
 <Researches> //'City Center' 'Farm' 'Mine' 'Hunting Camp' 'Fishing Boat' 'Whaling Ship'
-    <Research Name="Agriculture" Tier="0" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
-        <BuildingUnlocks>
-            <BuildingType Name="Granary" />
-        </BuildingUnlocks>
+    <Research Name="Agriculture" Tier="0" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
         <UnitUnlocks>
             <UnitType Name="Warrior" />
+            <UnitType Name="Scout" />
             <UnitType Name="Settler" />
         </UnitUnlocks>
         <Effects>
             <Effect Name="AgricultureEffect" />
         </Effects>
     </Research>  
-    <Research Name="Sailing" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+    <!-- Tier 1 -->
+    <Research Name="Pottery" Tier="1" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
         <BuildingUnlocks>
-            <BuildingType Name="Dock" />
-        </BuildingUnlocks>
-        <UnitUnlocks>
-            <UnitType Name="Galley" />
-        </UnitUnlocks>
-        <Effects>
-            <Effect Name="SailingEffect" />
-        </Effects>
-    </Research>
-    <Research Name="Pottery" Tier="1" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
-        <Requirements>
-            <ResearchType>Agriculture</ResearchType>
-        </Requirements>
-        <BuildingUnlocks>
-            <BuildingType Name="StoneCutter" />
+            <BuildingType Name="Granary" />
         </BuildingUnlocks>
         <Effects>
             <Effect Name="PotteryEffect" />
         </Effects>
     </Research>
-    <Research Name="AnimalHusbandry" Tier="1" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+
+    <Research Name="AnimalHusbandry" Tier="1" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
@@ -47,21 +33,56 @@
             <Effect Name="AnimalHusbandryEffect" />
         </Effects>
     </Research>
-    <Research Name="Irrigation" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+
+    <Research Name="Mining" Tier="1" VisualSlot="6" IconPath="graphics/ui/icons/science.png">
         <Requirements>
-            <ResearchType>Pottery</ResearchType>
-            <ResearchType>AnimalHusbandry</ResearchType>
+            <ResearchType>Agriculture</ResearchType>
+        </Requirements>
+        <Effects>
+            <Effect Name="MiningEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 2 -->
+    <Research Name="Sailing" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Agriculture</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Galley" />
+        </UnitUnlocks>
+        <Effects>
+            <Effect Name="SailingEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Astrology" Tier="2" VisualSlot="1" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Agriculture</ResearchType>
         </Requirements>
         <BuildingUnlocks>
-            <BuildingType Name="Garden" />
+            <BuildingType Name="Shrine" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="AstrologyEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Irrigation" Tier="2" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Pottery</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="HangingGardens" />
         </BuildingUnlocks>
         <Effects>
             <Effect Name="IrrigationEffect" />
         </Effects>
     </Research>
-    <Research Name="Writing" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+
+    <Research Name="Writing" Tier="2" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
         <Requirements>
-        <ResearchType>Pottery</ResearchType>
+            <ResearchType>Pottery</ResearchType>
         </Requirements>
         <BuildingUnlocks>
             <BuildingType Name="Library" />
@@ -70,9 +91,22 @@
             <Effect Name="WritingEffect" />
         </Effects>
     </Research>
-    <Research Name="Masonry" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+
+    <Research Name="Archery" Tier="2" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
         <Requirements>
-        <ResearchType>AnimalHusbandry</ResearchType>
+            <ResearchType>AnimalHusbandry</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Archer" />
+        </UnitUnlocks>
+        <Effects>
+            <Effect Name="ArcheryEffect" />
+        </Effects>
+    </Research>
+    <!-- Tier 3 -->
+    <Research Name="Masonry" Tier="3" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Mining</ResearchType>
         </Requirements>
         <BuildingUnlocks>
             <BuildingType Name="AncientWalls" />
@@ -81,12 +115,251 @@
             <Effect Name="MasonryEffect" />
         </Effects>
     </Research>
+
+    <Research Name="BronzeWorking" Tier="3" VisualSlot="6" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Mining</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Spearman" />
+        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="Barracks" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="BronzeWorkingEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Wheel" Tier="3" VisualSlot="7" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Mining</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Chariot" />
+        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="Watermill" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="WheelEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 4 -->
+    <Research Name="CelestialNavigation" Tier="4" VisualSlot="1" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Sailing</ResearchType>
+            <ResearchType>Astrology</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Lighthouse"/>
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="CelestialNavigationEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Currency" Tier="4" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Writing</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Market" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="CurrencyEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="HorsebackRiding" Tier="4" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Archery</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Horseman" />
+        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="Stables" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="HorsebackRidingEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="IronWorking" Tier="4" VisualSlot="6" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>BronzeWorking</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Swordman" />
+        </UnitUnlocks>
+        <Effects>
+            <Effect Name="IronWorkingEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 5 -->
+    <Research Name="Shipbuilding" Tier="5" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Sailing</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Quadrireme" />
+        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="Colossus" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="ShipbuildingEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Mathematics" Tier="5" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Currency</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Petra" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="MathematicsEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Construction" Tier="5" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Masonry</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Aqueduct" />
+            <BuildingType Name="TerracottaArmy" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="ConstructionEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Engineering" Tier="5" VisualSlot="7" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Wheel</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Catapult" />
+        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="MachuPicchu" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="EngineeringEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 6 -->
+    <Research Name="MilitaryTactics" Tier="6" VisualSlot="1" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Mathematics</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Polearm" />
+        </UnitUnlocks>
+        <Effects>
+            <Effect Name="MilitaryTacticsEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Apprenticeship" Tier="6" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Currency</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Workshop" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="ApprenticeshipEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Machinery" Tier="6" VisualSlot="7" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Engineering</ResearchType>
+            <ResearchType>IronWorking</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Crossbowman" />
+            <UnitType Name="Skirmisher" />
+        </UnitUnlocks>
+        <Effects>
+            <Effect Name="MachineryEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 7 -->
+
+    <Research Name="Education" Tier="7" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Mathematics</ResearchType>
+            <ResearchType>Apprenticeship</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="University" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="EducationEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Stirrups" Tier="6" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>HorsebackRiding</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Knight" />
+        </UnitUnlocks>
+        <Effects>
+            <Effect Name="StirrupsEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="MilitaryEngineering" Tier="6" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Construction</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Trebuchet" />
+            <UnitType Name="MilitaryEngineer" />
+        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="Armory" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="MilitaryEngineeringEffect" />
+        </Effects>
+    </Research>
+
+        <Research Name="Castles" Tier="6" VisualSlot="6" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>IronWorking</ResearchType>
+            <ResearchType>Construction</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Courser" />
+        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="MedievalWalls" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="CastlesEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 18 -->
     <Research Name="FutureTech" Tier="18" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
         <Requirements>
-            <ResearchType>Pottery</ResearchType>
-            <ResearchType>Masonry</ResearchType>
-            <ResearchType>Writing</ResearchType>
-            <ResearchType>Sailing</ResearchType>
+            <ResearchType>Education</ResearchType>
+            <ResearchType>Stirrups</ResearchType>
+            <ResearchType>MilitaryEngineering</ResearchType>
+            <ResearchType>Castles</ResearchType>
         </Requirements>
         <Effects>
             <Effect Name="FutureTechEffect" />

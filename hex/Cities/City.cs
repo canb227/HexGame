@@ -132,6 +132,13 @@ public partial class City : GodotObject
     public int baseMaxResourcesHeld{ get; set; }
     public int maxResourcesHeld{ get; set; }
     public int readyToExpand{ get; set; }
+    public int infantryProductionCombatModifier { get; set; } = 0;
+    public int cavalryProductionCombatModifier { get; set; } = 0;
+    public int navalProductionCombatModifier { get; set; } = 0;
+
+    public int additionalTradeRoutes { get; set; } = 0;
+
+
 
     public int lastProducedUnitID { get; set; }
     public int cityRange = 3;
@@ -563,20 +570,40 @@ public partial class City : GodotObject
                 else if (UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName))
                 {
                     //GD.Print("Try spawn unit");
-                    Unit tempUnit = new Unit(productionQueue[0].itemName, Global.gameManager.game.GetUniqueID(teamNum), teamNum);
+                    /*infantryProductionCombatModifier = 0;
+                    cavalryProductionCombatModifier = 0;
+                    navalProductionCombatModifier = 0;*/
+                    int combatModifier = 0;
+
+                    if (UnitLoader.unitsDict.TryGetValue(productionQueue[0].itemName, out UnitInfo unitInfo))
+                    {
+                        //class check for adding building modifiers
+                        if(unitInfo.Class == UnitClass.Infantry)
+                        {
+                            combatModifier = infantryProductionCombatModifier;
+                        }
+                        else if(unitInfo.Class == UnitClass.Cavalry)
+                        {
+                            combatModifier = cavalryProductionCombatModifier;
+                        }
+                        else if(unitInfo.Class == UnitClass.Naval)
+                        {
+                            combatModifier = navalProductionCombatModifier;
+                        }
+
+                        //strongest unit check
+                        if (unitInfo.CombatPower > Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt)
+                        {
+                            Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt = unitInfo.CombatPower + combatModifier;
+                        }
+                    }
+                    Unit tempUnit = new Unit(productionQueue[0].itemName, combatModifier , Global.gameManager.game.GetUniqueID(teamNum), teamNum);
                     if (!Global.gameManager.game.mainGameBoard.gameHexDict[productionQueue[0].targetHex].SpawnUnit(tempUnit, false, true))
                     {
                         tempUnit.decreaseHealth(99999.9f);
                         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit);
                     }
                     lastProducedUnitID = tempUnit.id;
-                    if (UnitLoader.unitsDict.TryGetValue(tempUnit.unitType, out UnitInfo unitInfo))
-                    {
-                        if (unitInfo.CombatPower > Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt)
-                        {
-                            Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt = unitInfo.CombatPower;
-                        }
-                    }
                     if (productionQueue[0].itemName == "Settler")
                     {
                         Global.gameManager.game.playerDictionary[teamNum].IncreaseAllSettlerCost();
@@ -744,6 +771,10 @@ public partial class City : GodotObject
         maxResourcesHeld = baseMaxResourcesHeld;
         yields = new();
         myYields = new();
+        infantryProductionCombatModifier = 0;
+        cavalryProductionCombatModifier = 0;
+        navalProductionCombatModifier = 0;
+        additionalTradeRoutes = 0;
         //SetBaseHexYields();
         foreach (Hex hex in heldHexes)
         {
@@ -761,6 +792,10 @@ public partial class City : GodotObject
         foreach (ResourceType resource in heldResources.Values)
         {
             ResourceLoader.ProcessFunctionString(ResourceLoader.resourceEffects[resource], id);
+        }
+        while (heldResources.Count > maxResourcesHeld)
+        {
+            Global.gameManager.game.playerDictionary[teamNum].RemoveResource(heldResources.First().Key);
         }
         //difficulty mods
         myYields.food *= Global.gameManager.game.playerDictionary[teamNum].foodDifficultyModifier;

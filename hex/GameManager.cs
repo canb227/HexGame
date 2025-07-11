@@ -149,7 +149,7 @@ public partial class GameManager : Node
             }
             else
             {
-                Unit playerSettler = new Unit("Founder", game.GetUniqueID(player.teamNum), player.teamNum);
+                Unit playerSettler = new Unit("Founder", 0, game.GetUniqueID(player.teamNum), player.teamNum);
                 game.mainGameBoard.gameHexDict[PickRandomValidHex()].SpawnUnit(playerSettler, false, true);
             }
         }
