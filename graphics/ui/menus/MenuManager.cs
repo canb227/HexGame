@@ -8,7 +8,6 @@ public partial class MenuManager : Node
 
 	Control CurrentMenu = null;
     Control CurrentPopup = null;
-    public Lobby lobby = null;
 
     public Dictionary<string,Control> loadedMenus = new Dictionary<string,Control>();
 
@@ -35,20 +34,8 @@ public partial class MenuManager : Node
         
     }
 
+    
 
-    public void LoadLobby()
-    {
-        ChangeMenu(UI_Lobby);
-        lobby = ((Lobby)CurrentMenu);
-        lobby.CreateLobby(); 
-    }
-
-    public void JoinLobby(ulong id)
-    {
-        ChangeMenu(UI_Lobby);
-        lobby = ((Lobby)CurrentMenu);
-        lobby.JoinLobby(id);
-    }
 
     public void ChangeMenu(string scenePath)
     {
@@ -70,7 +57,7 @@ public partial class MenuManager : Node
 
     internal void ClearMenus()
     {
-        
+        Global.lobby.Hide();
         foreach (Control child in GetChildren())
         {
             child.Hide();

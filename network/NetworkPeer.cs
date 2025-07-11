@@ -232,7 +232,11 @@ public partial class NetworkPeer : Node
 
     private void HandleTimeoutsAndConnections(double delta)
     {
-        if (!PeersListStable && remotePeers.Keys.Count > 1)
+        if (remotePeers.Keys.Count <= 1)
+        {
+            return;
+        }
+        if (!PeersListStable)
         {
             if (PeersListStabilityTimer > PeersListStabilityThreshold)
             {
@@ -274,6 +278,7 @@ public partial class NetworkPeer : Node
             JoinRequestsCurrentlyOutTo[id] += delta;
             if (JoinRequestsCurrentlyOutTo[id] > JoinRequestTimeoutTime)
             {
+                Global.Log("NETWORK ERROR: Outgoing Join Request Timed Out.");
                 JoinRequestsCurrentlyOutTo.Remove(id);
                 JoinRequestTimeoutEvent?.Invoke(id.GetSteamID64());
             }
@@ -283,6 +288,7 @@ public partial class NetworkPeer : Node
             PeerRequestsCurrentlyOutTo[id] += delta;
             if (PeerRequestsCurrentlyOutTo[id] > PeerRequestTimeoutTime)
             {
+                Global.Log("NETWORK ERROR: Outgoing Peer Request Timed Out.");
                 PeerRequestsCurrentlyOutTo.Remove(id);
                 PeerRequestTimeoutEvent?.Invoke(id.GetSteamID64());
             }
@@ -394,7 +400,7 @@ public partial class NetworkPeer : Node
 
     private void OnHandshakeMessageReceived(Handshake handshake)
     {
-        Global.Log("Handshake received from: " + handshake.Sender);
+        //Global.Log("Handshake received from: " + handshake.Sender);
         SteamNetworkingIdentity id = new SteamNetworkingIdentity();
         id.SetSteamID64(handshake.Sender);
         switch (handshake.Status)
@@ -532,7 +538,7 @@ public partial class NetworkPeer : Node
 
     internal void SendLobbyMessageToPeer(LobbyMessage lobbyMessage, ulong to)
     {
-        LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
+       
         SteamNetworkingIdentity id = new SteamNetworkingIdentity();
         id.SetSteamID(new CSteamID(to));
         SendMessageToPeer(id, lobbyMessage, LOBBY_CHANNEL);

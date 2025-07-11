@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxb6md4upmoe3"]
 
-[ext_resource type="Script" uid="uid://qyy4tl8r8aun" path="res://graphics/ui/menus/Mainmenu.cs" id="1_osleq"]
+[ext_resource type="Script" uid="uid://bhtge0knucwnp" path="res://graphics/ui/menus/Mainmenu.cs" id="1_osleq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_773cy"]
 font_size = 66
@@ -36,7 +36,7 @@ offset_right = 154.0
 offset_bottom = -84.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Play (Start Lobby)"
+text = "Start New Lobby"
 
 [node name="b_options" type="Button" parent="."]
 layout_mode = 1
@@ -83,53 +83,6 @@ grow_vertical = 2
 text = "Civ @ Home"
 label_settings = SubResource("LabelSettings_773cy")
 
-[node name="debugstart1" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.846
-anchor_right = 0.846
-offset_left = -137.592
-offset_top = 131.0
-offset_right = 138.408
-offset_bottom = 226.0
-text = "start game from test.txt save"
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.843
-anchor_right = 0.843
-offset_left = -59.136
-offset_top = 92.0
-offset_right = 58.864
-offset_bottom = 142.0
-text = "Debug buttons"
-
-[node name="debugstart2" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.851
-anchor_right = 0.851
-offset_left = -141.352
-offset_top = 251.0
-offset_right = 140.648
-offset_bottom = 353.0
-text = "Start small debug square map"
-
-[node name="debugstart3" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.847
-anchor_right = 0.847
-offset_left = -153.744
-offset_top = 373.0
-offset_right = 153.256
-offset_bottom = 475.0
-text = "Start medium procgen continents map"
-
 [connection signal="pressed" from="b_play" to="." method="onPlayButtonPressed"]
 [connection signal="pressed" from="b_options" to="." method="onOptionsButtonPressed"]
 [connection signal="pressed" from="b_quit" to="." method="onExitButtonPressed"]
-[connection signal="pressed" from="debugstart1" to="." method="onDebugStart1Pressed"]
-[connection signal="pressed" from="debugstart2" to="." method="onDebugStart2Pressed"]
-[connection signal="pressed" from="debugstart3" to="." method="onDebugStart3Pressed"]

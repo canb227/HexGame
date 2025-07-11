@@ -17,55 +17,11 @@ public partial class Mainmenu : Control
 
 	public void onPlayButtonPressed()
     {
-		Global.menuManager.LoadLobby();
+		Global.lobby.Show();
+		Global.lobby.MoveToFront();
+		Global.lobby.CreateLobby();
     }
 
-	public void onDebugStart1Pressed()
-	{
-        Global.gameManager.startGame(1);
-    }
-
-    public void onDebugStart2Pressed()
-    {
-        MapGenerator mapGenerator = new MapGenerator();
-
-        mapGenerator.mapSize = MapGenerator.MapSize.Tiny;
-
-        mapGenerator.numberOfPlayers = 1;
-        mapGenerator.numberOfHumanPlayers = 1;
-        mapGenerator.generateRivers = false;
-        mapGenerator.resourceAmount = MapGenerator.ResourceAmount.Medium;
-        mapGenerator.mapType = MapGenerator.MapType.DebugSquare;
-
-        string mapData = mapGenerator.GenerateMap();
-
-        Global.gameManager.game = new Game(1);
-        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, mapGenerator.right, mapGenerator.bottom);
-        Global.gameManager.game.AddPlayer(10, 0, 0, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex], true);
-        Global.gameManager.game.AddPlayer(10, 1, Global.clientID, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex], false);
-        Global.gameManager.startGame(1);
-    }
-
-    public void onDebugStart3Pressed()
-    {
-        MapGenerator mapGenerator = new MapGenerator();
-
-        mapGenerator.mapSize = MapGenerator.MapSize.Medium;
-
-        mapGenerator.numberOfPlayers = 1;
-        mapGenerator.numberOfHumanPlayers = 1;
-        mapGenerator.generateRivers = false;
-        mapGenerator.resourceAmount = MapGenerator.ResourceAmount.Medium;
-        mapGenerator.mapType = MapGenerator.MapType.Continents;
-
-        string mapData = mapGenerator.GenerateMap();
-
-        Global.gameManager.game = new Game(1);
-        Global.gameManager.game.mainGameBoard.InitGameBoardFromData(mapData, mapGenerator.right, mapGenerator.bottom);
-        Global.gameManager.game.AddPlayer(10, 0, 0, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex], true);
-        Global.gameManager.game.AddPlayer(10, 1, Global.clientID, Global.menuManager.lobby.PlayerColors[(int)Global.menuManager.lobby.PlayerStatuses[Global.clientID].ColorIndex],false);
-        Global.gameManager.startGame(1);
-    }
 
     public void onOptionsButtonPressed()
     {
