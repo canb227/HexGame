@@ -426,6 +426,7 @@ public partial class Lobby : Control
 
         Global.gameManager.startGame((int)lobbyPeerStatuses[Global.clientID].Team);
         Global.menuManager.ClearMenus();
+        Global.lobby.Hide();
     }
 
     private void onReadyChanged(bool toggledOn, ulong id)
@@ -544,14 +545,8 @@ public partial class Lobby : Control
         Global.menuManager.ChangeMenu(MenuManager.UI_LoadingScreen);
         await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
 
-
         MapGenerator mapGenerator = new MapGenerator();
-
         mapGenerator.mapSize = (MapGenerator.MapSize)GetNode<OptionButton>("newgameoptions/worldgensize").Selected;
-
-
-
-
         mapGenerator.numberOfPlayers = (int)(lobbyPeerStatuses.Count);
         mapGenerator.numberOfHumanPlayers = lobbyPeerStatuses.Count;
         mapGenerator.generateRivers = false;
