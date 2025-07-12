@@ -50,7 +50,7 @@ public partial class Lobby : Control
         Global.lobby = this;
 
         NetworkPeer.PlayerJoinedEvent += OnPlayerJoinEvent;
-        NetworkPeer.JoinedToPlayerEvent += OnJoinedToPlayer;
+        NetworkPeer.HandshakeCompletedEvent += OnJoinedToPlayer;
         NetworkPeer.LobbyMessageReceivedEvent += OnLobbyMessageReceived;
         NetworkPeer.ChatMessageReceivedEvent += NetworkPeer_ChatMessageReceivedEvent;
 
@@ -87,7 +87,7 @@ public partial class Lobby : Control
 
     private void OnPlayerJoinEvent(ulong playerID)
     {
-        Global.Log("Player joined to Lobby: " + playerID);
+        Global.Log($"Player joined our Lobby: {playerID}, sending them existing lobby peers for catchup.");
         if (isHost)
         {
             foreach (LobbyStatus status in lobbyPeerStatuses.Values)
@@ -96,8 +96,10 @@ public partial class Lobby : Control
                 catchupStatus.Sender = Global.clientID;
                 catchupStatus.MessageType = "addPlayer";
                 catchupStatus.LobbyStatus = status;
-                //Global.networkPeer.SendLobbyMessageToPeer(catchupStatus, playerID);
+                Global.Log($"Sending catchup lobby data for lobby peer: {status.Id}, team: {status.Team}, isAI?: {status.IsAI} ");
+                Global.networkPeer.SendLobbyMessageToPeer(catchupStatus, playerID);
             }
+
             LobbyMessage lobbyMessage = new LobbyMessage();
             lobbyMessage.Sender = Global.clientID;
             lobbyMessage.MessageType = "addPlayer";
@@ -112,7 +114,7 @@ public partial class Lobby : Control
                 IsAI = false
             };
             lobbyMessage.LobbyStatus = lobbyStatus;
-            Global.networkPeer.SendLobbyMessageToPeer(lobbyMessage, playerID);
+            Global.Log($"Catchup complete. Sending all peers and self new player lobby status: {lobbyStatus.Id}, team: {lobbyStatus.Team}.");
             Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
         }
         else
@@ -185,6 +187,7 @@ public partial class Lobby : Control
 
     private void AddNewPlayerToLobby(ulong id, int teamNum, int teamColorIndex, bool self, bool ai)
     {
+        Global.Log($"Adding player with ID: {id} to lobby. Team: {teamNum}, IsSelf?:{self}, isAI?:{ai}");
         Control PlayerListItem = GD.Load<PackedScene>("res://graphics/ui/menus/playerListItem.tscn").Instantiate<Control>();
         bool isReady = false;
         if (!ai)
@@ -352,7 +355,6 @@ public partial class Lobby : Control
                 AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, lobbyMessage.LobbyStatus.ColorIndex, false, true);
                 break;
             case "addPlayer":
-                Global.Log("Adding player with ID: " + lobbyMessage.LobbyStatus.Id + " to lobby from message: " + lobbyMessage.Sender);
                 bool isSelf = false;
                 if (lobbyMessage.LobbyStatus.Id==Global.clientID)
                 {
