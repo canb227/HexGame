@@ -111,9 +111,7 @@ public partial class GameManager : Node
            this.AIManager = new AIManager();
            AIManager.InitAI();
         }
-        game.turnManager.StartNewTurn();
-        graphicManager.StartNewTurn();
-        gameStarted = true;
+
         //MoveCameraToStartLocation();
     }
 
@@ -122,16 +120,71 @@ public partial class GameManager : Node
         Global.Log("Spawning Players. Total: " + game.playerDictionary.Count);
         foreach (Player player in game.playerDictionary.Values)
         {
-            if (player.teamNum == 0)
+            if (player.teamNum == -99) //TODO: IMPLEMENT NON MAJOR PLAYER SPAWNING
             {
-                //Global.debugLog("Skipping player spawn for team 0");
+
             }
             else
             {
-                Unit playerSettler = new Unit("Founder", 0, game.GetUniqueID(player.teamNum), player.teamNum);
-                game.mainGameBoard.gameHexDict[PickRandomValidHex()].SpawnUnit(playerSettler, false, true);
+                Global.Log($"Attempting to find good spawn location for player:{player}");
+                Hex spawnLocation = GetPlayerSpawnHex(player);
+                Global.gameManager.SpawnUnit("Founder", game.GetUniqueID(player.teamNum), player.teamNum, spawnLocation, false, false);
             }
         }
+    }
+
+    public List<Hex> FindRecommendedSettleLocations()
+    {
+        Global.Log($"Searching for good spawn locations.");
+        List<Hex> retval = new List<Hex>();
+        Dictionary<Hex, GameHex> map = Global.gameManager.game.mainGameBoard.gameHexDict;
+        foreach (Hex hex in map.Keys)
+        {
+            if (isGoodSettleLocation(hex))
+            {
+                retval.Add(hex);
+            }
+        }
+        Global.Log($"Found {retval.Count} good spots.");
+        return retval;
+    }
+
+    private bool isGoodSettleLocation(Hex hex)
+    {
+        bool hasFreshWater = true;
+        int resourcesInRange = 0;
+        int distanceToOthers = Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity;
+        int normalTilesInRange = 0;
+        List<Hex> toCheck = hex.WrappingRange(4,Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom);
+        foreach (Hex h in toCheck)
+        {
+            GameHex gHex = Global.gameManager.game.mainGameBoard.gameHexDict[h];
+            if (gHex.resourceType!=ResourceType.None)
+            {
+                resourcesInRange++;
+            }
+            if (gHex.terrainType!=TerrainType.Ocean && gHex.terrainType!=TerrainType.Mountain && gHex.terrainType!=TerrainType.Coast)
+            {
+                normalTilesInRange++;
+            }
+        }
+        if (resourcesInRange >= 2 && distanceToOthers<5 && normalTilesInRange>10)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private Hex GetPlayerSpawnHex(Player player)
+    {
+        return PickRandomValidHex();
+        /*
+        Random rng = new Random();
+        List<Hex> list = FindRecommendedSettleLocations();
+        return list[rng.Next(list.Count)];*/
     }
 
     public Hex PickRandomValidHex()
@@ -812,9 +865,33 @@ public partial class GameManager : Node
         }
     }
 
-    internal void SpawnUnit(string unitType, int id, int teamNum, NetworkMessages.Hex position, bool stackable, bool flexible, bool local = true)
+    internal void SpawnUnit(string unitType, int id, int teamNum, Hex position, bool stackable, bool flexible, bool local = true)
     {
-        throw new NotImplementedException();
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnUnitCommand(unitType, id, teamNum, position, stackable, flexible));
+            return;
+        }
+
+        try
+        {
+            Unit newUnit = new(unitType, 0, id, teamNum);
+            GameHex location = Global.gameManager.game.mainGameBoard.gameHexDict[position];
+            location.SpawnUnit(newUnit,stackable,flexible);
+            if (unitType=="Founder" && teamNum==Global.gameManager.game.localPlayerTeamNum )
+            {
+                Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
+                game.turnManager.StartNewTurn();
+                graphicManager.StartNewTurn();
+                gameStarted = true;
+                //TODO: Move camera to here, its my spawn location.
+            }
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error spawning unit: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
     }
 
     internal void SetDiplomaticState(int teamNumOne, int teamNumTwo, DiplomaticState diplomaticState, bool local = true)

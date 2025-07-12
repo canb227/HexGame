@@ -126,7 +126,7 @@ using System.Threading.Tasks;
                 Global.gameManager.SetGovernment(command.SetGovernment.TeamNum, (GovernmentType)command.SetGovernment.GovType,false);
                 break;
             case "SpawnUnit":
-                Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.Id, command.SpawnUnit.TeamNum, command.SpawnUnit.Position, command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
+                Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.Id, command.SpawnUnit.TeamNum, new Hex(command.SpawnUnit.Position.Q,command.SpawnUnit.Position.R,command.SpawnUnit.Position.S), command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
                 break;
             case "SetDiplomaticState":
                 Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState);
@@ -522,6 +522,27 @@ using System.Threading.Tasks;
         command.CommandType = "SetDiplomaticState";
         command.SetDiplomaticState = setDiplomaticState;
         command.Sender= Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructSpawnUnitCommand(string unitType, int id, int teamNum, Hex position, bool stackable, bool flexible)
+    {
+        SpawnUnit spawnUnit = new SpawnUnit();
+        spawnUnit.UnitType = unitType;
+        spawnUnit.Id = id;
+        spawnUnit.TeamNum = teamNum;
+        NetworkMessages.Hex hex = new NetworkMessages.Hex();
+        hex.Q = position.q;
+        hex.R = position.r;
+        hex.S = position.s;
+        spawnUnit.Position = hex;
+        spawnUnit.Stackable = stackable;
+        spawnUnit.Flexible = flexible;
+
+        Command command = new();
+        command.CommandType = "SpawnUnit";
+        command.SpawnUnit = spawnUnit;
+        command.Sender = Global.clientID;
         return command;
     }
 }
