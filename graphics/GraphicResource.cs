@@ -81,7 +81,7 @@ public partial class GraphicResource : GraphicObject
     }
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
-    {
+    {   
         if (graphicUpdateType == GraphicUpdateType.Update)
         {
             //hide the resource if we dont have the research yet, end early

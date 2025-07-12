@@ -13,6 +13,7 @@ public struct ResearchInfo
     public List<String> BuildingUnlocks;
     public List<String> UnitUnlocks;
     public List<ResourceType> ResourceUnlocks;
+    public List<String> PolicyCardUnlocks;
     public List<String> Effects;
 }
 
@@ -77,6 +78,9 @@ public static class ResearchLoader
                         .Select(e => (ResourceType)Enum.Parse(typeof(ResourceType), e.Attribute("Name")?.Value
                             ?? throw new Exception("Invalid ResourceType")))
                         .ToList() ?? new List<ResourceType>(),
+                    PolicyCardUnlocks = r.Element("PolicyCardUnlocks")?.Elements("PolicyCard")
+                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid UnitUnlock"))
+                        .ToList() ?? new List<string>(),
 
                     Effects = r.Element("Effects")?.Elements("Effect")
                         .Select(e => e.Value)

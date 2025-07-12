@@ -29,6 +29,9 @@
         <ResourceUnlocks>
             <ResourceType Name="Horses" />
         </ResourceUnlocks>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Sample" />
+        </PolicyCardUnlocks>
         <Effects>
             <Effect Name="AnimalHusbandryEffect" />
         </Effects>

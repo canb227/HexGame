@@ -1,8 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://da7uev2cugfiu"]
+[gd_scene load_steps=4 format=3 uid="uid://da7uev2cugfiu"]
 
-[ext_resource type="Script" uid="uid://dwcsi7lmgyolf" path="res://graphics/ui/menus/PauseMenu.cs" id="1_ou8pa"]
+[ext_resource type="Script" uid="uid://bxn87rp57naj3" path="res://graphics/ui/menus/PauseMenu.cs" id="1_ou8pa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ou8pa"]
+bg_color = Color(0.19, 0.19, 0.19, 0.94902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wv4hd"]
+bg_color = Color(0.158472, 0.158472, 0.158472, 0.796078)
 
 [node name="PauseMenu" type="Control"]
+z_index = 10
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,65 +18,81 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ou8pa")
 
-[node name="BlockUIInput" type="Control" parent="."]
-anchors_preset = 0
-anchor_right = 0.999132
-anchor_bottom = 1.00154
-metadata/_edit_use_anchors_ = true
-
-[node name="PausePanel" type="Panel" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.265625
-anchor_top = 0.0709877
-anchor_right = 0.671007
-anchor_bottom = 0.927469
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ou8pa")
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(400, 500)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wv4hd")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PauseMenuLabel" type="Label" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pause Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="quitButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.282118
-anchor_top = 0.720679
-anchor_right = 0.37066
-anchor_bottom = 0.907407
-text = "Quit"
-metadata/_edit_use_anchors_ = true
+[node name="Spacer" type="Control" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
-[node name="resumeButton" type="Button" parent="."]
-layout_mode = 0
-anchor_left = 0.521701
-anchor_top = 0.777778
-anchor_right = 0.650174
-anchor_bottom = 0.902778
-text = "Resume"
-metadata/_edit_use_anchors_ = true
-
-[node name="loadButton" type="Button" parent="."]
-layout_mode = 0
-anchor_left = 0.357639
-anchor_top = 0.521605
-anchor_right = 0.578993
-anchor_bottom = 0.617284
-text = "Load Game"
-metadata/_edit_use_anchors_ = true
-
-[node name="saveButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.357639
-anchor_top = 0.412037
-anchor_right = 0.578993
-anchor_bottom = 0.507716
+[node name="saveButton" type="Button" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
 text = "Save Game"
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.422743
-anchor_top = 0.0910494
-anchor_right = 0.508396
-anchor_bottom = 0.132491
-text = "Pause Menu"
+[node name="Spacer3" type="Control" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.24
+
+[node name="loadButton" type="Button" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Load Game"
+metadata/_edit_use_anchors_ = true
+
+[node name="Spacer2" type="Control" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="quitButton" type="Button" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+text = "Quit"
+metadata/_edit_use_anchors_ = true
+
+[node name="Spacer2" type="Control" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="resumeButton" type="Button" parent="PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+text = "Resume"
 metadata/_edit_use_anchors_ = true

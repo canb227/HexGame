@@ -22,6 +22,8 @@ public class BasePlayer
         hiddenResources.Add(ResourceType.Niter);
         hiddenResources.Add(ResourceType.Coal);
         hiddenResources.Add(ResourceType.Oil);
+        hiddenResources.Add(ResourceType.Uranium);
+        hiddenResources.Add(ResourceType.Lithium);
 
         SetBaseHexYields();
         avaliableGovernments.Add(GovernmentType.Tribal);

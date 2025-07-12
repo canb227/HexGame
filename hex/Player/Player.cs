@@ -87,7 +87,7 @@ public class Player : BasePlayer
         desertYields.gold = 1;
         plainsYields.production = 1;
         grasslandYields.food = 1;
-        tundraYields.happiness = 1;
+        tundraYields.happiness = 2;
         //arcticYields
 
     }
@@ -386,7 +386,14 @@ public class Player : BasePlayer
                 if(manager != null) manager.CallDeferred("UpdateHex", data);
             }
         }
-        foreach(String effect in ResearchLoader.researchesDict[researchType].Effects)
+        if (CultureResearchLoader.researchesDict[researchType].PolicyCardUnlocks != null)
+        {
+            foreach (String policyCard in ResearchLoader.researchesDict[researchType].PolicyCardUnlocks)
+            {
+                unassignedPolicyCards.Add(PolicyCardLoader.policyCardDictionary[PolicyCardLoader.policyCardXMLDictionary[policyCard]]);
+            }
+        }
+        foreach (String effect in ResearchLoader.researchesDict[researchType].Effects)
         {
             ResearchLoader.ProcessFunctionString(effect, this);
         }
@@ -473,6 +480,13 @@ public class Player : BasePlayer
                 };
                     if (manager != null) manager.CallDeferred("UpdateHex", data);
                 }
+            }
+        }
+        if (CultureResearchLoader.researchesDict[researchType].PolicyCardUnlocks != null)
+        {
+            foreach (String policyCard in ResearchLoader.researchesDict[researchType].PolicyCardUnlocks)
+            {
+                unassignedPolicyCards.Add(PolicyCardLoader.policyCardDictionary[PolicyCardLoader.policyCardXMLDictionary[policyCard]]);
             }
         }
         foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)

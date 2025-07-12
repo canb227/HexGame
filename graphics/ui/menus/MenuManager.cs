@@ -29,7 +29,7 @@ public partial class MenuManager : Node
     {
         if (@event.IsActionPressed("pause") && Global.gameManager.gameStarted)
         {
-            Global.menuManager.ChangeMenu(UI_Pause);
+            Global.gameManager.graphicManager.uiManager.ChangeMenuManagerMenu(UI_Pause);
         }
         
     }
@@ -45,6 +45,13 @@ public partial class MenuManager : Node
             CurrentMenu = loadedMenus[scenePath];
             CurrentMenu.Show();
             CurrentMenu.MoveToFront();
+            if(scenePath == UI_Lobby)
+            {
+                if (Global.gameManager.graphicManager != null && Global.gameManager.graphicManager.uiManager != null)
+                {
+                    Global.gameManager.graphicManager.uiManager.pauseMenuOpen = true;
+                }
+            }
         }
         else
         {
@@ -61,6 +68,10 @@ public partial class MenuManager : Node
         foreach (Control child in GetChildren())
         {
             child.Hide();
+        }
+        if (Global.gameManager.graphicManager != null && Global.gameManager.graphicManager.uiManager != null)
+        {
+            Global.gameManager.graphicManager.uiManager.pauseMenuOpen = false;
         }
     }
 
