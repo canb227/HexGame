@@ -233,8 +233,13 @@ public partial class NetworkPeer : Node
 
         //Identical to above, but for Lobby messages on the Lobby Channel
         nint[] lobbyMessages = new nint[nMaxLobbyMessagesPerFrame];
+
         int lobbyMessageNum = ReceiveMessagesOnChannel(LOBBY_CHANNEL, lobbyMessages, nMaxLobbyMessagesPerFrame);
-        Global.Log($"Network Peer Received {lobbyMessageNum} Lobby messages this frame.");
+        if (lobbyMessageNum > 0)
+        {
+            Global.Log($"Network Peer Received {lobbyMessageNum} Lobby messages this frame.");
+        }
+
         for (int i = 0; i < lobbyMessageNum; i++)
         {
 
