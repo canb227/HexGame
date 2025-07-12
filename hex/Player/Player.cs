@@ -27,7 +27,7 @@ public class Player : BasePlayer
         diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Make Peace", false, false));
 
         //default policy cards
-        unassignedPolicyCards.Add(new PolicyCard("Combat", "Make goodrer at the fighting", true));
+        unassignedPolicyCards.Add(PolicyCardLoader.policyCardDictionary[0]); //sample card
 
         //default yields
         SetBaseHexYields();
@@ -372,6 +372,20 @@ public class Player : BasePlayer
             allowedBuildings.Add(buildingType);
             allowedDistricts.Add(BuildingLoader.buildingsDict[buildingType].DistrictType);
         }
+        foreach(ResourceType resourceType in ResearchLoader.researchesDict[researchType].ResourceUnlocks)
+        {
+            hiddenResources.Remove(resourceType);
+            foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
+            {
+                var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+                if(manager != null) manager.CallDeferred("UpdateHex", data);
+            }
+        }
         foreach(String effect in ResearchLoader.researchesDict[researchType].Effects)
         {
             ResearchLoader.ProcessFunctionString(effect, this);
@@ -380,6 +394,8 @@ public class Player : BasePlayer
         {
             manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
             manager2.uiManager.CallDeferred("UpdateResearchUI");
+
+            
         }
     }
 
@@ -441,6 +457,23 @@ public class Player : BasePlayer
         {
             allowedBuildings.Add(buildingType);
             allowedDistricts.Add(BuildingLoader.buildingsDict[buildingType].DistrictType);
+        }
+        if(CultureResearchLoader.researchesDict[researchType].ResourceUnlocks != null)
+        {
+            foreach (ResourceType resourceType in CultureResearchLoader.researchesDict[researchType].ResourceUnlocks)
+            {
+                hiddenResources.Remove(resourceType);
+                foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
+                {
+                    var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+                    if (manager != null) manager.CallDeferred("UpdateHex", data);
+                }
+            }
         }
         foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)
         {

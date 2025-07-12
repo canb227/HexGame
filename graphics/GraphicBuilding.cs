@@ -55,7 +55,7 @@ public partial class GraphicBuilding : GraphicObject
         int newQ = (Global.gameManager.game.mainGameBoard.left + (building.districtHex.r >> 1) + building.districtHex.q) % ggb.chunkSize - (building.districtHex.r >> 1);
         Hex modHex = new Hex(newQ, building.districtHex.r, -newQ - building.districtHex.r);
         Point hexPoint = layout.HexToPixel(modHex);
-        float height = ggb.Vector3ToHeightMapVal(node3D.Transform.Origin);
+        float height = ggb.Vector3ToHeightMapVal(new Vector3((float)hexPoint.y, 0.0f, (float)hexPoint.x));
         newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
         node3D.Transform = newTransform;
 

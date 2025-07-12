@@ -1,4 +1,5 @@
 ﻿using Godot;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -41,12 +42,19 @@ public partial class GraphicFeature : GraphicObject
             default:
                 break;
         }
+
+    }
+    public override void _Ready()
+    {
         Transform3D newTransform = featureModel.Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
+        int newQ = ((Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1));
+        int heightMapQ = newQ + ggb.chunkList[ggb.hexToChunkDictionary[hex]].graphicalOrigin.q;
         Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
+        Hex heightMapHex = new Hex(heightMapQ, hex.r, -heightMapQ - hex.r);
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
-        float height = ggb.Vector3ToHeightMapVal(featureModel.Transform.Origin);
+        Point heightMapPoint = Global.gameManager.graphicManager.layout.HexToPixel(heightMapHex);
+        float height = ggb.Vector3ToHeightMapVal(new Vector3((float)heightMapPoint.y, 0.0f, (float)heightMapPoint.x));
         newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
         featureModel.Transform = newTransform;
         this.Visible = false;

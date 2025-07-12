@@ -19,52 +19,48 @@ public partial class GraphicResource : GraphicObject
     public GraphicResource(ResourceType resource, Hex hex)
     {
         //GD.Print(resource);
+        this.resourceType = resource;
         this.hex = hex;
-        Node3D temp = Godot.ResourceLoader.Load<PackedScene>("res://" + ResourceLoader.resources[resource].ModelPath).Instantiate<Node3D>();
+    }
+    public override void _Ready()
+    {
+        Node3D temp = Godot.ResourceLoader.Load<PackedScene>("res://" + ResourceLoader.resources[resourceType].ModelPath).Instantiate<Node3D>();
+        AddChild(temp);
         resourceMeshInstance = temp.GetNode<MeshInstance3D>("Resource");
         improvementMeshInstance = temp.GetNode<MeshInstance3D>("Improvement");
-
-        /*        // Load the base material
-                ShaderMaterial baseMaterial = meshInstance.GetActiveMaterial(0) as ShaderMaterial;
-
-                // Load the grayscale shader
-                Shader greyScale3DShader = GD.Load<Shader>("res://graphics/shaders/general/greyscale3D.gdshader");
-                greyScale3DShaderMaterial = new ShaderMaterial();
-                greyScale3DShaderMaterial.Shader = greyScale3DShader;
-
-                // Apply the Next Pass
-                baseMaterial.NextPass = greyScale3DShaderMaterial;*/
-        //meshInstance.MaterialOverlay = greyScale3DShaderMaterial;
 
         Transform3D newTransform = resourceMeshInstance.Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
+        int heightMapQ = newQ + ggb.chunkList[ggb.hexToChunkDictionary[hex]].graphicalOrigin.q;
         Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
+        Hex heightMapHex = new Hex(heightMapQ, hex.r, -heightMapQ - hex.r);
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
-        newTransform.Origin = new Vector3((float)hexPoint.y, 0.0f, (float)hexPoint.x);
-        float height = ggb.Vector3ToHeightMapVal(newTransform.Origin); //TODO
+        Point heightMapPoint = Global.gameManager.graphicManager.layout.HexToPixel(heightMapHex);
+        float height = ggb.Vector3ToHeightMapVal(new Vector3((float)heightMapPoint.y, 0.0f, (float)heightMapPoint.x));
         newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
         resourceMeshInstance.Transform = newTransform;
         improvementMeshInstance.Transform = newTransform;
         improvementMeshInstance.Visible = false;
 
-        AddChild(temp);
 
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ResourceWorldUI.tscn").Instantiate<Node3D>();
+        AddChild(node3D);
+
         resourceIcon = node3D.GetNode<TextureRect>("SubViewport/ResourceWorldUI/ResourceIcon");
-        resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[resource].IconPath);
+        resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[resourceType].IconPath);
         Shader greyScaleShader = GD.Load<Shader>("res://graphics/shaders/general/greyscale.gdshader");
         greyScaleShaderMaterial = new ShaderMaterial();
         greyScaleShaderMaterial.Shader = greyScaleShader;
         resourceIcon.Material = greyScaleShaderMaterial;
 
+        //2dworldui
         newTransform = node3D.Transform;
         newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         node3D.Transform = newTransform;
-        
+
         this.Visible = false;
         node3D.Visible = false;
-        AddChild(node3D); //configure visibility and add 3d model
     }
     public override void Selected()
     {
@@ -86,8 +82,18 @@ public partial class GraphicResource : GraphicObject
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
-        if(graphicUpdateType == GraphicUpdateType.Update)
+        if (graphicUpdateType == GraphicUpdateType.Update)
         {
+            //hide the resource if we dont have the research yet, end early
+            if (Global.gameManager.game.localPlayerRef.hiddenResources.Contains(resourceType))
+            {
+                this.Visible = false;
+                node3D.Visible = false;
+                resourceMeshInstance.Visible = false;
+                improvementMeshInstance.Visible = false;
+                return;
+            }
+
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
             {
                 improved = true;
@@ -109,6 +115,16 @@ public partial class GraphicResource : GraphicObject
         }
         if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
+            //hide the resource if we dont have the research yet, end early
+            if (Global.gameManager.game.localPlayerRef.hiddenResources.Contains(resourceType))
+            {
+                this.Visible = false;
+                node3D.Visible = false;
+                resourceMeshInstance.Visible = false;
+                improvementMeshInstance.Visible = false;
+                return;
+            }
+
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban)
             {
                 //this.Visible = false;

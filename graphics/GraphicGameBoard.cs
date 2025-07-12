@@ -603,7 +603,7 @@ public partial class GraphicGameBoard : GraphicObject
     {
         //GD.PushWarning("NOT IMPLEMENTED"); //TODO
         Vector3 wrappedPixel = WrapPixel(pixel);
-        float height = heightMap.GetPixel((int)(wrappedPixel.Z), (int)wrappedPixel.X).R * 20.0f; //-1 because things are floating idk
+        float height = heightMap.GetPixel((int)(wrappedPixel.Z), (int)wrappedPixel.X).R * 20.0f - 1.0f;
         return height;
     }
 

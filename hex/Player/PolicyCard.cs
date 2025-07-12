@@ -10,7 +10,7 @@ public static class PolicyCardLoader
     static int index = 0;
     static PolicyCardLoader()
     {
-        policyCardDictionary.Add(NextPolicyCardIndex(), new PolicyCard("", "", false, false, false, false));
+        policyCardDictionary.Add(0, new PolicyCard("Sample", "This is a sample policy card", true, false, false, false));
     }
 
     static int NextPolicyCardIndex()
