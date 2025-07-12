@@ -95,11 +95,18 @@ public partial class NetworkPeer : Node
     public delegate void PeerListRequestReceived(ulong playerID);
     public static event PeerListRequestReceived PeerListRequestReceivedEvent;
 
+    public delegate void PeerListStabilityChanged(bool isStable);
+    public static event PeerListStabilityChanged PeerListStabilityChangedEvent;
+
+
     public delegate void PlayerJoined(ulong playerID);
     public static event PlayerJoined PlayerJoinedEvent;
 
     public delegate void JoinedToPlayer(ulong playerID);
     public static event JoinedToPlayer JoinedToPlayerEvent;
+
+    public delegate void HandshakeCompleted(ulong playerID);
+    public static event HandshakeCompleted HandshakeCompletedEvent;
 
     public delegate void PlayerLeft(ulong playerID);
     public static event PlayerLeft PlayerLeftEvent;
@@ -129,6 +136,13 @@ public partial class NetworkPeer : Node
 
         //Since Handshake messages are so closely related to networking, we handle them here
         HandshakeMessageReceivedEvent += OnHandshakeMessageReceived;
+
+        PeerListStabilityChangedEvent += OnPeerListStabilityChangedEvent;
+    }
+
+    private void OnPeerListStabilityChangedEvent(bool isStable)
+    {
+        PeersListStable = isStable;
     }
 
 
@@ -219,8 +233,16 @@ public partial class NetworkPeer : Node
 
         //Identical to above, but for Lobby messages on the Lobby Channel
         nint[] lobbyMessages = new nint[nMaxLobbyMessagesPerFrame];
-        for (int i = 0; i < ReceiveMessagesOnChannel(LOBBY_CHANNEL, lobbyMessages, nMaxLobbyMessagesPerFrame); i++)
+
+        int lobbyMessageNum = ReceiveMessagesOnChannel(LOBBY_CHANNEL, lobbyMessages, nMaxLobbyMessagesPerFrame);
+        if (lobbyMessageNum > 0)
         {
+            Global.Log($"Network Peer Received {lobbyMessageNum} Lobby messages this frame.");
+        }
+
+        for (int i = 0; i < lobbyMessageNum; i++)
+        {
+
             SteamNetworkingMessage_t steamMsg = SteamNetworkingMessage_t.FromIntPtr(lobbyMessages[i]); //Converts the message to a C# object
             LobbyMessage lobbyMessage = LobbyMessage.Parser.ParseFrom(IntPtrToBytes(steamMsg.m_pData, steamMsg.m_cbSize));
             LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
@@ -240,7 +262,8 @@ public partial class NetworkPeer : Node
         {
             if (PeersListStabilityTimer > PeersListStabilityThreshold)
             {
-                PeersListStable = true;
+                PeerListStabilityChangedEvent.Invoke(true);
+                PeersListStabilityTimer = 0;
                 Global.Log("Peers list is now stable(ish).");
             }
             else
@@ -258,6 +281,7 @@ public partial class NetworkPeer : Node
             //If the peer has not sent a message in a while, increment the alive check counter
             if (remotePeers[id].AliveCheckTimer > remotePeers[id].AliveCheckFrequency)
             {
+                Global.Log($"No network messages from {remotePeers[id]} in {remotePeers[id].AliveCheckFrequency} seconds. Pinging.");
                 HandshakePeer(id, "Ping");
                 remotePeers[id].AliveCheckCounter++;
                 remotePeers[id].AliveCheckTimer = 0;
@@ -267,7 +291,6 @@ public partial class NetworkPeer : Node
             if (remotePeers[id].AliveCheckCounter > remotePeers[id].AliveCheckUnresponsiveThreshold)
             {
                 Global.Log("Peer " + id.GetSteamID64() + " is unresponsive, removing from list.");
-
                 remotePeers.Remove(id);
                 PlayerTimeoutEvent?.Invoke(id.GetSteamID64());
             }
@@ -327,7 +350,7 @@ public partial class NetworkPeer : Node
     {
         Global.Log("Attempting to join peer: " + identity.GetSteamID64());
         JoinRequestsCurrentlyOutTo.Add(identity, 0);
-        PeersListStable = false;
+        PeerListStabilityChangedEvent.Invoke(false);
         SendMessageToPeer(identity, new Handshake() { Sender = Global.clientID, Timestamp = Time.GetUnixTimeFromSystem(), Tick = Global.getTick(), Status = "JoinRequest" }, HANDSHAKE_CHANNEL);
     }
 
@@ -372,7 +395,7 @@ public partial class NetworkPeer : Node
 
         if (result!=EResult.k_EResultOK)
         {
-            Global.Log("Error sending message: " + result.ToString());
+            Global.Log($"Error sending message to: {remotePeer.GetSteamID64()}. Error Status: " + result.ToString());
         }
     }
 
@@ -411,15 +434,15 @@ public partial class NetworkPeer : Node
         switch (handshake.Status)
         {
             case "JoinRequest":
-
-                Global.Log("Join request received from: " + handshake.Sender);
+                Global.Log($"Join request received from: {handshake.Sender}, automatically accepting");
+                PeerListStabilityChangedEvent.Invoke(false);
                 remotePeers.Add(id, new PeerConnectionData());
                 PlayerJoinedEvent?.Invoke(handshake.Sender);
                 HandshakePeer(id, "JoinAccepted");
                 break;
             case "JoinAccepted":
-                PeersListStable = false;
-                Global.Log("Join request accepted by: " + handshake.Sender);
+                PeerListStabilityChangedEvent.Invoke(false);
+                Global.Log($"Join request accepted by: {handshake.Sender}. Requesting their peer list.");
                 JoinRequestsCurrentlyOutTo.Remove(id);
                 remotePeers.Add(id, new PeerConnectionData());
                 JoinedToPlayerEvent?.Invoke(handshake.Sender);
@@ -433,11 +456,12 @@ public partial class NetworkPeer : Node
                 {
                     handshake1.Peers.Add(remotePeer.GetSteamID64());
                 }
-
                 SendMessageToPeer(id, handshake1, HANDSHAKE_CHANNEL);
                 break;
             case "PeersList":
                 PeerRequestsCurrentlyOutTo.Remove(id);
+                PeerListStabilityChangedEvent.Invoke(false);
+                HandshakeCompletedEvent?.Invoke(handshake.Sender);
                 Global.Log("Peers list (total peers: " + handshake.Peers.Count + " ) received from: " + handshake.Sender);
                 foreach (ulong peer in handshake.Peers)
                 {
@@ -445,12 +469,14 @@ public partial class NetworkPeer : Node
                     id2.SetSteamID64(peer);
                     if (!remotePeers.Keys.Contains(id2) && peer != Global.clientID)
                     {
+                        Global.Log($"Unhandshook peer (id:{peer}) reported - handshaking them.");
                         JoinToPeer(peer);
                     }
                 }
                 break;
             case "Leaving":
                 Global.Log("Peer leaving: " + handshake.Sender);
+                PeerListStabilityChangedEvent.Invoke(false);
                 remotePeers.Remove(id);
                 PlayerLeftEvent?.Invoke(handshake.Sender);
                 break;
