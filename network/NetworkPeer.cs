@@ -233,9 +233,11 @@ public partial class NetworkPeer : Node
 
         //Identical to above, but for Lobby messages on the Lobby Channel
         nint[] lobbyMessages = new nint[nMaxLobbyMessagesPerFrame];
-        for (int i = 0; i < ReceiveMessagesOnChannel(LOBBY_CHANNEL, lobbyMessages, nMaxLobbyMessagesPerFrame); i++)
+        int lobbyMessageNum = ReceiveMessagesOnChannel(LOBBY_CHANNEL, lobbyMessages, nMaxLobbyMessagesPerFrame);
+        Global.Log($"Network Peer Received {lobbyMessageNum} Lobby messages this frame.");
+        for (int i = 0; i < lobbyMessageNum; i++)
         {
-            Global.Log($"Network Peer Received {lobbyMessages.Length} Lobby messages this frame.");
+
             SteamNetworkingMessage_t steamMsg = SteamNetworkingMessage_t.FromIntPtr(lobbyMessages[i]); //Converts the message to a C# object
             LobbyMessage lobbyMessage = LobbyMessage.Parser.ParseFrom(IntPtrToBytes(steamMsg.m_pData, steamMsg.m_cbSize));
             LobbyMessageReceivedEvent?.Invoke(lobbyMessage);
