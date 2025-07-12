@@ -31,7 +31,7 @@ public partial class Unit: GodotObject
     public Dictionary<TerrainMoveType, float> sightCosts { get; set; } = new();
     public Hex hex { get; set; }
     public float movementSpeed { get; set; } = 2.0f;
-    public float remainingMovement { get; set; } = 2.0f;
+    public float remainingMovement { get; set; }
     public float sightRange { get; set; } = 3.0f;
     public float health { get; set; } = 100.0f;
     public float combatStrength { get; set; } = 10.0f;
@@ -63,6 +63,7 @@ public partial class Unit: GodotObject
             this.movementCosts = unitInfo.MovementCosts;
             this.sightCosts = unitInfo.SightCosts;
             this.movementSpeed = unitInfo.MovementSpeed;
+            this.remainingMovement = unitInfo.MovementSpeed;
             this.sightRange = unitInfo.SightRange;
             this.healingFactor = unitInfo.HealingFactor;
             this.combatStrength = unitInfo.CombatPower + combatModifier;
@@ -255,11 +256,12 @@ public partial class Unit: GodotObject
             return false;
         }
         
-        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
+        //allow settling on resources now
+/*        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
         {
             if (logging) { Global.Log("    Target hex itself contains a resource. We cannot settle here."); }
             return false;
-        }
+        }*/
         if (!allowedTerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType))
         {
             if (logging) { Global.Log("    Target hex itself Is not an allowed terrain type. We cannot settle here."); }
@@ -355,7 +357,35 @@ public partial class Unit: GodotObject
             return false;
         }
     }
-    
+
+    public bool BombardAttackTarget(GameHex targetGameHex, float rangedPower, TeamManager teamManager)
+    {
+        isSleeping = false;
+        isSkipping = false;
+        //remainingMovement -= moveCost;
+        if (targetGameHex.district != null && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum) && targetGameHex.district.health > 0.0f)
+        {
+            SetAttacksLeft(attacksLeft - 1);
+            return RangedDistrictCombat(targetGameHex, rangedPower+10); //bombard gets +10 strength against districts
+        }
+        if (targetGameHex.units.Any())
+        {
+            Unit unit = Global.gameManager.game.unitDictionary[targetGameHex.units[0]];
+            if (teamManager.GetEnemies(teamNum).Contains(unit.teamNum))
+            {
+                //combat math TODO
+                //if we didn't die and the enemy has died we can move in otherwise atleast one of us should poof
+                SetAttacksLeft(attacksLeft - 1);
+                return RangedUnitCombat(targetGameHex, unit, rangedPower);
+            }
+            return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void increaseHealth(float amount)
     {
         health += amount;
@@ -668,7 +698,7 @@ public partial class Unit: GodotObject
     {
         //GD.Print(targetGameHex.hex);
         isSleeping = false;
-        isSkipping = false;
+        isSkipping = true;
         this.isTargetEnemy = isTargetEnemy;
         
         currentPath = PathFind(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex,Global.gameManager.game.teamManager, movementCosts, movementSpeed, out float temp);

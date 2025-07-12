@@ -78,7 +78,19 @@ public partial class ResearchTreePanel : Control
                         while (tierDelta > 1)
                         {
                             tierDelta--;
-                            researchTierDict[info.Tier - tierDelta][info.VisualSlot] = (researchName + "|" + requirement + "\\" + "BLANK" + (info.Tier - tierDelta));
+                            if (researchTierDict[info.Tier - tierDelta][info.VisualSlot] == "" || researchTierDict[info.Tier - tierDelta][info.VisualSlot].Contains("BLANK"))
+                            {
+                                researchTierDict[info.Tier - tierDelta][info.VisualSlot] = (researchName + "|" + requirement + "\\" + "BLANK" + (info.Tier - tierDelta));
+                            }
+                            else if (info.VisualSlot > 0 && (researchTierDict[info.Tier - tierDelta][info.VisualSlot - 1] == "" || researchTierDict[info.Tier - tierDelta][info.VisualSlot - 1].Contains("BLANK")))
+                            {
+                                researchTierDict[info.Tier - tierDelta][info.VisualSlot - 1] = (researchName + "|" + requirement + "\\" + "BLANK" + (info.Tier - tierDelta));
+                            }
+                            else if (info.VisualSlot < 7 && (researchTierDict[info.Tier - tierDelta][info.VisualSlot + 1] == "" || researchTierDict[info.Tier - tierDelta][info.VisualSlot + 1].Contains("BLANK")))
+                            {
+                                researchTierDict[info.Tier - tierDelta][info.VisualSlot + 1] = (researchName + "|" + requirement + "\\" + "BLANK" + (info.Tier - tierDelta));
+                            }
+                            //researchTierDict[info.Tier - tierDelta][info.VisualSlot] = (researchName + "|" + requirement + "\\" + "BLANK" + (info.Tier - tierDelta));
                         }
                     }
                 }
@@ -219,7 +231,7 @@ public partial class ResearchTreePanel : Control
                 if (research.Contains("BLANK"))
                 {
                     Control researchBlank = new Control();
-                    researchBlank.CustomMinimumSize = new Vector2(256.0f, 64.0f);
+                    researchBlank.CustomMinimumSize = new Vector2(256.0f, 72.0f);
                     researchBlank.Name = research;
                     tierSlotButtonArray[i][j] = researchBlank;
                 }

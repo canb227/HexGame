@@ -115,7 +115,7 @@ public partial class UnitInfoPanel : Node3D
 
             foreach (UnitAbility ability in unit.abilities)
             {
-                if(ability.name == "RangedAttack")
+                if(ability.name == "RangedAttack" || ability.name == "BombardAttack")
                 {
                     rangedStrengthContainer.Visible = true;
                     rangedStrengthLabel.Text = ability.combatPower.ToString();

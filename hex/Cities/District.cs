@@ -37,6 +37,13 @@ public partial class District : GodotObject
         }
         AddBuilding(new Building(initialString, hex, isResource));
 
+        var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateHex", data);
     }
 
     public District(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID, bool isEncampment = false)
@@ -253,39 +260,39 @@ public partial class District : GodotObject
         isUrban = true;
         if (districtType == DistrictType.refinement)
         {
-            AddBuilding(new Building("Refinery", hex, false));
+            AddBuilding(new Building("RefineryDistrict", hex, false));
         }
         else if (districtType == DistrictType.production)
         {
-            AddBuilding(new Building("Industry", hex, false));
+            AddBuilding(new Building("IndustryDistrict", hex, false));
         }
         else if (districtType == DistrictType.gold)
         {
-            AddBuilding(new Building("Commerce", hex, false));
+            AddBuilding(new Building("CommerceDistrict", hex, false));
         }
         else if (districtType == DistrictType.science)
         {
-            AddBuilding(new Building("Campus", hex, false));
+            AddBuilding(new Building("CampusDistrict", hex, false));
         }
         else if (districtType == DistrictType.culture)
         {
-            AddBuilding(new Building("Cultural", hex, false));
+            AddBuilding(new Building("CulturalDistrict", hex, false));
         }
         else if (districtType == DistrictType.happiness)
         {
-            AddBuilding(new Building("Entertainment", hex, false));
+            AddBuilding(new Building("EntertainmentDistrict", hex, false));
         }
         else if (districtType == DistrictType.influence)
         {
-            AddBuilding(new Building("Administrative", hex, false));
+            AddBuilding(new Building("AdministrativeDistrict", hex, false));
         }
         else if (districtType == DistrictType.dock)
         {
-            AddBuilding(new Building("Harbor", hex, false));
+            AddBuilding(new Building("HarborDistrict", hex, false));
         }
         else if (districtType == DistrictType.military)
         {
-            AddBuilding(new Building("Militaristic", hex, false));
+            AddBuilding(new Building("MilitaristicDistrict", hex, false));
         }
     }
 

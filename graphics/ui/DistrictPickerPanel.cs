@@ -28,63 +28,63 @@ public partial class DistrictPickerPanel : Control
 
         foreach (DistrictType type in Global.gameManager.game.playerDictionary[targetGraphicCity.city.teamNum].allowedDistricts)
         {
-            if (type == DistrictType.refinement && BuildingLoader.buildingsDict["Refinery"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType) )
+            if (type == DistrictType.refinement && BuildingLoader.buildingsDict["RefineryDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType) )
             {
                 Button button = new Button();
                 button.Text = "Refining District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.refinement);;
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.production && BuildingLoader.buildingsDict["Industry"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType) )
+            else if (type == DistrictType.production && BuildingLoader.buildingsDict["IndustryDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType) )
             {
                 Button button = new Button();
                 button.Text = "Industrial District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.production);
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.gold && BuildingLoader.buildingsDict["Commerce"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            else if (type == DistrictType.gold && BuildingLoader.buildingsDict["CommerceDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
                 button.Text = "Commercial District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.gold);
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.science && BuildingLoader.buildingsDict["Campus"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            else if (type == DistrictType.science && BuildingLoader.buildingsDict["CampusDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
                 button.Text = "Campus District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.science);
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.culture && BuildingLoader.buildingsDict["Cultural"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            else if (type == DistrictType.culture && BuildingLoader.buildingsDict["CulturalDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
                 button.Text = "Cultural District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.culture);
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.happiness && BuildingLoader.buildingsDict["Entertainment"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            else if (type == DistrictType.happiness && BuildingLoader.buildingsDict["EntertainmentDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
                 button.Text = "Entertainment District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.happiness);
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.influence && BuildingLoader.buildingsDict["Administrative"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            else if (type == DistrictType.influence && BuildingLoader.buildingsDict["AdministrativeDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
                 button.Text = "Administrative District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.influence);
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.dock && BuildingLoader.buildingsDict["Harbor"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            else if (type == DistrictType.dock && BuildingLoader.buildingsDict["HarborDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
                 button.Text = "Harbor District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.dock);
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.military && BuildingLoader.buildingsDict["Militaristic"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            else if (type == DistrictType.military && BuildingLoader.buildingsDict["MilitaristicDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
                 button.Text = "Militaristic District";

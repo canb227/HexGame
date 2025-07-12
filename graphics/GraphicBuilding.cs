@@ -35,6 +35,16 @@ public partial class GraphicBuilding : GraphicObject
                 this.Visible = false;
             }
         }
+        else if (graphicUpdateType == GraphicUpdateType.Update)
+        {
+            if(Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.isUrban)
+            {
+                if (!Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.isCityCenter && !building.isDistrictCenterBuilding)
+                {
+                    this.Visible = false;
+                }
+            }
+        }
     }
 
     private void InitBuilding(Building building)
@@ -45,7 +55,7 @@ public partial class GraphicBuilding : GraphicObject
         int newQ = (Global.gameManager.game.mainGameBoard.left + (building.districtHex.r >> 1) + building.districtHex.q) % ggb.chunkSize - (building.districtHex.r >> 1);
         Hex modHex = new Hex(newQ, building.districtHex.r, -newQ - building.districtHex.r);
         Point hexPoint = layout.HexToPixel(modHex);
-        float height = ggb.Vector3ToHeightMapVal(node3D.Transform.Origin); //TODO
+        float height = ggb.Vector3ToHeightMapVal(node3D.Transform.Origin);
         newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
         node3D.Transform = newTransform;
 

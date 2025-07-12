@@ -90,15 +90,15 @@ public static class BuildingLoader
         Dictionary<DistrictType, BuildingInfo> temp = new();
         temp.Add(DistrictType.citycenter, buildingDict["CityCenter"]);
         temp.Add(DistrictType.rural, buildingDict["Farm"]);
-        temp.Add(DistrictType.refinement, buildingDict["Refinery"]);
-        temp.Add(DistrictType.production, buildingDict["Industry"]);
-        temp.Add(DistrictType.gold, buildingDict["Commerce"]);
-        temp.Add(DistrictType.science, buildingDict["Campus"]);
-        temp.Add(DistrictType.culture, buildingDict["Cultural"]);
-        temp.Add(DistrictType.happiness, buildingDict["Entertainment"]);
-        temp.Add(DistrictType.influence, buildingDict["Administrative"]);
-        temp.Add(DistrictType.dock, buildingDict["Harbor"]);
-        temp.Add(DistrictType.military, buildingDict["Militaristic"]);
+        temp.Add(DistrictType.refinement, buildingDict["RefineryDistrict"]);
+        temp.Add(DistrictType.production, buildingDict["IndustryDistrict"]);
+        temp.Add(DistrictType.gold, buildingDict["CommerceDistrict"]);
+        temp.Add(DistrictType.science, buildingDict["CampusDistrict"]);
+        temp.Add(DistrictType.culture, buildingDict["CulturalDistrict"]);
+        temp.Add(DistrictType.happiness, buildingDict["EntertainmentDistrict"]);
+        temp.Add(DistrictType.influence, buildingDict["AdministrativeDistrict"]);
+        temp.Add(DistrictType.dock, buildingDict["HarborDistrict"]);
+        temp.Add(DistrictType.military, buildingDict["MilitaristicDistrict"]);
         return temp;
     }
 }

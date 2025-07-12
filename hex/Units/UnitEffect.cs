@@ -168,6 +168,10 @@ public class UnitEffect
         {
             return RangedAttack(Global.gameManager.game.unitDictionary[unitID], combatPower, abilityTarget);
         }
+        else if(functionString == "BombardAttack")
+        {
+            return BombardAttack(Global.gameManager.game.unitDictionary[unitID], combatPower, abilityTarget);
+        }
         else if(functionString == "EnableEmbarkDisembark")
         {
             EnableEmbarkDisembark(Global.gameManager.game.unitDictionary[unitID]);
@@ -206,10 +210,11 @@ public class UnitEffect
                 break;
             }
         }
-        if (Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].resourceType != ResourceType.None)
+        //allow settle of resources
+/*        if (Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].resourceType != ResourceType.None)
         {
             validHex = false;
-        }
+        }*/
         if (validHex)
         {
             if (unit.unitType == "Founder")
@@ -261,6 +266,10 @@ public class UnitEffect
     public bool RangedAttack(Unit unit, float combatPower, GameHex target)
     {
         return unit.RangedAttackTarget(target, combatPower, Global.gameManager.game.teamManager);
+    }
+    public bool BombardAttack(Unit unit, float combatPower, GameHex target)
+    {
+        return unit.BombardAttackTarget(target, combatPower, Global.gameManager.game.teamManager);
     }
     public bool Fortify(Unit unit)
     {

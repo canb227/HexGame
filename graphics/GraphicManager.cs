@@ -78,6 +78,7 @@ public partial class GraphicManager : Node3D
 
     public void NewUnit(Unit unit)
     {
+        Global.Log("New Unit: " + unit.id);
         GraphicUnit graphicUnit = new GraphicUnit(unit);
         graphicObjectDictionary.Add(graphicUnit.unit.id, graphicUnit);
         CallDeferred(Node.MethodName.AddChild, graphicUnit);

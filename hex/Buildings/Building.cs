@@ -22,12 +22,21 @@ public partial class Building : GodotObject
     public float maintenanceCost { get; set; }
     public Yields baseYields { get; set; }
     public Yields yields { get; set; }
+    public bool isDistrictCenterBuilding { get; set; }
 
     public Building(String buildingType, Hex districtHex, bool isResource)
     {
         this.districtHex = districtHex;
         this.buildingType = buildingType;
         this.name = buildingType;
+        if(buildingType.Contains("District"))
+        {
+            isDistrictCenterBuilding = true;
+        }
+        else
+        {
+            isDistrictCenterBuilding = false;
+        }
         // 'City Center' 'Farm' 'Mine' 'Hunting Camp' 'Fishing Boat' 'Whaling Ship'
         if (BuildingLoader.buildingsDict.TryGetValue(buildingType, out BuildingInfo buildingInfo))
         {

@@ -154,26 +154,29 @@ public class GameHex
         {
             yields.gold += 1;
         }
-        
-        if(terrainTemp == TerrainTemperature.Desert)
+
+        if(terrainType != TerrainType.Mountain)
         {
-            yields.gold += 1;
-        }
-        else if (terrainTemp == TerrainTemperature.Plains)
-        {
-            yields.production += 1;
-        }
-        else if (terrainTemp == TerrainTemperature.Grassland)
-        {
-            yields.food += 1;
-        }
-        else if (terrainTemp == TerrainTemperature.Tundra)
-        {
-            yields.happiness += 1;
-        }
-        else
-        {
-            //nothing
+            if (terrainTemp == TerrainTemperature.Desert)
+            {
+                yields.gold += 1;
+            }
+            else if (terrainTemp == TerrainTemperature.Plains)
+            {
+                yields.production += 1;
+            }
+            else if (terrainTemp == TerrainTemperature.Grassland)
+            {
+                yields.food += 1;
+            }
+            else if (terrainTemp == TerrainTemperature.Tundra)
+            {
+                yields.happiness += 1;
+            }
+            else
+            {
+                //nothing
+            }
         }
     }
 

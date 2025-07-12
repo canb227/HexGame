@@ -89,9 +89,6 @@ public partial class City : GodotObject
         this.isCapital = isCapital;
         this.wasCapital = isCapital;
         RecalculateYields();
-
-
-
     }
 
 
@@ -1057,10 +1054,10 @@ public partial class City : GodotObject
         if (validTerrain.Count == 0 || validTerrain.Contains(targetGameHex.terrainType))
         {
             //hex is owned by us so continue
-            if (targetGameHex.resourceType != ResourceType.None)
+/*            if (targetGameHex.resourceType != ResourceType.None)
             {
                 return false;
-            }
+            }*/
             if (targetGameHex.ownedBy == teamNum)
             {
                 //hex does have a rural district

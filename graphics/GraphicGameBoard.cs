@@ -346,7 +346,7 @@ public partial class GraphicGameBoard : GraphicObject
             //multiMeshInstance.SetInstanceShaderParameter("chunkOffset", chunkOffset);
             multiMeshInstance.Name = "GameBoardTerrain" + i;
 
-            //yieldShaderMaterial.RenderPriority = 10;
+            yieldShaderMaterial.RenderPriority = 1;
             yieldMultiMeshInstance.MaterialOverride = yieldShaderMaterial;
             yieldMultiMeshInstance.Name = "Yield" + i;
 
@@ -603,19 +603,19 @@ public partial class GraphicGameBoard : GraphicObject
     {
         //GD.PushWarning("NOT IMPLEMENTED"); //TODO
         Vector3 wrappedPixel = WrapPixel(pixel);
-        float height = heightMap.GetPixel((int)(wrappedPixel.X), (int)wrappedPixel.Y).R;
-        return 0.0f;
+        float height = heightMap.GetPixel((int)(wrappedPixel.Z), (int)wrappedPixel.X).R * 20.0f; //-1 because things are floating idk
+        return height;
     }
 
     public Vector3 WrapPixel(Vector3 pixel)
     {
         int width = heightMap.GetWidth();
-        int newX = (int)pixel.X % width;
-        if (newX < 0)
+        int newZ = (int)(-pixel.Z) % width;
+        if (newZ < 0)
         {
-            newX = width + newX % width;
+            newZ = width + newZ % width;
         }
-        return new Vector3(newX, pixel.Y, pixel.Z);
+        return new Vector3(pixel.X, pixel.Y, newZ);
     }
 
     public void GaussianBlur(Image image, int radius)

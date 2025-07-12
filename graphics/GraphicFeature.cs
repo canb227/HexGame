@@ -75,17 +75,33 @@ public partial class GraphicFeature : GraphicObject
     {
         if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hex))
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban)
             {
-                this.Visible = true;
-                featureModel.Visible = true;
-            }
-            else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
-            {
-                this.Visible = true;
-                featureModel.Visible = true;
+                this.Visible = false;
+                featureModel.Visible = false;
             }
             else
+            {
+                if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hex))
+                {
+                    this.Visible = true;
+                    featureModel.Visible = true;
+                }
+                else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
+                {
+                    this.Visible = true;
+                    featureModel.Visible = true;
+                }
+                else
+                {
+                    this.Visible = false;
+                    featureModel.Visible = false;
+                }
+            }
+        }
+        else if(graphicUpdateType == GraphicUpdateType.Update)
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban)
             {
                 this.Visible = false;
                 featureModel.Visible = false;

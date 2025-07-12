@@ -1,5 +1,5 @@
 <Units>
-  <Unit Name="Founder" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="4.0" CombatPower="10.0" HealingFactor="20" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/baseperson_settler.glb">
+  <Unit Name="Founder" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="4.0" CombatPower="10.0" HealingFactor="20" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/units/baseperson_settler.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -38,7 +38,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Settler" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="3.0" CombatPower="5.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/baseperson_settler.glb">
+  <Unit Name="Settler" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="3.0" CombatPower="5.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/units/baseperson_settler.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />

@@ -98,39 +98,57 @@ public partial class GraphicResource : GraphicObject
                 improved = false;
                 improvementMeshInstance.Visible = false;
             }
+
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban)
+            {
+                //this.Visible = false;
+                //node3D.Visible = false;
+                resourceMeshInstance.Visible = false;
+                improvementMeshInstance.Visible = false;
+            }
         }
         if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hex))
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban)
             {
-                greyScaleShaderMaterial.SetShaderParameter("enabled", false);
-                //greyScale3DShaderMaterial.SetShaderParameter("enabled", false);
-                this.Visible = true;
-                node3D.Visible = true;
-                resourceMeshInstance.Visible = true;
-                if(improved)
-                {
-                    improvementMeshInstance.Visible = true;
-                }
-            }
-            else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
-            {
-                greyScaleShaderMaterial.SetShaderParameter("enabled", true);
-                //greyScale3DShaderMaterial.SetShaderParameter("enabled", true);
-                this.Visible = true;
-                node3D.Visible = true;
-                resourceMeshInstance.Visible = true;
-                if (improved)
-                {
-                    improvementMeshInstance.Visible = true;
-                }
+                //this.Visible = false;
+                //node3D.Visible = false;
+                resourceMeshInstance.Visible = false;
+                improvementMeshInstance.Visible = false;
             }
             else
             {
-                this.Visible = false;
-                node3D.Visible = false;
-                resourceMeshInstance.Visible = false;
-                improvementMeshInstance.Visible = false;
+                if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hex))
+                {
+                    greyScaleShaderMaterial.SetShaderParameter("enabled", false);
+                    //greyScale3DShaderMaterial.SetShaderParameter("enabled", false);
+                    this.Visible = true;
+                    node3D.Visible = true;
+                    resourceMeshInstance.Visible = true;
+                    if (improved)
+                    {
+                        improvementMeshInstance.Visible = true;
+                    }
+                }
+                else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
+                {
+                    greyScaleShaderMaterial.SetShaderParameter("enabled", true);
+                    //greyScale3DShaderMaterial.SetShaderParameter("enabled", true);
+                    this.Visible = true;
+                    node3D.Visible = true;
+                    resourceMeshInstance.Visible = true;
+                    if (improved)
+                    {
+                        improvementMeshInstance.Visible = true;
+                    }
+                }
+                else
+                {
+                    this.Visible = false;
+                    node3D.Visible = false;
+                    resourceMeshInstance.Visible = false;
+                    improvementMeshInstance.Visible = false;
+                }
             }
         }
     }

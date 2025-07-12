@@ -112,7 +112,6 @@ public partial class Lobby : Control
                 IsAI = false
             };
             lobbyMessage.LobbyStatus = lobbyStatus;
-            Global.networkPeer.SendLobbyMessageToPeer(lobbyMessage, playerID);
             Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
         }
         else

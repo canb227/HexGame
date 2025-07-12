@@ -13,6 +13,3 @@ Knight
 Courser
 
 MilitaryEngineer
-
-
-BombardAttack

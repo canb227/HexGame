@@ -110,9 +110,14 @@ public partial class HexGameCamera : Camera3D
         {
             Vector2 mouse_pos = GetViewport().GetMousePosition();
             Vector3 origin = this.ProjectRayOrigin(mouse_pos);
+
             Vector3 direction = this.ProjectRayNormal(mouse_pos);
             float distance = -origin.Y / direction.Y;
             Vector3 position = origin + direction * distance;
+
+/*            GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            GD.Print(ggb.Vector3ToHeightMapVal(position));*/
+
             Point point = new Point(position.Z, position.X);
             //GD.Print(point.x + ", " + point.y);
             FractionalHex fHex = Global.layout.PixelToHex(point);

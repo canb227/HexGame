@@ -92,7 +92,7 @@
         </Effects>
     </Research>
 
-    <Research Name="Archery" Tier="2" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
+    <Research Name="Archery" Tier="2" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>AnimalHusbandry</ResearchType>
         </Requirements>
@@ -309,7 +309,7 @@
         </Effects>
     </Research>
 
-    <Research Name="Stirrups" Tier="6" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
+    <Research Name="Stirrups" Tier="7" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>HorsebackRiding</ResearchType>
         </Requirements>
@@ -321,7 +321,7 @@
         </Effects>
     </Research>
 
-    <Research Name="MilitaryEngineering" Tier="6" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
+    <Research Name="MilitaryEngineering" Tier="7" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Construction</ResearchType>
         </Requirements>
@@ -337,7 +337,7 @@
         </Effects>
     </Research>
 
-        <Research Name="Castles" Tier="6" VisualSlot="6" IconPath="graphics/ui/icons/science.png">
+        <Research Name="Castles" Tier="7" VisualSlot="7" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>IronWorking</ResearchType>
             <ResearchType>Construction</ResearchType>

@@ -28,6 +28,9 @@ public class Player : BasePlayer
 
         //default policy cards
         unassignedPolicyCards.Add(new PolicyCard("Combat", "Make goodrer at the fighting", true));
+
+        //default yields
+        SetBaseHexYields();
     }
 
     public Player()
