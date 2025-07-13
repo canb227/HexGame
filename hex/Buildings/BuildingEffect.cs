@@ -141,12 +141,14 @@ public class BuildingEffect
             { "CampusEffect", CampusEffect },
             { "CulturalEffect", CulturalEffect },
             { "EntertainmentEffect", EntertainmentEffect },
-            { "AdministrativeEffect", AdministrativeEffect },
+            { "HeroicDistrictEffect", HeroicDistrictEffect },
             { "HarborEffect", HarborEffect },
             { "MilitaristicEffect", MilitaristicEffect },
             { "GranaryEffect", GranaryEffect },
             { "DockWarehouseEffect", DockWarehouseEffect },
             { "StoneCutterWarehouseEffect", StoneCutterWarehouseEffect },
+            { "ArenaEffect", ArenaEffect },
+            { "TempleEffect", TempleEffect },
             { "GardenEffect", GardenEffect },
             { "LibraryEffect", LibraryEffect },
             { "AncientWallEffect", AncientWallEffect },
@@ -169,6 +171,8 @@ public class BuildingEffect
             { "PetraEffect", PetraEffect },
             { "TerracottaArmyEffect", TerracottaArmyEffect },
             { "MachuPicchuEffect", MachuPicchuEffect },
+            { "OracleEffect", OracleEffect },
+            { "ColosseumEffect", ColosseumEffect },
         };
         
         if (effectFunctions.TryGetValue(functionString, out Action<Building> effectFunction))
@@ -252,7 +256,7 @@ public class BuildingEffect
 
     }
 
-    void AdministrativeEffect(Building building)
+    void HeroicDistrictEffect(Building building)
     {
 
     }
@@ -280,6 +284,14 @@ public class BuildingEffect
     void StoneCutterWarehouseEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].roughYields.production += 1;
+    }
+    void ArenaEffect(Building building)
+    {
+        
+    }
+    void TempleEffect(Building building)
+    {
+        
     }
     void GardenEffect(Building building)
     {
@@ -390,6 +402,16 @@ public class BuildingEffect
     void MachuPicchuEffect(Building building)
     {
         //mountains provide a adjacency bonus to districts in all cities
+    }
+
+    void OracleEffect(Building building)
+    {
+        //something hero related
+    }
+
+    void ColosseumEffect(Building building)
+    {
+
     }
 
 }

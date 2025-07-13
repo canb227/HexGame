@@ -49,6 +49,7 @@ public static class CultureResearchLoader
                 {
                     Tier = int.Parse(r.Attribute("Tier")?.Value ?? "0"),
                     FactionType = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
+                    VisualSlot = int.Parse(r.Attribute("VisualSlot")?.Value ?? "0"),
                     IconPath = r.Attribute("IconPath")?.Value ?? throw new InvalidOperationException("Missing 'IconPath' attribute"),
                     Requirements = r.Element("Requirements")?.Elements("ResearchType")
                         .Select(e => e.Value ?? throw new Exception("Invalid Stringy"))
@@ -57,6 +58,13 @@ public static class CultureResearchLoader
                         .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid BuildingUnlock"))
                         .ToList() ?? new List<string>(),
                     UnitUnlocks = r.Element("UnitUnlocks")?.Elements("UnitType")
+                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid UnitUnlock"))
+                        .ToList() ?? new List<string>(),
+                    ResourceUnlocks = r.Element("ResourceUnlocks")?.Elements("ResourceType")
+                        .Select(e => (ResourceType)Enum.Parse(typeof(ResourceType), e.Attribute("Name")?.Value
+                            ?? throw new Exception("Invalid ResourceType")))
+                        .ToList() ?? new List<ResourceType>(),
+                    PolicyCardUnlocks = r.Element("PolicyCardUnlocks")?.Elements("PolicyCard")
                         .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid UnitUnlock"))
                         .ToList() ?? new List<string>(),
 
@@ -75,9 +83,29 @@ public static class CultureResearchLoader
         Dictionary<String, Action<Player>> effectFunctions = new Dictionary<string, Action<Player>>
         {
             { "TribalDominionEffect", TribalDominionEffect },
+            { "CraftsmanshipEffect", CraftsmanshipEffect },
+            { "InternalTradeEffect", InternalTradeEffect },
+            { "MilitaryTraditionEffect", MilitaryTraditionEffect },
+            { "StateWorkforceEffect", StateWorkforceEffect },
+            { "EarlyEmpireEffect", EarlyEmpireEffect },
+            { "MysticismEffect", MysticismEffect },
             { "ForeignTradeEffect", ForeignTradeEffect },
-            { "SongwritingEffect", SongwritingEffect },
-            { "FutureTechEffect", FutureTechEffect }
+            { "RecreationEffect", RecreationEffect },
+            { "PoliticalPhilosophyEffect", PoliticalPhilosophyEffect },
+            { "DramaAndPoetryEffect", DramaAndPoetryEffect },
+            { "MilitaryTrainingEffect", MilitaryTrainingEffect },
+            { "DefensiveTacticsEffect", DefensiveTacticsEffect },
+            { "RecordedHistoryEffect", RecordedHistoryEffect },
+            { "MythologyEffect", MythologyEffect },
+            { "NavalTraditionEffect", NavalTraditionEffect },
+            { "FeudalismEffect", FeudalismEffect },
+            { "CivilServiceEffect", CivilServiceEffect },
+            { "MercenariesEffect", MercenariesEffect },
+            { "MedievalFairesEffect", MedievalFairesEffect },
+            { "GuildsEffect", GuildsEffect },
+            { "DivineRightEffect", DivineRightEffect },
+            { "FutureTechEffect", FutureTechEffect },
+
         };
         
         if (effectFunctions.TryGetValue(functionString, out Action<Player> effectFunction))
@@ -93,15 +121,109 @@ public static class CultureResearchLoader
     {
 
     }
+    static void CraftsmanshipEffect(Player player)
+    {
 
+    }
+
+    static void InternalTradeEffect(Player player)
+    {
+
+    }
+
+    static void MilitaryTraditionEffect(Player player)
+    {
+
+    }
+
+    static void StateWorkforceEffect(Player player)
+    {
+
+    }
+
+    static void EarlyEmpireEffect(Player player)
+    {
+
+    }
     static void ForeignTradeEffect(Player player)
     {
 
     }
-
-    static void SongwritingEffect(Player player)
+    static void MysticismEffect(Player player)
     {
+
     }
+
+    static void RecreationEffect(Player player)
+    {
+
+    }
+
+    static void PoliticalPhilosophyEffect(Player player)
+    {
+
+    }
+
+    static void DramaAndPoetryEffect(Player player)
+    {
+
+    }
+
+    static void MilitaryTrainingEffect(Player player)
+    {
+
+    }
+
+    static void DefensiveTacticsEffect(Player player)
+    {
+
+    }
+
+    static void RecordedHistoryEffect(Player player)
+    {
+
+    }
+
+    static void MythologyEffect(Player player)
+    {
+
+    }
+
+    static void NavalTraditionEffect(Player player)
+    {
+
+    }
+
+    static void FeudalismEffect(Player player)
+    {
+
+    }
+
+    static void CivilServiceEffect(Player player)
+    {
+
+    }
+
+    static void MercenariesEffect(Player player)
+    {
+
+    }
+
+    static void MedievalFairesEffect(Player player)
+    {
+
+    }
+
+    static void GuildsEffect(Player player)
+    {
+
+    }
+
+    static void DivineRightEffect(Player player)
+    {
+
+    }
+
     static void FutureTechEffect(Player player)
     {
 

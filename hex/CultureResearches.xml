@@ -1,41 +1,316 @@
 <Researches> //'City Center' 'Farm' 'Mine' 'Hunting Camp' 'Fishing Boat' 'Whaling Ship'
-    <Research Name="Tribal Dominion" Tier="0" IconPath="graphics/ui/icons/sword.png">
+    <Research Name="TribalDominion" Tier="0" VisualSlot="3" IconPath="graphics/ui/icons/sword.png">
         <BuildingUnlocks>
             <BuildingType Name="Monument" />
         </BuildingUnlocks>
         <UnitUnlocks>
             <UnitType Name="Scout" />
         </UnitUnlocks>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Discipline" />
+            <PolicyCard Name="UrbanPlanning" />
+        </PolicyCardUnlocks>
         <Effects>
             <Effect Name="TribalDominionEffect" />
         </Effects>
     </Research>
-    <Research Name="ForeignTrade" Tier="1" IconPath="graphics/ui/icons/culture.png">
+    <!-- Tier 1 -->
+    <Research Name="Craftsmanship" Tier="1" VisualSlot="1" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>Tribal Dominion</ResearchType>
+            <ResearchType>TribalDominion</ResearchType>
         </Requirements>
-        <UnitUnlocks>
-            <UnitType Name="Trader"/>
-        </UnitUnlocks> 
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Discipline" />
+            <PolicyCard Name="UrbanPlanning" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="CraftsmanshipEffect" />
+        </Effects>
+    </Research>
+    <Research Name="InternalTrade" Tier="1" VisualSlot="5" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>TribalDominion</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="InternalRouting" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="InternalTradeEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 2 -->
+    <Research Name="MilitaryTradition" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>Craftsmanship</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Maneuver" />
+            <PolicyCard Name="WarStories" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="MilitaryTraditionEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="StateWorkforce" Tier="2" VisualSlot="2" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>Craftsmanship</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Servitude" />
+            <PolicyCard Name="Conscription" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="StateWorkforceEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="EarlyEmpire" Tier="2" VisualSlot="4" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>InternalTrade</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Colonization" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="EarlyEmpireEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Mysticism" Tier="2" VisualSlot="6" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>InternalTrade</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Inspiration" />
+            <PolicyCard Name="Revelation" />
+        </PolicyCardUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="Oracle" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="MysticismEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 3 -->
+
+    <Research Name="ForeignTrade" Tier="3" VisualSlot="4" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>EarlyEmpire</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Colonization" />
+            <PolicyCard Name="MaritimeIndustry" />
+        </PolicyCardUnlocks>
         <Effects>
             <Effect Name="ForeignTradeEffect" />
         </Effects>
     </Research>
-    <Research Name="Songwriting" Tier="1" IconPath="graphics/ui/icons/culture.png">
+
+    <Research Name="Recreation" Tier="3" VisualSlot="1" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>Tribal Dominion</ResearchType>
+            <ResearchType>StateWorkforce</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Arena" />
+            <BuildingType Name="Colosseum" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="RecreationEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="PoliticalPhilosophy" Tier="3" VisualSlot="2" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>StateWorkforce</ResearchType>
+            <ResearchType>EarlyEmpire</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="CharismaticLeader" />
+            <PolicyCard Name="MaritimeIndustry" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="PoliticalPhilosophyEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="DramaAndPoetry" Tier="3" VisualSlot="5" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>EarlyEmpire</ResearchType>
         </Requirements>
         <BuildingUnlocks>
             <BuildingType Name="Ampitheater" />
         </BuildingUnlocks>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="LiteraryTradition" />
+        </PolicyCardUnlocks>
         <Effects>
-            <Effect Name="SongwritingEffect" />
+            <Effect Name="DramaAndPoetryEffect" />
         </Effects>
     </Research>
-    <Research Name="FutureTech" Tier="18" IconPath="graphics/ui/icons/culture.png">
+
+    <!-- Tier 4 -->
+    <Research Name="MilitaryTraining" Tier="4" VisualSlot="0" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>Songwriting</ResearchType>
-            <ResearchType>Tribal Dominion</ResearchType>
+            <ResearchType>MilitaryTradition</ResearchType>
+            <ResearchType>Recreation</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Veterancy" />
+            <PolicyCard Name="EquestrianOrder" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="MilitaryTrainingEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="DefensiveTactics" Tier="4" VisualSlot="2" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>Recreation</ResearchType>
+            <ResearchType>PoliticalPhilosophy</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Bastions" />
+            <PolicyCard Name="Limestone" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="DefensiveTacticsEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="RecordedHistory" Tier="4" VisualSlot="4" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>PoliticalPhilosophy</ResearchType>
+            <ResearchType>DramaAndPoetry</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="NaturalPhilosophy" />
+            <PolicyCard Name="Praetorium" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="RecordedHistoryEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Mythology" Tier="4" VisualSlot="6" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>DramaAndPoetry</ResearchType>
+            <ResearchType>Mysticism</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Temple" />
+        </BuildingUnlocks>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Myths" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="MythologyEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 5 -->
+    <Research Name="NavalTradition" Tier="5" VisualSlot="1" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>DefensiveTactics</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="NavalInfrastructure" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="NavalTraditionEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Feudalism" Tier="5" VisualSlot="2" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>DefensiveTactics</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="FeudalContract" />
+            <PolicyCard Name="Serfdom" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="FeudalismEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="CivilService" Tier="5" VisualSlot="4" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>DefensiveTactics</ResearchType>
+            <ResearchType>RecordedHistory</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Meritocracy" />
+            <PolicyCard Name="CivilPrestige" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="CivilServiceEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 6 -->
+
+    <Research Name="Mercenaries" Tier="6" VisualSlot="0" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>MilitaryTraining</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Sack" />
+            <PolicyCard Name="TradeConfederation" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="MercenariesEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="MedievalFaires" Tier="6" VisualSlot="2" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>Feudalism</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Aesthetics" />
+            <PolicyCard Name="MerchantConfederation" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="MedievalFairesEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="Guilds" Tier="6" VisualSlot="4" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>CivilService</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Craftsmen" />
+            <PolicyCard Name="TownCharters" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="GuildsEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="DivineRight" Tier="6" VisualSlot="6" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>CivilService</ResearchType>
+            <ResearchType>Mythology</ResearchType>
+        </Requirements>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Chivalry" />
+            <PolicyCard Name="GothicArchitecture" />
+        </PolicyCardUnlocks>
+        <Effects>
+            <Effect Name="DivineRightEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="FutureTech" Tier="18" VisualSlot="3" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>DivineRight</ResearchType>
+            <ResearchType>Guilds</ResearchType>
+            <ResearchType>MedievalFaires</ResearchType>
+            <ResearchType>Mercenaries</ResearchType>
         </Requirements>
         <Effects>
             <Effect Name="FutureTechEffect" />

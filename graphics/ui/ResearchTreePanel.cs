@@ -299,7 +299,29 @@ public partial class ResearchTreePanel : Control
             buildingIcon.Call("add_tooltipstring", "Unlocks " + buildingName);
             researchEffects.AddChild(buildingIcon);
         }
-        if(researchInfo.ResourceUnlocks != null)
+        foreach (String policyCardName in researchInfo.PolicyCardUnlocks)
+        {
+            TextureRect buildingIcon = researchEffectScene.Instantiate<TextureRect>();
+            if (PolicyCardLoader.GetPolicyCard(policyCardName).isMilitary)
+            {
+                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/militarypolicycard.png");
+            }
+            else if(PolicyCardLoader.GetPolicyCard(policyCardName).isEconomic)
+            {
+                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/economicpolicycard.png");
+            }
+            else if (PolicyCardLoader.GetPolicyCard(policyCardName).isDiplomatic)
+            {
+                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomaticpolicycard.png");
+            }
+            else if (PolicyCardLoader.GetPolicyCard(policyCardName).isHeroic)
+            {
+                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/heroicpolicycard.png");
+            }
+            buildingIcon.Call("add_tooltipstring", "Unlocks " + policyCardName);
+            researchEffects.AddChild(buildingIcon);
+        }
+        if (researchInfo.ResourceUnlocks != null)
         {
             foreach (ResourceType resourceType in researchInfo.ResourceUnlocks)
             {

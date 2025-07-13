@@ -70,11 +70,11 @@ public partial class DistrictPickerPanel : Control
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.happiness);
                 districtTypeVBox.AddChild(button);
             }
-            else if (type == DistrictType.influence && BuildingLoader.buildingsDict["AdministrativeDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            else if (type == DistrictType.heroic && BuildingLoader.buildingsDict["HeroicDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
                 button.Text = "Administrative District";
-                button.Pressed += () => PrepareToBuildOnHex(DistrictType.influence);
+                button.Pressed += () => PrepareToBuildOnHex(DistrictType.heroic);
                 districtTypeVBox.AddChild(button);
             }
             else if (type == DistrictType.dock && BuildingLoader.buildingsDict["HarborDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))

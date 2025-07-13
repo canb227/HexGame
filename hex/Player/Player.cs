@@ -19,7 +19,7 @@ public class Player : BasePlayer
         cityLimit = 2;
 
         SelectResearch("Agriculture");
-        SelectCultureResearch("Tribal Dominion");
+        SelectCultureResearch("TribalDominion");
 
         //default diplomatic actions
         diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Give Gold", true, false));
@@ -27,7 +27,7 @@ public class Player : BasePlayer
         diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Make Peace", false, false));
 
         //default policy cards
-        unassignedPolicyCards.Add(PolicyCardLoader.policyCardDictionary[0]); //sample card
+        //unassignedPolicyCards.Add(PolicyCardLoader.policyCardDictionary[0]); //sample card
 
         //default yields
         SetBaseHexYields();
@@ -386,11 +386,11 @@ public class Player : BasePlayer
                 if(manager != null) manager.CallDeferred("UpdateHex", data);
             }
         }
-        if (CultureResearchLoader.researchesDict[researchType].PolicyCardUnlocks != null)
+        if (ResearchLoader.researchesDict[researchType].PolicyCardUnlocks != null)
         {
             foreach (String policyCard in ResearchLoader.researchesDict[researchType].PolicyCardUnlocks)
             {
-                unassignedPolicyCards.Add(PolicyCardLoader.policyCardDictionary[PolicyCardLoader.policyCardXMLDictionary[policyCard]]);
+                unassignedPolicyCards.Add(PolicyCardLoader.GetPolicyCard(policyCard));
             }
         }
         foreach (String effect in ResearchLoader.researchesDict[researchType].Effects)
@@ -484,9 +484,9 @@ public class Player : BasePlayer
         }
         if (CultureResearchLoader.researchesDict[researchType].PolicyCardUnlocks != null)
         {
-            foreach (String policyCard in ResearchLoader.researchesDict[researchType].PolicyCardUnlocks)
+            foreach (String policyCard in CultureResearchLoader.researchesDict[researchType].PolicyCardUnlocks)
             {
-                unassignedPolicyCards.Add(PolicyCardLoader.policyCardDictionary[PolicyCardLoader.policyCardXMLDictionary[policyCard]]);
+                unassignedPolicyCards.Add(PolicyCardLoader.GetPolicyCard(policyCard));
             }
         }
         foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)
@@ -596,7 +596,7 @@ public class Player : BasePlayer
 
     public void AssignPolicyCard(int policyCardID)
     {
-        PolicyCard policyCard = PolicyCardLoader.policyCardDictionary[policyCardID];
+        PolicyCard policyCard = PolicyCardLoader.GetPolicyCard(policyCardID);
         Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Remove(policyCard);
         Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Add(policyCard);
         Global.gameManager.game.playerDictionary[teamNum].unassignedPolicyCards.Remove(policyCard);
@@ -604,7 +604,7 @@ public class Player : BasePlayer
 
     public void UnassignPolicyCard(int policyCardID)
     {
-        PolicyCard policyCard = PolicyCardLoader.policyCardDictionary[policyCardID];
+        PolicyCard policyCard = PolicyCardLoader.GetPolicyCard(policyCardID);
         Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Remove(policyCard);
         Global.gameManager.game.playerDictionary[teamNum].unassignedPolicyCards.Add(policyCard);
     }

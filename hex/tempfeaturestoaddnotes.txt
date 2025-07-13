@@ -1,0 +1,46 @@
+features to add:
+ - district specific production boost 
+ - unit class specific production boost
+ - bonus city strength
+ - bonus hp from walls
+ - pillaging xd (disables building or tile, starts 5 turn auto repair timer, does down per turn enemy isnt standing on it)
+
+
+things we sort of miss in policy cards because civ 6:
+ - urban vs rural tiles
+ - exports
+ - resources as a slotted thing
+ - diplomatic actions
+ - missing from tech/culture is refinement buildings
+
+
+
+effects to add:
+
+CraftsmanshipEffect
+InternalTradeEffect (+1 Max Export Route)
+MilitaryTraditionEffect
+StateWorkforceEffect
+EarlyEmpireEffect (closes borders, allows open border diplomacy)
+MysticismEffect
+ForeignTradeEffect
+RecreationEffect
+PoliticalPhilosophyEffect (unlock new governments)
+DramaAndPoetryEffect
+MilitaryTrainingEffect
+DefensiveTacticsEffect (allows joint wars, defensive pacts)
+RecordedHistoryEffect
+MythologyEffect
+NavalTraditionEffect (should probably do something)
+FeudalismEffect (Farms gain +1 food per 2 adjacent rural districts, +1 food on pastures)
+CivilServiceEffect (allows player alliances)
+MercenariesEffect
+MedievalFairesEffect
+GuildsEffect
+DivineRightEffect (unlock monarchy)
+
+
+buildings to add:
+OracleEffect
+ArenaEffect
+TempleEffect

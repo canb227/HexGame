@@ -282,9 +282,9 @@ public partial class District : GodotObject
         {
             AddBuilding(new Building("EntertainmentDistrict", hex, false));
         }
-        else if (districtType == DistrictType.influence)
+        else if (districtType == DistrictType.heroic)
         {
-            AddBuilding(new Building("AdministrativeDistrict", hex, false));
+            AddBuilding(new Building("HeroicDistrict", hex, false));
         }
         else if (districtType == DistrictType.dock)
         {

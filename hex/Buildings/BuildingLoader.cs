@@ -12,7 +12,7 @@ public enum DistrictType
     science,
     culture,
     happiness,
-    influence,
+    heroic,
     dock,
     military,
     refinement,
@@ -96,7 +96,7 @@ public static class BuildingLoader
         temp.Add(DistrictType.science, buildingDict["CampusDistrict"]);
         temp.Add(DistrictType.culture, buildingDict["CulturalDistrict"]);
         temp.Add(DistrictType.happiness, buildingDict["EntertainmentDistrict"]);
-        temp.Add(DistrictType.influence, buildingDict["AdministrativeDistrict"]);
+        temp.Add(DistrictType.heroic, buildingDict["HeroicDistrict"]);
         temp.Add(DistrictType.dock, buildingDict["HarborDistrict"]);
         temp.Add(DistrictType.military, buildingDict["MilitaristicDistrict"]);
         return temp;
