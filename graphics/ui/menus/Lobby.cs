@@ -330,6 +330,7 @@ public partial class Lobby : Control
                 break;
             case "startgame":
                 Global.Log("Starting game from lobby message");
+                Global.menuManager.ChangeMenu(MenuManager.UI_LoadingScreen);
                 StartGame(lobbyMessage);
                 break;
             case "loadgame":

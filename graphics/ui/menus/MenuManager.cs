@@ -45,7 +45,7 @@ public partial class MenuManager : Node
             CurrentMenu = loadedMenus[scenePath];
             CurrentMenu.Show();
             CurrentMenu.MoveToFront();
-            if(scenePath == UI_Lobby)
+            if(scenePath == UI_Pause)
             {
                 if (Global.gameManager.graphicManager != null && Global.gameManager.graphicManager.uiManager != null)
                 {
@@ -64,7 +64,7 @@ public partial class MenuManager : Node
 
     internal void ClearMenus()
     {
-//        Global.lobby.Hide();
+        Global.lobby.Hide();
         foreach (Control child in GetChildren())
         {
             child.Hide();

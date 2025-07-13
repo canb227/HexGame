@@ -103,8 +103,7 @@ public partial class GameManager : Node
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
         game.localPlayerTeamNum = teamNum;
-        InitGraphics(game, Global.layout);
-        Global.menuManager.ClearMenus();
+
 
         Global.lobby.lobbyPeerStatuses[Global.clientID].IsLoaded = true;
         LobbyMessage lobbyMessage = new LobbyMessage();
@@ -112,7 +111,7 @@ public partial class GameManager : Node
         lobbyMessage.LobbyStatus = Global.lobby.lobbyPeerStatuses[Global.clientID];
         lobbyMessage.MessageType = "loaded";
         Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
-
+        Global.Log($"Done loading. Notifying peers and waiting to get Founder spawn from Host");
 
 
         //MoveCameraToStartLocation();
@@ -900,6 +899,8 @@ public partial class GameManager : Node
             if (unitType=="Founder" && teamNum==Global.gameManager.game.localPlayerTeamNum )
             {
                 Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
+                InitGraphics(game, Global.layout);
+                Global.menuManager.ClearMenus();
                 game.turnManager.StartNewTurn();
                 graphicManager.StartNewTurn();
                 gameStarted = true;

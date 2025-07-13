@@ -105,32 +105,46 @@ using System.Threading.Tasks;
                 Global.gameManager.AddPendingDeal(command.AddPendingDeal.DealID, command.AddPendingDeal.FromTeamNum, command.AddPendingDeal.ToTeamNum, requests, offers, false);
                 break;
             case "NewExportRoute":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"New Export Route Command received from {command.Sender} to Add Route: (ToCity:{command.NewExportRoute.ToCityID}, FromCity: {command.NewExportRoute.FromCityID}, YieldType: {command.NewExportRoute.YieldType})"); }
                 Global.gameManager.NewExportRoute(command.NewExportRoute.FromCityID, command.NewExportRoute.ToCityID, (YieldType)command.NewExportRoute.YieldType,false);
                 break;
             case "RemoveExportRoute":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Remove Export Route Command received from {command.Sender} to Remove Route: (ToCity:{command.RemoveExportRoute.ToCityID}, FromCity: {command.RemoveExportRoute.FromCityID}, YieldType: {command.RemoveExportRoute.YieldType})"); }
                 Global.gameManager.RemoveExportRoute(command.RemoveExportRoute.FromCityID, command.RemoveExportRoute.ToCityID, (YieldType)command.RemoveExportRoute.YieldType,false);
                 break;
             case "NewTradeRoute":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"New Trade Route Command received from {command.Sender} to Add Route: (ToCity:{command.NewTradeRoute.ToCityID}, FromCity: {command.NewTradeRoute.FromCityID})"); }
                 Global.gameManager.NewTradeRoute(command.NewTradeRoute.FromCityID, command.NewTradeRoute.ToCityID,false);
                 break;
             case "RemoveTradeRoute":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Remove Trade Route Command received from {command.Sender} to Remove Route: (ToCity:{command.RemoveTradeRoute.ToCityID}, FromCity: {command.RemoveTradeRoute.FromCityID})"); }
                 Global.gameManager.RemoveTradeRoute(command.RemoveTradeRoute.FromCityID, command.RemoveTradeRoute.ToCityID,false);
                 break;
             case "AssignPolicyCard":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Assign Policy Card Command received from {command.Sender} to Assign cardID: {command.AssignPolicyCard.PolicyCardID}, for teamnum: {command.AssignPolicyCard.TeamNum}"); }
                 Global.gameManager.AssignPolicyCard(command.AssignPolicyCard.TeamNum, command.AssignPolicyCard.PolicyCardID,false);
                 break;
             case "UnassignPolicyCard":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Unassign Policy Card Command received from {command.Sender} to Uassign cardID: {command.UnassignPolicyCard.PolicyCardID}, for teamnum: {command.UnassignPolicyCard.TeamNum}"); }
                 Global.gameManager.UnassignPolicyCard(command.UnassignPolicyCard.TeamNum, command.UnassignPolicyCard.PolicyCardID,false);
                 break;
             case "SetGovernment":
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Set Government Command received from {command.Sender} to set govtype: {Enum.GetNames(typeof(GovernmentType))[command.SetGovernment.GovType]}, to teamnum: {command.AssignPolicyCard.TeamNum}"); }
                 Global.gameManager.SetGovernment(command.SetGovernment.TeamNum, (GovernmentType)command.SetGovernment.GovType,false);
                 break;
             case "SpawnUnit":
-                Global.Log($"SpawnUnit command received from {command.Sender} to spawn unit of type {command.SpawnUnit.UnitType} for team {command.SpawnUnit.TeamNum} at location {command.SpawnUnit.Position}");
+                if (COMMANDDEBUG)
+                {
+                    Global.Log($"SpawnUnit command received from {command.Sender} to spawn unit of type {command.SpawnUnit.UnitType} for team {command.SpawnUnit.TeamNum} at location {command.SpawnUnit.Position}");
+                }
                 Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.Id, command.SpawnUnit.TeamNum, new Hex(command.SpawnUnit.Position.Q,command.SpawnUnit.Position.R,command.SpawnUnit.Position.S), command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
                 break;
             case "SetDiplomaticState":
                 Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState);
+                break;
+            default:
+                Global.Log($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
+                throw new Exception($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
                 break;
         }
     }
