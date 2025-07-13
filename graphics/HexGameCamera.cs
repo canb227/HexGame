@@ -55,19 +55,22 @@ public partial class HexGameCamera : Camera3D
         }
         else
         {
-            if (Input.IsActionJustPressed("CameraZoomIn"))
+            if (!Global.gameManager.graphicManager.uiManager.windowOpen && !Global.gameManager.graphicManager.uiManager.pauseMenuOpen)
             {
-                if (zoomAmount < zoomMin)
+                if (Input.IsActionJustPressed("CameraZoomIn"))
                 {
-                    zoomAmount -= 1f;
-                }
+                    if (zoomAmount < zoomMin)
+                    {
+                        zoomAmount -= 1f;
+                    }
 
-            }
-            else if (Input.IsActionJustPressed("CameraZoomOut"))
-            {
-                if (zoomAmount > zoomMax)
+                }
+                else if (Input.IsActionJustPressed("CameraZoomOut"))
                 {
-                    zoomAmount += 1f;
+                    if (zoomAmount > zoomMax)
+                    {
+                        zoomAmount += 1f;
+                    }
                 }
             }
             //add mouse pan
@@ -86,6 +89,7 @@ public partial class HexGameCamera : Camera3D
             if (Global.gameManager.graphicManager.uiManager.windowOpen || Global.gameManager.graphicManager.uiManager.pauseMenuOpen)
             {
                 Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+                Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
                 GetViewport().SetInputAsHandled();
             }
             else
