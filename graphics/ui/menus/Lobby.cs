@@ -278,6 +278,7 @@ public partial class Lobby : Control
             IsLoaded = true
         };
         lobbyMessage.LobbyStatus = aiStatus;
+        Global.Log($"AILOBBYDEBUG-Created an AI status with team {aiStatus.Team} and isAI: {aiStatus.IsAI} - sending to all peers and self.");
         Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
         
     }
@@ -353,8 +354,8 @@ public partial class Lobby : Control
                 }
                 break;
             case "addAI":
-                Global.Log("Adding AI player with ID: " + lobbyMessage.LobbyStatus.Id + "to lobby from message: " + lobbyMessage.Sender);
-                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, lobbyMessage.LobbyStatus.ColorIndex, false, true);
+                Global.Log($"Adding AI player (isAI: {lobbyMessage.LobbyStatus.IsAI}) with ID: " + lobbyMessage.LobbyStatus.Id + "to lobby");
+                AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, lobbyMessage.LobbyStatus.ColorIndex, false, lobbyMessage.LobbyStatus.IsAI);
                 break;
             case "addPlayer":
                 bool isSelf = false;
