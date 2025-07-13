@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 public static class PolicyCardLoader
 {
-    private static Dictionary<int, PolicyCard> policyCardDictionary = new();
-    private static Dictionary<string, int> policyCardXMLDictionary = new();
+    public static Dictionary<int, PolicyCard> policyCardDictionary = new();
+    public static Dictionary<string, int> policyCardXMLDictionary = new();
     static int index = 0;
     static PolicyCardLoader()
     {
@@ -49,9 +49,9 @@ public static class PolicyCardLoader
         //Early Empire
         policyCardXMLDictionary.Add("Colonization", 11);
         policyCardDictionary.Add(11, new PolicyCard("Colonization", "+50% Production towards Settlers.", false, true, false, false));
-
+/*
         policyCardXMLDictionary.Add("", 12);
-        policyCardDictionary.Add(12, new PolicyCard("", "", false, false, false, false));
+        policyCardDictionary.Add(12, new PolicyCard("", "", false, false, false, false));*/
 
         //Foreign Trade
         policyCardXMLDictionary.Add("Caravanners", 5);
@@ -171,7 +171,6 @@ public static class PolicyCardLoader
 
 public class PolicyCard
 {
-    public int staticID { get; set; }
     public bool isMilitary { get; set; }
     public bool isEconomic { get; set; }
     public bool isDiplomatic { get; set; }
@@ -197,7 +196,7 @@ public class PolicyCard
     {
         if (obj is PolicyCard)
         {
-            if (((PolicyCard)obj).staticID == staticID)
+            if (((PolicyCard)obj).title == title)
             {
                 return true;
             }

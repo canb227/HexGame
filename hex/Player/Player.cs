@@ -374,7 +374,11 @@ public class Player : BasePlayer
             hiddenResources.Remove(resourceType);
             foreach (var (hex, resource) in hiddenGlobalResources)
             {
-
+                if(resource == resourceType)
+                {
+                    hiddenGlobalResources.Remove(hex);
+                    globalResources.Add(hex, resource);
+                }
             }
             foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
             {
@@ -471,6 +475,14 @@ public class Player : BasePlayer
             foreach (ResourceType resourceType in CultureResearchLoader.researchesDict[researchType].ResourceUnlocks)
             {
                 hiddenResources.Remove(resourceType);
+                foreach (var (hex, resource) in hiddenGlobalResources)
+                {
+                    if (resource == resourceType)
+                    {
+                        hiddenGlobalResources.Remove(hex);
+                        globalResources.Add(hex, resource);
+                    }
+                }
                 foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
                 {
                     var data = new Godot.Collections.Dictionary
