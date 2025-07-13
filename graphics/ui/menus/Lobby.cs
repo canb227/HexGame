@@ -94,12 +94,18 @@ public partial class Lobby : Control
             {
                 LobbyMessage catchupStatus = new LobbyMessage();
                 catchupStatus.Sender = Global.clientID;
-                catchupStatus.MessageType = "addPlayer";
                 catchupStatus.LobbyStatus = status;
+                if (!status.IsAI)
+                {
+                    catchupStatus.MessageType = "addPlayer";
+                }
+                else
+                {
+                    catchupStatus.MessageType = "addAI";
+                }
                 Global.Log($"Sending catchup lobby data for lobby peer: {status.Id}, team: {status.Team}, isAI?: {status.IsAI} ");
                 Global.networkPeer.SendLobbyMessageToPeer(catchupStatus, playerID);
             }
-
             LobbyMessage lobbyMessage = new LobbyMessage();
             lobbyMessage.Sender = Global.clientID;
             lobbyMessage.MessageType = "addPlayer";
