@@ -120,7 +120,7 @@ public partial class PolicyPanel : Control
     public void UnassignCurrentCard(int teamNum, GraphicPolicyCard policyCard)
     {
         //networked message
-        Global.gameManager.UnassignPolicyCard(teamNum, policyCard.policyCard.staticID);
+        Global.gameManager.UnassignPolicyCard(teamNum, PolicyCardLoader.policyCardXMLDictionary[currentCard.policyCard.title]);
         currentCard = null;
         UpdatePolicyPanel();
     }
@@ -129,7 +129,7 @@ public partial class PolicyPanel : Control
         if (currentCard != null && targetCard.isBlank && (currentCard.policyCard.SameType(targetCard.policyCard) || targetCard.policyCard.isHeroic))
         {
             //networked message
-            Global.gameManager.AssignPolicyCard(teamNum, targetCard.policyCard.staticID);
+            Global.gameManager.AssignPolicyCard(teamNum, PolicyCardLoader.policyCardXMLDictionary[currentCard.policyCard.title]);
             currentCard = null;
             UpdatePolicyPanel();
         }
