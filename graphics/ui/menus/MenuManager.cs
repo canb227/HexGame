@@ -64,7 +64,8 @@ public partial class MenuManager : Node
 
     internal void ClearMenus()
     {
-        Global.lobby.Hide();
+
+        Global.lobby?.Hide();
         foreach (Control child in GetChildren())
         {
             child.Hide();
