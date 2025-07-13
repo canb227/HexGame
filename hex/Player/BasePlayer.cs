@@ -326,6 +326,7 @@ public class BasePlayer
             }
         }
         globalResources.Remove(hex);
+        hiddenGlobalResources.Remove(hex);
         unassignedResources.Remove(hex);
         return true;
     }
