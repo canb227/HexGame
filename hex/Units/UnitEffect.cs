@@ -222,7 +222,7 @@ public class UnitEffect
                 Global.gameManager.game.playerDictionary[unit.teamNum].IncreaseAllSettlerCost();
             }
             Global.gameManager.game.playerDictionary[unit.teamNum].OnResearchComplete("Agriculture");
-            Global.gameManager.game.playerDictionary[unit.teamNum].OnCultureResearchComplete("Tribal Dominion");
+            Global.gameManager.game.playerDictionary[unit.teamNum].OnCultureResearchComplete("TribalDominion");
 
             new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, true, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
