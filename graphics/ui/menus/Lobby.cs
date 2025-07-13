@@ -111,7 +111,8 @@ public partial class Lobby : Control
                 Faction = 0,
                 Team = GetNextTeamNum(),
                 ColorIndex = GetNextTeamColor(),
-                IsAI = false
+                IsAI = false,
+                IsLoaded = false
             };
             lobbyMessage.LobbyStatus = lobbyStatus;
             Global.Log($"Catchup complete. Sending all peers and self new player lobby status: {lobbyStatus.Id}, team: {lobbyStatus.Team}.");
@@ -273,7 +274,8 @@ public partial class Lobby : Control
             Faction = 0,
             Team = GetNextTeamNum(),
             ColorIndex = GetNextTeamColor(),
-            IsAI = true
+            IsAI = true,
+            IsLoaded = true
         };
         lobbyMessage.LobbyStatus = aiStatus;
         Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
@@ -362,6 +364,23 @@ public partial class Lobby : Control
                 }
                 AddNewPlayerToLobby(lobbyMessage.LobbyStatus.Id, lobbyMessage.LobbyStatus.Team, lobbyMessage.LobbyStatus.ColorIndex, isSelf, false);
                 break;
+            case "loaded":
+                lobbyPeerStatuses[lobbyMessage.LobbyStatus.Id] = lobbyMessage.LobbyStatus;
+                lobbyPeerStatuses[lobbyMessage.LobbyStatus.Id].IsLoaded = true;
+                bool allLoaded = true;
+                foreach(var status in lobbyPeerStatuses.Values)
+                {
+                    if (!status.IsLoaded &&  !status.IsAI)
+                    {
+                        Global.Log($"Non-AI Player {status.Id} isnt loaded. Game can't start.");
+                        allLoaded = false;
+                    }
+                }
+                if (allLoaded && isHost)
+                {
+                    Global.gameManager.HostInitGame();
+                }
+                break;
             default:
                 Global.Log("Unknown lobby message type: " + lobbyMessage.MessageType);
                 break;
@@ -424,6 +443,7 @@ public partial class Lobby : Control
         Global.menuManager.ChangeMenu(MenuManager.UI_LoadingScreen);
         Global.gameManager.game = new Game((int)lobbyPeerStatuses[Global.clientID].Team);
         Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
+
         //Global.gameManager.game.AddPlayer(10, 0, 0, Godot.Colors.Black,true); 
         foreach (ulong playerID in lobbyPeerStatuses.Keys)
         {

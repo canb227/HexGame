@@ -43,6 +43,7 @@ message LobbyStatus
 	int32 faction = 4;
 	int32 colorIndex = 5;
 	bool isAI = 6;
+	bool isLoaded = 8;
 }
 
 message Chat

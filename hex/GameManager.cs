@@ -105,14 +105,27 @@ public partial class GameManager : Node
         game.localPlayerTeamNum = teamNum;
         InitGraphics(game, Global.layout);
         Global.menuManager.ClearMenus();
-        if (isHost)
-        {
-           SpawnPlayers();
-           this.AIManager = new AIManager();
-           AIManager.InitAI();
-        }
+
+        Global.lobby.lobbyPeerStatuses[Global.clientID].IsLoaded = true;
+        LobbyMessage lobbyMessage = new LobbyMessage();
+        lobbyMessage.Sender = Global.clientID;
+        lobbyMessage.LobbyStatus = Global.lobby.lobbyPeerStatuses[Global.clientID];
+        lobbyMessage.MessageType = "loaded";
+        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+
+
 
         //MoveCameraToStartLocation();
+    }
+
+    public void HostInitGame()
+    {
+        if (isHost)
+        {
+            SpawnPlayers();
+            this.AIManager = new AIManager();
+            AIManager.InitAI();
+        }
     }
 
     public void SpawnPlayers()
