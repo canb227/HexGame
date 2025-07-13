@@ -242,6 +242,7 @@ public partial class UIManager : Node3D
 
     public void ChangeMenuManagerMenu(string menu)
     {
+        CloseCurrentWindow();
         Global.menuManager.ChangeMenu(menu);
         pauseMenuOpen = true;
     }
