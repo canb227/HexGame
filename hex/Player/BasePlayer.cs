@@ -72,7 +72,7 @@ public class BasePlayer
     public GovernmentType government { get; set; }
     public HashSet<GovernmentType> avaliableGovernments { get; set;} = new();
     public float strongestUnitBuilt { get; set; } = 0.0f;
-    private int idCounter { get; set; } = 0;
+    private int idCounter { get; set; } = 1;
     public Yields flatYields { get; set; } = new();
     public Yields roughYields { get; set; } = new();
     public Yields mountainYields { get; set; } = new();
@@ -185,6 +185,43 @@ public class BasePlayer
             influencePerTurn += city.yields.influence;
         }
         return influencePerTurn;
+    }
+
+
+    internal int GetNextUniqueID()
+    {
+        string teamID = ""; //teamnum with minimum three digits (1 = 100, 3 = 300, 74 = 740, 600 = 600, 999 = 999)
+        if (teamNum > 999)
+        {
+            throw new Exception("Team number exceeds 999, cannot generate unique ID.");
+        }
+
+        if (teamNum < 0)
+        {
+            throw new Exception("Team number cannot be negative, cannot generate unique ID.");
+        }
+
+        if (idCounter > 999999)
+        {
+            throw new Exception("IDCounter exceeds 999999, cannot generate unique ID.");
+        }
+
+        if (teamNum < 10)
+        {
+            teamID = teamNum.ToString() + "00";
+        }
+        else if (teamNum < 100)
+        {
+            teamID = teamNum.ToString() + "0";
+        }
+        else
+        {
+            teamID = teamNum.ToString();
+        }
+        string idString = teamID + idCounter.ToString();
+        idCounter++;
+        return int.Parse(idString);
+
     }
 
     public virtual void OnTurnStarted(int turnNumber, bool updateUI)
@@ -304,38 +341,5 @@ public class BasePlayer
         government = governmentType;
     }
 
-    internal int GetNextUniqueID()
-    {
-        string teamID = ""; //teamnum with minimum three digits (1 = 100, 3 = 300, 74 = 740, 600 = 600, 999 = 999)
-        if (teamNum>999)
-        {
-           throw new Exception("Team number exceeds 999, cannot generate unique ID.");
-        }
 
-        if (teamNum <0)
-        {             
-            throw new Exception("Team number cannot be negative, cannot generate unique ID.");
-        }
-
-        if (idCounter > 999999)
-        {
-            throw new Exception("IDCounter exceeds 999999, cannot generate unique ID.");
-        }
-
-        if (teamNum < 10)
-        {
-            teamID = "00" + teamNum.ToString();
-        }
-        else if (teamNum < 100)
-        {
-            teamID = "0" + teamNum.ToString();
-        }
-        else
-        {
-            teamID = teamNum.ToString();
-        }
-        string idString = idCounter.ToString() + teamID;
-        idCounter++;
-        return int.Parse(idString);
-    }
 }

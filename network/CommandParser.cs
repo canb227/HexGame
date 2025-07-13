@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
     private static void OnCommandMessageReceived(Command command)
     {
-        if (COMMANDDEBUG) { Global.Log("CmdMsgEvent!"); }
+        //if (COMMANDDEBUG) { Global.Log("CmdMsgEvent!"); }
         string prefix = "";
         if (command.Sender == Global.clientID)
         {
@@ -138,7 +138,7 @@ using System.Threading.Tasks;
             case "SpawnUnit":
                 if (COMMANDDEBUG)
                 {
-                    Global.Log(prefix + $"SpawnUnit command received from {command.Sender} to spawn unit of type {command.SpawnUnit.UnitType} for team {command.SpawnUnit.TeamNum} at location {command.SpawnUnit.Position}");
+                    Global.Log(prefix + $"SpawnUnit command received from {command.Sender} to spawn unit (ID:{command.SpawnUnit.Id}) of type {command.SpawnUnit.UnitType} for team {command.SpawnUnit.TeamNum} at location {command.SpawnUnit.Position}");
                 }
                 Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.Id, command.SpawnUnit.TeamNum, new Hex(command.SpawnUnit.Position.Q,command.SpawnUnit.Position.R,command.SpawnUnit.Position.S), command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
                 break;

@@ -72,10 +72,6 @@ public class Player : BasePlayer
     public int baseMaxTradeRoutes { get; set; } = 2;
     public int tradeRouteCount { get; set; }
 
-
-
-    private int idCounter { get; set; } = 0;
-
     private void SetBaseHexYields()
     {
         flatYields.food = 1;
@@ -91,6 +87,7 @@ public class Player : BasePlayer
         //arcticYields
 
     }
+
 
     public void SetGoldTotal(float goldTotal)
     {
