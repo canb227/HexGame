@@ -211,7 +211,13 @@ public partial class NetworkPeer : Node
 
         //Identical to above, but for Command Messages on the Messages Channel
         nint[] commandMessages = new nint[nMaxCommandMessagesPerFrame];
-        for (int i = 0; i < ReceiveMessagesOnChannel(COMMAND_CHANNEL, commandMessages, nMaxCommandMessagesPerFrame); i++)
+        int commandMessageNum = ReceiveMessagesOnChannel(COMMAND_CHANNEL, commandMessages, nMaxCommandMessagesPerFrame);
+        if(commandMessageNum > 0)
+        {
+            Global.Log($"Network Peer Received {commandMessageNum} Command messages this frame.");
+        }
+            
+        for (int i = 0; i < commandMessageNum; i++)
         {
             SteamNetworkingMessage_t steamMsg = SteamNetworkingMessage_t.FromIntPtr(commandMessages[i]); //Converts the message to a C# object
             Command command = Command.Parser.ParseFrom(IntPtrToBytes(steamMsg.m_pData, steamMsg.m_cbSize));
@@ -233,7 +239,6 @@ public partial class NetworkPeer : Node
 
         //Identical to above, but for Lobby messages on the Lobby Channel
         nint[] lobbyMessages = new nint[nMaxLobbyMessagesPerFrame];
-
         int lobbyMessageNum = ReceiveMessagesOnChannel(LOBBY_CHANNEL, lobbyMessages, nMaxLobbyMessagesPerFrame);
         if (lobbyMessageNum > 0)
         {

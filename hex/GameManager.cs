@@ -126,8 +126,9 @@ public partial class GameManager : Node
             }
             else
             {
-                Global.Log($"Attempting to find good spawn location for player:{player}");
+                Global.Log($"Attempting to find good spawn location for team:{player.teamNum}");
                 Hex spawnLocation = GetPlayerSpawnHex(player);
+                Global.Log($"Found:{spawnLocation}, spawning a Founder unit for that team.");
                 Global.gameManager.SpawnUnit("Founder", game.GetUniqueID(player.teamNum), player.teamNum, spawnLocation, false, false);
             }
         }
@@ -869,12 +870,14 @@ public partial class GameManager : Node
     {
         if (local)
         {
+            
             Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnUnitCommand(unitType, id, teamNum, position, stackable, flexible));
             return;
         }
 
         try
         {
+            Global.Log($"Got a command over network (or loopback) to spawn a unit of type {unitType} for team {teamNum} at position {position}.");
             Unit newUnit = new(unitType, 0, id, teamNum);
             GameHex location = Global.gameManager.game.mainGameBoard.gameHexDict[position];
             if (location.SpawnUnit(newUnit,stackable,flexible)!=true)
