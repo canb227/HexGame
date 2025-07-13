@@ -877,7 +877,10 @@ public partial class GameManager : Node
         {
             Unit newUnit = new(unitType, 0, id, teamNum);
             GameHex location = Global.gameManager.game.mainGameBoard.gameHexDict[position];
-            location.SpawnUnit(newUnit,stackable,flexible);
+            if (location.SpawnUnit(newUnit,stackable,flexible)!=true)
+            {
+                Global.Log($"Error spawning unit {id}"); //TODO - Potential Desync
+            }
             if (unitType=="Founder" && teamNum==Global.gameManager.game.localPlayerTeamNum )
             {
                 Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
