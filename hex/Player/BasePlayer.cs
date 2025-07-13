@@ -73,7 +73,7 @@ public class BasePlayer
     public GovernmentType government { get; set; }
     public HashSet<GovernmentType> avaliableGovernments { get; set;} = new();
     public float strongestUnitBuilt { get; set; } = 0.0f;
-    private int idCounter { get; set; } = 1;
+    public int idCounter { get; set; } = 1;
     public Yields flatYields { get; set; } = new();
     public Yields roughYields { get; set; } = new();
     public Yields mountainYields { get; set; } = new();

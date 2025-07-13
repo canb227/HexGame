@@ -903,6 +903,9 @@ public partial class GameManager : Node
             {
                 Global.Log($"Error spawning unit {id}"); //TODO - Potential Desync
             }
+
+            game.playerDictionary[teamNum].idCounter++;
+
             if (unitType=="Founder" && teamNum==Global.gameManager.game.localPlayerTeamNum )
             {
                 //Look I'm sorry the code to start the game for real is just here inside the spawn unit command - it saved me from writing another network message type.
