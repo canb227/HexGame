@@ -6,6 +6,7 @@ using System.Data;
 using Godot;
 using System.Text;
 using System.IO;
+using System.Security.AccessControl;
 
 [Serializable]
 public partial class District : GodotObject
@@ -420,7 +421,11 @@ public partial class District : GodotObject
     {
         if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
         {
-            if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].IsGlobal)
+            if (Global.gameManager.game.localPlayerRef.hiddenResources.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType))
+            {
+                Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].hiddenGlobalResources.Add(hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType);
+            }
+            else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].IsGlobal)
             {
                 Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].globalResources.Add(hex, Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType);
             }

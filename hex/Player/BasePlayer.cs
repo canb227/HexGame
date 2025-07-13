@@ -69,6 +69,7 @@ public class BasePlayer
     public HashSet<ResourceType> hiddenResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> globalResources { get; set; } = new();
+    public Dictionary<Hex, ResourceType> hiddenGlobalResources { get; set;} = new();
     public GovernmentType government { get; set; }
     public HashSet<GovernmentType> avaliableGovernments { get; set;} = new();
     public float strongestUnitBuilt { get; set; } = 0.0f;

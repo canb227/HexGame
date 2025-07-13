@@ -87,10 +87,21 @@ public partial class GraphicResource : GraphicObject
             //hide the resource if we dont have the research yet, end early
             if (Global.gameManager.game.localPlayerRef.hiddenResources.Contains(resourceType))
             {
-                this.Visible = false;
                 node3D.Visible = false;
                 resourceMeshInstance.Visible = false;
-                improvementMeshInstance.Visible = false;
+
+                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
+                {
+                    improved = true;
+                    this.Visible = true;
+                    improvementMeshInstance.Visible = true;
+                }
+                else
+                {
+                    improved = false;
+                    this.Visible = false;
+                    improvementMeshInstance.Visible = false;
+                }
                 return;
             }
 
@@ -118,10 +129,21 @@ public partial class GraphicResource : GraphicObject
             //hide the resource if we dont have the research yet, end early
             if (Global.gameManager.game.localPlayerRef.hiddenResources.Contains(resourceType))
             {
-                this.Visible = false;
                 node3D.Visible = false;
                 resourceMeshInstance.Visible = false;
-                improvementMeshInstance.Visible = false;
+
+                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
+                {
+                    improved = true;
+                    this.Visible = true;
+                    improvementMeshInstance.Visible = true;
+                }
+                else
+                {
+                    improved = false;
+                    this.Visible = false;
+                    improvementMeshInstance.Visible = false;
+                }
                 return;
             }
 
