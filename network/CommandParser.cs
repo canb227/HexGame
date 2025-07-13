@@ -140,7 +140,7 @@ using System.Threading.Tasks;
                 {
                     Global.Log(prefix + $"SpawnUnit command received from {command.Sender} to spawn unit (ID:{command.SpawnUnit.Id}) of type {command.SpawnUnit.UnitType} for team {command.SpawnUnit.TeamNum} at location {command.SpawnUnit.Position}");
                 }
-                Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.Id, command.SpawnUnit.TeamNum, new Hex(command.SpawnUnit.Position.Q,command.SpawnUnit.Position.R,command.SpawnUnit.Position.S), command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
+                Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.TeamNum, new Hex(command.SpawnUnit.Position.Q,command.SpawnUnit.Position.R,command.SpawnUnit.Position.S), command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
                 break;
             case "SetDiplomaticState":
                 Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState);
@@ -543,11 +543,11 @@ using System.Threading.Tasks;
         return command;
     }
 
-    internal static Command ConstructSpawnUnitCommand(string unitType, int id, int teamNum, Hex position, bool stackable, bool flexible)
+    internal static Command ConstructSpawnUnitCommand(string unitType, int teamNum, Hex position, bool stackable, bool flexible)
     {
         SpawnUnit spawnUnit = new SpawnUnit();
         spawnUnit.UnitType = unitType;
-        spawnUnit.Id = id;
+
         spawnUnit.TeamNum = teamNum;
         NetworkMessages.Hex hex = new NetworkMessages.Hex();
         hex.Q = position.q;
