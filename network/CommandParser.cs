@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 
     public const bool COMMANDDEBUG = true;
+    public static bool LOOKATME = true;
     static CommandParser()
     {
         if (COMMANDDEBUG) { Global.Log("Configuring CommandParser event capture."); }
