@@ -174,7 +174,7 @@ public partial class GraphicManager : Node3D
         {
             if(IsInstanceValid(graphicObj))
             {
-                graphicObj.UpdateGraphic(GraphicUpdateType.Update);
+                graphicObj.UpdateGraphic(GraphicUpdateType.Visibility);
             }
         }
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);

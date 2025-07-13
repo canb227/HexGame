@@ -1,4 +1,5 @@
 using Godot;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -53,10 +54,13 @@ public partial class GraphicBuilding : GraphicObject
         Transform3D newTransform = node3D.Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         int newQ = (Global.gameManager.game.mainGameBoard.left + (building.districtHex.r >> 1) + building.districtHex.q) % ggb.chunkSize - (building.districtHex.r >> 1);
+        int heightMapQ = newQ + ggb.chunkList[ggb.hexToChunkDictionary[building.districtHex]].graphicalOrigin.q;
         Hex modHex = new Hex(newQ, building.districtHex.r, -newQ - building.districtHex.r);
-        Point hexPoint = layout.HexToPixel(modHex);
-        float height = ggb.Vector3ToHeightMapVal(node3D.Transform.Origin);
-        newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
+        Hex heightMapHex = new Hex(heightMapQ, building.districtHex.r, -heightMapQ - building.districtHex.r);
+        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
+        Point heightMapPoint = Global.gameManager.graphicManager.layout.HexToPixel(heightMapHex);
+        float height = ggb.Vector3ToHeightMapVal(new Vector3((float)heightMapPoint.y, 0.0f, (float)heightMapPoint.x));
+        newTransform.Origin = new Vector3((float)hexPoint.y, height+0.85f, (float)hexPoint.x);
         node3D.Transform = newTransform;
 
 

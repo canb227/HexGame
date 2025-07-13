@@ -24,11 +24,13 @@ public partial class ResourceButton : Control
         resourceButton.CustomMinimumSize = new Vector2(64, 64);
         resourceButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://"+ResourceLoader.resources[resourceType].IconPath);
         resourceButton.Pressed += () => resourcePanel.SelectNewResource(this);
+
         resourceButton.SetScript(GD.Load("res://addons/tooltips_pro/scripts/tooltip_trigger.gd"));
         resourceButton.Set("origin", 3);
         resourceButton.Set("tooltip_alignment", 1);
         resourceButton.Set("overflow_mode", 1);
         resourceButton.Call("add_tooltipstring", ResourceLoader.resources[resourceType].Name + ":" + ResourceLoader.resources[resourceType].Description + " ");
+
         AddChild(resourceButton);
     }
 }

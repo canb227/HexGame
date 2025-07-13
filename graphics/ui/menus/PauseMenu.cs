@@ -6,10 +6,10 @@ public partial class PauseMenu : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GetNode<Button>("quitButton").Pressed += onQuitButtonPressed;
-        GetNode<Button>("loadButton").Pressed += onLoadButtonPressed;
-        GetNode<Button>("saveButton").Pressed += onSaveButtonPressed;
-        GetNode<Button>("resumeButton").Pressed += onResumeButtonPressed;
+		GetNode<Button>("PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/quitButton").Pressed += onQuitButtonPressed;
+        GetNode<Button>("PanelContainer/PanelContainer/MarginContainer/VBoxContainer/loadButton").Pressed += onLoadButtonPressed;
+        GetNode<Button>("PanelContainer/PanelContainer/MarginContainer/VBoxContainer/saveButton").Pressed += onSaveButtonPressed;
+        GetNode<Button>("PanelContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/resumeButton").Pressed += onResumeButtonPressed;
     }
 
 	public void onQuitButtonPressed() 

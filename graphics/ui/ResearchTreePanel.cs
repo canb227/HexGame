@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Linq;
+using System.Security.AccessControl;
 
 public partial class ResearchTreePanel : Control
 {
@@ -288,13 +289,25 @@ public partial class ResearchTreePanel : Control
         {
             TextureRect unitIcon = researchEffectScene.Instantiate<TextureRect>();
             unitIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + UnitLoader.unitsDict[unitName].IconPath);
+            unitIcon.Call("add_tooltipstring", "Unlocks " + unitName);
             researchEffects.AddChild(unitIcon);
         }
         foreach (String buildingName in researchInfo.BuildingUnlocks)
         {
             TextureRect buildingIcon = researchEffectScene.Instantiate<TextureRect>();
             buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + BuildingLoader.buildingsDict[buildingName].IconPath);
+            buildingIcon.Call("add_tooltipstring", "Unlocks " + buildingName);
             researchEffects.AddChild(buildingIcon);
+        }
+        if(researchInfo.ResourceUnlocks != null)
+        {
+            foreach (ResourceType resourceType in researchInfo.ResourceUnlocks)
+            {
+                TextureRect resourceIcon = researchEffectScene.Instantiate<TextureRect>();
+                resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[resourceType].IconPath);
+                resourceIcon.Call("add_tooltipstring", "Reveals " + ResourceLoader.resources[resourceType].Name + " - " + ResourceLoader.resources[resourceType].Description + " ");
+                researchEffects.AddChild(resourceIcon);
+            }
         }
 
         return researchButton;
@@ -360,6 +373,10 @@ public partial class ResearchTreePanel : Control
 
     public void AddLines()
     {
+        if(lineList.Any())
+        {
+            return;
+        }
         lineList = new();
         for (int i = numberOfTiers - 1; i > 0; i--)
         {
@@ -414,6 +431,7 @@ public partial class ResearchTreePanel : Control
     public void AddLine(String researchName, int i, int j, int x, bool isBlank, String sourceResearch)
     {
         Line2D line = new Line2D();
+        line.Name = "LINE"+researchName+i.ToString()+j.ToString();
         if (isBlank)
         {
             Vector2 blankStartPos = new Vector2(researchTiers[numberOfTiers - i - 1].Position.X + +tierSlotButtonArray[numberOfTiers - i - 1][j].Size.X, tierSlotButtonArray[i][j].Position.Y + (tierSlotButtonArray[i][j].Size.Y / 2));

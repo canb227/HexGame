@@ -485,7 +485,24 @@ public partial class City : GodotObject
 
     protected void OnTurnStartedBody()
     {
-
+        //golden age and dark age effect place holder
+        if (Global.gameManager.game.playerDictionary[teamNum].goldenAgeTurnsLeft > 0)
+        {
+            yields.food *= 1.2f;
+            yields.gold *= 1.4f;
+            yields.science *= 1.1f;
+            yields.culture *= 1.2f;
+            yields.influence *= 1.2f;
+        }
+        if (Global.gameManager.game.playerDictionary[teamNum].darkAgeTurnsLeft > 0)
+        {
+            yields.food *= 1.0f;
+            yields.gold *= 0.8f;
+            yields.science *= 0.8f;
+            yields.culture *= 0.8f;
+            yields.influence *= 1.2f;
+            yields.production *= 1.2f;
+        }
         productionOverflow += yields.production;
         Player player = (Player)Global.gameManager.game.playerDictionary[teamNum];
         player.AddGold(yields.gold);
@@ -794,6 +811,9 @@ public partial class City : GodotObject
         {
             Global.gameManager.game.playerDictionary[teamNum].RemoveResource(heldResources.First().Key);
         }
+        myYields.science += (int)Math.Floor(naturalPopulation * 0.5f);
+        myYields.culture += (int)Math.Floor(naturalPopulation * 0.5f);
+
         //difficulty mods
         myYields.food *= Global.gameManager.game.playerDictionary[teamNum].foodDifficultyModifier;
         myYields.production *= Global.gameManager.game.playerDictionary[teamNum].productionDifficultyModifier;

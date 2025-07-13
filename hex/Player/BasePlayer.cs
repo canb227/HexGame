@@ -17,6 +17,14 @@ public class BasePlayer
         this.teamNum = teamNum;
         this.isAI = isAI;
 
+        hiddenResources.Add(ResourceType.Horses);
+        hiddenResources.Add(ResourceType.Iron);
+        hiddenResources.Add(ResourceType.Niter);
+        hiddenResources.Add(ResourceType.Coal);
+        hiddenResources.Add(ResourceType.Oil);
+        hiddenResources.Add(ResourceType.Uranium);
+        hiddenResources.Add(ResourceType.Lithium);
+
         SetBaseHexYields();
         avaliableGovernments.Add(GovernmentType.Tribal);
         //testing
@@ -58,6 +66,7 @@ public class BasePlayer
     public HashSet<String> allowedBuildings { get; set; } = new();
     public HashSet<DistrictType> allowedDistricts { get; set; } = new();
     public HashSet<String> allowedUnits { get; set; } = new();
+    public HashSet<ResourceType> hiddenResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> globalResources { get; set; } = new();
     public GovernmentType government { get; set; }

@@ -102,6 +102,7 @@ public partial class UIManager : Node3D
     public bool waitingForOrders = true;
 
     public bool windowOpen = false;
+    public bool pauseMenuOpen = false;
 
     public UIManager(Layout layout)
     {
@@ -122,7 +123,7 @@ public partial class UIManager : Node3D
 
         menuButton = screenUI.GetNode<Button>("LayerHelper/PanelContainer/TopBar/GameInfo/MenuButton");
 
-        menuButton.Pressed += () => Global.menuManager.ChangeMenu(MenuManager.UI_Pause);
+        menuButton.Pressed += () => ChangeMenuManagerMenu(MenuManager.UI_Pause);
 
         scienceButton = screenUI.GetNode<Button>("LayerHelper/ScienceTree");
         scienceButtonLabel = scienceButton.GetNode<Label>("ResearchLabel");
@@ -237,6 +238,12 @@ public partial class UIManager : Node3D
 
         UpdateAll();
         AddChild(screenUI);
+    }
+
+    public void ChangeMenuManagerMenu(string menu)
+    {
+        Global.menuManager.ChangeMenu(menu);
+        pauseMenuOpen = true;
     }
 
     private void SetupTurnUI()
@@ -439,22 +446,29 @@ public partial class UIManager : Node3D
 
     public void CloseCurrentWindow()
     {
-        windowOpen = false;
-        researchTreePanel.Visible = false;
-        cultureResearchTreePanel.Visible = false;
-        resourcePanel.Visible = false;
-        tradeExportPanel.Visible = false;
-        if(policyPanel.governmentPickerOpen)
+        if(pauseMenuOpen)
         {
-            policyPanel.CloseGovernmentSwitchPanel();
+            Global.menuManager.ClearMenus();
         }
         else
         {
-            policyPanel.Visible = false;
+            windowOpen = false;
+            researchTreePanel.Visible = false;
+            cultureResearchTreePanel.Visible = false;
+            resourcePanel.Visible = false;
+            tradeExportPanel.Visible = false;
+            if (policyPanel.governmentPickerOpen)
+            {
+                policyPanel.CloseGovernmentSwitchPanel();
+            }
+            else
+            {
+                policyPanel.Visible = false;
+            }
+            tradeRoutePickerPanel.Visible = false;
+            diplomacyPanel.Visible = false;
+            ShowGenericUI();
         }
-        tradeRoutePickerPanel.Visible = false;
-        diplomacyPanel.Visible = false;
-        ShowGenericUI();
     }
     private void endTurnButtonPressed()
     {

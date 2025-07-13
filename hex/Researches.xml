@@ -10,7 +10,7 @@
         </Effects>
     </Research>  
     <!-- Tier 1 -->
-    <Research Name="Pottery" Tier="1" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
+    <Research Name="Pottery" Tier="1" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
@@ -22,13 +22,16 @@
         </Effects>
     </Research>
 
-    <Research Name="AnimalHusbandry" Tier="1" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
+    <Research Name="AnimalHusbandry" Tier="1" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
-        <UnitUnlocks>
-            <UnitType Name="Slinger" />
-        </UnitUnlocks>
+        <ResourceUnlocks>
+            <ResourceType Name="Horses" />
+        </ResourceUnlocks>
+        <PolicyCardUnlocks>
+            <PolicyCard Name="Sample" />
+        </PolicyCardUnlocks>
         <Effects>
             <Effect Name="AnimalHusbandryEffect" />
         </Effects>
@@ -38,6 +41,9 @@
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Slinger" />
+        </UnitUnlocks>
         <Effects>
             <Effect Name="MiningEffect" />
         </Effects>
@@ -68,7 +74,7 @@
         </Effects>
     </Research>
 
-    <Research Name="Irrigation" Tier="2" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
+    <Research Name="Irrigation" Tier="2" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Pottery</ResearchType>
         </Requirements>
@@ -80,9 +86,9 @@
         </Effects>
     </Research>
 
-    <Research Name="Writing" Tier="2" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
+    <Research Name="Writing" Tier="2" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
         <Requirements>
-            <ResearchType>Pottery</ResearchType>
+            <ResearchType>AnimalHusbandry</ResearchType>
         </Requirements>
         <BuildingUnlocks>
             <BuildingType Name="Library" />
@@ -94,7 +100,7 @@
 
     <Research Name="Archery" Tier="2" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
         <Requirements>
-            <ResearchType>AnimalHusbandry</ResearchType>
+            <ResearchType>Pottery</ResearchType>
         </Requirements>
         <UnitUnlocks>
             <UnitType Name="Archer" />
@@ -126,6 +132,9 @@
         <BuildingUnlocks>
             <BuildingType Name="Barracks" />
         </BuildingUnlocks>
+        <ResourceUnlocks>
+            <ResourceType Name="Iron" />
+        </ResourceUnlocks>
         <Effects>
             <Effect Name="BronzeWorkingEffect" />
         </Effects>
@@ -160,7 +169,7 @@
         </Effects>
     </Research>
 
-    <Research Name="Currency" Tier="4" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
+    <Research Name="Currency" Tier="4" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Writing</ResearchType>
         </Requirements>
@@ -229,6 +238,7 @@
 
     <Research Name="Construction" Tier="5" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
         <Requirements>
+            <ResearchType>IronWorking</ResearchType>
             <ResearchType>Masonry</ResearchType>
         </Requirements>
         <BuildingUnlocks>
@@ -337,9 +347,8 @@
         </Effects>
     </Research>
 
-        <Research Name="Castles" Tier="7" VisualSlot="7" IconPath="graphics/ui/icons/science.png">
+        <Research Name="Castles" Tier="7" VisualSlot="6" IconPath="graphics/ui/icons/science.png">
         <Requirements>
-            <ResearchType>IronWorking</ResearchType>
             <ResearchType>Construction</ResearchType>
         </Requirements>
         <UnitUnlocks>

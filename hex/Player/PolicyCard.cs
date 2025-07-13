@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 public static class PolicyCardLoader
 {
     public static Dictionary<int, PolicyCard> policyCardDictionary = new();
+    public static Dictionary<string, int> policyCardXMLDictionary = new();
     static int index = 0;
     static PolicyCardLoader()
     {
-        policyCardDictionary.Add(NextPolicyCardIndex(), new PolicyCard("", "", false, false, false, false));
+        policyCardXMLDictionary.Add("Sample", 0);
+        policyCardDictionary.Add(0, new PolicyCard("Sample", "This is a sample policy card", true, false, false, false));
     }
 
     static int NextPolicyCardIndex()

@@ -83,7 +83,7 @@ public partial class HexGameCamera : Camera3D
     {
         if (iEvent.IsActionPressed("pause"))
         {
-            if (Global.gameManager.graphicManager.uiManager.windowOpen)
+            if (Global.gameManager.graphicManager.uiManager.windowOpen || Global.gameManager.graphicManager.uiManager.pauseMenuOpen)
             {
                 Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
                 GetViewport().SetInputAsHandled();

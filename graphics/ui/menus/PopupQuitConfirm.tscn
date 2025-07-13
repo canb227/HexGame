@@ -1,8 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://c7ou8twj128cu"]
 
-[ext_resource type="Script" uid="uid://t0tl553q1r8f" path="res://graphics/ui/menus/PopupQuitConfirm.cs" id="1_1dya3"]
+[ext_resource type="Script" uid="uid://b0h7t37s3sr3v" path="res://graphics/ui/menus/PopupQuitConfirm.cs" id="1_1dya3"]
 
 [node name="PopupQuitConfirm" type="Control"]
+z_index = 11
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
