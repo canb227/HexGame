@@ -216,7 +216,6 @@ public partial class NetworkPeer : Node
         {
             Global.Log($"Network Peer Received {commandMessageNum} Command messages this frame.");
         }
-            
         for (int i = 0; i < commandMessageNum; i++)
         {
             SteamNetworkingMessage_t steamMsg = SteamNetworkingMessage_t.FromIntPtr(commandMessages[i]); //Converts the message to a C# object

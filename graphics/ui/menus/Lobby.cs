@@ -447,8 +447,6 @@ public partial class Lobby : Control
 
     private void StartGame(LobbyMessage lobbyMessage)
     {
-        //Global.debugLog(lobbyMessage.SavePayload);
-        Global.menuManager.ChangeMenu(MenuManager.UI_LoadingScreen);
         Global.gameManager.game = new Game((int)lobbyPeerStatuses[Global.clientID].Team);
         Global.gameManager.game.mainGameBoard.InitGameBoardFromData(lobbyMessage.MapData.MapData_, (int)(lobbyMessage.MapData.MapWidth - 1), (int)(lobbyMessage.MapData.MapHeight - 1));
 
@@ -459,10 +457,7 @@ public partial class Lobby : Control
             Global.gameManager.game.AddPlayer(10, (int)lobbyPeerStatuses[playerID].Team, playerID, PlayerColors[(int)lobbyPeerStatuses[playerID].ColorIndex], lobbyPeerStatuses[playerID].IsAI);
         }
         Global.gameManager.isHost = isHost;
-
         Global.gameManager.startGame((int)lobbyPeerStatuses[Global.clientID].Team);
-        Global.menuManager.ClearMenus();
-        Global.lobby.Hide();
     }
 
     private void onReadyChanged(bool toggledOn, ulong id)

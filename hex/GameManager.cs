@@ -97,7 +97,7 @@ public partial class GameManager : Node
 
     public void startGame(int teamNum)
     {
-        Global.menuManager.ClearMenus();
+
         Global.Log("Starting Game as team: " + teamNum);
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
@@ -111,7 +111,14 @@ public partial class GameManager : Node
         lobbyMessage.LobbyStatus = Global.lobby.lobbyPeerStatuses[Global.clientID];
         lobbyMessage.MessageType = "loaded";
         Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
-        Global.Log($"Done loading. Notifying peers and waiting to get Founder spawn from Host");
+        if (isHost)
+        {
+            Global.Log($"Done loading. I'm the host so its time to pick Spawn Locations and communicate them.");
+        }
+        else
+        {
+            Global.Log($"Done loading. Notifying peers and waiting to get Founder spawn from Host");
+        }
 
 
         //MoveCameraToStartLocation();
@@ -898,13 +905,13 @@ public partial class GameManager : Node
             }
             if (unitType=="Founder" && teamNum==Global.gameManager.game.localPlayerTeamNum )
             {
+                //Look I'm sorry the code to start the game for real is just here inside the spawn unit command - it saved me from writing another network message type.
                 Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
                 InitGraphics(game, Global.layout);
                 Global.menuManager.ClearMenus();
                 game.turnManager.StartNewTurn();
                 graphicManager.StartNewTurn();
                 gameStarted = true;
-                //TODO: Move camera to here, its my spawn location.
             }
         }
         catch (Exception e)

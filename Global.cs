@@ -60,6 +60,8 @@ public partial class Global : Node
         {
             Global.Log("No Launch Command Line found");
         }
+
+        if (CommandParser.LOOKATME) { } 
     }
 
     public void OnGameRichPresenceJoinRequested(GameRichPresenceJoinRequested_t pCallback)
