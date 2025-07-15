@@ -489,6 +489,7 @@ public partial class City : GodotObject
         if (Global.gameManager.game.playerDictionary[teamNum].goldenAgeTurnsLeft > 0)
         {
             yields.food *= 1.2f;
+            yields.production *= 1.2f;
             yields.gold *= 1.4f;
             yields.science *= 1.1f;
             yields.culture *= 1.2f;
@@ -497,13 +498,13 @@ public partial class City : GodotObject
         if (Global.gameManager.game.playerDictionary[teamNum].darkAgeTurnsLeft > 0)
         {
             yields.food *= 1.0f;
-            yields.gold *= 0.8f;
+            yields.production *= 1.2f;
+            yields.gold *= 0.75f;
             yields.science *= 0.8f;
             yields.culture *= 0.8f;
             yields.influence *= 1.2f;
-            yields.production *= 1.2f;
+
         }
-        productionOverflow += yields.production;
         Player player = (Player)Global.gameManager.game.playerDictionary[teamNum];
         player.AddGold(yields.gold);
         player.AddScience(yields.science);
@@ -569,8 +570,46 @@ public partial class City : GodotObject
         {
             RemoveFromQueue(item);
         }
+
         if (productionQueue.Any())
         {
+            if (BuildingLoader.buildingsDict.ContainsKey(productionQueue[0].itemName))
+            {
+                bool boosted = false;
+                foreach ((DistrictType, float) districtTypeBoost in Global.gameManager.game.playerDictionary[teamNum].districtTypeProductionBoosts.Values)
+                {
+                    if (districtTypeBoost.Item1 == BuildingLoader.buildingsDict[productionQueue[0].itemName].DistrictType)
+                    {
+                        productionOverflow += yields.production * districtTypeBoost.Item2;
+                        boosted = true;
+                    }
+                    else
+                    {
+                        productionOverflow += yields.production;
+                    }
+                }
+                if (!boosted)
+                {
+                    productionOverflow += yields.production;
+                }
+            }
+            if (UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName))
+            {
+                bool boosted = false;
+                foreach ((UnitClass, float) unitTypeBoost in Global.gameManager.game.playerDictionary[teamNum].unitClassProductionBoosts.Values)
+                {
+                    if (unitTypeBoost.Item1 == UnitLoader.unitsDict[productionQueue[0].itemName].Class)
+                    {
+                        productionOverflow += yields.production * unitTypeBoost.Item2;
+                        boosted = true;
+                    }
+                }
+                if(!boosted)
+                {
+                    productionOverflow += yields.production;
+                }
+            }
+
             float productionLeftTemp = productionQueue[0].productionLeft;
             productionQueue[0].productionLeft -= productionOverflow;
             productionOverflow = Math.Max(productionOverflow - productionLeftTemp, 0);
@@ -625,6 +664,10 @@ public partial class City : GodotObject
                 }
                 productionQueue.RemoveAt(0);
             }
+        }
+        else
+        {
+            productionOverflow += yields.production;
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2)) manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
 

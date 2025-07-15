@@ -817,6 +817,7 @@ public static class PolicyCardLoader
     {
         if (add)
         {
+            //wonders 20%
             player.districtTypeProductionBoosts.Add("GothicArchitecture", (DistrictType.rural, 1.2f));
         }
 
