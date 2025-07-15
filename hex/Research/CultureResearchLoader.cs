@@ -12,7 +12,7 @@ public static class CultureResearchLoader
     static CultureResearchLoader()
     {
         string xmlPath = "hex/CultureResearches.xml";
-        researchesDict = LoadResearchData(xmlPath);
+        researchesDict = ResearchLoader.LoadResearchData(xmlPath);
         tierCostDict = new Dictionary<int, int>();
         tierCostDict.Add(0, 0);
         tierCostDict.Add(1, 25);
@@ -34,50 +34,7 @@ public static class CultureResearchLoader
         tierCostDict.Add(17, 2155);
         tierCostDict.Add(18, 2500);
 
-    }
-        
-    public static Dictionary<String, ResearchInfo> LoadResearchData(string xmlPath)
-    {
-        // Load the XML file
-        XDocument xmlDoc = XDocument.Load(xmlPath);
-
-        // Parse the research data into a dictionary, allowing for nulls
-        var ResearchData = xmlDoc.Descendants("Research")
-            .ToDictionary(
-                r => r.Attribute("Name")?.Value ?? throw new InvalidOperationException("Missing 'Name' attribute"),
-                r => new ResearchInfo
-                {
-                    Tier = int.Parse(r.Attribute("Tier")?.Value ?? "0"),
-                    FactionType = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
-                    VisualSlot = int.Parse(r.Attribute("VisualSlot")?.Value ?? "0"),
-                    IconPath = r.Attribute("IconPath")?.Value ?? throw new InvalidOperationException("Missing 'IconPath' attribute"),
-                    Requirements = r.Element("Requirements")?.Elements("ResearchType")
-                        .Select(e => e.Value ?? throw new Exception("Invalid Stringy"))
-                        .ToList() ?? new List<String>(),
-                    BuildingUnlocks = r.Element("BuildingUnlocks")?.Elements("BuildingType")
-                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid BuildingUnlock"))
-                        .ToList() ?? new List<string>(),
-                    UnitUnlocks = r.Element("UnitUnlocks")?.Elements("UnitType")
-                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid UnitUnlock"))
-                        .ToList() ?? new List<string>(),
-                    ResourceUnlocks = r.Element("ResourceUnlocks")?.Elements("ResourceType")
-                        .Select(e => (ResourceType)Enum.Parse(typeof(ResourceType), e.Attribute("Name")?.Value
-                            ?? throw new Exception("Invalid ResourceType")))
-                        .ToList() ?? new List<ResourceType>(),
-                    PolicyCardUnlocks = r.Element("PolicyCardUnlocks")?.Elements("PolicyCard")
-                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid UnitUnlock"))
-                        .ToList() ?? new List<string>(),
-
-                    Effects = r.Element("Effects")?.Elements("Effect")
-                        .Select(e => e.Value)
-                        .Where(e => !string.IsNullOrWhiteSpace(e))
-                        .ToList() ?? new List<string>(),
-                }
-            );
-
-        return ResearchData;
-    }
-    
+    }    
     public static void ProcessFunctionString(String functionString, Player player)
     {
         Dictionary<String, Action<Player>> effectFunctions = new Dictionary<string, Action<Player>>

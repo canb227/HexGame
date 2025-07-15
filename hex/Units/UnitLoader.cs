@@ -17,6 +17,7 @@ public enum UnitClass
     Cavalry = 1 << 7,
     Siege = 1 << 8,
     Recon = 1 << 9,
+    AntiCavalry = 1 << 10,
 }
 
 public struct UnitInfo

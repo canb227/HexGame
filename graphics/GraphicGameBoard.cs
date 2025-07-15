@@ -370,125 +370,6 @@ public partial class GraphicGameBoard : GraphicObject
         );
     }
 
-    public void UpdateTerritoryGraphic(int teamNum)
-    {
-        //GD.Print("UpdateGraphic");
-        //remove old lines
-        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        foreach (HexChunk hexChunk in ggb.chunkList)
-        {
-            foreach (Node child in hexChunk.multiMeshInstance.GetChildren().ToList())
-            {
-                if (child.Name.ToString().Contains("Player" + teamNum + "TerritoryLines"))
-                {
-                    child.Free();
-                }
-            }
-        }
-        //calculate where to draw lines
-        foreach (int cityID in Global.gameManager.game.playerDictionary[teamNum].cityList.ToList())
-        {
-            City city = Global.gameManager.game.cityDictionary[(int)cityID];
-            foreach (Hex hex in city.heldHexes)
-            {
-                if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
-                {
-                    Node3D territoryLinesNode = (Node3D)Global.gameManager.graphicManager.territoryLinesScene.Instantiate<Node3D>().GetChild(0);
-
-                    int newHexQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
-                    Hex modHex = new Hex(newHexQ, hex.r, -newHexQ - hex.r);
-                    Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
-                    float height = ggb.Vector3ToHeightMapVal(territoryLinesNode.Transform.Origin);
-                    Transform3D newTransform = territoryLinesNode.Transform;
-                    newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
-                    territoryLinesNode.Transform = newTransform;
-
-                    int index = 0;
-                    foreach (MeshInstance3D mesh in territoryLinesNode.GetChildren().ToList())
-                    {
-                        if (index == 0)
-                        {
-                            int newQ = hex.q + 1;
-                            int newR = hex.r - 1;
-                            if (newR > 0 && newR < Global.gameManager.game.mainGameBoard.bottom)
-                            {
-                                Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                                if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
-                                {
-                                    mesh.QueueFree();
-                                }
-                            }
-                        }
-                        if (index == 1)
-                        {
-                            int newQ = hex.q + 1;
-                            int newR = hex.r;
-                            Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                            if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
-                            {
-                                mesh.QueueFree();
-                            }
-                        }
-                        if (index == 2)
-                        {
-                            int newQ = hex.q;
-                            int newR = hex.r + 1;
-                            if (newR > 0 && newR < Global.gameManager.game.mainGameBoard.bottom)
-                            {
-                                Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                                if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
-                                {
-                                    mesh.QueueFree();
-                                }
-                            }
-                        }
-                        if (index == 3)
-                        {
-                            int newQ = hex.q - 1;
-                            int newR = hex.r + 1;
-                            if (newR > 0 && newR < Global.gameManager.game.mainGameBoard.bottom)
-                            {
-                                Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                                if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
-                                {
-                                    mesh.QueueFree();
-                                }
-                            }
-                        }
-                        if (index == 4)
-                        {
-                            int newQ = hex.q - 1;
-                            int newR = hex.r;
-                            Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                            if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
-                            {
-                                mesh.QueueFree();
-                            }
-                        }
-                        if (index == 5)
-                        {
-                            int newQ = hex.q;
-                            int newR = hex.r - 1;
-                            if (newR > 0 && newR < Global.gameManager.game.mainGameBoard.bottom)
-                            {
-                                Hex adjacentHex = (new Hex(newQ, newR, -newQ - newR)).WrapHex();
-                                if (Global.gameManager.game.mainGameBoard.gameHexDict[adjacentHex].ownedBy == city.teamNum)
-                                {
-                                    mesh.QueueFree();
-                                }
-                            }
-                        }
-                        mesh.SetSurfaceOverrideMaterial(0, Global.gameManager.game.playerDictionary[city.teamNum].playerTerritoryMaterial);
-
-                        index++;
-                    }
-                    territoryLinesNode.Name = "Player" + teamNum + "TerritoryLines" + hex;
-                    territoryLinesNode.Reparent(ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance, false);
-                }
-            }
-        }
-    }
-
 
     public void UpdateVisibilityTexture(List<Hex> visibleHexes, List<Hex> seenHexes)
     {
@@ -603,7 +484,7 @@ public partial class GraphicGameBoard : GraphicObject
     {
         //GD.PushWarning("NOT IMPLEMENTED"); //TODO
         Vector3 wrappedPixel = WrapPixel(pixel);
-        float height = heightMap.GetPixel((int)(wrappedPixel.Z), (int)wrappedPixel.X).R * 20.0f - 1.0f;
+        float height = heightMap.GetPixel((int)(wrappedPixel.Z), (int)wrappedPixel.X).R * 20.0f; 
         return height;
     }
 

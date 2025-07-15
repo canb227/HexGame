@@ -11,12 +11,14 @@ public partial class GraphicPolicyCard : Control
     public PolicyPanel policyPanel;
     public bool isBlank;
     public bool isForUnassignment;
+    public bool isAssigned;
 
-    public GraphicPolicyCard(PolicyCard policyCard, bool isBlank, bool isForUnassignment, PolicyPanel policyPanel)
+    public GraphicPolicyCard(PolicyCard policyCard, bool isBlank, bool isForUnassignment, bool isAssigned, PolicyPanel policyPanel)
     {
         this.policyCard = policyCard;
         this.isBlank = isBlank;
         this.isForUnassignment = isForUnassignment;
+        this.isAssigned = isAssigned;
         this.policyPanel = policyPanel;
         this.CustomMinimumSize = new Vector2(136, 160);
 

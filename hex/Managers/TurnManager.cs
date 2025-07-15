@@ -24,7 +24,7 @@ public class TurnManager
         }
         foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {
-            player.OnTurnStarted(currentTurn, true);
+            player.OnTurnStarted(currentTurn);
         }
         if(Global.gameManager.game.mainGameBoard != null)
         {
@@ -32,7 +32,10 @@ public class TurnManager
         }
 
         //Run AI on a new thread
-        Task AIThread = Task.Run(() => Global.gameManager.AIManager.OnTurnStart());
+        if(Global.gameManager.isHost)
+        {
+            Task AIThread = Task.Run(() => Global.gameManager.AIManager.OnTurnStart());
+        }
         /*try
         {
             AIThread.Wait();
@@ -41,7 +44,7 @@ public class TurnManager
 
 
         //Run AI on main thread
-        //Global.gameManager.AIManager.OnTurnStart()
+        //Global.gameManager.AIManager.OnTurnStart();
 
 
     }

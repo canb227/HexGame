@@ -301,25 +301,35 @@ public partial class ResearchTreePanel : Control
         }
         foreach (String policyCardName in researchInfo.PolicyCardUnlocks)
         {
-            TextureRect buildingIcon = researchEffectScene.Instantiate<TextureRect>();
+            TextureRect policyIcon = researchEffectScene.Instantiate<TextureRect>();
             if (PolicyCardLoader.GetPolicyCard(policyCardName).isMilitary)
             {
-                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/militarypolicycard.png");
+                policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/militarypolicycard.png");
             }
             else if(PolicyCardLoader.GetPolicyCard(policyCardName).isEconomic)
             {
-                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/economicpolicycard.png");
+                policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/economicpolicycard.png");
             }
             else if (PolicyCardLoader.GetPolicyCard(policyCardName).isDiplomatic)
             {
-                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomaticpolicycard.png");
+                policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomaticpolicycard.png");
             }
             else if (PolicyCardLoader.GetPolicyCard(policyCardName).isHeroic)
             {
-                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/heroicpolicycard.png");
+                policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/heroicpolicycard.png");
             }
-            buildingIcon.Call("add_tooltipstring", "Unlocks " + policyCardName);
-            researchEffects.AddChild(buildingIcon);
+            policyIcon.Call("add_tooltipstring", "Unlocks " + policyCardName);
+            researchEffects.AddChild(policyIcon);
+        }
+        if (researchInfo.GovernmentUnlocks != null)
+        {
+            foreach (GovernmentType governmentType in researchInfo.GovernmentUnlocks)
+            {
+                TextureRect governmentIcon = researchEffectScene.Instantiate<TextureRect>();
+                governmentIcon.Texture = PlayerEffect.GetGovernmentTypeIcon(governmentType);
+                governmentIcon.Call("add_tooltipstring", "Unlocks " + PlayerEffect.GetGovernmentTypeTitle(governmentType) + ":\n" + PlayerEffect.GetGovernmentTypeDescription(governmentType));
+                researchEffects.AddChild(governmentIcon);
+            }
         }
         if (researchInfo.ResourceUnlocks != null)
         {

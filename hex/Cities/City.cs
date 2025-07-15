@@ -932,7 +932,8 @@ public partial class City : GodotObject
                     { "r", hex.r },
                     { "s", hex.s }
                 };
-                manager.CallDeferred("UpdateHex", data); manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+                manager.CallDeferred("UpdateHex", data); 
+                manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
                 manager.CallDeferred("ClearWaitForTarget");
             }
         }
@@ -1101,6 +1102,7 @@ public partial class City : GodotObject
                         if (BuildingLoader.districtDict[districtType].TerrainTypes.Contains(targetGameHex.terrainType) && districtType != DistrictType.citycenter)
                         {
                             validBuildableDistrict = true;
+                            break;
                         }
                     }
                     if(!validBuildableDistrict)

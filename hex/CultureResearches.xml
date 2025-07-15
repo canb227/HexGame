@@ -73,6 +73,11 @@
         <PolicyCardUnlocks>
             <PolicyCard Name="Colonization" />
         </PolicyCardUnlocks>
+        <GovernmentUnlocks>
+            <GovernmentType Name="ClassicalRepublic" />
+            <GovernmentType Name="Autocracy" />
+            <GovernmentType Name="Oligarchy" />
+        </GovernmentUnlocks>
         <Effects>
             <Effect Name="EarlyEmpireEffect" />
         </Effects>
@@ -101,7 +106,7 @@
             <ResearchType>EarlyEmpire</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
-            <PolicyCard Name="Colonization" />
+            <PolicyCard Name="Caravanners" />
             <PolicyCard Name="MaritimeIndustry" />
         </PolicyCardUnlocks>
         <Effects>
@@ -300,6 +305,9 @@
             <PolicyCard Name="Chivalry" />
             <PolicyCard Name="GothicArchitecture" />
         </PolicyCardUnlocks>
+        <GovernmentUnlocks>
+            <GovernmentType Name="Monarchy" />
+        </GovernmentUnlocks>
         <Effects>
             <Effect Name="DivineRightEffect" />
         </Effects>

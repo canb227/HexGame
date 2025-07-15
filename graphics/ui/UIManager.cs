@@ -521,6 +521,8 @@ public partial class UIManager : Node3D
         }
         else
         {
+            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/sleep.png");
+            endTurnButton.Disabled = true;
             Global.gameManager.EndTurn(Global.gameManager.game.localPlayerTeamNum);
             CloseCurrentWindow();
             //Global.gameManager.game.turnManager.EndCurrentTurn(Global.gameManager.game.localPlayerTeamNum);
@@ -738,13 +740,18 @@ public partial class UIManager : Node3D
         playerList.Visible = true;
     }
 
+    public void NewTurnStarted()
+    {
+        waitingOnLocalPlayer = false;
+        waitingOnYouPanel.Visible = false;
+        UpdateEndTurnButton();
+        endTurnButton.Disabled = false;
+    }
+
     public void GameWaitingOnLocalPlayer()
     {
-        if (!waitingOnLocalPlayer)
-        {
-            waitingOnYouPanel.Visible = true;
-            waitingOnLocalPlayer = true;
-        }
+        waitingOnYouPanel.Visible = true;
+        waitingOnLocalPlayer = true;
     }
 
     public void NotWaitingOnLocalPlayer()

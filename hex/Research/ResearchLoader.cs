@@ -14,6 +14,7 @@ public struct ResearchInfo
     public List<String> UnitUnlocks;
     public List<ResourceType> ResourceUnlocks;
     public List<String> PolicyCardUnlocks;
+    public List<GovernmentType> GovernmentUnlocks;
     public List<String> Effects;
 }
 
@@ -81,6 +82,10 @@ public static class ResearchLoader
                     PolicyCardUnlocks = r.Element("PolicyCardUnlocks")?.Elements("PolicyCard")
                         .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid UnitUnlock"))
                         .ToList() ?? new List<string>(),
+                    GovernmentUnlocks = r.Element("GovernmentUnlocks")?.Elements("GovernmentType")
+                        .Select(e => (GovernmentType)Enum.Parse(typeof(GovernmentType), e.Attribute("Name")?.Value
+                            ?? throw new Exception("Invalid GovernmentType")))
+                        .ToList() ?? new List<GovernmentType>(),
 
                     Effects = r.Element("Effects")?.Elements("Effect")
                         .Select(e => e.Value)

@@ -16,7 +16,6 @@ public class Player : BasePlayer
         this.goldTotal = goldTotal;
         administrativeCityCost = 20;
         administrativePopulationCost = 2;
-        cityLimit = 2;
 
         SelectResearch("Agriculture");
         SelectCultureResearch("TribalDominion");
@@ -61,7 +60,6 @@ public class Player : BasePlayer
     public float administrativeUpkeep { get; set; } = 100; //administrativeUpkeep is increased by each city and each population
     public float administrativeCityCost { get; set; }
     public float administrativePopulationCost { get; set; } 
-    public int cityLimit { get; set; }
     public int settlerCount = 0;
     //exports and trade
     public List<ExportRoute> exportRouteList { get; set; } = new();
@@ -159,9 +157,9 @@ public class Player : BasePlayer
         return influenceTotal;
     }
 
-    public override void OnTurnStarted(int turnNumber, bool updateUI)
+    public override void OnTurnStarted(int turnNumber)
     {
-        base.OnTurnStarted(turnNumber, false);
+        base.OnTurnStarted(turnNumber);
         administrativeUpkeep = 100;
         foreach (int cityID in cityList)
         {
@@ -238,9 +236,13 @@ public class Player : BasePlayer
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.uiManager.CallDeferred("UpdateAll");
-            manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
-            manager.uiManager.CallDeferred("UpdateResearchUI");
+            if (teamNum == Global.gameManager.game.localPlayerTeamNum)
+            {
+                manager.uiManager.CallDeferred("NewTurnStarted");
+                manager.uiManager.CallDeferred("UpdateAll");
+                manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+                manager.uiManager.UpdateResearchUI();
+            }
         }
     }
 
@@ -398,6 +400,13 @@ public class Player : BasePlayer
                 unassignedPolicyCards.Add(PolicyCardLoader.GetPolicyCard(policyCard));
             }
         }
+        if (ResearchLoader.researchesDict[researchType].GovernmentUnlocks != null)
+        {
+            foreach (GovernmentType governmentType in ResearchLoader.researchesDict[researchType].GovernmentUnlocks)
+            {
+                avaliableGovernments.Add(governmentType);
+            }
+        }
         foreach (String effect in ResearchLoader.researchesDict[researchType].Effects)
         {
             ResearchLoader.ProcessFunctionString(effect, this);
@@ -500,6 +509,13 @@ public class Player : BasePlayer
             foreach (String policyCard in CultureResearchLoader.researchesDict[researchType].PolicyCardUnlocks)
             {
                 unassignedPolicyCards.Add(PolicyCardLoader.GetPolicyCard(policyCard));
+            }
+        }
+        if (CultureResearchLoader.researchesDict[researchType].GovernmentUnlocks != null)
+        {
+            foreach (GovernmentType governmentType in CultureResearchLoader.researchesDict[researchType].GovernmentUnlocks)
+            {
+                avaliableGovernments.Add(governmentType);
             }
         }
         foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)
@@ -614,6 +630,8 @@ public class Player : BasePlayer
         Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Remove(policyCard);
         Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Add(policyCard);
         Global.gameManager.game.playerDictionary[teamNum].unassignedPolicyCards.Remove(policyCard);
+
+        policyCard.AddEffect(this.teamNum);
     }
 
     public void UnassignPolicyCard(int policyCardID)

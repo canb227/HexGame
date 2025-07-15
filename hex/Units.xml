@@ -260,7 +260,7 @@
   </Unit>
 
   <!-- Need Anti-Cavalry Effect TODO-->
-  <Unit Name="Spearman" Class="Combat, Land, Infantry" ProductionCost="65" GoldCost="260" MovementSpeed="2.0" SightRange="2.0" CombatPower="25.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Spearman" Class="Combat, Land, Infantry, AntiCavalry" ProductionCost="65" GoldCost="260" MovementSpeed="2.0" SightRange="2.0" CombatPower="25.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -455,7 +455,7 @@
   </Unit>
 
   <!-- Need Anti-Cavalry Effect TODO-->
-  <Unit Name="Polearm" Class="Combat, Land, Infantry" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="45.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Polearm" Class="Combat, Land, Infantry, AntiCavalry" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="45.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />

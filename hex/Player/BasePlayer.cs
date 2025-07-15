@@ -27,11 +27,7 @@ public class BasePlayer
 
         SetBaseHexYields();
         avaliableGovernments.Add(GovernmentType.Tribal);
-        //testing
-        avaliableGovernments.Add(GovernmentType.Democracy);
-        //
-        SetGovernment(GovernmentType.Tribal);
-        PlayerEffect.ProcessFunctionString("AddTribalGovernmentEffect", this); //you should only apply government effects once and they are permanent
+        PlayerEffect.SetGovernment(this, GovernmentType.Tribal);
 
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
 
@@ -56,6 +52,7 @@ public class BasePlayer
         //used for loading
     }
     public bool isAI { get; set; } = false;
+    public bool isEncampment { get; set; } = false;
     public int teamNum { get; set; }
     public FactionType faction { get; set; } = FactionType.Human;
     public bool turnFinished { get; set; }
@@ -91,6 +88,7 @@ public class BasePlayer
     public int economicPolicySlots { get; set; } = 0;
     public int diplomaticPolicySlots { get; set; } = 0;
     public int heroicPolicySlots { get; set; } = 0;
+    public int bonusAgainstEncampments { get; set; } = 0;
 
     public int baseFlat;
     public int baseRough;
@@ -225,7 +223,7 @@ public class BasePlayer
 
     }
 
-    public virtual void OnTurnStarted(int turnNumber, bool updateUI)
+    public virtual void OnTurnStarted(int turnNumber)
     {
         turnFinished = false;
         foreach (int unitID in unitList)
@@ -237,15 +235,6 @@ public class BasePlayer
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
             city.OnTurnStarted(turnNumber);
-        }
-
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager) && updateUI)
-        {
-
-            manager.uiManager.CallDeferred("NotWaitingOnLocalPlayer");
-            manager.uiManager.CallDeferred("UpdateAll");
-            manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
-            manager.uiManager.UpdateResearchUI();
         }
     }
 
@@ -278,8 +267,8 @@ public class BasePlayer
 
     public void UpdateTerritoryGraphic()
     {
-        //GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        //ggb.CallDeferred("UpdateTerritoryGraphic", teamNum);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.CallDeferred("UpdateTerritoryGraphic", teamNum);
     }
 
     public bool AddResource(Hex hex, ResourceType resourceType, City targetCity)
@@ -333,14 +322,7 @@ public class BasePlayer
 
     public void SetGovernment(GovernmentType governmentType)
     {
-        if(government != null)
-        {
-            if(government == GovernmentType.Tribal)
-            {
-                PlayerEffect.RemoveTribalGovernmentEffect(this);
-            }
-        }
-        government = governmentType;
+        PlayerEffect.SetGovernment(this, governmentType);
     }
 
 

@@ -288,7 +288,29 @@ public partial class Unit: GodotObject
 
     private bool UnitCombat(GameHex targetGameHex, Unit unit)
     {
-        return !decreaseHealth(CalculateDamage(combatStrength, unit.combatStrength)) & unit.decreaseHealth(CalculateDamage(unit.combatStrength, combatStrength));
+        float modCombatStrength = combatStrength;
+        float unitModCombatStrength = unit.combatStrength;
+        //anti-cavalry check
+        if (unitClass == UnitClass.AntiCavalry && unit.unitClass == UnitClass.Cavalry)
+        {
+            modCombatStrength += 7;
+        }
+        else if(unit.unitClass == UnitClass.AntiCavalry && unitClass == UnitClass.Cavalry)
+        {
+            unitModCombatStrength += 7;
+        }
+
+        //anti-encampment bonus check
+        if (Global.gameManager.game.playerDictionary[unit.teamNum].isEncampment)
+        {
+            modCombatStrength += Global.gameManager.game.playerDictionary[teamNum].bonusAgainstEncampments;
+        }
+        if (Global.gameManager.game.playerDictionary[teamNum].isEncampment)
+        {
+            unitModCombatStrength += Global.gameManager.game.playerDictionary[unit.teamNum].bonusAgainstEncampments;
+        }
+        return !decreaseHealth(CalculateDamage(modCombatStrength, unitModCombatStrength)) & unit.decreaseHealth(CalculateDamage(unitModCombatStrength, modCombatStrength));
+
     }
 
     public bool AttackTarget(GameHex targetGameHex, float moveCost, TeamManager teamManager)

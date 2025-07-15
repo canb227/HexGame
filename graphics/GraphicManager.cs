@@ -24,8 +24,6 @@ public partial class GraphicManager : Node3D
 
     bool ShowDebugConsole = false;
 
-    public PackedScene territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb");
-
 
     public GraphicManager(Layout layout)
     {
@@ -375,15 +373,7 @@ public partial class GraphicManager : Node3D
         }
     }
 
-    public void UpdateCityTerritory(City city)
-    {
-        Player player = Global.gameManager.game.playerDictionary[city.teamNum];
-        player.UpdateTerritoryGraphic();
-    }
-
-
-
-   public void ShowAllWorldUI()
+    public void ShowAllWorldUI()
     {
         foreach (GraphicObject tempObject in graphicObjectDictionary.Values)
         {
