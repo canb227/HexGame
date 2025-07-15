@@ -70,6 +70,24 @@ public class Player : BasePlayer
     public int baseMaxTradeRoutes { get; set; } = 2;
     public int tradeRouteCount { get; set; }
 
+    //encampments
+    public List<int> occupiedEncampments { get; set; } = new();
+    public List<int> alliedEncampments { get; set; } = new();
+
+
+    //policy card helpers
+    public int goldPerTradeRoute { get; set; }
+    public int sciencePerTradeRoute { get; set; }
+    public int culturePerTradeRoute { get; set; }
+    public int sciencePerEncampment { get; set; }
+    public int culturePerEncampment { get; set; }
+    public int influencePerEncampment { get; set; }
+    public int cityCombatStrengthMod { get; set; }
+    public Dictionary<string, (DistrictType, float)> districtTypeProductionBoosts { get; set; } = new();
+    public Dictionary<string, (UnitClass, float)> unitClassProductionBoosts { get; set; } = new();
+
+
+
     private void SetBaseHexYields()
     {
         flatYields.food = 1;
@@ -155,6 +173,41 @@ public class Player : BasePlayer
     public float GetInfluenceTotal()
     {
         return influenceTotal;
+    }
+
+    public new float GetGoldPerTurn()
+    {
+        float goldPerTurn = base.GetGoldPerTurn();
+        goldPerTurn += goldPerTradeRoute * (tradeRouteCount + outgoingTradeRouteList.Count);
+        return goldPerTurn;
+    }
+
+    public new float GetSciencePerTurn()
+    {
+        float sciencePerTurn = base.GetSciencePerTurn();
+        //trade
+        sciencePerTurn += sciencePerTradeRoute * (tradeRouteCount + outgoingTradeRouteList.Count);
+        //encampments
+        sciencePerTurn += sciencePerEncampment * (occupiedEncampments.Count + alliedEncampments.Count);
+        return sciencePerTurn;
+    }
+
+    public new float GetCulturePerTurn()
+    {
+        float culturePerTurn = base.GetCulturePerTurn();
+        //trade
+        culturePerTurn += culturePerTradeRoute * (tradeRouteCount + outgoingTradeRouteList.Count);
+        //encampments
+        culturePerTurn += culturePerEncampment * (occupiedEncampments.Count + alliedEncampments.Count);
+
+        return culturePerTurn;
+    }
+
+    public new float GetInfluencePerTurn()
+    {
+        float influencePerTurn = base.GetInfluencePerTurn();
+        influencePerTurn += influencePerEncampment * (occupiedEncampments.Count + alliedEncampments.Count);
+        return influencePerTurn;
     }
 
     public override void OnTurnStarted(int turnNumber)

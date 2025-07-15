@@ -13,7 +13,8 @@ public enum UnitEffectType
     MovementCosts,
     SightRange,
     SightCosts,
-    CombatStrength
+    CombatStrength,
+    MaintenanceCost,
 }
 
 public enum EffectOperation
@@ -86,6 +87,10 @@ public class UnitEffect
             else if(effectType == UnitEffectType.CombatStrength)
             {
                 Global.gameManager.game.unitDictionary[unitID].combatStrength = ApplyOperation(Global.gameManager.game.unitDictionary[unitID].combatStrength);
+            }
+            else if(effectType == UnitEffectType.MaintenanceCost)
+            {
+                Global.gameManager.game.unitDictionary[unitID].maintenanceCost = ApplyOperation(Global.gameManager.game.unitDictionary[unitID].maintenanceCost);
             }
             else if(effectType == UnitEffectType.MovementCosts)
             {

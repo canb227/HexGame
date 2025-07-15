@@ -25,7 +25,7 @@ public static class PlayerEffect
         }
     }
 
-    static void RemovePlayerBuildingEffects(string name, BasePlayer player)
+    public static void RemovePlayerBuildingEffects(string name, BasePlayer player)
     {
         List<(string, BuildingEffect, string)> toRemove = new();
         foreach ((string, BuildingEffect, string) effect in player.buildingPlayerEffects)
@@ -40,7 +40,7 @@ public static class PlayerEffect
             player.buildingPlayerEffects.Remove(effect);
         }
     }
-    static void RemovePlayerUnitEffects(string name, BasePlayer player)
+    public static void RemovePlayerUnitEffects(string name, BasePlayer player)
     {
         List<(string, UnitEffect, UnitClass)> toRemoveUnit = new();
         foreach ((string, UnitEffect, UnitClass) effect in player.unitPlayerEffects)

@@ -139,6 +139,7 @@ public class BasePlayer
             City city = Global.gameManager.game.cityDictionary[cityID];
             goldPerTurn += city.yields.gold;
         }
+
         return goldPerTurn;
     }
 
