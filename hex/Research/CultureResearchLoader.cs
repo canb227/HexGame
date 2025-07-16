@@ -39,7 +39,8 @@ public static class CultureResearchLoader
     {
         { "TribalDominionEffect", TribalDominionEffect },
         { "CraftsmanshipEffect", CraftsmanshipEffect },
-        { "InternalTradeEffect", InternalTradeEffect },
+        { "PenmanshipExportEffect", PenmanshipExportEffect },
+        { "PenmanshipShareMapEffect", PenmanshipShareMapEffect },
         { "MilitaryTraditionEffect", MilitaryTraditionEffect },
         { "StateWorkforceEffect", StateWorkforceEffect },
         { "EarlyEmpireEffect", EarlyEmpireEffect },
@@ -93,13 +94,22 @@ public static class CultureResearchLoader
         return "";
     }
 
-    static string InternalTradeEffect(Player player, bool executeLogic)
+    static string PenmanshipExportEffect(Player player, bool executeLogic)
     {
         if (executeLogic)
         {
             player.exportCap += 1;
         }
-        return "+1 Export Route Capacity Permanently.";
+        return "+1 to Total Export Route Capacity.";
+    }
+
+    static string PenmanshipShareMapEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+            player.diplomaticActionHashSet.Add(new DiplomacyAction(player.teamNum, "Share Map", false, false));
+        }
+        return "Unlock ability to share your maps with others.";
     }
 
     static string MilitaryTraditionEffect(Player player, bool executeLogic)

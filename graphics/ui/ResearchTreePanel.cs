@@ -285,20 +285,6 @@ public partial class ResearchTreePanel : Control
         researchIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + researchInfo.IconPath);
 
         HBoxContainer researchEffects = researchButton.GetNode<HBoxContainer>("ResearchResultBox");
-        foreach(String unitName in researchInfo.UnitUnlocks)
-        {
-            TextureRect unitIcon = researchEffectScene.Instantiate<TextureRect>();
-            unitIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + UnitLoader.unitsDict[unitName].IconPath);
-            unitIcon.Call("add_tooltipstring", "Unlocks " + unitName);
-            researchEffects.AddChild(unitIcon);
-        }
-        foreach (String buildingName in researchInfo.BuildingUnlocks)
-        {
-            TextureRect buildingIcon = researchEffectScene.Instantiate<TextureRect>();
-            buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + BuildingLoader.buildingsDict[buildingName].IconPath);
-            buildingIcon.Call("add_tooltipstring", "Unlocks " + buildingName);
-            researchEffects.AddChild(buildingIcon);
-        }
         foreach (String policyCardName in researchInfo.PolicyCardUnlocks)
         {
             TextureRect policyIcon = researchEffectScene.Instantiate<TextureRect>();
@@ -306,7 +292,7 @@ public partial class ResearchTreePanel : Control
             {
                 policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/militarypolicycard.png");
             }
-            else if(PolicyCardLoader.GetPolicyCard(policyCardName).isEconomic)
+            else if (PolicyCardLoader.GetPolicyCard(policyCardName).isEconomic)
             {
                 policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/economicpolicycard.png");
             }
@@ -331,6 +317,21 @@ public partial class ResearchTreePanel : Control
                 researchEffects.AddChild(governmentIcon);
             }
         }
+        foreach (String unitName in researchInfo.UnitUnlocks)
+        {
+            TextureRect unitIcon = researchEffectScene.Instantiate<TextureRect>();
+            unitIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + UnitLoader.unitsDict[unitName].IconPath);
+            unitIcon.Call("add_tooltipstring", "Unlocks " + unitName);
+            researchEffects.AddChild(unitIcon);
+        }
+        foreach (String buildingName in researchInfo.BuildingUnlocks)
+        {
+            TextureRect buildingIcon = researchEffectScene.Instantiate<TextureRect>();
+            buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + BuildingLoader.buildingsDict[buildingName].IconPath);
+            buildingIcon.Call("add_tooltipstring", "Unlocks " + buildingName);
+            researchEffects.AddChild(buildingIcon);
+        }
+
         if (researchInfo.ResourceUnlocks != null)
         {
             foreach (ResourceType resourceType in researchInfo.ResourceUnlocks)
@@ -350,13 +351,19 @@ public partial class ResearchTreePanel : Control
                 if (ResearchLoader.researchesDict.ContainsValue(researchInfo))
                 {
                     effectIcon.Call("add_tooltipstring", ResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef));
+                    if (ResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef) != "")
+                    {
+                        researchEffects.AddChild(effectIcon);
+                    }
                 }
                 else if (CultureResearchLoader.researchesDict.ContainsValue(researchInfo))
                 {
                     effectIcon.Call("add_tooltipstring", CultureResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef));
-
+                    if(CultureResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef) != "")
+                    {
+                        researchEffects.AddChild(effectIcon);
+                    }
                 }
-                researchEffects.AddChild(effectIcon);
             }
         }
 

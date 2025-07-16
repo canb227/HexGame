@@ -283,7 +283,6 @@ public class UnitEffect
     }
     public bool Sleep(Unit unit)
     {
-        //GD.Print(unit.id + "is now sleeping");
         unit.isSleeping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");
@@ -292,7 +291,6 @@ public class UnitEffect
 
     public bool Skip(Unit unit)
     {
-        //GD.Print(unit.id + "is now sleeping");
         unit.isSkipping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");

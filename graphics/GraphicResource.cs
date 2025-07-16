@@ -18,7 +18,6 @@ public partial class GraphicResource : GraphicObject
     public bool improved = false;
     public GraphicResource(ResourceType resource, Hex hex)
     {
-        //GD.Print(resource);
         this.resourceType = resource;
         this.hex = hex;
     }

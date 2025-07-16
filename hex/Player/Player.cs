@@ -38,6 +38,7 @@ public class Player : BasePlayer
     }
     public Dictionary<Hex, int> visibleGameHexDict { get; set; } = new();
     public Dictionary<Hex, bool> seenGameHexDict { get; set; } = new();
+    public Dictionary<Hex, int> personalVisibleGameHexDict { get; set;} = new();
     public List<Hex> visibilityChangedList { get; set; } = new();
     public List<ResearchQueueType> queuedResearch { get; set; } = new();
     public Dictionary<String, ResearchQueueType> partialResearchDictionary { get; set; } = new();

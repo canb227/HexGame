@@ -64,7 +64,6 @@ public partial class GraphicGameBoard : GraphicObject
     public Hex HexToGraphicHex(Hex hex)
     {
         int chunkID = hexToChunkDictionary[hex];
-        //GD.Print("CHUNKID: " + chunkID);
         return chunkList[chunkID].HexToGraphicalHex(hex);
     }
 
@@ -170,7 +169,6 @@ public partial class GraphicGameBoard : GraphicObject
         for (int chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
         {
             List<Hex> subHexList = new List<Hex>();
-            //GD.Print("chunk offset: " + (chunkSize * chunkIndex));
             foreach (Hex hex in hexList)
             {
                 int left = ( Global.gameManager.game.mainGameBoard.left + (chunkSize * chunkIndex) ) - (hex.r >> 1);
@@ -231,11 +229,9 @@ public partial class GraphicGameBoard : GraphicObject
                 Hex hex = fHex.HexRound();
                 Hex wrapHex = hex.WrapHex();
                 //heightMap.SetPixel(x, y, new Godot.Color((float)x/noiseImageSize, 0.0f, 0.0f));
-                //GD.Print(wrapHex);
 
                 if (Global.gameManager.game.mainGameBoard.gameHexDict.TryGetValue(wrapHex, out GameHex gameHex))
                 {
-                    //GD.Print(x + ", " + y + " " + wrapHex);
                     if (gameHex.terrainType == TerrainType.Mountain)
                     {
                         heightMap.SetPixel(x, y, new Godot.Color(1.0f, 0.0f, 0.0f));
@@ -430,12 +426,10 @@ public partial class GraphicGameBoard : GraphicObject
 
     private void AddHexResource()
     {
-        //GD.Print("Add Resources");
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
         {
             if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
             {
-                //GD.Print("New Resource");
                 Global.gameManager.graphicManager.NewResource(Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType, hex);
             }
         }

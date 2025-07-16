@@ -66,6 +66,12 @@ public class TeamManager
             throw new Exception("One or both teams do not exist.");
         }
 
+        if(team1 == team2 && diplomaticState != DiplomaticState.Ally)
+        {
+            diplomaticStates[team1][team2] = DiplomaticState.Ally;
+            Global.Log("Can't modify relationship to be anything but ally with self, must be allies for vision calculation");
+        }
+
         diplomaticStates[team1][team2] = diplomaticState;
         diplomaticStates[team2][team1] = diplomaticState;
     }

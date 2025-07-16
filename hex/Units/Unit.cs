@@ -458,19 +458,37 @@ public partial class Unit: GodotObject
 
     public void RemoveVision(bool updateGraphic)
     {
-        foreach (Hex hex in visibleHexes)
-        {            
-            int count;
-            if(Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.TryGetValue(hex, out count))
+        foreach (int teamNum in Global.gameManager.game.teamManager.GetAllies(teamNum))
+        {
+            foreach (Hex hex in visibleHexes)
             {
-                if(count <= 1)
+                int count;
+                if (Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.TryGetValue(hex, out count))
                 {
-                   Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.Remove(hex);
-                   Global.gameManager.game.playerDictionary[teamNum].visibilityChangedList.Add(hex);
+                    if (count <= 1)
+                    {
+                        Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.Remove(hex);
+                        Global.gameManager.game.playerDictionary[teamNum].visibilityChangedList.Add(hex);
+                    }
+                    else
+                    {
+                        Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict[hex] = count - 1;
+                    }
+                }
+            }
+        }
+        foreach (Hex hex in visibleHexes)
+        {
+            int count;
+            if (Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict.TryGetValue(hex, out count))
+            {
+                if (count <= 1)
+                {
+                    Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict.Remove(hex);
                 }
                 else
                 {
-                   Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict[hex] = count - 1;
+                    Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict[hex] = count - 1;
                 }
             }
         }
@@ -481,20 +499,35 @@ public partial class Unit: GodotObject
     public void AddVision(bool updateGraphic)
     {
         visibleHexes = CalculateVision().Keys.ToList();
-        GD.Print(this.name + " is adding vision to: ");
+
+        foreach (int teamNum in Global.gameManager.game.teamManager.GetAllies(teamNum))
+        {
+            foreach (Hex hex in visibleHexes)
+            {
+                Global.gameManager.game.playerDictionary[teamNum].seenGameHexDict.TryAdd(hex, true); //add to the seen dict no matter what since duplicates are thrown out
+                int count;
+                if (Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.TryGetValue(hex, out count))
+                {
+                    Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict[hex] = count + 1;
+                }
+                else
+                {
+                    Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.TryAdd(hex, 1);
+                    Global.gameManager.game.playerDictionary[teamNum].visibilityChangedList.Add(hex);
+                }
+            }
+        }
+        //once more to add to our team's personal list used for removing alliances
         foreach (Hex hex in visibleHexes)
         {
-            GD.Print(hex);
-           Global.gameManager.game.playerDictionary[teamNum].seenGameHexDict.TryAdd(hex, true); //add to the seen dict no matter what since duplicates are thrown out
             int count;
-            if(Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.TryGetValue(hex, out count))
+            if (Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict.TryGetValue(hex, out count))
             {
-               Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict[hex] = count + 1;
+                Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict[hex] = count + 1;
             }
             else
             {
-               Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.TryAdd(hex, 1);
-               Global.gameManager.game.playerDictionary[teamNum].visibilityChangedList.Add(hex);
+                Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict.TryAdd(hex, 1);
             }
         }
         if (updateGraphic &&Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
@@ -719,7 +752,6 @@ public partial class Unit: GodotObject
 
     public bool MoveTowards(GameHex targetGameHex, TeamManager teamManager, bool isTargetEnemy)
     {
-        //GD.Print(targetGameHex.hex);
         isSleeping = false;
         isSkipping = true;
         this.isTargetEnemy = isTargetEnemy;
@@ -922,16 +954,6 @@ public partial class Unit: GodotObject
                 {
                     path.Add(current);
                     current = came_from[current];
-/*                    if(path.Count > 20)
-                    {
-                        GD.Print("PATH:");
-                        foreach(Hex p in path)
-                        {
-                            GD.Print(p);
-                        }
-                        throw new Exception("Buh");
-                    }*/
-                    //GD.Print(current);
                 }
                 path.Add(start);
                 path.Reverse();

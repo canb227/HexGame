@@ -27,7 +27,7 @@
             <Effect Name="CraftsmanshipEffect" />
         </Effects>
     </Research>
-    <Research Name="InternalTrade" Tier="1" VisualSlot="5" IconPath="graphics/ui/icons/culture.png">
+    <Research Name="Penmanship" Tier="1" VisualSlot="5" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
             <ResearchType>TribalDominion</ResearchType>
         </Requirements>
@@ -35,7 +35,8 @@
             <PolicyCard Name="InternalRouting" />
         </PolicyCardUnlocks>
         <Effects>
-            <Effect Name="InternalTradeEffect" />
+            <Effect Name="PenmanshipExportEffect" />
+            <Effect Name="PenmanshipShareMapEffect" />
         </Effects>
     </Research>
 
@@ -68,7 +69,7 @@
 
     <Research Name="EarlyEmpire" Tier="2" VisualSlot="4" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>InternalTrade</ResearchType>
+            <ResearchType>Penmanship</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
             <PolicyCard Name="Colonization" />
@@ -85,7 +86,7 @@
 
     <Research Name="Mysticism" Tier="2" VisualSlot="6" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>InternalTrade</ResearchType>
+            <ResearchType>Penmanship</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
             <PolicyCard Name="Inspiration" />
@@ -110,7 +111,6 @@
         </UnitUnlocks>
         <PolicyCardUnlocks>
             <PolicyCard Name="Caravanners" />
-            <PolicyCard Name="MaritimeIndustry" />
         </PolicyCardUnlocks>
         <Effects>
             <Effect Name="ForeignTradeEffect" />
@@ -224,6 +224,7 @@
             <ResearchType>DefensiveTactics</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
+            <PolicyCard Name="MaritimeIndustry" />
             <PolicyCard Name="NavalInfrastructure" />
         </PolicyCardUnlocks>
         <Effects>
@@ -246,7 +247,6 @@
 
     <Research Name="CivilService" Tier="5" VisualSlot="4" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>DefensiveTactics</ResearchType>
             <ResearchType>RecordedHistory</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
@@ -262,6 +262,7 @@
 
     <Research Name="Mercenaries" Tier="6" VisualSlot="0" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
+            <ResearchType>NavalTradition</ResearchType>
             <ResearchType>MilitaryTraining</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>

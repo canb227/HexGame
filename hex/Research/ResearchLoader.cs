@@ -86,9 +86,8 @@ public static class ResearchLoader
                         .Select(e => (GovernmentType)Enum.Parse(typeof(GovernmentType), e.Attribute("Name")?.Value
                             ?? throw new Exception("Invalid GovernmentType")))
                         .ToList() ?? new List<GovernmentType>(),
-
                     Effects = r.Element("Effects")?.Elements("Effect")
-                        .Select(e => e.Value)
+                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Missing Effect name"))
                         .Where(e => !string.IsNullOrWhiteSpace(e))
                         .ToList() ?? new List<string>(),
                 }

@@ -16,7 +16,6 @@ public class BasePlayer
         this.teamColor = teamColor;
         this.teamNum = teamNum;
         this.isAI = isAI;
-
         hiddenResources.Add(ResourceType.Horses);
         hiddenResources.Add(ResourceType.Iron);
         hiddenResources.Add(ResourceType.Niter);
@@ -30,6 +29,7 @@ public class BasePlayer
         PlayerEffect.SetGovernment(this, GovernmentType.Tribal);
 
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
+        Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, teamNum, DiplomaticState.Ally);
 
         theme = new Theme();
 

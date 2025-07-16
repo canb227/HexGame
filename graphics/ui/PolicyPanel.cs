@@ -122,7 +122,6 @@ public partial class PolicyPanel : Control
         if(currentCard.isAssigned)
         {
             currentCard.isAssigned = false;
-            GD.Print("Unassign card");
             //networked message
             Global.gameManager.UnassignPolicyCard(teamNum, PolicyCardLoader.policyCardXMLDictionary[currentCard.policyCard.title]);
             currentCard = null;
@@ -133,7 +132,6 @@ public partial class PolicyPanel : Control
     {
         if (currentCard != null && targetCard.isBlank && (currentCard.policyCard.SameType(targetCard.policyCard) || targetCard.policyCard.isHeroic))
         {
-            Global.Log("Assigning: " + currentCard.policyCard.title);
             currentCard.isAssigned = true;
             //networked message
             Global.gameManager.AssignPolicyCard(teamNum, PolicyCardLoader.policyCardXMLDictionary[currentCard.policyCard.title]);

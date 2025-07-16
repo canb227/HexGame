@@ -302,8 +302,6 @@ public partial class GraphicManager : Node3D
             Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r); 
             Hex graphicHex = ggb.HexToGraphicHex(hex);
             List<Point> points = layout.PolygonCorners(hex);
-            //GD.Print("Hex:        " + hex);
-            //GD.Print("Graphic Hex " + graphicHex);
             Vector3 origin = new Vector3((float)points[0].y, 1.15f, (float)points[0].x);
             for (int i = 1; i < 6; i++)
             {

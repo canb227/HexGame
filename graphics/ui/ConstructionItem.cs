@@ -185,7 +185,6 @@ public partial class ConstructionItem : PanelContainer
 
                 EffectListBox.AddChild(effectBox);
 
-                //GD.Print($"{kvp.Key}: {kvp.Value}");
             }
         }
     }

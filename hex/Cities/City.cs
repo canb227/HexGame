@@ -615,17 +615,12 @@ public partial class City : GodotObject
             productionOverflow = Math.Max(productionOverflow - productionLeftTemp, 0);
             if (productionQueue[0].productionLeft <= 0)
             {
-                //GD.Print(BuildingLoader.buildingsDict.ContainsKey(productionQueue[0].itemName) + " " + UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName));
                 if (BuildingLoader.buildingsDict.ContainsKey(productionQueue[0].itemName))
                 {
                     BuildOnHex(productionQueue[0].targetHex, productionQueue[0].itemName);
                 }
                 else if (UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName))
                 {
-                    //GD.Print("Try spawn unit");
-                    /*infantryProductionCombatModifier = 0;
-                    cavalryProductionCombatModifier = 0;
-                    navalProductionCombatModifier = 0;*/
                     int combatModifier = 0;
 
                     if (UnitLoader.unitsDict.TryGetValue(productionQueue[0].itemName, out UnitInfo unitInfo))

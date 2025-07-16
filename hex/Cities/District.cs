@@ -358,19 +358,37 @@ public partial class District : GodotObject
 
     public void RemoveVision()
     {
-        foreach (Hex hex in visibleHexes)
-        {            
-            int count;
-            if(Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryGetValue(hex, out count))
+        foreach (int teamNum in Global.gameManager.game.teamManager.GetAllies(Global.gameManager.game.cityDictionary[cityID].teamNum))
+        {
+            foreach (Hex hex in visibleHexes)
             {
-                if(count <= 1)
+                int count;
+                if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryGetValue(hex, out count))
                 {
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.Remove(hex);
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibilityChangedList.Add(hex);
+                    if (count <= 1)
+                    {
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.Remove(hex);
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibilityChangedList.Add(hex);
+                    }
+                    else
+                    {
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict[hex] = count - 1;
+                    }
+                }
+            }
+        }
+        foreach (Hex hex in visibleHexes)
+        {
+            int count;
+            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict.TryGetValue(hex, out count))
+            {
+                if (count <= 1)
+                {
+                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict.Remove(hex);
                 }
                 else
                 {
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict[hex] = count - 1;
+                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict[hex] = count - 1;
                 }
             }
         }
@@ -379,20 +397,56 @@ public partial class District : GodotObject
     }
     public void AddVision()
     {
+        foreach (int teamNum in Global.gameManager.game.teamManager.GetAllies(Global.gameManager.game.cityDictionary[cityID].teamNum))
+        {
+            if (isCityCenter)
+            {
+                foreach (Hex hex in hex.WrappingRange(2, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+                {
+                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].seenGameHexDict.TryAdd(hex, true);
+                    int count;
+                    if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryGetValue(hex, out count))
+                    {
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict[hex] = count + 1;
+                    }
+                    else
+                    {
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryAdd(hex, 1);
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibilityChangedList.Add(hex);
+                    }
+                }
+            }
+            else
+            {
+                visibleHexes = hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom).ToList();
+                foreach (Hex hex in visibleHexes)
+                {
+                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].seenGameHexDict.TryAdd(hex, true); //add to the seen dict no matter what since duplicates are thrown out
+                    int count;
+                    if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryGetValue(hex, out count))
+                    {
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict[hex] = count + 1;
+                    }
+                    else
+                    {
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryAdd(hex, 1);
+                        Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibilityChangedList.Add(hex);
+                    }
+                }
+            }
+        }
         if (isCityCenter)
         {
-            foreach (Hex hex in hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+            foreach (Hex hex in hex.WrappingRange(2, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
             {
-                Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].seenGameHexDict.TryAdd(hex, true);
                 int count;
-                if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryGetValue(hex, out count))
+                if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict.TryGetValue(hex, out count))
                 {
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict[hex] = count + 1;
+                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict[hex] = count + 1;
                 }
                 else
                 {
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryAdd(hex, 1);
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibilityChangedList.Add(hex);
+                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict.TryAdd(hex, 1);
                 }
             }
         }
@@ -401,16 +455,14 @@ public partial class District : GodotObject
             visibleHexes = hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom).ToList();
             foreach (Hex hex in visibleHexes)
             {
-                Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].seenGameHexDict.TryAdd(hex, true); //add to the seen dict no matter what since duplicates are thrown out
                 int count;
-                if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryGetValue(hex, out count))
+                if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict.TryGetValue(hex, out count))
                 {
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict[hex] = count + 1;
+                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict[hex] = count + 1;
                 }
                 else
                 {
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibleGameHexDict.TryAdd(hex, 1);
-                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].visibilityChangedList.Add(hex);
+                    Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].personalVisibleGameHexDict.TryAdd(hex, 1);
                 }
             }
         }

@@ -227,7 +227,6 @@ public partial class GraphicUnit : GraphicObject
             foreach (Point point in points)
             {
                 Vector3 temp = new Vector3((float)point.y, 0.1f, (float)point.x);
-                //GD.Print(temp);
                 st.AddVertex(temp);
                 st.AddVertex(temp);
 

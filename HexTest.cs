@@ -45,7 +45,6 @@ public partial class HexTest : Node3D
                 float heightScale = 400.0f;
                 int x_axis = (int)(2 * pointyReal.size.x * (game.mainGameBoard.right - game.mainGameBoard.left)) + (int)((game.mainGameBoard.bottom - game.mainGameBoard.top) * pointyReal.size.x);
                 int y_axis = (int)(2 * pointyReal.size.y * (game.mainGameBoard.bottom - game.mainGameBoard.top));
-                //GD.Print(x_axis + " " + y_axis);
                 BuildMesh((mapImage, terrainTypeImage), heightScale, x_axis, y_axis, new Vector3(0.0f, 0.0f, 0.0f), 1);*/
     }
 

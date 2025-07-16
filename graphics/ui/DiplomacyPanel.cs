@@ -155,7 +155,23 @@ public partial class DiplomacyPanel : Control
             Button button = new Button();
             button.Name = diplomacyAction.actionName + "Button";
             button.Text = diplomacyAction.actionName;
-            button.Disabled = !diplomacyAction.ActionValid(otherTeamNum);
+
+            bool sameAction = false;
+            foreach(DiplomacyAction action in otherOffers)
+            {
+                if (action.actionName == diplomacyAction.actionName)
+                {
+                    sameAction = true;
+                }
+            }
+            foreach (DiplomacyAction action in playerOffers)
+            {
+                if (action.actionName == diplomacyAction.actionName)
+                {
+                    sameAction = true;
+                }
+            }
+            button.Disabled = !diplomacyAction.ActionValid(otherTeamNum) || sameAction;
             button.Pressed += () => AddVoidingOffer(diplomacyAction, items, offersBox, offers);
             items.AddChild(button);
         }
@@ -168,7 +184,9 @@ public partial class DiplomacyPanel : Control
     }
     private void AddOffer(DiplomacyAction action, VBoxContainer items, VBoxContainer offersBox, List<DiplomacyAction> offers)
     {
-        items.GetNode<Button>(action.actionName + "Button").Disabled = true;
+        playerItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
+        otherItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
+
         HBoxContainer box = new HBoxContainer();
         box.Name = action.actionName;
         offers.Add(action);
@@ -197,7 +215,8 @@ public partial class DiplomacyPanel : Control
 
     private void RemoveOffer(DiplomacyAction action, VBoxContainer items, List<DiplomacyAction> offers, VBoxContainer offersBox)
     {
-        items.GetNode<Button>(action.actionName + "Button").Disabled = false;
+        playerItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = false;
+        otherItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = false;
         CancelActiveOffer();
         offers.Remove(action);
         foreach (Node child in offersBox.GetChildren())
