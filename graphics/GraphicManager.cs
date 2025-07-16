@@ -24,8 +24,6 @@ public partial class GraphicManager : Node3D
 
     bool ShowDebugConsole = false;
 
-    public PackedScene territoryLinesScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/territorylines.glb");
-
 
     public GraphicManager(Layout layout)
     {
@@ -304,8 +302,6 @@ public partial class GraphicManager : Node3D
             Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r); 
             Hex graphicHex = ggb.HexToGraphicHex(hex);
             List<Point> points = layout.PolygonCorners(hex);
-            //GD.Print("Hex:        " + hex);
-            //GD.Print("Graphic Hex " + graphicHex);
             Vector3 origin = new Vector3((float)points[0].y, 1.15f, (float)points[0].x);
             for (int i = 1; i < 6; i++)
             {
@@ -375,15 +371,7 @@ public partial class GraphicManager : Node3D
         }
     }
 
-    public void UpdateCityTerritory(City city)
-    {
-        Player player = Global.gameManager.game.playerDictionary[city.teamNum];
-        player.UpdateTerritoryGraphic();
-    }
-
-
-
-   public void ShowAllWorldUI()
+    public void ShowAllWorldUI()
     {
         foreach (GraphicObject tempObject in graphicObjectDictionary.Values)
         {

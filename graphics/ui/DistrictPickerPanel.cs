@@ -73,7 +73,7 @@ public partial class DistrictPickerPanel : Control
             else if (type == DistrictType.heroic && BuildingLoader.buildingsDict["HeroicDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
                 Button button = new Button();
-                button.Text = "Administrative District";
+                button.Text = "Heroic District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.heroic);
                 districtTypeVBox.AddChild(button);
             }

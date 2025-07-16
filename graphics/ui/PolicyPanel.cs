@@ -119,15 +119,20 @@ public partial class PolicyPanel : Control
 
     public void UnassignCurrentCard(int teamNum, GraphicPolicyCard policyCard)
     {
-        //networked message
-        Global.gameManager.UnassignPolicyCard(teamNum, PolicyCardLoader.policyCardXMLDictionary[currentCard.policyCard.title]);
-        currentCard = null;
-        UpdatePolicyPanel();
+        if(currentCard.isAssigned)
+        {
+            currentCard.isAssigned = false;
+            //networked message
+            Global.gameManager.UnassignPolicyCard(teamNum, PolicyCardLoader.policyCardXMLDictionary[currentCard.policyCard.title]);
+            currentCard = null;
+            UpdatePolicyPanel();
+        }
     }
     public void AssignCurrentPolicyCard(int teamNum, GraphicPolicyCard targetCard)
     {
         if (currentCard != null && targetCard.isBlank && (currentCard.policyCard.SameType(targetCard.policyCard) || targetCard.policyCard.isHeroic))
         {
+            currentCard.isAssigned = true;
             //networked message
             Global.gameManager.AssignPolicyCard(teamNum, PolicyCardLoader.policyCardXMLDictionary[currentCard.policyCard.title]);
             currentCard = null;
@@ -145,6 +150,7 @@ public partial class PolicyPanel : Control
         }
         else
         {
+            Global.Log("Selected: " + policyCard.policyCard.title);
             currentCard = policyCard;
         }
     }
@@ -217,12 +223,12 @@ public partial class PolicyPanel : Control
 
             foreach (PolicyCard policyCard in Global.gameManager.game.localPlayerRef.unassignedPolicyCards)
             {
-                GraphicPolicyCard gpc = new GraphicPolicyCard(policyCard, false, false, this);
+                GraphicPolicyCard gpc = new GraphicPolicyCard(policyCard, false, false, false, this);
                 UnassignedPolicyCards.AddChild(gpc);
             }
             foreach (PolicyCard policyCard in Global.gameManager.game.localPlayerRef.activePolicyCards)
             {
-                GraphicPolicyCard gpc = new GraphicPolicyCard(policyCard, false, false, this);
+                GraphicPolicyCard gpc = new GraphicPolicyCard(policyCard, false, false, true, this);
                 if (policyCard.isMilitary)
                 {
                     AssignedMilitaryPolicyCards.AddChild(gpc);
@@ -240,11 +246,57 @@ public partial class PolicyPanel : Control
                     AssignedHeroicPolicyCards.AddChild(gpc);
                 }
             }
-            AssignedMilitaryPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", true), true, false, this));
-            AssignedEconomicPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", false, true), true, false, this));
-            AssignedDiplomaticPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", false, false, true), true, false, this));
-            AssignedHeroicPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", false, false, false, true), true, false, this));
-            UnassignedPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", false, false, false, true), true, true, this));
+            int unassignedMilitarySlots = Global.gameManager.game.localPlayerRef.militaryPolicySlots;
+            int unassignedEconomicSlots = Global.gameManager.game.localPlayerRef.economicPolicySlots;
+            int unassignedDiplomaticSlots = Global.gameManager.game.localPlayerRef.diplomaticPolicySlots;
+            int unassignedHeroicSlots = Global.gameManager.game.localPlayerRef.heroicPolicySlots;
+            foreach (PolicyCard policyCard in Global.gameManager.game.localPlayerRef.activePolicyCards)
+            {
+                if(policyCard.isMilitary)
+                {
+                    unassignedMilitarySlots--;
+                }
+                else if(policyCard.isEconomic)
+                {
+                    unassignedEconomicSlots--;
+                }
+                else if(policyCard.isDiplomatic)
+                {
+                    unassignedDiplomaticSlots--;
+                }
+                else if(policyCard.isHeroic)
+                {
+                    unassignedHeroicSlots--;
+                }
+            }
+            int count = 0;
+            while (count < unassignedMilitarySlots)
+            {
+                AssignedMilitaryPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", null, null, true), true, false, true, this));
+                count++;
+            }
+
+            count = 0;
+            while (count < unassignedEconomicSlots)
+            {
+                AssignedEconomicPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", null, null, false, true), true, false, true, this));
+                count++;
+            }
+
+            count = 0;
+            while (count < unassignedDiplomaticSlots)
+            {
+                AssignedDiplomaticPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", null, null, false, false, true), true, false, true, this));
+                count++;
+            }
+
+            count = 0;
+            while (count < unassignedHeroicSlots)
+            {
+                AssignedHeroicPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", null, null, false, false, false, true), true, false, true, this));
+                count++;
+            }
+            UnassignedPolicyCards.AddChild(new GraphicPolicyCard(new PolicyCard("", "", null, null, false, false, false, true), true, true, false, this));
 
 
             //government section

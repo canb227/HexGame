@@ -12,7 +12,7 @@ public static class CultureResearchLoader
     static CultureResearchLoader()
     {
         string xmlPath = "hex/CultureResearches.xml";
-        researchesDict = LoadResearchData(xmlPath);
+        researchesDict = ResearchLoader.LoadResearchData(xmlPath);
         tierCostDict = new Dictionary<int, int>();
         tierCostDict.Add(0, 0);
         tierCostDict.Add(1, 25);
@@ -35,197 +35,190 @@ public static class CultureResearchLoader
         tierCostDict.Add(18, 2500);
 
     }
-        
-    public static Dictionary<String, ResearchInfo> LoadResearchData(string xmlPath)
+    static Dictionary<String, Func<Player, bool, string>> effectFunctions = new Dictionary<string, Func<Player, bool, string>>
     {
-        // Load the XML file
-        XDocument xmlDoc = XDocument.Load(xmlPath);
+        { "TribalDominionEffect", TribalDominionEffect },
+        { "CraftsmanshipEffect", CraftsmanshipEffect },
+        { "PenmanshipExportEffect", PenmanshipExportEffect },
+        { "PenmanshipShareMapEffect", PenmanshipShareMapEffect },
+        { "MilitaryTraditionEffect", MilitaryTraditionEffect },
+        { "StateWorkforceEffect", StateWorkforceEffect },
+        { "EarlyEmpireEffect", EarlyEmpireEffect },
+        { "MysticismEffect", MysticismEffect },
+        { "ForeignTradeEffect", ForeignTradeEffect },
+        { "RecreationEffect", RecreationEffect },
+        { "PoliticalPhilosophyEffect", PoliticalPhilosophyEffect },
+        { "DramaAndPoetryEffect", DramaAndPoetryEffect },
+        { "MilitaryTrainingEffect", MilitaryTrainingEffect },
+        { "DefensiveTacticsEffect", DefensiveTacticsEffect },
+        { "RecordedHistoryEffect", RecordedHistoryEffect },
+        { "MythologyEffect", MythologyEffect },
+        { "NavalTraditionEffect", NavalTraditionEffect },
+        { "FeudalismEffect", FeudalismEffect },
+        { "CivilServiceEffect", CivilServiceEffect },
+        { "MercenariesEffect", MercenariesEffect },
+        { "MedievalFairesEffect", MedievalFairesEffect },
+        { "GuildsEffect", GuildsEffect },
+        { "DivineRightEffect", DivineRightEffect },
+        { "FutureTechEffect", FutureTechEffect },
 
-        // Parse the research data into a dictionary, allowing for nulls
-        var ResearchData = xmlDoc.Descendants("Research")
-            .ToDictionary(
-                r => r.Attribute("Name")?.Value ?? throw new InvalidOperationException("Missing 'Name' attribute"),
-                r => new ResearchInfo
-                {
-                    Tier = int.Parse(r.Attribute("Tier")?.Value ?? "0"),
-                    FactionType = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
-                    VisualSlot = int.Parse(r.Attribute("VisualSlot")?.Value ?? "0"),
-                    IconPath = r.Attribute("IconPath")?.Value ?? throw new InvalidOperationException("Missing 'IconPath' attribute"),
-                    Requirements = r.Element("Requirements")?.Elements("ResearchType")
-                        .Select(e => e.Value ?? throw new Exception("Invalid Stringy"))
-                        .ToList() ?? new List<String>(),
-                    BuildingUnlocks = r.Element("BuildingUnlocks")?.Elements("BuildingType")
-                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid BuildingUnlock"))
-                        .ToList() ?? new List<string>(),
-                    UnitUnlocks = r.Element("UnitUnlocks")?.Elements("UnitType")
-                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid UnitUnlock"))
-                        .ToList() ?? new List<string>(),
-                    ResourceUnlocks = r.Element("ResourceUnlocks")?.Elements("ResourceType")
-                        .Select(e => (ResourceType)Enum.Parse(typeof(ResourceType), e.Attribute("Name")?.Value
-                            ?? throw new Exception("Invalid ResourceType")))
-                        .ToList() ?? new List<ResourceType>(),
-                    PolicyCardUnlocks = r.Element("PolicyCardUnlocks")?.Elements("PolicyCard")
-                        .Select(e => e.Attribute("Name")?.Value ?? throw new Exception("Invalid UnitUnlock"))
-                        .ToList() ?? new List<string>(),
-
-                    Effects = r.Element("Effects")?.Elements("Effect")
-                        .Select(e => e.Value)
-                        .Where(e => !string.IsNullOrWhiteSpace(e))
-                        .ToList() ?? new List<string>(),
-                }
-            );
-
-        return ResearchData;
-    }
-    
-    public static void ProcessFunctionString(String functionString, Player player)
-    {
-        Dictionary<String, Action<Player>> effectFunctions = new Dictionary<string, Action<Player>>
+    };
+    public static string ProcessFunctionString(String functionString, Player player)
+    {        
+        if (effectFunctions.TryGetValue(functionString, out Func<Player, bool, string> effectFunction))
         {
-            { "TribalDominionEffect", TribalDominionEffect },
-            { "CraftsmanshipEffect", CraftsmanshipEffect },
-            { "InternalTradeEffect", InternalTradeEffect },
-            { "MilitaryTraditionEffect", MilitaryTraditionEffect },
-            { "StateWorkforceEffect", StateWorkforceEffect },
-            { "EarlyEmpireEffect", EarlyEmpireEffect },
-            { "MysticismEffect", MysticismEffect },
-            { "ForeignTradeEffect", ForeignTradeEffect },
-            { "RecreationEffect", RecreationEffect },
-            { "PoliticalPhilosophyEffect", PoliticalPhilosophyEffect },
-            { "DramaAndPoetryEffect", DramaAndPoetryEffect },
-            { "MilitaryTrainingEffect", MilitaryTrainingEffect },
-            { "DefensiveTacticsEffect", DefensiveTacticsEffect },
-            { "RecordedHistoryEffect", RecordedHistoryEffect },
-            { "MythologyEffect", MythologyEffect },
-            { "NavalTraditionEffect", NavalTraditionEffect },
-            { "FeudalismEffect", FeudalismEffect },
-            { "CivilServiceEffect", CivilServiceEffect },
-            { "MercenariesEffect", MercenariesEffect },
-            { "MedievalFairesEffect", MedievalFairesEffect },
-            { "GuildsEffect", GuildsEffect },
-            { "DivineRightEffect", DivineRightEffect },
-            { "FutureTechEffect", FutureTechEffect },
-
-        };
-        
-        if (effectFunctions.TryGetValue(functionString, out Action<Player> effectFunction))
-        {
-            effectFunction(player);
+            return effectFunction(player, true);
         }
         else
         {
-            throw new ArgumentException($"Function '{functionString}' not recognized in ResearchEffects from Researches file.");
+            return ($"Function '{functionString}' not recognized in CultureResearchEffects from CultureResearches file.");
         }
     }
-    static void TribalDominionEffect(Player player)
+    public static string ProcessFunctionStringGetDescriptionOnly(String functionString, Player player)
     {
-
+        if (effectFunctions.TryGetValue(functionString, out Func<Player, bool, string> effectFunction))
+        {
+            return effectFunction(player, false);
+        }
+        else
+        {
+            return $"Function '{functionString}' not recognized in CultureResearchEffects from CultureResearches file.";
+        }
     }
-    static void CraftsmanshipEffect(Player player)
+    static string TribalDominionEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
-
-    static void InternalTradeEffect(Player player)
+    static string CraftsmanshipEffect(Player player, bool executeLogic)
     {
-
-    }
-
-    static void MilitaryTraditionEffect(Player player)
-    {
-
-    }
-
-    static void StateWorkforceEffect(Player player)
-    {
-
+        return "";
     }
 
-    static void EarlyEmpireEffect(Player player)
+    static string PenmanshipExportEffect(Player player, bool executeLogic)
     {
-
-    }
-    static void ForeignTradeEffect(Player player)
-    {
-
-    }
-    static void MysticismEffect(Player player)
-    {
-
+        if (executeLogic)
+        {
+            player.exportCap += 1;
+        }
+        return "+1 to Total Export Route Capacity.";
     }
 
-    static void RecreationEffect(Player player)
+    static string PenmanshipShareMapEffect(Player player, bool executeLogic)
     {
-
+        if (executeLogic)
+        {
+            player.diplomaticActionHashSet.Add(new DiplomacyAction(player.teamNum, "Share Map", false, false));
+        }
+        return "Unlock ability to share your maps with others.";
     }
 
-    static void PoliticalPhilosophyEffect(Player player)
+    static string MilitaryTraditionEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void DramaAndPoetryEffect(Player player)
+    static string StateWorkforceEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void MilitaryTrainingEffect(Player player)
+    static string EarlyEmpireEffect(Player player, bool executeLogic)
     {
-
+        return "";
+    }
+    static string ForeignTradeEffect(Player player, bool executeLogic)
+    {
+        if(executeLogic)
+        {
+            player.tradeRouteCount += 2;
+        }
+        return "+2 Maximum Total Trade Routes";
+    }
+    static string MysticismEffect(Player player, bool executeLogic)
+    {
+        return "";
     }
 
-    static void DefensiveTacticsEffect(Player player)
+    static string RecreationEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void RecordedHistoryEffect(Player player)
+    static string PoliticalPhilosophyEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void MythologyEffect(Player player)
+    static string DramaAndPoetryEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void NavalTraditionEffect(Player player)
+    static string MilitaryTrainingEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void FeudalismEffect(Player player)
+    static string DefensiveTacticsEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void CivilServiceEffect(Player player)
+    static string RecordedHistoryEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void MercenariesEffect(Player player)
+    static string MythologyEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void MedievalFairesEffect(Player player)
+    static string NavalTraditionEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void GuildsEffect(Player player)
+    static string FeudalismEffect(Player player, bool executeLogic)
     {
-
+        if (executeLogic)
+        {
+            //TODO
+        }
+        return "Rural Districts Gain +1 Food Yield if they are Adjacent to Atleast 1 Other Rural District.";
     }
 
-    static void DivineRightEffect(Player player)
+    static string CivilServiceEffect(Player player, bool executeLogic)
     {
-
+        if(executeLogic)
+        {
+            player.diplomaticActionHashSet.Add(new DiplomacyAction(player.teamNum, "Make Alliance", false, false));
+        }
+        return "Unlocks making Alliances with Other Players.";
     }
 
-    static void FutureTechEffect(Player player)
+    static string MercenariesEffect(Player player, bool executeLogic)
     {
+        return "";
+    }
 
+    static string MedievalFairesEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+
+    static string GuildsEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+
+    static string DivineRightEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+
+    static string FutureTechEffect(Player player, bool executeLogic)
+    {
+        return "";
     }
 }

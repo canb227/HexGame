@@ -178,6 +178,14 @@ public class GameHex
                 //nothing
             }
         }
+        if (featureSet.Contains(FeatureType.Forest))
+        {
+            yields.production += 1;
+        }
+        if (featureSet.Contains(FeatureType.Wetland))
+        {
+            yields.food += 1;
+        }
     }
 
     public void OnTurnStarted(int turnNumber)
@@ -219,7 +227,7 @@ public class GameHex
         city.heldHexes.Add(hex);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.CallDeferred("UpdateCityTerritory", city);
+            //manager.CallDeferred("UpdateCityTerritory", city);
         }
     }
 

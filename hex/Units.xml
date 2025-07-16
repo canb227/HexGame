@@ -77,7 +77,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Scout" Class="Combat, Land, Recon" ProductionCost="30" GoldCost="120" MovementSpeed="3.0" SightRange="2.0" CombatPower="10.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/shoe.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Scout" Class="Combat, Land, Recon, Classical" ProductionCost="30" GoldCost="120" MovementSpeed="3.0" SightRange="2.0" CombatPower="10.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/shoe.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -114,7 +114,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Warrior" Class="Combat, Land, Infantry" ProductionCost="40" GoldCost="160" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Warrior" Class="Combat, Land, Infantry, Classical" ProductionCost="40" GoldCost="160" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -151,7 +151,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Galley" Class="Combat, Naval" ProductionCost="65" GoldCost="260" MovementSpeed="3.0" SightRange="2.0" CombatPower="30.0" HealingFactor="10" IconPath="graphics/ui/icons/boat.png" ModelPath="graphics/models/galley.glb">
+  <Unit Name="Galley" Class="Combat, Naval, Classical" ProductionCost="65" GoldCost="260" MovementSpeed="3.0" SightRange="2.0" CombatPower="30.0" HealingFactor="10" IconPath="graphics/ui/icons/boat.png" ModelPath="graphics/models/galley.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
       <TerrainMoveType Name="Rough" Value="9999" />
@@ -177,7 +177,7 @@
       <TerrainMoveType Name="Coral" Value="1" />
     </SightCosts>
   </Unit>
-  <Unit Name="Slinger" Class="Combat, Land, Ranged" ProductionCost="35" GoldCost="140" MovementSpeed="2.0" SightRange="2.0" CombatPower="5.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Slinger" Class="Combat, Land, Ranged, Classical" ProductionCost="35" GoldCost="140" MovementSpeed="2.0" SightRange="2.0" CombatPower="5.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -218,7 +218,7 @@
     </Abilities>
   </Unit>
 
-  <Unit Name="Archer" Class="Combat, Land, Ranged" ProductionCost="60" GoldCost="240" MovementSpeed="2.0" SightRange="2.0" CombatPower="15.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Archer" Class="Combat, Land, Ranged, Classical" ProductionCost="60" GoldCost="240" MovementSpeed="2.0" SightRange="2.0" CombatPower="15.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -260,7 +260,7 @@
   </Unit>
 
   <!-- Need Anti-Cavalry Effect TODO-->
-  <Unit Name="Spearman" Class="Combat, Land, Infantry" ProductionCost="65" GoldCost="260" MovementSpeed="2.0" SightRange="2.0" CombatPower="25.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Spearman" Class="Combat, Land, Infantry, AntiCavalry, Classical" ProductionCost="65" GoldCost="260" MovementSpeed="2.0" SightRange="2.0" CombatPower="25.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -298,7 +298,7 @@
     </Abilities>
   </Unit>
 
-  <Unit Name="Chariot" Class="Combat, Land, Cavalry" ProductionCost="65" GoldCost="260" MovementSpeed="2.0" SightRange="2.0" CombatPower="28.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Chariot" Class="Combat, Land, Cavalry, Classical" ProductionCost="65" GoldCost="260" MovementSpeed="2.0" SightRange="2.0" CombatPower="28.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="0.5" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -325,7 +325,7 @@
     </SightCosts>
   </Unit>
 
-  <Unit Name="Horseman" Class="Combat, Land, Cavalry" ProductionCost="80" GoldCost="320" MovementSpeed="4.0" SightRange="2.0" CombatPower="36.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Horseman" Class="Combat, Land, Cavalry, Classical" ProductionCost="80" GoldCost="320" MovementSpeed="4.0" SightRange="2.0" CombatPower="36.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -352,7 +352,7 @@
     </SightCosts>
   </Unit>
 
-  <Unit Name="Swordman" Class="Combat, Land, Infantry" ProductionCost="90" GoldCost="360" MovementSpeed="2.0" SightRange="2.0" CombatPower="35.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Swordman" Class="Combat, Land, Infantry, Classical" ProductionCost="90" GoldCost="360" MovementSpeed="2.0" SightRange="2.0" CombatPower="35.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -390,7 +390,7 @@
     </Abilities>
   </Unit>
 
-  <Unit Name="Quadrireme" Class="Combat, Naval, Ranged" ProductionCost="120" GoldCost="480" MovementSpeed="3.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" IconPath="graphics/ui/icons/boat.png" ModelPath="graphics/models/galley.glb">
+  <Unit Name="Quadrireme" Class="Combat, Naval, Ranged, Classical" ProductionCost="120" GoldCost="480" MovementSpeed="3.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" IconPath="graphics/ui/icons/boat.png" ModelPath="graphics/models/galley.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
       <TerrainMoveType Name="Rough" Value="9999" />
@@ -422,7 +422,7 @@
     </Abilities>
   </Unit>
 
-  <Unit Name="Catapult" Class="Combat, Land, Siege" ProductionCost="120" GoldCost="480" MovementSpeed="2.0" SightRange="2.0" CombatPower="25.0" HealingFactor="5" MaintenanceCost="2" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Catapult" Class="Combat, Land, Siege, Classical" ProductionCost="120" GoldCost="480" MovementSpeed="2.0" SightRange="2.0" CombatPower="25.0" HealingFactor="5" MaintenanceCost="2" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -455,7 +455,7 @@
   </Unit>
 
   <!-- Need Anti-Cavalry Effect TODO-->
-  <Unit Name="Polearm" Class="Combat, Land, Infantry" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="45.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Polearm" Class="Combat, Land, Infantry, AntiCavalry, Classical" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="45.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -493,7 +493,7 @@
     </Abilities>
   </Unit>
 
-  <Unit Name="Crossbowman" Class="Combat, Land, Ranged" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="30.0" HealingFactor="10" MaintenanceCost="3" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Crossbowman" Class="Combat, Land, Ranged, Classical" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="30.0" HealingFactor="10" MaintenanceCost="3" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -534,7 +534,7 @@
     </Abilities>
   </Unit>
 
-  <Unit Name="Skirmisher" Class="Combat, Land, Recon" ProductionCost="150" GoldCost="600" MovementSpeed="3.0" SightRange="2.0" CombatPower="20.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/shoe.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Skirmisher" Class="Combat, Land, Recon, Classical" ProductionCost="150" GoldCost="600" MovementSpeed="3.0" SightRange="2.0" CombatPower="20.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/shoe.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -575,7 +575,7 @@
     </Abilities>
   </Unit>
 
-  <Unit Name="Knight" Class="Combat, Land, Cavalry" ProductionCost="220" GoldCost="880" MovementSpeed="4.0" SightRange="2.0" CombatPower="50.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Knight" Class="Combat, Land, Cavalry, Classical" ProductionCost="220" GoldCost="880" MovementSpeed="4.0" SightRange="2.0" CombatPower="50.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -602,7 +602,7 @@
     </SightCosts>
   </Unit>
 
-  <Unit Name="Trebuchet" Class="Combat, Land, Siege" ProductionCost="200" GoldCost="800" MovementSpeed="2.0" SightRange="2.0" CombatPower="35.0" HealingFactor="5" MaintenanceCost="3" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Trebuchet" Class="Combat, Land, Siege, Classical" ProductionCost="200" GoldCost="800" MovementSpeed="2.0" SightRange="2.0" CombatPower="35.0" HealingFactor="5" MaintenanceCost="3" IconPath="graphics/ui/icons/slinger.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -662,7 +662,7 @@
     </SightCosts>
   </Unit>
 
-  <Unit Name="Courser" Class="Combat, Land, Cavalry" ProductionCost="200" GoldCost="800" MovementSpeed="5.0" SightRange="2.0" CombatPower="46.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Courser" Class="Combat, Land, Cavalry, Classical" ProductionCost="200" GoldCost="800" MovementSpeed="5.0" SightRange="2.0" CombatPower="46.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />

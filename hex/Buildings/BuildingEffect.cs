@@ -28,7 +28,8 @@ public class BuildingEffect
         this.effectMagnitude = effectMagnitude;
         this.priority = priority;
     }
-    public BuildingEffect(Action<Building> applyFunction, int priority)
+
+/*    public BuildingEffect(Action<Building> applyFunction, int priority)
     {
         //default values
         this.effectType = BuildingEffectType.ProductionCost;
@@ -37,7 +38,7 @@ public class BuildingEffect
         //real values
         this.priority = priority;
         this.applyFunction = applyFunction;
-    }
+    }*/
 
     public BuildingEffect(String functionName)
     {
@@ -173,6 +174,9 @@ public class BuildingEffect
             { "MachuPicchuEffect", MachuPicchuEffect },
             { "OracleEffect", OracleEffect },
             { "ColosseumEffect", ColosseumEffect },
+
+            { "AutocracyEffect", AutocracyEffect },
+            { "ClassicalRepublicEffect", ClassicalRepublicEffect },
         };
         
         if (effectFunctions.TryGetValue(functionString, out Action<Building> effectFunction))
@@ -412,6 +416,32 @@ public class BuildingEffect
     void ColosseumEffect(Building building)
     {
 
+    }
+
+    //government effects
+    void AutocracyEffect(Building building)
+    {
+        if(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].isCapital)
+        {
+            building.yields.food *= 1.1f;
+            building.yields.production *= 1.1f;
+            building.yields.gold *= 1.1f;
+            building.yields.science *= 1.1f;
+            building.yields.culture *= 1.1f;
+            building.yields.happiness *= 1.1f;
+            building.yields.influence *= 1.1f;
+        }
+    }
+
+    void ClassicalRepublicEffect(Building building)
+    {
+        if(Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.isUrban)
+        {
+            if(building.name.Contains("District"))
+            {
+                building.yields.happiness += 1;
+            }
+        }
     }
 
 }

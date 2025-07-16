@@ -13,7 +13,8 @@ public enum UnitEffectType
     MovementCosts,
     SightRange,
     SightCosts,
-    CombatStrength
+    CombatStrength,
+    MaintenanceCost,
 }
 
 public enum EffectOperation
@@ -86,6 +87,10 @@ public class UnitEffect
             else if(effectType == UnitEffectType.CombatStrength)
             {
                 Global.gameManager.game.unitDictionary[unitID].combatStrength = ApplyOperation(Global.gameManager.game.unitDictionary[unitID].combatStrength);
+            }
+            else if(effectType == UnitEffectType.MaintenanceCost)
+            {
+                Global.gameManager.game.unitDictionary[unitID].maintenanceCost = ApplyOperation(Global.gameManager.game.unitDictionary[unitID].maintenanceCost);
             }
             else if(effectType == UnitEffectType.MovementCosts)
             {
@@ -278,7 +283,6 @@ public class UnitEffect
     }
     public bool Sleep(Unit unit)
     {
-        //GD.Print(unit.id + "is now sleeping");
         unit.isSleeping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");
@@ -287,7 +291,6 @@ public class UnitEffect
 
     public bool Skip(Unit unit)
     {
-        //GD.Print(unit.id + "is now sleeping");
         unit.isSkipping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");

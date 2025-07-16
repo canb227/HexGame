@@ -22,6 +22,8 @@ public partial class DiplomacyPanel : Control
     private Button declineButton;
     private Button declareWarButton;
 
+    private Label currentDiplomaticStateLabel;
+
     private List<DiplomacyAction> playerOffers;
     private List<DiplomacyAction> otherOffers;
 
@@ -48,7 +50,9 @@ public partial class DiplomacyPanel : Control
         declineButton.Pressed += () => DeclineDeal();
 
         declareWarButton = diplomacyPanelControl.GetNode<Button>("DeclareWarButton");
-        declareWarButton.Pressed += () => DeclareWar();
+        declareWarButton.Pressed += () => DeclareWarOrBreakAlliance();
+
+        currentDiplomaticStateLabel = diplomacyPanelControl.GetNode<Label>("CurrentDiplomaticStateLabel");
 
         playerImage = diplomacyPanelControl.GetNode<TextureRect>("PlayerImage");
         otherImage = diplomacyPanelControl.GetNode<TextureRect>("OtherImage");
@@ -59,6 +63,41 @@ public partial class DiplomacyPanel : Control
 
     public void Update(UIElement element)
     {
+    }
+    private void DeclareWarOrBreakAlliance()
+    {
+        if(Global.gameManager.game.teamManager.GetAllies(Global.gameManager.game.localPlayerTeamNum).Contains(otherTeamNum))
+        {
+            BreakAlliance(otherTeamNum);
+        }
+        else
+        {
+            DeclareWar();
+        }
+    }
+    private void BreakAlliance(int targetTeamNum)
+    {
+        int teamNum = Global.gameManager.game.localPlayerTeamNum;
+        Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, targetTeamNum, DiplomaticState.ForcedPeace);
+        Global.gameManager.game.playerDictionary[teamNum].turnsUntilForcedPeaceEnds[targetTeamNum] = 30;
+        Global.gameManager.game.playerDictionary[targetTeamNum].turnsUntilForcedPeaceEnds[teamNum] = 30;
+        //remove visible hexes from target's visible set
+        foreach (var hexCountPair in Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict)
+        {
+            if (Global.gameManager.game.playerDictionary[targetTeamNum].visibleGameHexDict.Keys.Contains(hexCountPair.Key))
+            {
+                Global.gameManager.game.playerDictionary[targetTeamNum].visibleGameHexDict[hexCountPair.Key] -= hexCountPair.Value;
+            }
+        }
+
+        foreach (var hexCountPair in Global.gameManager.game.playerDictionary[targetTeamNum].personalVisibleGameHexDict)
+        {
+            if (Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.Keys.Contains(hexCountPair.Key))
+            {
+                Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict[hexCountPair.Key] -= hexCountPair.Value;
+            }
+        }
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
 
     private void DeclareWar()
@@ -72,8 +111,38 @@ public partial class DiplomacyPanel : Control
     public void UpdateDiplomacyPanel(int otherTeamNum, DiplomacyDeal diplomaticOffer) //item 1 is what they are offering item 2 is what we are offering
     {
         this.otherTeamNum = otherTeamNum;
-        declineButton.Visible = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace;
-        declineButton.Disabled = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) != DiplomaticState.Peace;
+        //declineButton.Visible = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace;
+        //declineButton.Disabled = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) != DiplomaticState.Peace;
+        //disable war button if we are not at peace, since forcedpeace, ally, and war all prevent it
+        if(Global.gameManager.game.localPlayerTeamNum == otherTeamNum)
+        {
+            declareWarButton.Disabled = true;
+            declareWarButton.Visible = false;
+        }
+        else if(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace)
+        {
+            declareWarButton.Disabled = false;
+            declareWarButton.Text = "Declare War";
+        }
+        else if(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Ally)
+        {
+            declareWarButton.Disabled = false;
+            declareWarButton.Text = "Break Alliance";
+        }
+        else
+        {
+            declareWarButton.Disabled = true;
+            declareWarButton.Text = "Declare War";
+        }
+        if(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.ForcedPeace)
+        {
+            currentDiplomaticStateLabel.Text = "Current Diplomatic State: " + Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum).ToString() 
+                + " for " + Global.gameManager.game.localPlayerRef.turnsUntilForcedPeaceEnds[otherTeamNum] + " more turns.";
+        }
+        else
+        {
+            currentDiplomaticStateLabel.Text = "Current Diplomatic State: " + Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum).ToString();
+        }
         Player player = Global.gameManager.game.playerDictionary[otherTeamNum];
         Texture2D icon = new();
         if (player.isAI)
@@ -128,6 +197,14 @@ public partial class DiplomacyPanel : Control
         else
         {
             acceptButton.Text = "Offer";
+            if(playerOffers.Any() || otherOffers.Any())
+            {
+                acceptButton.Disabled = false;
+            }
+            else
+            {
+                acceptButton.Disabled = true;
+            }
         }
     }
 
@@ -140,7 +217,23 @@ public partial class DiplomacyPanel : Control
             Button button = new Button();
             button.Name = diplomacyAction.actionName + "Button";
             button.Text = diplomacyAction.actionName;
-            button.Disabled = !diplomacyAction.ActionValid(otherTeamNum);
+
+            bool sameAction = false;
+            foreach(DiplomacyAction action in otherOffers)
+            {
+                if (action.actionName == diplomacyAction.actionName)
+                {
+                    sameAction = true;
+                }
+            }
+            foreach (DiplomacyAction action in playerOffers)
+            {
+                if (action.actionName == diplomacyAction.actionName)
+                {
+                    sameAction = true;
+                }
+            }
+            button.Disabled = !diplomacyAction.ActionValid(otherTeamNum) || sameAction;
             button.Pressed += () => AddVoidingOffer(diplomacyAction, items, offersBox, offers);
             items.AddChild(button);
         }
@@ -153,7 +246,9 @@ public partial class DiplomacyPanel : Control
     }
     private void AddOffer(DiplomacyAction action, VBoxContainer items, VBoxContainer offersBox, List<DiplomacyAction> offers)
     {
-        items.GetNode<Button>(action.actionName + "Button").Disabled = true;
+        playerItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
+        otherItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
+
         HBoxContainer box = new HBoxContainer();
         box.Name = action.actionName;
         offers.Add(action);
@@ -170,11 +265,20 @@ public partial class DiplomacyPanel : Control
             box.AddChild(lineEdit);
         }
         offersBox.AddChild(box);
+        if (playerOffers.Any() || otherOffers.Any())
+        {
+            acceptButton.Disabled = false;
+        }
+        else
+        {
+            acceptButton.Disabled = true;
+        }
     }
 
     private void RemoveOffer(DiplomacyAction action, VBoxContainer items, List<DiplomacyAction> offers, VBoxContainer offersBox)
     {
-        items.GetNode<Button>(action.actionName + "Button").Disabled = false;
+        playerItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = false;
+        otherItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = false;
         CancelActiveOffer();
         offers.Remove(action);
         foreach (Node child in offersBox.GetChildren())
@@ -183,6 +287,14 @@ public partial class DiplomacyPanel : Control
             {
                 child.QueueFree();
             }
+        }
+        if (playerOffers.Any() || otherOffers.Any())
+        {
+            acceptButton.Disabled = false;
+        }
+        else
+        {
+            acceptButton.Disabled = true;
         }
     }
 

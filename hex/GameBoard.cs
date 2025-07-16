@@ -194,7 +194,6 @@ public class GameBoard
             r += 1;
         }
         this.bottom = r;
-        //GD.Print(left + "," + right + "," + bottom + "," + top);
     }
 
     public int id { get; set; }

@@ -16,7 +16,6 @@ public class Player : BasePlayer
         this.goldTotal = goldTotal;
         administrativeCityCost = 20;
         administrativePopulationCost = 2;
-        cityLimit = 2;
 
         SelectResearch("Agriculture");
         SelectCultureResearch("TribalDominion");
@@ -39,6 +38,7 @@ public class Player : BasePlayer
     }
     public Dictionary<Hex, int> visibleGameHexDict { get; set; } = new();
     public Dictionary<Hex, bool> seenGameHexDict { get; set; } = new();
+    public Dictionary<Hex, int> personalVisibleGameHexDict { get; set;} = new();
     public List<Hex> visibilityChangedList { get; set; } = new();
     public List<ResearchQueueType> queuedResearch { get; set; } = new();
     public Dictionary<String, ResearchQueueType> partialResearchDictionary { get; set; } = new();
@@ -61,7 +61,6 @@ public class Player : BasePlayer
     public float administrativeUpkeep { get; set; } = 100; //administrativeUpkeep is increased by each city and each population
     public float administrativeCityCost { get; set; }
     public float administrativePopulationCost { get; set; } 
-    public int cityLimit { get; set; }
     public int settlerCount = 0;
     //exports and trade
     public List<ExportRoute> exportRouteList { get; set; } = new();
@@ -71,6 +70,24 @@ public class Player : BasePlayer
     public int exportCap { get; set; } = 2;
     public int baseMaxTradeRoutes { get; set; } = 2;
     public int tradeRouteCount { get; set; }
+
+    //encampments
+    public List<int> occupiedEncampments { get; set; } = new();
+    public List<int> alliedEncampments { get; set; } = new();
+
+
+    //policy card helpers
+    public int goldPerTradeRoute { get; set; }
+    public int sciencePerTradeRoute { get; set; }
+    public int culturePerTradeRoute { get; set; }
+    public int sciencePerEncampment { get; set; }
+    public int culturePerEncampment { get; set; }
+    public int influencePerEncampment { get; set; }
+    public int cityCombatStrengthMod { get; set; }
+    public Dictionary<string, (DistrictType, float)> districtTypeProductionBoosts { get; set; } = new();
+    public Dictionary<string, (UnitClass, float)> unitClassProductionBoosts { get; set; } = new();
+
+
 
     private void SetBaseHexYields()
     {
@@ -159,9 +176,57 @@ public class Player : BasePlayer
         return influenceTotal;
     }
 
-    public override void OnTurnStarted(int turnNumber, bool updateUI)
+    public new float GetGoldPerTurn()
     {
-        base.OnTurnStarted(turnNumber, false);
+        float goldPerTurn = base.GetGoldPerTurn();
+        goldPerTurn += goldPerTradeRoute * (tradeRouteCount + outgoingTradeRouteList.Count);
+        return goldPerTurn;
+    }
+
+    public new float GetSciencePerTurn()
+    {
+        float sciencePerTurn = base.GetSciencePerTurn();
+        //trade
+        sciencePerTurn += sciencePerTradeRoute * (tradeRouteCount + outgoingTradeRouteList.Count);
+        //encampments
+        sciencePerTurn += sciencePerEncampment * (occupiedEncampments.Count + alliedEncampments.Count);
+        return sciencePerTurn;
+    }
+
+    public new float GetCulturePerTurn()
+    {
+        float culturePerTurn = base.GetCulturePerTurn();
+        //trade
+        culturePerTurn += culturePerTradeRoute * (tradeRouteCount + outgoingTradeRouteList.Count);
+        //encampments
+        culturePerTurn += culturePerEncampment * (occupiedEncampments.Count + alliedEncampments.Count);
+
+        return culturePerTurn;
+    }
+
+    public new float GetInfluencePerTurn()
+    {
+        float influencePerTurn = base.GetInfluencePerTurn();
+        influencePerTurn += influencePerEncampment * (occupiedEncampments.Count + alliedEncampments.Count);
+        return influencePerTurn;
+    }
+
+    public override void OnTurnStarted(int turnNumber)
+    {
+        base.OnTurnStarted(turnNumber);
+        goldPerTurnFromTrade = 0;
+        foreach (var tradeDeal in Global.gameManager.game.teamManager.goldTradeDealDict)
+        {
+            if (tradeDeal.Key.reciever == teamNum)
+            {
+                goldPerTurnFromTrade += tradeDeal.Value.amount;
+            }
+            else if (tradeDeal.Key.sender == teamNum)
+            {
+                goldPerTurnFromTrade -= tradeDeal.Value.amount;
+            }
+        }
+        AddGold(goldPerTurnFromTrade);
         administrativeUpkeep = 100;
         foreach (int cityID in cityList)
         {
@@ -238,9 +303,13 @@ public class Player : BasePlayer
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.uiManager.CallDeferred("UpdateAll");
-            manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
-            manager.uiManager.CallDeferred("UpdateResearchUI");
+            if (teamNum == Global.gameManager.game.localPlayerTeamNum)
+            {
+                manager.uiManager.CallDeferred("NewTurnStarted");
+                manager.uiManager.CallDeferred("UpdateAll");
+                manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+                manager.uiManager.UpdateResearchUI();
+            }
         }
     }
 
@@ -398,6 +467,13 @@ public class Player : BasePlayer
                 unassignedPolicyCards.Add(PolicyCardLoader.GetPolicyCard(policyCard));
             }
         }
+        if (ResearchLoader.researchesDict[researchType].GovernmentUnlocks != null)
+        {
+            foreach (GovernmentType governmentType in ResearchLoader.researchesDict[researchType].GovernmentUnlocks)
+            {
+                avaliableGovernments.Add(governmentType);
+            }
+        }
         foreach (String effect in ResearchLoader.researchesDict[researchType].Effects)
         {
             ResearchLoader.ProcessFunctionString(effect, this);
@@ -500,6 +576,13 @@ public class Player : BasePlayer
             foreach (String policyCard in CultureResearchLoader.researchesDict[researchType].PolicyCardUnlocks)
             {
                 unassignedPolicyCards.Add(PolicyCardLoader.GetPolicyCard(policyCard));
+            }
+        }
+        if (CultureResearchLoader.researchesDict[researchType].GovernmentUnlocks != null)
+        {
+            foreach (GovernmentType governmentType in CultureResearchLoader.researchesDict[researchType].GovernmentUnlocks)
+            {
+                avaliableGovernments.Add(governmentType);
             }
         }
         foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)
@@ -614,6 +697,8 @@ public class Player : BasePlayer
         Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Remove(policyCard);
         Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Add(policyCard);
         Global.gameManager.game.playerDictionary[teamNum].unassignedPolicyCards.Remove(policyCard);
+
+        policyCard.AddEffect(this.teamNum);
     }
 
     public void UnassignPolicyCard(int policyCardID)

@@ -285,7 +285,39 @@ public partial class ResearchTreePanel : Control
         researchIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + researchInfo.IconPath);
 
         HBoxContainer researchEffects = researchButton.GetNode<HBoxContainer>("ResearchResultBox");
-        foreach(String unitName in researchInfo.UnitUnlocks)
+        foreach (String policyCardName in researchInfo.PolicyCardUnlocks)
+        {
+            TextureRect policyIcon = researchEffectScene.Instantiate<TextureRect>();
+            if (PolicyCardLoader.GetPolicyCard(policyCardName).isMilitary)
+            {
+                policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/militarypolicycard.png");
+            }
+            else if (PolicyCardLoader.GetPolicyCard(policyCardName).isEconomic)
+            {
+                policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/economicpolicycard.png");
+            }
+            else if (PolicyCardLoader.GetPolicyCard(policyCardName).isDiplomatic)
+            {
+                policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomaticpolicycard.png");
+            }
+            else if (PolicyCardLoader.GetPolicyCard(policyCardName).isHeroic)
+            {
+                policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/heroicpolicycard.png");
+            }
+            policyIcon.Call("add_tooltipstring", "Unlocks " + policyCardName + " Policy Card:\n" + PolicyCardLoader.GetPolicyCard(PolicyCardLoader.policyCardXMLDictionary[policyCardName]).description);
+            researchEffects.AddChild(policyIcon);
+        }
+        if (researchInfo.GovernmentUnlocks != null)
+        {
+            foreach (GovernmentType governmentType in researchInfo.GovernmentUnlocks)
+            {
+                TextureRect governmentIcon = researchEffectScene.Instantiate<TextureRect>();
+                governmentIcon.Texture = PlayerEffect.GetGovernmentTypeIcon(governmentType);
+                governmentIcon.Call("add_tooltipstring", "Unlocks " + PlayerEffect.GetGovernmentTypeTitle(governmentType) + ":\n" + PlayerEffect.GetGovernmentTypeDescription(governmentType));
+                researchEffects.AddChild(governmentIcon);
+            }
+        }
+        foreach (String unitName in researchInfo.UnitUnlocks)
         {
             TextureRect unitIcon = researchEffectScene.Instantiate<TextureRect>();
             unitIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + UnitLoader.unitsDict[unitName].IconPath);
@@ -299,28 +331,7 @@ public partial class ResearchTreePanel : Control
             buildingIcon.Call("add_tooltipstring", "Unlocks " + buildingName);
             researchEffects.AddChild(buildingIcon);
         }
-        foreach (String policyCardName in researchInfo.PolicyCardUnlocks)
-        {
-            TextureRect buildingIcon = researchEffectScene.Instantiate<TextureRect>();
-            if (PolicyCardLoader.GetPolicyCard(policyCardName).isMilitary)
-            {
-                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/militarypolicycard.png");
-            }
-            else if(PolicyCardLoader.GetPolicyCard(policyCardName).isEconomic)
-            {
-                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/economicpolicycard.png");
-            }
-            else if (PolicyCardLoader.GetPolicyCard(policyCardName).isDiplomatic)
-            {
-                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/diplomaticpolicycard.png");
-            }
-            else if (PolicyCardLoader.GetPolicyCard(policyCardName).isHeroic)
-            {
-                buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/heroicpolicycard.png");
-            }
-            buildingIcon.Call("add_tooltipstring", "Unlocks " + policyCardName);
-            researchEffects.AddChild(buildingIcon);
-        }
+
         if (researchInfo.ResourceUnlocks != null)
         {
             foreach (ResourceType resourceType in researchInfo.ResourceUnlocks)
@@ -329,6 +340,30 @@ public partial class ResearchTreePanel : Control
                 resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[resourceType].IconPath);
                 resourceIcon.Call("add_tooltipstring", "Reveals " + ResourceLoader.resources[resourceType].Name + " - " + ResourceLoader.resources[resourceType].Description + " ");
                 researchEffects.AddChild(resourceIcon);
+            }
+        }
+        if(researchInfo.Effects != null)
+        {
+            foreach (string effect in researchInfo.Effects)
+            {
+                TextureRect effectIcon = researchEffectScene.Instantiate<TextureRect>();
+                effectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/researchEffect.png");
+                if (ResearchLoader.researchesDict.ContainsValue(researchInfo))
+                {
+                    effectIcon.Call("add_tooltipstring", ResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef));
+                    if (ResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef) != "")
+                    {
+                        researchEffects.AddChild(effectIcon);
+                    }
+                }
+                else if (CultureResearchLoader.researchesDict.ContainsValue(researchInfo))
+                {
+                    effectIcon.Call("add_tooltipstring", CultureResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef));
+                    if(CultureResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef) != "")
+                    {
+                        researchEffects.AddChild(effectIcon);
+                    }
+                }
             }
         }
 
