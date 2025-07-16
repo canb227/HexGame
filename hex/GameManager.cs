@@ -128,9 +128,10 @@ public partial class GameManager : Node
     {
         if (isHost)
         {
-            SpawnPlayers();
             this.AIManager = new AIManager();
             AIManager.InitAI();
+            SpawnPlayers();
+
         }
     }
 
