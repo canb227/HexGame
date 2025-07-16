@@ -185,7 +185,9 @@ public class DiplomacyAction
 
     private void BreakAlliance(int targetTeamNum)
     {
-        Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, targetTeamNum, DiplomaticState.Ally);
+        Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, targetTeamNum, DiplomaticState.ForcedPeace);
+        Global.gameManager.game.playerDictionary[teamNum].turnsUntilForcedPeaceEnds[targetTeamNum] = 30;
+        Global.gameManager.game.playerDictionary[targetTeamNum].turnsUntilForcedPeaceEnds[teamNum] = 30;
         //remove visible hexes from target's visible set
         foreach (var hexCountPair in Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict)
         {

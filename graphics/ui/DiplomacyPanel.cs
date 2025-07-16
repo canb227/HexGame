@@ -50,7 +50,7 @@ public partial class DiplomacyPanel : Control
         declineButton.Pressed += () => DeclineDeal();
 
         declareWarButton = diplomacyPanelControl.GetNode<Button>("DeclareWarButton");
-        declareWarButton.Pressed += () => DeclareWar();
+        declareWarButton.Pressed += () => DeclareWarOrBreakAlliance();
 
         currentDiplomaticStateLabel = diplomacyPanelControl.GetNode<Label>("CurrentDiplomaticStateLabel");
 
@@ -63,6 +63,41 @@ public partial class DiplomacyPanel : Control
 
     public void Update(UIElement element)
     {
+    }
+    private void DeclareWarOrBreakAlliance()
+    {
+        if(Global.gameManager.game.teamManager.GetAllies(Global.gameManager.game.localPlayerTeamNum).Contains(otherTeamNum))
+        {
+            BreakAlliance(otherTeamNum);
+        }
+        else
+        {
+            DeclareWar();
+        }
+    }
+    private void BreakAlliance(int targetTeamNum)
+    {
+        int teamNum = Global.gameManager.game.localPlayerTeamNum;
+        Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, targetTeamNum, DiplomaticState.ForcedPeace);
+        Global.gameManager.game.playerDictionary[teamNum].turnsUntilForcedPeaceEnds[targetTeamNum] = 30;
+        Global.gameManager.game.playerDictionary[targetTeamNum].turnsUntilForcedPeaceEnds[teamNum] = 30;
+        //remove visible hexes from target's visible set
+        foreach (var hexCountPair in Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict)
+        {
+            if (Global.gameManager.game.playerDictionary[targetTeamNum].visibleGameHexDict.Keys.Contains(hexCountPair.Key))
+            {
+                Global.gameManager.game.playerDictionary[targetTeamNum].visibleGameHexDict[hexCountPair.Key] -= hexCountPair.Value;
+            }
+        }
+
+        foreach (var hexCountPair in Global.gameManager.game.playerDictionary[targetTeamNum].personalVisibleGameHexDict)
+        {
+            if (Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.Keys.Contains(hexCountPair.Key))
+            {
+                Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict[hexCountPair.Key] -= hexCountPair.Value;
+            }
+        }
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
 
     private void DeclareWar()
@@ -79,8 +114,35 @@ public partial class DiplomacyPanel : Control
         //declineButton.Visible = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace;
         //declineButton.Disabled = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) != DiplomaticState.Peace;
         //disable war button if we are not at peace, since forcedpeace, ally, and war all prevent it
-        declareWarButton.Disabled = !(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace);
-        currentDiplomaticStateLabel.Text = "Current Diplomatic State: " + Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum).ToString();
+        if(Global.gameManager.game.localPlayerTeamNum == otherTeamNum)
+        {
+            declareWarButton.Disabled = true;
+            declareWarButton.Visible = false;
+        }
+        else if(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace)
+        {
+            declareWarButton.Disabled = false;
+            declareWarButton.Text = "Declare War";
+        }
+        else if(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Ally)
+        {
+            declareWarButton.Disabled = false;
+            declareWarButton.Text = "Break Alliance";
+        }
+        else
+        {
+            declareWarButton.Disabled = true;
+            declareWarButton.Text = "Declare War";
+        }
+        if(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.ForcedPeace)
+        {
+            currentDiplomaticStateLabel.Text = "Current Diplomatic State: " + Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum).ToString() 
+                + " for " + Global.gameManager.game.localPlayerRef.turnsUntilForcedPeaceEnds[otherTeamNum] + " more turns.";
+        }
+        else
+        {
+            currentDiplomaticStateLabel.Text = "Current Diplomatic State: " + Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum).ToString();
+        }
         Player player = Global.gameManager.game.playerDictionary[otherTeamNum];
         Texture2D icon = new();
         if (player.isAI)
