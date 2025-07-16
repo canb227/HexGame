@@ -83,7 +83,6 @@ public partial class Unit: GodotObject
             //generic abilities
             AddGenericAbility("Sleep", "graphics/ui/icons/sleep.png");
             AddGenericAbility("Skip", "graphics/ui/icons/skipturn.png");
-            RecalculateEffects();
         }
         else
         {
@@ -97,7 +96,7 @@ public partial class Unit: GodotObject
     {
         hex = targetGameHex.hex;
         Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
-        AddVision(true);
+        RecalculateEffects();
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewUnit", this);
     }
 
@@ -453,7 +452,7 @@ public partial class Unit: GodotObject
     public void UpdateVision()
     {
         RemoveVision(false);
-        AddVision(false);
+        AddVision(true);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
 
@@ -482,8 +481,10 @@ public partial class Unit: GodotObject
     public void AddVision(bool updateGraphic)
     {
         visibleHexes = CalculateVision().Keys.ToList();
+        GD.Print(this.name + " is adding vision to: ");
         foreach (Hex hex in visibleHexes)
         {
+            GD.Print(hex);
            Global.gameManager.game.playerDictionary[teamNum].seenGameHexDict.TryAdd(hex, true); //add to the seen dict no matter what since duplicates are thrown out
             int count;
             if(Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.TryGetValue(hex, out count))

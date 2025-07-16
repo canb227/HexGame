@@ -16,6 +16,21 @@ public class TeamManager
     public Dictionary<int, Dictionary<int, DiplomaticState>> diplomaticStates { get; set; } = new();
     public Dictionary<int, DiplomacyDeal> pendingDeals { get; set; } = new();
 
+    public Dictionary<TradeDealKey, GoldPerTurnDeal> goldTradeDealDict { get; set; } = new();
+
+    public void OnTurnStarted()
+    {
+        foreach(var goldTradeDealKey in goldTradeDealDict.Keys)
+        {
+            var valueTuple = goldTradeDealDict[goldTradeDealKey];
+            goldTradeDealDict[goldTradeDealKey] = new GoldPerTurnDeal { amount = valueTuple.amount, turnsLeft = valueTuple.turnsLeft - 1 };
+            if (goldTradeDealDict[goldTradeDealKey].turnsLeft <= 0)
+            {
+                goldTradeDealDict.Remove(goldTradeDealKey);
+            }
+        }
+    }
+
     public void AddTeam(int newTeamNum, int defaultRelationship)
     {
         Dictionary<int, int> newTeam = new();

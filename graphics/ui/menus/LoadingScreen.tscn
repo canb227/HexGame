@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://coitp2jpryqwh"]
 
-[ext_resource type="Script" uid="uid://daavcnuwno1m2" path="res://graphics/ui/menus/LoadingScreen.cs" id="1_pj6fs"]
+[ext_resource type="Script" uid="uid://bfxkhth1ovvce" path="res://graphics/ui/menus/LoadingScreen.cs" id="1_pj6fs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pp7sh"]
 font_size = 80
@@ -28,27 +28,46 @@ color = Color(0.164058, 0.157242, 0.151379, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="loadingbar" type="ProgressBar" parent="."]
-layout_mode = 0
-anchor_left = 0.0711806
-anchor_top = 0.817901
-anchor_right = 0.909722
-anchor_bottom = 0.950617
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -483.0
+offset_top = -219.0
+offset_right = 483.0
+offset_bottom = -133.0
+grow_horizontal = 2
+grow_vertical = 0
 value = 43.34
-metadata/_edit_use_anchors_ = true
 
 [node name="loadingtext" type="Label" parent="."]
-layout_mode = 0
-offset_left = 504.0
-offset_top = 500.0
-offset_right = 636.0
-offset_bottom = 523.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -66.0
+offset_top = -261.0
+offset_right = 66.0
+offset_bottom = -238.0
+grow_horizontal = 2
+grow_vertical = 0
 text = "Settling Liquids..."
+horizontal_alignment = 1
 
 [node name="title" type="Label" parent="."]
-layout_mode = 0
-offset_left = 406.0
-offset_top = 26.0
-offset_right = 778.0
-offset_bottom = 136.0
-text = "Loading..."
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -186.0
+offset_top = 85.0
+offset_right = 186.0
+offset_bottom = 195.0
+grow_horizontal = 2
+text = "Loading"
 label_settings = SubResource("LabelSettings_pp7sh")
+horizontal_alignment = 1

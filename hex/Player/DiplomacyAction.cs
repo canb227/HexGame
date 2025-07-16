@@ -30,9 +30,21 @@ public class DiplomacyAction
         {
             GiveGold(targetTeamNum, quantity);
         }
+        if (actionName == "Give Gold Per Turn")
+        {
+            StartGoldPerTurn(targetTeamNum, quantity, duration);
+        }
         if (actionName == "Make Peace")
         {
             MakePeace(targetTeamNum);
+        }
+        if(actionName == "Make Alliance")
+        {
+            MakeAlliance(targetTeamNum);
+        }
+        if(actionName == "Share Map")
+        {
+            ShareMap(targetTeamNum);
         }
     }
 
@@ -52,6 +64,10 @@ public class DiplomacyAction
             {
                 return false;
             }
+            if (Global.gameManager.game.teamManager.goldTradeDealDict.ContainsKey(new TradeDealKey { sender = teamNum, reciever = targetTeamNum}))
+            {
+                return false;
+            }    
         }
 
         if(actionName == "Make Peace")
@@ -60,6 +76,22 @@ public class DiplomacyAction
             {
                 return false;
             }
+        }
+
+        if(actionName == "Make Alliance")
+        {
+            if (Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(targetTeamNum))
+            {
+                return false;
+            }
+            if(Global.gameManager.game.teamManager.GetAllies(teamNum).Contains(targetTeamNum))
+            {
+                return false;
+            }
+        }
+        if (actionName == "Share Map")
+        {
+            //no limit
         }
 
         return true;
@@ -71,9 +103,38 @@ public class DiplomacyAction
         Global.gameManager.game.playerDictionary[teamNum].goldTotal -= goldAmount;
         Global.gameManager.game.playerDictionary[targetTeamNum].goldTotal += goldAmount;
     }
+
+    private void StartGoldPerTurn(int targetTeamNum, int goldAmount, int turnsLeft)
+    {
+        Global.gameManager.game.teamManager.goldTradeDealDict[new TradeDealKey { sender = teamNum, reciever = targetTeamNum }] = new GoldPerTurnDeal { amount = goldAmount, turnsLeft = turnsLeft };
+    }
     private void MakePeace(int targetTeamNum)
     {
-        //MAKE PEACE TODO
+        Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, targetTeamNum, DiplomaticState.ForcedPeace);
+        Global.gameManager.game.playerDictionary[teamNum].turnsUntilForcedPeaceEnds[targetTeamNum] = 30;
+        Global.gameManager.game.playerDictionary[targetTeamNum].turnsUntilForcedPeaceEnds[teamNum] = 30;
     }
 
+    private void MakeAlliance(int targetTeamNum)
+    {
+        Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, targetTeamNum, DiplomaticState.Ally);
+    }
+
+    private void ShareMap(int targetTeamNum)
+    {
+        Global.gameManager.game.playerDictionary[targetTeamNum].seenGameHexDict.Concat(Global.gameManager.game.playerDictionary[teamNum].seenGameHexDict);
+    }
+
+}
+
+public struct TradeDealKey
+{
+    public int sender;
+    public int reciever;
+}
+
+public struct GoldPerTurnDeal
+{
+    public int amount;
+    public int turnsLeft;
 }

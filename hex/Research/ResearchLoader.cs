@@ -96,10 +96,8 @@ public static class ResearchLoader
 
         return ResearchData;
     }
-    
-    public static void ProcessFunctionString(String functionString, Player player)
-    {
-        Dictionary<String, Action<Player>> effectFunctions = new Dictionary<string, Action<Player>>
+
+    static Dictionary<String, Func<Player, bool, string>> effectFunctions = new Dictionary<string, Func<Player, bool, string>>
         {
             { "AgricultureEffect", AgricultureEffect },
             { "SailingEffect", SailingEffect },
@@ -128,116 +126,156 @@ public static class ResearchLoader
             { "MilitaryEngineeringEffect", MilitaryEngineeringEffect },
             { "CastlesEffect", CastlesEffect }
         };
-        
-        if (effectFunctions.TryGetValue(functionString, out Action<Player> effectFunction))
+
+    public static string ProcessFunctionString(String functionString, Player player)
+    {
+        if (effectFunctions.TryGetValue(functionString, out Func<Player, bool, string> effectFunction))
         {
-            effectFunction(player);
+            return effectFunction(player, true);
         }
         else
         {
-            throw new ArgumentException($"Function '{functionString}' not recognized in ResearchEffects from Researches file.");
+            return $"Function '{functionString}' not recognized in ResearchEffects from Researches file.";
         }
     }
-    static void AgricultureEffect(Player player)
+
+    public static string ProcessFunctionStringGetDescriptionOnly(String functionString, Player player)
     {
+        if (effectFunctions.TryGetValue(functionString, out Func<Player, bool, string> effectFunction))
+        {
+            return effectFunction(player, false);
+        }
+        else
+        {
+            return $"Function '{functionString}' not recognized in ResearchEffects from Researches file.";
+        }
     }
-    static void SailingEffect(Player player)
+    static string AgricultureEffect(Player player, bool executeLogic)
     {
-       player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
+        return "";
     }
-    static void PotteryEffect(Player player)
+    static string SailingEffect(Player player, bool executeLogic)
     {
+       player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Civilian & UnitClass.Land));
+       return "Enable Emarking and Disembarking for all Civilian Units";
     }
-    static void AnimalHusbandryEffect(Player player)
+    static string PotteryEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+    static string AnimalHusbandryEffect(Player player, bool executeLogic)
     {
         //player.unitPlayerEffects.Add(("AnimalHusbandry", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Recon));
+        return "";
     }
-    static void IrrigationEffect(Player player)
+    static string IrrigationEffect(Player player, bool executeLogic)
     {
+        return "";
     }
-    static void WritingEffect(Player player)
+    static string WritingEffect(Player player, bool executeLogic)
     {
+        return "";
     }
-    static void MasonryEffect(Player player)
+    static string MasonryEffect(Player player, bool executeLogic)
     {
+        return "";
     }
-    static void MiningEffect(Player player)
+    static string MiningEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void AstrologyEffect(Player player)
+    static string AstrologyEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void ArcheryEffect(Player player)
+    static string ArcheryEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void BronzeWorkingEffect(Player player)
+    static string BronzeWorkingEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void WheelEffect(Player player)
+    static string WheelEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void CelestialNavigationEffect(Player player)
+    static string CelestialNavigationEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void CurrencyEffect(Player player)
+    static string CurrencyEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void HorsebackRidingEffect(Player player)
+    static string HorsebackRidingEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void IronWorkingEffect(Player player)
+    static string IronWorkingEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void ShipbuildingEffect(Player player)
+    static string ShipbuildingEffect(Player player, bool executeLogic)
     {
+        player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
+        return "Enable Emarking and Disembarking for all Land Units";
     }
 
-    static void MathematicsEffect(Player player)
+    static string MathematicsEffect(Player player, bool executeLogic)
     {
         player.unitPlayerEffects.Add(("Mathematics", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Naval));
+        return "+1 Movement speed to all Naval units";
     }
 
-    static void EngineeringEffect(Player player)
+    static string EngineeringEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void MilitaryTacticsEffect(Player player)
+    static string MilitaryTacticsEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void ApprenticeshipEffect(Player player)
+    static string ApprenticeshipEffect(Player player, bool executeLogic)
     {
         player.buildingPlayerEffects.Add(("Apprenticeship", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Mine"));
+        return "+1 Production Yield to all Mines";
     }
 
-    static void MachineryEffect(Player player)
+    static string MachineryEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void EducationEffect(Player player)
+    static string EducationEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void StirrupsEffect(Player player)
+    static string StirrupsEffect(Player player, bool executeLogic)
     {
         player.buildingPlayerEffects.Add(("Stirrups", new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1.0f, 5), "Pasture"));
+        return "+1 Food Yield to all Pastures";
     }
 
-    static void MilitaryEngineeringEffect(Player player)
+    static string MilitaryEngineeringEffect(Player player, bool executeLogic)
     {
+        return "";
     }
 
-    static void CastlesEffect(Player player)
+    static string CastlesEffect(Player player, bool executeLogic)
     {
+        return "";
     }
-
 }

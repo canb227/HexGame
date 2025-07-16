@@ -66,10 +66,10 @@ public static class PolicyCardLoader
         policyCardDictionary.Add(2, new PolicyCard("UrbanPlanning", "+1 Production in all cities.", buildingEffectList, unitEffectList, false, true, false, false));
 
         //Craftsmanship
-        policyCardXMLDictionary.Add("Workership", 3);
+        policyCardXMLDictionary.Add("Refiners", 3);
         unitEffectList.Clear();
         buildingEffectList.Clear();
-        policyCardDictionary.Add(3, new PolicyCard("Workership", "+1 Food and +1 Gold for each Refinement District", buildingEffectList, unitEffectList, false, true, false, false));
+        policyCardDictionary.Add(3, new PolicyCard("Refiners", "+1 Food and +1 Gold for each Refinement District", buildingEffectList, unitEffectList, false, true, false, false));
 
         policyCardXMLDictionary.Add("RallingDrums", 4);
         unitEffectList.Clear();
@@ -80,51 +80,48 @@ public static class PolicyCardLoader
         policyCardXMLDictionary.Add("InternalRouting", 5);
         unitEffectList.Clear();
         buildingEffectList.Clear();
-        policyCardDictionary.Add(38, new PolicyCard("InternalRouting", "+1 Max Export Routes", buildingEffectList, unitEffectList, false, true, false, false));
+        policyCardDictionary.Add(5, new PolicyCard("InternalRouting", "+1 Max Export Routes", buildingEffectList, unitEffectList, false, true, false, false));
 
         //Military Tradition
         policyCardXMLDictionary.Add("Maneuver", 6);
         unitEffectList.Clear();
         buildingEffectList.Clear();
-        policyCardDictionary.Add(7, new PolicyCard("Maneuver", "+50% Production towards Classical Era Cavalry Units.", buildingEffectList, unitEffectList, true, false, false, false));
+        policyCardDictionary.Add(6, new PolicyCard("Maneuver", "+50% Production towards Classical Era Cavalry Units.", buildingEffectList, unitEffectList, true, false, false, false));
 
         policyCardXMLDictionary.Add("WarStories", 7);
         unitEffectList.Clear();
         buildingEffectList.Clear();
-        policyCardDictionary.Add(8, new PolicyCard("WarStories", "+2 Military Experience Per Turn for Your Hero.", buildingEffectList, unitEffectList, false, false, false, true));
+        policyCardDictionary.Add(7, new PolicyCard("WarStories", "+2 Military Experience Per Turn for Your Hero.", buildingEffectList, unitEffectList, false, false, false, true));
 
         //State Workforce
         policyCardXMLDictionary.Add("Servitude", 8);
         unitEffectList.Clear();
         buildingEffectList.Clear();
-        policyCardDictionary.Add(9, new PolicyCard("Servitude", "+15% Production towards Classical Era World Wonders.", buildingEffectList, unitEffectList, false, true, false, false));
+        policyCardDictionary.Add(8, new PolicyCard("Servitude", "+15% Production towards Classical Era World Wonders.", buildingEffectList, unitEffectList, false, true, false, false));
 
         policyCardXMLDictionary.Add("Conscription", 9);
         unitEffectList.Clear();
         buildingEffectList.Clear();
-        policyCardDictionary.Add(10, new PolicyCard("Conscription", "Unit Maintenance Reduced by 1 Gold per Unit.", buildingEffectList, unitEffectList, true, false, false, false));
+        policyCardDictionary.Add(9, new PolicyCard("Conscription", "Unit Maintenance Reduced by 1 Gold per Unit.", buildingEffectList, unitEffectList, true, false, false, false));
 
         //Early Empire
         policyCardXMLDictionary.Add("Colonization", 10);
         unitEffectList.Clear();
         buildingEffectList.Clear();
-        policyCardDictionary.Add(11, new PolicyCard("Colonization", "+50% Production towards Civilian Units.", buildingEffectList, unitEffectList, false, true, false, false));
-/*
-        policyCardXMLDictionary.Add("", 12);
-        policyCardDictionary.Add(12, new PolicyCard("", "", false, false, false, false));*/
+        policyCardDictionary.Add(10, new PolicyCard("Colonization", "+50% Production towards Civilian Units.", buildingEffectList, unitEffectList, false, true, false, false));
 
         //Foreign Trade
         policyCardXMLDictionary.Add("Caravanners", 11);
         unitEffectList.Clear();
         buildingEffectList.Clear();
 
-        policyCardDictionary.Add(5, new PolicyCard("Caravanners", "+2 Gold from all Trade Routes you send or receive.", buildingEffectList, unitEffectList, false, true, false, false));
+        policyCardDictionary.Add(11, new PolicyCard("Caravanners", "+2 Gold from all Trade Routes you send or receive.", buildingEffectList, unitEffectList, false, true, false, false));
 
         policyCardXMLDictionary.Add("MaritimeIndustry", 12);
         unitEffectList.Clear();
         buildingEffectList.Clear();
 
-        policyCardDictionary.Add(6, new PolicyCard("MaritimeIndustry", "+100% Production towards Classical Era Naval Units.", buildingEffectList, unitEffectList, true, false, false, false));
+        policyCardDictionary.Add(12, new PolicyCard("MaritimeIndustry", "+100% Production towards Classical Era Naval Units.", buildingEffectList, unitEffectList, true, false, false, false));
 
         //Mysticism
         policyCardXMLDictionary.Add("Inspiration", 13);
@@ -874,10 +871,16 @@ public class PolicyCard
         this.isHeroic = isHeroic;
 
         this.buildingEffects = new();
-        this.buildingEffects.Concat(buildingEffects).ToList();
+        if(buildingEffects != null)
+        {
+            this.buildingEffects.Concat(buildingEffects).ToList();
+        }
 
         this.unitEffects = new();
-        this.unitEffects.Concat(unitEffects).ToList();
+        if(unitEffects != null)
+        {
+            this.unitEffects.Concat(unitEffects).ToList();
+        }
     }
     public PolicyCard()
     {

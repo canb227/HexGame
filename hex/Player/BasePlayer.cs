@@ -89,6 +89,9 @@ public class BasePlayer
     public int diplomaticPolicySlots { get; set; } = 0;
     public int heroicPolicySlots { get; set; } = 0;
     public int bonusAgainstEncampments { get; set; } = 0;
+    public int goldPerTurnFromTrade { get; set; } = 0;
+
+    public Dictionary<int, int> turnsUntilForcedPeaceEnds { get; set; } = new();
 
     public int baseFlat;
     public int baseRough;
@@ -131,6 +134,8 @@ public class BasePlayer
 
     }
 
+
+
     public float GetGoldPerTurn()
     {
         float goldPerTurn = 0.0f;
@@ -139,7 +144,7 @@ public class BasePlayer
             City city = Global.gameManager.game.cityDictionary[cityID];
             goldPerTurn += city.yields.gold;
         }
-
+        goldPerTurn += goldPerTurnFromTrade;
         return goldPerTurn;
     }
 
@@ -227,6 +232,18 @@ public class BasePlayer
     public virtual void OnTurnStarted(int turnNumber)
     {
         turnFinished = false;
+        foreach(int targetTeamNum in turnsUntilForcedPeaceEnds.Keys)
+        {
+            if (turnsUntilForcedPeaceEnds[targetTeamNum] > 0)
+            {
+                turnsUntilForcedPeaceEnds[targetTeamNum]--;
+            }
+            if (turnsUntilForcedPeaceEnds[targetTeamNum] == 0)
+            {
+                Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, targetTeamNum, DiplomaticState.Peace);
+            }
+        }
+
         foreach (int unitID in unitList)
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
@@ -269,7 +286,7 @@ public class BasePlayer
     public void UpdateTerritoryGraphic()
     {
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        ggb.CallDeferred("UpdateTerritoryGraphic", teamNum);
+/*        ggb.CallDeferred("UpdateTerritoryGraphic", teamNum);*/
     }
 
     public bool AddResource(Hex hex, ResourceType resourceType, City targetCity)

@@ -34,155 +34,181 @@ public static class CultureResearchLoader
         tierCostDict.Add(17, 2155);
         tierCostDict.Add(18, 2500);
 
-    }    
-    public static void ProcessFunctionString(String functionString, Player player)
+    }
+    static Dictionary<String, Func<Player, bool, string>> effectFunctions = new Dictionary<string, Func<Player, bool, string>>
     {
-        Dictionary<String, Action<Player>> effectFunctions = new Dictionary<string, Action<Player>>
-        {
-            { "TribalDominionEffect", TribalDominionEffect },
-            { "CraftsmanshipEffect", CraftsmanshipEffect },
-            { "InternalTradeEffect", InternalTradeEffect },
-            { "MilitaryTraditionEffect", MilitaryTraditionEffect },
-            { "StateWorkforceEffect", StateWorkforceEffect },
-            { "EarlyEmpireEffect", EarlyEmpireEffect },
-            { "MysticismEffect", MysticismEffect },
-            { "ForeignTradeEffect", ForeignTradeEffect },
-            { "RecreationEffect", RecreationEffect },
-            { "PoliticalPhilosophyEffect", PoliticalPhilosophyEffect },
-            { "DramaAndPoetryEffect", DramaAndPoetryEffect },
-            { "MilitaryTrainingEffect", MilitaryTrainingEffect },
-            { "DefensiveTacticsEffect", DefensiveTacticsEffect },
-            { "RecordedHistoryEffect", RecordedHistoryEffect },
-            { "MythologyEffect", MythologyEffect },
-            { "NavalTraditionEffect", NavalTraditionEffect },
-            { "FeudalismEffect", FeudalismEffect },
-            { "CivilServiceEffect", CivilServiceEffect },
-            { "MercenariesEffect", MercenariesEffect },
-            { "MedievalFairesEffect", MedievalFairesEffect },
-            { "GuildsEffect", GuildsEffect },
-            { "DivineRightEffect", DivineRightEffect },
-            { "FutureTechEffect", FutureTechEffect },
+        { "TribalDominionEffect", TribalDominionEffect },
+        { "CraftsmanshipEffect", CraftsmanshipEffect },
+        { "InternalTradeEffect", InternalTradeEffect },
+        { "MilitaryTraditionEffect", MilitaryTraditionEffect },
+        { "StateWorkforceEffect", StateWorkforceEffect },
+        { "EarlyEmpireEffect", EarlyEmpireEffect },
+        { "MysticismEffect", MysticismEffect },
+        { "ForeignTradeEffect", ForeignTradeEffect },
+        { "RecreationEffect", RecreationEffect },
+        { "PoliticalPhilosophyEffect", PoliticalPhilosophyEffect },
+        { "DramaAndPoetryEffect", DramaAndPoetryEffect },
+        { "MilitaryTrainingEffect", MilitaryTrainingEffect },
+        { "DefensiveTacticsEffect", DefensiveTacticsEffect },
+        { "RecordedHistoryEffect", RecordedHistoryEffect },
+        { "MythologyEffect", MythologyEffect },
+        { "NavalTraditionEffect", NavalTraditionEffect },
+        { "FeudalismEffect", FeudalismEffect },
+        { "CivilServiceEffect", CivilServiceEffect },
+        { "MercenariesEffect", MercenariesEffect },
+        { "MedievalFairesEffect", MedievalFairesEffect },
+        { "GuildsEffect", GuildsEffect },
+        { "DivineRightEffect", DivineRightEffect },
+        { "FutureTechEffect", FutureTechEffect },
 
-        };
-        
-        if (effectFunctions.TryGetValue(functionString, out Action<Player> effectFunction))
+    };
+    public static string ProcessFunctionString(String functionString, Player player)
+    {        
+        if (effectFunctions.TryGetValue(functionString, out Func<Player, bool, string> effectFunction))
         {
-            effectFunction(player);
+            return effectFunction(player, true);
         }
         else
         {
-            throw new ArgumentException($"Function '{functionString}' not recognized in ResearchEffects from Researches file.");
+            return ($"Function '{functionString}' not recognized in CultureResearchEffects from CultureResearches file.");
         }
     }
-    static void TribalDominionEffect(Player player)
+    public static string ProcessFunctionStringGetDescriptionOnly(String functionString, Player player)
     {
-
+        if (effectFunctions.TryGetValue(functionString, out Func<Player, bool, string> effectFunction))
+        {
+            return effectFunction(player, false);
+        }
+        else
+        {
+            return $"Function '{functionString}' not recognized in CultureResearchEffects from CultureResearches file.";
+        }
     }
-    static void CraftsmanshipEffect(Player player)
+    static string TribalDominionEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
-
-    static void InternalTradeEffect(Player player)
+    static string CraftsmanshipEffect(Player player, bool executeLogic)
     {
-
-    }
-
-    static void MilitaryTraditionEffect(Player player)
-    {
-
-    }
-
-    static void StateWorkforceEffect(Player player)
-    {
-
+        return "";
     }
 
-    static void EarlyEmpireEffect(Player player)
+    static string InternalTradeEffect(Player player, bool executeLogic)
     {
-
-    }
-    static void ForeignTradeEffect(Player player)
-    {
-
-    }
-    static void MysticismEffect(Player player)
-    {
-
+        if (executeLogic)
+        {
+            player.exportCap += 1;
+        }
+        return "+1 Export Route Capacity Permanently.";
     }
 
-    static void RecreationEffect(Player player)
+    static string MilitaryTraditionEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void PoliticalPhilosophyEffect(Player player)
+    static string StateWorkforceEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void DramaAndPoetryEffect(Player player)
+    static string EarlyEmpireEffect(Player player, bool executeLogic)
     {
-
+        return "";
+    }
+    static string ForeignTradeEffect(Player player, bool executeLogic)
+    {
+        if(executeLogic)
+        {
+            player.tradeRouteCount += 2;
+        }
+        return "+2 Maximum Total Trade Routes";
+    }
+    static string MysticismEffect(Player player, bool executeLogic)
+    {
+        return "";
     }
 
-    static void MilitaryTrainingEffect(Player player)
+    static string RecreationEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void DefensiveTacticsEffect(Player player)
+    static string PoliticalPhilosophyEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void RecordedHistoryEffect(Player player)
+    static string DramaAndPoetryEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void MythologyEffect(Player player)
+    static string MilitaryTrainingEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void NavalTraditionEffect(Player player)
+    static string DefensiveTacticsEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void FeudalismEffect(Player player)
+    static string RecordedHistoryEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void CivilServiceEffect(Player player)
+    static string MythologyEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void MercenariesEffect(Player player)
+    static string NavalTraditionEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void MedievalFairesEffect(Player player)
+    static string FeudalismEffect(Player player, bool executeLogic)
     {
-
+        if (executeLogic)
+        {
+            //TODO
+        }
+        return "Rural Districts Gain +1 Food Yield if they are Adjacent to Atleast 1 Other Rural District.";
     }
 
-    static void GuildsEffect(Player player)
+    static string CivilServiceEffect(Player player, bool executeLogic)
     {
-
+        if(executeLogic)
+        {
+            player.diplomaticActionHashSet.Add(new DiplomacyAction(player.teamNum, "Make Alliance", false, false));
+        }
+        return "Unlocks making Alliances with Other Players.";
     }
 
-    static void DivineRightEffect(Player player)
+    static string MercenariesEffect(Player player, bool executeLogic)
     {
-
+        return "";
     }
 
-    static void FutureTechEffect(Player player)
+    static string MedievalFairesEffect(Player player, bool executeLogic)
     {
+        return "";
+    }
 
+    static string GuildsEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+
+    static string DivineRightEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+
+    static string FutureTechEffect(Player player, bool executeLogic)
+    {
+        return "";
     }
 }

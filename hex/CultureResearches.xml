@@ -20,8 +20,8 @@
             <ResearchType>TribalDominion</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
-            <PolicyCard Name="Discipline" />
-            <PolicyCard Name="UrbanPlanning" />
+            <PolicyCard Name="Refiners" />
+            <PolicyCard Name="RallingDrums" />
         </PolicyCardUnlocks>
         <Effects>
             <Effect Name="CraftsmanshipEffect" />
@@ -105,6 +105,9 @@
         <Requirements>
             <ResearchType>EarlyEmpire</ResearchType>
         </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Trader" />
+        </UnitUnlocks>
         <PolicyCardUnlocks>
             <PolicyCard Name="Caravanners" />
             <PolicyCard Name="MaritimeIndustry" />

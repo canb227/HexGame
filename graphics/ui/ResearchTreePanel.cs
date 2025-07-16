@@ -318,7 +318,7 @@ public partial class ResearchTreePanel : Control
             {
                 policyIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/heroicpolicycard.png");
             }
-            policyIcon.Call("add_tooltipstring", "Unlocks " + policyCardName);
+            policyIcon.Call("add_tooltipstring", "Unlocks " + policyCardName + " Policy Card:\n" + PolicyCardLoader.GetPolicyCard(PolicyCardLoader.policyCardXMLDictionary[policyCardName]).description);
             researchEffects.AddChild(policyIcon);
         }
         if (researchInfo.GovernmentUnlocks != null)
@@ -339,6 +339,24 @@ public partial class ResearchTreePanel : Control
                 resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[resourceType].IconPath);
                 resourceIcon.Call("add_tooltipstring", "Reveals " + ResourceLoader.resources[resourceType].Name + " - " + ResourceLoader.resources[resourceType].Description + " ");
                 researchEffects.AddChild(resourceIcon);
+            }
+        }
+        if(researchInfo.Effects != null)
+        {
+            foreach (string effect in researchInfo.Effects)
+            {
+                TextureRect effectIcon = researchEffectScene.Instantiate<TextureRect>();
+                effectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/researchEffect.png");
+                if (ResearchLoader.researchesDict.ContainsValue(researchInfo))
+                {
+                    effectIcon.Call("add_tooltipstring", ResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef));
+                }
+                else if (CultureResearchLoader.researchesDict.ContainsValue(researchInfo))
+                {
+                    effectIcon.Call("add_tooltipstring", CultureResearchLoader.ProcessFunctionStringGetDescriptionOnly(effect, Global.gameManager.game.localPlayerRef));
+
+                }
+                researchEffects.AddChild(effectIcon);
             }
         }
 

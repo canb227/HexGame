@@ -22,6 +22,8 @@ public partial class DiplomacyPanel : Control
     private Button declineButton;
     private Button declareWarButton;
 
+    private Label currentDiplomaticStateLabel;
+
     private List<DiplomacyAction> playerOffers;
     private List<DiplomacyAction> otherOffers;
 
@@ -50,6 +52,8 @@ public partial class DiplomacyPanel : Control
         declareWarButton = diplomacyPanelControl.GetNode<Button>("DeclareWarButton");
         declareWarButton.Pressed += () => DeclareWar();
 
+        currentDiplomaticStateLabel = diplomacyPanelControl.GetNode<Label>("CurrentDiplomaticStateLabel");
+
         playerImage = diplomacyPanelControl.GetNode<TextureRect>("PlayerImage");
         otherImage = diplomacyPanelControl.GetNode<TextureRect>("OtherImage");
 
@@ -72,8 +76,11 @@ public partial class DiplomacyPanel : Control
     public void UpdateDiplomacyPanel(int otherTeamNum, DiplomacyDeal diplomaticOffer) //item 1 is what they are offering item 2 is what we are offering
     {
         this.otherTeamNum = otherTeamNum;
-        declineButton.Visible = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace;
-        declineButton.Disabled = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) != DiplomaticState.Peace;
+        //declineButton.Visible = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace;
+        //declineButton.Disabled = Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) != DiplomaticState.Peace;
+        //disable war button if we are not at peace, since forcedpeace, ally, and war all prevent it
+        declareWarButton.Disabled = !(Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum) == DiplomaticState.Peace);
+        currentDiplomaticStateLabel.Text = "Current Diplomatic State: " + Global.gameManager.game.teamManager.GetDiplomaticState(Global.gameManager.game.localPlayerTeamNum, otherTeamNum).ToString();
         Player player = Global.gameManager.game.playerDictionary[otherTeamNum];
         Texture2D icon = new();
         if (player.isAI)
@@ -128,6 +135,14 @@ public partial class DiplomacyPanel : Control
         else
         {
             acceptButton.Text = "Offer";
+            if(playerOffers.Any() || otherOffers.Any())
+            {
+                acceptButton.Disabled = false;
+            }
+            else
+            {
+                acceptButton.Disabled = true;
+            }
         }
     }
 
@@ -170,6 +185,14 @@ public partial class DiplomacyPanel : Control
             box.AddChild(lineEdit);
         }
         offersBox.AddChild(box);
+        if (playerOffers.Any() || otherOffers.Any())
+        {
+            acceptButton.Disabled = false;
+        }
+        else
+        {
+            acceptButton.Disabled = true;
+        }
     }
 
     private void RemoveOffer(DiplomacyAction action, VBoxContainer items, List<DiplomacyAction> offers, VBoxContainer offersBox)
@@ -183,6 +206,14 @@ public partial class DiplomacyPanel : Control
             {
                 child.QueueFree();
             }
+        }
+        if (playerOffers.Any() || otherOffers.Any())
+        {
+            acceptButton.Disabled = false;
+        }
+        else
+        {
+            acceptButton.Disabled = true;
         }
     }
 

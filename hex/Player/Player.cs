@@ -213,6 +213,19 @@ public class Player : BasePlayer
     public override void OnTurnStarted(int turnNumber)
     {
         base.OnTurnStarted(turnNumber);
+        goldPerTurnFromTrade = 0;
+        foreach (var tradeDeal in Global.gameManager.game.teamManager.goldTradeDealDict)
+        {
+            if (tradeDeal.Key.reciever == teamNum)
+            {
+                goldPerTurnFromTrade += tradeDeal.Value.amount;
+            }
+            else if (tradeDeal.Key.sender == teamNum)
+            {
+                goldPerTurnFromTrade -= tradeDeal.Value.amount;
+            }
+        }
+        AddGold(goldPerTurnFromTrade);
         administrativeUpkeep = 100;
         foreach (int cityID in cityList)
         {
