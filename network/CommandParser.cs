@@ -143,7 +143,7 @@ using System.Threading.Tasks;
                 Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.TeamNum, new Hex(command.SpawnUnit.Position.Q,command.SpawnUnit.Position.R,command.SpawnUnit.Position.S), command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
                 break;
             case "SetDiplomaticState":
-                Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState);
+                Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState, false);
                 break;
             default:
                 Global.Log($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
