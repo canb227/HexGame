@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -166,7 +166,7 @@ public partial class UIManager : Node3D
                 }
                 else
                 {
-                    icon.Icon = Global.GetMediumSteamAvatar(Global.gameManager.teamNumToPlayerID[player.teamNum]);
+                    icon.Icon = Global.GetMediumSteamAvatar(Global.gameManager.game.teamNumToPlayerID[player.teamNum]);
                 }
                 icon.Pressed += () => DiplomacyButtonPressed(player.teamNum, null);
                 playerList.AddChild(icon);

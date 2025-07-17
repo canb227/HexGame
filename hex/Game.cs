@@ -12,6 +12,8 @@ using System.IO;
 [Serializable]
 public class Game
 {
+
+    public Dictionary<int, ulong> teamNumToPlayerID { get; set; } = new Dictionary<int, ulong>();
     public GameBoard mainGameBoard { get; set; }
     public Dictionary<int, Player> playerDictionary { get; set; } = new();
     public Dictionary<int, City> cityDictionary { get; set; } = new();
@@ -65,7 +67,7 @@ public class Game
     {
         Global.Log("Checking player to game with color:" + teamColor.ToString());
         Player newPlayer = new Player(startGold, teamNum, teamColor, isAI);
-        Global.gameManager.teamNumToPlayerID.Add(teamNum, playerID);
+        Global.gameManager.game.teamNumToPlayerID.Add(teamNum, playerID);
     }
 
     public int GetUniqueID(int teamID)

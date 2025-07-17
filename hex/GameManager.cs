@@ -20,7 +20,7 @@ public partial class GameManager : Node
     public AudioManager audioManager = new();
     public bool gameStarted = false;
 
-    public Dictionary<int,ulong> teamNumToPlayerID = new Dictionary<int, ulong>();
+    
 
     public GameManager()
     {
@@ -66,6 +66,12 @@ public partial class GameManager : Node
         };
         string json = JsonSerializer.Serialize(game, options);
         return json;
+    }
+
+    public string ReadSave(String filePath)
+    {
+        Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
+        return fileAccess.GetPascalString();
     }
     public Game LoadGame(String filePath)
     {
@@ -124,6 +130,19 @@ public partial class GameManager : Node
         //MoveCameraToStartLocation();
     }
 
+    internal void ResumeGame()
+    {
+        Global.Log("Starting Game as team: " + game.localPlayerTeamNum);
+
+
+        Global.lobby.lobbyPeerStatuses[Global.clientID].IsLoaded = true;
+        LobbyMessage lobbyMessage = new LobbyMessage();
+        lobbyMessage.Sender = Global.clientID;
+        lobbyMessage.LobbyStatus = Global.lobby.lobbyPeerStatuses[Global.clientID];
+        lobbyMessage.MessageType = "loaded";
+        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+    }
+
     public void HostInitGame()
     {
         if (isHost)
@@ -131,6 +150,20 @@ public partial class GameManager : Node
             this.AIManager = new AIManager();
             AIManager.InitAI();
             SpawnPlayers();
+        }
+    }
+
+    public void HostInitSavedGame()
+    {
+        if (isHost)
+        {
+            this.AIManager = new AIManager();
+            AIManager.InitAI();
+
+            LobbyMessage lobbyMessage = new LobbyMessage();
+            lobbyMessage.Sender = Global.clientID;
+            lobbyMessage.MessageType = "gameReady";
+            Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
         }
     }
 
@@ -908,11 +941,10 @@ public partial class GameManager : Node
             {
                 //Look I'm sorry the code to start the game for real is just here inside the spawn unit command - it saved me from writing another network message type.
                 Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
-                InitGraphics(game, Global.layout);
-                Global.menuManager.ClearMenus();
+                StartGameForReal();
                 game.turnManager.StartNewTurn();
                 graphicManager.StartNewTurn();
-                gameStarted = true;
+
             }
         }
         catch (Exception e)
@@ -920,6 +952,14 @@ public partial class GameManager : Node
             Global.Log("Error spawning unit: " + e.Message); //TODO - Potential Desync
             throw;
         }
+    }
+
+    public void StartGameForReal()
+    {
+        Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
+        InitGraphics(game, Global.layout);
+        Global.menuManager.ClearMenus();
+        gameStarted = true;
     }
 
     internal void SetDiplomaticState(int teamNumOne, int teamNumTwo, DiplomaticState diplomaticState, bool local = true)
@@ -941,4 +981,6 @@ public partial class GameManager : Node
             throw;
         }
     }
+
+
 }

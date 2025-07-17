@@ -43,6 +43,8 @@ public partial class Lobby : Control
     List<int> teamNums = new List<int>();
     List<int> teamColors = new();
     private int MAXTEAMS = 99;
+    private bool saveGameLoaded = false;
+    private GameDataMessage saveGameData;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -331,13 +333,23 @@ public partial class Lobby : Control
             case "startgame":
                 Global.Log("Starting game from lobby message");
                 Global.menuManager.ChangeMenu(MenuManager.UI_LoadingScreen);
-                StartGame(lobbyMessage);
+                if (saveGameLoaded)
+                {
+                    Global.Log("Starting game loading process.");
+                    StartSavedGame(lobbyMessage);
+
+                }
+                else
+                {
+                    StartGame(lobbyMessage);
+                }
                 break;
             case "loadgame":
-                Global.Log("Loading game from host");
-                Global.gameManager.game = Global.gameManager.LoadGameRaw(lobbyMessage.MapData.MapData_);
+                Global.Log($"Stashing game from host. Save file name:{lobbyMessage.GameDataMessage.Savename} with file size: {lobbyMessage.GameDataMessage.SaveSize} ");
+                saveGameData = lobbyMessage.GameDataMessage;
                 GetNode<Label>("NewGameStatus").Text = "GAME LOADED";
                 GetNode<ColorRect>("newgamehide").Visible = true;
+                saveGameLoaded = true;
                 break;
             case "kick":
                 Global.Log("Host Kicked player from lobby: " + lobbyMessage.LobbyStatus.Id);
@@ -386,8 +398,18 @@ public partial class Lobby : Control
                 }
                 if (allLoaded && isHost)
                 {
-                    Global.gameManager.HostInitGame();
+                    if (saveGameLoaded)
+                    {
+                        Global.gameManager.HostInitSavedGame();
+                    }
+                    else
+                    {
+                        Global.gameManager.HostInitGame();
+                    }
                 }
+                break;
+            case "gameReady":
+                Global.gameManager.StartGameForReal();
                 break;
             default:
                 Global.Log("Unknown lobby message type: " + lobbyMessage.MessageType);
@@ -443,6 +465,40 @@ public partial class Lobby : Control
         status.ColorIndex = (int)index;
         lobbyPeerStatuses[id] = status;
         UpdateLobbyPeers(id);
+    }
+
+    private void StartSavedGame(LobbyMessage lobbyMessage)
+    {
+        Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
+        Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
+        Global.layout = pointy;
+        Global.gameManager.game = Global.gameManager.LoadGameRaw(saveGameData.SaveString);
+        Global.Log($"Save string loaded succesfully. Searching for my team out of total {Global.gameManager.game.teamNumToPlayerID.Keys.Count}.");
+        int myTeamNum = -1;
+        foreach (int teamNum in Global.gameManager.game.teamNumToPlayerID.Keys)
+        {
+            Global.Log($"TeamNum {teamNum} is linked to player: {Global.gameManager.game.teamNumToPlayerID[teamNum]}");
+            if (Global.gameManager.game.teamNumToPlayerID[teamNum] == Global.clientID)
+            {
+                Global.Log("Hey thats me!");
+                myTeamNum = teamNum;
+
+            }
+        }
+        if (myTeamNum!=-1)
+        {
+            Global.Log("Resetting game local player refs and resuming game.");
+            Global.gameManager.game.localPlayerTeamNum = myTeamNum;
+            Global.gameManager.game.localPlayerRef = Global.gameManager.game.playerDictionary[myTeamNum];
+            Global.gameManager.isHost = isHost;
+            Global.gameManager.ResumeGame();
+        }
+        else
+        {
+            Global.Log("failed to find the local player in game.teamNumToPlayerId. This softlocks the game sorry boss.");
+        }
+
+
     }
 
     private void StartGame(LobbyMessage lobbyMessage)
@@ -526,9 +582,11 @@ public partial class Lobby : Control
         Godot.FileDialog dialog = new Godot.FileDialog();
         dialog.Mode = Godot.FileDialog.ModeEnum.Windowed;
         dialog.FileMode = FileDialog.FileModeEnum.OpenFile;
+        dialog.Access = FileDialog.AccessEnum.Filesystem;
         dialog.Title = "Load Game";
         dialog.OkButtonText = "Load";
-        dialog.UseNativeDialog = true;
+        dialog.UseNativeDialog = false;
+        dialog.CurrentDir = OS.GetUserDataDir()+"/saves";
         dialog.Show();
         
         AddChild(dialog);
@@ -547,8 +605,13 @@ public partial class Lobby : Control
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "loadgame";
-        GD.Print(loaded);
-        lobbyMessage.MapData.MapData_ = Global.gameManager.SaveGameRaw(loaded);
+
+        GameDataMessage message = new GameDataMessage();
+        message.SaveString = Global.gameManager.ReadSave(path);
+        message.SaveSize = message.SaveString.Length;
+        message.Savename = trimmedPath;
+
+        lobbyMessage.GameDataMessage = message;
         Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
 
 
