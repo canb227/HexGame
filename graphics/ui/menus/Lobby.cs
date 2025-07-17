@@ -579,6 +579,7 @@ public partial class Lobby : Control
 
     public void OnLoadButtonPressed()
     {
+        //test
         Godot.FileDialog dialog = new Godot.FileDialog();
         dialog.Mode = Godot.FileDialog.ModeEnum.Windowed;
         dialog.FileMode = FileDialog.FileModeEnum.OpenFile;
