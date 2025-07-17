@@ -81,6 +81,11 @@ public class BasePlayer
     public Yields grasslandYields { get; set; } = new();
     public Yields tundraYields { get; set; } = new();
     public Yields arcticYields { get; set; } = new();
+    public Yields forestYields { get; set; } = new();
+    public Yields coralYields { get; set; } = new();
+    public Yields wetlandYields { get; set; } = new();
+
+    
 
     public List<PolicyCard> unassignedPolicyCards { get; set; } = new();
     public List<PolicyCard> activePolicyCards { get; set; } = new();
@@ -120,11 +125,11 @@ public class BasePlayer
 
     private void SetBaseHexYields()
     {
-        //flatYields += baseFlat;
+        flatYields.food = 1;
         roughYields.production = 1;
         //mountainYields.production += 0;
         coastalYields.food = 1;
-        oceanYields.gold = 1;
+        //oceanYields.gold = 1;
 
         desertYields.gold = 1;
         plainsYields.production = 1;
@@ -132,6 +137,9 @@ public class BasePlayer
         tundraYields.happiness = 1;
         //arcticYields
 
+        forestYields.production = 1;
+        coralYields.production = 1;
+        wetlandYields.food = 1;
     }
 
 

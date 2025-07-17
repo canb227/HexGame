@@ -55,7 +55,7 @@ public class ProductionQueueType
 
 
 [Serializable]
-public partial class City : GodotObject
+public partial class City
 {
     public City(int id, int teamNum, String name, bool isCapital, GameHex gameHex)
     {
@@ -83,7 +83,7 @@ public partial class City : GodotObject
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.CallDeferred("NewCity", this);
+            manager.CallDeferred("NewCity", id);
         }
         AddCityCenter(isCapital);
         this.isCapital = isCapital;
@@ -122,6 +122,10 @@ public partial class City : GodotObject
     public Yields grasslandYields{ get; set; }
     public Yields tundraYields{ get; set; }
     public Yields arcticYields{ get; set; }
+    public Yields forestYields { get; set; }
+    public Yields coralYields { get; set; }
+    public Yields wetlandYields { get; set; }
+
     public List<ProductionQueueType> productionQueue{ get; set; } = new();
     public Dictionary<string, ProductionQueueType> partialProductionDictionary{ get; set; } = new();
     public Dictionary<Hex, ResourceType> heldResources{ get; set; } = new();
@@ -175,11 +179,16 @@ public partial class City : GodotObject
         mountainYields = new();
         coastalYields = new();
         oceanYields = new();
+
         desertYields = new();
         plainsYields = new();
         grasslandYields = new();
         tundraYields = new();
         arcticYields = new();
+
+        forestYields = new();
+        coralYields = new();
+        wetlandYields = new();
 
         flatYields += Global.gameManager.game.playerDictionary[teamNum].flatYields;
         roughYields += Global.gameManager.game.playerDictionary[teamNum].roughYields;
@@ -192,6 +201,10 @@ public partial class City : GodotObject
         grasslandYields += Global.gameManager.game.playerDictionary[teamNum].grasslandYields;
         tundraYields += Global.gameManager.game.playerDictionary[teamNum].tundraYields;
         //arcticYields
+
+        forestYields += Global.gameManager.game.playerDictionary[teamNum].forestYields;
+        coralYields += Global.gameManager.game.playerDictionary[teamNum].coralYields;
+        wetlandYields += Global.gameManager.game.playerDictionary[teamNum].wetlandYields;
 
     }
 
@@ -649,7 +662,7 @@ public partial class City : GodotObject
                     if (!Global.gameManager.game.mainGameBoard.gameHexDict[productionQueue[0].targetHex].SpawnUnit(tempUnit, false, true))
                     {
                         tempUnit.decreaseHealth(99999.9f);
-                        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit);
+                        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit.id);
                     }
                     lastProducedUnitID = tempUnit.id;
                     if (productionQueue[0].itemName == "Settler")
@@ -1305,4 +1318,19 @@ public partial class City : GodotObject
     {
         gameHex.yields += arcticYields;
     }
+
+    public void AddForestYields(GameHex gameHex)
+    {
+        gameHex.yields += forestYields;
+    }
+
+    public void AddCoralYields(GameHex gameHex)
+    {
+        gameHex.yields += coralYields;
+    }
+    public void AddWetlandYields(GameHex gameHex)
+    {
+        gameHex.yields += wetlandYields;
+    }
+    
 }

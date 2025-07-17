@@ -5,9 +5,10 @@ using System.Diagnostics;
 using System.Data;
 using Godot;
 using System.IO;
+using NetworkMessages;
 
 [Serializable]
-public partial class Building : GodotObject
+public partial class Building
 {
     public String name { get; set; }
     public int id { get; set; }
@@ -65,7 +66,14 @@ public partial class Building : GodotObject
         id = Global.gameManager.game.GetUniqueID(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[districtHex].district.cityID].teamNum);
         if(!isResource)
         {
-            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewBuilding", this);
+            var data = new Godot.Collections.Dictionary
+            {
+                { "q", districtHex.q },
+                { "r", districtHex.r },
+                { "s", districtHex.s }
+            };
+
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewBuilding", buildingType, data, id, isResource, isDistrictCenterBuilding);
         }
     }
 

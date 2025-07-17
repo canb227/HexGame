@@ -22,7 +22,7 @@ public enum TerrainMoveType
 }
 
 [Serializable]
-public partial class Unit: GodotObject
+public partial class Unit
 {
     public String name { get; set; }
     public int id { get; set; }
@@ -91,13 +91,18 @@ public partial class Unit: GodotObject
 
     }
 
+    public Unit()
+    {
+
+    }
+
 
     public void SpawnSetup(GameHex targetGameHex)
     {
         hex = targetGameHex.hex;
         Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
         RecalculateEffects();
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewUnit", this);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewUnit", id);
     }
 
 

@@ -43,14 +43,14 @@ public class Yields
         temp.Add(YieldType.influence, influence);
         return temp;
     }
-    public float food {get; set;}
-    public float production {get; set;}
-    public float gold {get; set;}
-    public float science {get; set;}
-    public float culture {get; set;}
-    public float happiness {get; set;}
-    public float influence {get; set;}
-    
+    public float food { get; set; } = 0.0f;
+    public float production {get; set; } = 0.0f;
+    public float gold {get; set; } = 0.0f;
+    public float science {get; set; } = 0.0f;
+    public float culture {get; set; } = 0.0f;
+    public float happiness {get; set; } = 0.0f;
+    public float influence {get; set; } = 0.0f;
+
     // Overload the + operator
     public static Yields operator +(Yields a, Yields b)
     {

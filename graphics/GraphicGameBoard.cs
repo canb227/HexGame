@@ -401,13 +401,15 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 if (gameBoard.gameHexDict[hex].district.isCityCenter)
                 {
-                    Global.gameManager.graphicManager.NewCity(Global.gameManager.game.cityDictionary[gameBoard.gameHexDict[hex].district.cityID]);
-                    Global.gameManager.graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
+                    Global.gameManager.graphicManager.NewCity(gameBoard.gameHexDict[hex].district.cityID);
                 }
-                else
-                {
-                    Global.gameManager.graphicManager.NewDistrict(gameBoard.gameHexDict[hex].district);
-                }
+                var data = new Godot.Collections.Dictionary
+                    {
+                        { "q", gameBoard.gameHexDict[hex].district.hex.q },
+                        { "r", gameBoard.gameHexDict[hex].district.hex.r },
+                        { "s", gameBoard.gameHexDict[hex].district.hex.s }
+                    };
+                Global.gameManager.graphicManager.NewDistrict(data);
             }
         }
     }
@@ -419,7 +421,7 @@ public partial class GraphicGameBoard : GraphicObject
             foreach (int unitID in gameBoard.gameHexDict[hex].units)
             {
                 Unit unit = Global.gameManager.game.unitDictionary[unitID];
-                Global.gameManager.graphicManager.NewUnit(unit);
+                Global.gameManager.graphicManager.NewUnit(unit.id);
             }
         }
     }

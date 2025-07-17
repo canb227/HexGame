@@ -120,10 +120,13 @@ public static class ResearchLoader
             { "MilitaryTacticsEffect", MilitaryTacticsEffect },
             { "ApprenticeshipEffect", ApprenticeshipEffect },
             { "MachineryEffect", MachineryEffect },
+            { "AquaticQuarriesEffect", AquaticQuarriesEffect },
             { "EducationEffect", EducationEffect },
             { "StirrupsEffect", StirrupsEffect },
             { "MilitaryEngineeringEffect", MilitaryEngineeringEffect },
-            { "CastlesEffect", CastlesEffect }
+            { "CastlesEffect", CastlesEffect },
+            { "CartographyEffect", CartographyEffect },
+            { "CartographyEndEraEffect", CartographyEndEraEffect },
         };
 
     public static string ProcessFunctionString(String functionString, Player player)
@@ -262,6 +265,16 @@ public static class ResearchLoader
         return "";
     }
 
+    
+    static string AquaticQuarriesEffect(Player player, bool executeLogic)
+    {
+        if(executeLogic)
+        {
+            player.coralYields.production += 1;
+        }
+        return "";
+    }
+
     static string StirrupsEffect(Player player, bool executeLogic)
     {
         player.buildingPlayerEffects.Add(("Stirrups", new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1.0f, 5), "Pasture"));
@@ -276,5 +289,24 @@ public static class ResearchLoader
     static string CastlesEffect(Player player, bool executeLogic)
     {
         return "";
+    }
+
+    static string CartographyEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic && player.industrialInsightCulturalResearchCount == 0)
+        {
+            player.unitPlayerEffects.Add(("CartographyCivilian", new UnitEffect("EnableOceanMovement"), UnitClass.Civilian));
+            player.unitPlayerEffects.Add(("CartographyCombat", new UnitEffect("EnableOceanMovement"), UnitClass.Combat));
+        }
+        return "Grants the ability to move on Ocean tiles.";
+    }
+    static string CartographyEndEraEffect(Player player, bool executeLogic)
+    {
+        if(executeLogic)
+        {
+            player.industrialInsightCulturalResearchCount++;
+            player.completedResearches.Remove("Cartography");
+        }
+        return "Upon completing this research if it is still the Classical Era you may research it again, each time you complete this research you will recieve a bonus.";
     }
 }

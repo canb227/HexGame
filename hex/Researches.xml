@@ -88,6 +88,7 @@
             <ResearchType>AnimalHusbandry</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="CampusDistrict" />
             <BuildingType Name="Library" />
         </BuildingUnlocks>
         <Effects>
@@ -250,6 +251,7 @@
     <Research Name="Engineering" Tier="5" VisualSlot="7" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Wheel</ResearchType>
+            <ResearchType>IronWorking</ResearchType>
         </Requirements>
         <UnitUnlocks>
             <UnitType Name="Catapult" />
@@ -287,10 +289,26 @@
         </Effects>
     </Research>
 
-    <Research Name="Machinery" Tier="6" VisualSlot="7" IconPath="graphics/ui/icons/science.png">
+    <Research Name="Castles" Tier="6" VisualSlot="6" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Construction</ResearchType>
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Courser" />
+        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="MedievalWalls" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="CastlesEffect" />
+        </Effects>
+    </Research>
+
+    <!-- Tier 7 -->
+
+    <Research Name="Machinery" Tier="7" VisualSlot="7" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Engineering</ResearchType>
-            <ResearchType>IronWorking</ResearchType>
         </Requirements>
         <UnitUnlocks>
             <UnitType Name="Crossbowman" />
@@ -301,7 +319,14 @@
         </Effects>
     </Research>
 
-    <!-- Tier 7 -->
+    <Research Name="AquaticQuarries" Tier="7" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Shipbuilding</ResearchType>
+        </Requirements>
+        <Effects>
+            <Effect Name="AquaticQuarriesEffect" />
+        </Effects>
+    </Research>
 
     <Research Name="Education" Tier="7" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
         <Requirements>
@@ -344,28 +369,30 @@
         </Effects>
     </Research>
 
-        <Research Name="Castles" Tier="7" VisualSlot="6" IconPath="graphics/ui/icons/science.png">
-        <Requirements>
-            <ResearchType>Construction</ResearchType>
-        </Requirements>
-        <UnitUnlocks>
-            <UnitType Name="Courser" />
-        </UnitUnlocks>
-        <BuildingUnlocks>
-            <BuildingType Name="MedievalWalls" />
-        </BuildingUnlocks>
-        <Effects>
-            <Effect Name="CastlesEffect" />
-        </Effects>
-    </Research>
 
-    <!-- Tier 18 -->
-    <Research Name="FutureTech" Tier="18" VisualSlot="0" IconPath="graphics/ui/icons/science.png">
+    <!-- Tier 8 ERA END-->
+
+    <Research Name="Cartography" Tier="8" VisualSlot="3" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
             <ResearchType>Education</ResearchType>
             <ResearchType>Stirrups</ResearchType>
             <ResearchType>MilitaryEngineering</ResearchType>
-            <ResearchType>Castles</ResearchType>
+            <ResearchType>Machinery</ResearchType>
+            <ResearchType>AquaticQuarries</ResearchType>
+
+        </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Caravel" />
+        </UnitUnlocks>
+        <Effects>
+            <Effect Name="CartographyEffect" />
+            <Effect Name="CartographyEndEraEffect" />
+        </Effects>
+    </Research>
+
+    <Research Name="FutureTech" Tier="18" VisualSlot="3" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>Cartography</ResearchType>
         </Requirements>
         <Effects>
             <Effect Name="FutureTechEffect" />

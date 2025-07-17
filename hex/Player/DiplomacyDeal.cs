@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 [Serializable]
-public partial class DiplomacyDeal : GodotObject
+public partial class DiplomacyDeal
 {
     public int id;
     public int fromTeamNum; //sendingTeamNum;

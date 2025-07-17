@@ -15,7 +15,7 @@
         </Effects>
     </Research>
     <!-- Tier 1 -->
-    <Research Name="Craftsmanship" Tier="1" VisualSlot="1" IconPath="graphics/ui/icons/culture.png">
+    <Research Name="Craftsmanship" Tier="1" VisualSlot="5" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
             <ResearchType>TribalDominion</ResearchType>
         </Requirements>
@@ -27,7 +27,7 @@
             <Effect Name="CraftsmanshipEffect" />
         </Effects>
     </Research>
-    <Research Name="Penmanship" Tier="1" VisualSlot="5" IconPath="graphics/ui/icons/culture.png">
+    <Research Name="Penmanship" Tier="1" VisualSlot="1" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
             <ResearchType>TribalDominion</ResearchType>
         </Requirements>
@@ -43,7 +43,7 @@
     <!-- Tier 2 -->
     <Research Name="MilitaryTradition" Tier="2" VisualSlot="0" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>Craftsmanship</ResearchType>
+            <ResearchType>Penmanship</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
             <PolicyCard Name="Maneuver" />
@@ -56,7 +56,7 @@
 
     <Research Name="StateWorkforce" Tier="2" VisualSlot="2" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>Craftsmanship</ResearchType>
+            <ResearchType>Penmanship</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
             <PolicyCard Name="Servitude" />
@@ -69,7 +69,7 @@
 
     <Research Name="EarlyEmpire" Tier="2" VisualSlot="4" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>Penmanship</ResearchType>
+            <ResearchType>Craftsmanship</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
             <PolicyCard Name="Colonization" />
@@ -86,7 +86,7 @@
 
     <Research Name="Mysticism" Tier="2" VisualSlot="6" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
-            <ResearchType>Penmanship</ResearchType>
+            <ResearchType>Craftsmanship</ResearchType>
         </Requirements>
         <PolicyCardUnlocks>
             <PolicyCard Name="Inspiration" />
@@ -317,12 +317,24 @@
         </Effects>
     </Research>
 
-    <Research Name="FutureTech" Tier="18" VisualSlot="3" IconPath="graphics/ui/icons/culture.png">
+    <!-- Tier 7 ERA END-->
+    <Research Name="IndustrialInsight" Tier="7" VisualSlot="3" IconPath="graphics/ui/icons/culture.png">
         <Requirements>
             <ResearchType>DivineRight</ResearchType>
             <ResearchType>Guilds</ResearchType>
             <ResearchType>MedievalFaires</ResearchType>
             <ResearchType>Mercenaries</ResearchType>
+        </Requirements>
+        <Effects>
+            <Effect Name="IndustrialInsightEffect" />
+            <Effect Name="IndustrialInsightEndEraEffect" />
+        </Effects>
+    </Research>
+
+
+    <Research Name="FutureTech" Tier="18" VisualSlot="3" IconPath="graphics/ui/icons/culture.png">
+        <Requirements>
+            <ResearchType>IndustrialInsight</ResearchType>
         </Requirements>
         <Effects>
             <Effect Name="FutureTechEffect" />

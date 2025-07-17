@@ -30,6 +30,28 @@ public class Player : BasePlayer
 
         //default yields
         SetBaseHexYields();
+
+        Global.gameManager.game.playerDictionary.Add(teamNum, this);
+        if (teamNum == Global.gameManager.game.localPlayerTeamNum)
+        {
+            Global.gameManager.game.localPlayerRef = this;
+        }
+
+        foreach (Hex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Keys)
+        {
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].RecalculateYields();
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+            {
+                var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+                manager.CallDeferred("UpdateHex", data);
+            }
+        }
+
     }
 
     public Player()
@@ -87,6 +109,11 @@ public class Player : BasePlayer
     public Dictionary<string, (DistrictType, float)> districtTypeProductionBoosts { get; set; } = new();
     public Dictionary<string, (UnitClass, float)> unitClassProductionBoosts { get; set; } = new();
 
+    //era seperator research and culture counts
+    public int industrialInsightCulturalResearchCount { get; set; } = 0;
+    public int industrialInsightResearchCount { get; set; } = 0;
+
+
 
 
     private void SetBaseHexYields()
@@ -95,7 +122,7 @@ public class Player : BasePlayer
         roughYields.production = 1;
         //mountainYields.production += 0;
         coastalYields.food = 1;
-        oceanYields.gold = 1;
+        //oceanYields.gold = 1;
 
         desertYields.gold = 1;
         plainsYields.production = 1;
@@ -103,6 +130,9 @@ public class Player : BasePlayer
         tundraYields.happiness = 2;
         //arcticYields
 
+        forestYields.production = 1;
+        coralYields.production = 1;
+        wetlandYields.food = 1;
     }
 
 

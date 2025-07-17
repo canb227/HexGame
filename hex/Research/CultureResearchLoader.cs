@@ -60,6 +60,8 @@ public static class CultureResearchLoader
         { "MedievalFairesEffect", MedievalFairesEffect },
         { "GuildsEffect", GuildsEffect },
         { "DivineRightEffect", DivineRightEffect },
+        { "IndustrialInsightEffect", IndustrialInsightEffect },
+        { "IndustrialInsightEndEraEffect", IndustrialInsightEndEraEffect },
         { "FutureTechEffect", FutureTechEffect },
 
     };
@@ -217,6 +219,23 @@ public static class CultureResearchLoader
         return "";
     }
 
+    static string IndustrialInsightEffect(Player player, bool executeLogic)
+    {
+        if(executeLogic)
+        {
+
+        }
+        return "Reveals Buried Runes to be Explored by your Hero for Greater Rewards.";
+    }
+    static string IndustrialInsightEndEraEffect(Player player, bool executeLogic)
+    {
+        if(executeLogic)
+        {
+            player.industrialInsightCulturalResearchCount++;
+            player.completedCultureResearches.Remove("IndustrialInsight");
+        }
+        return "Upon completing this research if it is still the Classical Era you may research it again, each time you complete this research you will recieve a bonus.";
+    }
     static string FutureTechEffect(Player player, bool executeLogic)
     {
         return "";

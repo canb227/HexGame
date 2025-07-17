@@ -202,6 +202,11 @@ public class UnitEffect
             Trade(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
+        else if (functionString == "EnableOceanMovement")
+        {
+            EnableOceanMovement(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
         throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in UnitEffect");
     }
     public bool SettleCapitalAbility(Unit unit, String cityName)
@@ -248,10 +253,6 @@ public class UnitEffect
         if (unit.movementCosts[TerrainMoveType.Coast] < 0)
         {
             unit.movementCosts[TerrainMoveType.Coast] = unit.movementCosts[TerrainMoveType.Coast] * -1;
-        }
-        if (unit.movementCosts[TerrainMoveType.Ocean] < 0)
-        {
-            unit.movementCosts[TerrainMoveType.Ocean] = unit.movementCosts[TerrainMoveType.Ocean] * -1;
         }
     }
     public bool SettleCity(Unit unit, String cityName)
@@ -302,9 +303,17 @@ public class UnitEffect
         if (Global.gameManager.game.playerDictionary[unit.teamNum].GetMaxTradeRoutes() < Global.gameManager.game.playerDictionary[unit.teamNum].tradeRouteCount)
         if(unit.teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            Global.gameManager.graphicManager.uiManager.CallDeferred("OpenTradeMenu", unit);
+            Global.gameManager.graphicManager.uiManager.CallDeferred("OpenTradeMenu", unit.teamNum);
         }
         //Global.gameManager.game.playerDictionary[unit.teamNum].NewTradeRoute(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].district.cityID], );
         return false;
+    }
+
+    public void EnableOceanMovement(Unit unit)
+    {
+        if (unit.movementCosts[TerrainMoveType.Ocean] < 0)
+        {
+            unit.movementCosts[TerrainMoveType.Ocean] = unit.movementCosts[TerrainMoveType.Ocean] * -1;
+        }
     }
 }

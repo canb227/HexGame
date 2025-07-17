@@ -9,7 +9,7 @@ using System.IO;
 using System.Security.AccessControl;
 
 [Serializable]
-public partial class District : GodotObject
+public partial class District
 {
 
     public int id { get; set; }
@@ -78,7 +78,13 @@ public partial class District : GodotObject
         this.isCityCenter = isCityCenter;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.CallDeferred("NewDistrict", this);
+            var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+            manager.CallDeferred("NewDistrict", data);
         }
         if (isCityCenter)
         {

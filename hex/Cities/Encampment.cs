@@ -21,6 +21,8 @@ public partial class Encampment : City
         cityRange = 2;
 
         Global.gameManager.game.cityDictionary.Add(id, this);
+        Global.gameManager.game.playerDictionary[teamNum].cityList.Add(this.id);
+
         this.id = id;
         originalCapitalTeamID = id;
         this.teamNum = teamNum;
@@ -30,7 +32,6 @@ public partial class Encampment : City
         partialProductionDictionary = new();
         heldResources = new();
         heldHexes = new();
-        Global.gameManager.game.playerDictionary[teamNum].cityList.Add(this.id);
         districts = new();
         naturalPopulation = 1;
         readyToExpand = 0;
@@ -44,7 +45,7 @@ public partial class Encampment : City
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            manager.CallDeferred("NewCity", this);
+            manager.CallDeferred("NewCity", id);
         }
         AddEncampmentCenter();
         this.isCapital = isCapital;

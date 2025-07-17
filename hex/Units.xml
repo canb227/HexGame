@@ -157,7 +157,7 @@
       <TerrainMoveType Name="Rough" Value="9999" />
       <TerrainMoveType Name="Mountain" Value="9999" />
       <TerrainMoveType Name="Coast" Value="1" />
-      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
       <TerrainMoveType Name="Forest" Value="9999" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="9999" />
@@ -396,7 +396,7 @@
       <TerrainMoveType Name="Rough" Value="9999" />
       <TerrainMoveType Name="Mountain" Value="9999" />
       <TerrainMoveType Name="Coast" Value="1" />
-      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
       <TerrainMoveType Name="Forest" Value="9999" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="9999" />
@@ -725,4 +725,31 @@
       </Ability>
     </Abilities>
   </Unit>
+  <Unit Name="Caravel" Class="Combat, Naval, Industrial" ProductionCost="240" GoldCost="960" MovementSpeed="4.0" SightRange="3.0" CombatPower="55.0" HealingFactor="10" IconPath="graphics/ui/icons/boat.png" ModelPath="graphics/models/galley.glb">
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="9999" />
+      <TerrainMoveType Name="Rough" Value="9999" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="9999" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="9999" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+  </Unit>
+
 </Units>

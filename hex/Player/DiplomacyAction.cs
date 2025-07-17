@@ -183,29 +183,7 @@ public class DiplomacyAction
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
 
-    private void BreakAlliance(int targetTeamNum)
-    {
-        Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, targetTeamNum, DiplomaticState.ForcedPeace);
-        Global.gameManager.game.playerDictionary[teamNum].turnsUntilForcedPeaceEnds[targetTeamNum] = 30;
-        Global.gameManager.game.playerDictionary[targetTeamNum].turnsUntilForcedPeaceEnds[teamNum] = 30;
-        //remove visible hexes from target's visible set
-        foreach (var hexCountPair in Global.gameManager.game.playerDictionary[teamNum].personalVisibleGameHexDict)
-        {
-            if (Global.gameManager.game.playerDictionary[targetTeamNum].visibleGameHexDict.Keys.Contains(hexCountPair.Key))
-            {
-                Global.gameManager.game.playerDictionary[targetTeamNum].visibleGameHexDict[hexCountPair.Key] -= hexCountPair.Value;
-            }
-        }
 
-        foreach (var hexCountPair in Global.gameManager.game.playerDictionary[targetTeamNum].personalVisibleGameHexDict)
-        {
-            if (Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict.Keys.Contains(hexCountPair.Key))
-            {
-                Global.gameManager.game.playerDictionary[teamNum].visibleGameHexDict[hexCountPair.Key] -= hexCountPair.Value;
-            }
-        }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
-    }
 
     private void ShareMap(int targetTeamNum)
     {

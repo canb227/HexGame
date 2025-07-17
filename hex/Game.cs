@@ -65,11 +65,6 @@ public class Game
     {
         Global.Log("Checking player to game with color:" + teamColor.ToString());
         Player newPlayer = new Player(startGold, teamNum, teamColor, isAI);
-        playerDictionary.Add(teamNum, newPlayer);
-        if(teamNum == localPlayerTeamNum)
-        {
-            localPlayerRef = newPlayer;
-        }
         Global.gameManager.teamNumToPlayerID.Add(teamNum, playerID);
     }
 

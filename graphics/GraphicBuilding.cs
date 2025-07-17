@@ -7,15 +7,19 @@ using System.Linq;
 
 public partial class GraphicBuilding : GraphicObject
 {
-    public Building building;
+    public string buildingName;
+    public Hex buildingHex;
+    public bool isDistrictCenterBuilding;
     public Node3D node3D;
     public Layout layout;
-    public GraphicBuilding(Building building, Layout layout)
+    public GraphicBuilding(string buildingName, Hex buildingHex, bool isDistrictCenterBuilding, Layout layout)
     {
-        this.building = building;
+        this.buildingName = buildingName;
+        this.buildingHex = buildingHex;
+        this.isDistrictCenterBuilding = isDistrictCenterBuilding;
         this.layout = layout;
         node3D = new Node3D();
-        InitBuilding(building);
+        InitBuilding();
         UpdateGraphic(GraphicUpdateType.Visibility);
     }
 
@@ -27,7 +31,7 @@ public partial class GraphicBuilding : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)
         {
-            if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(building.districtHex))
+            if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(buildingHex))
             {
                 this.Visible = true;
             }
@@ -38,9 +42,9 @@ public partial class GraphicBuilding : GraphicObject
         }
         else if (graphicUpdateType == GraphicUpdateType.Update)
         {
-            if(Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.isUrban)
+            if(Global.gameManager.game.mainGameBoard.gameHexDict[buildingHex].district.isUrban)
             {
-                if (!Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.isCityCenter && !building.isDistrictCenterBuilding)
+                if (!Global.gameManager.game.mainGameBoard.gameHexDict[buildingHex].district.isCityCenter && !isDistrictCenterBuilding)
                 {
                     this.Visible = false;
                 }
@@ -48,15 +52,15 @@ public partial class GraphicBuilding : GraphicObject
         }
     }
 
-    private void InitBuilding(Building building)
+    private void InitBuilding()
     {
-        node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + BuildingLoader.buildingsDict[building.name].ModelPath).Instantiate<Node3D>();
+        node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + BuildingLoader.buildingsDict[buildingName].ModelPath).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        int newQ = (Global.gameManager.game.mainGameBoard.left + (building.districtHex.r >> 1) + building.districtHex.q) % ggb.chunkSize - (building.districtHex.r >> 1);
-        int heightMapQ = newQ + ggb.chunkList[ggb.hexToChunkDictionary[building.districtHex]].graphicalOrigin.q;
-        Hex modHex = new Hex(newQ, building.districtHex.r, -newQ - building.districtHex.r);
-        Hex heightMapHex = new Hex(heightMapQ, building.districtHex.r, -heightMapQ - building.districtHex.r);
+        int newQ = (Global.gameManager.game.mainGameBoard.left + (buildingHex.r >> 1) + buildingHex.q) % ggb.chunkSize - (buildingHex.r >> 1);
+        int heightMapQ = newQ + ggb.chunkList[ggb.hexToChunkDictionary[buildingHex]].graphicalOrigin.q;
+        Hex modHex = new Hex(newQ, buildingHex.r, -newQ - buildingHex.r);
+        Hex heightMapHex = new Hex(heightMapQ, buildingHex.r, -heightMapQ - buildingHex.r);
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
         Point heightMapPoint = Global.gameManager.graphicManager.layout.HexToPixel(heightMapHex);
         float height = ggb.Vector3ToHeightMapVal(new Vector3((float)heightMapPoint.y, 0.0f, (float)heightMapPoint.x));
@@ -64,7 +68,7 @@ public partial class GraphicBuilding : GraphicObject
         node3D.Transform = newTransform;
 
 
-        Global.gameManager.graphicManager.hexObjectDictionary[building.districtHex].Add(this);
+        Global.gameManager.graphicManager.hexObjectDictionary[buildingHex].Add(this);
 
         AddChild(node3D);
     }

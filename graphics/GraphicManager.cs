@@ -74,28 +74,33 @@ public partial class GraphicManager : Node3D
         graphicObjectDictionary.Add(graphicGameBoard.gameBoard.id, graphicGameBoard);
     }
 
-    public void NewUnit(Unit unit)
+    public void NewUnit(int unitID)
     {
-        //Global.Log("New Unit: " + unit.id);
+        Unit unit = Global.gameManager.game.unitDictionary[unitID];
         GraphicUnit graphicUnit = new GraphicUnit(unit);
         graphicObjectDictionary.Add(graphicUnit.unit.id, graphicUnit);
         CallDeferred(Node.MethodName.AddChild, graphicUnit);
     }
 
-    public void NewDistrict(District district)
+    public void NewDistrict(Godot.Collections.Dictionary hexData)
     {
+        Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
+        District district = Global.gameManager.game.mainGameBoard.gameHexDict[hex].district;
+
         GraphicDistrict graphicDistrict = new GraphicDistrict(district, layout);
         graphicObjectDictionary.Add(graphicDistrict.district.id, graphicDistrict);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         ggb.chunkList[ggb.hexToChunkDictionary[graphicDistrict.district.hex]].multiMeshInstance.AddChild(graphicDistrict);
     }
 
-    public void NewBuilding(Building building)
+    public void NewBuilding(string buildingName, Godot.Collections.Dictionary hexData, int id, bool isResource, bool isDistrictCenterBuilding)
     {
-        GraphicBuilding graphicBuilding = new GraphicBuilding(building, layout);
-        graphicObjectDictionary.Add(graphicBuilding.building.id, graphicBuilding);
+        Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
+
+        GraphicBuilding graphicBuilding = new GraphicBuilding(buildingName, hex, isResource, layout);
+        graphicObjectDictionary.Add(id, graphicBuilding);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        ggb.chunkList[ggb.hexToChunkDictionary[graphicBuilding.building.districtHex]].multiMeshInstance.AddChild(graphicBuilding);
+        ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicBuilding);
     }
 
     public void NewResource(ResourceType resource, Hex hex)
@@ -107,8 +112,9 @@ public partial class GraphicManager : Node3D
         ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicResource);
     }
 
-    public void NewCity(City city)
+    public void NewCity(int cityID)
     {
+        City city = Global.gameManager.game.cityDictionary[cityID];
         GraphicCity graphicCity = new GraphicCity(city, layout);
         graphicObjectDictionary.Add(graphicCity.city.id, graphicCity);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);

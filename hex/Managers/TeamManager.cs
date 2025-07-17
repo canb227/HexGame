@@ -159,7 +159,7 @@ public class TeamManager
         Global.gameManager.game.teamManager.pendingDeals.Add(deal.id, deal);
         if(deal.toTeamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            Global.gameManager.graphicManager.uiManager.CallDeferred("NewDiplomaticDeal", deal);
+            Global.gameManager.graphicManager.uiManager.CallDeferred("NewDiplomaticDeal", deal.id);
         }
     }
 

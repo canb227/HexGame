@@ -119,11 +119,15 @@ public class GameHex
             }
             if(featureSet.Contains(FeatureType.Forest))
             {
-                yields.production += 1;
+                Global.gameManager.game.cityDictionary[owningCityID].AddForestYields(this);
             }
-            if(featureSet.Contains(FeatureType.Wetland))
+            if(featureSet.Contains(FeatureType.Coral))
             {
-                yields.food += 1;
+                Global.gameManager.game.cityDictionary[owningCityID].AddCoralYields(this);
+            }
+            if (featureSet.Contains(FeatureType.Wetland))
+            {
+                Global.gameManager.game.cityDictionary[owningCityID].AddWetlandYields(this);
             }
         }
         else
@@ -134,57 +138,65 @@ public class GameHex
 
     public void SetUnownedHexYields()
     {
-        if(terrainType == TerrainType.Flat)
+        yields = new();
+        if(Global.gameManager.game.localPlayerRef != null)
         {
-            yields.food += 1;
-        }
-        else if (terrainType == TerrainType.Rough)
-        {
-            yields.production += 1;
-        }
-        else if (terrainType == TerrainType.Mountain)
-        {
-            //nothing
-        }
-        else if (terrainType == TerrainType.Coast)
-        {
-            yields.food += 1;
-        }
-        else if (terrainType == TerrainType.Ocean)
-        {
-            yields.gold += 1;
-        }
+            if (terrainType == TerrainType.Flat)
+            {
+                yields += Global.gameManager.game.localPlayerRef.flatYields;
+            }
+            else if (terrainType == TerrainType.Rough)
+            {
+                yields += Global.gameManager.game.localPlayerRef.roughYields;
+            }
+            else if (terrainType == TerrainType.Mountain)
+            {
+                yields += Global.gameManager.game.localPlayerRef.mountainYields;
+            }
+            else if (terrainType == TerrainType.Coast)
+            {
+                yields += Global.gameManager.game.localPlayerRef.coastalYields;
+            }
+            else if (terrainType == TerrainType.Ocean)
+            {
+                yields += Global.gameManager.game.localPlayerRef.oceanYields;
+            }
 
-        if(terrainType != TerrainType.Mountain)
-        {
-            if (terrainTemp == TerrainTemperature.Desert)
+            if (terrainType != TerrainType.Mountain)
             {
-                yields.gold += 1;
+                if (terrainTemp == TerrainTemperature.Desert)
+                {
+                    yields += Global.gameManager.game.localPlayerRef.desertYields;
+                }
+                else if (terrainTemp == TerrainTemperature.Plains)
+                {
+                    yields += Global.gameManager.game.localPlayerRef.plainsYields;
+                }
+                else if (terrainTemp == TerrainTemperature.Grassland)
+                {
+                    yields += Global.gameManager.game.localPlayerRef.grasslandYields;
+                }
+                else if (terrainTemp == TerrainTemperature.Tundra)
+                {
+                    yields += Global.gameManager.game.localPlayerRef.tundraYields;
+                }
+                else
+                {
+                    //nothing
+                }
             }
-            else if (terrainTemp == TerrainTemperature.Plains)
+            if (featureSet.Contains(FeatureType.Forest))
             {
-                yields.production += 1;
+                yields += Global.gameManager.game.localPlayerRef.forestYields;
             }
-            else if (terrainTemp == TerrainTemperature.Grassland)
+            if (featureSet.Contains(FeatureType.Coral))
             {
-                yields.food += 1;
+                yields += Global.gameManager.game.localPlayerRef.coralYields;
             }
-            else if (terrainTemp == TerrainTemperature.Tundra)
+            if (featureSet.Contains(FeatureType.Wetland))
             {
-                yields.happiness += 1;
+                yields += Global.gameManager.game.localPlayerRef.wetlandYields;
             }
-            else
-            {
-                //nothing
-            }
-        }
-        if (featureSet.Contains(FeatureType.Forest))
-        {
-            yields.production += 1;
-        }
-        if (featureSet.Contains(FeatureType.Wetland))
-        {
-            yields.food += 1;
         }
     }
 

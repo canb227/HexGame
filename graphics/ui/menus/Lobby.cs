@@ -547,6 +547,7 @@ public partial class Lobby : Control
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "loadgame";
+        GD.Print(loaded);
         lobbyMessage.MapData.MapData_ = Global.gameManager.SaveGameRaw(loaded);
         Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
 
