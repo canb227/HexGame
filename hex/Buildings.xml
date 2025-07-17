@@ -93,7 +93,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="RefineryDistrict" DistrictType="refinement" ProductionCost="0" GoldCost="0" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
+  <Building Name="RefineryDistrict" DistrictType="refinement" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
     <Effects>
       <Effect Name="RefineryEffect" />
     </Effects>
@@ -103,7 +103,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="IndustryDistrict" DistrictType="production" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="2.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
+  <Building Name="IndustryDistrict" DistrictType="production" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
     <Effects>
       <Effect Name="IndustryEffect" />
     </Effects>
@@ -113,7 +113,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="CommerceDistrict" DistrictType="gold" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="2.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
+  <Building Name="CommerceDistrict" DistrictType="gold" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="1.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
     <Effects>
       <Effect Name="CommerceEffect" />
     </Effects>
@@ -123,7 +123,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="CampusDistrict" DistrictType="science" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="2.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
+  <Building Name="CampusDistrict" DistrictType="science" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="1.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
     <Effects>
       <Effect Name="CampusEffect" />
     </Effects>
@@ -133,7 +133,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="CulturalDistrict" DistrictType="culture" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="2.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/huts.glb">
+  <Building Name="CulturalDistrict" DistrictType="culture" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/huts.glb">
     <Effects>
       <Effect Name="CulturalEffect" />
     </Effects>
@@ -143,7 +143,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="EntertainmentDistrict" DistrictType="happiness" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
+  <Building Name="EntertainmentDistrict" DistrictType="happiness" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
     <Effects>
       <Effect Name="EntertainmentEffect" />
     </Effects>
@@ -153,7 +153,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="HeroicDistrict" DistrictType="heroic" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
+  <Building Name="HeroicDistrict" DistrictType="heroic" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
     <Effects>
       <Effect Name="HeroicDistrictEffect" />
     </Effects>

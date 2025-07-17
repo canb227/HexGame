@@ -128,7 +128,7 @@ public class BuildingEffect
     }
     void ProcessFunctionString(String functionString, Building building)
     {
-        Dictionary<String, Action<Building>> effectFunctions = new Dictionary<string, Action<Building>>
+        Dictionary<String, Func<Building, Yields>> effectFunctions = new Dictionary<string, Func<Building, Yields>>
         {
             { "WaterSupplyEffect", WaterSupplyEffect },
             { "FarmEffect", FarmEffect },
@@ -179,7 +179,7 @@ public class BuildingEffect
             { "ClassicalRepublicEffect", ClassicalRepublicEffect },
         };
         
-        if (effectFunctions.TryGetValue(functionString, out Action<Building> effectFunction))
+        if (effectFunctions.TryGetValue(functionString, out Func<Building, Yields> effectFunction))
         {
             effectFunction(building);
         }
@@ -188,7 +188,7 @@ public class BuildingEffect
             throw new ArgumentException($"Function '{functionString}' not recognized in BuildingEffect from Buildings file.");
         }
     }
-    void WaterSupplyEffect(Building building)
+    Yields WaterSupplyEffect(Building building)
     {
         float waterHappinessYield = 0.0f;
         
@@ -210,117 +210,213 @@ public class BuildingEffect
             }
         }
         building.yields.happiness += waterHappinessYield;
+        Yields yields = new Yields();
+        yields.happiness += 5;
+        return yields;
     }
-    void FarmEffect(Building building)
+    Yields FarmEffect(Building building)
     {
+        return new Yields();
     }
-    void PastureEffect(Building building)
+    Yields PastureEffect(Building building)
     {
-
+        return new Yields();
     }
-    void MineEffect(Building building)
+    Yields MineEffect(Building building)
     {
-
+        return new Yields();
     }
-    void LumbermillEffect(Building building)
+    Yields LumbermillEffect(Building building)
     {
-
+        return new Yields(); 
     }
-    void FishingBoatEffect(Building building)
+    Yields FishingBoatEffect(Building building)
     {
-
+        return new Yields(); 
     }
-    void RefineryEffect(Building building)
+
+    //district base buildings
+    Yields RefineryEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && !Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban)
+            {
+                yields.food += 1;
+            }
+        }
+        return yields; 
     }
 
-    void IndustryEffect(Building building)
+    Yields IndustryEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.gold 
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.dock 
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.military))
+            {
+                yields.production += 1;
+            }
+        }
+        return yields;
     }
 
-    void CommerceEffect(Building building)
+    Yields CommerceEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.production
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.dock
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.science))
+            {
+                yields.gold += 1;
+            }
+        }
+        return yields;
     }
 
-    void CampusEffect(Building building)
+    Yields CampusEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.culture
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.happiness
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter))
+            {
+                yields.science += 1;
+            }
+        }
+        return yields;
     }
 
-    void CulturalEffect(Building building)
+    Yields CulturalEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.heroic
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.gold
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter))
+            {
+                yields.culture += 1;
+            }
+        }
+        return yields;
     }
 
-    void EntertainmentEffect(Building building)
+    Yields EntertainmentEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.rural
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.culture))
+            {
+                yields.happiness += 1;
+            }
+        }
+        return yields;
     }
 
-    void HeroicDistrictEffect(Building building)
+    Yields HeroicDistrictEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.science
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.military))
+            {
+                yields.influence += 1;
+            }
+        }
+        return yields;
     }
 
-    void HarborEffect(Building building)
+
+    Yields HarborEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.dock
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter))
+            {
+                yields.gold += 1;
+            }
+        }
+        return yields;
     }
 
-    void MilitaristicEffect(Building building)
+    Yields MilitaristicEffect(Building building)
     {
-
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.heroic))
+            {
+                yields.production += 1;
+            }
+        }
+        return yields;
     }
 
-    void GranaryEffect(Building building)
+    Yields GranaryEffect(Building building)
     {
-        
+        return new Yields(); 
     }
-    void DockWarehouseEffect(Building building)
+    Yields DockWarehouseEffect(Building building)
     {
+        return new Yields(); 
     }
 
 
 
-    void StoneCutterWarehouseEffect(Building building)
+    Yields StoneCutterWarehouseEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].roughYields.production += 1;
+        return new Yields(); 
     }
-    void ArenaEffect(Building building)
+    Yields ArenaEffect(Building building)
     {
-        
+        return new Yields(); 
     }
-    void TempleEffect(Building building)
+    Yields TempleEffect(Building building)
     {
-        
+        return new Yields(); 
     }
-    void GardenEffect(Building building)
+    Yields GardenEffect(Building building)
     {
         //garden effect TODO
+        return new Yields(); 
     }
-    void LibraryEffect(Building building)
+    Yields LibraryEffect(Building building)
     {
         //library effect TODO
+        return new Yields();
     }
-    void AncientWallEffect(Building building)
+    Yields AncientWallEffect(Building building)
     {
         if(!Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.hasWalls)
         {
             Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.AddWalls(100.0f);
         }
+        return new Yields();
     }
 
-    void MonumentEffect(Building building)
+    Yields MonumentEffect(Building building)
     {
+        return new Yields();
     }
-    void AmpitheaterEffect(Building building)
+    Yields AmpitheaterEffect(Building building)
     {
-
+        return new Yields();
     }
-    void CityCenterWallEffect(Building building)
+    Yields CityCenterWallEffect(Building building)
     {
         if(!Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.hasWalls)
         {
@@ -328,98 +424,115 @@ public class BuildingEffect
             Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.health = 50.0f;
             Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.hasWalls = true;
         }
+        return new Yields();
     }
 
-    void ShrineEffect(Building building)
+    Yields ShrineEffect(Building building)
     {
         //something with the hero I think
+        return new Yields();
     }
-    void BarracksEffect(Building building)
+    Yields BarracksEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].infantryProductionCombatModifier += 1;
+        return new Yields();
     }
 
-    void WatermillEffect(Building building)
+    Yields WatermillEffect(Building building)
     {
-
+        return new Yields();
     }
-    void LighthouseEffect(Building building)
+    Yields LighthouseEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].coastalYields.food += 1;
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].navalProductionCombatModifier += 1;
+        return new Yields();
     }
 
-    void MarketEffect(Building building)
+    Yields MarketEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].maxResourcesHeld += 1;
+        return new Yields();
     }
 
-    void StablesEffect(Building building)
+    Yields StablesEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].cavalryProductionCombatModifier += 1;
+        return new Yields();
     }
 
-    void AqueductEffect(Building building)
+    Yields AqueductEffect(Building building)
     {
+        return new Yields();
     }
 
-    void WorkshopEffect(Building building)
+    Yields WorkshopEffect(Building building)
     {
+        return new Yields();
     }
 
-    void UniversityEffect(Building building)
+    Yields UniversityEffect(Building building)
     {
+        return new Yields();
     }
 
-    void ArmoryEffect(Building building)
+    Yields ArmoryEffect(Building building)
     {
+        return new Yields();
     }
 
-    void MedievalWallsEffect(Building building)
+    Yields MedievalWallsEffect(Building building)
     {
+        return new Yields();
     }
 
     //world wonders
 
-    void StonehengeEffect(Building building)
+    Yields StonehengeEffect(Building building)
     {
+        return new Yields();
     }
 
-    void ColossusEffect(Building building)
+    Yields ColossusEffect(Building building)
     {
         City city = Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID];
         city.additionalTradeRoutes += 1;
+        return new Yields();
     }
 
-    void PetraEffect(Building building)
+    Yields PetraEffect(Building building)
     {
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].desertYields.food += 2;
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].desertYields.gold += 2;
         Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].desertYields.production += 1;
+        return new Yields();
     }
 
-    void TerracottaArmyEffect(Building building)
+    Yields TerracottaArmyEffect(Building building)
     {
         //provide some bonus to all units
+        return new Yields();
     }
 
-    void MachuPicchuEffect(Building building)
+    Yields MachuPicchuEffect(Building building)
     {
         //mountains provide a adjacency bonus to districts in all cities
+        return new Yields();
     }
 
-    void OracleEffect(Building building)
+    Yields OracleEffect(Building building)
     {
         //something hero related
+        return new Yields();
     }
 
-    void ColosseumEffect(Building building)
+    Yields ColosseumEffect(Building building)
     {
-
+        return new Yields();
     }
 
     //government effects
-    void AutocracyEffect(Building building)
+    Yields AutocracyEffect(Building building)
     {
         if(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].isCapital)
         {
@@ -431,9 +544,10 @@ public class BuildingEffect
             building.yields.happiness *= 1.1f;
             building.yields.influence *= 1.1f;
         }
+        return new Yields();
     }
 
-    void ClassicalRepublicEffect(Building building)
+    Yields ClassicalRepublicEffect(Building building)
     {
         if(Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.isUrban)
         {
@@ -442,6 +556,7 @@ public class BuildingEffect
                 building.yields.happiness += 1;
             }
         }
+        return new Yields();
     }
 
 }

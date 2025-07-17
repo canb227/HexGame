@@ -187,7 +187,7 @@ public static class CultureResearchLoader
         {
             //TODO
         }
-        return "Rural Districts Gain +1 Food Yield if they are Adjacent to Atleast 1 Other Rural District.";
+        return "Rural Districts Gain +1 Food Yield if they are Adjacent to 2 Other Rural District.";
     }
 
     static string CivilServiceEffect(Player player, bool executeLogic)
