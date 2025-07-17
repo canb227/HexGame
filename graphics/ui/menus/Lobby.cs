@@ -582,9 +582,11 @@ public partial class Lobby : Control
         Godot.FileDialog dialog = new Godot.FileDialog();
         dialog.Mode = Godot.FileDialog.ModeEnum.Windowed;
         dialog.FileMode = FileDialog.FileModeEnum.OpenFile;
+        dialog.Access = FileDialog.AccessEnum.Filesystem;
         dialog.Title = "Load Game";
         dialog.OkButtonText = "Load";
-        dialog.UseNativeDialog = true;
+        dialog.UseNativeDialog = false;
+        dialog.CurrentDir = OS.GetUserDataDir()+"/saves";
         dialog.Show();
         
         AddChild(dialog);
