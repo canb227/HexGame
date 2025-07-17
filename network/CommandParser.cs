@@ -143,6 +143,7 @@ using System.Threading.Tasks;
                 Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.TeamNum, new Hex(command.SpawnUnit.Position.Q,command.SpawnUnit.Position.R,command.SpawnUnit.Position.S), command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
                 break;
             case "SetDiplomaticState":
+                //testing
                 Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState);
                 break;
             default:
