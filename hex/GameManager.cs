@@ -131,6 +131,7 @@ public partial class GameManager : Node
             SpawnPlayers();
             this.AIManager = new AIManager();
             AIManager.InitAI();
+            SpawnPlayers();
         }
     }
 
