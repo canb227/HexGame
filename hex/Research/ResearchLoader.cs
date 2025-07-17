@@ -117,7 +117,7 @@ public static class ResearchLoader
             { "ShipbuildingEffect", ShipbuildingEffect },
             { "MathematicsEffect", MathematicsEffect },
             { "EngineeringEffect", EngineeringEffect },
-            { "MilitaryTacticsEffect", MilitaryTacticsEffect },
+            { "TimbercraftEffect", TimbercraftEffect },
             { "ApprenticeshipEffect", ApprenticeshipEffect },
             { "MachineryEffect", MachineryEffect },
             { "AquaticQuarriesEffect", AquaticQuarriesEffect },
@@ -158,8 +158,11 @@ public static class ResearchLoader
     }
     static string SailingEffect(Player player, bool executeLogic)
     {
-       player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Civilian & UnitClass.Land));
-       return "Enable Emarking and Disembarking for all Civilian Units";
+        if(executeLogic)
+        {
+            player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Civilian & UnitClass.Land));
+        }
+        return "Enable Emarking and Disembarking for all Civilian Units";
     }
     static string PotteryEffect(Player player, bool executeLogic)
     {
@@ -229,13 +232,19 @@ public static class ResearchLoader
 
     static string ShipbuildingEffect(Player player, bool executeLogic)
     {
-        player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
+        if (executeLogic)
+        {
+            player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
+        }
         return "Enable Emarking and Disembarking for all Land Units";
     }
 
     static string MathematicsEffect(Player player, bool executeLogic)
     {
-        player.unitPlayerEffects.Add(("Mathematics", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Naval));
+        if (executeLogic)
+        {
+            player.unitPlayerEffects.Add(("Mathematics", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Naval));
+        }
         return "+1 Movement speed to all Naval units";
     }
 
@@ -244,14 +253,17 @@ public static class ResearchLoader
         return "";
     }
 
-    static string MilitaryTacticsEffect(Player player, bool executeLogic)
+    static string TimbercraftEffect(Player player, bool executeLogic)
     {
         return "";
     }
 
     static string ApprenticeshipEffect(Player player, bool executeLogic)
     {
-        player.buildingPlayerEffects.Add(("Apprenticeship", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Mine"));
+        if (executeLogic)
+        {
+            player.buildingPlayerEffects.Add(("Apprenticeship", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Mine"));
+        }
         return "+1 Production Yield to all Mines";
     }
 
@@ -277,7 +289,10 @@ public static class ResearchLoader
 
     static string StirrupsEffect(Player player, bool executeLogic)
     {
-        player.buildingPlayerEffects.Add(("Stirrups", new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1.0f, 5), "Pasture"));
+        if (executeLogic)
+        {
+            player.buildingPlayerEffects.Add(("Stirrups", new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1.0f, 5), "Pasture"));
+        }
         return "+1 Food Yield to all Pastures";
     }
 

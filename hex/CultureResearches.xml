@@ -149,6 +149,7 @@
             <ResearchType>EarlyEmpire</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="CulturalDistrict" />
             <BuildingType Name="Ampitheater" />
         </BuildingUnlocks>
         <PolicyCardUnlocks>

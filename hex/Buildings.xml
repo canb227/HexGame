@@ -205,7 +205,7 @@
     </TerrainTypes>
   </Building>
 
-    <Building Name="Library" DistrictType="science" ProductionCost="90" GoldCost="360" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="2.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/library.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Library" DistrictType="science" ProductionCost="90" GoldCost="360" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="2.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/library.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="LibraryEffect" />
     </Effects>
@@ -224,6 +224,16 @@
       <TerrainType>Flat</TerrainType>
       <TerrainType>Rough</TerrainType>
       <TerrainType>Mountain</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Reservoir" DistrictType="refinement" ProductionCost="90" GoldCost="360" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="ReservoirEffect" />
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
     </TerrainTypes>
   </Building>
 
@@ -276,6 +286,16 @@
     </TerrainTypes>
   </Building>
 
+  <Building Name="Stonecutter" DistrictType="refinement" ProductionCost="120" GoldCost="480" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="StonecutterEffect" />
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
   <Building Name="Aqueduct" DistrictType="citycenter" ProductionCost="160" GoldCost="640" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="4.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="AqueductEffect"/>
@@ -299,6 +319,16 @@
   <Building Name="University" DistrictType="science" ProductionCost="250" GoldCost="1000" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="4.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="2" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="UniversityEffect"/>
+    </Effects>
+    <TerrainTypes>
+      <TerrainType>Flat</TerrainType>
+      <TerrainType>Rough</TerrainType>
+    </TerrainTypes>
+  </Building>
+
+  <Building Name="Lumberyard" DistrictType="refinement" ProductionCost="200" GoldCost="800" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Effects>
+      <Effect Name="LumberyardEffect" />
     </Effects>
     <TerrainTypes>
       <TerrainType>Flat</TerrainType>

@@ -14,6 +14,9 @@
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
+        <UnitUnlocks>
+            <UnitType Name="Slinger" />
+        </UnitUnlocks>
         <BuildingUnlocks>
             <BuildingType Name="Granary" />
         </BuildingUnlocks>
@@ -38,9 +41,9 @@
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
-        <UnitUnlocks>
-            <UnitType Name="Slinger" />
-        </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="Stonecutter" />
+        </BuildingUnlocks>
         <Effects>
             <Effect Name="MiningEffect" />
         </Effects>
@@ -64,6 +67,7 @@
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="HeroicDistrict" />
             <BuildingType Name="Shrine" />
         </BuildingUnlocks>
         <Effects>
@@ -71,17 +75,7 @@
         </Effects>
     </Research>
 
-    <Research Name="Irrigation" Tier="2" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
-        <Requirements>
-            <ResearchType>Pottery</ResearchType>
-        </Requirements>
-        <BuildingUnlocks>
-            <BuildingType Name="HangingGardens" />
-        </BuildingUnlocks>
-        <Effects>
-            <Effect Name="IrrigationEffect" />
-        </Effects>
-    </Research>
+
 
     <Research Name="Writing" Tier="2" VisualSlot="2" IconPath="graphics/ui/icons/science.png">
         <Requirements>
@@ -108,6 +102,18 @@
         </Effects>
     </Research>
     <!-- Tier 3 -->
+    <Research Name="Irrigation" Tier="3" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Pottery</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Reservoir" />
+            <BuildingType Name="HangingGardens" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="IrrigationEffect" />
+        </Effects>
+    </Research>
     <Research Name="Masonry" Tier="3" VisualSlot="5" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Mining</ResearchType>
@@ -128,6 +134,7 @@
             <UnitType Name="Spearman" />
         </UnitUnlocks>
         <BuildingUnlocks>
+            <BuildingType Name="MilitaristicDistrict" />
             <BuildingType Name="Barracks" />
         </BuildingUnlocks>
         <ResourceUnlocks>
@@ -159,7 +166,8 @@
             <ResearchType>Sailing</ResearchType>
             <ResearchType>Astrology</ResearchType>
         </Requirements>
-        <BuildingUnlocks>
+        <BuildingUnlocks>            
+            <BuildingType Name="HarborDistrict" />
             <BuildingType Name="Lighthouse"/>
         </BuildingUnlocks>
         <Effects>
@@ -265,15 +273,18 @@
     </Research>
 
     <!-- Tier 6 -->
-    <Research Name="MilitaryTactics" Tier="6" VisualSlot="1" IconPath="graphics/ui/icons/science.png">
+    <Research Name="Timbercraft" Tier="6" VisualSlot="1" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Mathematics</ResearchType>
         </Requirements>
         <UnitUnlocks>
             <UnitType Name="Polearm" />
         </UnitUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="Lumberyard" />
+        </BuildingUnlocks>
         <Effects>
-            <Effect Name="MilitaryTacticsEffect" />
+            <Effect Name="TimbercraftEffect" />
         </Effects>
     </Research>
 
@@ -282,6 +293,7 @@
             <ResearchType>Currency</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="IndustryDistrict" />
             <BuildingType Name="Workshop" />
         </BuildingUnlocks>
         <Effects>

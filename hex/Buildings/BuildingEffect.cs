@@ -153,6 +153,9 @@ public class BuildingEffect
             { "GardenEffect", GardenEffect },
             { "LibraryEffect", LibraryEffect },
             { "AncientWallEffect", AncientWallEffect },
+            { "ReservoirEffect", ReservoirEffect },
+            { "StonecutterEffect", StoneCutterEffect },
+            { "LumberyardEffect", LumberyardEffect },
             { "AmpitheaterEffect", AmpitheaterEffect },
             { "CityCenterWallEffect", CityCenterWallEffect },
             { "MonumentEffect", MonumentEffect },
@@ -174,6 +177,8 @@ public class BuildingEffect
             { "MachuPicchuEffect", MachuPicchuEffect },
             { "OracleEffect", OracleEffect },
             { "ColosseumEffect", ColosseumEffect },
+
+            { "FeudalismEffect", FeudalismEffect },
 
             { "AutocracyEffect", AutocracyEffect },
             { "ClassicalRepublicEffect", ClassicalRepublicEffect },
@@ -246,6 +251,7 @@ public class BuildingEffect
                 yields.food += 1;
             }
         }
+        building.yields += yields;
         return yields; 
     }
 
@@ -261,6 +267,7 @@ public class BuildingEffect
                 yields.production += 1;
             }
         }
+        building.yields += yields;
         return yields;
     }
 
@@ -276,6 +283,7 @@ public class BuildingEffect
                 yields.gold += 1;
             }
         }
+        building.yields += yields;
         return yields;
     }
 
@@ -291,6 +299,7 @@ public class BuildingEffect
                 yields.science += 1;
             }
         }
+        building.yields += yields;
         return yields;
     }
 
@@ -306,6 +315,7 @@ public class BuildingEffect
                 yields.culture += 1;
             }
         }
+        building.yields += yields;
         return yields;
     }
 
@@ -320,6 +330,7 @@ public class BuildingEffect
                 yields.happiness += 1;
             }
         }
+        building.yields += yields;
         return yields;
     }
 
@@ -334,6 +345,7 @@ public class BuildingEffect
                 yields.influence += 1;
             }
         }
+        building.yields += yields;
         return yields;
     }
 
@@ -344,11 +356,13 @@ public class BuildingEffect
         foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
         {
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.dock
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.gold
                 || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter))
             {
                 yields.gold += 1;
             }
         }
+        building.yields += yields;
         return yields;
     }
 
@@ -357,11 +371,14 @@ public class BuildingEffect
         Yields yields = new Yields();
         foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
         {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.heroic))
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.heroic 
+                    || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter 
+                    || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.science))
             {
                 yields.production += 1;
             }
         }
+        building.yields += yields;
         return yields;
     }
 
@@ -406,6 +423,57 @@ public class BuildingEffect
             Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.AddWalls(100.0f);
         }
         return new Yields();
+    }
+
+    Yields ReservoirEffect(Building building)
+    {
+        Yields yields = new Yields();
+        foreach (District district in Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].districts)
+        {
+            foreach(Building districtBuilding in district.buildings)
+            {
+                if(districtBuilding.name == "Farm")
+                {
+                    yields.food += 1;
+                    districtBuilding.yields.food += 1;
+                }
+            }
+        }
+        return yields;
+    }
+
+    Yields StoneCutterEffect(Building building)
+    {
+        Yields yields = new Yields();
+        foreach (District district in Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].districts)
+        {
+            foreach (Building districtBuilding in district.buildings)
+            {
+                if (districtBuilding.name == "Mine")
+                {
+                    yields.production += 1;
+                    districtBuilding.yields.production += 1;
+                }
+            }
+        }
+        return yields;
+    }
+
+    Yields LumberyardEffect(Building building)
+    {
+        Yields yields = new Yields();
+        foreach (District district in Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].districts)
+        {
+            foreach (Building districtBuilding in district.buildings)
+            {
+                if (districtBuilding.name == "Lumbermill")
+                {
+                    yields.production += 1;
+                    districtBuilding.yields.production += 1;
+                }
+            }
+        }
+        return yields;
     }
 
     Yields MonumentEffect(Building building)
@@ -529,6 +597,23 @@ public class BuildingEffect
     Yields ColosseumEffect(Building building)
     {
         return new Yields();
+    }
+
+    Yields FeudalismEffect(Building building)
+    {
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            foreach(Building adjacentBuilding in Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.buildings)
+            {
+                if (building.name == "Farm")
+                {
+                    yields.food += 1;
+                }
+            }
+
+        }
+        return yields;
     }
 
     //government effects

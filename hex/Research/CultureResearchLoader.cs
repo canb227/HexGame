@@ -185,9 +185,9 @@ public static class CultureResearchLoader
     {
         if (executeLogic)
         {
-            //TODO
+            player.buildingPlayerEffects.Add(("Feudalism", new BuildingEffect("FeudalismEffect"), "Farm"));
         }
-        return "Rural Districts Gain +1 Food Yield if they are Adjacent to 2 Other Rural District.";
+        return "Farms Gain +1 Food Yield if they are Adjacent to atleast 1 other Farm.";
     }
 
     static string CivilServiceEffect(Player player, bool executeLogic)
