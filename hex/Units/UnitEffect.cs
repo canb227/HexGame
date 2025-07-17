@@ -311,6 +311,7 @@ public class UnitEffect
 
     public void EnableOceanMovement(Unit unit)
     {
+        GD.Print("wtf");
         if (unit.movementCosts[TerrainMoveType.Ocean] < 0)
         {
             unit.movementCosts[TerrainMoveType.Ocean] = unit.movementCosts[TerrainMoveType.Ocean] * -1;
