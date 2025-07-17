@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -151,9 +151,9 @@ public partial class DiplomacyPanel : Control
         }
         else
         {
-            icon = Global.GetMediumSteamAvatar(Global.gameManager.teamNumToPlayerID[player.teamNum]);
+            icon = Global.GetMediumSteamAvatar(Global.gameManager.game.teamNumToPlayerID[player.teamNum]);
         }
-        playerImage.Texture = Global.GetMediumSteamAvatar(Global.gameManager.teamNumToPlayerID[Global.gameManager.game.localPlayerTeamNum]);
+        playerImage.Texture = Global.GetMediumSteamAvatar(Global.gameManager.game.teamNumToPlayerID[Global.gameManager.game.localPlayerTeamNum]);
         otherImage.Texture = icon;
 
         playerOffers = new();
