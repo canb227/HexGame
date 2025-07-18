@@ -46,11 +46,11 @@ public partial class ProductionQueueUIItem : PanelContainer
         ProgressBar.Value = 100.0f - ((productionQueueItem.productionLeft / productionQueueItem.productionCost) * 100.0f);
         if(queueIndex == 0)
         {
-            TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / (city.yields.production + city.productionOverflow)).ToString();
+            TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / city.CalculateProductionForSpecificItem(city.productionQueue[queueIndex].itemName)).ToString();
         }
         else
         {
-            TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / city.yields.production).ToString();
+            TurnsLeft.Text = Math.Ceiling(productionQueueItem.productionLeft / city.CalculateProductionForSpecificItem(city.productionQueue[queueIndex].itemName)).ToString();
         }
     }
 

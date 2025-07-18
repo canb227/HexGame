@@ -586,43 +586,7 @@ public partial class City
 
         if (productionQueue.Any())
         {
-            if (BuildingLoader.buildingsDict.ContainsKey(productionQueue[0].itemName))
-            {
-                bool boosted = false;
-                foreach ((DistrictType, float) districtTypeBoost in Global.gameManager.game.playerDictionary[teamNum].districtTypeProductionBoosts.Values)
-                {
-                    if (districtTypeBoost.Item1 == BuildingLoader.buildingsDict[productionQueue[0].itemName].DistrictType)
-                    {
-                        productionOverflow += yields.production * districtTypeBoost.Item2;
-                        boosted = true;
-                    }
-                    else
-                    {
-                        productionOverflow += yields.production;
-                    }
-                }
-                if (!boosted)
-                {
-                    productionOverflow += yields.production;
-                }
-            }
-            if (UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName))
-            {
-                bool boosted = false;
-                foreach ((UnitClass, float) unitTypeBoost in Global.gameManager.game.playerDictionary[teamNum].unitClassProductionBoosts.Values)
-                {
-                    if (unitTypeBoost.Item1 == UnitLoader.unitsDict[productionQueue[0].itemName].Class)
-                    {
-                        productionOverflow += yields.production * unitTypeBoost.Item2;
-                        boosted = true;
-                    }
-                }
-                if(!boosted)
-                {
-                    productionOverflow += yields.production;
-                }
-            }
-
+            productionOverflow = CalculateProductionForSpecificItem(productionQueue[0].itemName);
             float productionLeftTemp = productionQueue[0].productionLeft;
             productionQueue[0].productionLeft -= productionOverflow;
             productionOverflow = Math.Max(productionOverflow - productionLeftTemp, 0);
@@ -694,6 +658,37 @@ public partial class City
             foodToGrow = GetFoodToGrowCost(); //30 + (n-1) x 3 + (n-1) ^ 3.0 we use naturalPopulation so we dont punish the placement of urban buildings
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+    }
+
+    public float CalculateProductionForSpecificItem(string itemName)
+    {
+        float production = productionOverflow;
+        if (BuildingLoader.buildingsDict.ContainsKey(itemName))
+        {
+            float boost = 1.0f;
+            foreach ((DistrictType, float) districtTypeBoost in Global.gameManager.game.playerDictionary[teamNum].districtTypeProductionBoosts.Values)
+            {
+                if (districtTypeBoost.Item1 == BuildingLoader.buildingsDict[itemName].DistrictType)
+                {
+                    boost *= districtTypeBoost.Item2;
+                }
+            }
+            production += yields.production * boost;
+        }
+        if (UnitLoader.unitsDict.ContainsKey(itemName))
+        {
+            float boost = 1.0f;
+            foreach ((UnitClass, float) unitTypeBoost in Global.gameManager.game.playerDictionary[teamNum].unitClassProductionBoosts.Values)
+            {
+                UnitClass requiredFlags = unitTypeBoost.Item1;
+                if ((UnitLoader.unitsDict[itemName].Class & requiredFlags) == requiredFlags)
+                {
+                    boost *= unitTypeBoost.Item2;
+                }
+            }
+            production += yields.production * boost;
+        }
+        return production;
     }
 
     public void IncreaseSettlerCost()

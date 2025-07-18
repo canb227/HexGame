@@ -106,9 +106,17 @@ public partial class PolicyPanel : Control
             {
                 UnassignCurrentCard(Global.gameManager.game.localPlayerTeamNum, policyCard);
             }
-            else
+            else if(policyCard.isBlank)
             {
                 AssignCurrentPolicyCard(Global.gameManager.game.localPlayerTeamNum, policyCard);
+            }
+            else if(policyCard.Equals(currentCard) && policyCard.isAssigned)
+            {
+                UnassignCurrentCard(Global.gameManager.game.localPlayerTeamNum, policyCard);
+            }
+            else
+            {
+                SelectNewPolicy(policyCard);
             }
         }
         else

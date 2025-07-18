@@ -67,7 +67,7 @@ public partial class ConstructionItem : PanelContainer
         {
             prodCost = unitInfo.ProductionCost + 30 * Global.gameManager.game.playerDictionary[city.teamNum].settlerCount;
         }
-        turnsToBuild.Text = Math.Ceiling(prodCost / (city.yields.production + city.productionOverflow)).ToString();
+        turnsToBuild.Text = Math.Ceiling(prodCost / city.CalculateProductionForSpecificItem(name)).ToString();
         ProductionCost.Text = prodCost.ToString();
         if (unitInfo.MovementSpeed > 0)
         {

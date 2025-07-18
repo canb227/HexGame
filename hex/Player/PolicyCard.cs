@@ -339,8 +339,8 @@ public static class PolicyCardLoader
     {
         if (add)
         {
-            player.unitClassProductionBoosts.Add("RallingDrumsRanged", (UnitClass.Classical & UnitClass.Land & UnitClass.Ranged, 1.5f));
-            player.unitClassProductionBoosts.Add("RallingDrumsInfantry", (UnitClass.Classical & UnitClass.Land & UnitClass.Infantry, 1.5f));
+            player.unitClassProductionBoosts.Add("RallingDrumsRanged", (UnitClass.Classical | UnitClass.Land | UnitClass.Ranged, 1.5f));
+            player.unitClassProductionBoosts.Add("RallingDrumsInfantry", (UnitClass.Classical | UnitClass.Land | UnitClass.Infantry, 1.5f));
         }
 
         if (remove)
@@ -367,7 +367,7 @@ public static class PolicyCardLoader
     {
         if (add)
         {
-            player.unitClassProductionBoosts.Add("Maneuver", (UnitClass.Classical & UnitClass.Cavalry, 1.5f));
+            player.unitClassProductionBoosts.Add("Maneuver", (UnitClass.Classical | UnitClass.Cavalry, 1.5f));
         }
 
         if (remove)
@@ -408,12 +408,15 @@ public static class PolicyCardLoader
         if (add)
         {
             UnitEffect unitEffect = new UnitEffect(UnitEffectType.MaintenanceCost, EffectOperation.Subtract, 1, 1);
-            player.unitPlayerEffects.Add(new UnitPlayerEffect("Conscription", unitEffect, UnitClass.Combat | UnitClass.Civilian));
+            player.unitPlayerEffects.Add(new UnitPlayerEffect("ConscriptionCombat", unitEffect, UnitClass.Combat));
+            player.unitPlayerEffects.Add(new UnitPlayerEffect("ConscriptionCivilian", unitEffect, UnitClass.Civilian));
+
         }
 
         if (remove)
         {
-            PlayerEffect.RemovePlayerUnitEffects("Conscription", player);
+            PlayerEffect.RemovePlayerUnitEffects("ConscriptionCombat", player);
+            PlayerEffect.RemovePlayerUnitEffects("ConscriptionCivilian", player);
         }
     }
 
@@ -801,7 +804,7 @@ public static class PolicyCardLoader
     {
         if (add)
         {
-            player.unitClassProductionBoosts.Add("Chivalry", (UnitClass.Classical & UnitClass.Combat, 1.5f));
+            player.unitClassProductionBoosts.Add("Chivalry", (UnitClass.Classical | UnitClass.Combat, 1.5f));
         }
 
         if (remove)

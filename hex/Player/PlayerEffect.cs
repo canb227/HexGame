@@ -42,28 +42,25 @@ public static class PlayerEffect
     public static void SetGovernment(BasePlayer player, GovernmentType governmentType)
     {
         //if they had a government remove its effects
-        if (player.government != null)
+        if (player.government == GovernmentType.Tribal)
         {
-            if (player.government == GovernmentType.Tribal)
-            {
-                PlayerEffect.RemoveTribalGovernmentEffect(player);
-            }
-            else if (player.government == GovernmentType.Autocracy)
-            {
-                PlayerEffect.RemoveAutocracyGovernmentEffect(player);
-            }
-            else if (player.government == GovernmentType.ClassicalRepublic)
-            {
-                PlayerEffect.RemoveClassicalRepublicGovernmentEffect(player);
-            }
-            else if (player.government == GovernmentType.Oligarchy)
-            {
-                PlayerEffect.RemoveOligarchyGovernmentEffect(player);
-            }
-            else if (player.government == GovernmentType.Monarchy)
-            {
-                PlayerEffect.RemoveMonarchyGovernmentEffect(player);
-            }
+            PlayerEffect.RemoveTribalGovernmentEffect(player);
+        }
+        else if (player.government == GovernmentType.Autocracy)
+        {
+            PlayerEffect.RemoveAutocracyGovernmentEffect(player);
+        }
+        else if (player.government == GovernmentType.ClassicalRepublic)
+        {
+            PlayerEffect.RemoveClassicalRepublicGovernmentEffect(player);
+        }
+        else if (player.government == GovernmentType.Oligarchy)
+        {
+            PlayerEffect.RemoveOligarchyGovernmentEffect(player);
+        }
+        else if (player.government == GovernmentType.Monarchy)
+        {
+            PlayerEffect.RemoveMonarchyGovernmentEffect(player);
         }
 
         //set the new government
@@ -323,6 +320,8 @@ public static class PlayerEffect
 
 public enum GovernmentType
 {
+    None,
+
     Tribal,
 
     Autocracy,
