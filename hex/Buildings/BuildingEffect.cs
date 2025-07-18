@@ -372,8 +372,7 @@ public class BuildingEffect
         foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
         {
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.heroic 
-                    || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter 
-                    || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.science))
+                    || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter))
             {
                 yields.production += 1;
             }

@@ -21,7 +21,7 @@ public partial class DistrictPickerPanel : Control
         control = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/PickDistrictPanel.tscn").Instantiate<Control>();
         AddChild(control);
 
-        districtTypeVBox = control.GetNode<VBoxContainer>("PickDistrictPanel/DistrictTypeVBox");
+        districtTypeVBox = control.GetNode<VBoxContainer>("PickDistrictPanel/MarginContainer/DistrictTypeVBox");
         closeButton = control.GetNode<Button>("CloseButton");
 
         closeButton.Pressed += () => CancelSelection();
@@ -34,6 +34,16 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Refining District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.refinement);;
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Food for each adjacent Rural Improved Tile";
+                districtTypeVBox.AddChild(description);
+                TextureRect textureRect = new();
+                textureRect.CustomMinimumSize = new Vector2(2, 2);
+                GradientTexture1D temp = new GradientTexture1D();
+                temp.Gradient.Colors = new Godot.Color[] { Godot.Colors.Black };
+                textureRect.Texture = temp;
+                districtTypeVBox.AddChild(textureRect);
             }
             else if (type == DistrictType.production && BuildingLoader.buildingsDict["IndustryDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType) )
             {
@@ -41,6 +51,10 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Industrial District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.production);
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Production for each adjacent Gold District, Dock District, or Military District";
+                districtTypeVBox.AddChild(description);
             }
             else if (type == DistrictType.gold && BuildingLoader.buildingsDict["CommerceDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
@@ -48,6 +62,10 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Commercial District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.gold);
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Gold for each adjacent Production District, Dock District, or Science District";
+                districtTypeVBox.AddChild(description);
             }
             else if (type == DistrictType.science && BuildingLoader.buildingsDict["CampusDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
@@ -55,6 +73,10 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Campus District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.science);
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Science for each adjacent Cultural District, Mountain Terrain, or City Center";
+                districtTypeVBox.AddChild(description);
             }
             else if (type == DistrictType.culture && BuildingLoader.buildingsDict["CulturalDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
@@ -62,6 +84,10 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Cultural District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.culture);
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Culture for each adjacent Heroic District, Gold District, or City Center";
+                districtTypeVBox.AddChild(description);
             }
             else if (type == DistrictType.happiness && BuildingLoader.buildingsDict["EntertainmentDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
@@ -69,6 +95,10 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Entertainment District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.happiness);
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Happiness for each adjacent Rural Tile or Cultural District";
+                districtTypeVBox.AddChild(description);
             }
             else if (type == DistrictType.heroic && BuildingLoader.buildingsDict["HeroicDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
@@ -76,6 +106,10 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Heroic District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.heroic);
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Influence for each adjacent Coastal Tile or Military District";
+                districtTypeVBox.AddChild(description);
             }
             else if (type == DistrictType.dock && BuildingLoader.buildingsDict["HarborDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
@@ -83,6 +117,10 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Harbor District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.dock);
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Gold for each adjacent Dock District, Gold District, or Coral Feature";
+                districtTypeVBox.AddChild(description);
             }
             else if (type == DistrictType.military && BuildingLoader.buildingsDict["MilitaristicDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
             {
@@ -90,6 +128,10 @@ public partial class DistrictPickerPanel : Control
                 button.Text = "Militaristic District";
                 button.Pressed += () => PrepareToBuildOnHex(DistrictType.military);
                 districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 Production for each adjacent Heroic District, or City Center";
+                districtTypeVBox.AddChild(description);
             }
         }
 

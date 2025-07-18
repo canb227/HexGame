@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxb6md4upmoe3"]
 
-[ext_resource type="Script" uid="uid://bhtge0knucwnp" path="res://graphics/ui/menus/Mainmenu.cs" id="1_osleq"]
+[ext_resource type="Script" uid="uid://qyy4tl8r8aun" path="res://graphics/ui/menus/Mainmenu.cs" id="1_osleq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_773cy"]
 font_size = 66
@@ -80,8 +80,10 @@ offset_right = 190.0
 offset_bottom = -233.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Civ @ Home"
+text = "AoA"
 label_settings = SubResource("LabelSettings_773cy")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="b_play" to="." method="onPlayButtonPressed"]
 [connection signal="pressed" from="b_options" to="." method="onOptionsButtonPressed"]

@@ -54,14 +54,28 @@ public partial class GraphicCity : GraphicObject
 
     public override void Unselected()
     {
-        Global.gameManager.graphicManager.ShowAllWorldUI();
-        Global.gameManager.graphicManager.uiManager.cityInfoPanel.CityUnselected();
+        if (city.teamNum == Global.gameManager.game.localPlayerTeamNum)
+        {
+            Global.gameManager.graphicManager.ShowAllWorldUI();
+            Global.gameManager.graphicManager.uiManager.cityInfoPanel.CityUnselected();
+        }
+        else
+        {
+            Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        }
     }
 
     public override void Selected()
     {
-        Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
-        Global.gameManager.graphicManager.uiManager.cityInfoPanel.CitySelected(city);
+        if(city.teamNum == Global.gameManager.game.localPlayerTeamNum)
+        {
+            Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
+            Global.gameManager.graphicManager.uiManager.cityInfoPanel.CitySelected(city);
+        }
+        else
+        {
+            Global.gameManager.graphicManager.uiManager.DiplomacyButtonPressed(city.teamNum, null);
+        }
     }
 
     public override void ProcessRightClick(Hex hex)

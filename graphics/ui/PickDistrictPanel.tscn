@@ -13,31 +13,38 @@ grow_vertical = 2
 [node name="PickDistrictPanel" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.382
-anchor_top = 0.469
-anchor_right = 0.618
-anchor_bottom = 0.531
-offset_left = -0.564026
-offset_top = 0.0879822
-offset_right = 0.563965
-offset_bottom = -0.0880127
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 300.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="DistrictTypeVBox" type="VBoxContainer" parent="PickDistrictPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="PickDistrictPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="DistrictTypeVBox" type="VBoxContainer" parent="PickDistrictPanel/MarginContainer"]
 layout_mode = 2
 
 [node name="CloseButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.609
-anchor_top = 0.457
-anchor_right = 0.626
-anchor_bottom = 0.488
-offset_left = 0.431946
-offset_top = -0.136017
-offset_right = -0.152039
-offset_bottom = -0.22403
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 303.0
+offset_top = -114.0
+offset_right = 331.0
+offset_bottom = -86.0
 icon = ExtResource("1_edorh")
 icon_alignment = 1
 expand_icon = true

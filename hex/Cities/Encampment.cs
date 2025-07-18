@@ -53,6 +53,35 @@ public partial class Encampment : City
         RecalculateYields();
     }
 
+    public new void DistrictFell()
+    {
+        bool allDistrictsFell = true;
+        bool cityCenterOccupied = false;
+        Unit unit = null;
+        foreach (District district in districts)
+        {
+            if (district.health > 0.0f)
+            {
+                allDistrictsFell = false;
+            }
+            if (district.isCityCenter && district.health <= 0.0f)
+            {
+                if (Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].units.Any())
+                {
+                    unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].units[0]];
+                    if (Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(unit.teamNum))
+                    {
+                        cityCenterOccupied = true;
+                    }
+                }
+            }
+        }
+        if (allDistrictsFell && cityCenterOccupied)
+        {
+            Global.gameManager.graphicManager.uiManager.EncampmentTakenPopUp(this, unit.teamNum);
+        }
+    }
+
     public void AddEncampmentCenter()
     {
         District district;
