@@ -88,30 +88,15 @@ public partial class GraphicResource : GraphicObject
             {
                 node3D.Visible = false;
                 resourceMeshInstance.Visible = false;
-
-                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
-                {
-                    improved = true;
-                    this.Visible = true;
-                    improvementMeshInstance.Visible = true;
-                }
-                else
-                {
-                    improved = false;
-                    this.Visible = false;
-                    improvementMeshInstance.Visible = false;
-                }
                 return;
             }
 
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
             {
-                improved = true;
                 improvementMeshInstance.Visible = true;
             }
             else
             {
-                improved = false;
                 improvementMeshInstance.Visible = false;
             }
 
@@ -130,19 +115,6 @@ public partial class GraphicResource : GraphicObject
             {
                 node3D.Visible = false;
                 resourceMeshInstance.Visible = false;
-
-                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
-                {
-                    improved = true;
-                    this.Visible = true;
-                    improvementMeshInstance.Visible = true;
-                }
-                else
-                {
-                    improved = false;
-                    this.Visible = false;
-                    improvementMeshInstance.Visible = false;
-                }
                 return;
             }
 
@@ -162,7 +134,7 @@ public partial class GraphicResource : GraphicObject
                     this.Visible = true;
                     node3D.Visible = true;
                     resourceMeshInstance.Visible = true;
-                    if (improved)
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
                     {
                         improvementMeshInstance.Visible = true;
                     }
@@ -174,7 +146,7 @@ public partial class GraphicResource : GraphicObject
                     this.Visible = true;
                     node3D.Visible = true;
                     resourceMeshInstance.Visible = true;
-                    if (improved)
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
                     {
                         improvementMeshInstance.Visible = true;
                     }

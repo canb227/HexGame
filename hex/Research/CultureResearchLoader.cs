@@ -102,7 +102,7 @@ public static class CultureResearchLoader
         {
             player.exportCap += 1;
         }
-        return "+1 to Total Export Route Capacity.";
+        return "Unlocks exporting of surplus to food from a city to another.";
     }
 
     static string PenmanshipShareMapEffect(Player player, bool executeLogic)
@@ -185,7 +185,7 @@ public static class CultureResearchLoader
     {
         if (executeLogic)
         {
-            player.buildingPlayerEffects.Add(("Feudalism", new BuildingEffect("FeudalismEffect"), "Farm"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("Feudalism", new BuildingEffect("FeudalismEffect"), "Farm"));
         }
         return "Farms Gain +1 Food Yield if they are Adjacent to atleast 1 other Farm.";
     }

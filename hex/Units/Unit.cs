@@ -175,11 +175,11 @@ public partial class Unit
         //0 means it is applied first 100 means it is applied "last" (highest number last)
         //so multiply/divide effects should be 20 and add/subtract will be 10 to give wiggle room
         PriorityQueue<UnitEffect, int> orderedEffects = new();
-        foreach ((string, UnitEffect, UnitClass) effectTuple in Global.gameManager.game.playerDictionary[teamNum].unitPlayerEffects)
+        foreach (UnitPlayerEffect effectTuple in Global.gameManager.game.playerDictionary[teamNum].unitPlayerEffects)
         {
-            if (unitClass.HasFlag(effectTuple.Item3))
+            if (unitClass.HasFlag(effectTuple.effectedClass))
             {
-                orderedEffects.Enqueue(effectTuple.Item2, effectTuple.Item2.priority);
+                orderedEffects.Enqueue(effectTuple.effect, effectTuple.effect.priority);
             }
         }
         foreach (UnitEffect effect1 in effects)
@@ -683,7 +683,7 @@ public partial class Unit
         {
             if(isTargetEnemy & targetGameHex.hex.Equals(currentPath.Last()))
             {
-                if(attacksLeft > 0)
+                if (attacksLeft > 0)
                 {
                     if (AttackTarget(targetGameHex, moveCost, teamManager))
                     {
@@ -713,7 +713,7 @@ public partial class Unit
                     }
                 }
             }
-            else if(!targetGameHex.units.Any() && (targetGameHex.district==null || targetGameHex.district.health == 0 && !Global.gameManager.game.teamManager.GetAllies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum)))
+            else if(!targetGameHex.units.Any() && (targetGameHex.district==null || targetGameHex.district.health == 0 || Global.gameManager.game.teamManager.GetAllies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum)))
             {
                 SetRemainingMovement(remainingMovement - moveCost);
                 Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
@@ -768,6 +768,7 @@ public partial class Unit
             GameHex nextHex = Global.gameManager.game.mainGameBoard.gameHexDict[currentPath[0]];
             if (!TryMoveToGameHex(nextHex, teamManager))
             {
+                GD.Print("Cant move to: " + nextHex.hex);
                 return false;
             }
             currentPath.Remove(nextHex.hex);

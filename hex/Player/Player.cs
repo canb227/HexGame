@@ -83,13 +83,13 @@ public class Player : BasePlayer
     public float administrativeUpkeep { get; set; } = 100; //administrativeUpkeep is increased by each city and each population
     public float administrativeCityCost { get; set; }
     public float administrativePopulationCost { get; set; } 
-    public int settlerCount = 0;
+    public int settlerCount { get; set; } = 0;
     //exports and trade
     public List<ExportRoute> exportRouteList { get; set; } = new();
     public List<TradeRoute> tradeRouteList { get; set; } = new();
     public List<TradeRoute> outgoingTradeRouteList { get; set; } = new();
     public int exportCount { get; set; }
-    public int exportCap { get; set; } = 2;
+    public int exportCap { get; set; } = 0;
     public int baseMaxTradeRoutes { get; set; } = 2;
     public int tradeRouteCount { get; set; }
 

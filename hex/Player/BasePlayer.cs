@@ -58,8 +58,8 @@ public class BasePlayer
     public bool turnFinished { get; set; }
     public List<int> unitList { get; set; } = new();
     public List<int> cityList { get; set; } = new();
-    public List<(string, UnitEffect, UnitClass)> unitPlayerEffects { get; set; } = new();
-    public List<(string, BuildingEffect, String)> buildingPlayerEffects { get; set; } = new();
+    public List<UnitPlayerEffect> unitPlayerEffects { get; set; } = new();
+    public List<BuildingPlayerEffect> buildingPlayerEffects { get; set; } = new();
     public HashSet<String> allowedBuildings { get; set; } = new();
     public HashSet<DistrictType> allowedDistricts { get; set; } = new();
     public HashSet<String> allowedUnits { get; set; } = new();
@@ -110,16 +110,16 @@ public class BasePlayer
     public int baseTundra;
     public int baseArctic;
 
-    public float foodDifficultyModifier = 1.0f;
-    public float productionDifficultyModifier = 1.0f;
-    public float goldDifficultyModifier = 1.0f;
-    public float scienceDifficultyModifier = 1.0f;
-    public float cultureDifficultyModifier = 1.0f;
-    public float happinessDifficultyModifier = 1.0f;
-    public float influenceDifficultyModifier = 1.0f;
-    public float combatPowerDifficultyModifier = 0.0f;
+    public float foodDifficultyModifier { get; set; } = 1.0f;
+    public float productionDifficultyModifier { get; set; } = 1.0f;
+    public float goldDifficultyModifier { get; set; } = 1.0f;
+    public float scienceDifficultyModifier { get; set; } = 1.0f;
+    public float cultureDifficultyModifier { get; set; } = 1.0f;
+    public float happinessDifficultyModifier { get; set; } = 1.0f;
+    public float influenceDifficultyModifier { get; set; } = 1.0f;
+    public float combatPowerDifficultyModifier { get; set; } = 0.0f;
 
-    public Godot.Color teamColor;
+    public Godot.Color teamColor { get; set; }
     public StandardMaterial3D playerTerritoryMaterial;
     public Theme theme;
 

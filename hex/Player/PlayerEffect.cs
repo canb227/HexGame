@@ -8,29 +8,12 @@ using static Godot.GodotThread;
 
 public static class PlayerEffect
 {
-    public static void ProcessFunctionString(String functionString, BasePlayer player)
-    {
-        Dictionary<String, Action<BasePlayer>> effectFunctions = new Dictionary<string, Action<BasePlayer>>
-        {
-            { "AddTribalGovernmentEffect", AddTribalGovernmentEffect },
-        };
-
-        if (effectFunctions.TryGetValue(functionString, out Action<BasePlayer> effectFunction))
-        {
-            effectFunction(player);
-        }
-        else
-        {
-            throw new ArgumentException($"Function '{functionString}' not recognized in PlayerEffect");
-        }
-    }
-
     public static void RemovePlayerBuildingEffects(string name, BasePlayer player)
     {
-        List<(string, BuildingEffect, string)> toRemove = new();
-        foreach ((string, BuildingEffect, string) effect in player.buildingPlayerEffects)
+        List<BuildingPlayerEffect> toRemove = new();
+        foreach (BuildingPlayerEffect effect in player.buildingPlayerEffects)
         {
-            if (effect.Item1 == "TribalGovernment")
+            if (effect.name == name)
             {
                 toRemove.Add(effect);
             }
@@ -42,10 +25,10 @@ public static class PlayerEffect
     }
     public static void RemovePlayerUnitEffects(string name, BasePlayer player)
     {
-        List<(string, UnitEffect, UnitClass)> toRemoveUnit = new();
-        foreach ((string, UnitEffect, UnitClass) effect in player.unitPlayerEffects)
+        List<UnitPlayerEffect> toRemoveUnit = new();
+        foreach (UnitPlayerEffect effect in player.unitPlayerEffects)
         {
-            if (effect.Item1 == "TribalGovernment")
+            if (effect.name == name)
             {
                 toRemoveUnit.Add(effect);
             }
@@ -115,8 +98,8 @@ public static class PlayerEffect
     {
         player.militaryPolicySlots += 1;
         player.economicPolicySlots += 1;
-        player.buildingPlayerEffects.Add(("TribalGovernment", new BuildingEffect(BuildingEffectType.ProductionCost, EffectOperation.Multiply, 0.90f, 0), "")); //buildings are 10% cheaper (DOESNT WORK CURRENTLY
-        player.unitPlayerEffects.Add(("TribalGovernment", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 2, 0), UnitClass.Land)); //increase land strength by +2
+        player.buildingPlayerEffects.Add(new BuildingPlayerEffect("TribalGovernment", new BuildingEffect(BuildingEffectType.ProductionCost, EffectOperation.Multiply, 0.90f, 0), "")); //buildings are 10% cheaper (DOESNT WORK CURRENTLY
+        player.unitPlayerEffects.Add(new UnitPlayerEffect("TribalGovernment", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 2, 0), UnitClass.Land)); //increase land strength by +2
         foreach (int unitID in player.unitList)
         {
             Global.gameManager.game.unitDictionary[unitID].RecalculateEffects();
@@ -148,7 +131,7 @@ public static class PlayerEffect
         player.militaryPolicySlots += 2;
         player.economicPolicySlots += 1;
         player.heroicPolicySlots += 1;
-        player.buildingPlayerEffects.Add(("Autocracy", new BuildingEffect("AutocracyEffect"), "")); //+10% of all yields in Capital
+        player.buildingPlayerEffects.Add(new BuildingPlayerEffect("Autocracy", new BuildingEffect("AutocracyEffect"), "")); //+10% of all yields in Capital
         foreach (int unitID in player.unitList)
         {
             Global.gameManager.game.unitDictionary[unitID].RecalculateEffects();
@@ -180,7 +163,7 @@ public static class PlayerEffect
         player.economicPolicySlots += 2;
         player.diplomaticPolicySlots += 1;
         player.heroicPolicySlots += 1;
-        player.buildingPlayerEffects.Add(("ClassicalRepublic", new BuildingEffect("ClassicalRepublicEffect"), "")); //+ 1 Happiness for each urban district
+        player.buildingPlayerEffects.Add(new BuildingPlayerEffect("ClassicalRepublic", new BuildingEffect("ClassicalRepublicEffect"), "")); //+ 1 Happiness for each urban district
         //player.?.Add(("ClassicalRepublic"), "+10% hero xp gain");
         foreach (int unitID in player.unitList)
         {
@@ -215,7 +198,7 @@ public static class PlayerEffect
         player.economicPolicySlots += 1;
         player.diplomaticPolicySlots += 1;
         player.heroicPolicySlots += 1;
-        player.unitPlayerEffects.Add(("Oligarchy", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 4, 0), UnitClass.Infantry | UnitClass.Naval)); //+4 combat strength to all melee units (land and naval)
+        player.unitPlayerEffects.Add(new UnitPlayerEffect("Oligarchy", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 4, 0), UnitClass.Infantry | UnitClass.Naval)); //+4 combat strength to all melee units (land and naval)
         //player.?.Add(("ClassicalRepublic"), "+10% hero xp gain");
         foreach (int unitID in player.unitList)
         {
@@ -251,7 +234,7 @@ public static class PlayerEffect
         player.economicPolicySlots += 1;
         player.diplomaticPolicySlots += 1;
         player.heroicPolicySlots += 2;
-        player.unitPlayerEffects.Add(("Monarch", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 4, 0), UnitClass.Combat));
+        player.unitPlayerEffects.Add(new UnitPlayerEffect("Monarch", new UnitEffect(UnitEffectType.CombatStrength, EffectOperation.Add, 4, 0), UnitClass.Combat));
         foreach (int unitID in player.unitList)
         {
             Global.gameManager.game.unitDictionary[unitID].RecalculateEffects();
@@ -354,4 +337,36 @@ public enum GovernmentType
     //Communism,
     //Democracy,
     //Facism
+}
+
+[Serializable]
+public class UnitPlayerEffect
+{
+    public string name { get; set; }
+    public UnitEffect effect { get; set; }
+    public UnitClass effectedClass { get; set; }
+
+    public UnitPlayerEffect(string name, UnitEffect effect, UnitClass effectedClass)
+    {
+        this.name = name;
+        this.effect = effect;
+        this.effectedClass = effectedClass;
+    }
+    public UnitPlayerEffect() { }
+}
+
+[Serializable]
+public class BuildingPlayerEffect
+{
+    public string name { get; set; }
+    public BuildingEffect effect { get; set; }
+    public string effectedName { get; set; }
+
+    public BuildingPlayerEffect(string name, BuildingEffect effect, string effectedName)
+    {
+        this.name = name;
+        this.effect = effect;
+        this.effectedName = effectedName;
+    }
+    public BuildingPlayerEffect() { }
 }

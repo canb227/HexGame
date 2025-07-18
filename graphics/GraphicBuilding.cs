@@ -19,9 +19,15 @@ public partial class GraphicBuilding : GraphicObject
         this.isDistrictCenterBuilding = isDistrictCenterBuilding;
         this.layout = layout;
         node3D = new Node3D();
+        GD.Print("declared a building");
+    }
+
+    public override void _Ready()
+    {
         InitBuilding();
         UpdateGraphic(GraphicUpdateType.Visibility);
     }
+
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
@@ -69,7 +75,7 @@ public partial class GraphicBuilding : GraphicObject
 
 
         Global.gameManager.graphicManager.hexObjectDictionary[buildingHex].Add(this);
-
+        GD.Print("Setup the building");
         AddChild(node3D);
     }
 

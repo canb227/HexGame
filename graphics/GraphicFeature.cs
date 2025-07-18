@@ -42,8 +42,8 @@ public partial class GraphicFeature : GraphicObject
             default:
                 break;
         }
-
     }
+
     public override void _Ready()
     {
         Transform3D newTransform = featureModel.Transform;
@@ -60,6 +60,7 @@ public partial class GraphicFeature : GraphicObject
         this.Visible = false;
         featureModel.Visible = false;
         AddChild(featureModel);
+        UpdateGraphic(GraphicUpdateType.Visibility);
     }
     public override void Selected()
     {
@@ -81,7 +82,7 @@ public partial class GraphicFeature : GraphicObject
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
-        if (graphicUpdateType == GraphicUpdateType.Visibility)
+        if (graphicUpdateType == GraphicUpdateType.Update || graphicUpdateType == GraphicUpdateType.Visibility)
         {
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban)
             {
@@ -105,14 +106,6 @@ public partial class GraphicFeature : GraphicObject
                     this.Visible = false;
                     featureModel.Visible = false;
                 }
-            }
-        }
-        else if(graphicUpdateType == GraphicUpdateType.Update)
-        {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isUrban)
-            {
-                this.Visible = false;
-                featureModel.Visible = false;
             }
         }
     }

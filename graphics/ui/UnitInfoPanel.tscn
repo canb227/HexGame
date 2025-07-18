@@ -10,15 +10,14 @@
 [ext_resource type="Texture2D" uid="uid://pm77dn24svbk" path="res://graphics/ui/icons/skipturn.png" id="8_n2gec"]
 
 [node name="UnitInfoPanel" type="PanelContainer"]
-visible = false
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = -1
+anchor_left = 0.43
+anchor_top = 0.97
+anchor_right = 0.57
 anchor_bottom = 1.0
-offset_left = -230.0
-offset_top = -117.528
-offset_right = 230.0
+offset_left = -156.272
+offset_top = -107.024
+offset_right = 164.336
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("1_oettw")

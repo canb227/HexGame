@@ -17,6 +17,8 @@ public class ExportRoute
         this.exportType = exportType;
     }
 
+    public ExportRoute() { }
+
     public override bool Equals(object obj)
     {
         if (obj is ExportRoute)

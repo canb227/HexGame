@@ -15,7 +15,7 @@ public partial class District
     public int id { get; set; }
     public List<Building> buildings { get; set; }
     public List<Building> defenses { get; set; }
-    public DistrictType districtType;
+    public DistrictType districtType { get; set; }
     public Hex hex { get; set; }
     public bool isCityCenter { get; set; }
     public bool isUrban { get; set; }

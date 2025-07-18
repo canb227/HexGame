@@ -160,7 +160,7 @@ public static class ResearchLoader
     {
         if(executeLogic)
         {
-            player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Civilian & UnitClass.Land));
+            player.unitPlayerEffects.Add(new UnitPlayerEffect("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Civilian & UnitClass.Land));
         }
         return "Enable Emarking and Disembarking for all Civilian Units";
     }
@@ -234,7 +234,7 @@ public static class ResearchLoader
     {
         if (executeLogic)
         {
-            player.unitPlayerEffects.Add(("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
+            player.unitPlayerEffects.Add(new UnitPlayerEffect("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
         }
         return "Enable Emarking and Disembarking for all Land Units";
     }
@@ -243,7 +243,7 @@ public static class ResearchLoader
     {
         if (executeLogic)
         {
-            player.unitPlayerEffects.Add(("Mathematics", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Naval));
+            player.unitPlayerEffects.Add(new UnitPlayerEffect("Mathematics", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Naval));
         }
         return "+1 Movement speed to all Naval units";
     }
@@ -262,7 +262,7 @@ public static class ResearchLoader
     {
         if (executeLogic)
         {
-            player.buildingPlayerEffects.Add(("Apprenticeship", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Mine"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("Apprenticeship", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Mine"));
         }
         return "+1 Production Yield to all Mines";
     }
@@ -291,7 +291,7 @@ public static class ResearchLoader
     {
         if (executeLogic)
         {
-            player.buildingPlayerEffects.Add(("Stirrups", new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1.0f, 5), "Pasture"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("Stirrups", new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1.0f, 5), "Pasture"));
         }
         return "+1 Food Yield to all Pastures";
     }
@@ -310,8 +310,8 @@ public static class ResearchLoader
     {
         if (executeLogic && player.industrialInsightCulturalResearchCount == 0)
         {
-            player.unitPlayerEffects.Add(("CartographyCivilian", new UnitEffect("EnableOceanMovement"), UnitClass.Civilian));
-            player.unitPlayerEffects.Add(("CartographyCombat", new UnitEffect("EnableOceanMovement"), UnitClass.Combat));
+            player.unitPlayerEffects.Add(new UnitPlayerEffect("CartographyCivilian", new UnitEffect("EnableOceanMovement"), UnitClass.Civilian));
+            player.unitPlayerEffects.Add(new UnitPlayerEffect("CartographyCombat", new UnitEffect("EnableOceanMovement"), UnitClass.Combat));
         }
         return "Grants the ability to move on Ocean tiles.";
     }

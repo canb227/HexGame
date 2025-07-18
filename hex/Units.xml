@@ -38,7 +38,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Settler" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="3.0" CombatPower="5.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/units/baseperson_settler.glb">
+  <Unit Name="Settler" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="2.0" CombatPower="5.0" HealingFactor="15" MaintenanceCost="1" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/units/baseperson_settler.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -56,8 +56,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -95,8 +95,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -132,8 +132,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -278,8 +278,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -316,8 +316,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -343,8 +343,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -473,8 +473,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -552,8 +552,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -593,8 +593,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -653,8 +653,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />
@@ -680,8 +680,8 @@
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
       <TerrainMoveType Name="Mountain" Value="9999" />
-      <TerrainMoveType Name="Coast" Value="0.5" />
-      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
       <TerrainMoveType Name="Forest" Value="1" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="0.5" />

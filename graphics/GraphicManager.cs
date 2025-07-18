@@ -42,6 +42,7 @@ public partial class GraphicManager : Node3D
         EnviromentManager enviromentManager = new EnviromentManager();
         AddChild(enviromentManager);
         ConfigureAndAddCamera();
+
     }
 
     public override void _Process(double delta)
@@ -93,11 +94,11 @@ public partial class GraphicManager : Node3D
         ggb.chunkList[ggb.hexToChunkDictionary[graphicDistrict.district.hex]].multiMeshInstance.AddChild(graphicDistrict);
     }
 
-    public void NewBuilding(string buildingName, Godot.Collections.Dictionary hexData, int id, bool isResource, bool isDistrictCenterBuilding)
+    public void NewBuilding(string buildingName, Godot.Collections.Dictionary hexData, int id, bool isDistrictCenterBuilding)
     {
         Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
 
-        GraphicBuilding graphicBuilding = new GraphicBuilding(buildingName, hex, isResource, layout);
+        GraphicBuilding graphicBuilding = new GraphicBuilding(buildingName, hex, isDistrictCenterBuilding, layout);
         graphicObjectDictionary.Add(id, graphicBuilding);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicBuilding);

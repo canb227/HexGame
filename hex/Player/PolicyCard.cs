@@ -307,8 +307,8 @@ public static class PolicyCardLoader
         if (add)
         {
             BuildingEffect newEffect = new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1, 1);
-            player.buildingPlayerEffects.Add(("UrbanPlanningCityCenter", newEffect, "CityCenter"));
-            player.buildingPlayerEffects.Add(("UrbanPlanningPalace", newEffect, "Palace"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("UrbanPlanningCityCenter", newEffect, "CityCenter"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("UrbanPlanningPalace", newEffect, "Palace"));
         }
 
         if (remove)
@@ -324,8 +324,8 @@ public static class PolicyCardLoader
         {
             BuildingEffect newFoodEffect = new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1, 1);
             BuildingEffect newGoldEffect = new BuildingEffect(BuildingEffectType.GoldYield, EffectOperation.Add, 1, 1);
-            player.buildingPlayerEffects.Add(("WorkershipFood", newFoodEffect, "RefinementDistrict"));
-            player.buildingPlayerEffects.Add(("WorkershipGold", newGoldEffect, "RefinementDistrict"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("WorkershipFood", newFoodEffect, "RefinementDistrict"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("WorkershipGold", newGoldEffect, "RefinementDistrict"));
         }
 
         if (remove)
@@ -408,7 +408,7 @@ public static class PolicyCardLoader
         if (add)
         {
             UnitEffect unitEffect = new UnitEffect(UnitEffectType.MaintenanceCost, EffectOperation.Subtract, 1, 1);
-            player.unitPlayerEffects.Add(("Conscription", unitEffect, UnitClass.Combat | UnitClass.Civilian));
+            player.unitPlayerEffects.Add(new UnitPlayerEffect("Conscription", unitEffect, UnitClass.Combat | UnitClass.Civilian));
         }
 
         if (remove)
@@ -478,8 +478,8 @@ public static class PolicyCardLoader
         {
             BuildingEffect buildingEffect = new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1, 1);
             BuildingEffect buildingEffectGold = new BuildingEffect(BuildingEffectType.GoldYield, EffectOperation.Add, 1, 1);
-            player.buildingPlayerEffects.Add(("RevelationFood", buildingEffect, "FishingBoat"));
-            player.buildingPlayerEffects.Add(("RevelationGold", buildingEffectGold, "FishingBoat"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("RevelationFood", buildingEffect, "FishingBoat"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("RevelationGold", buildingEffectGold, "FishingBoat"));
         }
 
         if (remove)
@@ -547,7 +547,7 @@ public static class PolicyCardLoader
         if (add)
         {
             BuildingEffect buildingEffect = new BuildingEffect(BuildingEffectType.GoldYield, EffectOperation.Add, 1, 1);
-            player.buildingPlayerEffects.Add(("EquestrianOrder", buildingEffect, "District"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("EquestrianOrder", buildingEffect, "District"));
         }
 
         if (remove)
@@ -657,15 +657,15 @@ public static class PolicyCardLoader
             BuildingEffect newFoodEffect = new BuildingEffect(BuildingEffectType.FoodYield, EffectOperation.Add, 1, 1);
             BuildingEffect newGoldEffect = new BuildingEffect(BuildingEffectType.GoldYield, EffectOperation.Add, 1, 1);
             //food
-            player.buildingPlayerEffects.Add(("SerfdomFoodFarm", newFoodEffect, "Farm"));
-            player.buildingPlayerEffects.Add(("SerfdomFoodPasture", newFoodEffect, "Pasture"));
-            player.buildingPlayerEffects.Add(("SerfdomFoodMine", newFoodEffect, "Mine"));
-            player.buildingPlayerEffects.Add(("SerfdomFoodLumbermill", newFoodEffect, "Lumbermill"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("SerfdomFoodFarm", newFoodEffect, "Farm"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("SerfdomFoodPasture", newFoodEffect, "Pasture"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("SerfdomFoodMine", newFoodEffect, "Mine"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("SerfdomFoodLumbermill", newFoodEffect, "Lumbermill"));
             //gold
-            player.buildingPlayerEffects.Add(("SerfdomGoldFarm", newGoldEffect, "Farm"));
-            player.buildingPlayerEffects.Add(("SerfdomGoldPasture", newGoldEffect, "Pasture"));
-            player.buildingPlayerEffects.Add(("SerfdomGoldMine", newGoldEffect, "Mine"));
-            player.buildingPlayerEffects.Add(("SerfdomGoldLumbermill", newGoldEffect, "Lumbermill"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("SerfdomGoldFarm", newGoldEffect, "Farm"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("SerfdomGoldPasture", newGoldEffect, "Pasture"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("SerfdomGoldMine", newGoldEffect, "Mine"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("SerfdomGoldLumbermill", newGoldEffect, "Lumbermill"));
         }
 
         if (remove)
@@ -688,7 +688,7 @@ public static class PolicyCardLoader
         if (add)
         {
             BuildingEffect newCultureEffect = new BuildingEffect(BuildingEffectType.CultureYield, EffectOperation.Add, 1, 1);
-            player.buildingPlayerEffects.Add(("Meritocracy", newCultureEffect, "District"));
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("Meritocracy", newCultureEffect, "District"));
         }
 
         if (remove)

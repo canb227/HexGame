@@ -73,7 +73,7 @@ public partial class Building
                 { "s", districtHex.s }
             };
 
-            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewBuilding", buildingType, data, id, isResource, isDistrictCenterBuilding);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewBuilding", buildingType, data, id, isDistrictCenterBuilding);
         }
     }
 
@@ -122,11 +122,11 @@ public partial class Building
                 }
             }
         }
-        foreach ((string, BuildingEffect, String) effectName in Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[districtHex].district.cityID].teamNum].buildingPlayerEffects)
+        foreach (BuildingPlayerEffect effectName in Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[districtHex].district.cityID].teamNum].buildingPlayerEffects)
         {
-            if(effectName.Item3 == "" || effectName.Item3 == name)
+            if(effectName.effectedName == "" || effectName.effectedName == name)
             {
-                orderedEffects.Enqueue(effectName.Item2, effectName.Item2.priority);
+                orderedEffects.Enqueue(effectName.effect, effectName.effect.priority);
             }
         }
         foreach (BuildingEffect effect1 in buildingEffects)

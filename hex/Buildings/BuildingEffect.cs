@@ -293,7 +293,7 @@ public class BuildingEffect
         foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
         {
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.culture
-                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.happiness
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Mountain
                 || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter))
             {
                 yields.science += 1;
@@ -339,7 +339,7 @@ public class BuildingEffect
         Yields yields = new Yields();
         foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
         {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.science
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Coast
                 || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.military))
             {
                 yields.influence += 1;
@@ -357,7 +357,7 @@ public class BuildingEffect
         {
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.dock
                 || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.gold
-                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.citycenter))
+                || Global.gameManager.game.mainGameBoard.gameHexDict[hex].featureSet.Contains(FeatureType.Coral)))
             {
                 yields.gold += 1;
             }

@@ -38,11 +38,6 @@ public class UnitEffect
         this.effectMagnitude = effectMagnitude;
         this.priority = priority;
     }
-    public UnitEffect(Action<int> applyFunction, int priority)
-    {
-        this.priority = priority;
-        this.applyFunction = applyFunction;
-    }
 
     public UnitEffect(String functionName)
     {
@@ -57,20 +52,14 @@ public class UnitEffect
     public UnitEffectType effectType { get; set; }
     public EffectOperation effectOperation { get; set; }
     public TerrainMoveType terrainMoveType { get; set; }
-    public float effectMagnitude { get; set; }
-    public int priority { get; set; }
-    public Action<int>? applyFunction { get; set; }
+    public float effectMagnitude { get; set; } = 0f;
+    public int priority { get; set; } = 0;
     public String functionName { get; set; } = "";
 
 
     public bool Apply(int unitID, float combatPower = 0.0f, GameHex abilityTarget = null)
     {
-        if (applyFunction != null)
-        {
-            applyFunction(unitID);
-            return true;
-        }
-        else if (functionName != "")
+        if (functionName != "")
         {
             return ProcessFunctionString(functionName, unitID, combatPower, abilityTarget);
         }
@@ -311,7 +300,6 @@ public class UnitEffect
 
     public void EnableOceanMovement(Unit unit)
     {
-        GD.Print("wtf");
         if (unit.movementCosts[TerrainMoveType.Ocean] < 0)
         {
             unit.movementCosts[TerrainMoveType.Ocean] = unit.movementCosts[TerrainMoveType.Ocean] * -1;

@@ -55,7 +55,7 @@ public partial class TradeExportPanel : Control
                     {
                         HBoxContainer cityBox = new HBoxContainer();
                         Label cityName = new Label();
-                        cityName.Text = Global.gameManager.game.cityDictionary[exportRoute.targetCityID].name;
+                        cityName.Text = Global.gameManager.game.cityDictionary[exportRoute.sourceCityID].name + "->" + Global.gameManager.game.cityDictionary[exportRoute.targetCityID].name + "\n";
                         CheckButton exportFoodCheckBox = new CheckButton();
                         exportFoodCheckBox.SetPressedNoSignal(true);
                         exportFoodCheckBox.Text = "Export Surplus Food to this City";

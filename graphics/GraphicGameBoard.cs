@@ -56,7 +56,7 @@ public partial class GraphicGameBoard : GraphicObject
 
         AddHexUnits(layout);
 
-        AddHexDistrictsAndCities(layout);
+        AddHexBuildingsAndDistrictsAndCities(layout);
 
         SimpleRedrawBoard(layout);
     }
@@ -387,7 +387,7 @@ public partial class GraphicGameBoard : GraphicObject
         visibilityTexture.Update(visibilityImage);
     }
 
-    private void AddHexDistrictsAndCities(Layout layout)
+    private void AddHexBuildingsAndDistrictsAndCities(Layout layout)
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
         {
@@ -410,6 +410,10 @@ public partial class GraphicGameBoard : GraphicObject
                         { "s", gameBoard.gameHexDict[hex].district.hex.s }
                     };
                 Global.gameManager.graphicManager.NewDistrict(data);
+                foreach(Building building in gameBoard.gameHexDict[hex].district.buildings)
+                {
+                    Global.gameManager.graphicManager.NewBuilding(building.name, data, building.id, building.isDistrictCenterBuilding);
+                }
             }
         }
     }
@@ -480,7 +484,7 @@ public partial class GraphicGameBoard : GraphicObject
     {
         //GD.PushWarning("NOT IMPLEMENTED"); //TODO
         Vector3 wrappedPixel = WrapPixel(pixel);
-        float height = heightMap.GetPixel((int)(wrappedPixel.Z), (int)wrappedPixel.X).R * 20.0f; 
+        float height = heightMap.GetPixel((int)(wrappedPixel.Z), (int)wrappedPixel.X).R * 20.0f - 1; 
         return height;
     }
 
