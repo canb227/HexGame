@@ -249,7 +249,7 @@ public partial class CityInfoPanel : Node3D
                             {
                                 if(city.naturalPopulation < 3)
                                 {
-                                    //must be pop 3 or higher to build settlers
+                                    //must be pop 3 or higher to build settlers as a human player
                                     continue;
                                 }
                             }

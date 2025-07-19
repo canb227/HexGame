@@ -20,13 +20,16 @@ public enum RuinTier
     buried, //unlocked at end of classical culture
     hidden //unlocked at end of industrial culture
 }
-public static class RuinsEventLoader
+public static class AncientRuinsLoader
 {
     public static Dictionary<string, RuinsEvent> ruinsEventDict = new();
     public static List<RuinsEvent> eventStartPoints = new();
+
+
+    public static Dictionary<Hex, AncientRuins> physicalRuinsDict = new();
     
     //so we have an event dictionary
-    static RuinsEventLoader()
+    static AncientRuinsLoader()
     {
         RuinsEvent sample_final = new RuinsEvent()
         {
@@ -203,10 +206,16 @@ public class AncientRuins
     {
         this.ruinType = ruinType;
         this.ruinTier = ruinTier;
-        eventID = RuinsEventLoader.eventStartPoints[Random.Shared.Next(RuinsEventLoader.eventStartPoints.Count)].eventID;
+        eventID = AncientRuinsLoader.eventStartPoints[Random.Shared.Next(AncientRuinsLoader.eventStartPoints.Count)].eventID;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            //manager.CallDeferred("NewRuins", id); //how do we associate this ancient ruin, i guess pass everything?
+            var data = new Godot.Collections.Dictionary
+            {
+                { "q", hex.q },
+                { "r", hex.r },
+                { "s", hex.s }
+            };
+            manager.CallDeferred("NewRuins", eventID, data);
         }
     }
     public AncientRuins()
