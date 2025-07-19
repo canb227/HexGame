@@ -62,8 +62,9 @@ public class GameHex
     public int ownedBy { get; set; }
     public int owningCityID { get; set; }
     public HashSet<FeatureType> featureSet { get; set; } = new();
+    public AncientRuins ancientRuins { get; set; }
     public List<int> units { get; set; } = new();
-    public District? district { get; set; }
+    public District district { get; set; }
     public int withinCityRange { get; set; } = 0;
     public int rangeToNearestCity { get; set; } = 9;
 

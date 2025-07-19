@@ -122,6 +122,7 @@
             <ResearchType>StateWorkforce</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="EntertainmentDistrict" />
             <BuildingType Name="Arena" />
             <BuildingType Name="Colosseum" />
         </BuildingUnlocks>

@@ -245,6 +245,14 @@ public partial class CityInfoPanel : Node3D
                     {
                         if (itemName != "")
                         {
+                            if(itemName == "Settler")
+                            {
+                                if(city.naturalPopulation < 3)
+                                {
+                                    //must be pop 3 or higher to build settlers
+                                    continue;
+                                }
+                            }
                             ConstructionItem item = new ConstructionItem(city, itemName, false, true);
                             UnitsBox.AddChild(item);
                         }

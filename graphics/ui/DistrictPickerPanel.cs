@@ -41,6 +41,7 @@ public partial class DistrictPickerPanel : Control
                 TextureRect textureRect = new();
                 textureRect.CustomMinimumSize = new Vector2(2, 2);
                 GradientTexture1D temp = new GradientTexture1D();
+                temp.Gradient = new();
                 temp.Gradient.Colors = new Godot.Color[] { Godot.Colors.Black };
                 textureRect.Texture = temp;
                 districtTypeVBox.AddChild(textureRect);

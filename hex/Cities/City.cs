@@ -651,13 +651,18 @@ public partial class City
         foodStockpile += yields.food;
         if (foodToGrow <= foodStockpile)
         {
-            naturalPopulation += 1; //we increase naturalPopulation only here, and city size is increased for every building we have, rural or urban
-            readyToExpand += 1;
-            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager3)) manager3.Update2DUI(UIElement.endTurnButton);
             foodStockpile = Math.Max(0.0f, foodStockpile - foodToGrow);
-            foodToGrow = GetFoodToGrowCost(); //30 + (n-1) x 3 + (n-1) ^ 3.0 we use naturalPopulation so we dont punish the placement of urban buildings
+            GrowCity();
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+    }
+
+    public void GrowCity()
+    {
+        naturalPopulation += 1; //we increase naturalPopulation only here, and city size is increased for every building we have, rural or urban
+        readyToExpand += 1;
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager3)) manager3.Update2DUI(UIElement.endTurnButton);
+        foodToGrow = GetFoodToGrowCost(); //30 + (n-1) x 3 + (n-1) ^ 3.0 we use naturalPopulation so we dont punish the placement of urban buildings
     }
 
     public float CalculateProductionForSpecificItem(string itemName)

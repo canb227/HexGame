@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnuet04xcnjfi"]
+[gd_scene load_steps=4 format=3 uid="uid://cnuet04xcnjfi"]
+
+[ext_resource type="PackedScene" uid="uid://cavjouiitescw" path="res://graphics/models/ruins.glb" id="1_e5gep"]
 
 [sub_resource type="Gradient" id="Gradient_e5gep"]
 offsets = PackedFloat32Array(0)
@@ -78,3 +80,6 @@ autowrap_mode = 2
 [node name="VassalizeButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Vassalize"
+
+[node name="ruins" parent="." instance=ExtResource("1_e5gep")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.23781, 0, -0.683027)

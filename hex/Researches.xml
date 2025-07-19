@@ -42,6 +42,7 @@
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="RefineryDistrict" />
             <BuildingType Name="Stonecutter" />
         </BuildingUnlocks>
         <Effects>
@@ -107,6 +108,7 @@
             <ResearchType>Pottery</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="RefineryDistrict" />
             <BuildingType Name="Reservoir" />
             <BuildingType Name="HangingGardens" />
         </BuildingUnlocks>
@@ -180,6 +182,7 @@
             <ResearchType>Writing</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="CommerceDistrict" />
             <BuildingType Name="Market" />
         </BuildingUnlocks>
         <Effects>

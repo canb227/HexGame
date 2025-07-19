@@ -28,11 +28,13 @@ public partial class EncampementTakenPopUp : Control
 
     private void OccupyPressed()
     {
+        //need networked statement
         takenEncampment.EncampmentOccupied(takerTeamNum);
     }
 
     private void VassalizePressed()
     {
+        //need networked statement
         Global.gameManager.game.teamManager.SetDiplomaticState(takerTeamNum, takenEncampment.teamNum, DiplomaticState.Ally);
     }
 
