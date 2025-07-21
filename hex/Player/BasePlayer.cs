@@ -31,21 +31,21 @@ public class BasePlayer
 
         Global.gameManager.game.teamManager.AddTeam(teamNum, 50);
         Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, teamNum, DiplomaticState.Ally);
+        if(isEncampment)
+        {
+            foreach(int otherTeamNum in Global.gameManager.game.playerDictionary.Keys)
+            {
+                if (!Global.gameManager.game.playerDictionary[otherTeamNum].isEncampment)
+                {
+                    Global.gameManager.game.teamManager.SetDiplomaticState(teamNum, otherTeamNum, DiplomaticState.War);
+                }
+            }
+        }
+        else
+        {
+            diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Make Peace", false, false));
+        }
 
-        theme = new Theme();
-
-        playerTerritoryMaterial = new StandardMaterial3D();
-
-        Gradient gradient = new Gradient();
-        gradient.SetColor(0, new Godot.Color(teamColor.R, teamColor.G, teamColor.B, 0.2f));
-        gradient.SetColor(1, teamColor);
-
-        GradientTexture1D gradTex = new GradientTexture1D();
-        gradTex.Gradient = gradient;
-        gradTex.Width = 256;
-
-        playerTerritoryMaterial.AlbedoTexture = gradTex;
-        playerTerritoryMaterial.Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
     }
 
     public BasePlayer()
@@ -65,6 +65,7 @@ public class BasePlayer
     public HashSet<DistrictType> allowedDistricts { get; set; } = new();
     public HashSet<String> allowedUnits { get; set; } = new();
     public HashSet<ResourceType> hiddenResources { get; set; } = new();
+    public HashSet<DiplomacyAction> diplomaticActionHashSet { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> globalResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> hiddenGlobalResources { get; set;} = new();
@@ -148,10 +149,13 @@ public class BasePlayer
     public float GetGoldPerTurn()
     {
         float goldPerTurn = 0.0f;
-        foreach (int cityID in cityList)
+        if(cityList.Count > 0)
         {
-            City city = Global.gameManager.game.cityDictionary[cityID];
-            goldPerTurn += city.yields.gold;
+            foreach (int cityID in cityList)
+            {
+                City city = Global.gameManager.game.cityDictionary[cityID];
+                goldPerTurn += city.yields.gold;
+            }
         }
         goldPerTurn += goldPerTurnFromTrade;
         return goldPerTurn;
@@ -160,10 +164,13 @@ public class BasePlayer
     public float GetSciencePerTurn()
     {
         float sciencePerTurn = 0.0f;
-        foreach(int cityID in cityList)
+        if (cityList.Count > 0)
         {
-            City city = Global.gameManager.game.cityDictionary[cityID];
-            sciencePerTurn += city.yields.science;
+            foreach (int cityID in cityList)
+            {
+                City city = Global.gameManager.game.cityDictionary[cityID];
+                sciencePerTurn += city.yields.science;
+            }
         }
         return sciencePerTurn;
     }
@@ -171,10 +178,13 @@ public class BasePlayer
     public float GetCulturePerTurn()
     {
         float culturePerTurn = 0.0f;
-        foreach (int cityID in cityList)
+        if (cityList.Count > 0)
         {
-            City city = Global.gameManager.game.cityDictionary[cityID];
-            culturePerTurn += city.yields.culture;
+            foreach (int cityID in cityList)
+            {
+                City city = Global.gameManager.game.cityDictionary[cityID];
+                culturePerTurn += city.yields.culture;
+            }
         }
         return culturePerTurn;
     }
@@ -182,10 +192,13 @@ public class BasePlayer
     public float GetHappinessPerTurn()
     {
         float happinessPerTurn = 0.0f;
-        foreach (int cityID in cityList)
+        if (cityList.Count > 0)
         {
-            City city = Global.gameManager.game.cityDictionary[cityID];
-            happinessPerTurn += city.yields.happiness;
+            foreach (int cityID in cityList)
+            {
+                City city = Global.gameManager.game.cityDictionary[cityID];
+                happinessPerTurn += city.yields.happiness;
+            }
         }
         return happinessPerTurn;
     }
@@ -193,10 +206,13 @@ public class BasePlayer
     public float GetInfluencePerTurn()
     {
         float influencePerTurn = 0.0f;
-        foreach (int cityID in cityList)
+        if (cityList.Count > 0)
         {
-            City city = Global.gameManager.game.cityDictionary[cityID];
-            influencePerTurn += city.yields.influence;
+            foreach (int cityID in cityList)
+            {
+                City city = Global.gameManager.game.cityDictionary[cityID];
+                influencePerTurn += city.yields.influence;
+            }
         }
         return influencePerTurn;
     }

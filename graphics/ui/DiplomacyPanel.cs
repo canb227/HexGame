@@ -343,9 +343,12 @@ public partial class DiplomacyPanel : Control
     }
     private void DeclineDeal()
     {
-        Global.gameManager.RemovePendingDeal(currentOffer.id);
-        CancelActiveOffer();
-        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        if(currentOffer != null)
+        {
+            Global.gameManager.RemovePendingDeal(currentOffer.id);
+            CancelActiveOffer();
+            Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        }
     }
 
 

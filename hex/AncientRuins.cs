@@ -209,6 +209,8 @@ public class AncientRuins
     {
         eventID = AncientRuinsLoader.eventStartPoints[Random.Shared.Next(AncientRuinsLoader.eventStartPoints.Count)].eventID;
         nextEventID = eventID;
+        AncientRuinsLoader.physicalRuinsDict.Add(hex, this);
+        GD.Print("New Ruins At: " + hex);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             var data = new Godot.Collections.Dictionary
@@ -217,7 +219,7 @@ public class AncientRuins
                 { "r", hex.r },
                 { "s", hex.s }
             };
-            manager.CallDeferred("NewRuins", eventID, data);
+            manager.CallDeferred("NewRuins", data);
         }
     }
 

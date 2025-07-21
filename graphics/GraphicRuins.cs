@@ -10,15 +10,17 @@ using System.Security.AccessControl;
 public partial class GraphicRuins : GraphicObject
 {
     public AncientRuins ancientRuins;
+    public Hex hex;
     public Node3D featureModel;
 
     public Node3D icon3D;
     public TextureRect ruinIcon;
     private ShaderMaterial greyScaleShaderMaterial;
 
-    public GraphicRuins(AncientRuins ancientRuins)
+    public GraphicRuins(AncientRuins ancientRuins, Hex hex)
     {
         this.ancientRuins = ancientRuins;
+        this.hex = hex;
         featureModel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/ruins.tscn").Instantiate<Node3D>();
     }
 
@@ -26,15 +28,16 @@ public partial class GraphicRuins : GraphicObject
     {
         Transform3D newTransform = featureModel.Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        int newQ = ((Global.gameManager.game.mainGameBoard.left + (ancientRuins.hex.r >> 1) + ancientRuins.hex.q) % ggb.chunkSize - (ancientRuins.hex.r >> 1));
-        int heightMapQ = newQ + ggb.chunkList[ggb.hexToChunkDictionary[ancientRuins.hex]].graphicalOrigin.q;
-        Hex modHex = new Hex(newQ, ancientRuins.hex.r, -newQ - ancientRuins.hex.r);
-        Hex heightMapHex = new Hex(heightMapQ, ancientRuins.hex.r, -heightMapQ - ancientRuins.hex.r);
+        int newQ = (Global.gameManager.game.mainGameBoard.left + (hex.r >> 1) + hex.q) % ggb.chunkSize - (hex.r >> 1);
+        int heightMapQ = newQ + ggb.chunkList[ggb.hexToChunkDictionary[hex]].graphicalOrigin.q;
+        Hex modHex = new Hex(newQ, hex.r, -newQ - hex.r);
+        Hex heightMapHex = new Hex(heightMapQ, hex.r, -heightMapQ - hex.r);
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
         Point heightMapPoint = Global.gameManager.graphicManager.layout.HexToPixel(heightMapHex);
         float height = ggb.Vector3ToHeightMapVal(new Vector3((float)heightMapPoint.y, 0.0f, (float)heightMapPoint.x));
         newTransform.Origin = new Vector3((float)hexPoint.y, height, (float)hexPoint.x);
         featureModel.Transform = newTransform;
+
         this.Visible = false;
         featureModel.Visible = false;
         AddChild(featureModel);
@@ -50,6 +53,10 @@ public partial class GraphicRuins : GraphicObject
         ruinIcon.Material = greyScaleShaderMaterial;
 
         UpdateGraphic(GraphicUpdateType.Visibility);
+        newTransform = icon3D.Transform;
+        newTransform.Origin = new Vector3((float)hexPoint.y-1, 8, (float)hexPoint.x);
+        icon3D.Transform = newTransform;
+
     }
     public override void Selected()
     {

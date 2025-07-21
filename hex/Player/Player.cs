@@ -23,7 +23,6 @@ public class Player : BasePlayer
         //default diplomatic actions
         diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Give Gold", true, false));
         diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Give Gold Per Turn", true, true));
-        diplomaticActionHashSet.Add(new DiplomacyAction(teamNum, "Make Peace", false, false));
 
         //default policy cards
         //unassignedPolicyCards.Add(PolicyCardLoader.policyCardDictionary[0]); //sample card
@@ -68,7 +67,6 @@ public class Player : BasePlayer
     public List<ResearchQueueType> queuedCultureResearch { get; set; } = new();
     public Dictionary<String, ResearchQueueType> partialCultureResearchDictionary { get; set; } = new();
     public HashSet<String> completedCultureResearches { get; set; } = new();
-    public HashSet<DiplomacyAction> diplomaticActionHashSet { get; set; } = new();
     public float goldTotal { get; set; }
     public float scienceTotal { get; set; }
     public float cultureTotal { get; set; }

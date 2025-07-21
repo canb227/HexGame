@@ -182,6 +182,8 @@ public class BuildingEffect
 
             { "AutocracyEffect", AutocracyEffect },
             { "ClassicalRepublicEffect", ClassicalRepublicEffect },
+
+            { "GoblinDenEffect", GoblinDenEffect },
         };
         
         if (effectFunctions.TryGetValue(functionString, out Func<Building, Yields> effectFunction))
@@ -643,4 +645,8 @@ public class BuildingEffect
         return new Yields();
     }
 
+    Yields GoblinDenEffect(Building building)
+    {
+        return new Yields();
+    }
 }

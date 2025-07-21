@@ -81,6 +81,7 @@ albedo_color = Color(0.757287, 0.674905, 0.489745, 1)
 albedo_texture = SubResource("NoiseTexture2D_8l1rc")
 
 [node name="ruins" type="Node3D"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 
 [node name="Downtown Center City_013" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_kijig")

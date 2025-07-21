@@ -72,9 +72,13 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.CitySelected(city);
         }
-        else
+        else if (!Global.gameManager.game.playerDictionary[city.teamNum].isEncampment)
         {
             Global.gameManager.graphicManager.uiManager.DiplomacyButtonPressed(city.teamNum, null);
+        }
+        else
+        {
+            GD.Print("Its an encampment so bring up the special UI silly"); //TODO
         }
     }
 

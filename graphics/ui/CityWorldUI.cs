@@ -127,9 +127,9 @@ public partial class CityWorldUI : Node3D
         cityGrowthBar.Value = (city.foodStockpile / city.foodToGrow * 100.0f);
         if (cityCenter != null)
         {
-            cityHealth.Value = (cityCenter.health / cityCenter.maxHealth) * 100.0f; //TODO add update to when we take damage
+            cityHealth.Value = (cityCenter.health / cityCenter.maxHealth) * 100.0f;
         }
-        if (city.teamNum != Global.gameManager.game.localPlayerTeamNum)
+        if (city.teamNum != Global.gameManager.game.localPlayerTeamNum && !Global.gameManager.game.teamManager.GetAllies(city.teamNum).Contains(Global.gameManager.game.localPlayerTeamNum))
         {
             productionIcon.Visible = false;
             productionTurnsLeft.Visible = false;
@@ -151,11 +151,14 @@ public partial class CityWorldUI : Node3D
             productionBar.Value = 0.0f;
         }
 
-
-        if (city.isCapital)
+        if (city.isCapital && !Global.gameManager.game.playerDictionary[city.teamNum].isEncampment)
         {
-            cityIcon = new TextureRect();
             cityIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/star.png");
+            cityIcon.Visible = true;
+        }
+        else if(Global.gameManager.game.playerDictionary[city.teamNum].isEncampment)
+        {
+            cityIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/goblinicon.png");
             cityIcon.Visible = true;
         }
         else

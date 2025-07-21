@@ -158,7 +158,7 @@ public partial class GameManager : Node
 
     private void SpawnRuins()
     {
-        for (int i = 0; i < Global.gameManager.game.playerDictionary.Count * 2; i++)
+        for (int i = 0; i < Global.gameManager.game.playerDictionary.Count * 3; i++)
         {
             SpawnRuin();
         }
@@ -172,11 +172,15 @@ public partial class GameManager : Node
 
     private void SpawnEncampments()
     {
-        for (int i = 0; i < Mathf.Floor(Global.gameManager.game.playerDictionary.Count * 1.5f); i ++)
+        int count = (int) Mathf.Floor(Global.gameManager.game.playerDictionary.Count * 1.5f);
+        for (int i = 0; i < count; i ++)
         {
             int teamNum = GetNextTeamNum();
-            Global.gameManager.game.AddPlayer(0, teamNum, (ulong)new Random().NextInt64(), Colors.Red, true, true);
-            SpawnEncampment(game.playerDictionary[teamNum]);
+            GD.Print("We will be: " + teamNum);
+            Global.gameManager.game.AddPlayer(0, teamNum, (ulong)new Random().NextInt64(), Colors.DarkRed, true, true);
+            Player player = game.playerDictionary[teamNum];
+            AIManager.AddNewAI(player);
+            SpawnEncampment(player);
         }
     }
 
@@ -188,7 +192,7 @@ public partial class GameManager : Node
 
     public int GetNextTeamNum()
     {
-        int teamNum = 0;
+        int teamNum = 1;
         while (game.playerDictionary.ContainsKey(teamNum))
         {
             teamNum++;
@@ -325,7 +329,7 @@ public partial class GameManager : Node
         List<Hex> list = new List<Hex>();
         foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
         {
-            if (game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn <= range && (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat || game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough) && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null && game.mainGameBoard.gameHexDict[hex].resourceType == ResourceType.None)
+            if (game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn >= range && (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat || game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough) && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null && game.mainGameBoard.gameHexDict[hex].resourceType == ResourceType.None)
             {
                 list.Add(hex);
             }

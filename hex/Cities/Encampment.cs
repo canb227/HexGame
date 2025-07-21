@@ -20,12 +20,14 @@ public partial class Encampment : City
     {
         cityRange = 2;
 
-        Global.gameManager.game.cityDictionary.Add(id, this);
-        Global.gameManager.game.playerDictionary[teamNum].cityList.Add(this.id);
+
 
         this.id = id;
         originalCapitalTeamID = id;
         this.teamNum = teamNum;
+        Global.gameManager.game.cityDictionary.Add(this.id, this);
+        Global.gameManager.game.playerDictionary[this.teamNum].cityList.Add(this.id);
+
         this.name = name;
         this.hex = gameHex.hex;
         productionQueue = new();
@@ -84,15 +86,7 @@ public partial class Encampment : City
 
     public void AddEncampmentCenter()
     {
-        District district;
-        if (Global.gameManager.game.playerDictionary[teamNum].faction == FactionType.Goblins)
-        {
-            district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], FactionLoader.GetFactionCapitalBuilding(Global.gameManager.game.playerDictionary[teamNum].faction), true, true, id);
-        }
-        else
-        {
-            district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], "GoblinDen", true, true, id);
-        }
+        District district = new District(Global.gameManager.game.mainGameBoard.gameHexDict[hex], FactionLoader.GetFactionCapitalBuilding(Global.gameManager.game.playerDictionary[teamNum].faction), true, true, id, true);
         districts.Add(district);
     }
 
