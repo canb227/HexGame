@@ -20,6 +20,11 @@ public enum RuinTier
     buried, //unlocked at end of classical culture
     hidden //unlocked at end of industrial culture
 }
+
+public enum RuinEffect
+{
+
+}
 public static class AncientRuinsLoader
 {
     public static Dictionary<string, RuinsEvent> ruinsEventDict = new();
@@ -199,13 +204,9 @@ public static class AncientRuinsLoader
 public class AncientRuins
 {
     public Hex hex { get; set; }
-    public RuinType ruinType { get; set; }
-    public RuinTier ruinTier { get; set; }
     public string eventID { get; set; }
-    public AncientRuins(Hex hex, RuinType ruinType, RuinTier ruinTier)
+    public AncientRuins(Hex hex, string eventID)
     {
-        this.ruinType = ruinType;
-        this.ruinTier = ruinTier;
         eventID = AncientRuinsLoader.eventStartPoints[Random.Shared.Next(AncientRuinsLoader.eventStartPoints.Count)].eventID;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
