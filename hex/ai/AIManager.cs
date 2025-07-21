@@ -40,6 +40,21 @@ public partial class AIManager
             }
         }
     }
+
+    public void AddNewAI(Player player)
+    {
+        if (player.isAI)
+        {
+            AI ai = new AI { player = player };
+            aiList.Add(ai);
+            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] AI Created"); }
+            InitStrategy(ai);
+        }
+        else
+        {
+            Global.Log($"Non AI player cannot be assigned an AI controller.");
+        }
+    }
     private void InitStrategy(AI ai)
     {
 
