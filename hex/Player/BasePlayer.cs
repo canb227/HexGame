@@ -11,11 +11,12 @@ using System.Drawing;
 [Serializable]
 public class BasePlayer
 {
-    public BasePlayer(int teamNum, Godot.Color teamColor, bool isAI)
+    public BasePlayer(int teamNum, Godot.Color teamColor, bool isAI, bool isEncampment)
     {
         this.teamColor = teamColor;
         this.teamNum = teamNum;
         this.isAI = isAI;
+        this.isEncampment = isEncampment;
         hiddenResources.Add(ResourceType.Horses);
         hiddenResources.Add(ResourceType.Iron);
         hiddenResources.Add(ResourceType.Niter);

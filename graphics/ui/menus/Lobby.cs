@@ -510,7 +510,7 @@ public partial class Lobby : Control
         foreach (ulong playerID in lobbyPeerStatuses.Keys)
         {
             Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + lobbyPeerStatuses[playerID].Team + " and color: " + PlayerColors[(int)lobbyPeerStatuses[playerID].ColorIndex].ToString());
-            Global.gameManager.game.AddPlayer(10, (int)lobbyPeerStatuses[playerID].Team, playerID, PlayerColors[(int)lobbyPeerStatuses[playerID].ColorIndex], lobbyPeerStatuses[playerID].IsAI);
+            Global.gameManager.game.AddPlayer(10, (int)lobbyPeerStatuses[playerID].Team, playerID, PlayerColors[(int)lobbyPeerStatuses[playerID].ColorIndex], lobbyPeerStatuses[playerID].IsAI, false);
         }
         Global.gameManager.isHost = isHost;
         Global.gameManager.startGame((int)lobbyPeerStatuses[Global.clientID].Team);

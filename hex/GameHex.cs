@@ -67,7 +67,7 @@ public class GameHex
     public District district { get; set; }
     public int withinCityRange { get; set; } = 0;
     public int rangeToNearestCity { get; set; } = 9;
-
+    public int rangeToNearestSpawn { get; set; } = 9;
     public Yields yields { get; set; }
 
     public void RecalculateYields()

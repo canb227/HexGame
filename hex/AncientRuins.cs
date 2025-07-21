@@ -33,7 +33,6 @@ public static class AncientRuinsLoader
 
     public static Dictionary<Hex, AncientRuins> physicalRuinsDict = new();
     
-    //so we have an event dictionary
     static AncientRuinsLoader()
     {
         RuinsEvent sample_final = new RuinsEvent()
@@ -166,14 +165,14 @@ public static class AncientRuinsLoader
         eventStartPoints.Add(sample);
     }
 
-    static RuinsEvent PickWeightedEvent(List<RuinsEvent> candidates)
+    static RuinsEvent PickWeightedEvent(List<RuinsEvent> candidates, AncientRuins ancientRuins)
     {
         if (candidates == null || candidates.Count == 0) return null;
         if (candidates.Count == 1) return candidates[0];
 
         float totalWeight = candidates.Sum(e => e.weight);
-        float roll = new Random().NextSingle() * totalWeight;
-
+        // we use the q,r,and turn to make a random seed the same on all machines
+        float roll = new Random(ancientRuins.hex.q + ancientRuins.hex.r + Global.gameManager.game.turnManager.currentTurn).NextSingle() * totalWeight; 
         float cumulative = 0f;
         foreach (var evt in candidates)
         {
@@ -205,9 +204,11 @@ public class AncientRuins
 {
     public Hex hex { get; set; }
     public string eventID { get; set; }
+    public string nextEventID { get; set; }
     public AncientRuins(Hex hex, string eventID)
     {
         eventID = AncientRuinsLoader.eventStartPoints[Random.Shared.Next(AncientRuinsLoader.eventStartPoints.Count)].eventID;
+        nextEventID = eventID;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             var data = new Godot.Collections.Dictionary
@@ -219,6 +220,8 @@ public class AncientRuins
             manager.CallDeferred("NewRuins", eventID, data);
         }
     }
+
+
     public AncientRuins()
     {
     }

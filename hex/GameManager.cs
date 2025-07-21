@@ -151,27 +151,49 @@ public partial class GameManager : Node
             this.AIManager = new AIManager();
             AIManager.InitAI();
             SpawnPlayers();
-            SpawnEncampments();
             SpawnRuins();
+            SpawnEncampments();
         }
     }
 
     private void SpawnRuins()
     {
-        //do stuff to figure out where to put them and how many to place
-        //loop
-        //SpawnRuin()
-        //return
-        GD.Print("I'm GameManager.SpawnRuins(), please implement me!");
+        for (int i = 0; i < Global.gameManager.game.playerDictionary.Count * 2; i++)
+        {
+            SpawnRuin();
+        }
+    }
+
+    private void SpawnRuin()
+    {
+        Hex spawnHex = PickRandomValidHexAwayFromSpawn(3);
+        new AncientRuins(spawnHex, AncientRuinsLoader.eventStartPoints[new Random().Next(AncientRuinsLoader.eventStartPoints.Count)].eventID);
     }
 
     private void SpawnEncampments()
     {
-        //do stuff to figure out where to put them and how many to place
-        //loop
-        //SpawnEncampment()
-        //return
-        GD.Print("I'm GameManager.SpawnEncampments(), please implement me!");
+        for (int i = 0; i < Mathf.Floor(Global.gameManager.game.playerDictionary.Count * 1.5f); i ++)
+        {
+            int teamNum = GetNextTeamNum();
+            Global.gameManager.game.AddPlayer(0, teamNum, (ulong)new Random().NextInt64(), Colors.Red, true, true);
+            SpawnEncampment(game.playerDictionary[teamNum]);
+        }
+    }
+
+    private void SpawnEncampment(Player player)
+    {
+        Hex spawnHex = PickSmartSpawnHex();
+        new Encampment(Global.gameManager.game.GetUniqueID(player.teamNum), player.teamNum, "GoblinEncampment", true, Global.gameManager.game.mainGameBoard.gameHexDict[spawnHex]);
+    }
+
+    public int GetNextTeamNum()
+    {
+        int teamNum = 0;
+        while (game.playerDictionary.ContainsKey(teamNum))
+        {
+            teamNum++;
+        }
+        return teamNum;
     }
 
     public void HostInitSavedGame()
@@ -254,11 +276,63 @@ public partial class GameManager : Node
 
     private Hex GetPlayerSpawnHex(Player player)
     {
-        return PickRandomValidHex();
+        //return PickRandomValidHex();
+        return PickSmartSpawnHex();
         /*
         Random rng = new Random();
         List<Hex> list = FindRecommendedSettleLocations();
         return list[rng.Next(list.Count)];*/
+    }
+
+    public Hex PickSmartSpawnHex()
+    {
+        Hex spawnHex = new Hex();
+        List<Hex> candidates = new List<Hex>();
+        int maxRange = 0;
+
+        foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
+        {
+            GameHex gameHex = game.mainGameBoard.gameHexDict[hex];
+            if ((gameHex.terrainType == TerrainType.Flat || gameHex.terrainType == TerrainType.Rough) &&
+                gameHex.units.Count == 0 &&
+                gameHex.district == null &&
+                gameHex.resourceType == ResourceType.None)
+            {
+                if (gameHex.rangeToNearestSpawn > maxRange)
+                {
+                    candidates.Clear();
+                    maxRange = gameHex.rangeToNearestSpawn;
+                }
+
+                if (gameHex.rangeToNearestSpawn == maxRange)
+                {
+                    candidates.Add(hex);
+                }
+            }
+        }
+        spawnHex = candidates[new Random().Next(candidates.Count)];
+
+        foreach (Hex hex in spawnHex.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn = hex.WrapDistance(spawnHex);
+        }
+
+        return spawnHex;
+    }
+
+    public Hex PickRandomValidHexAwayFromSpawn(int range)
+    {
+        List<Hex> list = new List<Hex>();
+        foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
+        {
+            if (game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn <= range && (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat || game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough) && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null && game.mainGameBoard.gameHexDict[hex].resourceType == ResourceType.None)
+            {
+                list.Add(hex);
+            }
+        }
+
+        Random rng = new Random();
+        return list[rng.Next(list.Count)];
     }
 
     public Hex PickRandomValidHex()

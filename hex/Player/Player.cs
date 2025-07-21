@@ -11,7 +11,7 @@ using System.Drawing;
 [Serializable]
 public class Player : BasePlayer
 {
-    public Player(float goldTotal, int teamNum, Godot.Color teamColor, bool isAI) : base(teamNum, teamColor, isAI)
+    public Player(float goldTotal, int teamNum, Godot.Color teamColor, bool isAI, bool isEncampment) : base(teamNum, teamColor, isAI, isEncampment)
     {
         this.goldTotal = goldTotal;
         administrativeCityCost = 20;

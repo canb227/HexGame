@@ -276,13 +276,13 @@ public partial class Unit
     }
 
     //civ 6 formula
-    public static float CalculateDamage(float friendlyCombatStrength, float enemyCombatStrength)
+    public float CalculateDamage(float friendlyCombatStrength, float enemyCombatStrength)
     {
         float strengthDifference = (friendlyCombatStrength - enemyCombatStrength) / 25;
-        float randomFactor = (float)new Random().NextDouble() * 0.4f + 0.8f;
+        float randomFactor = (float)new Random(hex.q+hex.r+Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f; //we use our hex q,r and turn number to generate a random seed that is the same on all machines
         float x = strengthDifference * randomFactor;
 
-        return 30 * (float)Math.Exp(x); // Exponential scaling
+        return 30 * (float)Math.Exp(x);
     }
 
     private bool DistrictCombat(GameHex targetGameHex)
