@@ -132,7 +132,7 @@ using System.Threading.Tasks;
                 Global.gameManager.UnassignPolicyCard(command.UnassignPolicyCard.TeamNum, command.UnassignPolicyCard.PolicyCardID,false);
                 break;
             case "SetGovernment":
-                if (COMMANDDEBUG) { Global.Log(prefix + $"Set Government Command received from {command.Sender} to set govtype: {Enum.GetNames(typeof(GovernmentType))[command.SetGovernment.GovType]}, to teamnum: {command.AssignPolicyCard.TeamNum}"); }
+                if (COMMANDDEBUG) { Global.Log(prefix + $"Set Government Command received from {command.Sender} to set govtype: {Enum.GetNames(typeof(GovernmentType))[command.SetGovernment.GovType]}, for teamnum: {command.SetGovernment.TeamNum}"); }
                 Global.gameManager.SetGovernment(command.SetGovernment.TeamNum, (GovernmentType)command.SetGovernment.GovType,false);
                 break;
             case "SpawnUnit":
