@@ -90,8 +90,30 @@ message Command
 		SetGovernment SetGovernment = 24;
 		SpawnUnit SpawnUnit = 25;
 		SetDiplomaticState SetDiplomaticState = 26;
+		SpawnEncampment SpawnEncampment = 27;
+		SpawnRuin SpawnRuin = 28;
+		TriggerRuin TriggerRuin = 29;
 	}
 	uint64 sender = 99;
+}
+
+message SpawnRuin
+{
+	Hex location = 1;
+	string eventID = 2;
+}
+
+message SpawnEncampment
+{
+	Hex location = 1;
+	int32 factionType = 2;
+}
+
+message TriggerRuin
+{
+	int32 teamNum = 1;
+	Hex location = 2;
+	string nextEventID = 3;
 }
 
 message SetDiplomaticState

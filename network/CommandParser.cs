@@ -146,6 +146,15 @@ using System.Threading.Tasks;
                 //testing
                 Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState, false);
                 break;
+            case "SpawnRuin":
+                Global.gameManager.SpawnRuin(new Hex(command.SpawnRuin.Location.Q, command.SpawnRuin.Location.R, command.SpawnRuin.Location.S), command.SpawnRuin.EventID, false);
+                break;
+            case "SpawnEncampment":
+                Global.gameManager.SpawnEncampment(new Hex(command.SpawnEncampment.Location.Q, command.SpawnEncampment.Location.R, command.SpawnEncampment.Location.S), (FactionType)command.SpawnEncampment.FactionType,false);
+                break;
+            case "TriggerRuin":
+                Global.gameManager.TriggerRuin(command.TriggerRuin.TeamNum, new Hex(command.TriggerRuin.Location.Q, command.TriggerRuin.Location.R, command.TriggerRuin.Location.S), command.TriggerRuin.NextEventID, false);
+                break;
             default:
                 Global.Log($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
                 throw new Exception(prefix + $"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
@@ -561,6 +570,60 @@ using System.Threading.Tasks;
         Command command = new();
         command.CommandType = "SpawnUnit";
         command.SpawnUnit = spawnUnit;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructSpawnEncampmentCommand(Hex location, FactionType type)
+    {
+        SpawnEncampment spawnEncampment = new();
+
+        NetworkMessages.Hex hex = new NetworkMessages.Hex();
+        hex.Q = location.q;
+        hex.R = location.r;
+        hex.S = location.s;
+        spawnEncampment.Location = hex;
+
+        spawnEncampment.FactionType = (int)type;
+
+        Command command = new();
+        command.CommandType = "SpawnEncampment";
+        command.SpawnEncampment = spawnEncampment;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructSpawnRuinCommand(Hex location, string eventID)
+    {
+        SpawnRuin spawnRuin = new();
+        NetworkMessages.Hex hex = new NetworkMessages.Hex();
+        hex.Q = location.q;
+        hex.R = location.r;
+        hex.S = location.s;
+        spawnRuin.Location = hex;
+        spawnRuin.EventID = eventID;
+
+        Command command = new();
+        command.CommandType = "SpawnRuin";
+        command.SpawnRuin = spawnRuin;
+        command.Sender = Global.clientID;
+        return command;
+    }
+
+    internal static Command ConstructTriggerRuinCommand(int teamNum, Hex location, string nextEventID)
+    {
+        TriggerRuin triggerRuin = new TriggerRuin();
+        NetworkMessages.Hex hex = new NetworkMessages.Hex();
+        hex.Q = location.q;
+        hex.R = location.r;
+        hex.S = location.s;
+        triggerRuin.Location = hex;
+        triggerRuin.TeamNum= teamNum;
+        triggerRuin.NextEventID= nextEventID;
+
+        Command command = new();
+        command.CommandType = "TriggerRuin";
+        command.TriggerRuin = triggerRuin;
         command.Sender = Global.clientID;
         return command;
     }

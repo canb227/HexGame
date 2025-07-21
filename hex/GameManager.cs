@@ -1,10 +1,11 @@
 using Godot;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Linq;
 using System.Security.AccessControl;
-using NetworkMessages;
+using System.Text.Json;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 
 [GlobalClass]
@@ -150,7 +151,27 @@ public partial class GameManager : Node
             this.AIManager = new AIManager();
             AIManager.InitAI();
             SpawnPlayers();
+            SpawnEncampments();
+            SpawnRuins();
         }
+    }
+
+    private void SpawnRuins()
+    {
+        //do stuff to figure out where to put them and how many to place
+        //loop
+        //SpawnRuin()
+        //return
+        GD.Print("I'm GameManager.SpawnRuins(), please implement me!");
+    }
+
+    private void SpawnEncampments()
+    {
+        //do stuff to figure out where to put them and how many to place
+        //loop
+        //SpawnEncampment()
+        //return
+        GD.Print("I'm GameManager.SpawnEncampments(), please implement me!");
     }
 
     public void HostInitSavedGame()
@@ -960,6 +981,61 @@ public partial class GameManager : Node
         InitGraphics(game, Global.layout);
         Global.menuManager.ClearMenus();
         gameStarted = true;
+    }
+
+
+    public void SpawnEncampment(Hex location, FactionType type, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnEncampmentCommand(location, type));
+        }
+
+        try
+        {
+            //ACTUALL SPAWN THE ENCAMPMENT
+            GD.Print("I'm GameManager.SpawnEncampment(), please implement me!");
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error spawning encampment: " + e.Message); //TODO - Potential Desync
+        }
+    }
+
+    public void SpawnRuin(Hex location, string eventID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnRuinCommand(location, eventID));
+        }
+
+        try
+        {
+            GD.Print("I'm GameManager.SpawnRuin(), please implement me!");
+            //ACTUALLY SPAWN THE RUIN
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error spawning ruin: " + e.Message); //TODO - Potential Desync
+        }
+    }
+
+    public void TriggerRuin(int teamNum, Hex location, string nextEventID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructTriggerRuinCommand(teamNum,location,nextEventID));
+        }
+
+        try
+        {
+            GD.Print("I'm GameManager.TriggerRuin(), please implement me!");
+            //ACTUALLY TRIGGER THE RUIN
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error triggering ruin: " + e.Message); //TODO - Potential Desync
+        }
     }
 
     internal void SetDiplomaticState(int teamNumOne, int teamNumTwo, DiplomaticState diplomaticState, bool local = true)
