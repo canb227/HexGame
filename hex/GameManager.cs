@@ -1097,7 +1097,7 @@ public partial class GameManager : Node
         }
     }
 
-    public void TriggerRuin(int teamNum, Hex location, string nextEventID, bool local = true)
+    public void TriggerRuin(int teamNum, Hex location, int eventIndex, bool local = true)
     {
         if (local)
         {
@@ -1106,8 +1106,12 @@ public partial class GameManager : Node
 
         try
         {
-            GD.Print("I'm GameManager.TriggerRuin(), please implement me!");
-            //ACTUALLY TRIGGER THE RUIN
+            AncientRuins ancientRuins = Global.gameManager.game.mainGameBoard.gameHexDict[location].ancientRuins;
+            EventOption eventOption = AncientRuinsLoader.ruinsEventDict[ancientRuins.nextEventID].options[eventIndex];
+            eventOption.eventEffects.Invoke(Global.gameManager.game.playerDictionary[teamNum]);
+            //if random selection do it or just select the only result and set it
+            RuinsEvent chosenEvent = AncientRuinsLoader.PickWeightedEvent(eventOption.nextEvents, ancientRuins);
+            ancientRuins.nextEventID = chosenEvent.eventID;
         }
         catch (Exception e)
         {

@@ -38,13 +38,14 @@ public partial class EventSelectionPanel : Control
             RuinsEvent currentEvent = AncientRuinsLoader.ruinsEventDict[ancientRuins.nextEventID];
             title.Text = currentEvent.title;
             description.Text = currentEvent.description;
-            foreach (EventOption eventOption in currentEvent.options)
+            for(int i = 0; i < currentEvent.options.Count; i++)
             {
+                EventOption eventOption = currentEvent.options[i];
                 /*            MarginContainer marginContainer = new MarginContainer();
                             marginContainer.AddThemeConstantOverride*/
                 Button button = new Button();
                 button.Text = eventOption.optionText;
-                button.Pressed += () => SetNextEventIDAndClose(eventOption);
+                button.Pressed += () => SetNextEventIDAndClose(i);
                 optionsVBox.AddChild(button);
             }
         }
@@ -60,15 +61,10 @@ public partial class EventSelectionPanel : Control
         }
     }
 
-    private void SetNextEventIDAndClose(EventOption eventOption)
+    private void SetNextEventIDAndClose(int eventIndex)
     {
         //networked message TODO
-
-        //activate any effects from our choice
-        eventOption.eventEffects.Invoke(Global.gameManager.game.localPlayerRef);
-        //if random selection do it or just select the only result and set it
-        RuinsEvent chosenEvent = AncientRuinsLoader.PickWeightedEvent(eventOption.nextEvents, ancientRuins);
-        ancientRuins.nextEventID = chosenEvent.eventID; 
+        Global.gameManager.TriggerRuin(Global.gameManager.game.localPlayerTeamNum, ancientRuins.hex, eventIndex);
 
         //close window
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();

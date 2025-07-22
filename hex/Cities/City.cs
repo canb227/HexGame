@@ -519,11 +519,21 @@ public partial class City
 
         }
         Player player = (Player)Global.gameManager.game.playerDictionary[teamNum];
-        player.AddGold(yields.gold);
-        player.AddScience(yields.science);
-        player.AddCulture(yields.culture);
-        player.AddHappiness(yields.happiness);
-        player.AddInfluence(yields.influence);
+        if (FactionLoader.IsFactionMinor(player.faction))
+        {
+            player.AddGold(yields.gold);
+            player.AddHappiness(yields.happiness);
+            player.AddInfluence(yields.influence);
+        }
+        else
+        {
+            player.AddGold(yields.gold);
+            player.AddScience(yields.science);
+            player.AddCulture(yields.culture);
+            player.AddHappiness(yields.happiness);
+            player.AddInfluence(yields.influence);
+        }
+
         List<ProductionQueueType> toRemove = new List<ProductionQueueType>();
         for (int i = 0; i < productionQueue.Count; i++)
         {

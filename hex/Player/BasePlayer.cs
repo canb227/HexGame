@@ -269,6 +269,7 @@ public class BasePlayer
             }
         }
 
+
         foreach (int unitID in unitList)
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];

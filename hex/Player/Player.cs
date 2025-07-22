@@ -256,6 +256,11 @@ public class Player : BasePlayer
         }
         AddGold(goldPerTurnFromTrade);
         administrativeUpkeep = 100;
+        if (FactionLoader.IsFactionMinor(faction))
+        {
+            AddCheatCultureForTurn();
+            AddCheatScienceForTurn();
+        }
         foreach (int cityID in cityList)
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
@@ -742,53 +747,49 @@ public class Player : BasePlayer
     }
     public void AddScience(float science)
     {
-        if(isAI && FactionLoader.IsFactionMinor(faction))
+        SetScienceTotal(GetScienceTotal() + science);
+    }
+
+    public void AddCheatScienceForTurn()
+    {
+        int playerCount = 0;
+        int globalScienceTotal = 0;
+        foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {
-            int playerCount = 0;
-            int globalScienceTotal = 0;
-            foreach (Player player in Global.gameManager.game.playerDictionary.Values)
+            if (!FactionLoader.IsFactionMinor(player.faction))
             {
-                if(!FactionLoader.IsFactionMinor(player.faction))
+                playerCount++;
+                foreach (int cityID in player.cityList)
                 {
-                    playerCount++;
-                    foreach (int cityID in player.cityList)
-                    {
-                        globalScienceTotal += (int)Math.Round(Global.gameManager.game.cityDictionary[cityID].yields.science);
-                    }
+                    globalScienceTotal += (int)Math.Round(Global.gameManager.game.cityDictionary[cityID].yields.science);
                 }
             }
-            globalScienceTotal /= playerCount;
-            SetScienceTotal(GetScienceTotal() + globalScienceTotal);
         }
-        else
-        {
-            SetScienceTotal(GetScienceTotal() + science);
-        }
+        globalScienceTotal /= playerCount;
+        SetScienceTotal(GetScienceTotal() + globalScienceTotal);
     }
     public void AddCulture(float culture)
     {
-        if (isAI && FactionLoader.IsFactionMinor(faction))
+        SetCultureTotal(GetCultureTotal() + culture);
+    }
+
+    public void AddCheatCultureForTurn()
+    {
+        int playerCount = 0;
+        int globalCultureTotal = 0;
+        foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {
-            int playerCount = 0;
-            int globalCultureTotal = 0;
-            foreach (Player player in Global.gameManager.game.playerDictionary.Values)
+            if (!FactionLoader.IsFactionMinor(player.faction))
             {
-                if (!FactionLoader.IsFactionMinor(player.faction))
+                playerCount++;
+                foreach (int cityID in player.cityList)
                 {
-                    playerCount++;
-                    foreach (int cityID in player.cityList)
-                    {
-                        globalCultureTotal += (int)Math.Round(Global.gameManager.game.cityDictionary[cityID].yields.science);
-                    }
+                    globalCultureTotal += (int)Math.Round(Global.gameManager.game.cityDictionary[cityID].yields.science);
                 }
             }
-            globalCultureTotal /= playerCount;
-            SetCultureTotal(GetCultureTotal() + globalCultureTotal);
         }
-        else
-        {
-            SetCultureTotal(GetCultureTotal() + culture);
-        }
+        globalCultureTotal /= playerCount;
+        SetCultureTotal(GetCultureTotal() + globalCultureTotal);
     }
     public void AddHappiness(float happiness)
     {
