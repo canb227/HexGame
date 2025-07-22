@@ -236,13 +236,13 @@ public class BasePlayer
             throw new Exception("IDCounter exceeds 999999, cannot generate unique ID.");
         }
 
-        if (idCounter < 10)
+        if (teamNum < 10)
         {
-            teamID = teamNum.ToString() + "00";
+            teamID = "00" + teamNum.ToString();
         }
-        else if (idCounter < 100)
+        else if (teamNum < 100)
         {
-            teamID = teamNum.ToString() + "0";
+            teamID = "0" + teamNum.ToString();
         }
         else
         {
