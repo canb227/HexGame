@@ -1116,7 +1116,7 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructTriggerRuinCommand(teamNum,location,nextEventID));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructTriggerRuinCommand(teamNum,location,eventIndex));
         }
 
         try

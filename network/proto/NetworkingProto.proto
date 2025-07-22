@@ -113,7 +113,7 @@ message TriggerRuin
 {
 	int32 teamNum = 1;
 	Hex location = 2;
-	string nextEventID = 3;
+	int32 eventIndex = 3;
 }
 
 message SetDiplomaticState

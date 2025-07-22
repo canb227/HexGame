@@ -153,7 +153,7 @@ using System.Threading.Tasks;
                 Global.gameManager.SpawnEncampment(new Hex(command.SpawnEncampment.Location.Q, command.SpawnEncampment.Location.R, command.SpawnEncampment.Location.S), (FactionType)command.SpawnEncampment.FactionType,false);
                 break;
             case "TriggerRuin":
-                Global.gameManager.TriggerRuin(command.TriggerRuin.TeamNum, new Hex(command.TriggerRuin.Location.Q, command.TriggerRuin.Location.R, command.TriggerRuin.Location.S), command.TriggerRuin.NextEventID, false);
+                Global.gameManager.TriggerRuin(command.TriggerRuin.TeamNum, new Hex(command.TriggerRuin.Location.Q, command.TriggerRuin.Location.R, command.TriggerRuin.Location.S), command.TriggerRuin.EventIndex, false);
                 break;
             default:
                 Global.Log($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
@@ -610,7 +610,7 @@ using System.Threading.Tasks;
         return command;
     }
 
-    internal static Command ConstructTriggerRuinCommand(int teamNum, Hex location, string nextEventID)
+    internal static Command ConstructTriggerRuinCommand(int teamNum, Hex location, int eventIndex)
     {
         TriggerRuin triggerRuin = new TriggerRuin();
         NetworkMessages.Hex hex = new NetworkMessages.Hex();
@@ -619,7 +619,7 @@ using System.Threading.Tasks;
         hex.S = location.s;
         triggerRuin.Location = hex;
         triggerRuin.TeamNum= teamNum;
-        triggerRuin.NextEventID= nextEventID;
+        triggerRuin.EventIndex= eventIndex;
 
         Command command = new();
         command.CommandType = "TriggerRuin";
