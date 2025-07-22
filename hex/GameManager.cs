@@ -158,7 +158,7 @@ public partial class GameManager : Node
 
     private void SpawnRuins()
     {
-        for (int i = 0; i < Global.gameManager.game.playerDictionary.Count * 3; i++)
+        for (int i = 0; i < Global.gameManager.game.playerDictionary.Count * 4; i++)
         {
             SpawnRuin();
         }
@@ -166,7 +166,7 @@ public partial class GameManager : Node
 
     private void SpawnRuin()
     {
-        Hex spawnHex = PickRandomValidHexAwayFromSpawn(3);
+        Hex spawnHex = PickRandomValidHex();
         new AncientRuins(spawnHex, AncientRuinsLoader.eventStartPoints[new Random().Next(AncientRuinsLoader.eventStartPoints.Count)].eventID);
     }
 
@@ -176,7 +176,6 @@ public partial class GameManager : Node
         for (int i = 0; i < count; i ++)
         {
             int teamNum = GetNextTeamNum();
-            GD.Print("We will be: " + teamNum);
             Global.gameManager.game.AddPlayer(0, teamNum, (ulong)new Random().NextInt64(), Colors.DarkRed, true, true);
             Player player = game.playerDictionary[teamNum];
             AIManager.AddNewAI(player);
@@ -344,7 +343,7 @@ public partial class GameManager : Node
         List<Hex> list = new List<Hex>();
         foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
         {
-            if (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null && game.mainGameBoard.gameHexDict[hex].resourceType==ResourceType.None)
+            if ((game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat || game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough) && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null && game.mainGameBoard.gameHexDict[hex].resourceType==ResourceType.None && game.mainGameBoard.gameHexDict[hex].ancientRuins == null)
             {
                 list.Add(hex);
             }

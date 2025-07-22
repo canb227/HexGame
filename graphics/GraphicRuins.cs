@@ -14,6 +14,7 @@ public partial class GraphicRuins : GraphicObject
     public Node3D featureModel;
 
     public Node3D icon3D;
+    private Area3D area;
     public TextureRect ruinIcon;
     private ShaderMaterial greyScaleShaderMaterial;
 
@@ -42,7 +43,7 @@ public partial class GraphicRuins : GraphicObject
         featureModel.Visible = false;
         AddChild(featureModel);
 
-        icon3D = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ResourceWorldUI.tscn").Instantiate<Node3D>();
+        icon3D = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/RuinWorldUI.tscn").Instantiate<Node3D>();
         AddChild(icon3D);
 
         ruinIcon = icon3D.GetNode<TextureRect>("SubViewport/ResourceWorldUI/ResourceIcon");
@@ -52,12 +53,42 @@ public partial class GraphicRuins : GraphicObject
         greyScaleShaderMaterial.Shader = greyScaleShader;
         ruinIcon.Material = greyScaleShaderMaterial;
 
+        area = icon3D.GetNode<Area3D>("MeshInstance3D/Area3D");
+        area.InputRayPickable = true;
+        area.InputEvent += RuinWorldUIEvent;
+        area.MouseEntered += RuinWorldUIEntered;
+        area.MouseExited += RuinWorldUIExited;
+
+
         UpdateGraphic(GraphicUpdateType.Visibility);
         newTransform = icon3D.Transform;
         newTransform.Origin = new Vector3((float)hexPoint.y-1, 8, (float)hexPoint.x);
         icon3D.Transform = newTransform;
-
     }
+
+
+    private void RuinWorldUIEvent(Node camera, InputEvent IEvent, Vector3 eventPosition, Vector3 normal, long shapeIdx)
+    {
+        if (IEvent is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
+        {
+            //ruin clicked on
+            if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
+            {
+                Global.gameManager.graphicManager.uiManager.EventSelectionPopUp(ancientRuins);
+            }
+        }
+    }
+
+    private void RuinWorldUIExited()
+    {
+        Global.camera.blockClick = false;
+    }
+
+    private void RuinWorldUIEntered()
+    {
+        Global.camera.blockClick = true;
+    }
+
     public override void Selected()
     {
         throw new NotImplementedException();

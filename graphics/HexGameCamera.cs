@@ -10,7 +10,7 @@ public partial class HexGameCamera : Camera3D
 {
 
     float zoomSpeed = 0.5f;
-    float moveSpeed = 0.5f;
+    float moveSpeed = 100.0f;
 
     float zoomOffset = 0f;
     float zoomAmount = 0f;
@@ -39,7 +39,7 @@ public partial class HexGameCamera : Camera3D
         }
 
 
-        Vector3 input2 = new Vector3((float)input.X, 0, (float)input.Y);
+        Vector3 input2 = new Vector3((float)(input.X * delta), 0, (float)(input.Y * delta));
 
         input2.Rotated(Vector3.Up, this.Rotation.Y); // Rotate the input vector based on the camera's current rotation to ensure movement is in the correct direction
 

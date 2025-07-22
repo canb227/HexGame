@@ -116,7 +116,7 @@ public partial class GraphicManager : Node3D
     public void NewRuins(Godot.Collections.Dictionary hexData)
     {
         Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
-        GraphicRuins graphicRuins = new GraphicRuins(AncientRuinsLoader.physicalRuinsDict[hex], hex);
+        GraphicRuins graphicRuins = new GraphicRuins(Global.gameManager.game.mainGameBoard.gameHexDict[hex].ancientRuins, hex);
         hexObjectDictionary[hex].Add(graphicRuins);
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(graphicRuins);

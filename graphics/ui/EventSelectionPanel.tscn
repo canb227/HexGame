@@ -1,0 +1,115 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6bkuk653pubw"]
+
+[ext_resource type="Texture2D" uid="uid://cu344k74oa32p" path="res://graphics/ui/icons/government.png" id="1_3paiw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccq4d"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 0.968627)
+
+[sub_resource type="Theme" id="Theme_6p02p"]
+MarginContainer/constants/margin_bottom = 30
+MarginContainer/constants/margin_left = 30
+MarginContainer/constants/margin_top = 15
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ccq4d")
+
+[sub_resource type="LabelSettings" id="LabelSettings_03lbh"]
+font_size = 20
+
+[node name="EventBox" type="Control"]
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="EventPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.1
+anchor_right = 0.75
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_6p02p")
+
+[node name="EventScroll" type="ScrollContainer" parent="EventPanel"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="EventMargin" type="MarginContainer" parent="EventPanel/EventScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EventPanel/EventScroll/EventMargin"]
+layout_mode = 2
+
+[node name="title" type="Label" parent="EventPanel/EventScroll/EventMargin/VBoxContainer"]
+layout_mode = 2
+text = "Title of Event"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="image" type="TextureRect" parent="EventPanel/EventScroll/EventMargin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_3paiw")
+stretch_mode = 3
+
+[node name="description" type="Label" parent="EventPanel/EventScroll/EventMargin/VBoxContainer"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_vertical = 2
+text = "This is the description of the event how cool is this, it could be pretty long like multiple lines so I wanted to check what happens if I keep typing"
+label_settings = SubResource("LabelSettings_03lbh")
+autowrap_mode = 2
+
+[node name="options" type="VBoxContainer" parent="EventPanel/EventScroll/EventMargin/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="EventPanel/EventScroll/EventMargin/VBoxContainer/options"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Button" type="Button" parent="EventPanel/EventScroll/EventMargin/VBoxContainer/options/MarginContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Go to the left."
+
+[node name="MarginContainer2" type="MarginContainer" parent="EventPanel/EventScroll/EventMargin/VBoxContainer/options"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Button" type="Button" parent="EventPanel/EventScroll/EventMargin/VBoxContainer/options/MarginContainer2"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Go to the right."
+
+[node name="MarginContainer3" type="MarginContainer" parent="EventPanel/EventScroll/EventMargin/VBoxContainer/options"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Button" type="Button" parent="EventPanel/EventScroll/EventMargin/VBoxContainer/options/MarginContainer3"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Leave."

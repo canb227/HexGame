@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://5ao3vdd3153x"]
+
+[ext_resource type="Texture2D" uid="uid://8sieeeac3bqy" path="res://graphics/ui/icons/food.png" id="1_egnub"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skgj6"]
+bg_color = Color(0.0823529, 0.0823529, 0.0823529, 0.862745)
+
+[sub_resource type="Theme" id="Theme_qnqfw"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_skgj6")
+
+[sub_resource type="QuadMesh" id="QuadMesh_skgj6"]
+size = Vector2(0.25, 0.75)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qnqfw"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1novo"]
+resource_local_to_scene = true
+transparency = 1
+no_depth_test = true
+albedo_texture = SubResource("ViewportTexture_qnqfw")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_egnub"]
+points = PackedVector3Array(0.15, 0.4, 0, 0.15, -0.4, 0, -0.15, 0.4, 0, -0.15, -0.4, 0)
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(96, 96)
+
+[node name="ResourceWorldUI" type="PanelContainer" parent="SubViewport"]
+offset_right = 96.0
+offset_bottom = 96.0
+theme = SubResource("Theme_qnqfw")
+
+[node name="ResourceIcon" type="TextureRect" parent="SubViewport/ResourceWorldUI"]
+layout_mode = 2
+texture = ExtResource("1_egnub")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.31134e-07, -0.954312, 0.555795, 0, 0.668216, 0.793758, -3, 4.17143e-08, -2.42946e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_skgj6")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_1novo")
+
+[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
+shape = SubResource("ConvexPolygonShape3D_egnub")
