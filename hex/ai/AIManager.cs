@@ -52,7 +52,7 @@ public partial class AIManager
         }
         else
         {
-            Global.Log($"Non AI player cannot be assigned an AI controller.");
+            Global.Log($"Non AI teamNum cannot be assigned an AI controller.");
         }
     }
     private void InitStrategy(AI ai)
@@ -92,6 +92,7 @@ public partial class AIManager
                 }
                 break;
             case FactionType.Goblins:
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Minor AI - Goblin Faction - DumbAggro Personality"); }
                 ai.personality = PickMinorAIPersonality(ai, ai.player.faction);
                 switch (ai.personality)
                 {
@@ -119,10 +120,17 @@ public partial class AIManager
                         break;
                 }
                 break;
+            default:
+                throw new Exception("unknown faction type "+ ai.player.faction);
+                break;
         }
-        foreach (var player in Global.gameManager.game.playerDictionary.Keys)
+        foreach (var teamNum in Global.gameManager.game.playerDictionary.Keys)
         {
-            Global.gameManager.game.teamManager.SetDiplomaticState(ai.player.teamNum, player, DiplomaticState.War);
+            if (teamNum!=ai.player.teamNum)
+            {
+                Global.gameManager.game.teamManager.SetDiplomaticState(ai.player.teamNum, teamNum, DiplomaticState.War);
+            }
+
         }
     }
 

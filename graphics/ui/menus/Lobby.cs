@@ -229,9 +229,13 @@ public partial class Lobby : Control
             icon.Gradient = gradient;
             PlayerListItem.GetNode<OptionButton>("colorselect").AddIconItem(icon, "");
         }
-        foreach (var faction in Enum.GetNames(typeof(FactionType)))
+        foreach (string faction in Enum.GetNames(typeof(FactionType)))
         {
-            PlayerListItem.GetNode<OptionButton>("factionselect").AddItem(faction);
+            if (!faction.Equals("All"))
+            {
+                PlayerListItem.GetNode<OptionButton>("factionselect").AddItem(faction);
+            }
+
         }
         if (self || (ai && isHost))
         {
@@ -251,6 +255,7 @@ public partial class Lobby : Control
             PlayerListItem.GetNode<Button>("kick").Disabled = true;
         }
         PlayerListItem.GetNode<OptionButton>("teamselect").Disabled = true;
+        PlayerListItem.GetNode<OptionButton>("factionselect").Selected = 0;
         PlayerListItem.GetNode<OptionButton>("colorselect").Selected = teamColorIndex; // Color index is 0-indexed in the code, but 1-indexed in the UI
         PlayerListItem.GetNode<OptionButton>("teamselect").Selected = teamNum - 1; // Teams are 1-indexed in the UI, but 0-indexed in the code
         PlayerListItem.Name = id.ToString();
@@ -510,7 +515,7 @@ public partial class Lobby : Control
         foreach (ulong playerID in lobbyPeerStatuses.Keys)
         {
             Global.Log("Adding player to game with ID: " + playerID + " and teamNum: " + lobbyPeerStatuses[playerID].Team + " and color: " + PlayerColors[(int)lobbyPeerStatuses[playerID].ColorIndex].ToString());
-            Global.gameManager.game.AddPlayer(10, (int)lobbyPeerStatuses[playerID].Team, playerID, PlayerColors[(int)lobbyPeerStatuses[playerID].ColorIndex], lobbyPeerStatuses[playerID].IsAI, false);
+            Global.gameManager.game.AddPlayer(10, (int)lobbyPeerStatuses[playerID].Team, (FactionType)(lobbyPeerStatuses[playerID].Faction+1),  playerID, PlayerColors[(int)lobbyPeerStatuses[playerID].ColorIndex], lobbyPeerStatuses[playerID].IsAI, false);
         }
         Global.gameManager.isHost = isHost;
         Global.gameManager.startGame((int)lobbyPeerStatuses[Global.clientID].Team);
@@ -535,7 +540,7 @@ public partial class Lobby : Control
     private void OnFactionChange(long index, ulong id)
     {
         LobbyStatus status = lobbyPeerStatuses[id];
-        status.Team = (int)index;
+        status.Faction = (int)index;
         lobbyPeerStatuses[id] = status;
         UpdateLobbyPeers(id);
     }
