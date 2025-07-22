@@ -11,7 +11,7 @@ using System.Drawing;
 [Serializable]
 public class Player : BasePlayer
 {
-    public Player(float goldTotal, int teamNum, Godot.Color teamColor, bool isAI, bool isEncampment) : base(teamNum, teamColor, isAI, isEncampment)
+    public Player(float goldTotal, int teamNum, FactionType faction, Godot.Color teamColor, bool isAI, bool isEncampment) : base(teamNum, teamColor, isAI, isEncampment)
     {
         this.goldTotal = goldTotal;
         administrativeCityCost = 20;
@@ -29,6 +29,8 @@ public class Player : BasePlayer
 
         //default yields
         SetBaseHexYields();
+
+        this.faction = faction;
 
         Global.gameManager.game.playerDictionary.Add(teamNum, this);
         if (teamNum == Global.gameManager.game.localPlayerTeamNum)

@@ -55,10 +55,6 @@ offset_left = 0.0500488
 offset_top = 28.0
 offset_right = 97.0502
 offset_bottom = 68.0
-selected = 0
-item_count = 1
-popup/item_0/text = "Human"
-popup/item_0/id = 0
 metadata/_edit_use_anchors_ = true
 
 [node name="teamselect" type="OptionButton" parent="."]

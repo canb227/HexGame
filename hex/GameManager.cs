@@ -117,7 +117,7 @@ public partial class GameManager : Node
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.LobbyStatus = Global.lobby.lobbyPeerStatuses[Global.clientID];
         lobbyMessage.MessageType = "loaded";
-        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+
         if (isHost)
         {
             Global.Log($"Done loading. I'm the host so its time to pick Spawn Locations and communicate them.");
@@ -126,7 +126,7 @@ public partial class GameManager : Node
         {
             Global.Log($"Done loading. Notifying peers and waiting to get Founder spawn from Host");
         }
-
+        Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
 
         //MoveCameraToStartLocation();
     }
@@ -149,10 +149,16 @@ public partial class GameManager : Node
         if (isHost)
         {
             this.AIManager = new AIManager();
-            AIManager.InitAI();
+
             SpawnPlayers();
             SpawnRuins();
             SpawnEncampments();
+            AIManager.InitAI();
+
+            StartGameForReal();
+            game.turnManager.StartNewTurn();
+            graphicManager.StartNewTurn();
+
         }
     }
 
@@ -175,10 +181,12 @@ public partial class GameManager : Node
         int count = (int) Mathf.Floor(Global.gameManager.game.playerDictionary.Count * 1.5f);
         for (int i = 0; i < count; i ++)
         {
+            Global.Log("Creating new encampment.");
             int teamNum = GetNextTeamNum();
-            Global.gameManager.game.AddPlayer(0, teamNum, (ulong)new Random().NextInt64(), Colors.DarkRed, true, true);
+            Global.gameManager.game.AddPlayer(0, teamNum, FactionType.Goblins, (ulong)new Random().NextInt64(), Colors.DarkRed, true, true);
             Player player = game.playerDictionary[teamNum];
-            AIManager.AddNewAI(player);
+
+           // AIManager.AddNewAI(player);
             SpawnEncampment(player);
         }
     }
@@ -1039,9 +1047,16 @@ public partial class GameManager : Node
             {
                 //Look I'm sorry the code to start the game for real is just here inside the spawn unit command - it saved me from writing another network message type.
                 Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
-                StartGameForReal();
-                game.turnManager.StartNewTurn();
-                graphicManager.StartNewTurn();
+                if (!isHost)
+                {
+                    StartGameForReal();
+                    game.turnManager.StartNewTurn();
+                    graphicManager.StartNewTurn();
+                }
+                else
+                {
+
+                }
 
             }
         }

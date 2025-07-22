@@ -63,10 +63,10 @@ public class Game
         this.turnManager = turnManager;
     }
 
-    public void AddPlayer(float startGold, int teamNum, ulong playerID, Godot.Color teamColor, bool isAI, bool isEncampment)
+    public void AddPlayer(float startGold, int teamNum, FactionType faction, ulong playerID, Godot.Color teamColor, bool isAI, bool isEncampment)
     {
         Global.Log("Checking player to game with color:" + teamColor.ToString());
-        Player newPlayer = new Player(startGold, teamNum, teamColor, isAI, isEncampment);
+        Player newPlayer = new Player(startGold, teamNum, faction, teamColor, isAI, isEncampment);
         Global.gameManager.game.teamNumToPlayerID.Add(teamNum, playerID);
     }
 
