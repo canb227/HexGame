@@ -416,6 +416,9 @@ public partial class Lobby : Control
             case "gameReady":
                 Global.gameManager.StartGameForReal();
                 break;
+            case "startTurns":
+                Global.gameManager.StartTurns();
+                break;
             default:
                 Global.Log("Unknown lobby message type: " + lobbyMessage.MessageType);
                 break;

@@ -153,11 +153,21 @@ public partial class GameManager : Node
             SpawnEncampments();
             AIManager.InitAI();
 
-            StartGameForReal();
-            game.turnManager.StartNewTurn();
-            graphicManager.StartNewTurn();
+            LobbyMessage lobbyMessage = new();
+            lobbyMessage.MessageType = "startTurns";
+            lobbyMessage.Sender = Global.clientID;
+
+            Global.networkPeer.LobbyMessageAllPeersAndSelf(lobbyMessage);
+
 
         }
+    }
+
+    public void StartTurns()
+    {
+        StartGameForReal();
+        game.turnManager.StartNewTurn();
+        graphicManager.StartNewTurn();
     }
 
     private void SpawnRuins()
@@ -1021,23 +1031,6 @@ public partial class GameManager : Node
             if (location.SpawnUnit(newUnit,stackable,flexible)!=true)
             {
                 Global.Log($"Error spawning unit "); //TODO - Potential Desync
-            }
-
-            if (unitType=="Founder" && teamNum==Global.gameManager.game.localPlayerTeamNum )
-            {
-                //Look I'm sorry the code to start the game for real is just here inside the spawn unit command - it saved me from writing another network message type.
-                Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
-                if (!isHost)
-                {
-                    StartGameForReal();
-                    game.turnManager.StartNewTurn();
-                    graphicManager.StartNewTurn();
-                }
-                else
-                {
-
-                }
-
             }
         }
         catch (Exception e)
