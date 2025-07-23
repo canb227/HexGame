@@ -50,6 +50,7 @@ public partial class Unit
     public bool isTargetEnemy { get; set; }
     public bool isSleeping { get; set; }
     public bool isSkipping { get; set; }
+    public bool spawnSetupFinished { get; set; }
     public Unit(String unitType, int combatModifier, int id, int teamNum)
     {
         this.id = id;
@@ -99,6 +100,7 @@ public partial class Unit
 
     public void SpawnSetup(GameHex targetGameHex)
     {
+        spawnSetupFinished = true;
         targetGameHex.units.Add(id);
         hex = targetGameHex.hex;
         Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
@@ -195,7 +197,10 @@ public partial class Unit
         }
         //difficulty mod
         combatStrength += Global.gameManager.game.playerDictionary[teamNum].combatPowerDifficultyModifier;
-        UpdateVision();
+        if(spawnSetupFinished)
+        {
+            UpdateVision();
+        }
     }
 
     public void AddEffect(UnitEffect effect)
