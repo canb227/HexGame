@@ -131,6 +131,10 @@ public partial class HexGameCamera : Camera3D
                 /* GD.Print("You just clicked!");
                  GD.Print("    Mouse position: " + point.x + "," + point.y);
                  GD.Print("    Hex position: " + hex.q + "," + hex.r + "," + hex.s);*/
+                Hex target = new();
+                AIUtils.FindClosestAnyEnemyInRange(Global.gameManager.AIManager.aiList[0], hex, 2, out target);
+                Global.Log($"CLOSEST ENEMY (OF AI 0), WITHIN RANGE 2 IS AT: {target}");
+                Global.Log($"THIS TILE I CLICKED - IS IT SAFE?: {AIUtils.IsSafeHex(Global.gameManager.AIManager.aiList[0], hex)}");
                 ProcessHexLeftClick(hex);
 
             }

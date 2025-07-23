@@ -130,7 +130,7 @@ public partial class AIManager
         {
             if (teamNum!=ai.player.teamNum)
             {
-                Global.gameManager.game.teamManager.SetDiplomaticState(ai.player.teamNum, teamNum, DiplomaticState.War);
+                Global.gameManager.SetDiplomaticState(ai.player.teamNum, teamNum, DiplomaticState.War);
             }
 
         }
@@ -216,6 +216,22 @@ public partial class AIManager
         foreach (int unitID in ai.player.unitList.ToList())
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
+            if ((unit.unitClass & UnitClass.Combat) ==UnitClass.Combat)
+            {
+                foreach (Hex hex in unit.hex.WrappingNeighbors(left, right, bottom))
+                {
+                    foreach (int uid in Global.gameManager.game.mainGameBoard.gameHexDict[hex].units)
+                    {
+                        if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] unit{unit.id} is next to another unit. Checking if its a baddie."); }
+                        if (IsEnemy(ai.player.teamNum, Global.gameManager.game.unitDictionary[unitID].teamNum))
+                        {
+                            if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] unit{unit.id} is next to an enemy, attacking it."); }
+                            MilitaryUnitMoveOrAttack(ai, unit, hex);
+                        }
+                    }
+                }
+            }
+
             if (ai.allDefenders.Contains(unitID))
             {
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unitName: {unit.name} with type {unit.unitType} is a defender, skipping general handling."); }
@@ -256,13 +272,14 @@ public partial class AIManager
     {
         if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Army/Attacker Management Subroutine"); }
         if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Attacking?: {ai.isAttacking} Army size: {ai.attackers.Count} Desired army size: {GetDesiredArmySize(ai)}"); }
+        
         if (ai.isAttacking)
         {
             if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] We are in attack mode!"); }
             if (ai.attackers.Count < GetDesiredArmySize(ai) * 0.2)
             {
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Army dead, retreating."); }
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new gather t"); }
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new gather target"); }
                 Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.attackTarget;
                 ai.gatherTarget = FindClosestFriendlyCity(ai, unit);
@@ -310,19 +327,15 @@ public partial class AIManager
                 ai.attackers.Remove(attacker);
                 continue;
             }
-            if (ai.isAttacking)
+            if (FindClosestAnyEnemyInRange(ai, unit.hex, 2, out Hex target))
             {
-                if (FindClosestAnyEnemyInRange(ai,unit.hex,4,out Hex target))
-                {
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}]UNIT: {unit.id} Soldier attacking nearby enemy."); }
-                    MilitaryUnitMoveOrAttack(ai, unit, target);
-                }
-                else
-                {
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Moving soldier to attack point."); }
-                    MilitaryUnitMoveOrAttack(ai, unit, ai.attackTarget);
-                }
-
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}]UNIT: {unit.id} Soldier attacking nearby enemy."); }
+                MilitaryUnitMoveOrAttack(ai, unit, target);
+            }
+            else if (ai.isAttacking)
+            {
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Moving soldier to attack point."); }
+                MilitaryUnitMoveOrAttack(ai, unit, ai.attackTarget);
             }
             else
             {
@@ -646,7 +659,20 @@ public partial class AIManager
                     }
                 }
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] No Resource in validExpandHexes, expanding randomly."); }
-                Global.gameManager.ExpandToHex(city.id, allValidHexes[rng.Next(allValidHexes.Count)]);
+                if (rng.NextDouble()>0.5 && validRuralExpandHexes.Count>0)
+                {
+                    if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Expanding to random rural hex"); }
+                    Global.gameManager.ExpandToHex(city.id, validRuralExpandHexes[rng.Next(validRuralExpandHexes.Count)]);
+                }
+                else if (validUrbanExpandHexes.Count>0)
+                {
+                    if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] developing random district"); }
+                    Global.gameManager.DevelopDistrict(city.id, validUrbanExpandHexes[rng.Next(validUrbanExpandHexes.Count)], ai.player.allowedDistricts.ToList()[rng.Next(ai.player.allowedDistricts.Count)]);
+                }
+                else
+                {
+                    if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Can't expand anywhere sadge."); }
+                }
                 break;
             default:
                 break;
