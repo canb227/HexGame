@@ -58,7 +58,6 @@ public partial class Unit
         this.unitType = unitType;
         if (UnitLoader.unitsDict.TryGetValue(unitType, out UnitInfo unitInfo))
         {
-            Global.gameManager.game.unitDictionary.TryAdd(id, this);
             this.unitClass = unitInfo.Class;
             this.movementCosts = unitInfo.MovementCosts;
             this.sightCosts = unitInfo.SightCosts;
@@ -83,12 +82,12 @@ public partial class Unit
             //generic abilities
             AddGenericAbility("Sleep", "graphics/ui/icons/sleep.png");
             AddGenericAbility("Skip", "graphics/ui/icons/skipturn.png");
+            RecalculateEffects();
         }
         else
         {
             throw new ArgumentException($"Unit type '{name}' not found in unit data.");
         }
-
     }
 
     public Unit()
@@ -99,7 +98,9 @@ public partial class Unit
 
     public void SpawnSetup(GameHex targetGameHex)
     {
+        targetGameHex.units.Add(id);
         hex = targetGameHex.hex;
+        Global.gameManager.game.unitDictionary.TryAdd(id, this);
         Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
         RecalculateEffects();
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewUnit", id);

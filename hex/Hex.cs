@@ -201,28 +201,40 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
         return WrapDistance(b, leftBoundary, rightBoundary);
     }
 
-    public int WrapDistance(Hex b, int left, int right)
+    public int WrapDistance(Hex targetHex, int mapLeftBound, int mapRightBound)
     {
-        int newQ = b.q;
-        int range = (right - 1) - left;
-        if (q > b.q)
+        // 1. Calculate the map's total width correctly.
+        // If the map runs from column 0 to 10 (exclusive), the width is 10.
+        int mapWidth = mapRightBound - mapLeftBound;
+
+        // 2. Consider three possibilities for the target hex's Q coordinate:
+        //    - Its original position.
+        //    - Wrapped once to the right.
+        //    - Wrapped once to the left.
+        int qOriginal = targetHex.q;
+        int qWrappedRight = targetHex.q + mapWidth;
+        int qWrappedLeft = targetHex.q - mapWidth;
+
+        // 3. Find which of the three Q coordinates is closest to our own Q.
+        int deltaQOriginal = Math.Abs(this.q - qOriginal);
+        int deltaQRight = Math.Abs(this.q - qWrappedRight);
+        int deltaQLeft = Math.Abs(this.q - qWrappedLeft);
+
+        int unwrappedQ = qOriginal;
+        if (deltaQRight < deltaQOriginal)
         {
-            if(q - b.q > range/2)
-            {
-                newQ = b.q + range + 1;
-            }
+            unwrappedQ = qWrappedRight;
         }
-        else
+        if (deltaQLeft < Math.Abs(this.q - unwrappedQ))
         {
-            if (b.q - q > range / 2)
-            {
-                newQ = b.q - range - 1;
-            }
+            unwrappedQ = qWrappedLeft;
         }
-        Hex unwrappedHex = new Hex(newQ, b.r, -newQ - b.r);
-        int dq = Math.Abs(unwrappedHex.q - q);
-        int dr = Math.Abs(unwrappedHex.r - r);
-        return Distance(unwrappedHex);
+
+        // 4. Create a "ghost" hex using the closest Q coordinate.
+        Hex unwrappedHex = new Hex(unwrappedQ, targetHex.r, -unwrappedQ - targetHex.r);
+
+        // 5. Return the standard, non-wrapping distance to this new ghost hex.
+        return this.Distance(unwrappedHex);
     }
 }
 

@@ -11,6 +11,7 @@ uniform float chunkCount;
 
 uniform sampler2D visibilityGrid : filter_nearest;
 uniform sampler2D terrainInfo : filter_nearest;
+uniform sampler2D territoryMap : filter_nearest;
 uniform sampler2D heightMap;
 
 uniform sampler2D grassTex : source_color, filter_linear_mipmap;
@@ -32,6 +33,7 @@ uniform sampler2D waterTex : source_color, filter_linear_mipmap;
 uniform sampler2D waterNorm : hint_normal, filter_linear_mipmap;
 
 varying flat vec2 visData;
+varying flat vec3 territoryData;
 varying flat vec2 terrainData;
 varying vec3 hexWorldPos;
 
@@ -42,14 +44,17 @@ void vertex() {
     
     //visibility data
     visData = texture(visibilityGrid, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg;
+    //territory data
+    territoryData = texture(territoryMap, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rgb;
+    //texture data
+    terrainData = texture(terrainInfo, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg; //r is temp g is type
 
     //heightmap data
     VERTEX.y += max(visData.r, visData.g) * (texture(heightMap, vec2( ((-hexWorldPos.z)/widthDiv/chunkCount), (hexWorldPos.x)/heightDiv)).r * 20.0);// * texture(terrainInfo, hexValue.xy).r;
 
     //normal calculation
 
-    //texture data
-    terrainData = texture(terrainInfo, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg; //r is temp g is type
+    
 }
 
 void fragment() {
@@ -154,6 +159,7 @@ void fragment() {
 
     terrainColor = terrainColor.rgb * (1.0-terrainHeight);
 
+    terrainColor += territoryData * 0.3;
     // Calculate Visibility Changes
     vec3 grayscaleFactor = terrainColor.rgb * 0.5;//= dot(terrainColor.rgb, vec3(0.299, 0.587, 0.114)) * 0.5;
     
@@ -165,6 +171,4 @@ void fragment() {
            + visibleColor * visData.r                             // Fully visible
            + grayscaleColor * visData.g;                          // Grayscale if seen
 
-    //ALBEDO = vec3(texture(heightMap, vec2((-hexWorldPos.z)/widthDiv/chunkCount, (hexWorldPos.x)/heightDiv)).r,0.0,0.0);
-    //ALBEDO = vec3((hexValue.x+(floor(hexValue.y/2.0)))/gameBoardWidth, hexValue.y/gameBoardHeight, 0.0);
 }

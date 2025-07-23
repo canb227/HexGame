@@ -177,6 +177,7 @@ public partial class HexGameCamera : Camera3D
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         Hex wrapHex = hex.WrapHex();
         Global.Log(wrapHex.ToString());
+        Global.Log(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex].rangeToNearestSpawn.ToString());
         if(Global.gameManager.game.localPlayerRef.turnFinished)
         {
             return;
@@ -213,13 +214,13 @@ public partial class HexGameCamera : Camera3D
                         graphicCity.waitingToGrow = false;
                         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
                         Global.gameManager.graphicManager.ClearWaitForTarget();
+                        Global.gameManager.graphicManager.UnselectObject();
                     }
                     else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
                         DistrictPickerPanel districtPickerPanel = new DistrictPickerPanel(wrapHex, graphicCity);
                         Global.gameManager.graphicManager.AddChild(districtPickerPanel);
                         districtPickerPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-
                     }
                 }
                 else if (graphicCity.waitingBuildingName != "")

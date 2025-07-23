@@ -17,10 +17,9 @@ public class HexChunk
     private int deltaQ;
     private List<Hex> ourHexes;
     bool firstRun = true;
-    public ShaderMaterial terrainShaderMaterial;
     public float widthPix;
     public float heightPix;
-    public HexChunk(MultiMeshInstance3D multiMeshInstance, MultiMeshInstance3D yieldMultiMeshInstance, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, ShaderMaterial terrainShaderMaterial, float chunkOffset, float widthPix, float heightPix)
+    public HexChunk(MultiMeshInstance3D multiMeshInstance, MultiMeshInstance3D yieldMultiMeshInstance, List<Hex> ourHexes, Hex origin, Hex graphicalOrigin, float chunkOffset, float widthPix, float heightPix)
     {
         this.multiMeshInstance = multiMeshInstance;
         this.yieldMultiMeshInstance = yieldMultiMeshInstance;
@@ -28,7 +27,6 @@ public class HexChunk
         this.origin = origin;
         this.graphicalOrigin = graphicalOrigin;
         deltaQ = graphicalOrigin.q - origin.q;
-        this.terrainShaderMaterial = terrainShaderMaterial;
         this.chunkOffset = chunkOffset;
         this.widthPix = widthPix;
         this.heightPix = heightPix;
@@ -55,7 +53,6 @@ public class HexChunk
             newTransform.Origin = new Vector3((float)Global.layout.HexToPixel(graphicalOrigin).y, -1.0f, (float)Global.layout.HexToPixel(graphicalOrigin).x);
             multiMeshInstance.Transform = newTransform;
             
-            //terrainShaderMaterial.SetShaderParameter("chunkOffset", graphicalOrigin.q * Math.Sqrt(3) * 10.0f);
             if (!firstRun)
             {
                 GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);

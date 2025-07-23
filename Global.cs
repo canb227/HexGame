@@ -180,7 +180,14 @@ public partial class Global : Node
             var seen = Global.gameManager.game.localPlayerRef.seenGameHexDict;
             foreach (GameHex hex in Global.gameManager.game.mainGameBoard.gameHexDict.Values)
             {
-                visibleHexes.TryAdd(hex.hex, 10);
+                if (visibleHexes.ContainsKey(hex.hex))
+                {
+                    visibleHexes[hex.hex]++;
+                }
+                else
+                {
+                    visibleHexes.Add(hex.hex, 10);
+                }
                 seen.TryAdd(hex.hex, true);
                 visibilityChanged.Add(hex.hex);
             }

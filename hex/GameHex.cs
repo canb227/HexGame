@@ -240,7 +240,13 @@ public class GameHex
         city.heldHexes.Add(hex);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            //manager.CallDeferred("UpdateCityTerritory", city);
+            var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+            manager.CallDeferred("UpdateTerritoryGraphic", city.teamNum, data);
         }
     }
 
@@ -297,7 +303,6 @@ public class GameHex
         }
         else if(newUnit.movementCosts[(TerrainMoveType)terrainType] < 100 && newUnit.movementCosts[(TerrainMoveType)terrainType] >= 0)//if they cant stack and there aren't units or they can stack and units are/aren't there and the hex is valid for this unit
         {
-            units.Add(newUnit.id);
             newUnit.SpawnSetup(this);
             return true;
         }

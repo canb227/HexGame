@@ -161,7 +161,7 @@ public partial class UIManager : Node3D
         playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
         foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {
-            if (player.teamNum != 0)
+            if (player.teamNum != 0 && !FactionLoader.IsFactionMinor(player.faction))
             {
                 Button icon = new();
                 if (player.isAI)

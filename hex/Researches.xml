@@ -1,5 +1,8 @@
 <Researches> //'City Center' 'Farm' 'Mine' 'Hunting Camp' 'Fishing Boat' 'Whaling Ship'
     <Research Name="Agriculture" Tier="0" VisualSlot="3" IconPath="graphics/ui/icons/science.png">
+        <BuildingUnlocks>
+            <BuildingType Name="Granary" />
+        </BuildingUnlocks>
         <UnitUnlocks>
             <UnitType Name="Warrior" />
             <UnitType Name="Scout" />
@@ -18,7 +21,7 @@
             <UnitType Name="Slinger" />
         </UnitUnlocks>
         <BuildingUnlocks>
-            <BuildingType Name="Granary" />
+            <BuildingType Name="Monument" />
         </BuildingUnlocks>
         <Effects>
             <Effect Name="PotteryEffect" />

@@ -248,7 +248,7 @@ public class BasePlayer
         {
             teamID = teamNum.ToString();
         }
-        string idString = teamID + idCounter.ToString();
+        string idString = idCounter.ToString() + teamID;
         idCounter++;
         return int.Parse(idString);
 

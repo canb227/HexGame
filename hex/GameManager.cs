@@ -181,7 +181,6 @@ public partial class GameManager : Node
         int count = (int) Mathf.Floor(Global.gameManager.game.playerDictionary.Count * 1.5f);
         for (int i = 0; i < count; i ++)
         {
-            Global.Log("Creating new encampment.");
             int teamNum = GetNextTeamNum();
             Global.gameManager.game.AddPlayer(0, teamNum, FactionType.Goblins, (ulong)new Random().NextInt64(), Colors.DarkRed, true, true);
             Player player = game.playerDictionary[teamNum];
@@ -193,7 +192,14 @@ public partial class GameManager : Node
 
     private void SpawnEncampment(Player player)
     {
-        Hex spawnHex = PickSmartSpawnHex();
+        Hex spawnHex = PickRandomValidHexAwayFromSpawn(4);
+        foreach (Hex hex in spawnHex.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (hex.WrapDistance(spawnHex) < Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn = hex.WrapDistance(spawnHex);
+            }
+        }
         new Encampment(Global.gameManager.game.GetUniqueID(player.teamNum), player.teamNum, "GoblinEncampment", true, Global.gameManager.game.mainGameBoard.gameHexDict[spawnHex]);
     }
 
@@ -325,7 +331,10 @@ public partial class GameManager : Node
 
         foreach (Hex hex in spawnHex.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
-            Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn = hex.WrapDistance(spawnHex);
+            if(hex.WrapDistance(spawnHex) < Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn = hex.WrapDistance(spawnHex);
+            }
         }
 
         return spawnHex;

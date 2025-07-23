@@ -154,6 +154,13 @@ public partial class GraphicManager : Node3D
         }
     }
 
+    public void UpdateTerritoryGraphic(int teamNum, Godot.Collections.Dictionary hexData)
+    {
+        Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.UpdateTerritoryGraphic(teamNum, hex);
+    }
+
     public void UpdateGraphic(int id, GraphicUpdateType graphicUpdateType)
     {
         if (graphicObjectDictionary.ContainsKey(id))

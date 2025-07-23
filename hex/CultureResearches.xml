@@ -1,8 +1,5 @@
 <Researches> //'City Center' 'Farm' 'Mine' 'Hunting Camp' 'Fishing Boat' 'Whaling Ship'
     <Research Name="TribalDominion" Tier="0" VisualSlot="3" IconPath="graphics/ui/icons/sword.png">
-        <BuildingUnlocks>
-            <BuildingType Name="Monument" />
-        </BuildingUnlocks>
         <UnitUnlocks>
             <UnitType Name="Scout" />
         </UnitUnlocks>

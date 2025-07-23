@@ -25,8 +25,12 @@ public partial class GraphicGameBoard : GraphicObject
     public int chunkSize = 0;
     public int chunkCount = 0;
     private Image visibilityImage;
+    public Image territoryImage;
+    private ImageTexture territoryTexture;
     private ImageTexture visibilityTexture;
     private Image terrainInfoImage;
+    ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
+
 
     public Image heightMap;
 
@@ -49,14 +53,20 @@ public partial class GraphicGameBoard : GraphicObject
     {
         AddHexResource();
 
+        AddAncientRuins();
+
         Add3DHexFeatures();
         //AddHexFeatures(layout);
+
+
 
         //Add3DHexYields();
 
         AddHexUnits(layout);
 
         AddHexBuildingsAndDistrictsAndCities(layout);
+
+        SetInitialTerritoryGraphic();
 
         SimpleRedrawBoard(layout);
     }
@@ -139,7 +149,6 @@ public partial class GraphicGameBoard : GraphicObject
         terrainInfoImage = GenerateTerrainInfoImage();
         ImageTexture terrainInfoTexture = ImageTexture.CreateFromImage(terrainInfoImage);
 
-        ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
         terrainShaderMaterial.Shader = terrainShader;
         terrainShaderMaterial.SetShaderParameter("terrainInfo", terrainInfoTexture);
 
@@ -199,6 +208,8 @@ public partial class GraphicGameBoard : GraphicObject
             new Vector3(-3.0f, 1.0f, -3.0f),
         };
 
+
+        territoryImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rgb8);
 
 
 
@@ -346,7 +357,7 @@ public partial class GraphicGameBoard : GraphicObject
             yieldMultiMeshInstance.MaterialOverride = yieldShaderMaterial;
             yieldMultiMeshInstance.Name = "Yield" + i;
 
-            chunkList.Add(new HexChunk(multiMeshInstance, yieldMultiMeshInstance, subHexList, subHexList.First(), subHexList.First(), terrainShaderMaterial, chunkOffset, (float)Math.Sqrt(3) * 10.0f * (chunkSize + 1), 1.5f * 10.0f * Global.gameManager.game.mainGameBoard.bottom));//we set graphical to our default location here then update as we move it around
+            chunkList.Add(new HexChunk(multiMeshInstance, yieldMultiMeshInstance, subHexList, subHexList.First(), subHexList.First(), chunkOffset, (float)Math.Sqrt(3) * 10.0f * (chunkSize + 1), 1.5f * 10.0f * Global.gameManager.game.mainGameBoard.bottom));//we set graphical to our default location here then update as we move it around
 
             AddChild(multiMeshInstance);
             multiMeshInstance.AddChild(yieldMultiMeshInstance);
@@ -441,6 +452,25 @@ public partial class GraphicGameBoard : GraphicObject
         }
     }
 
+    private void AddAncientRuins()
+    {
+        foreach (Hex hex in gameBoard.gameHexDict.Keys)
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].ancientRuins != null)
+            {
+                var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+                Global.gameManager.graphicManager.NewRuins(data);
+            }
+        }
+    }
+
+    
+
     private void Add3DHexFeatures()
     {
         foreach (Hex hex in gameBoard.gameHexDict.Keys)
@@ -457,6 +487,35 @@ public partial class GraphicGameBoard : GraphicObject
                 Global.gameManager.graphicManager.NewFeature(data, feature);
             }
         }
+    }
+
+    public void UpdateTerritoryGraphic(int teamNum, Hex hex)
+    {
+        Hex wrapHex = hex.WrapHex();
+        int newQ = wrapHex.q + (wrapHex.r >> 1);
+        territoryImage.SetPixel(newQ, wrapHex.r, Global.gameManager.game.playerDictionary[teamNum].teamColor); // Mark as owned
+        territoryTexture.Update(territoryImage);
+
+        territoryImage.SavePng("territoryImage.png");
+    }
+
+    public void SetInitialTerritoryGraphic()
+    {
+        foreach (Player player in Global.gameManager.game.playerDictionary.Values)
+        {
+            foreach (int cityID in player.cityList.ToList())
+            {
+                City city = Global.gameManager.game.cityDictionary[(int)cityID];
+                foreach (Hex hex in city.heldHexes)
+                {
+                    Hex wrapHex = hex.WrapHex();
+                    int newQ = wrapHex.q + (wrapHex.r >> 1);
+                    territoryImage.SetPixel(newQ, wrapHex.r, player.teamColor);
+                }
+            }
+        }
+        territoryTexture = ImageTexture.CreateFromImage(territoryImage);
+        terrainShaderMaterial.SetShaderParameter("territoryMap", territoryTexture);
     }
 
     public override void Unselected()

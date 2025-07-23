@@ -246,8 +246,15 @@ public partial class DiplomacyPanel : Control
     }
     private void AddOffer(DiplomacyAction action, VBoxContainer items, VBoxContainer offersBox, List<DiplomacyAction> offers)
     {
-        playerItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
-        otherItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
+        if(action.actionName == "Share Map")
+        {
+            playerItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
+        }
+        else
+        {
+            playerItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
+            otherItemsBox.GetNode<Button>(action.actionName + "Button").Disabled = true;
+        }
 
         HBoxContainer box = new HBoxContainer();
         box.Name = action.actionName;
