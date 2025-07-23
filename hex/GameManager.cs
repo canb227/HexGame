@@ -21,8 +21,6 @@ public partial class GameManager : Node
     public AudioManager audioManager = new();
     public bool gameStarted = false;
 
-    
-
     public GameManager()
     {
         instance = this;
@@ -166,52 +164,26 @@ public partial class GameManager : Node
     {
         for (int i = 0; i < Global.gameManager.game.playerDictionary.Count * 4; i++)
         {
-            SpawnRuin();
+            Hex spawnHex = PickRandomValidHex();
+            int eventIndex = new Random().Next(AncientRuinsLoader.eventStartPoints.Count);
+            SpawnRuin(spawnHex, eventIndex);
         }
     }
 
-    private void SpawnRuin()
-    {
-        Hex spawnHex = PickRandomValidHex();
-        new AncientRuins(spawnHex, AncientRuinsLoader.eventStartPoints[new Random().Next(AncientRuinsLoader.eventStartPoints.Count)].eventID);
-    }
 
     private void SpawnEncampments()
     {
+        int teamNumCounter = Global.gameManager.game.playerDictionary.Keys.Count+1;
         int count = (int) Mathf.Floor(Global.gameManager.game.playerDictionary.Count * 1.5f);
         for (int i = 0; i < count; i ++)
         {
-            int teamNum = GetNextTeamNum();
-            Global.gameManager.game.AddPlayer(0, teamNum, FactionType.Goblins, (ulong)new Random().NextInt64(), Colors.DarkRed, true, true);
-            Player player = game.playerDictionary[teamNum];
-
-           // AIManager.AddNewAI(player);
-            SpawnEncampment(player);
+            Hex spawnHex = PickRandomValidHexAwayFromSpawn(4);
+            int teamNum = teamNumCounter++;
+            ulong playerID = (ulong)new Random().NextInt64();
+            Global.gameManager.SpawnEncampment(spawnHex, FactionType.Goblins,teamNum,playerID);
         }
     }
 
-    private void SpawnEncampment(Player player)
-    {
-        Hex spawnHex = PickRandomValidHexAwayFromSpawn(4);
-        foreach (Hex hex in spawnHex.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
-        {
-            if (hex.WrapDistance(spawnHex) < Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn)
-            {
-                Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn = hex.WrapDistance(spawnHex);
-            }
-        }
-        new Encampment(Global.gameManager.game.GetUniqueID(player.teamNum), player.teamNum, "GoblinEncampment", true, Global.gameManager.game.mainGameBoard.gameHexDict[spawnHex]);
-    }
-
-    public int GetNextTeamNum()
-    {
-        int teamNum = 1;
-        while (game.playerDictionary.ContainsKey(teamNum))
-        {
-            teamNum++;
-        }
-        return teamNum;
-    }
 
     public void HostInitSavedGame()
     {
@@ -1037,7 +1009,6 @@ public partial class GameManager : Node
     {
         if (local)
         {
-            
             Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnUnitCommand(unitType, teamNum, position, stackable, flexible));
             return;
         }
@@ -1085,39 +1056,51 @@ public partial class GameManager : Node
     }
 
 
-    public void SpawnEncampment(Hex location, FactionType type, bool local = true)
+    public void SpawnEncampment(Hex location, FactionType type, int teamNum, ulong playerID, bool local = true)
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnEncampmentCommand(location, type));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnEncampmentCommand(location, type,teamNum,playerID));
+            return;
         }
 
         try
         {
-            //ACTUALL SPAWN THE ENCAMPMENT
-            GD.Print("I'm GameManager.SpawnEncampment(), please implement me!");
+            Global.Log($"Got a command over network (or loopback) to spawn an encampment at location {location}");
+            Global.gameManager.game.AddPlayer(0, teamNum, type, playerID, Colors.DarkRed, true, true);
+            Player player = game.playerDictionary[teamNum];
+            foreach (Hex hex in location.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+            {
+                if (hex.WrapDistance(location) < Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn)
+                {
+                    Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn = hex.WrapDistance(location);
+                }
+            }
+            new Encampment(Global.gameManager.game.GetUniqueID(player.teamNum), player.teamNum, "GoblinEncampment", true, Global.gameManager.game.mainGameBoard.gameHexDict[location]);
         }
         catch (Exception e)
         {
             Global.Log("Error spawning encampment: " + e.Message); //TODO - Potential Desync
+            throw;
         }
     }
 
-    public void SpawnRuin(Hex location, string eventID, bool local = true)
+    public void SpawnRuin(Hex location, int eventIndex, bool local = true)
     {
         if (local)
         {
-            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnRuinCommand(location, eventID));
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructSpawnRuinCommand(location, eventIndex));
+            return;
         }
 
         try
         {
-            GD.Print("I'm GameManager.SpawnRuin(), please implement me!");
-            //ACTUALLY SPAWN THE RUIN
+            new AncientRuins(location, AncientRuinsLoader.eventStartPoints[eventIndex].eventID);
         }
         catch (Exception e)
         {
             Global.Log("Error spawning ruin: " + e.Message); //TODO - Potential Desync
+            throw;
         }
     }
 
@@ -1126,6 +1109,7 @@ public partial class GameManager : Node
         if (local)
         {
             Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructTriggerRuinCommand(teamNum,location,eventIndex));
+            return;
         }
 
         try
@@ -1140,6 +1124,7 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error triggering ruin: " + e.Message); //TODO - Potential Desync
+            throw;
         }
     }
 

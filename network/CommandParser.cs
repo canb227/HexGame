@@ -147,10 +147,10 @@ using System.Threading.Tasks;
                 Global.gameManager.SetDiplomaticState(command.SetDiplomaticState.TeamNumOne, command.SetDiplomaticState.TeamNumTwo, (DiplomaticState)command.SetDiplomaticState.DiplomaticState, false);
                 break;
             case "SpawnRuin":
-                Global.gameManager.SpawnRuin(new Hex(command.SpawnRuin.Location.Q, command.SpawnRuin.Location.R, command.SpawnRuin.Location.S), command.SpawnRuin.EventID, false);
+                Global.gameManager.SpawnRuin(new Hex(command.SpawnRuin.Location.Q, command.SpawnRuin.Location.R, command.SpawnRuin.Location.S), command.SpawnRuin.EventIndex, false);
                 break;
             case "SpawnEncampment":
-                Global.gameManager.SpawnEncampment(new Hex(command.SpawnEncampment.Location.Q, command.SpawnEncampment.Location.R, command.SpawnEncampment.Location.S), (FactionType)command.SpawnEncampment.FactionType,false);
+                Global.gameManager.SpawnEncampment(new Hex(command.SpawnEncampment.Location.Q, command.SpawnEncampment.Location.R, command.SpawnEncampment.Location.S), (FactionType)command.SpawnEncampment.FactionType,command.SpawnEncampment.TeamNum,command.SpawnEncampment.PlayerID, false);
                 break;
             case "TriggerRuin":
                 Global.gameManager.TriggerRuin(command.TriggerRuin.TeamNum, new Hex(command.TriggerRuin.Location.Q, command.TriggerRuin.Location.R, command.TriggerRuin.Location.S), command.TriggerRuin.EventIndex, false);
@@ -574,7 +574,7 @@ using System.Threading.Tasks;
         return command;
     }
 
-    internal static Command ConstructSpawnEncampmentCommand(Hex location, FactionType type)
+    internal static Command ConstructSpawnEncampmentCommand(Hex location, FactionType type, int teamNum, ulong playerID)
     {
         SpawnEncampment spawnEncampment = new();
 
@@ -585,6 +585,8 @@ using System.Threading.Tasks;
         spawnEncampment.Location = hex;
 
         spawnEncampment.FactionType = (int)type;
+        spawnEncampment.PlayerID = playerID;
+        spawnEncampment.TeamNum = teamNum;
 
         Command command = new();
         command.CommandType = "SpawnEncampment";
@@ -593,7 +595,7 @@ using System.Threading.Tasks;
         return command;
     }
 
-    internal static Command ConstructSpawnRuinCommand(Hex location, string eventID)
+    internal static Command ConstructSpawnRuinCommand(Hex location, int eventIndex)
     {
         SpawnRuin spawnRuin = new();
         NetworkMessages.Hex hex = new NetworkMessages.Hex();
@@ -601,7 +603,7 @@ using System.Threading.Tasks;
         hex.R = location.r;
         hex.S = location.s;
         spawnRuin.Location = hex;
-        spawnRuin.EventID = eventID;
+        spawnRuin.EventIndex = eventIndex;
 
         Command command = new();
         command.CommandType = "SpawnRuin";

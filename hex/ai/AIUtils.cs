@@ -343,31 +343,31 @@ public static class AIUtils
     }
     public static bool FindClosestAnyEnemyInRange(AI ai, Hex hex, int range, out Hex target)
     {
-        Global.Log($"FINDCLOSESTANYENEMY: Searching around hex {hex} with range {range} for enemies of team {ai.player.teamNum}");
+        //Global.Log($"FINDCLOSESTANYENEMY: Searching around hex {hex} with range {range} for enemies of team {ai.player.teamNum}");
         
         Unit unit = new Unit("Warrior", 0,-ai.player.teamNum, ai.player.teamNum);
         unit.hex = hex; //create a dummy unit at the given hex
         List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
         
-        Global.Log($"FINDCLOSESTANYENEMY: That means we're checking this hex list (length {hexesInRange.Count}: ");
+        //Global.Log($"FINDCLOSESTANYENEMY: That means we're checking this hex list (length {hexesInRange.Count}: ");
         
         
-        foreach (Hex h in hexesInRange)
-        {
-            Global.Log($"FINDCLOSESTANYENEMY: {h} ");
-        }
+        //foreach (Hex h in hexesInRange)
+        //{
+        //    //Global.Log($"FINDCLOSESTANYENEMY: {h} ");
+        //}
         List<Hex> targets = new();
         foreach (Hex h in hexesInRange)
         {
             if (!IsSafeHex(ai, h))
             {
-                Global.Log($"FINDCLOSESTANYENEMY: Found a baddie in range at hex {h}!");
+              //  Global.Log($"FINDCLOSESTANYENEMY: Found a baddie in range at hex {h}!");
                 targets.Add(h); //found an enemy unit in range
             }
         }
         if (targets.Count > 0)
         {
-            Global.Log($"FINDCLOSESTANYENEMY: Searching all found baddies for the closest one.");
+           // Global.Log($"FINDCLOSESTANYENEMY: Searching all found baddies for the closest one.");
             target = targets[0];
             float lowCost = float.MaxValue;
             foreach (Hex h in targets)
@@ -380,7 +380,7 @@ public static class AIUtils
             }
             Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
 
-            Global.Log($"FINDCLOSESTANYENEMY: Hex {target} is the closet baddie.");
+           // Global.Log($"FINDCLOSESTANYENEMY: Hex {target} is the closet baddie.");
             return true;
         }
         else

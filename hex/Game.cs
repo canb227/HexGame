@@ -65,7 +65,7 @@ public class Game
 
     public void AddPlayer(float startGold, int teamNum, FactionType faction, ulong playerID, Godot.Color teamColor, bool isAI, bool isEncampment)
     {
-        Global.Log("Checking player to game with color:" + teamColor.ToString());
+        Global.Log($"Adding new player to game, id: {playerID}, team: {teamNum}, faction: {faction}, is AI?: {isAI}, is encampment?: {isEncampment}");
         Player newPlayer = new Player(startGold, teamNum, faction, teamColor, isAI, isEncampment);
         Global.gameManager.game.teamNumToPlayerID.Add(teamNum, playerID);
     }

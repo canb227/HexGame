@@ -100,13 +100,15 @@ message Command
 message SpawnRuin
 {
 	Hex location = 1;
-	string eventID = 2;
+	int32 eventIndex = 2;
 }
 
 message SpawnEncampment
 {
 	Hex location = 1;
 	int32 factionType = 2;
+	uint64 playerID = 3;
+	int32 teamNum = 4;
 }
 
 message TriggerRuin

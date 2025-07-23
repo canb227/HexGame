@@ -83,60 +83,61 @@ namespace NetworkMessages {
             "cmtNZXNzYWdlcy5TcGF3bkVuY2FtcG1lbnRIABIvCglTcGF3blJ1aW4YHCAB",
             "KAsyGi5OZXR3b3JrTWVzc2FnZXMuU3Bhd25SdWluSAASMwoLVHJpZ2dlclJ1",
             "aW4YHSABKAsyHC5OZXR3b3JrTWVzc2FnZXMuVHJpZ2dlclJ1aW5IABIOCgZz",
-            "ZW5kZXIYYyABKARCCQoHY29tbWFuZCJECglTcGF3blJ1aW4SJgoIbG9jYXRp",
-            "b24YASABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4Eg8KB2V2ZW50SUQYAiAB",
-            "KAkiTgoPU3Bhd25FbmNhbXBtZW50EiYKCGxvY2F0aW9uGAEgASgLMhQuTmV0",
-            "d29ya01lc3NhZ2VzLkhleBITCgtmYWN0aW9uVHlwZRgCIAEoBSJaCgtUcmln",
-            "Z2VyUnVpbhIPCgd0ZWFtTnVtGAEgASgFEiYKCGxvY2F0aW9uGAIgASgLMhQu",
-            "TmV0d29ya01lc3NhZ2VzLkhleBISCgpldmVudEluZGV4GAMgASgFIlUKElNl",
-            "dERpcGxvbWF0aWNTdGF0ZRISCgp0ZWFtTnVtT25lGAEgASgFEhIKCnRlYW1O",
-            "dW1Ud28YAiABKAUSFwoPZGlwbG9tYXRpY1N0YXRlGAMgASgFIkkKDk5ld0V4",
-            "cG9ydFJvdXRlEhIKCmZyb21DaXR5SUQYASABKAUSEAoIdG9DaXR5SUQYAiAB",
-            "KAUSEQoJeWllbGRUeXBlGAMgASgFIkwKEVJlbW92ZUV4cG9ydFJvdXRlEhIK",
-            "CmZyb21DaXR5SUQYASABKAUSEAoIdG9DaXR5SUQYAiABKAUSEQoJeWllbGRU",
-            "eXBlGAMgASgFIjUKDU5ld1RyYWRlUm91dGUSEgoKZnJvbUNpdHlJRBgBIAEo",
-            "BRIQCgh0b0NpdHlJRBgCIAEoBSI4ChBSZW1vdmVUcmFkZVJvdXRlEhIKCmZy",
-            "b21DaXR5SUQYASABKAUSEAoIdG9DaXR5SUQYAiABKAUiOQoQQXNzaWduUG9s",
-            "aWN5Q2FyZBIPCgd0ZWFtTnVtGAEgASgFEhQKDHBvbGljeUNhcmRJRBgCIAEo",
-            "BSI7ChJVbmFzc2lnblBvbGljeUNhcmQSDwoHdGVhbU51bRgBIAEoBRIUCgxw",
-            "b2xpY3lDYXJkSUQYAiABKAUiMQoNU2V0R292ZXJubWVudBIPCgd0ZWFtTnVt",
-            "GAEgASgFEg8KB2dvdlR5cGUYAiABKAUihwEKCVNwYXduVW5pdBIQCgh1bml0",
-            "VHlwZRgBIAEoCRIKCgJpZBgCIAEoBRIPCgd0ZWFtTnVtGAMgASgFEiYKCHBv",
-            "c2l0aW9uGAQgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleBIRCglzdGFja2Fi",
-            "bGUYBSABKAgSEAoIZmxleGlibGUYBiABKAgizgEKDkFkZFBlbmRpbmdEZWFs",
-            "Eg4KBmRlYWxJRBgBIAEoBRITCgtmcm9tVGVhbU51bRgCIAEoBRIRCgl0b1Rl",
-            "YW1OdW0YAyABKAUSQgoQcmVxdWVzdGVkQWN0aW9ucxgEIAMoCzIoLk5ldHdv",
-            "cmtNZXNzYWdlcy5EaXBsb21hdGljQWN0aW9uTWVzc2FnZRJACg5vZmZlcmVk",
-            "QWN0aW9ucxgFIAMoCzIoLk5ldHdvcmtNZXNzYWdlcy5EaXBsb21hdGljQWN0",
-            "aW9uTWVzc2FnZSIkChJFeGVjdXRlUGVuZGluZ0RlYWwSDgoGZGVhbElEGAEg",
-            "ASgFIiMKEVJlbW92ZVBlbmRpbmdEZWFsEg4KBmRlYWxJRBgBIAEoBSLBAQoX",
-            "RGlwbG9tYXRpY0FjdGlvbk1lc3NhZ2USFQoIYWN0aW9uSUQYASABKAVIAIgB",
-            "ARITCgtmcm9tVGVhbU51bRgCIAEoBRIRCgl0b1RlYW1OdW0YAyABKAUSEgoK",
-            "QWN0aW9uTmFtZRgEIAEoCRIVCghkdXJhdGlvbhgFIAEoBUgBiAEBEhUKCHF1",
-            "YW50aXR5GAYgASgFSAKIAQFCCwoJX2FjdGlvbklEQgsKCV9kdXJhdGlvbkIL",
-            "CglfcXVhbnRpdHkiGgoHRW5kVHVybhIPCgd0ZWFtTnVtGAEgASgFImYKFUFk",
-            "ZFJlc291cmNlQXNzaWdubWVudBIOCgZjaXR5SUQYASABKAUSFAoMcmVzb3Vy",
-            "Y2VOYW1lGAIgASgFEicKCXNvdXJjZUhleBgDIAEoCzIULk5ldHdvcmtNZXNz",
-            "YWdlcy5IZXgiVAoYUmVtb3ZlUmVzb3VyY2VBc3NpZ25tZW50Eg8KB3RlYW1O",
-            "dW0YASABKAUSJwoJc291cmNlSGV4GAIgASgLMhQuTmV0d29ya01lc3NhZ2Vz",
-            "LkhleCI3Cg5TZWxlY3RSZXNlYXJjaBIPCgd0ZWFtTnVtGAEgASgFEhQKDHJl",
-            "c2VhcmNoTmFtZRgCIAEoCSI1Cg1TZWxlY3RDdWx0dXJlEg8KB3RlYW1OdW0Y",
-            "ASABKAUSEwoLY3VsdHVyZU5hbWUYAiABKAkiKgoKUmVuYW1lQ2l0eRIOCgZj",
-            "aXR5SUQYASABKAUSDAoEbmFtZRgCIAEoCSJtChRBZGRUb1Byb2R1Y3Rpb25R",
-            "dWV1ZRIQCghpdGVtTmFtZRgBIAEoCRIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3",
-            "b3JrTWVzc2FnZXMuSGV4Eg4KBmNpdHlJRBgDIAEoBRINCgVmcm9udBgEIAEo",
-            "CCI6ChlSZW1vdmVGcm9tUHJvZHVjdGlvblF1ZXVlEg0KBWluZGV4GAEgASgF",
-            "Eg4KBmNpdHlJRBgCIAEoBSI9ChxNb3ZlVG9Gcm9udE9mUHJvZHVjdGlvblF1",
-            "ZXVlEg0KBWluZGV4GAEgASgFEg4KBmNpdHlJRBgCIAEoBSJDCgtFeHBhbmRU",
-            "b0hleBIOCgZjaXR5SUQYASABKAUSJAoGdGFyZ2V0GAIgASgLMhQuTmV0d29y",
-            "a01lc3NhZ2VzLkhleCJdCg9EZXZlbG9wRGlzdHJpY3QSDgoGY2l0eUlEGAEg",
-            "ASgFEiQKBnRhcmdldBgCIAEoCzIULk5ldHdvcmtNZXNzYWdlcy5IZXgSFAoM",
-            "ZGlzdHJpY3RUeXBlGAMgASgFIlEKCE1vdmVVbml0Eg4KBnVuaXRJZBgBIAEo",
-            "BRIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4Eg8KB2lz",
-            "RW5lbXkYAyABKAgiXAoPQWN0aXZhdGVBYmlsaXR5Eg4KBnVuaXRJZBgBIAEo",
-            "BRITCgthYmlsaXR5TmFtZRgCIAEoCRIkCgZ0YXJnZXQYAyABKAsyFC5OZXR3",
-            "b3JrTWVzc2FnZXMuSGV4IiYKA0hleBIJCgFxGAEgASgFEgkKAXIYAiABKAUS",
-            "CQoBcxgDIAEoBWIGcHJvdG8z"));
+            "ZW5kZXIYYyABKARCCQoHY29tbWFuZCJHCglTcGF3blJ1aW4SJgoIbG9jYXRp",
+            "b24YASABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4EhIKCmV2ZW50SW5kZXgY",
+            "AiABKAUicQoPU3Bhd25FbmNhbXBtZW50EiYKCGxvY2F0aW9uGAEgASgLMhQu",
+            "TmV0d29ya01lc3NhZ2VzLkhleBITCgtmYWN0aW9uVHlwZRgCIAEoBRIQCghw",
+            "bGF5ZXJJRBgDIAEoBBIPCgd0ZWFtTnVtGAQgASgFIloKC1RyaWdnZXJSdWlu",
+            "Eg8KB3RlYW1OdW0YASABKAUSJgoIbG9jYXRpb24YAiABKAsyFC5OZXR3b3Jr",
+            "TWVzc2FnZXMuSGV4EhIKCmV2ZW50SW5kZXgYAyABKAUiVQoSU2V0RGlwbG9t",
+            "YXRpY1N0YXRlEhIKCnRlYW1OdW1PbmUYASABKAUSEgoKdGVhbU51bVR3bxgC",
+            "IAEoBRIXCg9kaXBsb21hdGljU3RhdGUYAyABKAUiSQoOTmV3RXhwb3J0Um91",
+            "dGUSEgoKZnJvbUNpdHlJRBgBIAEoBRIQCgh0b0NpdHlJRBgCIAEoBRIRCgl5",
+            "aWVsZFR5cGUYAyABKAUiTAoRUmVtb3ZlRXhwb3J0Um91dGUSEgoKZnJvbUNp",
+            "dHlJRBgBIAEoBRIQCgh0b0NpdHlJRBgCIAEoBRIRCgl5aWVsZFR5cGUYAyAB",
+            "KAUiNQoNTmV3VHJhZGVSb3V0ZRISCgpmcm9tQ2l0eUlEGAEgASgFEhAKCHRv",
+            "Q2l0eUlEGAIgASgFIjgKEFJlbW92ZVRyYWRlUm91dGUSEgoKZnJvbUNpdHlJ",
+            "RBgBIAEoBRIQCgh0b0NpdHlJRBgCIAEoBSI5ChBBc3NpZ25Qb2xpY3lDYXJk",
+            "Eg8KB3RlYW1OdW0YASABKAUSFAoMcG9saWN5Q2FyZElEGAIgASgFIjsKElVu",
+            "YXNzaWduUG9saWN5Q2FyZBIPCgd0ZWFtTnVtGAEgASgFEhQKDHBvbGljeUNh",
+            "cmRJRBgCIAEoBSIxCg1TZXRHb3Zlcm5tZW50Eg8KB3RlYW1OdW0YASABKAUS",
+            "DwoHZ292VHlwZRgCIAEoBSKHAQoJU3Bhd25Vbml0EhAKCHVuaXRUeXBlGAEg",
+            "ASgJEgoKAmlkGAIgASgFEg8KB3RlYW1OdW0YAyABKAUSJgoIcG9zaXRpb24Y",
+            "BCABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4EhEKCXN0YWNrYWJsZRgFIAEo",
+            "CBIQCghmbGV4aWJsZRgGIAEoCCLOAQoOQWRkUGVuZGluZ0RlYWwSDgoGZGVh",
+            "bElEGAEgASgFEhMKC2Zyb21UZWFtTnVtGAIgASgFEhEKCXRvVGVhbU51bRgD",
+            "IAEoBRJCChByZXF1ZXN0ZWRBY3Rpb25zGAQgAygLMiguTmV0d29ya01lc3Nh",
+            "Z2VzLkRpcGxvbWF0aWNBY3Rpb25NZXNzYWdlEkAKDm9mZmVyZWRBY3Rpb25z",
+            "GAUgAygLMiguTmV0d29ya01lc3NhZ2VzLkRpcGxvbWF0aWNBY3Rpb25NZXNz",
+            "YWdlIiQKEkV4ZWN1dGVQZW5kaW5nRGVhbBIOCgZkZWFsSUQYASABKAUiIwoR",
+            "UmVtb3ZlUGVuZGluZ0RlYWwSDgoGZGVhbElEGAEgASgFIsEBChdEaXBsb21h",
+            "dGljQWN0aW9uTWVzc2FnZRIVCghhY3Rpb25JRBgBIAEoBUgAiAEBEhMKC2Zy",
+            "b21UZWFtTnVtGAIgASgFEhEKCXRvVGVhbU51bRgDIAEoBRISCgpBY3Rpb25O",
+            "YW1lGAQgASgJEhUKCGR1cmF0aW9uGAUgASgFSAGIAQESFQoIcXVhbnRpdHkY",
+            "BiABKAVIAogBAUILCglfYWN0aW9uSURCCwoJX2R1cmF0aW9uQgsKCV9xdWFu",
+            "dGl0eSIaCgdFbmRUdXJuEg8KB3RlYW1OdW0YASABKAUiZgoVQWRkUmVzb3Vy",
+            "Y2VBc3NpZ25tZW50Eg4KBmNpdHlJRBgBIAEoBRIUCgxyZXNvdXJjZU5hbWUY",
+            "AiABKAUSJwoJc291cmNlSGV4GAMgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhl",
+            "eCJUChhSZW1vdmVSZXNvdXJjZUFzc2lnbm1lbnQSDwoHdGVhbU51bRgBIAEo",
+            "BRInCglzb3VyY2VIZXgYAiABKAsyFC5OZXR3b3JrTWVzc2FnZXMuSGV4IjcK",
+            "DlNlbGVjdFJlc2VhcmNoEg8KB3RlYW1OdW0YASABKAUSFAoMcmVzZWFyY2hO",
+            "YW1lGAIgASgJIjUKDVNlbGVjdEN1bHR1cmUSDwoHdGVhbU51bRgBIAEoBRIT",
+            "CgtjdWx0dXJlTmFtZRgCIAEoCSIqCgpSZW5hbWVDaXR5Eg4KBmNpdHlJRBgB",
+            "IAEoBRIMCgRuYW1lGAIgASgJIm0KFEFkZFRvUHJvZHVjdGlvblF1ZXVlEhAK",
+            "CGl0ZW1OYW1lGAEgASgJEiQKBnRhcmdldBgCIAEoCzIULk5ldHdvcmtNZXNz",
+            "YWdlcy5IZXgSDgoGY2l0eUlEGAMgASgFEg0KBWZyb250GAQgASgIIjoKGVJl",
+            "bW92ZUZyb21Qcm9kdWN0aW9uUXVldWUSDQoFaW5kZXgYASABKAUSDgoGY2l0",
+            "eUlEGAIgASgFIj0KHE1vdmVUb0Zyb250T2ZQcm9kdWN0aW9uUXVldWUSDQoF",
+            "aW5kZXgYASABKAUSDgoGY2l0eUlEGAIgASgFIkMKC0V4cGFuZFRvSGV4Eg4K",
+            "BmNpdHlJRBgBIAEoBRIkCgZ0YXJnZXQYAiABKAsyFC5OZXR3b3JrTWVzc2Fn",
+            "ZXMuSGV4Il0KD0RldmVsb3BEaXN0cmljdBIOCgZjaXR5SUQYASABKAUSJAoG",
+            "dGFyZ2V0GAIgASgLMhQuTmV0d29ya01lc3NhZ2VzLkhleBIUCgxkaXN0cmlj",
+            "dFR5cGUYAyABKAUiUQoITW92ZVVuaXQSDgoGdW5pdElkGAEgASgFEiQKBnRh",
+            "cmdldBgCIAEoCzIULk5ldHdvcmtNZXNzYWdlcy5IZXgSDwoHaXNFbmVteRgD",
+            "IAEoCCJcCg9BY3RpdmF0ZUFiaWxpdHkSDgoGdW5pdElkGAEgASgFEhMKC2Fi",
+            "aWxpdHlOYW1lGAIgASgJEiQKBnRhcmdldBgDIAEoCzIULk5ldHdvcmtNZXNz",
+            "YWdlcy5IZXgiJgoDSGV4EgkKAXEYASABKAUSCQoBchgCIAEoBRIJCgFzGAMg",
+            "ASgFYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -148,8 +149,8 @@ namespace NetworkMessages {
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.LobbyStatus), global::NetworkMessages.LobbyStatus.Parser, new[]{ "Id", "IsHost", "IsReady", "Team", "Faction", "ColorIndex", "IsAI", "IsLoaded" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Chat), global::NetworkMessages.Chat.Parser, new[]{ "Sender", "Message" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.Command), global::NetworkMessages.Command.Parser, new[]{ "CommandType", "MoveUnit", "ActivateAbility", "AddToProductionQueue", "RemoveFromProductionQueue", "MoveToFrontOfProductionQueue", "ExpandToHex", "DevelopDistrict", "RenameCity", "SelectResearch", "SelectCulture", "AddResourceAssignment", "RemoveResourceAssignment", "EndTurn", "AddPendingDeal", "RemovePendingDeal", "ExecutePendingDeal", "NewExportRoute", "RemoveExportRoute", "NewTradeRoute", "RemoveTradeRoute", "AssignPolicyCard", "UnassignPolicyCard", "SetGovernment", "SpawnUnit", "SetDiplomaticState", "SpawnEncampment", "SpawnRuin", "TriggerRuin", "Sender" }, new[]{ "Command" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.SpawnRuin), global::NetworkMessages.SpawnRuin.Parser, new[]{ "Location", "EventID" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.SpawnEncampment), global::NetworkMessages.SpawnEncampment.Parser, new[]{ "Location", "FactionType" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.SpawnRuin), global::NetworkMessages.SpawnRuin.Parser, new[]{ "Location", "EventIndex" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.SpawnEncampment), global::NetworkMessages.SpawnEncampment.Parser, new[]{ "Location", "FactionType", "PlayerID", "TeamNum" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.TriggerRuin), global::NetworkMessages.TriggerRuin.Parser, new[]{ "TeamNum", "Location", "EventIndex" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.SetDiplomaticState), global::NetworkMessages.SetDiplomaticState.Parser, new[]{ "TeamNumOne", "TeamNumTwo", "DiplomaticState" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::NetworkMessages.NewExportRoute), global::NetworkMessages.NewExportRoute.Parser, new[]{ "FromCityID", "ToCityID", "YieldType" }, null, null, null, null),
@@ -4265,7 +4266,7 @@ namespace NetworkMessages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public SpawnRuin(SpawnRuin other) : this() {
       location_ = other.location_ != null ? other.location_.Clone() : null;
-      eventID_ = other.eventID_;
+      eventIndex_ = other.eventIndex_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -4287,15 +4288,15 @@ namespace NetworkMessages {
       }
     }
 
-    /// <summary>Field number for the "eventID" field.</summary>
-    public const int EventIDFieldNumber = 2;
-    private string eventID_ = "";
+    /// <summary>Field number for the "eventIndex" field.</summary>
+    public const int EventIndexFieldNumber = 2;
+    private int eventIndex_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string EventID {
-      get { return eventID_; }
+    public int EventIndex {
+      get { return eventIndex_; }
       set {
-        eventID_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        eventIndex_ = value;
       }
     }
 
@@ -4315,7 +4316,7 @@ namespace NetworkMessages {
         return true;
       }
       if (!object.Equals(Location, other.Location)) return false;
-      if (EventID != other.EventID) return false;
+      if (EventIndex != other.EventIndex) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -4324,7 +4325,7 @@ namespace NetworkMessages {
     public override int GetHashCode() {
       int hash = 1;
       if (location_ != null) hash ^= Location.GetHashCode();
-      if (EventID.Length != 0) hash ^= EventID.GetHashCode();
+      if (EventIndex != 0) hash ^= EventIndex.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4347,9 +4348,9 @@ namespace NetworkMessages {
         output.WriteRawTag(10);
         output.WriteMessage(Location);
       }
-      if (EventID.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(EventID);
+      if (EventIndex != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(EventIndex);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -4365,9 +4366,9 @@ namespace NetworkMessages {
         output.WriteRawTag(10);
         output.WriteMessage(Location);
       }
-      if (EventID.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(EventID);
+      if (EventIndex != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(EventIndex);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -4382,8 +4383,8 @@ namespace NetworkMessages {
       if (location_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Location);
       }
-      if (EventID.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(EventID);
+      if (EventIndex != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(EventIndex);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4403,8 +4404,8 @@ namespace NetworkMessages {
         }
         Location.MergeFrom(other.Location);
       }
-      if (other.EventID.Length != 0) {
-        EventID = other.EventID;
+      if (other.EventIndex != 0) {
+        EventIndex = other.EventIndex;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4428,8 +4429,8 @@ namespace NetworkMessages {
             input.ReadMessage(Location);
             break;
           }
-          case 18: {
-            EventID = input.ReadString();
+          case 16: {
+            EventIndex = input.ReadInt32();
             break;
           }
         }
@@ -4454,8 +4455,8 @@ namespace NetworkMessages {
             input.ReadMessage(Location);
             break;
           }
-          case 18: {
-            EventID = input.ReadString();
+          case 16: {
+            EventIndex = input.ReadInt32();
             break;
           }
         }
@@ -4503,6 +4504,8 @@ namespace NetworkMessages {
     public SpawnEncampment(SpawnEncampment other) : this() {
       location_ = other.location_ != null ? other.location_.Clone() : null;
       factionType_ = other.factionType_;
+      playerID_ = other.playerID_;
+      teamNum_ = other.teamNum_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -4536,6 +4539,30 @@ namespace NetworkMessages {
       }
     }
 
+    /// <summary>Field number for the "playerID" field.</summary>
+    public const int PlayerIDFieldNumber = 3;
+    private ulong playerID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong PlayerID {
+      get { return playerID_; }
+      set {
+        playerID_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "teamNum" field.</summary>
+    public const int TeamNumFieldNumber = 4;
+    private int teamNum_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int TeamNum {
+      get { return teamNum_; }
+      set {
+        teamNum_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -4553,6 +4580,8 @@ namespace NetworkMessages {
       }
       if (!object.Equals(Location, other.Location)) return false;
       if (FactionType != other.FactionType) return false;
+      if (PlayerID != other.PlayerID) return false;
+      if (TeamNum != other.TeamNum) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -4562,6 +4591,8 @@ namespace NetworkMessages {
       int hash = 1;
       if (location_ != null) hash ^= Location.GetHashCode();
       if (FactionType != 0) hash ^= FactionType.GetHashCode();
+      if (PlayerID != 0UL) hash ^= PlayerID.GetHashCode();
+      if (TeamNum != 0) hash ^= TeamNum.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4588,6 +4619,14 @@ namespace NetworkMessages {
         output.WriteRawTag(16);
         output.WriteInt32(FactionType);
       }
+      if (PlayerID != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(PlayerID);
+      }
+      if (TeamNum != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(TeamNum);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -4606,6 +4645,14 @@ namespace NetworkMessages {
         output.WriteRawTag(16);
         output.WriteInt32(FactionType);
       }
+      if (PlayerID != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(PlayerID);
+      }
+      if (TeamNum != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(TeamNum);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -4621,6 +4668,12 @@ namespace NetworkMessages {
       }
       if (FactionType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(FactionType);
+      }
+      if (PlayerID != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(PlayerID);
+      }
+      if (TeamNum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TeamNum);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4642,6 +4695,12 @@ namespace NetworkMessages {
       }
       if (other.FactionType != 0) {
         FactionType = other.FactionType;
+      }
+      if (other.PlayerID != 0UL) {
+        PlayerID = other.PlayerID;
+      }
+      if (other.TeamNum != 0) {
+        TeamNum = other.TeamNum;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4669,6 +4728,14 @@ namespace NetworkMessages {
             FactionType = input.ReadInt32();
             break;
           }
+          case 24: {
+            PlayerID = input.ReadUInt64();
+            break;
+          }
+          case 32: {
+            TeamNum = input.ReadInt32();
+            break;
+          }
         }
       }
     #endif
@@ -4693,6 +4760,14 @@ namespace NetworkMessages {
           }
           case 16: {
             FactionType = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            PlayerID = input.ReadUInt64();
+            break;
+          }
+          case 32: {
+            TeamNum = input.ReadInt32();
             break;
           }
         }
