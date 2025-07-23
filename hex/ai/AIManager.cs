@@ -87,6 +87,7 @@ public partial class AIManager
                         ai.AIDefenseArmyThreatStrategy = AIDefenseArmyThreatStrategy.CityThreatFirst;
                         ai.AIPickProductionStrategy = AIPickProductionStrategy.Balanced;
                         ai.AIPickBuildingStrategy = AIPickBuildingStrategy.Balanced;
+                        ai.AICityExpansionStrategy = AICityExpansionStrategy.FocusResources;
                         ai.desiredDefendersPerCity = 2;
                         break;
                 }
@@ -107,6 +108,7 @@ public partial class AIManager
                         ai.desiredDefendersPerCityPerTurnScaling = 0;
                         ai.desiredAttackersInArmy = 2;
                         ai.desiredAttackersInArmyPerTurnScaling = 0;
+                        ai.AICityExpansionStrategy = AICityExpansionStrategy.NONE;
                         ai.AIAttackArmyBuildingStrategy = AIAttackArmyBuildingStrategy.FavorMelee;
                         ai.AIAttackArmyBuildupStrategy = AIAttackArmyBuildupStrategy.WaitForGlobalCount;
                         ai.AIAttackArmyMovementStrategy = AIAttackArmyMovementStrategy.AttackMove;
@@ -261,30 +263,24 @@ public partial class AIManager
             {
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Army dead, retreating."); }
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new gather t"); }
-                Unit unit = new Unit("Scout", 0,-ai.player.teamNum, ai.player.teamNum);
+                Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.attackTarget;
                 ai.gatherTarget = FindClosestFriendlyCity(ai, unit);
                 ai.hasGatherTarget = true;
-                Global.gameManager.game.unitDictionary.Remove(-1);
-                ai.player.unitList.Remove(-1);
-                ai.hasGatherTarget = true;
-
                 ai.isAttacking = false;
                 ai.hasAttackTarget = false;
                 ai.attackTarget = new Hex();
+                Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
             }
             else if (Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget].district.health <= 0)
             {
-
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Attack t dead, retargeting."); }
                 Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.attackTarget;
-                ai.attackTarget = FindClosestEnemyDistrict(ai, Global.gameManager.game.unitDictionary[-ai.player.teamNum]);
+                ai.attackTarget = FindClosestEnemyDistrict(ai, unit);
                 GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
-                Global.gameManager.game.unitDictionary.Remove(-1);
-                ai.player.unitList.Remove(-1);
-
+                Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
             }
         }
         else if (!ai.isAttacking)
@@ -301,7 +297,6 @@ public partial class AIManager
                 ai.isAttacking = true;
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new attack t"); }
                 Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
-                ai.player.unitList.Remove(-ai.player.teamNum);
             }
         }
 
@@ -633,20 +628,24 @@ public partial class AIManager
         switch (ai.AICityExpansionStrategy)
         {
             case AICityExpansionStrategy.NONE:
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] This AI cannot expand. Skipping."); }
                 break;
             case AICityExpansionStrategy.Random:
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Using RANDOM Expansion Strategy"); }
                 Global.gameManager.ExpandToHex(city.id, allValidHexes[rng.Next(allValidHexes.Count)]);
                 break;
             case AICityExpansionStrategy.FocusResources:
-                foreach(Hex hex in validRuralExpandHexes)
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Using Focus Resources Expansion Strategy"); }
+                foreach (Hex hex in validRuralExpandHexes)
                 {
                     if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
                     {
+                        if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] Found Resource in validExpandHexes, expanding to it."); }
                         Global.gameManager.ExpandToHex(city.id, hex);
                         return;
                     }
                 }
+                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][CITY:" + city.id + "] No Resource in validExpandHexes, expanding randomly."); }
                 Global.gameManager.ExpandToHex(city.id, allValidHexes[rng.Next(allValidHexes.Count)]);
                 break;
             default:

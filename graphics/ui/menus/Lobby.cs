@@ -308,7 +308,7 @@ public partial class Lobby : Control
         {
             case "status":
                 lobbyPeerStatuses[lobbyMessage.LobbyStatus.Id] = lobbyMessage.LobbyStatus;
-                Control PlayerListItem = PlayersListBox.GetNode<Control>(lobbyMessage.Sender.ToString());
+                Control PlayerListItem = PlayersListBox.GetNode<Control>(lobbyMessage.LobbyStatus.Id.ToString());
                 PlayerListItem.GetNode<OptionButton>("teamselect").Selected = lobbyMessage.LobbyStatus.Team - 1;
                 PlayerListItem.GetNode<OptionButton>("factionselect").Selected = lobbyMessage.LobbyStatus.Faction;
                 PlayerListItem.GetNode<CheckButton>("ReadyButton").ButtonPressed = lobbyMessage.LobbyStatus.IsReady;
@@ -465,7 +465,7 @@ public partial class Lobby : Control
 
     private void OnColorChange(long index, ulong id)
     {
-        Global.Log("color change button pressed, index: " + index);
+        Global.Log($"color change button pressed for player: {id}, index: " + index);
         LobbyStatus status = lobbyPeerStatuses[id];
         status.ColorIndex = (int)index;
         lobbyPeerStatuses[id] = status;
