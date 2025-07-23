@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using static AIUtils;
 public partial class AIManager
 {
-    const bool AIDEBUG = true; 
+    const bool AIDEBUG = false; 
     public List<AI> aiList = new List<AI>();
     Random rng = new Random();
 
@@ -29,6 +29,8 @@ public partial class AIManager
         bottom = Global.gameManager.game.mainGameBoard.bottom;
         right = Global.gameManager.game.mainGameBoard.right;
         left = Global.gameManager.game.mainGameBoard.left;
+        AIUtils.UpdateLayout();
+        
         foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {
             if (player.isAI)

@@ -199,6 +199,15 @@ public static class AIUtils
         FocusArmy,
         Balanced,
     }
+
+    public static void UpdateLayout()
+    {
+        top = Global.gameManager.game.mainGameBoard.top;
+        bottom = Global.gameManager.game.mainGameBoard.bottom;
+        right = Global.gameManager.game.mainGameBoard.right;
+        left = Global.gameManager.game.mainGameBoard.left;
+    }
+
     //Gamestate Modifiers Block Start
     public static void EndAITurn(AI ai)
     {
@@ -335,10 +344,14 @@ public static class AIUtils
     public static bool FindClosestAnyEnemyInRange(AI ai, Hex hex, int range, out Hex target)
     {
         Global.Log($"FINDCLOSESTANYENEMY: Searching around hex {hex} with range {range} for enemies of team {ai.player.teamNum}");
+        
         Unit unit = new Unit("Warrior", 0,-ai.player.teamNum, ai.player.teamNum);
         unit.hex = hex; //create a dummy unit at the given hex
         List<Hex> hexesInRange = unit.hex.WrappingRange(range, left, right, top, bottom);
+        
         Global.Log($"FINDCLOSESTANYENEMY: That means we're checking this hex list (length {hexesInRange.Count}: ");
+        
+        
         foreach (Hex h in hexesInRange)
         {
             Global.Log($"FINDCLOSESTANYENEMY: {h} ");
