@@ -613,15 +613,15 @@ public partial class City
                     if (UnitLoader.unitsDict.TryGetValue(productionQueue[0].itemName, out UnitInfo unitInfo))
                     {
                         //class check for adding building modifiers
-                        if(unitInfo.Class == UnitClass.Infantry)
+                        if((unitInfo.Class & UnitClass.Infantry) == UnitClass.Infantry)
                         {
                             combatModifier = infantryProductionCombatModifier;
-                        }
-                        else if(unitInfo.Class == UnitClass.Cavalry)
+                        } 
+                        else if ((unitInfo.Class & UnitClass.Cavalry) == UnitClass.Cavalry)
                         {
                             combatModifier = cavalryProductionCombatModifier;
-                        }
-                        else if(unitInfo.Class == UnitClass.Naval)
+                        } 
+                        else if ((unitInfo.Class & UnitClass.Naval) == UnitClass.Naval)
                         {
                             combatModifier = navalProductionCombatModifier;
                         }
