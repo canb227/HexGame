@@ -10,7 +10,7 @@ using System.Threading.Tasks;
     {
 
 
-    public const bool COMMANDDEBUG = true;
+    public const bool COMMANDDEBUG = false;
     public static bool LOOKATME = true;
     static CommandParser()
     {

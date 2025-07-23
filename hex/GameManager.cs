@@ -1025,8 +1025,9 @@ public partial class GameManager : Node
 
         try
         {
-            Global.Log($"Got a command over network (or loopback) to spawn a unit of type {unitType} for team {teamNum} at position {position}.");
-            Unit newUnit = new(unitType, 0, game.playerDictionary[teamNum].GetNextUniqueID(), teamNum);
+            int newID = game.playerDictionary[teamNum].GetNextUniqueID();
+            Global.Log($"Got a command over network (or loopback) to spawn a unit of type {unitType} for team {teamNum} at position {position}. I assigned this unit an ID of {newID}");
+            Unit newUnit = new(unitType, 0,newID, teamNum);
             GameHex location = Global.gameManager.game.mainGameBoard.gameHexDict[position];
             if (location.SpawnUnit(newUnit,stackable,flexible)!=true)
             {
