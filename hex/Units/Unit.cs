@@ -58,6 +58,7 @@ public partial class Unit
         this.unitType = unitType;
         if (UnitLoader.unitsDict.TryGetValue(unitType, out UnitInfo unitInfo))
         {
+            Global.gameManager.game.unitDictionary.TryAdd(id, this);
             this.unitClass = unitInfo.Class;
             this.movementCosts = unitInfo.MovementCosts;
             this.sightCosts = unitInfo.SightCosts;
@@ -100,7 +101,6 @@ public partial class Unit
     {
         targetGameHex.units.Add(id);
         hex = targetGameHex.hex;
-        Global.gameManager.game.unitDictionary.TryAdd(id, this);
         Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
         RecalculateEffects();
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewUnit", id);
