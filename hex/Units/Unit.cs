@@ -456,8 +456,11 @@ public partial class Unit
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
         Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this.id);
         RemoveVision(true);
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Remove);
-        Global.gameManager.graphicManager.uiManager.CallDeferred("Update", (int)UIElement.endTurnButton);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Remove);
+            Global.gameManager.graphicManager.uiManager.CallDeferred("Update", (int)UIElement.endTurnButton);
+        }
     }
 
     public void UpdateVision()
