@@ -174,36 +174,92 @@ void fragment() {
 	vec2 p = UV - vec2(0.5);
 	p.y *= 1.1547;
 	float dist = calcHexDistance(p);
-	float outline_thickness = 0.05; // Adjust for thicker/thinner lines
+	float outline_thickness = 0.05; // change to make border thicker/thinner
 	float sdf_border = 1.0 - smoothstep(0.0, outline_thickness, abs(dist));
-
-    // D. Determine which edge we are on by checking the angle.
-    float angle = atan(p.y, p.x); // 'p' is the centered UV coordinate
-    float pi = 3.14159265;
-
-    vec2 neighbor_offset;
     float border = 0.0;
-    // Select the correct neighbor offset based on the angle
-    if (angle > -pi/6.0 && angle <= pi/6.0) {
-        neighbor_offset = vec2(1.0, 0.0); // Right
-    } else if (angle > pi/6.0 && angle <= pi/2.0) {
-        neighbor_offset = vec2(1.0, -1.0); // Top-Right
-    } else if (angle > pi/2.0 && angle <= 5.0*pi/6.0) {
-        neighbor_offset = vec2(0.0, -1.0); // Top-Left
-    } else if (angle > 5.0*pi/6.0 || angle <= -5.0*pi/6.0) {
-        neighbor_offset = vec2(-1.0, 0.0); // Left
-    } else if (angle > -5.0*pi/6.0 && angle <= -pi/2.0) {
-        neighbor_offset = vec2(-1.0, 1.0); // Bottom-Left
-    } else { // -pi/2.0 to -pi/6.0
-        neighbor_offset = vec2(0.0, 1.0); // Bottom-Right
+
+    float angle = atan(p.y, p.x);
+    float pi = 3.14159265;
+    float corner_angle_width = 0.05; // Radians, how wide the corner zone is. Tune as needed.
+
+    bool should_draw_border = false;
+
+    vec2 R  = vec2(1.0, 0.0);
+    vec2 TR = vec2(1.0, -1.0);
+    vec2 TL = vec2(0.0, -1.0);
+    vec2 L  = vec2(-1.0, 0.0);
+    vec2 BL = vec2(-1.0, 1.0);
+    vec2 BR = vec2(0.0, 1.0);
+    
+
+    // Check for Bottom-Left / Left Corner
+    if (abs(angle - pi/6.0) < corner_angle_width) {
+        vec3 n1 = get_territory_at(hexValue + BL);
+        vec3 n2 = get_territory_at(hexValue + L);
+        if (distance(territoryData, n1) > 0.1 || distance(territoryData, n2) > 0.1) {
+            should_draw_border = true;
+        }
+    }
+    // Check for Left / Top-Left Corner
+    else if (abs(angle - pi/2.0) < corner_angle_width) {
+        vec3 n1 = get_territory_at(hexValue + L);
+        vec3 n2 = get_territory_at(hexValue + TL);
+        if (distance(territoryData, n1) > 0.1 || distance(territoryData, n2) > 0.1) {
+            should_draw_border = true;
+        }
+    }
+    // Check for Top-Left / Top-Right Corner
+    else if (abs(angle - 5.0*pi/6.0) < corner_angle_width) {
+        vec3 n1 = get_territory_at(hexValue + TL);
+        vec3 n2 = get_territory_at(hexValue + TR);
+        if (distance(territoryData, n1) > 0.1 || distance(territoryData, n2) > 0.1) {
+            should_draw_border = true;
+        }
+    }
+    // Check for Top-Right / Right Corner
+    else if (abs(angle + 5.0*pi/6.0) < corner_angle_width) {
+        vec3 n1 = get_territory_at(hexValue + TR);
+        vec3 n2 = get_territory_at(hexValue + R);
+        if (distance(territoryData, n1) > 0.1 || distance(territoryData, n2) > 0.1) {
+            should_draw_border = true;
+        }
+    }
+    // Check for Right / Bottom-Right Corner
+    else if (abs(angle + pi/2.0) < corner_angle_width) {
+        vec3 n1 = get_territory_at(hexValue + R);
+        vec3 n2 = get_territory_at(hexValue + BR);
+        if (distance(territoryData, n1) > 0.1 || distance(territoryData, n2) > 0.1) {
+            should_draw_border = true;
+        }
+    }
+    // Check for Bottom-Right / Bottom-Left Corner
+    else if (abs(angle + pi/6.0) < corner_angle_width) {
+        vec3 n1 = get_territory_at(hexValue + BR);
+        vec3 n2 = get_territory_at(hexValue + BL);
+        if (distance(territoryData, n1) > 0.1 || distance(territoryData, n2) > 0.1) {
+            should_draw_border = true;
+        }
     }
 
-    // E. Get the territory color of the correct neighbor
-    vec3 neighbor_territory = get_territory_at(hexValue + neighbor_offset);
+    // --- Edge Fallback Check (Adjusted for new angles) ---
+    // If it's not a corner, check it as a standard edge.
+    else {
+        vec2 neighbor_offset;
+        if (angle > -pi/6.0 && angle <= pi/6.0) { neighbor_offset = BL; }
+        else if (angle > pi/6.0 && angle <= pi/2.0) { neighbor_offset = L; }
+        else if (angle > pi/2.0 && angle <= 5.0*pi/6.0) { neighbor_offset = TL; }
+        else if (angle > 5.0*pi/6.0 || angle <= -5.0*pi/6.0) { neighbor_offset = TR; }
+        else if (angle > -5.0*pi/6.0 && angle <= -pi/2.0) { neighbor_offset = R; }
+        else { neighbor_offset = BR; }
 
-    // F. If the neighbor's color is different, activate the border
-    if (distance(territoryData, neighbor_territory) > 0.1) {
-        border = sdf_border; // Use the smooth value from the SDF
+        vec3 neighbor_territory = get_territory_at(hexValue + neighbor_offset);
+        if (distance(territoryData, neighbor_territory) > 0.1) {
+            should_draw_border = true;
+        }
+    }
+    // if the neighbor isnt ours we show the border
+    if (should_draw_border) {
+        border = sdf_border;
     }
 
     terrainColor = terrainColor.rgb * (1.0-terrainHeight);
