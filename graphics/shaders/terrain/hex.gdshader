@@ -35,10 +35,11 @@ uniform sampler2D waterNorm : hint_normal, filter_linear_mipmap;
 varying flat vec2 visData;
 varying flat vec3 territoryData;
 varying flat vec2 terrainData;
+varying flat vec2 hexValue;
 varying vec3 hexWorldPos;
 
 void vertex() {
-    vec2 hexValue = vec2((INSTANCE_CUSTOM.rg * 255.0));
+    hexValue = vec2((INSTANCE_CUSTOM.rg * 255.0));
     hexWorldPos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
     //UV = vec2(VERTEX.x/4.0 + 16.0, VERTEX.z/4.0 + 16.0) / vec2(widthDiv,heightDiv);
     
@@ -55,6 +56,20 @@ void vertex() {
     //normal calculation
 
     
+}
+
+vec3 get_territory_at(vec2 coord) {
+	vec2 uv = vec2((coord.x + floor(coord.y/2.0) + 0.5)/gameBoardWidth, (coord.y + 0.5)/gameBoardHeight);
+	return texture(territoryMap, uv).rgb;
+}
+
+float calcHexDistance(vec2 p)
+{
+     const float hexHalfWidth = .5;
+     // 1.7320508 is sqrt(3)
+     const vec2 s = vec2(1, 1.7320508);
+     p = abs(p);
+     return max(dot(p, s * .5), p.x) - hexHalfWidth;
 }
 
 void fragment() {
@@ -156,10 +171,44 @@ void fragment() {
         terrainColor = oceanTexture.rgb;
     }
 
+	vec2 p = UV - vec2(0.5);
+	p.y *= 1.1547;
+	float dist = calcHexDistance(p);
+	float outline_thickness = 0.05; // Adjust for thicker/thinner lines
+	float sdf_border = 1.0 - smoothstep(0.0, outline_thickness, abs(dist));
+
+    // D. Determine which edge we are on by checking the angle.
+    float angle = atan(p.y, p.x); // 'p' is the centered UV coordinate
+    float pi = 3.14159265;
+
+    vec2 neighbor_offset;
+    float border = 0.0;
+    // Select the correct neighbor offset based on the angle
+    if (angle > -pi/6.0 && angle <= pi/6.0) {
+        neighbor_offset = vec2(1.0, 0.0); // Right
+    } else if (angle > pi/6.0 && angle <= pi/2.0) {
+        neighbor_offset = vec2(1.0, -1.0); // Top-Right
+    } else if (angle > pi/2.0 && angle <= 5.0*pi/6.0) {
+        neighbor_offset = vec2(0.0, -1.0); // Top-Left
+    } else if (angle > 5.0*pi/6.0 || angle <= -5.0*pi/6.0) {
+        neighbor_offset = vec2(-1.0, 0.0); // Left
+    } else if (angle > -5.0*pi/6.0 && angle <= -pi/2.0) {
+        neighbor_offset = vec2(-1.0, 1.0); // Bottom-Left
+    } else { // -pi/2.0 to -pi/6.0
+        neighbor_offset = vec2(0.0, 1.0); // Bottom-Right
+    }
+
+    // E. Get the territory color of the correct neighbor
+    vec3 neighbor_territory = get_territory_at(hexValue + neighbor_offset);
+
+    // F. If the neighbor's color is different, activate the border
+    if (distance(territoryData, neighbor_territory) > 0.1) {
+        border = sdf_border; // Use the smooth value from the SDF
+    }
 
     terrainColor = terrainColor.rgb * (1.0-terrainHeight);
 
-    terrainColor += territoryData * 0.3;
+    terrainColor += territoryData * border;
     // Calculate Visibility Changes
     vec3 grayscaleFactor = terrainColor.rgb * 0.5;//= dot(terrainColor.rgb, vec3(0.299, 0.587, 0.114)) * 0.5;
     
