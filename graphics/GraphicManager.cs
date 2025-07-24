@@ -13,6 +13,8 @@ public partial class GraphicManager : Node3D
     public Dictionary<int, GraphicObject> graphicObjectDictionary;
     public Dictionary<Hex, List<GraphicObject>> hexObjectDictionary;
     public Dictionary<int, GraphicObject> toBeDeleted;
+
+    public Dictionary<DistrictType, Godot.Color> districtTypeColorDict = new();
     public EnviromentManager enviroment;
     public Layout layout;
     public GraphicObject selectedObject;
@@ -27,6 +29,18 @@ public partial class GraphicManager : Node3D
 
     public GraphicManager(Layout layout)
     {
+        districtTypeColorDict.Add(DistrictType.citycenter, Godot.Colors.White);
+        districtTypeColorDict.Add(DistrictType.rural, Godot.Colors.LightGreen);
+        districtTypeColorDict.Add(DistrictType.refinement, Godot.Colors.DarkOliveGreen);
+        districtTypeColorDict.Add(DistrictType.production, Godot.Colors.DarkOrange);
+        districtTypeColorDict.Add(DistrictType.gold, Godot.Colors.Yellow);
+        districtTypeColorDict.Add(DistrictType.science, Godot.Colors.AliceBlue);
+        districtTypeColorDict.Add(DistrictType.culture, Godot.Colors.Purple);
+        districtTypeColorDict.Add(DistrictType.happiness, Godot.Colors.Orange);
+        districtTypeColorDict.Add(DistrictType.heroic, Godot.Colors.LavenderBlush);
+        districtTypeColorDict.Add(DistrictType.dock, Godot.Colors.DarkBlue);
+        districtTypeColorDict.Add(DistrictType.military, Godot.Colors.DarkRed);
+
         toBeDeleted = new();
         graphicObjectDictionary = new();
         hexObjectDictionary = new();

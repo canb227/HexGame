@@ -282,10 +282,9 @@ public partial class Unit
     }
 
     //civ 6 formula
-    public float CalculateDamage(float friendlyCombatStrength, float enemyCombatStrength)
+    public float CalculateDamage(float friendlyCombatStrength, float enemyCombatStrength, float randomFactor)
     {
-        float strengthDifference = (friendlyCombatStrength - enemyCombatStrength) / 25;
-        float randomFactor = (float)new Random(hex.q+hex.r+Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f; //we use our hex q,r and turn number to generate a random seed that is the same on all machines
+        float strengthDifference = (enemyCombatStrength - friendlyCombatStrength) / 25;
         float x = strengthDifference * randomFactor;
 
         return 30 * (float)Math.Exp(x);
@@ -293,7 +292,9 @@ public partial class Unit
 
     private bool DistrictCombat(GameHex targetGameHex)
     {
-        return !decreaseHealth(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength())) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength));
+        //we use our hex q,r and turn number to generate a random seed that is the same on all machines
+        float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f; 
+        return !decreaseHealth(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength(), randomFactor)) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength, randomFactor));
     }
 
     private bool UnitCombat(GameHex targetGameHex, Unit unit)
@@ -301,11 +302,11 @@ public partial class Unit
         float modCombatStrength = combatStrength;
         float unitModCombatStrength = unit.combatStrength;
         //anti-cavalry check
-        if (unitClass == UnitClass.AntiCavalry && unit.unitClass == UnitClass.Cavalry)
+        if ((unitClass & UnitClass.AntiCavalry) != 0 && (unit.unitClass & UnitClass.Cavalry) != 0)
         {
             modCombatStrength += 7;
         }
-        else if(unit.unitClass == UnitClass.AntiCavalry && unitClass == UnitClass.Cavalry)
+        else if ((unit.unitClass & UnitClass.AntiCavalry) != 0 && (unitClass & UnitClass.Cavalry) != 0)
         {
             unitModCombatStrength += 7;
         }
@@ -319,7 +320,9 @@ public partial class Unit
         {
             unitModCombatStrength += Global.gameManager.game.playerDictionary[unit.teamNum].bonusAgainstEncampments;
         }
-        return !decreaseHealth(CalculateDamage(modCombatStrength, unitModCombatStrength)) & unit.decreaseHealth(CalculateDamage(unitModCombatStrength, modCombatStrength));
+        //we use our hex q,r and turn number to generate a random seed that is the same on all machines
+        float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f;
+        return !decreaseHealth(CalculateDamage(modCombatStrength, unitModCombatStrength, randomFactor)) & unit.decreaseHealth(CalculateDamage(unitModCombatStrength, modCombatStrength, randomFactor));
 
     }
 
@@ -353,12 +356,16 @@ public partial class Unit
 
     private bool RangedDistrictCombat(GameHex targetGameHex, float rangedPower)
     {
-        return targetGameHex.district.decreaseHealth(CalculateDamage(rangedPower, targetGameHex.district.GetCombatStrength()));
+        //we use our hex q,r and turn number to generate a random seed that is the same on all machines
+        float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f;
+        return targetGameHex.district.decreaseHealth(CalculateDamage(rangedPower, targetGameHex.district.GetCombatStrength(), randomFactor));
     }
 
     private bool RangedUnitCombat(GameHex targetGameHex, Unit unit, float rangedPower)
     {
-        return unit.decreaseHealth(CalculateDamage(rangedPower, unit.combatStrength));
+        //we use our hex q,r and turn number to generate a random seed that is the same on all machines
+        float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f;
+        return unit.decreaseHealth(CalculateDamage(rangedPower, unit.combatStrength, randomFactor));
     }
 
     public bool RangedAttackTarget(GameHex targetGameHex, float rangedPower, TeamManager teamManager)

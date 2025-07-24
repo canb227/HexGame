@@ -209,7 +209,17 @@ public partial class GraphicUnit : GraphicObject
 
     private void GenerateHexTriangles(Dictionary<Hex, float> hexes)
     {
-        Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes.Keys.ToList(), Godot.Colors.Gold, "");
+        foreach (Hex hex in hexes.Keys)
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].IsEnemyPresent(unit.teamNum))
+            {
+                Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.Red, "");
+            }
+            else
+            {
+                Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.Gold, "");
+            }
+        }
         //GenerateHexTriangles(hexes.Keys.ToList());
     }
 

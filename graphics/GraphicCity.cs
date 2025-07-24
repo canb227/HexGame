@@ -58,6 +58,8 @@ public partial class GraphicCity : GraphicObject
         {
             Global.gameManager.graphicManager.ShowAllWorldUI();
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.CityUnselected();
+            GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            ggb.ClearSelectionGraphic();
         }
         else
         {
@@ -71,6 +73,10 @@ public partial class GraphicCity : GraphicObject
         {
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.CitySelected(city);
+            foreach(District district in city.districts)
+            {
+                Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(district.hex, Global.gameManager.graphicManager.districtTypeColorDict[district.districtType], "");
+            }
         }
         else if (!Global.gameManager.game.playerDictionary[city.teamNum].isEncampment)
         {
