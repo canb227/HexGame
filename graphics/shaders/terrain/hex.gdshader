@@ -9,9 +9,12 @@ uniform float heightDiv;
 //uniform float chunkOffset;
 uniform float chunkCount;
 
+uniform bool showBorder;
+
 uniform sampler2D visibilityGrid : filter_nearest;
 uniform sampler2D terrainInfo : filter_nearest;
 uniform sampler2D territoryMap : filter_nearest;
+uniform sampler2D selectionMap : filter_nearest;
 uniform sampler2D heightMap;
 
 uniform sampler2D grassTex : source_color, filter_linear_mipmap;
@@ -33,7 +36,8 @@ uniform sampler2D waterTex : source_color, filter_linear_mipmap;
 uniform sampler2D waterNorm : hint_normal, filter_linear_mipmap;
 
 varying flat vec2 visData;
-varying flat vec3 territoryData;
+varying flat vec3 territoryColor;
+varying flat vec3 selectionColor;
 varying flat vec2 terrainData;
 varying flat vec2 hexValue;
 varying vec3 hexWorldPos;
@@ -46,7 +50,9 @@ void vertex() {
     //visibility data
     visData = texture(visibilityGrid, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg;
     //territory data
-    territoryData = texture(territoryMap, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rgb;
+    territoryColor = texture(territoryMap, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rgb;
+    //selection data
+    selectionColor = texture(selectionMap, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rgb;
     //texture data
     terrainData = texture(terrainInfo, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg; //r is temp g is type
 
@@ -177,6 +183,13 @@ void fragment() {
 	float outline_thickness = 0.05; // change to make border thicker/thinner
 	float sdf_border = 1.0 - smoothstep(0.0, outline_thickness, abs(dist));
 
+    float outline_thickness_target = 0.05; // change to make border thicker/thinner
+    float sdf_border_target = step(abs(dist), outline_thickness_target);
+
+    float outline_thickness_border = 0.005; // change to make border thicker/thinner
+    float sdf_border_border = step(abs(dist), outline_thickness_border);
+
+
     float angle = atan(p.y, p.x);
     float pi = 3.14159265;
 
@@ -199,13 +212,24 @@ void fragment() {
 
     vec3 neighbor_territory = get_territory_at(hexValue + neighbor_offset);
     // if the neighbor isnt ours we show the border
-    if (distance(territoryData, neighbor_territory) > 0.1) {
+    if (distance(territoryColor, neighbor_territory) > 0.1) {
         border = sdf_border;
     }
 
     terrainColor = terrainColor.rgb * (1.0-terrainHeight);
 
-    terrainColor += territoryData * border;
+    if(showBorder && length(sdf_border_border) > 0.0)
+    {
+        terrainColor = vec3(0.0);
+    }
+
+    terrainColor += territoryColor * border;
+
+    if(length(sdf_border_target) > 0.0 && length(selectionColor) > 0.0)
+    {
+        terrainColor = selectionColor * sdf_border_target;
+    }
+
     // Calculate Visibility Changes
     vec3 grayscaleFactor = terrainColor.rgb * 0.5;//= dot(terrainColor.rgb, vec3(0.299, 0.587, 0.114)) * 0.5;
     

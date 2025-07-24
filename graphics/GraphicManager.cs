@@ -282,9 +282,11 @@ public partial class GraphicManager : Node3D
 
     public MeshInstance3D GenerateHexSelectionLines(List<Hex> hexes, Godot.Color color, string name)
     {
+
+
         MeshInstance3D lines = new MeshInstance3D();
 
-        SurfaceTool st = new SurfaceTool();
+/*        SurfaceTool st = new SurfaceTool();
 
         st.Begin(Mesh.PrimitiveType.Lines);
         st.SetColor(color);
@@ -305,12 +307,19 @@ public partial class GraphicManager : Node3D
         }
         //st.GenerateNormals();
         lines.Mesh = st.Commit();
-        lines.Name = "TargetingLines" + name;
+        lines.Name = "TargetingLines" + name;*/
         return lines;
     }
 
     public MeshInstance3D GenerateHexSelectionTriangles(List<Hex> hexes, Godot.Color color, string name)
     {
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        foreach (Hex hex in hexes)
+        {
+            ggb.UpdateSelectionGraphic(hex, color);
+        }
+        return new MeshInstance3D();
+/*
         MeshInstance3D triangles = new MeshInstance3D();
 
         SurfaceTool st = new SurfaceTool();
@@ -351,12 +360,17 @@ public partial class GraphicManager : Node3D
         else
         {
             return null;
-        }
+        }*/
+
     }
 
     public MeshInstance3D GenerateSingleHexSelectionTriangles(Hex hex, Godot.Color color, string name)
     {
-        MeshInstance3D triangles = new MeshInstance3D();
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.UpdateSelectionGraphic(hex, color);
+        return new MeshInstance3D();
+
+        /*MeshInstance3D triangles = new MeshInstance3D();
 
         SurfaceTool st = new SurfaceTool();
         st.Begin(Mesh.PrimitiveType.Triangles);
@@ -391,7 +405,7 @@ public partial class GraphicManager : Node3D
         else
         {
             return null;
-        }
+        }*/
     }
 
     public void ShowAllWorldUI()

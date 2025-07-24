@@ -26,7 +26,9 @@ public partial class GraphicGameBoard : GraphicObject
     public int chunkCount = 0;
     private Image visibilityImage;
     public Image territoryImage;
+    public Image selectionImage;
     private ImageTexture territoryTexture;
+    private ImageTexture selectionTexture;
     private ImageTexture visibilityTexture;
     private Image terrainInfoImage;
     ShaderMaterial terrainShaderMaterial = new ShaderMaterial();
@@ -58,6 +60,10 @@ public partial class GraphicGameBoard : GraphicObject
         Add3DHexFeatures();
         //AddHexFeatures(layout);
 
+        //selectiongraphic setup
+        selectionImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rgb8);
+        selectionTexture = ImageTexture.CreateFromImage(selectionImage);
+        terrainShaderMaterial.SetShaderParameter("selectionMap", selectionTexture);
 
 
         //Add3DHexYields();
@@ -173,6 +179,10 @@ public partial class GraphicGameBoard : GraphicObject
         terrainShaderMaterial.SetShaderParameter("gameBoardHeight", Global.gameManager.game.mainGameBoard.bottom);
         terrainShaderMaterial.SetShaderParameter("widthDiv", Math.Sqrt(3) * 10.0f * (chunkSize));
         terrainShaderMaterial.SetShaderParameter("heightDiv", 1.5 * 10.0 * Global.gameManager.game.mainGameBoard.bottom);
+
+
+        terrainShaderMaterial.SetShaderParameter("showBorder", true);
+
 
         List<List<Hex>> hexListChunks = new List<List<Hex>>();
         for (int chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
@@ -487,6 +497,20 @@ public partial class GraphicGameBoard : GraphicObject
                 Global.gameManager.graphicManager.NewFeature(data, feature);
             }
         }
+    }
+
+    public void UpdateSelectionGraphic(Hex hex, Godot.Color color)
+    {
+        Hex wrapHex = hex.WrapHex();
+        int newQ = wrapHex.q + (wrapHex.r >> 1);
+        selectionImage.SetPixel(newQ, wrapHex.r, color);
+        selectionTexture.Update(selectionImage);
+    }
+
+    public void ClearSelectionGraphic()
+    {
+        selectionImage.Fill(new Godot.Color(0, 0, 0, 1));
+        selectionTexture.Update(selectionImage);
     }
 
     public void UpdateTerritoryGraphic(int teamNum, Hex hex)

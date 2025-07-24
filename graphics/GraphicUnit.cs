@@ -94,7 +94,9 @@ public partial class GraphicUnit : GraphicObject
 
     public override void Unselected()
     {
-        foreach (Node3D child in GetChildren())
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.ClearSelectionGraphic();
+/*        foreach (Node3D child in GetChildren())
         {
             if(child.Name == "MovementRangeHexes")
             {
@@ -108,7 +110,7 @@ public partial class GraphicUnit : GraphicObject
             {
                 child.Free();
             }
-        }
+        }*/
         Global.gameManager.graphicManager.uiManager.UnitUnselected(unit);
     }
 
@@ -180,8 +182,8 @@ public partial class GraphicUnit : GraphicObject
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
             Global.gameManager.graphicManager.HideAllCityWorldUI();
             waitingAbility = ability;
-            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "UnitMove"));
-            AddChild(Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.BlueViolet, "UnitMove"));
+            Global.gameManager.graphicManager.GenerateHexSelectionLines(hexes, Godot.Colors.Gold, "UnitMove");
+            Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes, Godot.Colors.BlueViolet, "UnitMove");
         }
     }
 
@@ -189,13 +191,15 @@ public partial class GraphicUnit : GraphicObject
     {
         Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
         Global.gameManager.graphicManager.ShowAllWorldUI();
-        foreach (Node3D child in GetChildren())
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.ClearSelectionGraphic();
+/*        foreach (Node3D child in GetChildren())
         {
             if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
             {
                 child.Free();
             }
-        }
+        }*/
     }
 
     private void GenerateHexLines(Dictionary<Hex, float> hexes)
@@ -205,12 +209,13 @@ public partial class GraphicUnit : GraphicObject
 
     private void GenerateHexTriangles(Dictionary<Hex, float> hexes)
     {
-        GenerateHexTriangles(hexes.Keys.ToList());
+        Global.gameManager.graphicManager.GenerateHexSelectionTriangles(hexes.Keys.ToList(), Godot.Colors.Gold, "");
+        //GenerateHexTriangles(hexes.Keys.ToList());
     }
 
     private void GenerateHexLines(List<Hex> hexes)
     {
-        MeshInstance3D lines = new MeshInstance3D();
+/*        MeshInstance3D lines = new MeshInstance3D();
 
         SurfaceTool st = new SurfaceTool();
 
@@ -236,12 +241,12 @@ public partial class GraphicUnit : GraphicObject
         //st.GenerateNormals();
         lines.Mesh = st.Commit();
         lines.Name = "MovementRangeLines";
-        AddChild(lines);
+        AddChild(lines);*/
     }
 
     private void GenerateHexTriangles(List<Hex> hexes)
     {
-        MeshInstance3D triangles = new MeshInstance3D();
+/*        MeshInstance3D triangles = new MeshInstance3D();
         
         SurfaceTool st = new SurfaceTool();
         st.Begin(Mesh.PrimitiveType.Triangles);
@@ -281,7 +286,7 @@ public partial class GraphicUnit : GraphicObject
         material.VertexColorUseAsAlbedo = true;
         triangles.SetSurfaceOverrideMaterial(0, material);
         triangles.Name = "MovementRangeHexes";
-        AddChild(triangles);
+        AddChild(triangles);*/
     }
 
     public void SetWorldUIVisibility(bool visible)

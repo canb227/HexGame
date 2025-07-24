@@ -98,7 +98,8 @@ public partial class GraphicCity : GraphicObject
         }
         Global.gameManager.graphicManager.ShowAllWorldUI();
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        foreach (HexChunk hexChunk in ggb.chunkList)
+        ggb.ClearSelectionGraphic();
+        /*foreach (HexChunk hexChunk in ggb.chunkList)
         {
             foreach (Node child in hexChunk.multiMeshInstance.GetChildren())
             {
@@ -107,7 +108,7 @@ public partial class GraphicCity : GraphicObject
                     child.QueueFree();
                 }
             }
-        }
+        }*/
     }
 
     public void GenerateBuildingTargetingPrompt(String buildingName)
@@ -121,6 +122,12 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.HideCityInfoPanel();
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
+            foreach (Hex hex in hexes)
+            {
+                Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.DarkGreen, "");
+            }
+        }
+        /*
             GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
             foreach (Hex hex in hexes)
             {
@@ -128,7 +135,7 @@ public partial class GraphicCity : GraphicObject
                 Hex adjustedHex = new Hex(hex.q - originHex.q, hex.r - originHex.r, -(hex.q - originHex.q) - (hex.r - originHex.r));
                 ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(adjustedHex, Godot.Colors.DarkGreen, "Building" + hex));
             }
-        }
+        }*/
     }
 
     public void GenerateGrowthTargetingPrompt()
@@ -137,6 +144,7 @@ public partial class GraphicCity : GraphicObject
 
         List<Hex> hexes = city.ValidExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
         List<Hex> urbanhexes = city.ValidUrbanExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
+
         //rural hexes
         if(hexes.Count > 0 || urbanhexes.Count > 0)
         {
@@ -147,8 +155,16 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.HideCityInfoPanel();
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
+            foreach(Hex hex in hexes)
+            {
+                Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.DarkGreen, "");
+            }
+            foreach (Hex hex in urbanhexes)
+            {
+                Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.Orange, "");
+            }
         }
-        if (hexes.Count > 0)
+/*        if (hexes.Count > 0)
         {
             foreach (Hex hex in hexes)
             {
@@ -166,7 +182,7 @@ public partial class GraphicCity : GraphicObject
                 Hex adjustedHex = new Hex(hex.q - originHex.q, hex.r - originHex.r, -(hex.q - originHex.q) - (hex.r - originHex.r));
                 ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(adjustedHex, Godot.Colors.Orange, "UrbanGrow"+ adjustedHex));
             }
-        }
+        }*/
     }
 
     public void SetWorldUIVisibility(bool visible)
