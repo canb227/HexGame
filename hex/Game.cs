@@ -25,6 +25,8 @@ public class Game
 
     public Player localPlayerRef;
 
+    public int numAI = 0;
+
     public int CurrentID
     {
         get => currentID;
@@ -68,6 +70,11 @@ public class Game
         Global.Log($"Adding new player to game, id: {playerID}, team: {teamNum}, faction: {faction}, is AI?: {isAI}, is encampment?: {isEncampment}");
         Player newPlayer = new Player(startGold, teamNum, faction, teamColor, isAI, isEncampment);
         Global.gameManager.game.teamNumToPlayerID.Add(teamNum, playerID);
+        if (isAI)
+        {
+            numAI++;
+        }
+
     }
 
     public int GetUniqueID(int teamID)

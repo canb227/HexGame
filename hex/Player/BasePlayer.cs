@@ -298,12 +298,16 @@ public class BasePlayer
         List<int> waitingPlayers = Global.gameManager.game.turnManager.CheckTurnStatus();
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
-            if (waitingPlayers.Count() == 1)
+            if (waitingPlayers.Count() == 1+Global.gameManager.game.numAI)
             {
-                if (waitingPlayers[0] == Global.gameManager.game.localPlayerTeamNum)
+                foreach (int teamNum in waitingPlayers)
                 {
-                    manager.uiManager.CallDeferred("GameWaitingOnLocalPlayer");
-                    Global.gameManager.audioManager.CallDeferred("PlayAudio", "res://audio/soundeffects/LastPlayer.wav");
+                    if (teamNum == Global.gameManager.game.localPlayerTeamNum)
+                    {
+                        manager.uiManager.CallDeferred("GameWaitingOnLocalPlayer");
+                        Global.gameManager.audioManager.CallDeferred("PlayAudio", "res://audio/soundeffects/LastPlayer.wav");
+                        continue;
+                    }
                 }
             }
         }
