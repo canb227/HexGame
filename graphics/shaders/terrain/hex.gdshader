@@ -174,36 +174,33 @@ void fragment() {
 	vec2 p = UV - vec2(0.5);
 	p.y *= 1.1547;
 	float dist = calcHexDistance(p);
-	float outline_thickness = 0.05; // Adjust for thicker/thinner lines
+	float outline_thickness = 0.05; // change to make border thicker/thinner
 	float sdf_border = 1.0 - smoothstep(0.0, outline_thickness, abs(dist));
 
-    // D. Determine which edge we are on by checking the angle.
-    float angle = atan(p.y, p.x); // 'p' is the centered UV coordinate
+    float angle = atan(p.y, p.x);
     float pi = 3.14159265;
 
     vec2 neighbor_offset;
     float border = 0.0;
-    // Select the correct neighbor offset based on the angle
+    //select the correct neighbor based on the angle
     if (angle > -pi/6.0 && angle <= pi/6.0) {
-        neighbor_offset = vec2(1.0, 0.0); // Right
+        neighbor_offset = vec2(-1.0, 1.0); // Bottom-Left
     } else if (angle > pi/6.0 && angle <= pi/2.0) {
-        neighbor_offset = vec2(1.0, -1.0); // Top-Right
+        neighbor_offset = vec2(-1.0, 0.0); // Left
     } else if (angle > pi/2.0 && angle <= 5.0*pi/6.0) {
         neighbor_offset = vec2(0.0, -1.0); // Top-Left
     } else if (angle > 5.0*pi/6.0 || angle <= -5.0*pi/6.0) {
-        neighbor_offset = vec2(-1.0, 0.0); // Left
+        neighbor_offset = vec2(1.0, -1.0); // Top-Right
     } else if (angle > -5.0*pi/6.0 && angle <= -pi/2.0) {
-        neighbor_offset = vec2(-1.0, 1.0); // Bottom-Left
+        neighbor_offset = vec2(1.0, 0.0); // Right
     } else { // -pi/2.0 to -pi/6.0
         neighbor_offset = vec2(0.0, 1.0); // Bottom-Right
     }
 
-    // E. Get the territory color of the correct neighbor
     vec3 neighbor_territory = get_territory_at(hexValue + neighbor_offset);
-
-    // F. If the neighbor's color is different, activate the border
+    // if the neighbor isnt ours we show the border
     if (distance(territoryData, neighbor_territory) > 0.1) {
-        border = sdf_border; // Use the smooth value from the SDF
+        border = sdf_border;
     }
 
     terrainColor = terrainColor.rgb * (1.0-terrainHeight);
