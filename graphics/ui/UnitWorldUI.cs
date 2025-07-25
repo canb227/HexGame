@@ -20,6 +20,8 @@ public partial class UnitWorldUI : Node3D
     private ProgressBar unitHealthBar;
     private TextureRect unitIcon;
 
+    private PanelContainer unitIconBackground;
+
     private Panel enemyBorder;
 
     public UnitWorldUI(Unit unit)
@@ -39,8 +41,9 @@ public partial class UnitWorldUI : Node3D
 
         unitWorldUI = node.GetNode<PanelContainer>("SubViewport/UnitWorldUI");
         unitHealthBar = node.GetNode<ProgressBar>("SubViewport/UnitWorldUI/VBoxContainer/UnitHealthBar");
-        unitIcon = node.GetNode<TextureRect>("SubViewport/UnitWorldUI/VBoxContainer/MarginContainer/UnitIcon");
+        unitIcon = node.GetNode<TextureRect>("SubViewport/UnitWorldUI/VBoxContainer/PanelContainer/MarginContainer/UnitIcon");
         enemyBorder = node.GetNode<Panel>("SubViewport/UnitWorldUI/EnemyBorder");
+        unitIconBackground = node.GetNode<PanelContainer>("SubViewport/UnitWorldUI/VBoxContainer/PanelContainer");
 
         unitIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + UnitLoader.unitsDict[unit.name].IconPath);
 
@@ -48,13 +51,17 @@ public partial class UnitWorldUI : Node3D
 
         unitWorldUI.Theme = Global.gameManager.game.playerDictionary[unit.teamNum].theme;
 
-        StyleBoxFlat styleBox = new StyleBoxFlat();
-        styleBox.BgColor = new Godot.Color(Global.gameManager.game.playerDictionary[unit.teamNum].teamColor);
-        unitWorldUI.AddThemeStyleboxOverride("panel", styleBox);
+        /*        StyleBoxFlat styleBox = new StyleBoxFlat();
+                styleBox.BgColor = new Godot.Color(Global.gameManager.game.playerDictionary[unit.teamNum].teamColor);
+                unitWorldUI.AddThemeStyleboxOverride("panel", styleBox);*/
+        StyleBoxTexture styleBoxTexture = new();
+        styleBoxTexture.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/unitbackground.png");
+        styleBoxTexture.ModulateColor = Global.gameManager.game.playerDictionary[unit.teamNum].teamColor;
+        unitIconBackground.AddThemeStyleboxOverride("panel", styleBoxTexture);
 
         Transform3D newTransform = Transform;
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
-        newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
+        newTransform.Origin = new Vector3((float)hexPoint.y, 7, (float)hexPoint.x);
         Transform = newTransform;
         Update();
     }
@@ -101,24 +108,22 @@ public partial class UnitWorldUI : Node3D
             enemyBorder.Visible = false;
         }
         unitHealthBar.Value = unit.health;
+
+        StyleBoxFlat styleBox = new StyleBoxFlat();
         if (unit.health < 30.0f)
         {
-            StyleBoxFlat styleBox = new StyleBoxFlat();
             styleBox.BgColor = Godot.Colors.Red;
-            unitHealthBar.AddThemeStyleboxOverride("fill", styleBox);
         }
         else if (unit.health < 60.0f)
         {
-            StyleBoxFlat styleBox = new StyleBoxFlat();
             styleBox.BgColor = Godot.Colors.Yellow;
-            unitHealthBar.AddThemeStyleboxOverride("fill", styleBox);
         }
         else
         {
-            StyleBoxFlat styleBox = new StyleBoxFlat();
             styleBox.BgColor = Godot.Colors.Green;
-            unitHealthBar.AddThemeStyleboxOverride("fill", styleBox);
         }
+        unitHealthBar.AddThemeStyleboxOverride("fill", styleBox);
+
         Transform3D newTransform = Transform;
         Point hexPoint;
         if ((Global.gameManager.graphicManager.graphicObjectDictionary.ContainsKey(Global.gameManager.game.mainGameBoard.id)))
