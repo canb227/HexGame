@@ -44,11 +44,7 @@ public class TurnManager
 
 
         //Run AI on main thread
-        if (Global.gameManager.isHost)
-        {
-            Global.Log("Starting AI turn in debug mode (single threaded)");
-            Global.gameManager.AIManager.OnTurnStart();
-        }
+
 
 
 
@@ -63,6 +59,15 @@ public class TurnManager
             {
                 Global.gameManager.game.mainGameBoard.OnTurnEnded(currentTurn);
             }
+        }
+        if (CheckTurnStatus().Count == Global.gameManager.game.numAI)
+        {
+            if (Global.gameManager.isHost)
+            {
+                Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns());
+            }
+
+            //Global.gameManager.AIManager.RunAllAITurns();
         }
     }
 

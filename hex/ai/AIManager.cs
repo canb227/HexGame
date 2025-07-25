@@ -147,7 +147,7 @@ public partial class AIManager
         return AIPersonality.NONE;
     }
 
-    public bool OnTurnStart()
+    public bool RunAllAITurns()
     {
         foreach (AI ai in aiList)
         {
@@ -311,11 +311,15 @@ public partial class AIManager
                 Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.gatherTarget;
                 ai.attackTarget = FindClosestEnemyDistrict(ai, Global.gameManager.game.unitDictionary[-ai.player.teamNum]);
-                GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
-                ai.isAttacking = true;
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new attack t"); }
-                Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+                if (!ai.attackTarget.Equals(new Hex()))
+                {
+                    GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
+                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
+                    ai.isAttacking = true;
+                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new attack t"); }
+                    Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+                }
+
             }
         }
 
