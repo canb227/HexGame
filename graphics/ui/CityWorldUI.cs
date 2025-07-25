@@ -75,7 +75,7 @@ public partial class CityWorldUI : Node3D
         int newQ = (Global.gameManager.game.mainGameBoard.left + (city.hex.r >> 1) + city.hex.q) % ggb.chunkSize - (city.hex.r >> 1);
         Hex modHex = new Hex(newQ, city.hex.r, -newQ - city.hex.r);
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(modHex);
-        newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
+        newTransform.Origin = new Vector3((float)hexPoint.y-4, 9, (float)hexPoint.x);
         Transform = newTransform;
         Update();
     }

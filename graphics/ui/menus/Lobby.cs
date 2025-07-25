@@ -10,7 +10,7 @@ public partial class Lobby : Control
 
     public List<Color> PlayerColors = new()
     {
-        {Colors.Red},
+        {Colors.LawnGreen},
         {Colors.Green},
         {Colors.Blue},
         {Colors.Yellow},

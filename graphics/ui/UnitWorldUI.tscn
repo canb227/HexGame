@@ -1,14 +1,29 @@
-[gd_scene load_steps=8 format=3 uid="uid://ki38tut7gbgp"]
+[gd_scene load_steps=11 format=3 uid="uid://ki38tut7gbgp"]
 
-[ext_resource type="Texture2D" uid="uid://b4dxstmrdx682" path="res://graphics/ui/icons/shoe.png" id="1_dymly"]
+[ext_resource type="Texture2D" uid="uid://dnkwfgmdkgql2" path="res://graphics/ui/icons/Courser.png" id="1_dymly"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dymly"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsn6k"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_doe6a"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4n6o4"]
+bg_color = Color(6.01634e-07, 0.710683, 0, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dymly"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
 border_color = Color(0.777077, 0.221635, 0.224273, 1)
+corner_detail = 16
 
 [sub_resource type="Theme" id="Theme_wsn6k"]
 Panel/styles/panel = SubResource("StyleBoxFlat_dymly")
@@ -20,10 +35,12 @@ viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1novo"]
 resource_local_to_scene = true
+render_priority = 3
 transparency = 1
 no_depth_test = true
 albedo_texture = SubResource("ViewportTexture_qnqfw")
-texture_filter = 0
+texture_filter = 1
+disable_receive_shadows = true
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4f77d"]
 points = PackedVector3Array(0.5, 0.5, 0, 0.5, -0.5, 0, -0.5, 0.5, 0, -0.5, -0.5, 0)
@@ -34,36 +51,44 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
 transparent_bg = true
-size = Vector2i(50, 60)
+size = Vector2i(224, 240)
 
 [node name="UnitWorldUI" type="PanelContainer" parent="SubViewport"]
-offset_right = 50.0
-offset_bottom = 60.0
+offset_right = 224.0
+offset_bottom = 240.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wsn6k")
 
-[node name="Button" type="Button" parent="SubViewport/UnitWorldUI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SubViewport/UnitWorldUI"]
 layout_mode = 2
 
-[node name="UnitHealthBar" type="ProgressBar" parent="SubViewport/UnitWorldUI/Button"]
-layout_mode = 0
-offset_right = 50.0
-offset_bottom = 27.0
-scale = Vector2(1, 0.38)
+[node name="UnitHealthBar" type="ProgressBar" parent="SubViewport/UnitWorldUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.1
+theme_override_styles/background = SubResource("StyleBoxFlat_doe6a")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4n6o4")
 show_percentage = false
 
-[node name="UnitIcon" type="TextureRect" parent="SubViewport/UnitWorldUI/Button"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -25.0
-offset_top = -50.0
-offset_right = 25.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport/UnitWorldUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="UnitIcon" type="TextureRect" parent="SubViewport/UnitWorldUI/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 texture = ExtResource("1_dymly")
-expand_mode = 2
+expand_mode = 3
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport/UnitWorldUI"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
 
 [node name="EnemyBorder" type="Panel" parent="SubViewport/UnitWorldUI"]
 layout_mode = 2

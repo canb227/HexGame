@@ -145,11 +145,13 @@ public partial class DistrictPickerPanel : Control
         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
         Global.gameManager.graphicManager.ClearWaitForTarget();
         this.QueueFree();
+        Global.camera.districtPickerPanelOpen = false;
     }
 
     public void CancelSelection()
     {
-        this.Visible = false;
+        this.QueueFree();
+        Global.camera.districtPickerPanelOpen = false;
     }
 
 

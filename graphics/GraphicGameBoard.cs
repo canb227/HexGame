@@ -345,7 +345,7 @@ public partial class GraphicGameBoard : GraphicObject
                 Dictionary<YieldType, float> yieldDict = Global.gameManager.game.mainGameBoard.gameHexDict[realHex].yields.YieldsToDict();
                 for(int l = 0; l < 7; l ++)
                 {
-                    Vector3 yieldPosition = new Vector3((float)worldPos.y, 2.0f, (float)worldPos.x) + yieldOffsets[l];
+                    Vector3 yieldPosition = new Vector3((float)worldPos.y, 1.0f, (float)worldPos.x) + yieldOffsets[l];
                     Transform3D yieldTransform = new Transform3D(Basis.Identity, yieldPosition);
                     yieldMultiMesh.SetInstanceTransform(j*7+l, yieldTransform);
                     yieldMultiMeshInstance.Multimesh.SetInstanceCustomData(j*7+l, new Godot.Color(l/7.0f, yieldDict[(YieldType)l]/100.0f, realHex.q / 255f, realHex.r / 255f));//r is type, g is value, b is hex.q, a is hex.r

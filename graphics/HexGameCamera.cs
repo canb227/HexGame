@@ -28,6 +28,10 @@ public partial class HexGameCamera : Camera3D
     private Vector3 targetPosition;
     private float duration;
 
+    public bool districtPickerPanelOpen;
+
+    private DistrictPickerPanel districtPickerPanel;
+
     public override void _Process(double delta)
     {
         Vector2 input = Input.GetVector("CameraMoveLeft", "CameraMoveRight", "CameraMoveUp", "CameraMoveDown");
@@ -91,6 +95,11 @@ public partial class HexGameCamera : Camera3D
                 Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
                 Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
                 GetViewport().SetInputAsHandled();
+            }
+            else if (districtPickerPanelOpen)
+            {
+                districtPickerPanel.QueueFree();
+                districtPickerPanelOpen = false;
             }
             else
             {
@@ -222,9 +231,10 @@ public partial class HexGameCamera : Camera3D
                     }
                     else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
-                        DistrictPickerPanel districtPickerPanel = new DistrictPickerPanel(wrapHex, graphicCity);
+                        districtPickerPanel = new DistrictPickerPanel(wrapHex, graphicCity);
                         Global.gameManager.graphicManager.AddChild(districtPickerPanel);
                         districtPickerPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+                        districtPickerPanelOpen = true;
                     }
                 }
                 else if (graphicCity.waitingBuildingName != "")

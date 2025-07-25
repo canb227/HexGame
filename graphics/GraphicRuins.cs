@@ -62,7 +62,7 @@ public partial class GraphicRuins : GraphicObject
 
         UpdateGraphic(GraphicUpdateType.Visibility);
         newTransform = icon3D.Transform;
-        newTransform.Origin = new Vector3((float)hexPoint.y-1, 8, (float)hexPoint.x);
+        newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x-4);
         icon3D.Transform = newTransform;
     }
 

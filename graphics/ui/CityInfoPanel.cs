@@ -259,7 +259,7 @@ public partial class CityInfoPanel : Node3D
                     }
                     foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedBuildings)
                     {
-                        if (itemName != "")
+                        if (itemName != "" && !itemName.Contains("District"))
                         {
                             ConstructionItem item = new ConstructionItem(city, itemName, true, false);
                             BuildingsBox.AddChild(item);

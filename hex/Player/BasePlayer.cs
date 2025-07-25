@@ -157,6 +157,14 @@ public class BasePlayer
                 goldPerTurn += city.yields.gold;
             }
         }
+        if (unitList.Count > 0)
+        {
+            foreach(int unitID in unitList)
+            {
+                Unit unit = Global.gameManager.game.unitDictionary[unitID];
+                goldPerTurn -= unit.maintenanceCost;
+            }
+        }
         goldPerTurn += goldPerTurnFromTrade;
         return goldPerTurn;
     }

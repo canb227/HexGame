@@ -38,9 +38,9 @@ public partial class UnitWorldUI : Node3D
 
 
         unitWorldUI = node.GetNode<PanelContainer>("SubViewport/UnitWorldUI");
-        unitHealthBar = unitWorldUI.GetNode<ProgressBar>("Button/UnitHealthBar");
-        unitIcon = unitWorldUI.GetNode<TextureRect>("Button/UnitIcon");
-        enemyBorder = unitWorldUI.GetNode<Panel>("EnemyBorder");
+        unitHealthBar = node.GetNode<ProgressBar>("SubViewport/UnitWorldUI/VBoxContainer/UnitHealthBar");
+        unitIcon = node.GetNode<TextureRect>("SubViewport/UnitWorldUI/VBoxContainer/MarginContainer/UnitIcon");
+        enemyBorder = node.GetNode<Panel>("SubViewport/UnitWorldUI/EnemyBorder");
 
         unitIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + UnitLoader.unitsDict[unit.name].IconPath);
 
@@ -54,7 +54,7 @@ public partial class UnitWorldUI : Node3D
 
         Transform3D newTransform = Transform;
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
-        newTransform.Origin = new Vector3((float)hexPoint.y, 12, (float)hexPoint.x);
+        newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
         Transform = newTransform;
         Update();
     }
@@ -92,7 +92,7 @@ public partial class UnitWorldUI : Node3D
 
     public void Update()
     {
-        if (Global.gameManager.game.teamManager.GetEnemies(Global.gameManager.game.localPlayerTeamNum).Contains(unit.id))
+        if (Global.gameManager.game.teamManager.GetEnemies(Global.gameManager.game.localPlayerTeamNum).Contains(unit.teamNum))
         {
             enemyBorder.Visible = true;
         }
@@ -101,6 +101,24 @@ public partial class UnitWorldUI : Node3D
             enemyBorder.Visible = false;
         }
         unitHealthBar.Value = unit.health;
+        if (unit.health < 30.0f)
+        {
+            StyleBoxFlat styleBox = new StyleBoxFlat();
+            styleBox.BgColor = Godot.Colors.Red;
+            unitHealthBar.AddThemeStyleboxOverride("fill", styleBox);
+        }
+        else if (unit.health < 60.0f)
+        {
+            StyleBoxFlat styleBox = new StyleBoxFlat();
+            styleBox.BgColor = Godot.Colors.Yellow;
+            unitHealthBar.AddThemeStyleboxOverride("fill", styleBox);
+        }
+        else
+        {
+            StyleBoxFlat styleBox = new StyleBoxFlat();
+            styleBox.BgColor = Godot.Colors.Green;
+            unitHealthBar.AddThemeStyleboxOverride("fill", styleBox);
+        }
         Transform3D newTransform = Transform;
         Point hexPoint;
         if ((Global.gameManager.graphicManager.graphicObjectDictionary.ContainsKey(Global.gameManager.game.mainGameBoard.id)))

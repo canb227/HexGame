@@ -212,6 +212,7 @@ public class AncientRuins
     public int activeEventTeamNum { get; set; }
     public AncientRuins(Hex hex, string eventID)
     {
+        this.hex = hex;
         eventID = AncientRuinsLoader.eventStartPoints[Random.Shared.Next(AncientRuinsLoader.eventStartPoints.Count)].eventID;
         nextEventID = eventID;
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].ancientRuins = this;

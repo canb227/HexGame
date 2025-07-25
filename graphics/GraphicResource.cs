@@ -55,7 +55,7 @@ public partial class GraphicResource : GraphicObject
 
         //2dworldui
         newTransform = node3D.Transform;
-        newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
+        newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x + 4);
         node3D.Transform = newTransform;
 
         this.Visible = false;
