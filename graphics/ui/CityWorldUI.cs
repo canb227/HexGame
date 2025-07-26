@@ -62,14 +62,6 @@ public partial class CityWorldUI : Node3D
 
         cityWorldUI.Theme = Global.gameManager.game.playerDictionary[city.teamNum].theme;
 
-        StyleBoxFlat styleBox = new StyleBoxFlat();
-        styleBox.BorderWidthTop = 2;
-        styleBox.BorderWidthLeft = 2;
-        styleBox.BorderWidthRight = 2;
-        styleBox.BorderWidthBottom = 2;
-        styleBox.BgColor = new Godot.Color(Global.gameManager.game.playerDictionary[city.teamNum].teamColor);
-        cityWorldUI.AddThemeStyleboxOverride("panel", styleBox);
-
         Transform3D newTransform = Transform;
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         int newQ = (Global.gameManager.game.mainGameBoard.left + (city.hex.r >> 1) + city.hex.q) % ggb.chunkSize - (city.hex.r >> 1);
@@ -165,6 +157,13 @@ public partial class CityWorldUI : Node3D
         {
             cityIcon.Visible = false;
         }
+        StyleBoxFlat styleBox = new StyleBoxFlat();
+        styleBox.BorderWidthTop = 2;
+        styleBox.BorderWidthLeft = 2;
+        styleBox.BorderWidthRight = 2;
+        styleBox.BorderWidthBottom = 2;
+        styleBox.BgColor = new Godot.Color(Global.gameManager.game.playerDictionary[city.teamNum].teamColor);
+        cityWorldUI.AddThemeStyleboxOverride("panel", styleBox);
         cityName.Text = city.name;
     }
 }

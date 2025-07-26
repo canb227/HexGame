@@ -718,12 +718,12 @@ public partial class Unit
     }
     
 
-    public bool SetGameHex(GameHex newGameHex)
+/*    public bool SetGameHex(GameHex newGameHex)
     {
         hex = newGameHex.hex;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Move);
         return true;
-    }
+    }*/
 
     public bool TryMoveToGameHex(GameHex targetGameHex, TeamManager teamManager)
     {
@@ -744,6 +744,13 @@ public partial class Unit
                         Hex previousHex = hex;
                         hex = targetGameHex.hex;
                         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this.id);
+                        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null
+                            && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isCityCenter
+                            && Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].teamNum))
+                        {
+                            GD.Print("We moved onto it");
+                            Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].DistrictFell();
+                        }
                         UpdateVision();
                         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
                         {
@@ -773,6 +780,14 @@ public partial class Unit
                 Hex previousHex = hex;
                 hex = targetGameHex.hex;
                 Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this.id);
+
+                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null 
+                    && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isCityCenter 
+                    && Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].teamNum))
+                {
+                    GD.Print("We moved onto it");
+                    Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].DistrictFell();
+                }
                 UpdateVision();
                 if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
                 {
@@ -798,7 +813,7 @@ public partial class Unit
         return false;
     }
 
-    public bool MoveToGameHex(GameHex targetGameHex)
+/*    public bool MoveToGameHex(GameHex targetGameHex)
     {
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
         hex = targetGameHex.hex;
@@ -806,7 +821,7 @@ public partial class Unit
         UpdateVision();
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Move);
         return true;
-    }
+    }*/
 
     public bool MoveTowards(GameHex targetGameHex, TeamManager teamManager, bool isTargetEnemy)
     {

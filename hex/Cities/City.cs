@@ -468,7 +468,26 @@ public partial class City
             district.BeforeSwitchTeam();
         }
         heldResources.Clear();
+
+        Global.gameManager.game.playerDictionary[teamNum].cityList.Remove(this.id);
+        Global.gameManager.game.playerDictionary[newTeamNum].cityList.Add(this.id);
         teamNum = newTeamNum;
+
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+        {
+            foreach(Hex hex in heldHexes)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[hex].ownedBy = this.teamNum;
+                var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+                manager2.CallDeferred("UpdateTerritoryGraphic", teamNum, data);
+            }
+            
+        }
         foreach (District district in districts)
         {
             district.AfterSwitchTeam();
@@ -483,6 +502,7 @@ public partial class City
                 manager.CallDeferred("UnselectObject");
             }
             manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+            manager.uiManager.Update(UIElement.endTurnButton);
         }
         return true;
     }
@@ -848,21 +868,26 @@ public partial class City
 
     public void DistrictFell()
     {
+        GD.Print("DistrictFell");
         bool allDistrictsFell = true;
         bool cityCenterOccupied = false;
         foreach(District district in districts)
         {
             if(district.health > 0.0f)
             {
+                GD.Print("A district is alive at: " + district.hex);
                 allDistrictsFell = false;
             }
             if(district.isCityCenter && district.health <= 0.0f)
             {
+                GD.Print("The city center is dead");
                 if (Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].units.Any())
                 {
+                    GD.Print("The city center has a unit on it");
                     Unit unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].units[0]];
                     if (Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(unit.teamNum))
                     {
+                        GD.Print("City Center is occupied");
                         cityCenterOccupied = true;
                     }
                 }
@@ -870,6 +895,7 @@ public partial class City
         }
         if(allDistrictsFell && cityCenterOccupied)
         {
+            GD.Print("Change teams");
             ChangeTeam(Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]].teamNum);
         }
     }
