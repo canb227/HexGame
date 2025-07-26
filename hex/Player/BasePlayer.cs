@@ -131,7 +131,10 @@ public class BasePlayer
         roughYields.production = 1;
         //mountainYields.production += 0;
         coastalYields.food = 1;
+        coastalYields.gold = 1;
         //oceanYields.gold = 1;
+        forestYields.production = 1;
+
 
         desertYields.gold = 1;
         plainsYields.production = 1;
@@ -139,7 +142,6 @@ public class BasePlayer
         tundraYields.happiness = 1;
         //arcticYields
 
-        forestYields.production = 1;
         coralYields.production = 1;
         wetlandYields.food = 1;
     }

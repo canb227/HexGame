@@ -124,15 +124,18 @@ public partial class ResearchTreePanel : Control
 
     public void ResearchButtonPressed(string researchName)
     {
-        if(isCultureTree)
+        if(!Global.gameManager.game.localPlayerRef.turnFinished)
         {
-            Global.gameManager.SelectCulture(Global.gameManager.game.localPlayerTeamNum, researchName);
-            //Global.gameManager.game.localPlayerRef.SelectCultureResearch(researchName);
-        }
-        else
-        {
-            Global.gameManager.SelectResearch(Global.gameManager.game.localPlayerTeamNum, researchName);
-            //Global.gameManager.game.localPlayerRef.SelectResearch(researchName);
+            if (isCultureTree)
+            {
+                Global.gameManager.SelectCulture(Global.gameManager.game.localPlayerTeamNum, researchName);
+                //Global.gameManager.game.localPlayerRef.SelectCultureResearch(researchName);
+            }
+            else
+            {
+                Global.gameManager.SelectResearch(Global.gameManager.game.localPlayerTeamNum, researchName);
+                //Global.gameManager.game.localPlayerRef.SelectResearch(researchName);
+            }
         }
     }
 

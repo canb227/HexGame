@@ -125,6 +125,9 @@ public partial class UnitInfoPanel : Node3D
                 }
                 Button abilityButton = new Button();
                 abilityButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://"+ability.iconPath);
+                abilityButton.IconAlignment = HorizontalAlignment.Center;
+                abilityButton.ExpandIcon = true;
+                abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => AbilityButtonPressed(ability, abilityButton);
                 abilityFlowContainer.AddChild(abilityButton);
                 if(ability.currentCharges <= 0)

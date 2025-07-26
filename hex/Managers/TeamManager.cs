@@ -74,6 +74,19 @@ public class TeamManager
 
         diplomaticStates[team1][team2] = diplomaticState;
         diplomaticStates[team2][team1] = diplomaticState;
+
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            foreach (int unitID in Global.gameManager.game.playerDictionary[team1].unitList)
+            {
+                manager.CallDeferred("UpdateGraphic", unitID, (int)GraphicUpdateType.Update);
+            }
+            foreach (int unitID in Global.gameManager.game.playerDictionary[team1].unitList)
+            {
+                manager.CallDeferred("UpdateGraphic", unitID, (int)GraphicUpdateType.Update);
+            }
+        }
+
     }
 
     public DiplomaticState GetDiplomaticState(int team1, int team2)

@@ -779,8 +779,7 @@ public partial class UIManager : Node3D
 
     public void NewTurnStarted()
     {
-        waitingOnLocalPlayer = false;
-        waitingOnYouPanel.Visible = false;
+        NotWaitingOnLocalPlayer();
         UpdateEndTurnButton();
         endTurnButton.Disabled = false;
     }

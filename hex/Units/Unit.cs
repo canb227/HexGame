@@ -51,6 +51,8 @@ public partial class Unit
     public bool isSleeping { get; set; }
     public bool isSkipping { get; set; }
     public bool spawnSetupFinished { get; set; }
+    public bool fortifying { get; set; }
+    public int fortifyStrength { get; set; }
     public Unit(String unitType, int combatModifier, int id, int teamNum)
     {
         this.id = id;
@@ -112,6 +114,29 @@ public partial class Unit
 
     public void OnTurnStarted(int turnNumber)
     {
+        if (remainingMovement >= movementSpeed && attacksLeft >= maxAttackCount)
+        {
+            if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].ownedBy == teamNum)
+            {
+                increaseHealth(healingFactor + 5);
+            }
+            else if(Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.mainGameBoard.gameHexDict[hex].ownedBy))
+            {
+                increaseHealth(healingFactor - 5);
+            }
+            else
+            {
+                increaseHealth(healingFactor);
+            }
+        }
+        if (fortifying && fortifyStrength < 6)
+        {
+            fortifyStrength += 3;
+            if(fortifyStrength > 6)
+            {
+                fortifyStrength = 6;
+            }
+        }
         foreach (UnitAbility ability in abilities)
         {
             ability.ResetAbilityUses();
@@ -127,10 +152,6 @@ public partial class Unit
         if(remainingMovement > 0.0f && currentPath.Any() && !isTargetEnemy)
         {
             MoveTowards(Global.gameManager.game.mainGameBoard.gameHexDict[currentPath.Last()], Global.gameManager.game.teamManager, false);
-        }
-        if(remainingMovement >= movementSpeed && attacksLeft == maxAttackCount)
-        {
-            increaseHealth(healingFactor);
         }
     }
 
@@ -197,7 +218,10 @@ public partial class Unit
         }
         //difficulty mod
         combatStrength += Global.gameManager.game.playerDictionary[teamNum].combatPowerDifficultyModifier;
-        if(spawnSetupFinished)
+
+        //fortification mod
+        combatStrength += fortifyStrength;
+        if (spawnSetupFinished)
         {
             UpdateVision();
         }
@@ -328,6 +352,11 @@ public partial class Unit
 
     public bool AttackTarget(GameHex targetGameHex, float moveCost, TeamManager teamManager)
     {
+        fortifying = false;
+        fortifyStrength = 0;
+        Global.gameManager.graphicManager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+        RecalculateEffects();
+
         isSleeping = false;
         isSkipping = false;
         SetRemainingMovement(remainingMovement - moveCost); 
@@ -370,6 +399,10 @@ public partial class Unit
 
     public bool RangedAttackTarget(GameHex targetGameHex, float rangedPower, TeamManager teamManager)
     {
+        fortifying = false;
+        fortifyStrength = 0;
+        Global.gameManager.graphicManager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+        RecalculateEffects();
         isSleeping = false;
         isSkipping = false;
         //remainingMovement -= moveCost;
@@ -399,6 +432,10 @@ public partial class Unit
 
     public bool BombardAttackTarget(GameHex targetGameHex, float rangedPower, TeamManager teamManager)
     {
+        fortifying = false;
+        fortifyStrength = 0;
+        Global.gameManager.graphicManager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+        RecalculateEffects();
         isSleeping = false;
         isSkipping = false;
         //remainingMovement -= moveCost;
@@ -773,6 +810,10 @@ public partial class Unit
 
     public bool MoveTowards(GameHex targetGameHex, TeamManager teamManager, bool isTargetEnemy)
     {
+        fortifying = false;
+        fortifyStrength = 0;
+        Global.gameManager.graphicManager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
+        RecalculateEffects();
         isSleeping = false;
         isSkipping = true;
         this.isTargetEnemy = isTargetEnemy;

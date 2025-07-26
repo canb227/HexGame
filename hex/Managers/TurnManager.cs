@@ -31,27 +31,10 @@ public class TurnManager
             Global.gameManager.game.mainGameBoard.OnTurnStarted(currentTurn);
         }
 
-        //Run AI on a new thread
-        //if(Global.gameManager.isHost)
-        //{
-        //    Task AIThread = Task.Run(() => Global.gameManager.AIManager.OnTurnStart());
-        //}
-        /*try
-        {
-            AIThread.Wait();
-        }
-        catch (Exception ex) { throw; }*/
-
-
-        //Run AI on main thread
-
-
-
-
+        Global.gameManager.graphicManager.uiManager.NewTurnStarted();
     }
     public void EndCurrentTurn(int teamNum)
     {
-        //Global.debugLog("ending turn for team: " + teamNum );
         if (!Global.gameManager.game.playerDictionary[teamNum].turnFinished)
         {
             Global.gameManager.game.playerDictionary[teamNum].OnTurnEnded(currentTurn);
@@ -66,8 +49,6 @@ public class TurnManager
             {
                 Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns());
             }
-
-            //Global.gameManager.AIManager.RunAllAITurns();
         }
     }
 

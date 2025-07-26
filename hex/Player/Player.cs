@@ -14,8 +14,8 @@ public class Player : BasePlayer
     public Player(float goldTotal, int teamNum, FactionType faction, Godot.Color teamColor, bool isAI, bool isEncampment) : base(teamNum, teamColor, isAI, isEncampment)
     {
         this.goldTotal = goldTotal;
-        administrativeCityCost = 20;
-        administrativePopulationCost = 2;
+        administrativeCityCost = 60;
+        administrativePopulationCost = 10;
 
         SelectResearch("Agriculture");
         SelectCultureResearch("TribalDominion");
@@ -257,7 +257,7 @@ public class Player : BasePlayer
             }
         }
         AddGold(goldPerTurnFromTrade);
-        administrativeUpkeep = 100;
+        administrativeUpkeep = 300;
         if (FactionLoader.IsFactionMinor(faction))
         {
             AddCheatCultureForTurn();
@@ -267,9 +267,9 @@ public class Player : BasePlayer
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
             administrativeUpkeep += city.naturalPopulation * administrativePopulationCost;
-            administrativeUpkeep += administrativeCityCost;
         }
-        if(queuedResearch.Any() && cityList.Any())
+        administrativeUpkeep += 3.5f * cityList.Count * cityList.Count + 20f * cityList.Count;
+        if (queuedResearch.Any() && cityList.Any())
         {
             float cost = queuedResearch[0].researchLeft;
             queuedResearch[0].researchLeft -= (int)Math.Round(scienceTotal);
@@ -400,7 +400,7 @@ public class Player : BasePlayer
         foreach (int cityID in cityList)
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
-            city.IncreaseSettlerCost();
+            city.IncreaseItemCost("Settler");
         }
     }
 
@@ -410,7 +410,7 @@ public class Player : BasePlayer
         foreach (int cityID in cityList)
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
-            city.DecreaseSettlerCost();
+            city.DecreaseItemCost("Settler");
         }
     }
 

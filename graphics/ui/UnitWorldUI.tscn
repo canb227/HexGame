@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://ki38tut7gbgp"]
 
-[ext_resource type="Texture2D" uid="uid://dnkwfgmdkgql2" path="res://graphics/ui/icons/Courser.png" id="1_dymly"]
 [ext_resource type="Texture2D" uid="uid://bsfiq6wwiscpi" path="res://graphics/ui/icons/unitbackground.png" id="1_wsn6k"]
+[ext_resource type="Texture2D" uid="uid://dco0uhc6f3fo2" path="res://graphics/ui/icons/Warrior.png" id="2_wsn6k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j0gxo"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -89,7 +89,7 @@ theme_override_constants/margin_bottom = 20
 [node name="UnitIcon" type="TextureRect" parent="SubViewport/UnitWorldUI/VBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("1_dymly")
+texture = ExtResource("2_wsn6k")
 expand_mode = 3
 stretch_mode = 5
 

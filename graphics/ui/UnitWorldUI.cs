@@ -51,19 +51,31 @@ public partial class UnitWorldUI : Node3D
 
         unitWorldUI.Theme = Global.gameManager.game.playerDictionary[unit.teamNum].theme;
 
-        /*        StyleBoxFlat styleBox = new StyleBoxFlat();
-                styleBox.BgColor = new Godot.Color(Global.gameManager.game.playerDictionary[unit.teamNum].teamColor);
-                unitWorldUI.AddThemeStyleboxOverride("panel", styleBox);*/
-        StyleBoxTexture styleBoxTexture = new();
-        styleBoxTexture.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/unitbackground.png");
-        styleBoxTexture.ModulateColor = Global.gameManager.game.playerDictionary[unit.teamNum].teamColor;
-        unitIconBackground.AddThemeStyleboxOverride("panel", styleBoxTexture);
+        UpdateUnitIconBackground();
 
         Transform3D newTransform = Transform;
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
         newTransform.Origin = new Vector3((float)hexPoint.y, 7, (float)hexPoint.x);
         Transform = newTransform;
         Update();
+    }
+
+    public void UpdateUnitIconBackground()
+    {
+        if(unit.fortifying)
+        {
+            StyleBoxTexture styleBoxTexture = new();
+            styleBoxTexture.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/shield.png");
+            styleBoxTexture.ModulateColor = Global.gameManager.game.playerDictionary[unit.teamNum].teamColor;
+            unitIconBackground.AddThemeStyleboxOverride("panel", styleBoxTexture);
+        }
+        else
+        {
+            StyleBoxTexture styleBoxTexture = new();
+            styleBoxTexture.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/unitbackground.png");
+            styleBoxTexture.ModulateColor = Global.gameManager.game.playerDictionary[unit.teamNum].teamColor;
+            unitIconBackground.AddThemeStyleboxOverride("panel", styleBoxTexture);
+        }
     }
 
     private void UnitWorldUIEvent(Node camera, InputEvent IEvent, Vector3 eventPosition, Vector3 normal, long shapeIdx)
@@ -144,5 +156,6 @@ public partial class UnitWorldUI : Node3D
         {
             unitWorldUI.Modulate = new Color(1, 1, 1, 0.7f);
         }
+        UpdateUnitIconBackground();
     }
 }

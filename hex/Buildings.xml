@@ -1,6 +1,6 @@
 <Buildings>
 <!--Start Non-Buildables-->
-  <Building Name="Palace" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="2.0" GoldYield="5.0" ScienceYield="2.0" CultureYield="1.0" HappinessYield="4.0" InfluenceYield="2.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
+  <Building Name="Palace" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="2.0" ProductionYield="2.0" GoldYield="5.0" ScienceYield="2.0" CultureYield="2.0" HappinessYield="3.0" InfluenceYield="2.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
     <Effects>
       <Effect Name="WaterSupplyEffect" />
       <Effect Name="AncientWallEffect" />
@@ -14,7 +14,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="CityCenter" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="2.0" GoldYield="2.0" ScienceYield="1.0" CultureYield="1.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
+  <Building Name="CityCenter" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="2.0" ProductionYield="2.0" GoldYield="2.0" ScienceYield="1.0" CultureYield="1.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
     <Effects>
       <Effect Name="WaterSupplyEffect" />
       <Effect Name="CityCenterWallEffect" />
@@ -28,7 +28,7 @@
     </TerrainTypes>
   </Building>
   
-  <Building Name="Farm" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/farm.glb">
+  <Building Name="Farm" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/farm.glb">
     <Effects>
       <Effect Name="FarmEffect" />
     </Effects>
@@ -41,7 +41,7 @@
     </TerrainTypes>
   </Building>
 
-    <Building Name="Pasture" DistrictType="rural" ProductionCost="1" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+    <Building Name="Pasture" DistrictType="rural" ProductionCost="1" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="PastureEffect" />
     </Effects>
@@ -54,7 +54,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="Mine" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/mine.glb">
+  <Building Name="Mine" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/mine.glb">
     <Effects>
       <Effect Name="MineEffect" />
     </Effects>
@@ -67,7 +67,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="Lumbermill" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="Lumbermill" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
     <Effects>
       <Effect Name="LumbermillEffect" />
     </Effects>
@@ -80,7 +80,7 @@
     </TerrainTypes>
   </Building>
 
-  <Building Name="FishingBoat" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
+  <Building Name="FishingBoat" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
     <Effects>
       <Effect Name="FishingBoatEffect" />
     </Effects>

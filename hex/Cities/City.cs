@@ -71,9 +71,9 @@ public partial class City
         heldHexes = new();
         Global.gameManager.game.playerDictionary[teamNum].cityList.Add(this.id);
         districts = new();
-        naturalPopulation = 2;
-        readyToExpand = 1; //we ready to expand for 
-        maxDistrictSize = 2;
+        naturalPopulation = 1;
+        readyToExpand = 0; //we ready to expand for 
+        maxDistrictSize = 2; //not used
         baseMaxResourcesHeld = 3;
         foodToGrow = GetFoodToGrowCost();
         yields = new();
@@ -129,6 +129,7 @@ public partial class City
     public List<ProductionQueueType> productionQueue{ get; set; } = new();
     public Dictionary<string, ProductionQueueType> partialProductionDictionary{ get; set; } = new();
     public Dictionary<Hex, ResourceType> heldResources{ get; set; } = new();
+    public Dictionary<string, int> buildingCostIncreaseDict { get; set; } = new();
     public HashSet<Hex> heldHexes{ get; set; } = new();
     public int baseMaxResourcesHeld{ get; set; }
     public int maxResourcesHeld{ get; set; }
@@ -364,7 +365,12 @@ public partial class City
         {
             if(BuildingLoader.buildingsDict.ContainsKey(itemName))
             {
-                productionQueue.Add(new ProductionQueueType(itemName, targetHex, BuildingLoader.buildingsDict[itemName].ProductionCost, BuildingLoader.buildingsDict[itemName].ProductionCost));
+                float productionCost = BuildingLoader.buildingsDict[itemName].ProductionCost;
+                if (buildingCostIncreaseDict.ContainsKey(itemName))
+                {
+                    productionCost += buildingCostIncreaseDict[itemName];
+                }
+                productionQueue.Add(new ProductionQueueType(itemName, targetHex, productionCost, productionCost));
             }
             else if(UnitLoader.unitsDict.ContainsKey(itemName))
             {
@@ -425,7 +431,12 @@ public partial class City
         {
             if (BuildingLoader.buildingsDict.ContainsKey(itemName))
             {
-                productionQueue.Insert(0, new ProductionQueueType(itemName, targetHex, BuildingLoader.buildingsDict[itemName].ProductionCost, BuildingLoader.buildingsDict[itemName].ProductionCost));
+                float productionCost = BuildingLoader.buildingsDict[itemName].ProductionCost;
+                if (buildingCostIncreaseDict.ContainsKey(itemName))
+                {
+                    productionCost += buildingCostIncreaseDict[itemName];
+                }
+                productionQueue.Insert(0, new ProductionQueueType(itemName, targetHex, productionCost, productionCost));
             }
             else if(UnitLoader.unitsDict.ContainsKey(itemName))
             {
@@ -605,6 +616,7 @@ public partial class City
                 if (BuildingLoader.buildingsDict.ContainsKey(productionQueue[0].itemName))
                 {
                     BuildOnHex(productionQueue[0].targetHex, productionQueue[0].itemName);
+                    IncreaseItemCost(productionQueue[0].itemName);
                 }
                 else if (UnitLoader.unitsDict.ContainsKey(productionQueue[0].itemName))
                 {
@@ -706,36 +718,57 @@ public partial class City
         return production;
     }
 
-    public void IncreaseSettlerCost()
+    public void IncreaseItemCost(string itemName)
     {
+        int buildingCount = 0;
+        foreach (District district in districts)
+        {
+            foreach (Building building in district.buildings)
+            {
+                if (building.name == itemName)
+                {
+                    buildingCount++;
+                }
+            }
+        }
         foreach (ProductionQueueType item in productionQueue)
         {
-            if (productionQueue[0].itemName == "Settler")
+            if (productionQueue[0].itemName == itemName)
             {
-                item.productionCost += 30;
-                item.productionLeft += 30;
+                int costIncrease = (int)Math.Floor(item.productionCost * (0.33f * buildingCount));
+                if (buildingCostIncreaseDict.ContainsKey(itemName))
+                {
+                    buildingCostIncreaseDict[itemName] = costIncrease;
+                }
+                else
+                {
+                    buildingCostIncreaseDict.Add(itemName, costIncrease);
+                }
+                item.productionCost += costIncrease;
+                item.productionLeft += costIncrease;
             }
         }
         ProductionQueueType item2;
-        if(partialProductionDictionary.TryGetValue("Settler", out item2))
+        if(partialProductionDictionary.TryGetValue(itemName, out item2))
         {
-            item2.productionCost += 30;
-            item2.productionLeft += 30;
+            int costIncrease = (int)Math.Floor(item2.productionCost * (0.33f * buildingCount));
+            item2.productionCost += costIncrease;
+            item2.productionLeft += costIncrease;
         }
     }
 
-    public void DecreaseSettlerCost()
+    public void DecreaseItemCost(string itemName)
     {
         foreach (ProductionQueueType item in productionQueue)
         {
-            if (productionQueue[0].itemName == "Settler")
+            if (productionQueue[0].itemName == itemName)
             {
                 item.productionLeft -= 30;
                 item.productionCost -= 30;
             }
         }
         ProductionQueueType item2;
-        if (partialProductionDictionary.TryGetValue("Settler", out item2))
+        if (partialProductionDictionary.TryGetValue(itemName, out item2))
         {
             item2.productionLeft -= 30;
             item2.productionCost -= 30;

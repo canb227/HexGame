@@ -268,15 +268,25 @@ public class UnitEffect
     }
     public bool Fortify(Unit unit)
     {
-        GD.PushWarning("Fortify Not Implemented");
-        return false;
+        unit.isSleeping = true;
+        unit.CancelMovement();
+        unit.fortifying = true;
+        if(unit.attacksLeft == unit.maxAttackCount && unit.remainingMovement == unit.movementSpeed)
+        {
+            unit.attacksLeft = 0;
+            unit.remainingMovement = 0;
+            unit.fortifyStrength = 3;
+        }
+        Global.gameManager.graphicManager.CallDeferred("UpdateGraphic", unit.id, (int)GraphicUpdateType.Update);
+        Global.gameManager.graphicManager.CallDeferred("UnselectObject");
+        return true;
     }
     public bool Sleep(Unit unit)
     {
         unit.isSleeping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");
-        return false;
+        return true;
     }
 
     public bool Skip(Unit unit)
@@ -284,7 +294,7 @@ public class UnitEffect
         unit.isSkipping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");
-        return false;
+        return true;
     }
 
     public bool Trade(Unit unit)

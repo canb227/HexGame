@@ -77,7 +77,11 @@ public class GameHex
         if (Global.gameManager.game.cityDictionary.Keys.Contains(owningCityID))
         {
             //calculate the rural value
-            if(terrainType == TerrainType.Flat)
+            if (featureSet.Contains(FeatureType.Forest))
+            {
+                Global.gameManager.game.cityDictionary[owningCityID].AddForestYields(this);
+            }
+            else if (terrainType == TerrainType.Flat)
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddFlatYields(this);
             }
@@ -89,7 +93,9 @@ public class GameHex
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddMountainYields(this);
             }
-            else if (terrainType == TerrainType.Coast)
+
+
+            if (terrainType == TerrainType.Coast)
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddCoastYields(this);
             }
@@ -97,8 +103,7 @@ public class GameHex
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddOceanYields(this);
             }
-            
-            if(terrainTemp == TerrainTemperature.Desert)
+            else if (terrainTemp == TerrainTemperature.Desert)
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddDesertYields(this);
             }
@@ -118,10 +123,7 @@ public class GameHex
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddArcticYields(this);
             }
-            if(featureSet.Contains(FeatureType.Forest))
-            {
-                Global.gameManager.game.cityDictionary[owningCityID].AddForestYields(this);
-            }
+
             if(featureSet.Contains(FeatureType.Coral))
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddCoralYields(this);
@@ -142,7 +144,11 @@ public class GameHex
         yields = new();
         if(Global.gameManager.game.localPlayerRef != null)
         {
-            if (terrainType == TerrainType.Flat)
+            if (featureSet.Contains(FeatureType.Forest))
+            {
+                yields += Global.gameManager.game.localPlayerRef.forestYields;
+            }
+            else if (terrainType == TerrainType.Flat)
             {
                 yields += Global.gameManager.game.localPlayerRef.flatYields;
             }
@@ -154,7 +160,8 @@ public class GameHex
             {
                 yields += Global.gameManager.game.localPlayerRef.mountainYields;
             }
-            else if (terrainType == TerrainType.Coast)
+
+            if (terrainType == TerrainType.Coast)
             {
                 yields += Global.gameManager.game.localPlayerRef.coastalYields;
             }
@@ -162,8 +169,7 @@ public class GameHex
             {
                 yields += Global.gameManager.game.localPlayerRef.oceanYields;
             }
-
-            if (terrainType != TerrainType.Mountain)
+            else if (terrainType != TerrainType.Mountain)
             {
                 if (terrainTemp == TerrainTemperature.Desert)
                 {
@@ -186,10 +192,7 @@ public class GameHex
                     //nothing
                 }
             }
-            if (featureSet.Contains(FeatureType.Forest))
-            {
-                yields += Global.gameManager.game.localPlayerRef.forestYields;
-            }
+
             if (featureSet.Contains(FeatureType.Coral))
             {
                 yields += Global.gameManager.game.localPlayerRef.coralYields;
