@@ -80,7 +80,10 @@ public partial class Encampment : City
         }
         if (allDistrictsFell && cityCenterOccupied)
         {
-            Global.gameManager.graphicManager.uiManager.EncampmentTakenPopUp(this, unit.teamNum);
+            if(unit.teamNum == Global.gameManager.game.localPlayerTeamNum)
+            {
+                Global.gameManager.graphicManager.uiManager.EncampmentTakenPopUp(this, unit.teamNum);
+            }
         }
     }
 

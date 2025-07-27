@@ -95,6 +95,11 @@ public partial class Building
         }
     }
 
+    public void Raze()
+    {
+        DestroyBuilding();
+    }
+
     public void AddEffect(BuildingEffect effect)
     {
         buildingEffects.Add(effect);

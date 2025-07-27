@@ -186,6 +186,17 @@ public partial class District
         AddResource();
     }
 
+    public void Raze()
+    {
+        RemoveVision();
+        RemoveLostResource();
+        foreach (Building building in buildings)
+        {
+            building.Raze();
+            buildings.Remove(building);
+        }
+    }
+
     public bool decreaseHealth(float amount)
     {
         health -= amount;

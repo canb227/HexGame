@@ -486,7 +486,6 @@ public partial class City
                 };
                 manager2.CallDeferred("UpdateTerritoryGraphic", teamNum, data);
             }
-            
         }
         foreach (District district in districts)
         {
@@ -871,23 +870,20 @@ public partial class City
         GD.Print("DistrictFell");
         bool allDistrictsFell = true;
         bool cityCenterOccupied = false;
-        foreach(District district in districts)
+        Unit takingUnit = null;
+        foreach (District district in districts)
         {
             if(district.health > 0.0f)
             {
-                GD.Print("A district is alive at: " + district.hex);
                 allDistrictsFell = false;
             }
             if(district.isCityCenter && district.health <= 0.0f)
             {
-                GD.Print("The city center is dead");
                 if (Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].units.Any())
                 {
-                    GD.Print("The city center has a unit on it");
-                    Unit unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].units[0]];
-                    if (Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(unit.teamNum))
+                    takingUnit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].units[0]];
+                    if (Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(takingUnit.teamNum))
                     {
-                        GD.Print("City Center is occupied");
                         cityCenterOccupied = true;
                     }
                 }
@@ -895,8 +891,14 @@ public partial class City
         }
         if(allDistrictsFell && cityCenterOccupied)
         {
-            GD.Print("Change teams");
-            ChangeTeam(Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]].teamNum);
+            if (takingUnit.teamNum == Global.gameManager.game.localPlayerTeamNum)
+            {
+                Global.gameManager.graphicManager.uiManager.CityTakenPopUp(this, takingUnit.teamNum);
+            }
+            else if (takingUnit != null && Global.gameManager.game.playerDictionary[takingUnit.teamNum].isAI)
+            {
+                ChangeTeam(Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]].teamNum);
+            }
         }
     }
 
@@ -1335,6 +1337,18 @@ public partial class City
             manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
         }
         
+    }
+
+    public void Raze()
+    {
+        foreach(District district in districts)
+        {
+            district.Raze();
+            districts.Remove(district);
+        }
+        heldResources.Clear();
+        Global.gameManager.game.playerDictionary[teamNum].cityList.Remove(id);
+        //TODO delete the graphical objects in buildings and here
     }
     // For terrain types
     public void AddFlatYields(GameHex gameHex)

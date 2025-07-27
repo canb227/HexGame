@@ -81,6 +81,8 @@ public partial class UIManager : Node3D
 
     public EncampementTakenPopUp encampementTakenPopUp;
 
+    public CityTakenPopUp cityTakenPopUp;
+
     public EventSelectionPanel eventSelectionPanel;
 
 
@@ -245,6 +247,13 @@ public partial class UIManager : Node3D
         encampementTakenPopUp.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
         AddChild(encampementTakenPopUp);
         encampementTakenPopUp.Visible = false;
+
+
+        cityTakenPopUp = new CityTakenPopUp();
+        cityTakenPopUp.Name = "CityTakenPopUp";
+        cityTakenPopUp.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        AddChild(cityTakenPopUp);
+        cityTakenPopUp.Visible = false;
 
         eventSelectionPanel = new EventSelectionPanel();
         eventSelectionPanel.Name = "EventSelectionPanel";
@@ -486,6 +495,7 @@ public partial class UIManager : Node3D
             tradeRoutePickerPanel.Visible = false;
             diplomacyPanel.Visible = false;
             encampementTakenPopUp.Visible = false;
+            cityTakenPopUp.Visible = false;
             eventSelectionPanel.Visible = false;
             ShowGenericUI();
         }
@@ -738,6 +748,15 @@ public partial class UIManager : Node3D
         windowOpen = true;
         encampementTakenPopUp.Visible = true;
         encampementTakenPopUp.UpdateEncampementTakenPopUp(encampment, takerTeamNum);
+        HideGenericUI();
+    }
+
+    public void CityTakenPopUp(City city, int takerTeamNum)
+    {
+        CloseCurrentWindow();
+        windowOpen = true;
+        cityTakenPopUp.Visible = true;
+        cityTakenPopUp.UpdateCityTakenPopUp(city, takerTeamNum);
         HideGenericUI();
     }
 
