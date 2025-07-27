@@ -195,6 +195,10 @@ public partial class District
             building.Raze();
             buildings.Remove(building);
         }
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Remove);
+        }
     }
 
     public bool decreaseHealth(float amount)

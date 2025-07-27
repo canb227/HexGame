@@ -93,6 +93,10 @@ public partial class Building
         {
             Global.gameManager.game.builtWonders.Remove(buildingType);
         }
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Remove);
+        }
     }
 
     public void Raze()

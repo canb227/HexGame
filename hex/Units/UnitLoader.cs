@@ -116,7 +116,8 @@ public static class UnitLoader
 
             AllowsAlly = bool.TryParse(targetSpecElement.Attribute("AllowsAlly")?.Value, out var allowsAlly) && allowsAlly,
             AllowsEnemy = bool.TryParse(targetSpecElement.Attribute("AllowsEnemy")?.Value, out var allowsEnemy) && allowsEnemy,
-            AllowsNeutral = bool.TryParse(targetSpecElement.Attribute("AllowsNeutral")?.Value, out var allowsNeutral) && allowsNeutral
+            AllowsNeutral = bool.TryParse(targetSpecElement.Attribute("AllowsNeutral")?.Value, out var allowsNeutral) && allowsNeutral,
+            RequiresAncientRuins = bool.TryParse(targetSpecElement.Attribute("RequiresAncientRuins")?.Value, out var requiresAncientRuins) && requiresAncientRuins,
         };
     
         targetSpecification.ValidUnitTypes = targetSpecElement.Element("ValidUnitTypes")?.Elements("UnitType")

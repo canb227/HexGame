@@ -37,6 +37,7 @@ public class TargetSpecification
     public bool AllowsAlly { get; set; } = false;
     public bool AllowsEnemy { get; set; } = false;
     public bool AllowsNeutral { get; set; } = false;
+    public bool RequiresAncientRuins { get; set; } = false;
 
 
     public bool IsHexValidTarget(GameHex gameHex, Unit castingUnit)
@@ -177,6 +178,14 @@ public class TargetSpecification
                 }
             }
             if (!validUnit)
+            {
+                return false;
+            }
+        }
+
+        if(RequiresAncientRuins)
+        {
+            if (gameHex.ancientRuins == null)
             {
                 return false;
             }

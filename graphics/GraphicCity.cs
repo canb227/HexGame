@@ -25,6 +25,7 @@ public partial class GraphicCity : GraphicObject
         if (graphicUpdateType == GraphicUpdateType.Remove)
         {
             QueueFree();
+            cityWorldUI.QueueFree();
         }
         if(graphicUpdateType == GraphicUpdateType.Update)
         {

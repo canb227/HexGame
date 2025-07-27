@@ -226,10 +226,6 @@ public partial class GraphicManager : Node3D
             }
         }
         Global.gameManager.game.localPlayerRef.visibilityChangedList.Clear();
-        foreach(Player player in Global.gameManager.game.playerDictionary.Values)
-        {
-            player.UpdateTerritoryGraphic();
-        }
     }
 
     public void StartNewTurn()

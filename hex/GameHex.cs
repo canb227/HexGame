@@ -31,7 +31,6 @@ public enum FeatureType
     Road,
     Coral,
     Wetland,
-    Fortification,
     None
 }
 
@@ -49,6 +48,7 @@ public class GameHex
         this.units = units;
         this.district = district;
         this.ownedBy = -1;
+        this.owningCityID = -1;
         this.withinCityRange = 0;
         this.rangeToNearestCity = -1;
         RecalculateYields();
@@ -236,11 +236,28 @@ public class GameHex
         return true;
     }
 
+    public void UnclaimHex(City city)
+    {
+        ownedBy = -1;
+        owningCityID = -1;
+        city.heldHexes.Remove(hex);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+            manager.CallDeferred("UpdateTerritoryGraphic", 0, data);
+        }
+    }
+
     public void ClaimHex(City city)
     {
         ownedBy = city.teamNum;
         owningCityID = city.id;
-        city.heldHexes.Add(hex);
+        city.heldHexes.Add(hex); //hashset so we are safe to double add
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             var data = new Godot.Collections.Dictionary

@@ -517,7 +517,14 @@ public partial class GraphicGameBoard : GraphicObject
     {
         Hex wrapHex = hex.WrapHex();
         int newQ = wrapHex.q + (wrapHex.r >> 1);
-        territoryImage.SetPixel(newQ, wrapHex.r, Global.gameManager.game.playerDictionary[teamNum].teamColor); // Mark as owned
+        if(teamNum != 0)
+        {
+            territoryImage.SetPixel(newQ, wrapHex.r, Global.gameManager.game.playerDictionary[teamNum].teamColor); // Mark as owned
+        }
+        else
+        {
+            territoryImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0,0,0,1));
+        }
         territoryTexture.Update(territoryImage);
 
         territoryImage.SavePng("territoryImage.png");

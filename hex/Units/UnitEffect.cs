@@ -186,6 +186,11 @@ public class UnitEffect
             Skip(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
+        else if (functionString == "ExploreRuin")
+        {
+            ExploreRuin(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
         else if (functionString == "Trade")
         {
             Trade(Global.gameManager.game.unitDictionary[unitID]);
@@ -294,6 +299,23 @@ public class UnitEffect
         unit.isSkipping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");
+        return true;
+    }
+
+    public bool ExploreRuin(Unit unit)
+    {
+        unit.remainingMovement = 0;
+        unit.isSkipping = true;
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            AncientRuins ancientRuins = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].ancientRuins;
+            if (ancientRuins != null)
+            {
+                ancientRuins.activeEvent = true;
+                Global.gameManager.graphicManager.uiManager.EventSelectionPopUp(ancientRuins);
+            }
+            Global.gameManager.graphicManager.CallDeferred("UnselectObject");
+        }
         return true;
     }
 

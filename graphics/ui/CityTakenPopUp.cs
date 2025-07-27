@@ -20,8 +20,8 @@ public partial class CityTakenPopUp : Control
         cityTakenPopUp = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityTakenPopup.tscn").Instantiate<Control>();
         AddChild(cityTakenPopUp);
 
-        KeepButton = cityTakenPopUp.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/OccupyButton");
-        RazeButton = cityTakenPopUp.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/VassalizeButton");
+        KeepButton = cityTakenPopUp.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/KeepButton");
+        RazeButton = cityTakenPopUp.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/RazeButton");
 
         KeepButton.Pressed += () => KeepPressed();
         RazeButton.Pressed += () => RazePressed();

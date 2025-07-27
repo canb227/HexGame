@@ -473,20 +473,11 @@ public partial class City
         Global.gameManager.game.playerDictionary[newTeamNum].cityList.Add(this.id);
         teamNum = newTeamNum;
 
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+        foreach(Hex hex in heldHexes)
         {
-            foreach(Hex hex in heldHexes)
-            {
-                Global.gameManager.game.mainGameBoard.gameHexDict[hex].ownedBy = this.teamNum;
-                var data = new Godot.Collections.Dictionary
-                {
-                    { "q", hex.q },
-                    { "r", hex.r },
-                    { "s", hex.s }
-                };
-                manager2.CallDeferred("UpdateTerritoryGraphic", teamNum, data);
-            }
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].ClaimHex(this);
         }
+
         foreach (District district in districts)
         {
             district.AfterSwitchTeam();
@@ -1341,14 +1332,27 @@ public partial class City
 
     public void Raze()
     {
-        foreach(District district in districts)
+        foreach (Hex hex in heldHexes)
+        {
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].UnclaimHex(this);
+        }
+        foreach (District district in districts)
         {
             district.Raze();
             districts.Remove(district);
         }
         heldResources.Clear();
         Global.gameManager.game.playerDictionary[teamNum].cityList.Remove(id);
+
         //TODO delete the graphical objects in buildings and here
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Remove);
+            if (manager.selectedObjectID == id)
+            {
+                manager.CallDeferred("UnselectObject");
+            }
+        }
     }
     // For terrain types
     public void AddFlatYields(GameHex gameHex)

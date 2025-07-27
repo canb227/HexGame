@@ -45,7 +45,8 @@ public partial class EventSelectionPanel : Control
                             marginContainer.AddThemeConstantOverride*/
                 Button button = new Button();
                 button.Text = eventOption.optionText;
-                button.Pressed += () => SetNextEventIDAndClose(i);
+                int optionIndex = i; // solution is dumb lambda thing
+                button.Pressed += () => SetNextEventIDAndClose(optionIndex);
                 optionsVBox.AddChild(button);
             }
         }
@@ -63,7 +64,8 @@ public partial class EventSelectionPanel : Control
 
     private void SetNextEventIDAndClose(int eventIndex)
     {
-        //networked message TODO
+        GD.Print(eventIndex);
+        //networked message
         Global.gameManager.TriggerRuin(Global.gameManager.game.localPlayerTeamNum, ancientRuins.hex, eventIndex);
 
         //close window

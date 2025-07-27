@@ -323,12 +323,6 @@ public class BasePlayer
         }
     }
 
-    public void UpdateTerritoryGraphic()
-    {
-        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-/*        ggb.CallDeferred("UpdateTerritoryGraphic", teamNum);*/
-    }
-
     public bool AddResource(Hex hex, ResourceType resourceType, City targetCity)
     {
         if(targetCity.heldResources.Count < targetCity.maxResourcesHeld)
