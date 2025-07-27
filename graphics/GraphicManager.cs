@@ -216,6 +216,8 @@ public partial class GraphicManager : Node3D
         ggb.UpdateYield(hex);
     }
 
+
+
     public void UpdateVisibility()
     {
         foreach(Hex hex in Global.gameManager.game.localPlayerRef.visibilityChangedList)
@@ -288,6 +290,18 @@ public partial class GraphicManager : Node3D
     public void ClearWaitForTarget()
     {
         SetWaitForTargeting(false);
+    }
+
+    public void RemoveRuins(Godot.Collections.Dictionary hexData)
+    {
+        Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
+        foreach (GraphicObject graphicObj in hexObjectDictionary[hex])
+        {
+            if (IsInstanceValid(graphicObj) && graphicObj is GraphicRuins)
+            {
+                graphicObj.UpdateGraphic(GraphicUpdateType.Remove);
+            }
+        }        
     }
 
     public MeshInstance3D GenerateHexSelectionLines(List<Hex> hexes, Godot.Color color, string name)

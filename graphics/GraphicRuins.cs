@@ -132,5 +132,9 @@ public partial class GraphicRuins : GraphicObject
                 featureModel.Visible = false;
             }
         }
+        if(graphicUpdateType == GraphicUpdateType.Remove)
+        {
+            this.QueueFree();
+        }
     }
 }

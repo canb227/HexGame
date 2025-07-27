@@ -49,6 +49,13 @@ public partial class EventSelectionPanel : Control
                 button.Pressed += () => SetNextEventIDAndClose(optionIndex);
                 optionsVBox.AddChild(button);
             }
+            if(currentEvent.options.Count == 0)
+            {
+                Button button = new Button();
+                button.Text = "Done.";
+                button.Pressed += () => Close();
+                optionsVBox.AddChild(button);
+            }
         }
         else
         {
@@ -64,10 +71,14 @@ public partial class EventSelectionPanel : Control
 
     private void SetNextEventIDAndClose(int eventIndex)
     {
-        GD.Print(eventIndex);
         //networked message
         Global.gameManager.TriggerRuin(Global.gameManager.game.localPlayerTeamNum, ancientRuins.hex, eventIndex);
 
+        //close window
+        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+    }
+    private void Close()
+    {
         //close window
         Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
     }

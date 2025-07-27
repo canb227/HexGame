@@ -68,14 +68,12 @@ public static class AncientRuinsLoader
                                             {
                                                 new EventOption
                                                 {
-                                                    eventEffects = (player) =>
+                                                    optionText = "Done. +50 Gold. (Ends Ruin Event Chain)",
+                                                    eventEffects = (player, ancientRuins) =>
                                                     {
                                                         player.AddGold(50);
+                                                        ancientRuins.RemoveRuins();
                                                     },
-                                                    nextEvents = new List<RuinsEvent>
-                                                    {
-                                                        sample_final
-                                                    }
                                                 }
                                             }
                                         }
@@ -83,11 +81,11 @@ public static class AncientRuinsLoader
                                 },
                                 new EventOption
                                 {
-                                    optionText = "Run Away!",
-                                    nextEvents = new List<RuinsEvent>
+                                    optionText = "Run Away! (Ends Ruin Event Chain)",
+                                    eventEffects = (player, ancientRuins) =>
                                     {
-                                        sample_final
-                                    }
+                                        ancientRuins.RemoveRuins();
+                                    },
                                 }
                             }
                         }
@@ -115,19 +113,17 @@ public static class AncientRuinsLoader
                                             title = "Sample 3 B1 Title",
                                             description = "After a short discussion they decide to come live in your capital city.",
 
-                                            weight = 0.5f,
+                                            weight = 0.4f,
                                             options = new List<EventOption>
                                             {
                                                 new EventOption
                                                 {
-                                                    eventEffects = (player) =>
+                                                    optionText = "Done. +1 Population in Capital City. (Ends Ruin Event Chain)",
+                                                    eventEffects = (player, ancientRuins) =>
                                                     {
                                                         Global.gameManager.game.cityDictionary[player.cityList[0]].GrowCity();
+                                                        ancientRuins.RemoveRuins();
                                                     },
-                                                    nextEvents = new List<RuinsEvent>
-                                                    {
-                                                        sample_final
-                                                    }
                                                 }
                                             }
                                         },
@@ -136,15 +132,16 @@ public static class AncientRuinsLoader
                                             eventID = "Sample_3_B2",
                                             title = "Sample 3 B2 Title",
                                             description = "They decide they would rather risk it on their own.",
-                                            weight = 0.5f,
+                                            weight = 0.6f,
                                             options = new List<EventOption>
                                             {
                                                 new EventOption
                                                 {
-                                                    nextEvents = new List<RuinsEvent>
+                                                    optionText = "Done. (Ends Ruin Event Chain)",
+                                                    eventEffects = (player, ancientRuins) =>
                                                     {
-                                                        sample_final
-                                                    }
+                                                        ancientRuins.RemoveRuins();
+                                                    },
                                                 }
                                             }
                                         }
@@ -152,11 +149,11 @@ public static class AncientRuinsLoader
                                 },
                                 new EventOption
                                 {
-                                    optionText = "Leave.",
-                                    nextEvents = new List<RuinsEvent>
+                                    optionText = "Leave. (Ends Ruin Event Chain)",
+                                    eventEffects = (player, ancientRuins) =>
                                     {
-                                        sample_final
-                                    }
+                                        ancientRuins.RemoveRuins();
+                                    },
                                 }
                             }
                         }
@@ -233,6 +230,21 @@ public class AncientRuins
     {
     }
 
+    public void RemoveRuins()
+    {
+        Global.gameManager.game.mainGameBoard.gameHexDict[hex].ancientRuins = null;
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            var data = new Godot.Collections.Dictionary
+            {
+                { "q", hex.q },
+                { "r", hex.r },
+                { "s", hex.s }
+            };
+            manager.CallDeferred("RemoveRuins", data);
+        }
+    }
+
 }
 
 public class RuinsEvent
@@ -256,7 +268,7 @@ public class RuinsEvent
 public class EventOption
 {
     public string optionText { get; set; }
-    public Action<Player> eventEffects { get; set; }
+    public Action<Player, AncientRuins> eventEffects { get; set; }
     public List<RuinsEvent> nextEvents { get; set; } = new();
 
 }

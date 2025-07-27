@@ -1108,12 +1108,15 @@ public partial class GameManager : Node
 
         try
         {
-            GD.Print(teamNum + " " + location+ " " + eventIndex);
             AncientRuins ancientRuins = Global.gameManager.game.mainGameBoard.gameHexDict[location].ancientRuins;
-            EventOption eventOption = AncientRuinsLoader.ruinsEventDict[ancientRuins.nextEventID].options[eventIndex];
-            if(eventOption.eventEffects != null)
+            EventOption eventOption = null;
+            if (AncientRuinsLoader.ruinsEventDict[ancientRuins.nextEventID].options != null)
             {
-                eventOption.eventEffects.Invoke(Global.gameManager.game.playerDictionary[teamNum]);
+                eventOption = AncientRuinsLoader.ruinsEventDict[ancientRuins.nextEventID].options[eventIndex];
+            }
+            if (eventOption.eventEffects != null)
+            {
+                eventOption.eventEffects.Invoke(Global.gameManager.game.playerDictionary[teamNum], ancientRuins);
             }
             //if random selection do it or just select the only result and set it
             if(eventOption.nextEvents != null)
