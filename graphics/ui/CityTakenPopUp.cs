@@ -38,6 +38,8 @@ public partial class CityTakenPopUp : Control
         //networked statement
         Global.gameManager.CapturedCityChoice(takenCity.id, takerTeamNum, CityConquerOptions.Raze);
     }
+
+    //free button doesnt exist yet
     private void FreePressed()
     {
         //networked statement

@@ -10,6 +10,7 @@ public partial class EncampementTakenPopUp : Control
     public Control encampmentTakenPopUp;
     private Button OccupyButton;
     private Button VassalizeButton;
+    private Button RazeButton;
 
     private Encampment takenEncampment;
     private int takerTeamNum;
@@ -21,9 +22,11 @@ public partial class EncampementTakenPopUp : Control
 
         OccupyButton = encampmentTakenPopUp.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/OccupyButton");
         VassalizeButton = encampmentTakenPopUp.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/VassalizeButton");
+        RazeButton = encampmentTakenPopUp.GetNode<Button>("PanelContainer/MarginContainer/VBoxContainer/RazeButton");
 
         OccupyButton.Pressed += () => OccupyPressed();
         VassalizeButton.Pressed += () => VassalizePressed();
+        RazeButton.Pressed += () => RazePressed();
     }
 
     private void OccupyPressed()

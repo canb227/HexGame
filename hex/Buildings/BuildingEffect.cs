@@ -170,6 +170,8 @@ public class BuildingEffect
             { "UniversityEffect", UniversityEffect }, 
             { "ArmoryEffect", ArmoryEffect }, 
             { "MedievalWallsEffect", MedievalWallsEffect },
+
+            { "HangingGardensEffect", HangingGardensEffect },
             { "StonehengeEffect", StonehengeEffect },
             { "ColossusEffect", ColossusEffect },
             { "PetraEffect", PetraEffect },
@@ -556,7 +558,10 @@ public class BuildingEffect
     }
 
     //world wonders
-
+    Yields HangingGardensEffect(Building building)
+    {
+        return new Yields();
+    }
     Yields StonehengeEffect(Building building)
     {
         return new Yields();

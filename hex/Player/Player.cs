@@ -116,10 +116,10 @@ public class Player : BasePlayer
 
 
 
-    private void SetBaseHexYields()
+/*    private void SetBaseHexYields()
     {
-        flatYields.food = 1;
-        roughYields.production = 1;
+        //flatYields.food = 1;
+        //roughYields.production = 1;
         //mountainYields.production += 0;
         coastalYields.food = 1;
         //oceanYields.gold = 1;
@@ -133,7 +133,7 @@ public class Player : BasePlayer
         forestYields.production = 1;
         coralYields.production = 1;
         wetlandYields.food = 1;
-    }
+    }*/
 
 
     public void SetGoldTotal(float goldTotal)

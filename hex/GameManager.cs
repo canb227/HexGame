@@ -993,7 +993,7 @@ public partial class GameManager : Node
 
         try
         {
-            //PLEASE IMPLEMENT ME
+            Global.gameManager.game.cityDictionary[cityID].CityConquered(teamNum,choice);
         }
         catch (Exception e)
         {
@@ -1013,7 +1013,7 @@ public partial class GameManager : Node
 
         try
         {
-            //PLEASE IMPLEMENT ME
+            ((Encampment)Global.gameManager.game.cityDictionary[cityID]).EncampmentConquered(teamNum, choice);
         }
         catch (Exception e)
         {
