@@ -527,7 +527,7 @@ public partial class GraphicGameBoard : GraphicObject
         }
         territoryTexture.Update(territoryImage);
 
-        territoryImage.SavePng("territoryImage.png");
+        //territoryImage.SavePng("territoryImage.png");
     }
 
     public void SetInitialTerritoryGraphic()
