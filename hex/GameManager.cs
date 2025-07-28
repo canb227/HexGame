@@ -982,7 +982,7 @@ public partial class GameManager : Node
         }
     }
 
-    public void CapturedCityChoice(int cityID, int teamNum, int choice, bool local = true)
+    public void CapturedCityChoice(int cityID, int teamNum, CityConquerOptions choice, bool local = true)
     {
         if (local)
         {
@@ -993,7 +993,7 @@ public partial class GameManager : Node
 
         try
         {
-            
+            //PLEASE IMPLEMENT ME
         }
         catch (Exception e)
         {
@@ -1002,7 +1002,7 @@ public partial class GameManager : Node
         }
     }
 
-    public void CapturedEncampmentChoice(int cityID, int teamNum, int choice, bool local = true)
+    public void CapturedEncampmentChoice(int cityID, int teamNum, EncampmentConquerOptions choice, bool local = true)
     {
         if (local)
         {
@@ -1013,7 +1013,7 @@ public partial class GameManager : Node
 
         try
         {
-
+            //PLEASE IMPLEMENT ME
         }
         catch (Exception e)
         {

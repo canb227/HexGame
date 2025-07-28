@@ -138,7 +138,7 @@ using System.Threading.Tasks;
             case "SpawnUnit":
                 if (COMMANDDEBUG)
                 {
-                    Global.Log(prefix + $"SpawnUnit command received from {command.Sender} to spawn unit (ID:{command.SpawnUnit.Id}) of type {command.SpawnUnit.UnitType} for team {command.SpawnUnit.TeamNum} at location {command.SpawnUnit.Position}");
+                    Global.Log(prefix + $"SpawnUnit capturedEncampmentChoice received from {command.Sender} to spawn unit (ID:{command.SpawnUnit.Id}) of type {command.SpawnUnit.UnitType} for team {command.SpawnUnit.TeamNum} at location {command.SpawnUnit.Position}");
                 }
                 Global.gameManager.SpawnUnit(command.SpawnUnit.UnitType, command.SpawnUnit.TeamNum, new Hex(command.SpawnUnit.Position.Q,command.SpawnUnit.Position.R,command.SpawnUnit.Position.S), command.SpawnUnit.Stackable, command.SpawnUnit.Flexible, false);
                 break;
@@ -156,14 +156,14 @@ using System.Threading.Tasks;
                 Global.gameManager.TriggerRuin(command.TriggerRuin.TeamNum, new Hex(command.TriggerRuin.Location.Q, command.TriggerRuin.Location.R, command.TriggerRuin.Location.S), command.TriggerRuin.EventIndex, false);
                 break;
             case "CapturedCityChoice":
-                Global.gameManager.CapturedCityChoice(command.CapturedCityChoice.CityID, command.CapturedCityChoice.TeamNum, command.CapturedCityChoice.Choice, false);
+                Global.gameManager.CapturedCityChoice(command.CapturedCityChoice.CityID, command.CapturedCityChoice.TeamNum, (CityConquerOptions) command.CapturedCityChoice.Choice, false);
                 break;
             case "CapturedEncampmentChoice":
-                Global.gameManager.CapturedEncampmentChoice(command.CapturedEncampmentChoice.CityID, command.CapturedEncampmentChoice.TeamNum, command.CapturedEncampmentChoice.Choice, false);
+                Global.gameManager.CapturedEncampmentChoice(command.CapturedEncampmentChoice.CityID, command.CapturedEncampmentChoice.TeamNum, (EncampmentConquerOptions) command.CapturedEncampmentChoice.Choice, false);
                 break;
             default:
-                Global.Log($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
-                throw new Exception(prefix + $"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
+                Global.Log($"The capturedEncampmentChoice type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
+                throw new Exception(prefix + $"The capturedEncampmentChoice type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
                 break;
         }
     }
@@ -636,14 +636,34 @@ using System.Threading.Tasks;
         return command;
     }
 
-    internal static Command ConstructCapturedCityChoiceCommand(int cityID, int teamNum, int choice)
+    internal static Command ConstructCapturedCityChoiceCommand(int cityID, int teamNum, CityConquerOptions choice)
     {
-        throw new NotImplementedException();
+        CapturedCityChoice capturedCityChoice = new CapturedCityChoice();
+        capturedCityChoice.CityID = cityID;
+        capturedCityChoice.TeamNum = teamNum;
+        capturedCityChoice.Choice = (int)choice;
+
+        Command command = new();
+        command.Sender = Global.clientID;
+        command.CapturedCityChoice = capturedCityChoice;
+        command.CommandType = "CapturedCityChoice";
+
+        return command;
     }
 
-    internal static Command ConstructCapturedEncampmentChoiceCommand(int cityID, int teamNum, int choice)
+    internal static Command ConstructCapturedEncampmentChoiceCommand(int cityID, int teamNum, EncampmentConquerOptions choice)
     {
-        throw new NotImplementedException();
+        CapturedEncampmentChoice capturedEncampmentChoice = new CapturedEncampmentChoice();
+        capturedEncampmentChoice.CityID = cityID;
+        capturedEncampmentChoice.TeamNum = teamNum;
+        capturedEncampmentChoice.Choice = (int)choice;
+
+        Command command = new();
+        command.Sender = Global.clientID;
+        command.CapturedEncampmentChoice= capturedEncampmentChoice;
+        command.CommandType = "CapturedEncampmentChoice";
+
+        return command;
     }
 }
 
