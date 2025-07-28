@@ -449,10 +449,13 @@ public class Player : BasePlayer
         }
 
         TopologicalSort(researchType);
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+        if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
-            manager2.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+            {
+                manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
+                manager2.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+            }
         }
     }
 
@@ -460,9 +463,14 @@ public class Player : BasePlayer
     {
         completedResearches.Add(researchType);
         queuedResearch.RemoveAt(0);
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        GraphicManager manager = null;
+        Global.gameManager.TryGetGraphicManager(out manager);
+        if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+            if (manager != null)
+            {
+                manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+            }
         }
         foreach (String unitType in ResearchLoader.researchesDict[researchType].UnitUnlocks)
         {
@@ -557,10 +565,13 @@ public class Player : BasePlayer
         }
 
         TopologicalSort(researchType);
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+        if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
-            manager2.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+            {
+                manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
+                manager2.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+            }
         }
     }
 
@@ -568,9 +579,14 @@ public class Player : BasePlayer
     {
         completedCultureResearches.Add(researchType);
         queuedCultureResearch.RemoveAt(0);
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        GraphicManager manager = null;
+        Global.gameManager.TryGetGraphicManager(out manager);
+        if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+            if (manager != null)
+            {
+                manager.CallDeferred("Update2DUI", (int)UIElement.researchTree);
+            }
         }
         foreach (String unitType in CultureResearchLoader.researchesDict[researchType].UnitUnlocks)
         {
