@@ -5,6 +5,21 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime;
+using System.Security.Cryptography.X509Certificates;
+
+public static class FeatureScenes
+{
+    public static Dictionary<string, PackedScene> featureScenes = new();
+    static FeatureScenes()
+    {
+        featureScenes.Add("trees", Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/trees.glb"));
+        featureScenes.Add("river1", Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/river1.glb"));
+        featureScenes.Add("river2", Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/river2.glb"));
+        featureScenes.Add("road", Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/road.glb"));
+        featureScenes.Add("coral", Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/coral.glb"));
+    }
+}
+
 
 public partial class GraphicFeature : GraphicObject
 {
@@ -20,24 +35,24 @@ public partial class GraphicFeature : GraphicObject
         switch (featureType)
         {
             case FeatureType.Forest:
-                featureModel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/trees.glb").Instantiate<Node3D>();
+                featureModel = FeatureScenes.featureScenes["trees"].Instantiate<Node3D>();
                 break;
             case FeatureType.River:
                 Random rand = new Random();
                 if (rand.NextDouble() > 0.5)
                 {
-                    featureModel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/river1.glb").Instantiate<Node3D>();
+                    featureModel = FeatureScenes.featureScenes["river1"].Instantiate<Node3D>();
                 }
                 else
                 {
-                    featureModel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/river2.glb").Instantiate<Node3D>();
+                    featureModel = FeatureScenes.featureScenes["river2"].Instantiate<Node3D>();
                 }
                 break;
             case FeatureType.Road:
-                featureModel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/road.glb").Instantiate<Node3D>();
+                featureModel = FeatureScenes.featureScenes["road"].Instantiate<Node3D>();
                 break;
             case FeatureType.Coral:
-                featureModel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/models/coral.glb").Instantiate<Node3D>();
+                featureModel = FeatureScenes.featureScenes["coral"].Instantiate<Node3D>();
                 break;
             default:
                 break;

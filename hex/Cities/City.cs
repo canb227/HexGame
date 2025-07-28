@@ -492,7 +492,8 @@ public partial class City
                 manager.CallDeferred("UnselectObject");
             }
             manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
-            manager.uiManager.Update(UIElement.endTurnButton);
+            manager.uiManager.CallDeferred("Update", (int)UIElement.endTurnButton);
+
         }
         return true;
     }
