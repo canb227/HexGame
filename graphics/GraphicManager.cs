@@ -207,7 +207,7 @@ public partial class GraphicManager : Node3D
         Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
         foreach (GraphicObject graphicObj in hexObjectDictionary[hex])
         {
-            if(IsInstanceValid(graphicObj))
+            if (IsInstanceValid(graphicObj))
             {
                 graphicObj.UpdateGraphic(GraphicUpdateType.Visibility);
             }
