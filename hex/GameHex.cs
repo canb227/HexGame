@@ -77,11 +77,7 @@ public class GameHex
         if (Global.gameManager.game.cityDictionary.Keys.Contains(owningCityID))
         {
             //calculate the rural value
-            if (featureSet.Contains(FeatureType.Forest))
-            {
-                Global.gameManager.game.cityDictionary[owningCityID].AddForestYields(this);
-            }
-            else if (terrainType == TerrainType.Flat)
+            if (terrainType == TerrainType.Flat)
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddFlatYields(this);
             }
@@ -124,7 +120,11 @@ public class GameHex
                 Global.gameManager.game.cityDictionary[owningCityID].AddArcticYields(this);
             }
 
-            if(featureSet.Contains(FeatureType.Coral))
+            if (featureSet.Contains(FeatureType.Forest))
+            {
+                Global.gameManager.game.cityDictionary[owningCityID].AddForestYields(this);
+            }
+            if (featureSet.Contains(FeatureType.Coral))
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddCoralYields(this);
             }
@@ -144,11 +144,7 @@ public class GameHex
         yields = new();
         if(Global.gameManager.game.localPlayerRef != null)
         {
-            if (featureSet.Contains(FeatureType.Forest))
-            {
-                yields += Global.gameManager.game.localPlayerRef.forestYields;
-            }
-            else if (terrainType == TerrainType.Flat)
+            if (terrainType == TerrainType.Flat)
             {
                 yields += Global.gameManager.game.localPlayerRef.flatYields;
             }
@@ -193,6 +189,10 @@ public class GameHex
                 }
             }
 
+            if (featureSet.Contains(FeatureType.Forest))
+            {
+                yields += Global.gameManager.game.localPlayerRef.forestYields;
+            }
             if (featureSet.Contains(FeatureType.Coral))
             {
                 yields += Global.gameManager.game.localPlayerRef.coralYields;
