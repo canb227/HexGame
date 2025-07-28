@@ -650,7 +650,14 @@ public partial class GameManager : Node
 
         try
         {
-            city.ExpandToHex(Target);
+            if (city is Encampment e)
+            {
+                e.ExpandToHex(Target);
+            }
+            else
+            {
+                city.ExpandToHex(Target);
+            }
         }
         catch (Exception e)
         {
@@ -971,6 +978,46 @@ public partial class GameManager : Node
         catch (Exception e)
         {
             Global.Log("Error assigning policy card: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    public void CapturedCityChoice(int cityID, int teamNum, int choice, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructCapturedCityChoiceCommand(cityID,teamNum,choice));
+            return;
+        }
+
+
+        try
+        {
+            
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error assigning a captured city choice: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    public void CapturedEncampmentChoice(int cityID, int teamNum, int choice, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructCapturedEncampmentChoiceCommand(cityID, teamNum, choice));
+            return;
+        }
+
+
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error assigning a captured city choice: " + e.Message); //TODO - Potential Desync
             throw;
         }
     }

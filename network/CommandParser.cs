@@ -155,6 +155,12 @@ using System.Threading.Tasks;
             case "TriggerRuin":
                 Global.gameManager.TriggerRuin(command.TriggerRuin.TeamNum, new Hex(command.TriggerRuin.Location.Q, command.TriggerRuin.Location.R, command.TriggerRuin.Location.S), command.TriggerRuin.EventIndex, false);
                 break;
+            case "CapturedCityChoice":
+                Global.gameManager.CapturedCityChoice(command.CapturedCityChoice.CityID, command.CapturedCityChoice.TeamNum, command.CapturedCityChoice.Choice, false);
+                break;
+            case "CapturedEncampmentChoice":
+                Global.gameManager.CapturedEncampmentChoice(command.CapturedEncampmentChoice.CityID, command.CapturedEncampmentChoice.TeamNum, command.CapturedEncampmentChoice.Choice, false);
+                break;
             default:
                 Global.Log($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
                 throw new Exception(prefix + $"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
@@ -628,6 +634,16 @@ using System.Threading.Tasks;
         command.TriggerRuin = triggerRuin;
         command.Sender = Global.clientID;
         return command;
+    }
+
+    internal static Command ConstructCapturedCityChoiceCommand(int cityID, int teamNum, int choice)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static Command ConstructCapturedEncampmentChoiceCommand(int cityID, int teamNum, int choice)
+    {
+        throw new NotImplementedException();
     }
 }
 

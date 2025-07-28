@@ -93,8 +93,24 @@ message Command
 		SpawnEncampment SpawnEncampment = 27;
 		SpawnRuin SpawnRuin = 28;
 		TriggerRuin TriggerRuin = 29;
+		CapturedCityChoice CapturedCityChoice = 30;
+		CapturedEncampmentChoice CapturedEncampmentChoice = 31;
 	}
 	uint64 sender = 99;
+}
+
+message CapturedCityChoice
+{
+	int32 cityID = 1;
+	int32 teamNum = 2;
+	int32 choice = 3;
+}
+
+message CapturedEncampmentChoice
+{
+	int32 cityID = 1;
+	int32 teamNum = 2;
+	int32 choice = 3;
 }
 
 message SpawnRuin

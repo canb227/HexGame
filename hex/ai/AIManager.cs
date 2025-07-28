@@ -110,7 +110,7 @@ public partial class AIManager
                         ai.desiredDefendersPerCityPerTurnScaling = 0;
                         ai.desiredAttackersInArmy = 2;
                         ai.desiredAttackersInArmyPerTurnScaling = 0;
-                        ai.AICityExpansionStrategy = AICityExpansionStrategy.NONE;
+                        ai.AICityExpansionStrategy = AICityExpansionStrategy.FocusResources;
                         ai.AIAttackArmyBuildingStrategy = AIAttackArmyBuildingStrategy.FavorMelee;
                         ai.AIAttackArmyBuildupStrategy = AIAttackArmyBuildupStrategy.WaitForGlobalCount;
                         ai.AIAttackArmyMovementStrategy = AIAttackArmyMovementStrategy.AttackMove;
