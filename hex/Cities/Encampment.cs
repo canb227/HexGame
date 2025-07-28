@@ -11,6 +11,14 @@ public enum FactionOwnership
     Occupied,
     Vassalized
 }
+
+public enum EncampmentConquerOptions
+{
+    Raze,
+    Vassalize,
+    Occupy,
+    Free
+}
 public partial class Encampment : City
 {
     public FactionOwnership ownershipState = FactionOwnership.Free;
@@ -23,7 +31,7 @@ public partial class Encampment : City
 
 
         this.id = id;
-        originalCapitalTeamID = id;
+        originalTeamID = id;
         this.teamNum = teamNum;
         Global.gameManager.game.cityDictionary.Add(this.id, this);
         Global.gameManager.game.playerDictionary[this.teamNum].cityList.Add(this.id);
@@ -88,6 +96,26 @@ public partial class Encampment : City
             {
                 EncampmentVassalize(unit.teamNum);
             }
+        }
+    }
+
+    public void EncampmentConquered(int teamNum, EncampmentConquerOptions encampmentConquerOption)
+    {
+        if (encampmentConquerOption == EncampmentConquerOptions.Raze)
+        {
+            Raze();
+        }
+        else if (encampmentConquerOption == EncampmentConquerOptions.Vassalize)
+        {
+            EncampmentVassalize(teamNum);
+        }
+        else if (encampmentConquerOption == EncampmentConquerOptions.Occupy)
+        {
+            EncampmentVassalize(teamNum);
+        }
+        else if (encampmentConquerOption == EncampmentConquerOptions.Free)
+        {
+            ChangeTeam(originalTeamID);
         }
     }
 

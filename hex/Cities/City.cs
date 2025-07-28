@@ -15,6 +15,13 @@ public enum ProductionType
     Unit,
 }
 
+public enum CityConquerOptions
+{
+    Raze,
+    Keep,
+    Free
+}
+
 [Serializable]
 public class ProductionQueueType
 {
@@ -61,7 +68,7 @@ public partial class City
     {
         Global.gameManager.game.cityDictionary.Add(id, this);
         this.id = id;
-        originalCapitalTeamID = id;
+        originalTeamID = id;
         this.teamNum = teamNum;
         this.name = name;
         this.hex = gameHex.hex;
@@ -101,7 +108,7 @@ public partial class City
     public String name { get; set; }
     public bool isCapital { get; set; }
     public bool wasCapital { get; set; }
-    public int originalCapitalTeamID { get; set; }
+    public int originalTeamID { get; set; }
     public int maxDistrictSize { get; set; }
     public List<District> districts { get; set; } = new();
     public Hex hex { get; set; }
@@ -891,6 +898,22 @@ public partial class City
             {
                 ChangeTeam(Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]].teamNum);
             }
+        }
+    }
+
+    public void CityConquered(int teamNum, CityConquerOptions cityConquerOption)
+    {
+        if(cityConquerOption == CityConquerOptions.Raze)
+        {
+            Raze();
+        }
+        else if(cityConquerOption == CityConquerOptions.Keep)
+        {
+            ChangeTeam(teamNum);
+        }
+        else if(cityConquerOption == CityConquerOptions.Free)
+        {
+            ChangeTeam(originalTeamID);
         }
     }
 

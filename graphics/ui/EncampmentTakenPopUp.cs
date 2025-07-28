@@ -28,14 +28,20 @@ public partial class EncampementTakenPopUp : Control
 
     private void OccupyPressed()
     {
-        //need networked statement
-        takenEncampment.EncampmentOccupied(takerTeamNum);
+        //networked statement
+        Global.gameManager.CapturedEncampmentChoice(takenEncampment.id, takerTeamNum, EncampmentConquerOptions.Occupy);
     }
 
     private void VassalizePressed()
     {
-        //need networked statement
-        takenEncampment.EncampmentVassalize(takerTeamNum);
+        //networked statement
+        Global.gameManager.CapturedEncampmentChoice(takenEncampment.id, takerTeamNum, EncampmentConquerOptions.Vassalize);
+    }
+
+    private void RazePressed()
+    {
+        //networked statement
+        Global.gameManager.CapturedEncampmentChoice(takenEncampment.id, takerTeamNum, EncampmentConquerOptions.Raze);
     }
 
     public void UpdateEncampementTakenPopUp(Encampment encampment, int takerTeamNum)

@@ -29,14 +29,19 @@ public partial class CityTakenPopUp : Control
 
     private void KeepPressed()
     {
-        //need networked statement
-        takenCity.ChangeTeam(Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[takenCity.hex].units[0]].teamNum);
+        //networked statement
+        Global.gameManager.CapturedCityChoice(takenCity.id, takerTeamNum, CityConquerOptions.Keep);
     }
 
     private void RazePressed()
     {
-        //need networked statement
-        takenCity.Raze();
+        //networked statement
+        Global.gameManager.CapturedCityChoice(takenCity.id, takerTeamNum, CityConquerOptions.Raze);
+    }
+    private void FreePressed()
+    {
+        //networked statement
+        Global.gameManager.CapturedCityChoice(takenCity.id, takerTeamNum, CityConquerOptions.Free);
     }
 
     public void UpdateCityTakenPopUp(City city, int takerTeamNum)
