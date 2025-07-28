@@ -35,7 +35,7 @@ public partial class EncampementTakenPopUp : Control
     private void VassalizePressed()
     {
         //need networked statement
-        Global.gameManager.game.teamManager.SetDiplomaticState(takerTeamNum, takenEncampment.teamNum, DiplomaticState.Ally);
+        takenEncampment.EncampmentVassalize(takerTeamNum);
     }
 
     public void UpdateEncampementTakenPopUp(Encampment encampment, int takerTeamNum)

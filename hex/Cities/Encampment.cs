@@ -84,6 +84,10 @@ public partial class Encampment : City
             {
                 Global.gameManager.graphicManager.uiManager.EncampmentTakenPopUp(this, unit.teamNum);
             }
+            else if (unit != null && Global.gameManager.game.playerDictionary[unit.teamNum].isAI)
+            {
+                EncampmentVassalize(unit.teamNum);
+            }
         }
     }
 
@@ -127,6 +131,11 @@ public partial class Encampment : City
                 Global.gameManager.game.playerDictionary[overlordTeamNum].RemoveExportRoute(id, cityID, YieldType.production);
             }
         }
+    }
+
+    public void EncampmentVassalize(int takerTeamNum)
+    {
+        Global.gameManager.game.teamManager.SetDiplomaticState(takerTeamNum, teamNum, DiplomaticState.Ally);
     }
 
     public new void ExpandToHex(Hex hex)
