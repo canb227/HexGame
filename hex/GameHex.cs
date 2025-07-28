@@ -132,6 +132,22 @@ public class GameHex
             {
                 Global.gameManager.game.cityDictionary[owningCityID].AddWetlandYields(this);
             }
+
+            if (resourceType != ResourceType.None && !Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[owningCityID].teamNum].hiddenResources.Contains(resourceType))
+            {
+                if (ResourceLoader.resources[resourceType].ImprovementType == "Farm")
+                {
+                    yields.food += 1;
+                }
+                else if (ResourceLoader.resources[resourceType].ImprovementType == "Mine")
+                {
+                    yields.production += 1;
+                }
+                else if (ResourceLoader.resources[resourceType].ImprovementType == "Pasture")
+                {
+                    yields.production += 1;
+                }
+            }
         }
         else
         {
@@ -200,6 +216,22 @@ public class GameHex
             if (featureSet.Contains(FeatureType.Wetland))
             {
                 yields += Global.gameManager.game.localPlayerRef.wetlandYields;
+            }
+
+            if(resourceType != ResourceType.None && !Global.gameManager.game.localPlayerRef.hiddenResources.Contains(resourceType))
+            {
+                if (ResourceLoader.resources[resourceType].ImprovementType == "Farm")
+                {
+                    yields.food += 1;
+                }
+                else if (ResourceLoader.resources[resourceType].ImprovementType == "Mine")
+                {
+                    yields.production += 1;
+                }
+                else if (ResourceLoader.resources[resourceType].ImprovementType == "Pasture")
+                {
+                    yields.production += 1;
+                }
             }
         }
     }
