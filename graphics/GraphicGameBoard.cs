@@ -95,7 +95,7 @@ public partial class GraphicGameBoard : GraphicObject
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
         //placeholder
-        SimpleRedrawBoard(layout);
+        //SimpleRedrawBoard(layout);
     }
 
     //updates the vis texture and tells objects to update their vis data
@@ -103,7 +103,6 @@ public partial class GraphicGameBoard : GraphicObject
     {
         List<Hex> seen = Global.gameManager.game.localPlayerRef.seenGameHexDict.Keys.ToList();
         List<Hex> visible = Global.gameManager.game.localPlayerRef.visibleGameHexDict.Keys.ToList();
-        UpdateVisibilityTexture(visible, seen);
         Global.gameManager.graphicManager.UpdateVisibility();
 
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);

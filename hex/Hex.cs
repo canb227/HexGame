@@ -240,7 +240,6 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
         // 5. Return the standard, non-wrapping distance to this new ghost hex.
         return this.Distance(unwrappedHex);
     }
-
 }
 
 public struct FractionalHex
