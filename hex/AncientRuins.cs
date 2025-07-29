@@ -131,7 +131,7 @@ public static class AncientRuinsLoader
                                         {
                                             eventID = "Sample_3_B2",
                                             title = "Sample 3 B2 Title",
-                                            description = "They decide they would rather risk it on their own.",
+                                            description = "They turn out to be cannibals and attack your unit.",
                                             weight = 0.6f,
                                             options = new List<EventOption>
                                             {
@@ -140,6 +140,10 @@ public static class AncientRuinsLoader
                                                     optionText = "Done. (Ends Ruin Event Chain)",
                                                     eventEffects = (player, ancientRuins) =>
                                                     {
+                                                        if(Global.gameManager.game.mainGameBoard.gameHexDict[ancientRuins.hex].units.Any())
+                                                        {
+                                                            Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[ancientRuins.hex].units[0]].decreaseHealth(75);
+                                                        }
                                                         ancientRuins.RemoveRuins();
                                                     },
                                                 }

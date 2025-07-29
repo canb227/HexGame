@@ -1166,7 +1166,7 @@ public partial class GameManager : Node
                 eventOption.eventEffects.Invoke(Global.gameManager.game.playerDictionary[teamNum], ancientRuins);
             }
             //if random selection do it or just select the only result and set it
-            if(eventOption.nextEvents != null)
+            if(eventOption.nextEvents != null && eventOption.nextEvents.Any())
             {
                 RuinsEvent chosenEvent = AncientRuinsLoader.PickWeightedEvent(eventOption.nextEvents, ancientRuins);
                 ancientRuins.nextEventID = chosenEvent.eventID;

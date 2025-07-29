@@ -306,6 +306,7 @@ public class UnitEffect
     {
         unit.remainingMovement = 0;
         unit.isSkipping = true;
+        unit.CancelMovement();
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             AncientRuins ancientRuins = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].ancientRuins;
