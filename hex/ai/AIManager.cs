@@ -218,6 +218,10 @@ public partial class AIManager
         foreach (int unitID in ai.player.unitList.ToList())
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
+            if (unit.currentPath != null && unit.currentPath.Count!=0)
+            {
+                continue;
+            }
             if ((unit.unitClass & UnitClass.Combat) ==UnitClass.Combat)
             {
                 foreach (Hex hex in unit.hex.WrappingNeighbors(left, right, bottom))
@@ -337,6 +341,10 @@ public partial class AIManager
             {
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}]UNIT: {unit.id} Soldier attacking nearby enemy."); }
                 MilitaryUnitMoveOrAttack(ai, unit, target);
+            }
+            else if (unit.currentPath != null && unit.currentPath.Count != 0)
+            {
+                continue;
             }
             else if (ai.isAttacking)
             {
