@@ -8,6 +8,7 @@ using System.Reflection;
 using NetworkMessages;
 using System.IO;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 public enum ProductionType
 {
@@ -504,6 +505,19 @@ public partial class City
         RecalculateYields();
         productionQueue = new();
         partialProductionDictionary = new();
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Any() && Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]].teamNum != teamNum)
+        {
+            Unit unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]];
+            foreach(Hex hex in unit.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+            {
+                float moveCost = unit.TravelCost(unit.hex, hex, Global.gameManager.game.teamManager, false, unit.movementCosts, unit.movementSpeed, 0, false);
+                if (moveCost < 10 && moveCost > 0)
+                {
+                    unit.SafeSetHex(hex);
+                    break;
+                }
+            }
+        }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             if(manager.selectedObjectID == id)

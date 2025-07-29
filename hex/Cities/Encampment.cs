@@ -111,7 +111,7 @@ public partial class Encampment : City
         }
         else if (encampmentConquerOption == EncampmentConquerOptions.Occupy)
         {
-            EncampmentVassalize(teamNum);
+            EncampmentOccupied(teamNum);
         }
         else if (encampmentConquerOption == EncampmentConquerOptions.Free)
         {
@@ -146,6 +146,19 @@ public partial class Encampment : City
         {
             Global.gameManager.game.playerDictionary[overlordTeamNum].NewExportRoute(id, cityID, YieldType.production);
         }
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Any() && Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]].teamNum != teamNum)
+        {
+            Unit unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]];
+            foreach (Hex hex in unit.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+            {
+                float moveCost = unit.TravelCost(unit.hex, hex, Global.gameManager.game.teamManager, false, unit.movementCosts, unit.movementSpeed, 0, false);
+                if (moveCost < 10 && moveCost > 0)
+                {
+                    unit.SafeSetHex(hex);
+                    break;
+                }
+            }
+        }
     }
 
     public void EncampmentFreed()
@@ -158,12 +171,38 @@ public partial class Encampment : City
             {
                 Global.gameManager.game.playerDictionary[overlordTeamNum].RemoveExportRoute(id, cityID, YieldType.production);
             }
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Any() && Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]].teamNum != teamNum)
+            {
+                Unit unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]];
+                foreach (Hex hex in unit.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+                {
+                    float moveCost = unit.TravelCost(unit.hex, hex, Global.gameManager.game.teamManager, false, unit.movementCosts, unit.movementSpeed, 0, false);
+                    if (moveCost < 10 && moveCost > 0)
+                    {
+                        unit.SafeSetHex(hex);
+                        break;
+                    }
+                }
+            }
         }
     }
 
     public void EncampmentVassalize(int takerTeamNum)
     {
         Global.gameManager.game.teamManager.SetDiplomaticState(takerTeamNum, teamNum, DiplomaticState.Ally);
+        if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Any() && Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]].teamNum != teamNum)
+        {
+            Unit unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]];
+            foreach (Hex hex in unit.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+            {
+                float moveCost = unit.TravelCost(unit.hex, hex, Global.gameManager.game.teamManager, false, unit.movementCosts, unit.movementSpeed, 0, false);
+                if (moveCost < 10 && moveCost > 0)
+                {
+                    unit.SafeSetHex(hex);
+                    break;
+                }
+            }
+        }
     }
 
     public new void ExpandToHex(Hex hex)

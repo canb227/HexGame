@@ -35,6 +35,8 @@ public struct Hex
     {
         return "("+q+", "+r+")";
     }
+    public override int GetHashCode() =>
+    (q * 73856093) ^ (r * 19349663);
 
     public readonly int q;
     public readonly int r;

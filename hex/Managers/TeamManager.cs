@@ -81,11 +81,38 @@ public class TeamManager
             {
                 manager.CallDeferred("UpdateGraphic", unitID, (int)GraphicUpdateType.Update);
             }
-            foreach (int unitID in Global.gameManager.game.playerDictionary[team1].unitList)
+            foreach (int unitID in Global.gameManager.game.playerDictionary[team2].unitList)
             {
                 manager.CallDeferred("UpdateGraphic", unitID, (int)GraphicUpdateType.Update);
             }
         }
+
+
+        //allies will try to go to war together
+        if(diplomaticState == DiplomaticState.War)
+        {
+            //most allies of team 1 go to war with team 2
+            foreach (int teamNum in GetAllies(team1))
+            {
+                //if we are are allies or forced peace with team2 we cant go to war with either of them
+                if (GetDiplomaticState(teamNum, team2) == DiplomaticState.Peace)
+                {
+                    diplomaticStates[teamNum][team2] = diplomaticState;
+                    diplomaticStates[team2][teamNum] = diplomaticState;
+                }
+            }
+            //most allies of team 2 go to war with team 1
+            foreach (int teamNum in GetAllies(team2))
+            {
+                //if we are are allies or forced peace with team2 we cant go to war with either of them
+                if (GetDiplomaticState(teamNum, team1) == DiplomaticState.Peace)
+                {
+                    diplomaticStates[teamNum][team1] = diplomaticState;
+                    diplomaticStates[team1][teamNum] = diplomaticState;
+                }
+            }
+        }
+
 
     }
 
