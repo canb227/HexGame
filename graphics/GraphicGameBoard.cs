@@ -103,7 +103,8 @@ public partial class GraphicGameBoard : GraphicObject
     {
         List<Hex> seen = Global.gameManager.game.localPlayerRef.seenGameHexDict.Keys.ToList();
         List<Hex> visible = Global.gameManager.game.localPlayerRef.visibleGameHexDict.Keys.ToList();
-        UpdateVisibilityTexture(visible, seen);
+        //UpdateVisibilityTexture(visible, seen);
+        UpdateVisibilityTextureByHexList(Global.gameManager.game.localPlayerRef.visibilityChangedList);
         Global.gameManager.graphicManager.UpdateVisibility();
 
         //AddBoardFog(seenButNotVisible, nonSeenHexes, pointy, 0.5f);
@@ -392,6 +393,27 @@ public partial class GraphicGameBoard : GraphicObject
         );
     }
 
+    public void UpdateVisibilityTextureByHexList(List<Hex> changedVisibilityHexes)
+    {
+        foreach (Hex hex in changedVisibilityHexes)
+        {
+            Hex wrapHex = hex.WrapHex();
+            int newQ = wrapHex.q + (wrapHex.r >> 1);
+            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hex))
+            {
+                visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(1, 0, 0, 1)); // Set visible
+            }
+            else if(Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(hex))
+            {
+                visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0, 1, 0, 1)); // set as only seen
+            }
+            else
+            {
+                visibilityImage.SetPixel(newQ, wrapHex.r, new Godot.Color(0, 0, 0, 1)); // set as not visible or seen
+            }
+        }
+        visibilityTexture.Update(visibilityImage);
+    }
 
     public void UpdateVisibilityTexture(List<Hex> visibleHexes, List<Hex> seenHexes)
     {
