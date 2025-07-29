@@ -175,6 +175,13 @@ public partial class GraphicManager : Node3D
         ggb.UpdateTerritoryGraphic(teamNum, hex);
     }
 
+    public void UpdateSettleRangeGraphic(int teamNum, Godot.Collections.Dictionary hexData)
+    {
+        Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.UpdateSettleGraphic(teamNum, hex);
+    }
+
     public void UpdateGraphic(int id, GraphicUpdateType graphicUpdateType)
     {
         if (graphicObjectDictionary.ContainsKey(id))
@@ -302,6 +309,18 @@ public partial class GraphicManager : Node3D
                 graphicObj.UpdateGraphic(GraphicUpdateType.Remove);
             }
         }        
+    }
+
+    public void ShowSettleUI()
+    {
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.ShowSettleUI();
+    }
+
+    public void HideSettleUI()
+    {
+        GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        ggb.HideSettleUI();
     }
 
     public MeshInstance3D GenerateHexSelectionLines(List<Hex> hexes, Godot.Color color, string name)

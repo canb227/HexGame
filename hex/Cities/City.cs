@@ -155,6 +155,7 @@ public partial class City
 
     protected void UpdateNearbyHexes()
     {
+
         foreach (Hex hex in hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
             Global.gameManager.game.mainGameBoard.gameHexDict[hex].withinCityRange += 1;
@@ -162,6 +163,17 @@ public partial class City
         foreach (Hex hex in hex.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
             Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity = hex.WrapDistance(this.hex);
+        }
+
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            var data = new Godot.Collections.Dictionary
+                {
+                    { "q", hex.q },
+                    { "r", hex.r },
+                    { "s", hex.s }
+                };
+            manager.CallDeferred("UpdateSettleRangeGraphic", 0, data);
         }
     }
 

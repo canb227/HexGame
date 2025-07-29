@@ -96,21 +96,25 @@ public partial class GraphicUnit : GraphicObject
     {
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
         ggb.ClearSelectionGraphic();
-/*        foreach (Node3D child in GetChildren())
+        if(unit.name == "Settler" || unit.name == "Founder")
         {
-            if(child.Name == "MovementRangeHexes")
-            {
-                child.Free();
-            }
-            else if(child.Name == "MovementRangeLines")
-            {
-                child.Free(); 
-            }
-            else if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
-            {
-                child.Free();
-            }
-        }*/
+            ggb.HideSettleUI();
+        }
+        /*        foreach (Node3D child in GetChildren())
+                {
+                    if(child.Name == "MovementRangeHexes")
+                    {
+                        child.Free();
+                    }
+                    else if(child.Name == "MovementRangeLines")
+                    {
+                        child.Free(); 
+                    }
+                    else if (child.Name.ToString().Contains("TargetingLines") || child.Name.ToString().Contains("TargetHexes"))
+                    {
+                        child.Free();
+                    }
+                }*/
         Global.gameManager.graphicManager.uiManager.UnitUnselected(unit);
     }
 
@@ -122,6 +126,11 @@ public partial class GraphicUnit : GraphicObject
             GenerateHexTriangles(unit.MovementRange());
         }
         Global.gameManager.graphicManager.uiManager.UnitSelected(unit);
+        if (unit.name == "Settler" || unit.name == "Founder")
+        {
+            GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+            ggb.ShowSettleUI();
+        }
     }
 
     public void UpdateMovementGraphics()

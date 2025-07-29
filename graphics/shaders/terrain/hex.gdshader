@@ -11,9 +11,12 @@ uniform float chunkCount;
 
 uniform bool showBorder;
 
+uniform bool settleUI;
+
 uniform sampler2D visibilityGrid : filter_nearest;
 uniform sampler2D terrainInfo : filter_nearest;
 uniform sampler2D territoryMap : filter_nearest;
+uniform sampler2D settleRangeMap : filter_nearest;
 uniform sampler2D selectionMap : filter_nearest;
 uniform sampler2D heightMap;
 
@@ -37,6 +40,7 @@ uniform sampler2D waterNorm : hint_normal, filter_linear_mipmap;
 
 varying flat vec2 visData;
 varying flat vec3 territoryColor;
+varying flat vec2 settleRangeValue;
 varying flat vec3 selectionColor;
 varying flat vec2 terrainData;
 varying flat vec2 hexValue;
@@ -51,6 +55,8 @@ void vertex() {
     visData = texture(visibilityGrid, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg;
     //territory data
     territoryColor = texture(territoryMap, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rgb;
+    //settlerange data
+    settleRangeValue = texture(settleRangeMap, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rg;
     //selection data
     selectionColor = texture(selectionMap, vec2((hexValue.x + floor(hexValue.y/2.0) + 0.5)/gameBoardWidth, (hexValue.y+ 0.5)/gameBoardHeight )).rgb;
     //texture data
@@ -217,6 +223,11 @@ void fragment() {
     }
 
     terrainColor = terrainColor.rgb * (1.0-terrainHeight);
+
+    if(settleUI && (settleRangeValue.r < 0.35 || settleRangeValue.g > 0.9))
+    {
+        terrainColor *= vec3(1.0, 0.2, 0.2);
+    }
 
     if(showBorder && length(sdf_border_border) > 0.0)
     {

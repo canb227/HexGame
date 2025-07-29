@@ -27,7 +27,9 @@ public partial class GraphicGameBoard : GraphicObject
     private Image visibilityImage;
     public Image territoryImage;
     public Image selectionImage;
+    public Image settleRangeImage;
     private ImageTexture territoryTexture;
+    private ImageTexture settleRangeTexture;
     private ImageTexture selectionTexture;
     private ImageTexture visibilityTexture;
     private Image terrainInfoImage;
@@ -73,6 +75,7 @@ public partial class GraphicGameBoard : GraphicObject
         AddHexBuildingsAndDistrictsAndCities(layout);
 
         SetInitialTerritoryGraphic();
+        SetInitialSettleGraphic();
 
         SimpleRedrawBoard(layout);
     }
@@ -182,6 +185,8 @@ public partial class GraphicGameBoard : GraphicObject
 
 
         terrainShaderMaterial.SetShaderParameter("showBorder", true);
+        terrainShaderMaterial.SetShaderParameter("settleUI", false);
+
 
 
         List<List<Hex>> hexListChunks = new List<List<Hex>>();
@@ -220,7 +225,7 @@ public partial class GraphicGameBoard : GraphicObject
 
 
         territoryImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rgb8);
-
+        settleRangeImage = Godot.Image.CreateEmpty(Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom, false, Godot.Image.Format.Rg8);
 
 
         ShaderMaterial yieldShaderMaterial = new ShaderMaterial();
@@ -530,6 +535,25 @@ public partial class GraphicGameBoard : GraphicObject
         //territoryImage.SavePng("territoryImage.png");
     }
 
+    public void UpdateSettleGraphic(int teamNum, Hex hex)
+    {
+        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[hex];
+        Hex wrapHex = hex.WrapHex();
+        int newQ = wrapHex.q + (wrapHex.r >> 1);
+        if(gameHex.withinCityRange > 0)
+        {
+            settleRangeImage.SetPixel(newQ, wrapHex.r, new Godot.Color(((float)gameHex.rangeToNearestCity) / 10.0f, 1, 0, 1));
+        }
+        else
+        {
+            settleRangeImage.SetPixel(newQ, wrapHex.r, new Godot.Color(((float)gameHex.rangeToNearestCity) / 10.0f, 0, 0, 1));
+
+        }
+        settleRangeTexture.Update(settleRangeImage);
+
+        //settleRangeTexture.SavePng("settleRangeTexture.png");
+    }
+
     public void SetInitialTerritoryGraphic()
     {
         foreach (Player player in Global.gameManager.game.playerDictionary.Values)
@@ -547,6 +571,28 @@ public partial class GraphicGameBoard : GraphicObject
         }
         territoryTexture = ImageTexture.CreateFromImage(territoryImage);
         terrainShaderMaterial.SetShaderParameter("territoryMap", territoryTexture);
+    }
+
+    public void SetInitialSettleGraphic()
+    {
+        foreach (GameHex gameHex in Global.gameManager.game.mainGameBoard.gameHexDict.Values)
+        {
+            Hex wrapHex = gameHex.hex.WrapHex();
+            int newQ = wrapHex.q + (wrapHex.r >> 1);
+            settleRangeImage.SetPixel(newQ, wrapHex.r, new Godot.Color(gameHex.rangeToNearestCity/10.0f, 0,0,1));
+        }
+        settleRangeTexture = ImageTexture.CreateFromImage(settleRangeImage);
+        terrainShaderMaterial.SetShaderParameter("settleRangeMap", settleRangeTexture);
+    }
+
+    public void ShowSettleUI()
+    {
+        terrainShaderMaterial.SetShaderParameter("settleUI", true);
+    }
+
+    public void HideSettleUI()
+    {
+        terrainShaderMaterial.SetShaderParameter("settleUI", false);
     }
 
     public override void Unselected()
