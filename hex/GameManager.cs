@@ -147,7 +147,7 @@ public partial class GameManager : Node
         if (isHost)
         {
             this.AIManager = new AIManager();
-
+            AddChild(this.AIManager);
             SpawnPlayers();
             SpawnRuins();
             SpawnEncampments();

@@ -11,17 +11,31 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static AIUtils;
-public partial class AIManager
+public partial class AIManager : Node
 {
-    const bool AIDEBUG = false; 
+    const bool AIDEBUG = true; 
     public List<AI> aiList = new List<AI>();
     Random rng = new Random();
-
+    double AIEndTurnFrequency = 3f;
+    double AIEndTurnCounter = 0;
     //tired of calling the whole Global.gameManager.game.mainGameBoard.blah all the time
     int top;
     int bottom;
     int right;
     int left;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        AIEndTurnCounter += delta;
+        if (AIEndTurnCounter > AIEndTurnFrequency)
+        {
+            AIEndTurnCounter = 0;
+            foreach (var ai in aiList)
+            {
+                EndAITurn(ai);
+            }
+        }
+    }
 
     public void InitAI()
     {
@@ -149,6 +163,7 @@ public partial class AIManager
 
     public bool RunAllAITurns()
     {
+        AIEndTurnCounter = 0;
         foreach (AI ai in aiList)
         {
             if (!ai.player.turnFinished)
@@ -166,30 +181,6 @@ public partial class AIManager
                 EndAITurn(ai);
             }
 
-        }
-        return true;
-    }
-
-    public bool OnTurnStartOneAI(AI ai)
-    {
-        if (!ai.player.turnFinished)
-        {
-            if (ai.player.teamNum == 0)
-            {
-                if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Skipping AI processing for team 0"); }
-                EndAITurn(ai); //end turn for team 0 AI
-                return true;
-            }
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Hasn't ended turn - iterating through logic"); }
-            HandleSettlers(ai);
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Starting City Handling"); }
-            HandleCities(ai);
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Starting Unit Handling"); }
-            HandleUnits(ai);
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Starting Research/Culture Handling"); }
-            HandleResearchAndCulture(ai);
-            if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Starting End Turn process"); }
-            EndAITurn(ai);
         }
         return true;
     }

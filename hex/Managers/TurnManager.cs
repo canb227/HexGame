@@ -47,6 +47,11 @@ public class TurnManager
         {
             if (Global.gameManager.isHost)
             {
+                //foreach (AI ai in Global.gameManager.AIManager.aiList)
+                //{
+                //    Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAITurn(ai));
+                //}
+
                 Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns());
             }
         }

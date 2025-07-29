@@ -328,6 +328,7 @@ public static class AIUtils
         Global.gameManager.game.unitDictionary.Remove(-1);
         return target;
     }
+
     public static List<Hex> FindAllEnemiesInRange(AI ai, Hex hex, int range)
     {
         List<Hex> hexesInRange = hex.WrappingRange(range, left, right, top, bottom);
@@ -504,27 +505,45 @@ public static class AIUtils
     }
     public static Hex FindClosestEnemyDistrict(AI ai, Unit unit)
     {
-        Hex target = new Hex();
-        float lowCost = float.MaxValue;
+
+        float distanceToClosestCity = float.MaxValue;
+        City cityTarget = null;
         foreach (int cityID in Global.gameManager.game.cityDictionary.Keys)
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
-            if (IsEnemy(ai.player.teamNum, city.teamNum))
+            if (!IsEnemy(ai.player.teamNum, city.teamNum))
             {
-                foreach (District district in city.districts)
-                {
-                    if (district.health > 0)
-                    {
-                        unit.PathFind(unit.hex, district.hex, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out float cost);
-                        if (cost < lowCost)
-                        {
-                            target = district.hex;
-                        }
-                    }
-
-                }
-
+                continue;
             }
+            if (unit.hex.WrapDistance(city.hex) > 30)
+            {
+                continue;
+            }
+            unit.PathFind(unit.hex, city.hex, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out float cost);
+            if (cost < distanceToClosestCity)
+            {
+                cityTarget = city;
+                distanceToClosestCity = cost;
+            }
+        }
+        if (cityTarget == null)
+        {
+            return unit.hex;
+        }
+        Hex target = new Hex();
+        float distanceToClosestDistrict = float.MaxValue;
+        foreach (District district in cityTarget.districts)
+        {
+            if (district.health > 0)
+            {
+                unit.PathFind(unit.hex, district.hex, Global.gameManager.game.teamManager, unit.movementCosts, unit.movementSpeed, out float cost);
+                if (cost < distanceToClosestDistrict)
+                {
+                    target = district.hex;
+                    distanceToClosestDistrict = cost;
+                }
+            }
+
         }
         return target;
     }

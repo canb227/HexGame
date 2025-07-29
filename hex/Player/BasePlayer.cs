@@ -295,12 +295,12 @@ public class BasePlayer
 
     public void OnTurnEnded(int turnNumber)
     {
-        foreach (int unitID in unitList)
+        foreach (int unitID in unitList.ToList())
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
             unit.OnTurnEnded(turnNumber);
         }
-        foreach (int cityID in cityList)
+        foreach (int cityID in cityList.ToList())
         {
             City city = Global.gameManager.game.cityDictionary[cityID];
             city.OnTurnEnded(turnNumber);
