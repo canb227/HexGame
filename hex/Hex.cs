@@ -241,17 +241,6 @@ public List<Hex> WrappingRange(int range, int left, int right, int top, int bott
         return this.Distance(unwrappedHex);
     }
 
-    public override bool Equals([NotNullWhen(true)] object obj)
-    {
-        if (obj is Hex h)
-        {
-            if (h.r == this.r && h.q == this.q && h.s == this.s)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 
 public struct FractionalHex
