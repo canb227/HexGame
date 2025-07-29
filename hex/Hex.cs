@@ -38,6 +38,8 @@ public struct Hex
     public override int GetHashCode() =>
     (q * 73856093) ^ (r * 19349663);
 
+    public override bool Equals(object obj) => obj is Hex h && q == h.q && r == h.r;
+
     public readonly int q;
     public readonly int r;
     public readonly int s;

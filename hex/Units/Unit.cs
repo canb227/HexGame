@@ -6,6 +6,7 @@ using System.Data;
 using System.Formats.Asn1;
 using Godot;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 public enum TerrainMoveType
 {
     Ocean,
@@ -663,6 +664,7 @@ public partial class Unit
         frontier.Enqueue(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex);
         Dictionary<Hex, float> reached = new();
         reached.Add(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, 0.0f);
+        Dictionary<Hex, GameHex> gameHexDict = Global.gameManager.game.mainGameBoard.gameHexDict;
 
         Dictionary<Hex, float> tempreached = new();
 
@@ -673,7 +675,7 @@ public partial class Unit
             foreach (Hex next in current.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
             {
                 float movementLeft = remainingMovement - reached[current];
-                float moveCost = TravelCost(current, next,Global.gameManager.game.teamManager, true, movementCosts, movementSpeed, reached[current], false); 
+                float moveCost = TravelCost(current, next,Global.gameManager.game.teamManager, gameHexDict, true, movementCosts, movementSpeed, reached[current], false); 
                 if (moveCost <= movementLeft)
                 {
                     if (!reached.Keys.Contains(next))
@@ -689,24 +691,6 @@ public partial class Unit
                         reached[next] = reached[current]+moveCost;
                     }
                 }
-                //DISABLE HOPPING FOR THE TIME BEING BECAUSE PATHFIND DOESNT SUPPORT IT AND IDK HOW TO STORE IT
-/*                if(moveCost == 555555)
-                {
-                    moveCost = TravelCost(current, next,Global.gameManager.game.teamManager, true, movementCosts, remainingMovement, reached[current], true);
-                    if (!reached.Keys.Contains(next))
-                    {
-                        if (reached[current] + moveCost < remainingMovement)
-                        {
-                            frontier.Enqueue(next);
-                        }
-                        reached.Add(next, reached[current] + moveCost);
-                        tempreached.Add(next, reached[current] + moveCost);
-                    }
-                    else if (reached[next] > reached[current] + moveCost)
-                    {
-                        reached[next] = reached[current] + moveCost;
-                    }
-                }*/
             }
         }
         foreach(Hex tempHex in  tempreached.Keys)
@@ -887,8 +871,12 @@ public partial class Unit
         isTargetEnemy = false;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
     }
-
     public float TravelCost(Hex first, Hex second, TeamManager teamManager, bool isTargetEnemy, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed, float costSoFar, bool ignoreUnits)
+    {
+        Dictionary<Hex, GameHex> gameHexDict = Global.gameManager.game.mainGameBoard.gameHexDict;
+        return TravelCost(first, second, Global.gameManager.game.teamManager, gameHexDict, isTargetEnemy, movementCosts, movementSpeed, costSoFar, ignoreUnits);
+    }
+    public float TravelCost(Hex first, Hex second, TeamManager teamManager, Dictionary<Hex, GameHex> gameHexDict, bool isTargetEnemy, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed, float costSoFar, bool ignoreUnits)
     {
         //cost for river, embark, disembark are custom (0 = end turn to enter, 1/2/3/4 = normal cost)\\
         GameHex firstHex;
@@ -1045,12 +1033,12 @@ public partial class Unit
         Dictionary<Hex, Hex> came_from = new();
         came_from[start] = start;
         cost_so_far[start] = 0;
-        if(start.Equals(end))
+        if (start.Equals(end))
         {
             totalCost = 0;
             return new List<Hex>();
         }
-    
+
         while (frontier.TryDequeue(out Hex current, out float priority))
         {
             if (current.Equals(end))
@@ -1071,7 +1059,7 @@ public partial class Unit
                 totalCost = cost_so_far[current];
                 return path;
             }
-    
+
             foreach (Hex next in current.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
             {
                 float new_cost = cost_so_far[current] + TravelCost(current, next, teamManager, isTargetEnemy, movementCosts, unitMovementSpeed, cost_so_far[current], false);
