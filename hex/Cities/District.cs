@@ -372,12 +372,12 @@ public partial class District
 
     public void UpdateVision()
     {
-        RemoveVision();
-        AddVision();
+        RemoveVision(false);
+        AddVision(false);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
 
-    public void RemoveVision()
+    public void RemoveVision(bool updateGraphic = true)
     {
         foreach (int teamNum in Global.gameManager.game.teamManager.GetAllies(Global.gameManager.game.cityDictionary[cityID].teamNum))
         {
@@ -414,9 +414,9 @@ public partial class District
             }
         }
         visibleHexes.Clear();
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager) && updateGraphic) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
-    public void AddVision()
+    public void AddVision(bool updateGraphic = true)
     {
         foreach (int teamNum in Global.gameManager.game.teamManager.GetAllies(Global.gameManager.game.cityDictionary[cityID].teamNum))
         {
@@ -487,7 +487,7 @@ public partial class District
                 }
             }
         }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager) && updateGraphic) manager.CallDeferred("UpdateGraphic", Global.gameManager.game.mainGameBoard.id, (int)GraphicUpdateType.Update);
     }
 
     public void AddResource()
