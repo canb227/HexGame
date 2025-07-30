@@ -38,6 +38,10 @@ public partial class Unit
     public float combatStrength { get; set; } = 10.0f;
     public float baseCombatStrength { get; set; }
     public float maintenanceCost { get; set; } = 1.0f;
+    public bool baseZoneOfControl { get; set; }
+    public bool zoneOfControl { get; set; }
+    public bool baseIgnoreZoneOfControl { get; set; }
+    public bool ignoreZoneOfControl { get; set; }
     public float baseMaintenanceCost { get; set; }
     public int maxAttackCount { get; set; } = 1;
     public int attacksLeft { get; set; } = 1;
@@ -74,6 +78,10 @@ public partial class Unit
             this.baseCombatStrength = unitInfo.CombatPower + combatModifier;
             this.maintenanceCost = unitInfo.MaintenanceCost;
             this.baseMaintenanceCost = unitInfo.MaintenanceCost;
+            this.baseZoneOfControl = unitInfo.ZoneOfControl;
+            this.zoneOfControl = unitInfo.ZoneOfControl;
+            this.baseIgnoreZoneOfControl = unitInfo.IgnoreZoneOfControl;
+            this.ignoreZoneOfControl = unitInfo.IgnoreZoneOfControl;
 
             foreach (String effectName in unitInfo.Effects)
             {
@@ -745,11 +753,14 @@ public partial class Unit
 
     public bool TryMoveToGameHex(GameHex targetGameHex, TeamManager teamManager)
     {
+        GD.Print("we in");
         if(targetGameHex.units.Any() & !isTargetEnemy)
         {
+            GD.Print(targetGameHex.units.Any() + " " + !isTargetEnemy);
             return false;
         }
         float moveCost = TravelCost(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex, teamManager, isTargetEnemy, movementCosts, movementSpeed, movementSpeed-remainingMovement, false);
+        GD.Print(moveCost);
         if(moveCost <= remainingMovement)
         {
             if(isTargetEnemy & targetGameHex.hex.Equals(currentPath.Last()))
@@ -851,9 +862,16 @@ public partial class Unit
         this.isTargetEnemy = isTargetEnemy;
         
         currentPath = PathFind(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex,Global.gameManager.game.teamManager, movementCosts, movementSpeed, out float temp);
+        foreach (var item in currentPath)
+        {
+            GD.Print(item);
+        }
         currentPath.Remove(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex);
+        GD.Print("hi: " + targetGameHex.hex);
         while (currentPath.Count > 0)
         {
+            GD.Print("hello: " + targetGameHex.hex);
+
             GameHex nextHex = Global.gameManager.game.mainGameBoard.gameHexDict[currentPath[0]];
             if (!TryMoveToGameHex(nextHex, teamManager))
             {
@@ -871,12 +889,12 @@ public partial class Unit
         isTargetEnemy = false;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
     }
-    public float TravelCost(Hex first, Hex second, TeamManager teamManager, bool isTargetEnemy, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed, float costSoFar, bool ignoreUnits)
+    public float TravelCost(Hex first, Hex second, TeamManager teamManager, bool isTargetEnemy, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed, float costSoFar, bool ignoreUnits, bool calculateZoneOfControl = true)
     {
         Dictionary<Hex, GameHex> gameHexDict = Global.gameManager.game.mainGameBoard.gameHexDict;
-        return TravelCost(first, second, Global.gameManager.game.teamManager, gameHexDict, isTargetEnemy, movementCosts, movementSpeed, costSoFar, ignoreUnits);
+        return TravelCost(first, second, Global.gameManager.game.teamManager, gameHexDict, isTargetEnemy, movementCosts, movementSpeed, costSoFar, ignoreUnits, calculateZoneOfControl);
     }
-    public float TravelCost(Hex first, Hex second, TeamManager teamManager, Dictionary<Hex, GameHex> gameHexDict, bool isTargetEnemy, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed, float costSoFar, bool ignoreUnits)
+    public float TravelCost(Hex first, Hex second, TeamManager teamManager, Dictionary<Hex, GameHex> gameHexDict, bool isTargetEnemy, Dictionary<TerrainMoveType, float> movementCosts, float unitMovementSpeed, float costSoFar, bool ignoreUnits, bool calculateZoneOfControl = true)
     {
         //cost for river, embark, disembark are custom (0 = end turn to enter, 1/2/3/4 = normal cost)\\
         GameHex firstHex;
@@ -999,10 +1017,10 @@ public partial class Unit
                 }
             }
         }
-        //check for districts, your districts OK, all others are a no no, unless attacking enemy
+        //check for districts, your districts OK, all others are a no no, unless attacking enemy OR its dead
         if(secondHex.district != null && Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum != teamNum)
         {
-            if(!(isTargetEnemy && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum) && attacksLeft > 0))
+            if(!(isTargetEnemy && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum) && attacksLeft > 0) && secondHex.district.health > 0)
             {
                 moveCost += 12121212;
             }
@@ -1014,6 +1032,27 @@ public partial class Unit
         if(moveCost < 0)
         {
             moveCost = 888888;
+        }
+
+        //zone of control check, if a neighbor has an enemy unit that applies zone of control increase movecost by 5
+        if(calculateZoneOfControl && !ignoreZoneOfControl)
+        {
+            foreach(Hex hex in firstHex.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+            {
+                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Any())
+                {
+                    Unit unit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].units[0]];
+                    if (unit.zoneOfControl && Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(unit.teamNum))
+                    {
+                        float newMoveCost = (costSoFar % unitMovementSpeed == 0) ? unitMovementSpeed : costSoFar % unitMovementSpeed;
+                        if (moveCost < newMoveCost)
+                        {
+                            moveCost = newMoveCost;
+                        }
+                        break;
+                    }
+                }
+            }
         }
         return moveCost;
     }
@@ -1046,6 +1085,7 @@ public partial class Unit
                 if (cost_so_far[current] > 10000)
                 {
                     totalCost = cost_so_far[current];
+                    GD.Print("Pathfind fail1");
                     return new List<Hex>();
                 }
                 List<Hex> path = new List<Hex>();
@@ -1062,7 +1102,7 @@ public partial class Unit
 
             foreach (Hex next in current.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
             {
-                float new_cost = cost_so_far[current] + TravelCost(current, next, teamManager, isTargetEnemy, movementCosts, unitMovementSpeed, cost_so_far[current], false);
+                float new_cost = cost_so_far[current] + TravelCost(current, next, teamManager, isTargetEnemy, movementCosts, unitMovementSpeed, cost_so_far[current], false, false);
                 //if cost_so_far doesn't have next as a key yet or the new cost is lower than the lowest cost of this node previously
                 if (!cost_so_far.ContainsKey(next) || new_cost < cost_so_far[next])
                 {
@@ -1074,6 +1114,7 @@ public partial class Unit
             }
         }
         //if the end is unreachable return an empty path
+        GD.Print("Pathfind fail2");
         totalCost = 999999;
         return new List<Hex>();
     }

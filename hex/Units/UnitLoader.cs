@@ -32,7 +32,8 @@ public struct UnitInfo
     public float CombatPower { get; set; }
     public int HealingFactor { get; set; }
     public int MaintenanceCost { get; set; }
-    public bool isFactionUnique { get; set; }
+    public bool ZoneOfControl { get; set; }
+    public bool IgnoreZoneOfControl { get; set; }
     public String IconPath { get; set; }
     public String ModelPath {  get; set; }
     public Dictionary<TerrainMoveType, float> MovementCosts { get; set; }
@@ -67,6 +68,8 @@ public static class UnitLoader
                     CombatPower = float.TryParse(r.Attribute("CombatPower")?.Value, out var combatPower) ? combatPower : 0.0f,
                     HealingFactor = int.TryParse(r.Attribute("HealingFactor")?.Value, out var healingFactor) ? healingFactor : 0,
                     MaintenanceCost = int.TryParse(r.Attribute("MaintenanceCost")?.Value, out var maintenanceCost) ? maintenanceCost : 0,
+                    ZoneOfControl = bool.TryParse(r.Attribute("ZoneOfControl")?.Value, out var zoneOfControl) ? zoneOfControl : true,
+                    IgnoreZoneOfControl = bool.TryParse(r.Attribute("ZoneOfControl")?.Value, out var ignoreZoneOfControl) ? ignoreZoneOfControl : false,
                     IconPath = r.Attribute("IconPath")?.Value ?? "",
                     ModelPath = r.Attribute("ModelPath")?.Value ?? "",
                     MovementCosts = r.Element("MovementCosts")?.Elements("TerrainMoveType").ToDictionary(
