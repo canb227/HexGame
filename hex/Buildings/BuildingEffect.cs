@@ -610,14 +610,11 @@ public class BuildingEffect
         Yields yields = new Yields();
         foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
         {
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
+            foreach (Building adjacentBuilding in Global.gameManager.game.mainGameBoard.gameHexDict[hex].district?.buildings)
             {
-                foreach (Building adjacentBuilding in Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.buildings)
+                if (building.name == "Farm")
                 {
-                    if (building.name == "Farm")
-                    {
-                        yields.food += 1;
-                    }
+                    yields.food += 1;
                 }
             }
         }
