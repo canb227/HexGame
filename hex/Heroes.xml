@@ -1,53 +1,53 @@
 <Hero Name="Arcana" Mana="100" ManaRegeneration="5" MaxLevel="10">
-    <Unit Name="Warrior" Class="Combat, Land, Infantry, Classical" ProductionCost="40" GoldCost="160" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/Warrior.png" ModelPath="graphics/models/baseperson_remesh3.glb">
-      <MovementCosts>
-        <TerrainMoveType Name="Flat" Value="1" />
-        <TerrainMoveType Name="Rough" Value="2" />
-        <TerrainMoveType Name="Mountain" Value="9999" />
-        <TerrainMoveType Name="Coast" Value="-1" />
-        <TerrainMoveType Name="Ocean" Value="-1" />
-        <TerrainMoveType Name="Forest" Value="1" />
-        <TerrainMoveType Name="River" Value="0" />
-        <TerrainMoveType Name="Road" Value="0.5" />
-        <TerrainMoveType Name="Coral" Value="1" />
-        <TerrainMoveType Name="Embark" Value="-1" />
-        <TerrainMoveType Name="Disembark" Value="-1" />
-      </MovementCosts>
-      <SightCosts>
-        <TerrainMoveType Name="Flat" Value="1" />
-        <TerrainMoveType Name="Rough" Value="2" />
-        <TerrainMoveType Name="Mountain" Value="9999" />
-        <TerrainMoveType Name="Coast" Value="1" />
-        <TerrainMoveType Name="Ocean" Value="1" />
-        <TerrainMoveType Name="Forest" Value="1" />
-        <TerrainMoveType Name="River" Value="0" />
-        <TerrainMoveType Name="Road" Value="0.5" />
-        <TerrainMoveType Name="Coral" Value="1" />
-      </SightCosts>
-      <Abilities>
-        <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
-          <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
-            <ValidTerrainTypes>
-              <TerrainType Name = "Flat" />
-              <TerrainType Name = "Rough" />
-              <TerrainType Name = "Mountain" />
-            </ValidTerrainTypes>
-          </TargetSpecification>
-        </Ability>
-      </Abilities>
-    </Unit>
-    <HeroAbilities>
-      <Ability>
-        <AbilityName>Fireball</AbilityName>
-        <ManaCost>30,25,25, 20</ManaCost>
-        <Cooldown>3,3,2,1</Cooldown>
-        <Level>1</Level>
-        <MaxLevel>4</MaxLevel>
-        <MinLevelToLearn>1</MinLevelToLearn>
-        <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
-          <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
-        </UnitAbility>
+  <ExperienceToLevelUp>100,250,500,1000</ExperienceToLevelUp>
+  <Unit Name="Warrior" Class="Combat, Land, Infantry, Classical" ProductionCost="40" GoldCost="160" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/Warrior.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
       </Ability>
-    </HeroAbilities>
-
+    </Abilities>
+  </Unit>
+  <HeroAbilities>
+    <Ability>
+      <AbilityName>Fireball</AbilityName>
+      <ManaCost>30,25,25, 20</ManaCost>
+      <Cooldown>3,3,2,1</Cooldown>
+      <Level>1</Level>
+      <MaxLevel>4</MaxLevel>
+      <MinLevelToLearn>1</MinLevelToLearn>
+      <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+      </UnitAbility>
+    </Ability>
+  </HeroAbilities>
 </Hero>

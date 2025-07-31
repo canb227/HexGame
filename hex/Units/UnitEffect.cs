@@ -57,11 +57,11 @@ public class UnitEffect
     public String functionName { get; set; } = "";
 
 
-    public bool Apply(int unitID, float combatPower = 0.0f, GameHex abilityTarget = null)
+    public bool Apply(int unitID, int level = 0, float combatPower = 0.0f, GameHex abilityTarget = null)
     {
         if (functionName != "")
         {
-            return ProcessFunctionString(functionName, unitID, combatPower, abilityTarget);
+            return ProcessFunctionString(functionName, unitID, level, combatPower, abilityTarget);
         }
         else
         {
@@ -139,7 +139,7 @@ public class UnitEffect
         }
         return property;
     }
-    bool ProcessFunctionString(String functionString, int unitID, float combatPower, GameHex abilityTarget)
+    bool ProcessFunctionString(String functionString, int unitID, int level, float combatPower, GameHex abilityTarget)
     {
         //effects
 
@@ -201,6 +201,11 @@ public class UnitEffect
             EnableOceanMovement(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
+        //hero abilities
+        else if (functionString == "Fireball")
+        {
+            return Fireball(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
         throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in UnitEffect");
     }
     public bool SettleCapitalAbility(Unit unit, String cityName)
@@ -225,11 +230,15 @@ public class UnitEffect
             {
                 Global.gameManager.game.playerDictionary[unit.teamNum].IncreaseAllSettlerCost();
             }
+
+            //auto complete starting researches
             Global.gameManager.game.playerDictionary[unit.teamNum].OnResearchComplete("Agriculture");
             Global.gameManager.game.playerDictionary[unit.teamNum].OnCultureResearchComplete("TribalDominion");
 
             new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, true, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
+            //auto spawn hero
+            Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
             return true;
         }
         return false;
@@ -336,6 +345,36 @@ public class UnitEffect
         if (unit.movementCosts[TerrainMoveType.Ocean] < 0)
         {
             unit.movementCosts[TerrainMoveType.Ocean] = unit.movementCosts[TerrainMoveType.Ocean] * -1;
+        }
+    }
+
+
+    //hero abilities
+    public bool Fireball(Unit unit, int level, GameHex target)
+    {
+        if(level == 0)
+        {
+            throw new Exception("Ability Fireball is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if(level == 1)
+        {
+            return unit.RangedAttackTarget(target, 20, Global.gameManager.game.teamManager);
+        }
+        else if(level == 2)
+        {
+            return unit.RangedAttackTarget(target, 26, Global.gameManager.game.teamManager);
+        }
+        else if(level == 3)
+        {
+            return unit.RangedAttackTarget(target, 32, Global.gameManager.game.teamManager);
+        }
+        else if(level == 4)
+        {
+            return unit.RangedAttackTarget(target, 40, Global.gameManager.game.teamManager);
+        }
+        else
+        {
+            throw new Exception("Ability Fireball is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
         }
     }
 }

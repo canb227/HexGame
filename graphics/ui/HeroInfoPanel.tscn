@@ -1,14 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://c2ah7i7wk252f"]
+[gd_scene load_steps=8 format=3 uid="uid://brvg4epx2qy8r"]
 
-[ext_resource type="Theme" uid="uid://bisny7m3sfn3s" path="res://graphics/ui/centerunitbox.tres" id="1_oettw"]
-[ext_resource type="Texture2D" uid="uid://bfcrwhffwupfj" path="res://graphics/models/baseperson_remesh3_manface_pix.png" id="2_660cs"]
-[ext_resource type="Texture2D" uid="uid://bq5djh0c6qljc" path="res://graphics/ui/icons/health.png" id="4_02t0y"]
-[ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="5_tg1m4"]
-[ext_resource type="Texture2D" uid="uid://dcc6q0l8asjgm" path="res://graphics/ui/icons/sword.png" id="6_f7fa1"]
-[ext_resource type="Texture2D" uid="uid://42q4ujnnxbg1" path="res://graphics/ui/icons/rangeattack.png" id="7_2hbv6"]
-[ext_resource type="Texture2D" uid="uid://pm77dn24svbk" path="res://graphics/ui/icons/skipturn.png" id="8_n2gec"]
+[ext_resource type="Theme" uid="uid://bisny7m3sfn3s" path="res://graphics/ui/centerunitbox.tres" id="1_um0ud"]
+[ext_resource type="Texture2D" uid="uid://bfcrwhffwupfj" path="res://graphics/models/baseperson_remesh3_manface_pix.png" id="2_7ax3b"]
+[ext_resource type="Texture2D" uid="uid://bq5djh0c6qljc" path="res://graphics/ui/icons/health.png" id="3_dhko0"]
+[ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="4_3wh2m"]
+[ext_resource type="Texture2D" uid="uid://dcc6q0l8asjgm" path="res://graphics/ui/icons/sword.png" id="5_25fbj"]
+[ext_resource type="Texture2D" uid="uid://42q4ujnnxbg1" path="res://graphics/ui/icons/rangeattack.png" id="6_hligh"]
+[ext_resource type="Texture2D" uid="uid://pm77dn24svbk" path="res://graphics/ui/icons/skipturn.png" id="7_nw0y1"]
 
 [node name="UnitInfoPanel" type="PanelContainer"]
+visible = false
 anchors_preset = -1
 anchor_left = 0.43
 anchor_top = 0.97
@@ -19,7 +20,7 @@ offset_top = -107.024
 offset_right = 164.336
 grow_horizontal = 2
 grow_vertical = 0
-theme = ExtResource("1_oettw")
+theme = ExtResource("1_um0ud")
 
 [node name="UnitHFlow" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -31,15 +32,17 @@ layout_mode = 2
 clip_contents = true
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
-texture = ExtResource("2_660cs")
+texture = ExtResource("2_7ax3b")
 expand_mode = 3
 stretch_mode = 6
 
 [node name="HealthProgressBar" type="ProgressBar" parent="UnitHFlow/HBoxContainer/UnitImage"]
 layout_mode = 2
 anchor_right = 1.005
-offset_right = -0.0194016
-offset_bottom = 27.0
+offset_left = 0.911987
+offset_top = 64.0
+offset_right = 0.892586
+offset_bottom = 91.0
 grow_horizontal = 2
 
 [node name="UnitStatContainer" type="VBoxContainer" parent="UnitHFlow/HBoxContainer"]
@@ -50,7 +53,7 @@ layout_mode = 2
 
 [node name="HealthIcon" type="TextureRect" parent="UnitHFlow/HBoxContainer/UnitStatContainer/HealthContainer"]
 layout_mode = 2
-texture = ExtResource("4_02t0y")
+texture = ExtResource("3_dhko0")
 expand_mode = 2
 
 [node name="HealthLabel" type="Label" parent="UnitHFlow/HBoxContainer/UnitStatContainer/HealthContainer"]
@@ -62,7 +65,7 @@ layout_mode = 2
 
 [node name="MovementIcon" type="TextureRect" parent="UnitHFlow/HBoxContainer/UnitStatContainer/MovementContainer"]
 layout_mode = 2
-texture = ExtResource("5_tg1m4")
+texture = ExtResource("4_3wh2m")
 expand_mode = 2
 
 [node name="MovementLabel" type="Label" parent="UnitHFlow/HBoxContainer/UnitStatContainer/MovementContainer"]
@@ -75,7 +78,7 @@ tooltip_text = "(*) represents how many attacks the unit has left this turn"
 
 [node name="CombatStengthIcon" type="TextureRect" parent="UnitHFlow/HBoxContainer/UnitStatContainer/CombatStrengthContainer"]
 layout_mode = 2
-texture = ExtResource("6_f7fa1")
+texture = ExtResource("5_25fbj")
 expand_mode = 2
 
 [node name="CombatStrengthLabel" type="Label" parent="UnitHFlow/HBoxContainer/UnitStatContainer/CombatStrengthContainer"]
@@ -87,7 +90,7 @@ layout_mode = 2
 
 [node name="RangedStrengthIcon" type="TextureRect" parent="UnitHFlow/HBoxContainer/UnitStatContainer/RangedStrengthContainer"]
 layout_mode = 2
-texture = ExtResource("7_2hbv6")
+texture = ExtResource("6_hligh")
 expand_mode = 2
 
 [node name="RangedStrengthLabel" type="Label" parent="UnitHFlow/HBoxContainer/UnitStatContainer/RangedStrengthContainer"]
@@ -99,7 +102,7 @@ layout_mode = 2
 
 [node name="RangeIcon" type="TextureRect" parent="UnitHFlow/HBoxContainer/UnitStatContainer/RangeContainer"]
 layout_mode = 2
-texture = ExtResource("8_n2gec")
+texture = ExtResource("7_nw0y1")
 expand_mode = 2
 
 [node name="RangeLabel" type="Label" parent="UnitHFlow/HBoxContainer/UnitStatContainer/RangeContainer"]
@@ -116,4 +119,4 @@ layout_mode = 2
 
 [node name="MoveButton" type="Button" parent="UnitHFlow/AbilityFlowContainer/MoveMarginContainer"]
 layout_mode = 2
-icon = ExtResource("5_tg1m4")
+icon = ExtResource("4_3wh2m")

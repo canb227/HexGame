@@ -14,7 +14,6 @@ public partial class UnitInfoPanel : Node3D
     public TextureRect unitImage;
     public ProgressBar healthProgressBar;
 
-    public HBoxContainer healthContainer;
     public TextureRect healthIcon;
     public Label healthLabel;
 
@@ -40,30 +39,21 @@ public partial class UnitInfoPanel : Node3D
     {
         unitInfoPanel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/UnitInfoPanel.tscn").Instantiate<PanelContainer>();
 
-        //unitInfoPanel.Visible = true;
+        unitImage = unitInfoPanel.GetNode<TextureRect>("UnitHFlow/HBoxContainer/UnitImage");
+        healthProgressBar = unitInfoPanel.GetNode<ProgressBar>("UnitHFlow/HBoxContainer/UnitImage/HealthProgressBar");
 
-        unitImage = unitInfoPanel.GetNode<TextureRect>("UnitHFlow/UnitImageContainer/UnitImage");
-        healthProgressBar = unitInfoPanel.GetNode<ProgressBar>("UnitHFlow/UnitImageContainer/UnitImage/HealthProgressBar");
+        healthLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitStatContainer/HealthContainer/HealthLabel");
 
-        healthContainer = unitInfoPanel.GetNode<HBoxContainer>("UnitHFlow/UnitStatContainer/HealthContainer");
-        healthIcon = unitInfoPanel.GetNode<TextureRect>("UnitHFlow/UnitStatContainer/HealthContainer/HealthIcon");
-        healthLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/UnitStatContainer/HealthContainer/HealthLabel");
+        movementLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitStatContainer/MovementContainer/MovementLabel");
 
-        movementContainer = unitInfoPanel.GetNode<HBoxContainer>("UnitHFlow/UnitStatContainer/MovementContainer");
-        movementIcon = unitInfoPanel.GetNode<TextureRect>("UnitHFlow/UnitStatContainer/MovementContainer/MovementIcon");
-        movementLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/UnitStatContainer/MovementContainer/MovementLabel");
+        combatStrengthContainer = unitInfoPanel.GetNode<HBoxContainer>("UnitHFlow/HBoxContainer/UnitStatContainer/CombatStrengthContainer");
+        combatStrengthLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitStatContainer/CombatStrengthContainer/CombatStrengthLabel");
 
-        combatStrengthContainer = unitInfoPanel.GetNode<HBoxContainer>("UnitHFlow/UnitStatContainer/CombatStrengthContainer");
-        combatStrengthIcon = unitInfoPanel.GetNode<TextureRect>("UnitHFlow/UnitStatContainer/CombatStrengthContainer/CombatStengthIcon");
-        combatStrengthLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/UnitStatContainer/CombatStrengthContainer/CombatStrengthLabel");
+        rangedStrengthContainer = unitInfoPanel.GetNode<HBoxContainer>("UnitHFlow/HBoxContainer/UnitStatContainer/RangedStrengthContainer");
+        rangedStrengthLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitStatContainer/RangedStrengthContainer/RangedStrengthLabel");
 
-        rangedStrengthContainer = unitInfoPanel.GetNode<HBoxContainer>("UnitHFlow/UnitStatContainer/RangedStrengthContainer");
-        rangedStrengthIcon = unitInfoPanel.GetNode<TextureRect>("UnitHFlow/UnitStatContainer/RangedStrengthContainer/RangedStrengthIcon");
-        rangedStrengthLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/UnitStatContainer/RangedStrengthContainer/RangedStrengthLabel");
-
-        rangeContainer = unitInfoPanel.GetNode<HBoxContainer>("UnitHFlow/UnitStatContainer/RangeContainer");
-        rangeIcon = unitInfoPanel.GetNode<TextureRect>("UnitHFlow/UnitStatContainer/RangeContainer/RangeIcon");
-        rangeLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/UnitStatContainer/RangeContainer/RangeLabel");
+        rangeContainer = unitInfoPanel.GetNode<HBoxContainer>("UnitHFlow/HBoxContainer/UnitStatContainer/RangeContainer");
+        rangeLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitStatContainer/RangeContainer/RangeLabel");
 
         abilityFlowContainer = unitInfoPanel.GetNode<FlowContainer>("UnitHFlow/AbilityFlowContainer");
 

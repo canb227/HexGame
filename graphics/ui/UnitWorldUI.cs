@@ -45,7 +45,7 @@ public partial class UnitWorldUI : Node3D
         enemyBorder = node.GetNode<Panel>("SubViewport/UnitWorldUI/EnemyBorder");
         unitIconBackground = node.GetNode<PanelContainer>("SubViewport/UnitWorldUI/VBoxContainer/PanelContainer");
 
-        unitIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + UnitLoader.unitsDict[unit.name].IconPath);
+        unitIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + unit.IconPath);
 
         AddChild(node);
 

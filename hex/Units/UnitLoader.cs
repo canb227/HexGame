@@ -23,6 +23,7 @@ public enum UnitClass
 
 public struct UnitInfo
 {
+    public string UnitName { get; set; }
     public UnitClass Class { get; set; }
     public FactionType Faction { get; set; }
     public int ProductionCost { get; set; }
@@ -59,6 +60,7 @@ public static class UnitLoader
                 r => r.Attribute("Name").Value,
                 r => new UnitInfo
                 {
+                    UnitName = r.Attribute("Name")?.Value ?? throw new Exception("Missing Unit Name"),
                     Class = Enum.TryParse<UnitClass>(r.Attribute("Class")?.Value, out var unitClass) ? unitClass : UnitClass.None,
                     Faction = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
                     ProductionCost = int.TryParse(r.Attribute("ProductionCost")?.Value, out var productionCost) ? productionCost : 0,

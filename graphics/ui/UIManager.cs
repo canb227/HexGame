@@ -65,6 +65,7 @@ public partial class UIManager : Node3D
     public HBoxContainer playerList;
 
     public UnitInfoPanel unitInfoPanel;
+    public HeroInfoPanel heroInfoPanel;
     public CityInfoPanel cityInfoPanel;
     public ResearchTreePanel researchTreePanel;
     public ResearchTreePanel cultureResearchTreePanel;
@@ -194,6 +195,11 @@ public partial class UIManager : Node3D
         AddChild(unitInfoPanel);
         unitInfoPanel.Visible = false;
 
+        heroInfoPanel = new HeroInfoPanel();
+        heroInfoPanel.Name = "HeroInfoPanel";
+        AddChild(heroInfoPanel);
+        heroInfoPanel.Visible = false;
+
         cityInfoPanel = new CityInfoPanel();
         cityInfoPanel.Name = "CityInfoPanel";
         AddChild(cityInfoPanel);
@@ -309,6 +315,7 @@ public partial class UIManager : Node3D
         influencePerTurnLabel.Text = "(+" + Math.Round(Global.gameManager.game.localPlayerRef.GetInfluencePerTurn()).ToString() + ")  ";
         turnNumberLabel.Text = " " + Global.gameManager.game.turnManager.currentTurn;
 
+        UpdateHeroUIDisplay();
         UpdateUnitUIDisplay();
         UpdateEndTurnButton();
         researchTreePanel.UpdateResearchUI();
@@ -461,9 +468,24 @@ public partial class UIManager : Node3D
         unitInfoPanel.UnitSelected(unit);
     }
 
+    public void HeroSelected(Hero hero)
+    {
+        heroInfoPanel.HeroSelected(hero);
+    }
+
+    public void HeroUnselected(Hero hero)
+    {
+        heroInfoPanel.HeroUnselected(hero);
+    }
+
     public void UnitUnselected(Unit unit)
     {
         unitInfoPanel.UnitUnselected(unit);
+    }
+
+    public void UpdateHeroUIDisplay()
+    {
+        heroInfoPanel.UpdateHeroPanelInfo();
     }
 
     public void UpdateUnitUIDisplay()

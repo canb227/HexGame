@@ -517,8 +517,18 @@ public partial class GameManager : Node
             Global.Log("Target hex is null"); //TODO - Potential Desync
             return;
         }
-
+        //find the ability like normal and check hero abilities if we didnt find it
         UnitAbility ability = unit.abilities.Find(x => x.name == AbilityName);
+        int level = 0;
+        if (ability == null)
+        {
+            if (unit is Hero hero)
+            {
+                HeroAbility heroAbility = hero.heroAbilities.Find(x => x.ability.name == AbilityName);
+                ability = heroAbility.ability;
+                level = heroAbility.level;
+            }
+        }
         if (ability == null)
         {
             Global.Log("Ability is null"); //TODO - Potential Desync
@@ -527,7 +537,7 @@ public partial class GameManager : Node
 
         try
         {
-            ability.ActivateAbility(target);
+            ability.ActivateAbility(target, level);
         }
         catch (Exception e)
         {

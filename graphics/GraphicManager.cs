@@ -97,6 +97,14 @@ public partial class GraphicManager : Node3D
         CallDeferred(Node.MethodName.AddChild, graphicUnit);
     }
 
+    public void NewHero(int unitID)
+    {
+        Hero hero = (Hero)Global.gameManager.game.unitDictionary[unitID];
+        GraphicHero graphicHero = new GraphicHero(hero);
+        graphicObjectDictionary.Add(graphicHero.unit.id, graphicHero);
+        CallDeferred(Node.MethodName.AddChild, graphicHero);
+    }
+
     public void NewDistrict(Godot.Collections.Dictionary hexData)
     {
         Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);

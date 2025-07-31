@@ -355,7 +355,14 @@ public class GameHex
         }
         else if(newUnit.movementCosts[(TerrainMoveType)terrainType] < 100 && newUnit.movementCosts[(TerrainMoveType)terrainType] >= 0)//if they cant stack and there aren't units or they can stack and units are/aren't there and the hex is valid for this unit
         {
-            newUnit.SpawnSetup(this);
+            if (newUnit is Hero hero)
+            {
+                hero.SpawnSetup(this);
+            }
+            else
+            {
+                newUnit.SpawnSetup(this);
+            }
             return true;
         }
         return false;

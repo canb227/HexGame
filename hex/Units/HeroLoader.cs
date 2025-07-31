@@ -9,6 +9,7 @@ public struct HeroInfo
     public int mana;
     public int manaRegeneration;
     public int maxLevel;
+    public int[] experienceToLevelUp;
     public List<HeroAbility> heroAbilities;
 }
 
@@ -34,6 +35,10 @@ public static class HeroLoader
                     mana = int.TryParse(h.Attribute("Mana")?.Value, out var mana) ? mana : 0,
                     manaRegeneration = int.TryParse(h.Attribute("ManaRegeneration")?.Value, out var regen) ? regen : 0,
                     maxLevel = int.TryParse(h.Attribute("MaxLevel")?.Value, out var maxLevel) ? maxLevel : 1,
+                    experienceToLevelUp = h.Element("ExperienceToLevelUp")?.Value
+                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => int.TryParse(x.Trim(), out var val) ? val : 0)
+                        .ToArray(),
                     heroAbilities = h.Element("HeroAbilities")?.Elements("Ability")?.Select(ParseHeroAbility).ToList() ?? new List<HeroAbility>()
                 }
             );
@@ -42,6 +47,7 @@ public static class HeroLoader
     {
         return new UnitInfo
         {
+            UnitName = r.Attribute("Name")?.Value ?? throw new Exception("Missing Unit Name"),
             Class = Enum.TryParse(r.Attribute("Class")?.Value, out UnitClass unitClass) ? unitClass : UnitClass.None,
             Faction = Enum.TryParse(r.Attribute("Faction")?.Value, out FactionType factionType) ? factionType : FactionType.All,
             ProductionCost = int.TryParse(r.Attribute("ProductionCost")?.Value, out var productionCost) ? productionCost : 0,

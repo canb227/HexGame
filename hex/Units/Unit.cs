@@ -58,6 +58,7 @@ public partial class Unit
     public bool spawnSetupFinished { get; set; }
     public bool fortifying { get; set; }
     public int fortifyStrength { get; set; }
+    public string IconPath { get; set; }
     public Unit(String unitType, int combatModifier, int id, int teamNum)
     {
         this.id = id;
@@ -82,6 +83,7 @@ public partial class Unit
             this.zoneOfControl = unitInfo.ZoneOfControl;
             this.baseIgnoreZoneOfControl = unitInfo.IgnoreZoneOfControl;
             this.ignoreZoneOfControl = unitInfo.IgnoreZoneOfControl;
+            this.IconPath = unitInfo.IconPath;
 
             foreach (String effectName in unitInfo.Effects)
             {
@@ -109,7 +111,7 @@ public partial class Unit
     }
 
 
-    public void SpawnSetup(GameHex targetGameHex)
+    public virtual void SpawnSetup(GameHex targetGameHex)
     {
         spawnSetupFinished = true;
         targetGameHex.units.Add(id);
@@ -121,7 +123,7 @@ public partial class Unit
 
 
 
-    public void OnTurnStarted(int turnNumber)
+    public virtual void OnTurnStarted(int turnNumber)
     {
         if (remainingMovement >= movementSpeed && attacksLeft >= maxAttackCount)
         {

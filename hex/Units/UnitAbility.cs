@@ -60,7 +60,7 @@ public class UnitAbility
         return this.effect;
     }
 
-    public bool ActivateAbility(GameHex abilityTarget)
+    public bool ActivateAbility(GameHex abilityTarget, int level = 0)
     {
         if (this.effect == null)
         {
@@ -70,11 +70,11 @@ public class UnitAbility
         if (currentCharges > 0)
         {
             currentCharges -= 1;
-            if(Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
                 manager.CallDeferred("Update2DUI", (int)UIElement.unitDisplay);
             }
-            return effect.Apply(usingUnitID, combatPower, abilityTarget);
+            return effect.Apply(usingUnitID, level, combatPower, abilityTarget);
         }
         return false;
     }
