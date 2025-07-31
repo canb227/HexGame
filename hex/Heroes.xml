@@ -26,6 +26,10 @@
       <TerrainMoveType Name="Coral" Value="1" />
     </SightCosts>
     <Abilities>
+      <Ability Name="ExploreRuin" UsageCount="1" IconPath="graphics/ui/icons/shoe.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyBuilding="true" AllowsAnyUnit="true" AllowsAnyResource="true" AllowsAnyFeature="true" AllowsAnyTerrain="true" RequiresAncientRuins="true">
+        </TargetSpecification>
+      </Ability>
       <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
         <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
           <ValidTerrainTypes>
