@@ -1218,5 +1218,29 @@ public partial class GameManager : Node
         }
     }
 
+    public void LevelUpAbility(int heroID, string abilityName, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructLevelUpAbililtyCommand(heroID,abilityName));
+            return;
+        }
 
+        try
+        {
+            Unit unit = Global.gameManager.game.unitDictionary[heroID];
+            if (unit is Hero hero)
+            {
+                HeroAbility heroAbility = hero.heroAbilities.Find(x => x.ability.name == abilityName);
+                UpdateHeroPanelInfo();
+                heroAbility.LevelUpAbility(hero);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error leveling up hero ability: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
 }

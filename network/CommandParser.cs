@@ -161,10 +161,13 @@ using System.Threading.Tasks;
             case "CapturedEncampmentChoice":
                 Global.gameManager.CapturedEncampmentChoice(command.CapturedEncampmentChoice.CityID, command.CapturedEncampmentChoice.TeamNum, (EncampmentConquerOptions) command.CapturedEncampmentChoice.Choice, false);
                 break;
-            default:
-                Global.Log($"The capturedEncampmentChoice type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
-                throw new Exception(prefix + $"The capturedEncampmentChoice type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
+            case "LevelUpAbility":
+                Global.gameManager.LevelUpAbility(command.LevelUpAbililty.HeroID, command.LevelUpAbililty.AbilityName, false);
                 break;
+            default:
+                Global.Log($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
+                throw new Exception(prefix + $"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
+
         }
     }
 
@@ -662,6 +665,20 @@ using System.Threading.Tasks;
         command.Sender = Global.clientID;
         command.CapturedEncampmentChoice= capturedEncampmentChoice;
         command.CommandType = "CapturedEncampmentChoice";
+
+        return command;
+    }
+
+    internal static Command ConstructLevelUpAbililtyCommand(int heroID, string abilityName)
+    {
+        LevelUpAbility levelUpAbility = new LevelUpAbility();
+        levelUpAbility.HeroID = heroID;
+        levelUpAbility.AbilityName = abilityName;
+
+        Command command = new();
+        command.Sender = Global.clientID;
+        command.LevelUpAbililty = levelUpAbility;
+        command.CommandType = "LevelUpAbility";
 
         return command;
     }

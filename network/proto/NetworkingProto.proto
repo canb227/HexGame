@@ -95,8 +95,14 @@ message Command
 		TriggerRuin TriggerRuin = 29;
 		CapturedCityChoice CapturedCityChoice = 30;
 		CapturedEncampmentChoice CapturedEncampmentChoice = 31;
+		LevelUpAbility LevelUpAbililty = 32;
 	}
 	uint64 sender = 99;
+}
+message LevelUpAbility
+{
+	int32 heroID = 1;
+	string abilityName = 2;
 }
 
 message CapturedCityChoice
