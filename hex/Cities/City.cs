@@ -775,29 +775,49 @@ public partial class City
                 }
             }
         }
+        if(productionQueue.Any() && productionQueue[0].itemName == itemName)
+        {
+            buildingCount++;
+        }
         foreach (ProductionQueueType item in productionQueue)
         {
-            if (productionQueue[0].itemName == itemName)
+            if (item.itemName == itemName)
             {
-                int costIncrease = (int)Math.Floor(item.productionCost * (0.33f * buildingCount));
-                if (buildingCostIncreaseDict.ContainsKey(itemName))
+                if (itemName == "Settler")
                 {
-                    buildingCostIncreaseDict[itemName] = costIncrease;
+                    item.productionCost += Global.gameManager.game.playerDictionary[teamNum].settlerCount * 30;
+                    item.productionLeft += Global.gameManager.game.playerDictionary[teamNum].settlerCount * 30;
                 }
                 else
                 {
-                    buildingCostIncreaseDict.Add(itemName, costIncrease);
+                    int costIncrease = (int)Math.Floor(item.productionCost * (0.33f * buildingCount));
+                    if (buildingCostIncreaseDict.ContainsKey(itemName))
+                    {
+                        buildingCostIncreaseDict[itemName] = costIncrease;
+                    }
+                    else
+                    {
+                        buildingCostIncreaseDict.Add(itemName, costIncrease);
+                    }
+                    item.productionCost += costIncrease;
+                    item.productionLeft += costIncrease;
                 }
-                item.productionCost += costIncrease;
-                item.productionLeft += costIncrease;
             }
         }
         ProductionQueueType item2;
         if(partialProductionDictionary.TryGetValue(itemName, out item2))
         {
-            int costIncrease = (int)Math.Floor(item2.productionCost * (0.33f * buildingCount));
-            item2.productionCost += costIncrease;
-            item2.productionLeft += costIncrease;
+            if (itemName == "Settler")
+            {
+                item2.productionCost += Global.gameManager.game.playerDictionary[teamNum].settlerCount * 30;
+                item2.productionLeft += Global.gameManager.game.playerDictionary[teamNum].settlerCount * 30;
+            }
+            else
+            {
+                int costIncrease = (int)Math.Floor(item2.productionCost * (0.33f * buildingCount));
+                item2.productionCost += costIncrease;
+                item2.productionLeft += costIncrease;
+            }
         }
     }
 

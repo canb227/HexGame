@@ -1232,7 +1232,7 @@ public partial class GameManager : Node
             if (unit is Hero hero)
             {
                 HeroAbility heroAbility = hero.heroAbilities.Find(x => x.ability.name == abilityName);
-                UpdateHeroPanelInfo();
+                Global.gameManager.graphicManager.uiManager.UpdateHeroUIDisplay();
                 heroAbility.LevelUpAbility(hero);
             }
 

@@ -341,7 +341,6 @@ public partial class HeroInfoPanel : Node3D
         }
         //ability.LevelUpAbility(hero);
         Global.gameManager.LevelUpAbility(hero.id, ability.ability.name);
-        UpdateHeroPanelInfo();
         return;
     }
 
