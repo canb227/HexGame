@@ -538,6 +538,15 @@ public partial class GameManager : Node
         try
         {
             ability.ActivateAbility(target, level);
+            if (unit is Hero hero)
+            {
+                HeroAbility heroAbility = hero.heroAbilities.Find(x => x.ability.name == AbilityName);
+                if (heroAbility != null)
+                {
+                    hero.mana -= heroAbility.manaCost[heroAbility.level];
+                    heroAbility.currentCooldown = heroAbility.cooldown[heroAbility.level];
+                }
+            }
         }
         catch (Exception e)
         {

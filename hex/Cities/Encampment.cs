@@ -63,7 +63,7 @@ public partial class Encampment : City
         RecalculateYields();
     }
 
-    public new void DistrictFell()
+    public override void DistrictFell()
     {
         bool allDistrictsFell = true;
         bool cityCenterOccupied = false;

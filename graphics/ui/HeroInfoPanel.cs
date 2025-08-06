@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using static AIUtils;
 
 public partial class HeroInfoPanel : Node3D
 {
@@ -33,7 +34,19 @@ public partial class HeroInfoPanel : Node3D
     public TextureRect rangeIcon;
     public Label rangeLabel;
 
+    public Label currentLevelLabel;
+    public Label totalHealthLabel;
+    public Label totalManaLabel;
+    public Label perTurnHealthLabel;
+    public Label perTurnManaLabel;
+    public ProgressBar healthBar;
+    public ProgressBar manaBar;
+    public ProgressBar experienceBar;
+
     public FlowContainer abilityFlowContainer;
+    public FlowContainer heroAbilityFlowContainer;
+
+    private PackedScene heroAbilityButtonScene;
 
     public HeroInfoPanel()
     {
@@ -56,6 +69,18 @@ public partial class HeroInfoPanel : Node3D
         rangeLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitStatContainer/RangeContainer/RangeLabel");
 
         abilityFlowContainer = heroInfoPanel.GetNode<FlowContainer>("UnitHFlow/AbilityFlowContainer");
+        heroAbilityFlowContainer = heroInfoPanel.GetNode<FlowContainer>("UnitHFlow/VBoxContainer/HeroAbilityFlowContainer");
+
+        currentLevelLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitImage/TextureRect/CurrentLevel");
+        totalHealthLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/VBoxContainer/HealthBar/TotalHealth");
+        totalManaLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/VBoxContainer/ManaBar/TotalMana");
+        perTurnHealthLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/VBoxContainer/HealthBar/PerTurnHealth");
+        perTurnManaLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/VBoxContainer/ManaBar/PerTurnMana");
+        healthBar = heroInfoPanel.GetNode<ProgressBar>("UnitHFlow/VBoxContainer/HealthBar");
+        manaBar = heroInfoPanel.GetNode<ProgressBar>("UnitHFlow/VBoxContainer/ManaBar");
+        experienceBar = heroInfoPanel.GetNode<ProgressBar>("UnitHFlow/VBoxContainer/ExperienceBar");
+
+        heroAbilityButtonScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/HeroAbilityButton.tscn");
 
         AddChild(heroInfoPanel);
     }
@@ -85,10 +110,14 @@ public partial class HeroInfoPanel : Node3D
         {
             child.QueueFree();
         }
+        foreach (var child in heroAbilityFlowContainer.GetChildren())
+        {
+            child.QueueFree();
+        }
         if (heroInfoPanel.Visible && hero != null)
         {
-            healthProgressBar.Value = hero.health;
-            healthLabel.Text = hero.health.ToString() + "/100";
+            healthProgressBar.Value = Math.Round(hero.health);
+            healthLabel.Text = Math.Round(hero.health).ToString() + "/100";
             movementLabel.Text = hero.remainingMovement.ToString() + "/" + hero.movementSpeed.ToString();
             if (hero.combatStrength > 0)
             {
@@ -118,7 +147,7 @@ public partial class HeroInfoPanel : Node3D
                 abilityButton.IconAlignment = HorizontalAlignment.Center;
                 abilityButton.ExpandIcon = true;
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
-                abilityButton.Pressed += () => AbilityButtonPressed(ability, abilityButton);
+                abilityButton.Pressed += () => AbilityButtonPressed(ability);
                 abilityFlowContainer.AddChild(abilityButton);
                 if(ability.currentCharges <= 0)
                 {
@@ -160,14 +189,61 @@ public partial class HeroInfoPanel : Node3D
             }
             foreach (HeroAbility heroAbility in hero.heroAbilities)
             {
-                Button abilityButton = new Button();
+                Button abilityButton = heroAbilityButtonScene.Instantiate<Button>();
                 abilityButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://" + heroAbility.ability.iconPath);
                 abilityButton.IconAlignment = HorizontalAlignment.Center;
                 abilityButton.ExpandIcon = true;
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
-                abilityButton.Pressed += () => AbilityButtonPressed(heroAbility.ability, abilityButton);
-                abilityFlowContainer.AddChild(abilityButton);
-                if (heroAbility.ability.currentCharges <= 0 || heroAbility.manaCost[heroAbility.level] > hero.mana || heroAbility.currentCooldown > 0)
+                abilityButton.Pressed += () => HeroAbilityButtonPressed(heroAbility);
+                Button levelupButton = abilityButton.GetNode<Button>("LevelUpButton");
+                TextureProgressBar cooldownBar = abilityButton.GetNode<TextureProgressBar>("Cooldown");
+                cooldownBar.Value = heroAbility.currentCooldown;
+                cooldownBar.MaxValue = heroAbility.cooldown[heroAbility.level];
+                Label cooldownLabel = abilityButton.GetNode<Label>("CooldownLabel");
+                cooldownLabel.Text = heroAbility.currentCooldown.ToString();
+                if(heroAbility.currentCooldown <= 0)
+                {
+                    cooldownLabel.Visible = false;
+                }
+                else
+                {
+                    cooldownLabel.Visible = true;
+                }
+                HBoxContainer levelupPips = abilityButton.GetNode<HBoxContainer>("LevelUpPips");
+
+                for (int i = 0; i < heroAbility.maxLevel; i++)
+                {
+                    TextureRect levelPip = new();
+                    GradientTexture1D temp = new GradientTexture1D();
+                    temp.Gradient = new();
+                    if (i+1 <= heroAbility.level)
+                    {
+                        temp.Gradient.Colors = new Godot.Color[] { Godot.Colors.Gold };
+                    }
+                    else
+                    {
+                        temp.Gradient.Colors = new Godot.Color[] { Godot.Colors.DarkGray };
+                    }
+                    levelPip.Texture = temp;
+                    levelPip.ExpandMode = TextureRect.ExpandModeEnum.FitWidth;
+                    levelupPips.AddChild(levelPip);
+                }
+                levelupButton.Pressed += () => LevelUpButtonPressed(heroAbility);
+                if (heroAbility.CanLevelUp(hero))
+                {
+                    levelupButton.Visible = true;
+                    levelupButton.Disabled = false;
+                }
+                else
+                {
+                    levelupButton.Visible = false;
+                    levelupButton.Disabled = true;
+                }
+                Control tempControl = new Control();
+                tempControl.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill; 
+                heroAbilityFlowContainer.AddChild(tempControl);
+                heroAbilityFlowContainer.AddChild(abilityButton);
+                if (heroAbility.ability.currentCharges <= 0 || heroAbility.manaCost[heroAbility.level] > hero.mana || heroAbility.currentCooldown > 0 || heroAbility.level <= 0)
                 {
                     abilityButton.Disabled = true;
                 }
@@ -206,10 +282,28 @@ public partial class HeroInfoPanel : Node3D
                     abilityButton.Disabled = true;
                 }
             }
+            Control tempControl2 = new Control();
+            tempControl2.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+            heroAbilityFlowContainer.AddChild(tempControl2);
+            UpdateHealthAndMana();
         }
     }
 
-    private void AbilityButtonPressed(UnitAbility ability, Button sourceButton)
+    public void UpdateHealthAndMana()
+    {
+        currentLevelLabel.Text = hero.level.ToString();
+        totalHealthLabel.Text = Math.Round(hero.health) + "/" + "100";
+        totalManaLabel.Text = hero.mana + "/" + hero.maxMana ;
+        perTurnHealthLabel.Text = "(+"+hero.healingFactor+")";
+        perTurnManaLabel.Text = "(+" + hero.manaRegeneration + ")";
+        healthBar.Value = Math.Round(hero.health);
+        healthBar.MaxValue = 100;
+        manaBar.Value = hero.mana;
+        manaBar.MaxValue = hero.maxMana;
+        experienceBar.Value = hero.experience;
+        experienceBar.MaxValue = hero.experienceToLevelUp[hero.level];
+    }
+    private void AbilityButtonPressed(UnitAbility ability)
     {
         if (Global.gameManager.game.localPlayerRef.turnFinished)
         {
@@ -226,6 +320,27 @@ public partial class HeroInfoPanel : Node3D
                 Global.gameManager.ActivateAbility(hero.id, ability.name, hero.hex); //networked command
             }
         }
+        return;
+    }
+
+    private void HeroAbilityButtonPressed(HeroAbility heroAbility)
+    {
+        if (Global.gameManager.game.localPlayerRef.turnFinished || heroAbility.currentCooldown > 0 && hero.mana < heroAbility.manaCost[heroAbility.level])
+        {
+            return;
+        }
+        AbilityButtonPressed(heroAbility.ability);
+        return;
+    }
+
+    private void LevelUpButtonPressed(HeroAbility ability)
+    {
+        if (Global.gameManager.game.localPlayerRef.turnFinished)
+        {
+            return;
+        }
+        ability.LevelUpAbility(hero);
+        UpdateHeroPanelInfo();
         return;
     }
 

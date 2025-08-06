@@ -33,18 +33,24 @@ public partial class EncampementTakenPopUp : Control
     {
         //networked statement
         Global.gameManager.CapturedEncampmentChoice(takenEncampment.id, takerTeamNum, EncampmentConquerOptions.Occupy);
+        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
     }
 
     private void VassalizePressed()
     {
         //networked statement
         Global.gameManager.CapturedEncampmentChoice(takenEncampment.id, takerTeamNum, EncampmentConquerOptions.Vassalize);
+        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
     }
 
     private void RazePressed()
     {
         //networked statement
         Global.gameManager.CapturedEncampmentChoice(takenEncampment.id, takerTeamNum, EncampmentConquerOptions.Raze);
+        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
     }
 
     public void UpdateEncampementTakenPopUp(Encampment encampment, int takerTeamNum)

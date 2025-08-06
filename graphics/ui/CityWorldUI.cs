@@ -72,6 +72,12 @@ public partial class CityWorldUI : Node3D
         Update();
     }
 
+    public void Raze()
+    {
+        node.QueueFree();
+        QueueFree();
+    }
+
     private void CityWorldUIEvent(Node camera, InputEvent IEvent, Vector3 eventPosition, Vector3 normal, long shapeIdx)
     {
         if (IEvent is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())

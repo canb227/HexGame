@@ -352,7 +352,7 @@ public class UnitEffect
     //hero abilities
     public bool Fireball(Unit unit, int level, GameHex target)
     {
-        if(level == 0)
+        if (level == 0)
         {
             throw new Exception("Ability Fireball is Level 0 " + unit.name + " " + unit.hex);
         }

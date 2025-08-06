@@ -127,6 +127,7 @@ public partial class Unit
     {
         if (remainingMovement >= movementSpeed && attacksLeft >= maxAttackCount)
         {
+            GD.Print("heal");
             if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].ownedBy == teamNum)
             {
                 increaseHealth(healingFactor + 5);
@@ -140,10 +141,14 @@ public partial class Unit
                 increaseHealth(healingFactor);
             }
         }
+        else
+        {
+            GD.Print("no heal? " + remainingMovement + " " + movementSpeed + " " + attacksLeft + " " + maxAttackCount);
+        }
         if (fortifying && fortifyStrength < 6)
         {
             fortifyStrength += 3;
-            if(fortifyStrength > 6)
+            if (fortifyStrength > 6)
             {
                 fortifyStrength = 6;
             }
@@ -873,7 +878,6 @@ public partial class Unit
         while (currentPath.Count > 0)
         {
             GD.Print("hello: " + targetGameHex.hex);
-
             GameHex nextHex = Global.gameManager.game.mainGameBoard.gameHexDict[currentPath[0]];
             if (!TryMoveToGameHex(nextHex, teamManager))
             {

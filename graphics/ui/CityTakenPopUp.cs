@@ -31,12 +31,16 @@ public partial class CityTakenPopUp : Control
     {
         //networked statement
         Global.gameManager.CapturedCityChoice(takenCity.id, takerTeamNum, CityConquerOptions.Keep);
+        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
     }
 
     private void RazePressed()
     {
         //networked statement
         Global.gameManager.CapturedCityChoice(takenCity.id, takerTeamNum, CityConquerOptions.Raze);
+        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
     }
 
     //free button doesnt exist yet
@@ -44,6 +48,8 @@ public partial class CityTakenPopUp : Control
     {
         //networked statement
         Global.gameManager.CapturedCityChoice(takenCity.id, takerTeamNum, CityConquerOptions.Free);
+        Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+        Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
     }
 
     public void UpdateCityTakenPopUp(City city, int takerTeamNum)

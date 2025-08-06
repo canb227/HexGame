@@ -32,6 +32,7 @@ public partial class GraphicBuilding : GraphicObject
     {
         if (graphicUpdateType == GraphicUpdateType.Remove)
         {
+            Global.gameManager.graphicManager.hexObjectDictionary[buildingHex].Remove(this);
             QueueFree();
         }
         else if (graphicUpdateType == GraphicUpdateType.Visibility)

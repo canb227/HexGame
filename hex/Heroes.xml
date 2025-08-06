@@ -44,9 +44,42 @@
   <HeroAbilities>
     <Ability>
       <AbilityName>Fireball</AbilityName>
-      <ManaCost>30,25,25, 20</ManaCost>
-      <Cooldown>3,3,2,1</Cooldown>
-      <Level>1</Level>
+      <ManaCost>99, 30,25,25, 20</ManaCost>
+      <Cooldown>99, 3,3,2,1</Cooldown>
+      <Level>0</Level>
+      <MaxLevel>4</MaxLevel>
+      <MinLevelToLearn>1</MinLevelToLearn>
+      <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+      </UnitAbility>
+    </Ability>
+    <Ability>
+      <AbilityName>Fireball2</AbilityName>
+      <ManaCost>99, 30,25,25, 20</ManaCost>
+      <Cooldown>99, 3,3,2,1</Cooldown>
+      <Level>0</Level>
+      <MaxLevel>4</MaxLevel>
+      <MinLevelToLearn>1</MinLevelToLearn>
+      <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+      </UnitAbility>
+    </Ability>
+    <Ability>
+      <AbilityName>Fireball3</AbilityName>
+      <ManaCost>99, 30,25,25, 20</ManaCost>
+      <Cooldown>99, 3,3,2,1</Cooldown>
+      <Level>0</Level>
+      <MaxLevel>4</MaxLevel>
+      <MinLevelToLearn>1</MinLevelToLearn>
+      <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+      </UnitAbility>
+    </Ability>
+    <Ability>
+      <AbilityName>Fireball4</AbilityName>
+      <ManaCost>99, 30,25,25, 20</ManaCost>
+      <Cooldown>99, 3,3,2,1</Cooldown>
+      <Level>0</Level>
       <MaxLevel>4</MaxLevel>
       <MinLevelToLearn>1</MinLevelToLearn>
       <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">

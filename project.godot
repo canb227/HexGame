@@ -22,6 +22,11 @@ TooltipManager="*res://addons/tooltips_pro/scripts/tooltip_manager.gd"
 TooltipPlaceholderVariables="*res://addons/tooltips_pro/scripts/tooltip_placeholder_variables.gd"
 ImGuiRoot="*res://addons/imgui-godot/data/ImGuiRoot.tscn"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+
 [dotnet]
 
 project/assembly_name="HexGame"

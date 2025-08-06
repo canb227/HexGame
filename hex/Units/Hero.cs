@@ -23,12 +23,16 @@ public class Hero : Unit
     public int[] experienceToLevelUp { get; set; }
     public int level { get; set; }
     public int maxLevel { get; set; }
+    public int avaliableSkillPoints { get; set; }
 
     public Hero(String heroName, int combatModifier, int id, int teamNum)
     {
         this.id = id;
         this.name = heroName;
         this.teamNum = teamNum;
+
+        this.level = 1;
+        this.avaliableSkillPoints = 1;
 
         if (HeroLoader.heroDict.TryGetValue(heroName, out HeroInfo heroInfo))
         {
@@ -110,6 +114,17 @@ public class Hero : Unit
             {
                 heroAbility.currentCooldown--;
             }
+        }
+    }
+
+    public void IncreaseExperience(int experienceToAdd)
+    {
+        experience += experienceToAdd;
+        if (experience >= experienceToLevelUp[level])
+        {
+            experience -= experienceToLevelUp[level];
+            level++;
+            avaliableSkillPoints++;
         }
     }
 }

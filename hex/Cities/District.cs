@@ -193,8 +193,9 @@ public partial class District
         foreach (Building building in buildings)
         {
             building.Raze();
-            buildings.Remove(building);
         }
+        buildings.Clear();
+        Global.gameManager.game.mainGameBoard.gameHexDict[hex].district = null;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Remove);

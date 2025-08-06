@@ -890,7 +890,7 @@ public partial class City
         return units;
     }
 
-    public void DistrictFell()
+    public virtual void DistrictFell()
     {
         GD.Print("DistrictFell");
         bool allDistrictsFell = true;
@@ -1393,11 +1393,10 @@ public partial class City
         foreach (District district in districts)
         {
             district.Raze();
-            districts.Remove(district);
         }
+        districts.Clear();
         heldResources.Clear();
         Global.gameManager.game.playerDictionary[teamNum].cityList.Remove(id);
-
         //TODO delete the graphical objects in buildings and here
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
@@ -1407,6 +1406,8 @@ public partial class City
                 manager.CallDeferred("UnselectObject");
             }
         }
+        Global.gameManager.game.cityDictionary.Remove(id);
+
     }
     // For terrain types
     public void AddFlatYields(GameHex gameHex)

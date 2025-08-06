@@ -35,34 +35,36 @@ public class HeroAbility
 
     }
 
-    public bool ActivateAbility(Hero hero, GameHex abilityTarget)
+
+    public bool LevelUpAbility(Hero hero)
     {
-        GD.Print("Activate Level " + level);
-        if(currentCooldown <= 0 && hero.mana >= manaCost[level] && ability.ActivateAbility(abilityTarget, level))
+        if(CanLevelUp(hero))
         {
-            hero.mana -= manaCost[level];
-            currentCooldown = cooldown[level];
+            level++;
+            hero.avaliableSkillPoints--;
             return true;
         }
         return false;
     }
 
-    public bool LevelUpAbility(Hero hero)
+    public bool CanLevelUp(Hero hero)
     {
+        //hero has a skill point ready
+        if(hero.avaliableSkillPoints <= 0)
+        {
+            return false;
+        }
         //must meet min level requirement
-        if(hero.level < minLevelToLearn)
+        if (hero.level < minLevelToLearn)
         {
             return false;
         }
         //if we were already max level fail
-        if(level >= maxLevel)
+        if (level >= maxLevel)
         {
             level = maxLevel;
             return false;
         }
-
-        //increase level
-        level++;
         return true;
     }
 }

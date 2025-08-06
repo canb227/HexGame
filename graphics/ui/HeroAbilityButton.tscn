@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://btwcsbftioqps"]
+
+[ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="1_q3f10"]
+[ext_resource type="Texture2D" uid="uid://br6im7ewhsnpk" path="res://graphics/ui/icons/transparentfill.png" id="2_s2x5q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s2x5q"]
+bg_color = Color(0.720076, 0.585066, 0.0911587, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3f10"]
+bg_color = Color(0.917726, 0.768118, 0.318604, 1)
+
+[node name="AbilityButton" type="Button"]
+custom_minimum_size = Vector2(64, 64)
+offset_top = 1.0
+offset_right = 64.0
+offset_bottom = 65.0
+icon = ExtResource("1_q3f10")
+icon_alignment = 1
+expand_icon = true
+
+[node name="LevelUpButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -31.792
+offset_top = -21.04
+offset_right = 32.208
+offset_bottom = -4.03998
+theme_override_font_sizes/font_size = 12
+theme_override_styles/hover = SubResource("StyleBoxFlat_s2x5q")
+theme_override_styles/normal = SubResource("StyleBoxFlat_q3f10")
+text = "+"
+
+[node name="LevelUpPips" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 65.0
+offset_right = 60.0
+offset_bottom = 71.0
+alignment = 1
+
+[node name="Cooldown" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+max_value = 4.0
+value = 3.0
+fill_mode = 5
+texture_progress = ExtResource("2_s2x5q")
+
+[node name="CooldownLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1

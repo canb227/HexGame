@@ -24,8 +24,10 @@ public partial class GraphicCity : GraphicObject
     {
         if (graphicUpdateType == GraphicUpdateType.Remove)
         {
+            cityWorldUI.Raze();
+            Global.gameManager.graphicManager.hexObjectDictionary[city.hex].Remove(this);
+            Global.gameManager.graphicManager.graphicObjectDictionary.Remove(city.id);
             QueueFree();
-            cityWorldUI.QueueFree();
         }
         if(graphicUpdateType == GraphicUpdateType.Update)
         {
