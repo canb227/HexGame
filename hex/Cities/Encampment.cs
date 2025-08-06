@@ -142,6 +142,7 @@ public partial class Encampment : City
 
     public void EncampmentOccupied(int overlord)
     {
+        overlordTeamNum = overlord;
         foreach (int cityID in Global.gameManager.game.playerDictionary[overlordTeamNum].cityList)
         {
             Global.gameManager.game.playerDictionary[overlordTeamNum].NewExportRoute(id, cityID, YieldType.production);
