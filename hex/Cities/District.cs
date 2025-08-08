@@ -221,7 +221,7 @@ public partial class District
 
     public float GetCombatStrength()
     {
-        float strength = Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].strongestUnitBuilt;
+        float strength = Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].strongestUnitBuilt + Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].cityCombatStrengthMod;
         if (hasWalls)
         {
             strength += 15.0f;

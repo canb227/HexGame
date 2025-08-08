@@ -334,7 +334,7 @@ public partial class Unit
     {
         //we use our hex q,r and turn number to generate a random seed that is the same on all machines
         float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f; 
-        return !decreaseHealth(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength(), randomFactor)) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength, randomFactor));
+        return !decreaseHealth(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength() + Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum].cityCombatStrengthMod, randomFactor)) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength, randomFactor));
     }
 
     private bool UnitCombat(GameHex targetGameHex, Unit unit)
@@ -1026,9 +1026,15 @@ public partial class Unit
         //check for districts, your districts OK, all others are a no no, unless attacking enemy OR its dead
         if(secondHex.district != null && Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum != teamNum)
         {
-            if(!(isTargetEnemy && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum) && attacksLeft > 0) && secondHex.district.health > 0)
+            GD.Print("there is a district that isnt ours");
+            if(!(isTargetEnemy && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum)) && secondHex.district.health > 0)
             {
+                GD.Print("move cost added for district");
                 moveCost += 12121212;
+            }
+            else
+            {
+                GD.Print("Failure: " + isTargetEnemy + " " + teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum) + " " + secondHex.district.health.ToString());
             }
         }
         if(moveCost < 9999)

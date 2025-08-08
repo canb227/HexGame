@@ -491,6 +491,7 @@ public partial class UIManager : Node3D
     public void UpdateUnitUIDisplay()
     {
         unitInfoPanel.UpdateUnitPanelInfo();
+        heroInfoPanel.UpdateHeroPanelInfo();
     }
 
     public void CloseCurrentWindow()
