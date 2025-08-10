@@ -45,7 +45,7 @@ public class TurnManager
         if (CheckTurnStatus().Count == Global.gameManager.game.numAI)
         {
             //run gameboard hex based logic (volcanos and stuff?)
-            Global.gameManager.game.mainGameBoard.OnTurnEnded(currentTurn);
+            //Global.gameManager.game.mainGameBoard.OnTurnEnded(currentTurn);
 
             if (Global.gameManager.isHost)
             {

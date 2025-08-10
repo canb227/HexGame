@@ -1,4 +1,5 @@
 using Godot;
+using Microsoft.Win32.SafeHandles;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -87,6 +88,7 @@ public partial class UIManager : Node3D
     public EventSelectionPanel eventSelectionPanel;
 
     public VBoxContainer heroContainer;
+    public Button heroButton;
     public ProgressBar healthBar;
     public ProgressBar manaBar;
     public Label totalHealthLabel;
@@ -116,8 +118,6 @@ public partial class UIManager : Node3D
 
     public bool windowOpen = false;
     public bool pauseMenuOpen = false;
-
-    public Hero hero;
 
     public UIManager(Layout layout)
     {
@@ -171,6 +171,8 @@ public partial class UIManager : Node3D
 
 
         heroContainer = screenUI.GetNode<VBoxContainer>("HeroContainer");
+        heroButton = screenUI.GetNode<Button>("HeroContainer/SelectHeroButton");
+        heroButton.Pressed += () => SelectHero();
         healthBar = screenUI.GetNode<ProgressBar>("HeroContainer/HealthBar");
         manaBar = screenUI.GetNode<ProgressBar>("HeroContainer/ManaBar");
         totalHealthLabel = screenUI.GetNode<Label>("HeroContainer/HealthBar/TotalHealth");
@@ -286,6 +288,15 @@ public partial class UIManager : Node3D
 
         UpdateAll();
         AddChild(screenUI);
+    }
+
+    public void SelectHero()
+    {
+        if (Global.gameManager.graphicManager.GetWaitForTargeting())
+        {
+            Global.gameManager.graphicManager.ClearWaitForTarget();
+        }
+        Global.gameManager.graphicManager.ChangeSelectedObject(Global.gameManager.game.localPlayerRef.ourHeroID, Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.localPlayerRef.ourHeroID]);
     }
 
     public void ChangeMenuManagerMenu(string menu)
@@ -491,7 +502,14 @@ public partial class UIManager : Node3D
 
     public void ShowHeroUI()
     {
+        Hero hero = (Hero) Global.gameManager.game.unitDictionary[Global.gameManager.game.localPlayerRef.ourHeroID];
         heroContainer.Visible = true;
+        healthBar.Value = Math.Round(hero.health);
+        healthBar.MaxValue = 100;
+        manaBar.Value = hero.mana;
+        manaBar.MaxValue = hero.maxMana;
+        totalHealthLabel.Text = Math.Round(hero.health) + "/" + "100";
+        totalManaLabel.Text = hero.mana + "/" + hero.maxMana;
     }
     public void HeroUnselected(Hero hero)
     {
