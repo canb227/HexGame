@@ -500,7 +500,7 @@ public class BuildingEffect
 
     Yields ShrineEffect(Building building)
     {
-        //something with the hero I think
+        ((Hero)Global.gameManager.game.unitDictionary[Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].teamNum].ourHeroID]).IncreaseExperience(10);
         return new Yields();
     }
     Yields BarracksEffect(Building building)

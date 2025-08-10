@@ -353,7 +353,7 @@ public partial class Lobby : Control
                 Global.Log($"Stashing game from host. Save file name:{lobbyMessage.GameDataMessage.Savename} with file size: {lobbyMessage.GameDataMessage.SaveSize} ");
                 saveGameData = lobbyMessage.GameDataMessage;
                 GetNode<Label>("NewGameStatus").Text = "GAME LOADED";
-                GetNode<ColorRect>("newgamehide").Visible = true;
+                //GetNode<ColorRect>("newgamehide").Visible = true;
                 saveGameLoaded = true;
                 break;
             case "kick":

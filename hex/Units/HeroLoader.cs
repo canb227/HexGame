@@ -11,6 +11,7 @@ public struct HeroInfo
     public int maxLevel;
     public int[] experienceToLevelUp;
     public List<HeroAbility> heroAbilities;
+    public bool isUltimate;
 }
 
 public static class HeroLoader
@@ -97,7 +98,8 @@ public static class HeroLoader
                         .ToArray(),
             level = int.TryParse(abilityElement.Element("Level")?.Value, out var level) ? level : 1,
             maxLevel = int.TryParse(abilityElement.Element("MaxLevel")?.Value, out var maxLevel) ? maxLevel : 1,
-            minLevelToLearn = int.TryParse(abilityElement.Element("MinLevelToLearn")?.Value, out var minLevel) ? minLevel : 1
+            minLevelToLearn = int.TryParse(abilityElement.Element("MinLevelToLearn")?.Value, out var minLevel) ? minLevel : 1,
+            isUltimate = bool.TryParse(abilityElement.Element("IsUltimate")?.Value, out var isUlti) ? isUlti : false,
         };
     }
 

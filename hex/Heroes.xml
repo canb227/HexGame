@@ -1,6 +1,6 @@
-<Hero Name="Arcana" Mana="100" ManaRegeneration="5" MaxLevel="10">
-  <ExperienceToLevelUp>100,250,500,1000</ExperienceToLevelUp>
-  <Unit Name="Warrior" Class="Combat, Land, Infantry, Classical" ProductionCost="40" GoldCost="160" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/Warrior.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+<Hero Name="Arcana" Mana="100" ManaRegeneration="5" MaxLevel="18">
+  <ExperienceToLevelUp>0, 100, 200, 260, 300, 340, 380, 400, 450, 500, 600, 650, 700, 750, 800, 850, 900, 950, 0</ExperienceToLevelUp>
+  <Unit Name="Warrior" Class="Combat, Land, Infantry, Classical" ProductionCost="999" GoldCost="999" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/Warrior.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -49,6 +49,7 @@
       <Level>0</Level>
       <MaxLevel>4</MaxLevel>
       <MinLevelToLearn>1</MinLevelToLearn>
+      <IsUltimate>False</IsUltimate>
       <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
       </UnitAbility>
@@ -60,28 +61,7 @@
       <Level>0</Level>
       <MaxLevel>4</MaxLevel>
       <MinLevelToLearn>1</MinLevelToLearn>
-      <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
-        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
-      </UnitAbility>
-    </Ability>
-    <Ability>
-      <AbilityName>Fireball3</AbilityName>
-      <ManaCost>99, 30,25,25, 20</ManaCost>
-      <Cooldown>99, 3,3,2,1</Cooldown>
-      <Level>0</Level>
-      <MaxLevel>4</MaxLevel>
-      <MinLevelToLearn>1</MinLevelToLearn>
-      <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
-        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
-      </UnitAbility>
-    </Ability>
-    <Ability>
-      <AbilityName>Fireball4</AbilityName>
-      <ManaCost>99, 30,25,25, 20</ManaCost>
-      <Cooldown>99, 3,3,2,1</Cooldown>
-      <Level>0</Level>
-      <MaxLevel>4</MaxLevel>
-      <MinLevelToLearn>1</MinLevelToLearn>
+      <IsUltimate>False</IsUltimate>
       <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
       </UnitAbility>

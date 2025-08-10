@@ -111,7 +111,7 @@ public partial class Unit
     }
 
 
-    public virtual void SpawnSetup(GameHex targetGameHex)
+    public virtual void SpawnSetup(GameHex targetGameHex, bool isRespawn = false)
     {
         spawnSetupFinished = true;
         targetGameHex.units.Add(id);
@@ -334,7 +334,11 @@ public partial class Unit
     {
         //we use our hex q,r and turn number to generate a random seed that is the same on all machines
         float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f; 
-        return !decreaseHealth(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength() , randomFactor)) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength, randomFactor));
+        if(this is Hero hero)
+        {
+            hero.IncreaseExperience((int)Math.Round(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength(), randomFactor)));
+        }
+        return !decreaseHealth(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength(), randomFactor)) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength, randomFactor));
     }
 
     private bool UnitCombat(GameHex targetGameHex, Unit unit)
@@ -362,6 +366,10 @@ public partial class Unit
         }
         //we use our hex q,r and turn number to generate a random seed that is the same on all machines
         float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f;
+        if (this is Hero hero)
+        {
+            hero.IncreaseExperience((int)Math.Round(CalculateDamage(modCombatStrength, unitModCombatStrength, randomFactor)));
+        }
         return !decreaseHealth(CalculateDamage(modCombatStrength, unitModCombatStrength, randomFactor)) & unit.decreaseHealth(CalculateDamage(unitModCombatStrength, modCombatStrength, randomFactor));
 
     }
@@ -403,6 +411,10 @@ public partial class Unit
     {
         //we use our hex q,r and turn number to generate a random seed that is the same on all machines
         float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f;
+        if (this is Hero hero)
+        {
+            hero.IncreaseExperience((int)Math.Round(CalculateDamage(rangedPower, targetGameHex.district.GetCombatStrength(), randomFactor)));
+        }
         return targetGameHex.district.decreaseHealth(CalculateDamage(rangedPower, targetGameHex.district.GetCombatStrength(), randomFactor));
     }
 
@@ -410,6 +422,10 @@ public partial class Unit
     {
         //we use our hex q,r and turn number to generate a random seed that is the same on all machines
         float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f;
+        if (this is Hero hero)
+        {
+            hero.IncreaseExperience((int)Math.Round(CalculateDamage(rangedPower, unit.combatStrength, randomFactor)));
+        }
         return unit.decreaseHealth(CalculateDamage(rangedPower, unit.combatStrength, randomFactor));
     }
 
@@ -480,6 +496,7 @@ public partial class Unit
 
     public void increaseHealth(float amount)
     {
+        GD.Print("HEAL BY: " + amount);
         health += amount;
         health = Math.Min(health, 100.0f);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
@@ -494,7 +511,10 @@ public partial class Unit
         isSleeping = false;
         isSkipping = false;
         health -= amount;
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("Update2DUI", (int)UIElement.unitDisplay);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.CallDeferred("Update2DUI", (int)UIElement.unitDisplay);
+        }
         if (health <= 0.0f)
         {
             onDeathEffects();
@@ -507,7 +527,7 @@ public partial class Unit
         }
     }
 
-    public void onDeathEffects()
+    public virtual void onDeathEffects()
     {
         if (unitType == "Settler")
         {
@@ -869,19 +889,12 @@ public partial class Unit
         this.isTargetEnemy = isTargetEnemy;
         
         currentPath = PathFind(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex,Global.gameManager.game.teamManager, movementCosts, movementSpeed, out float temp);
-        foreach (var item in currentPath)
-        {
-            GD.Print(item);
-        }
         currentPath.Remove(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex);
-        GD.Print("hi: " + targetGameHex.hex);
         while (currentPath.Count > 0)
         {
-            GD.Print("hello: " + targetGameHex.hex);
             GameHex nextHex = Global.gameManager.game.mainGameBoard.gameHexDict[currentPath[0]];
             if (!TryMoveToGameHex(nextHex, teamManager))
             {
-                GD.Print("Cant move to: " + nextHex.hex);
                 return false;
             }
             currentPath.Remove(nextHex.hex);
@@ -1026,15 +1039,9 @@ public partial class Unit
         //check for districts, your districts OK, all others are a no no, unless attacking enemy OR its dead
         if(secondHex.district != null && Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum != teamNum)
         {
-            GD.Print("there is a district that isnt ours");
             if(!(isTargetEnemy && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum)) && secondHex.district.health > 0)
             {
-                GD.Print("move cost added for district");
                 moveCost += 12121212;
-            }
-            else
-            {
-                GD.Print("Failure: " + isTargetEnemy + " " + teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum) + " " + secondHex.district.health.ToString());
             }
         }
         if(moveCost < 9999)

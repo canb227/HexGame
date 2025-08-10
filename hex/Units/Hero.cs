@@ -1,13 +1,14 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Data;
-using System.Formats.Asn1;
 using Godot;
+using NetworkMessages;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Formats.Asn1;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
+using System.Linq;
 using System.Runtime;
+using static System.Net.Mime.MediaTypeNames;
 
 [Serializable]
 public class Hero : Unit
@@ -24,6 +25,8 @@ public class Hero : Unit
     public int level { get; set; }
     public int maxLevel { get; set; }
     public int avaliableSkillPoints { get; set; }
+    public int respawnCountdown { get; set; }
+    public bool isDead { get; set; }
 
     public Hero(String heroName, int combatModifier, int id, int teamNum)
     {
@@ -47,7 +50,7 @@ public class Hero : Unit
             foreach (HeroAbility heroAbility in heroInfo.heroAbilities)
             {
                 UnitAbility ability = new UnitAbility(id, heroAbility.ability.name, heroAbility.ability.combatPower, heroAbility.ability.maxChargesPerTurn, heroAbility.ability.range, heroAbility.ability.validTargetTypes, heroAbility.ability.iconPath);
-                heroAbilities.Add(new HeroAbility(ability, heroAbility.manaCost, heroAbility.cooldown, heroAbility.level, heroAbility.maxLevel, heroAbility.minLevelToLearn));
+                heroAbilities.Add(new HeroAbility(ability, heroAbility.manaCost, heroAbility.cooldown, heroAbility.level, heroAbility.maxLevel, heroAbility.minLevelToLearn, heroAbility.isUltimate));
             }
 
             Global.gameManager.game.unitDictionary.TryAdd(id, this);
@@ -90,18 +93,55 @@ public class Hero : Unit
         }
     }
 
-    public override void SpawnSetup(GameHex targetGameHex)
+    public override void onDeathEffects()
     {
+        Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
+        //Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this.id);
+        this.respawnCountdown = 10;
+        RemoveVision(true);
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Remove);
+            Global.gameManager.graphicManager.uiManager.CallDeferred("Update", (int)UIElement.endTurnButton);
+        }
+    }
+
+    public override void SpawnSetup(GameHex targetGameHex, bool isRespawn=false)
+    {
+        Global.gameManager.game.playerDictionary[teamNum].ourHeroID = this.id;
         spawnSetupFinished = true;
         targetGameHex.units.Add(id);
         hex = targetGameHex.hex;
-        Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
+        if(!isRespawn)
+        {
+            Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
+        }
         RecalculateEffects();
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewHero", id);
     }
 
+    public void RespawnHero()
+    {
+        foreach (int cityID in Global.gameManager.game.playerDictionary[teamNum].cityList)
+        {
+            if (Global.gameManager.game.cityDictionary[cityID].isCapital)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[hex].SpawnUnit(this, false, true, true);
+                isDead = false;
+            }
+        }
+    }
+
     public override void OnTurnStarted(int turnNumber)
     {
+        if(respawnCountdown > 0)
+        {
+            respawnCountdown--;
+        }
+        if (respawnCountdown <= 0 && isDead)
+        {
+            RespawnHero();
+        }
         base.OnTurnStarted(turnNumber);
         mana += manaRegeneration;
         if(mana > maxMana)
@@ -127,4 +167,6 @@ public class Hero : Unit
             avaliableSkillPoints++;
         }
     }
+
+
 }

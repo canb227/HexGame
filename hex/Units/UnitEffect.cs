@@ -326,6 +326,10 @@ public class UnitEffect
             }
             Global.gameManager.graphicManager.CallDeferred("UnselectObject");
         }
+        if (unit is Hero hero)
+        {
+            hero.IncreaseExperience(25);
+        }
         return true;
     }
 

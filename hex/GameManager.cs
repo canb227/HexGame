@@ -1232,8 +1232,8 @@ public partial class GameManager : Node
             if (unit is Hero hero)
             {
                 HeroAbility heroAbility = hero.heroAbilities.Find(x => x.ability.name == abilityName);
-                Global.gameManager.graphicManager.uiManager.UpdateHeroUIDisplay();
                 heroAbility.LevelUpAbility(hero);
+                Global.gameManager.graphicManager.uiManager.UpdateHeroUIDisplay();
             }
 
         }

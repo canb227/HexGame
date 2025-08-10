@@ -336,7 +336,7 @@ public class GameHex
 
     //if stackable is true allow multiple units to stack
     //if flexible is true look for adjacent spaces to place
-    public bool SpawnUnit(Unit newUnit, bool stackable, bool flexible)
+    public bool SpawnUnit(Unit newUnit, bool stackable, bool flexible, bool isRespawn=false)
     {
         if((!stackable && units.Any()) || newUnit.movementCosts[(TerrainMoveType)terrainType] > 100 || newUnit.movementCosts[(TerrainMoveType)terrainType] < 0) //if they cant stack and their are units or the hex is invalid for this unit
         {
@@ -344,7 +344,7 @@ public class GameHex
             {
                 foreach(Hex rangeHex in hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom).OrderBy(h => hex.Distance(h)))
                 {
-                    if(Global.gameManager.game.mainGameBoard.gameHexDict[rangeHex].SpawnUnit(newUnit, stackable, false))
+                    if(Global.gameManager.game.mainGameBoard.gameHexDict[rangeHex].SpawnUnit(newUnit, stackable, false, isRespawn))
                     {
                         return true;
                     }
@@ -357,11 +357,11 @@ public class GameHex
         {
             if (newUnit is Hero hero)
             {
-                hero.SpawnSetup(this);
+                hero.SpawnSetup(this, isRespawn);
             }
             else
             {
-                newUnit.SpawnSetup(this);
+                newUnit.SpawnSetup(this, isRespawn);
             }
             return true;
         }

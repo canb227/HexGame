@@ -105,7 +105,7 @@ public class Player : BasePlayer
     public int sciencePerEncampment { get; set; }
     public int culturePerEncampment { get; set; }
     public int influencePerEncampment { get; set; }
-    public int cityCombatStrengthMod { get; set; } = 20;
+    public int cityCombatStrengthMod { get; set; }
     public Dictionary<string, (DistrictType, float)> districtTypeProductionBoosts { get; set; } = new();
     public Dictionary<string, (UnitClass, float)> unitClassProductionBoosts { get; set; } = new();
 

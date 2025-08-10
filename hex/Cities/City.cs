@@ -711,7 +711,7 @@ public partial class City
 
         if (productionQueue.Any() == false)
         {
-            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager3)) manager3.UpdateGraphic(id, GraphicUpdateType.Update);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager3)) manager3.CallDeferred("UpdateGraphic" ,id, (int)GraphicUpdateType.Update);
         }
 
         foodStockpile += yields.food;

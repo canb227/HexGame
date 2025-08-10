@@ -88,8 +88,8 @@ public partial class District
         }
         if (isCityCenter)
         {
-            maxHealth = 50.0f;
-            health = 50.0f;
+            maxHealth = 125.0f;
+            health = 125.0f;
             districtType = DistrictType.citycenter;
         }
         else

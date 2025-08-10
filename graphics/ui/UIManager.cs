@@ -86,6 +86,12 @@ public partial class UIManager : Node3D
 
     public EventSelectionPanel eventSelectionPanel;
 
+    public VBoxContainer heroContainer;
+    public ProgressBar healthBar;
+    public ProgressBar manaBar;
+    public Label totalHealthLabel;
+    public Label totalManaLabel;
+
 
 
     public VBoxContainer actionQueue;
@@ -110,6 +116,8 @@ public partial class UIManager : Node3D
 
     public bool windowOpen = false;
     public bool pauseMenuOpen = false;
+
+    public Hero hero;
 
     public UIManager(Layout layout)
     {
@@ -161,6 +169,14 @@ public partial class UIManager : Node3D
         waitingOnYouPanel = screenUI.GetNode<PanelContainer>("LayerHelper/EndTurnButton/WaitingOnPlayerPanel");
         waitingOnYouPanel.Visible = false;
 
+
+        heroContainer = screenUI.GetNode<VBoxContainer>("HeroContainer");
+        healthBar = screenUI.GetNode<ProgressBar>("HeroContainer/HealthBar");
+        manaBar = screenUI.GetNode<ProgressBar>("HeroContainer/ManaBar");
+        totalHealthLabel = screenUI.GetNode<Label>("HeroContainer/HealthBar/TotalHealth");
+        totalManaLabel = screenUI.GetNode<Label>("HeroContainer/ManaBar/TotalMana");
+        heroContainer.Visible = false;
+
         playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
         foreach (Player player in Global.gameManager.game.playerDictionary.Values)
         {
@@ -195,7 +211,7 @@ public partial class UIManager : Node3D
         AddChild(unitInfoPanel);
         unitInfoPanel.Visible = false;
 
-        heroInfoPanel = new HeroInfoPanel();
+        heroInfoPanel = new HeroInfoPanel(healthBar, manaBar, totalHealthLabel, totalManaLabel);
         heroInfoPanel.Name = "HeroInfoPanel";
         AddChild(heroInfoPanel);
         heroInfoPanel.Visible = false;
@@ -473,6 +489,10 @@ public partial class UIManager : Node3D
         heroInfoPanel.HeroSelected(hero);
     }
 
+    public void ShowHeroUI()
+    {
+        heroContainer.Visible = true;
+    }
     public void HeroUnselected(Hero hero)
     {
         heroInfoPanel.HeroUnselected(hero);

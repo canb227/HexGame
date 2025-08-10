@@ -71,8 +71,9 @@ public class BasePlayer
     public Dictionary<Hex, ResourceType> hiddenGlobalResources { get; set;} = new();
     public GovernmentType government { get; set; } = GovernmentType.None;
     public HashSet<GovernmentType> avaliableGovernments { get; set;} = new();
-    public float strongestUnitBuilt { get; set; } = 0.0f;
+    public float strongestUnitBuilt { get; set; } = 20.0f;
     public int idCounter { get; set; } = 1;
+    public int ourHeroID { get; set; }
     public Yields flatYields { get; set; } = new();
     public Yields roughYields { get; set; } = new();
     public Yields mountainYields { get; set; } = new();

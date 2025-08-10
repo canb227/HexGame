@@ -19,7 +19,8 @@ public class HeroAbility
     public int level;
     public int maxLevel;
     public int minLevelToLearn;
-    public HeroAbility(UnitAbility ability, int[] manaCost, int[] cooldown, int level, int maxLevel, int minLevelToLearn)
+    public bool isUltimate;
+    public HeroAbility(UnitAbility ability, int[] manaCost, int[] cooldown, int level, int maxLevel, int minLevelToLearn, bool isUltimate)
     {
         this.ability = ability;
         this.manaCost = manaCost;
@@ -64,6 +65,35 @@ public class HeroAbility
         {
             level = maxLevel;
             return false;
+        }
+        if (isUltimate)
+        {
+            // Ultimate ability upgrade milestones: 6, 12, 18
+            if ((level == 0 && hero.level >= 6) ||
+                (level == 1 && hero.level >= 12) ||
+                (level == 2 && hero.level >= 18))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            // Normal ability upgrade milestones: 1, 3, 5, 7
+            if ((level == 0 && hero.level >= 1) ||
+                (level == 1 && hero.level >= 3) ||
+                (level == 2 && hero.level >= 5) ||
+                (level == 3 && hero.level >= 7))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         return true;
     }

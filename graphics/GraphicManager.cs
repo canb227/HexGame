@@ -103,6 +103,7 @@ public partial class GraphicManager : Node3D
         GraphicHero graphicHero = new GraphicHero(hero);
         graphicObjectDictionary.Add(graphicHero.unit.id, graphicHero);
         CallDeferred(Node.MethodName.AddChild, graphicHero);
+        uiManager.ShowHeroUI();
     }
 
     public void NewDistrict(Godot.Collections.Dictionary hexData)

@@ -48,8 +48,18 @@ public partial class HeroInfoPanel : Node3D
 
     private PackedScene heroAbilityButtonScene;
 
-    public HeroInfoPanel()
+    private ProgressBar topLeftHealthBar;
+    private ProgressBar topLeftManaBar;
+    private Label topLeftTotalHealthLabel;
+    private Label topLeftTotalManaLabel;
+
+    public HeroInfoPanel(ProgressBar topLeftHealthBar, ProgressBar topLeftManaBar, Label topLeftTotalHealthLabel, Label topLeftTotalManaLabel)
     {
+        this.topLeftHealthBar = topLeftHealthBar;
+        this.topLeftManaBar = topLeftManaBar;
+        this.topLeftTotalHealthLabel = topLeftTotalHealthLabel;
+        this.topLeftTotalManaLabel = topLeftTotalManaLabel;
+
         heroInfoPanel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/HeroInfoPanel.tscn").Instantiate<PanelContainer>();
 
         unitImage = heroInfoPanel.GetNode<TextureRect>("UnitHFlow/HBoxContainer/UnitImage");
@@ -83,6 +93,7 @@ public partial class HeroInfoPanel : Node3D
         heroAbilityButtonScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/HeroAbilityButton.tscn");
 
         AddChild(heroInfoPanel);
+        heroInfoPanel.Visible = false;
     }
 
 
@@ -302,6 +313,12 @@ public partial class HeroInfoPanel : Node3D
         manaBar.MaxValue = hero.maxMana;
         experienceBar.Value = hero.experience;
         experienceBar.MaxValue = hero.experienceToLevelUp[hero.level];
+        topLeftHealthBar.Value = Math.Round(hero.health);
+        topLeftHealthBar.MaxValue = 100;
+        topLeftManaBar.Value = hero.mana;
+        topLeftManaBar.MaxValue = hero.maxMana;
+        topLeftTotalHealthLabel.Text = Math.Round(hero.health) + "/" + "100";
+        topLeftTotalManaLabel.Text = hero.mana + "/" + hero.maxMana;
     }
     private void AbilityButtonPressed(UnitAbility ability)
     {

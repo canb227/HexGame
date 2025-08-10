@@ -40,7 +40,6 @@ public partial class GraphicUnit : GraphicObject
             Visible = false;
             Global.gameManager.graphicManager.toBeDeleted.Add(unit.id, this);
             Global.gameManager.graphicManager.hexObjectDictionary[unit.hex].Remove(this);
-            //Free();
         }
         else if (graphicUpdateType == GraphicUpdateType.Move || graphicUpdateType == GraphicUpdateType.Update)
         {
