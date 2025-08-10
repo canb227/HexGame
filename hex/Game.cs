@@ -25,7 +25,7 @@ public class Game
 
     public Player localPlayerRef;
 
-    public int numAI = 0;
+    public int numAI { get; set; } = 0;
 
     public int CurrentID
     {

@@ -13,10 +13,11 @@ using System.Threading.Tasks;
 using static AIUtils;
 public partial class AIManager : Node
 {
+    const bool AITURNENDFALLBACK = false;
     const bool AIDEBUG = true; 
     public List<AI> aiList = new List<AI>();
     Random rng = new Random();
-    double AIEndTurnFrequency = 3f;
+    double AIEndTurnFrequency = 10f;
     double AIEndTurnCounter = 0;
     //tired of calling the whole Global.gameManager.game.mainGameBoard.blah all the time
     int top;
@@ -26,6 +27,8 @@ public partial class AIManager : Node
 
     public override void _PhysicsProcess(double delta)
     {
+        if (!AITURNENDFALLBACK)
+        { return; }
         AIEndTurnCounter += delta;
         if (AIEndTurnCounter > AIEndTurnFrequency)
         {
@@ -163,6 +166,7 @@ public partial class AIManager : Node
 
     public bool RunAllAITurns()
     {
+        Global.Log("Starting AI turns...");
         AIEndTurnCounter = 0;
         foreach (AI ai in aiList)
         {
@@ -179,6 +183,10 @@ public partial class AIManager : Node
                 HandleResearchAndCulture(ai);
                 if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Starting End Turn process"); }
                 EndAITurn(ai);
+            }
+            else
+            {
+                Global.Log($"AI #{ai.player.teamNum} has already finished its turn.");
             }
 
         }

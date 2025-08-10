@@ -33,6 +33,13 @@ public partial class GameManager : Node
 
     public void SaveGame(String filePath)
     {
+        Global.Log("So you're saving the game, time to dump some data.");
+        Global.Log($"We're saving the game on turn #{Global.gameManager.game.turnManager.currentTurn}");
+        Global.Log($"Lets check in on our AI turn statuses. (NUMAI:{Global.gameManager.game.numAI}) If all is well these should all be false.");
+        foreach (AIUtils.AI ai in Global.gameManager.AIManager.aiList)
+        {
+            Global.Log($"AI#{ai.player.teamNum}: turn finished?: {ai.player.turnFinished}");
+        }
         JsonSerializerOptions options = new JsonSerializerOptions
         {
             WriteIndented = true,
@@ -430,6 +437,7 @@ public partial class GameManager : Node
         List<int> waitingForPlayerList = game.turnManager.CheckTurnStatus();
         if (graphicManager!=null&& !waitingForPlayerList.Any())
         {
+            Global.Log("All players have finished their turns. Starting a new turn");
             game.turnManager.StartNewTurn();
             graphicManager.StartNewTurn();
         }
@@ -1109,7 +1117,18 @@ public partial class GameManager : Node
 
     public void StartGameForReal()
     {
-        Global.Log("SpawnUnit command for my team's founder. Starting game and moving camera to here.");
+        Global.Log("Starting the game for real...");
+        if (Global.lobby.saveGameLoaded)
+        {
+            Global.Log("So you're loading a game, time to dump some data");
+            Global.Log($"We're loading into the game on turn #{Global.gameManager.game.turnManager.currentTurn}");
+            Global.Log($"Lets check in on our AI turn statuses. (NUMAI:{Global.gameManager.game.numAI}) If all is well these should all be false.");
+            foreach (AIUtils.AI ai in Global.gameManager.AIManager.aiList)
+            {
+                Global.Log($"AI#{ai.player.teamNum}: turn finished?: {ai.player.turnFinished}");
+            }
+        }
+
         InitGraphics(game, Global.layout);
         Global.menuManager.ClearMenus();
         gameStarted = true;

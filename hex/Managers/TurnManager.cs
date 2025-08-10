@@ -35,18 +35,23 @@ public class TurnManager
     }
     public void EndCurrentTurn(int teamNum)
     {
+        Global.Log("Attempting to end turn of " +teamNum);
         if (!Global.gameManager.game.playerDictionary[teamNum].turnFinished)
         {
             Global.gameManager.game.playerDictionary[teamNum].OnTurnEnded(currentTurn);
+            Global.Log("Ended end turn of " +teamNum);
             if (Global.gameManager.game.mainGameBoard != null && teamNum == 0)
             {
                 Global.gameManager.game.mainGameBoard.OnTurnEnded(currentTurn);
+                Global.Log("wtf is this @Jeff");
             }
         }
+        Global.Log($"Still wating for {CheckTurnStatus().Count} players to end turn! (numAI: {Global.gameManager.game.numAI}");
         if (CheckTurnStatus().Count == Global.gameManager.game.numAI)
         {
             if (Global.gameManager.isHost)
             {
+                Global.Log("All non-AI players have gone, running AI turns");
                 //foreach (AI ai in Global.gameManager.AIManager.aiList)
                 //{
                 //    Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAITurn(ai));

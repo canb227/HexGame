@@ -23,7 +23,7 @@ public partial class PauseMenu : Control
 
 	public void onSaveButtonPressed()
 	{
-		Global.gameManager.SaveGame("user://testsave.txt");
+		Global.gameManager.SaveGame(OS.GetUserDataDir() + "/saves/testsave.txt");
 	}
 
 	public void onResumeButtonPressed()

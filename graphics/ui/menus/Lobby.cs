@@ -43,7 +43,7 @@ public partial class Lobby : Control
     List<int> teamNums = new List<int>();
     List<int> teamColors = new();
     private int MAXTEAMS = 99;
-    private bool saveGameLoaded = false;
+    public bool saveGameLoaded = false;
     private GameDataMessage saveGameData;
 
     // Called when the node enters the scene tree for the first time.
@@ -594,7 +594,7 @@ public partial class Lobby : Control
         dialog.Access = FileDialog.AccessEnum.Filesystem;
         dialog.Title = "Load Game";
         dialog.OkButtonText = "Load";
-        dialog.UseNativeDialog = false;
+        dialog.UseNativeDialog = true;
         dialog.CurrentDir = OS.GetUserDataDir()+"/saves";
         dialog.Show();
         
