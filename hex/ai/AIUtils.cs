@@ -47,10 +47,10 @@ public static class AIUtils
         public List<int> attackers = new();
 
         public bool hasGatherTarget = false;
-        public Hex gatherTarget;
+        public Hex gatherTarget = Hex.nullHex;
         public bool isAttacking = false;
         public bool hasAttackTarget = false;
-        public Hex attackTarget;
+        public Hex attackTarget = Hex.nullHex;
 
         public bool canBuildSettler = true;
         public bool canSettleCities = true;

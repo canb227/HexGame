@@ -147,11 +147,20 @@ public partial class AIManager : Node
         }
         foreach (var teamNum in Global.gameManager.game.playerDictionary.Keys)
         {
-            if (teamNum!=ai.player.teamNum)
+            if (ai.player.faction==FactionType.Goblins)
             {
-                Global.gameManager.SetDiplomaticState(ai.player.teamNum, teamNum, DiplomaticState.War);
+                if (Global.gameManager.game.playerDictionary[teamNum].faction != FactionType.Goblins)
+                {
+                    Global.gameManager.SetDiplomaticState(ai.player.teamNum, teamNum, DiplomaticState.War);
+                }
             }
-
+            else if (ai.player.faction == FactionType.Humans)
+            {
+                if (teamNum != ai.player.teamNum)
+                {
+                    Global.gameManager.SetDiplomaticState(ai.player.teamNum, teamNum, DiplomaticState.War);
+                }
+            }
         }
     }
 
@@ -224,7 +233,7 @@ public partial class AIManager : Node
                 {
                     foreach (int uid in Global.gameManager.game.mainGameBoard.gameHexDict[hex].units)
                     {
-                        if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] unit{unit.id} is next to another unit. Checking if its a baddie."); }
+                        //if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] unit{unit.id} is next to another unit. Checking if its a baddie."); }
                         if (IsEnemy(ai.player.teamNum, Global.gameManager.game.unitDictionary[unitID].teamNum))
                         {
                             if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] unit{unit.id} is next to an enemy, attacking it."); }
@@ -277,11 +286,27 @@ public partial class AIManager : Node
     {
         if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Army/Attacker Management Subroutine"); }
         if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Attacking?: {ai.isAttacking} Army size: {ai.attackers.Count} Desired army size: {GetDesiredArmySize(ai)}"); }
-        
+        if (ai.player.faction==FactionType.Goblins)
+        {
+            if (ai.gatherTarget.Equals(Hex.nullHex))
+            {
+                foreach (var city in ai.player.cityList)
+                {
+                    if (Global.gameManager.game.cityDictionary[city].isCapital)
+                    {
+                        ai.gatherTarget = Global.gameManager.game.cityDictionary[city].hex;
+
+                    }
+                }
+            }
+            Global.Log($"AI:#{ai.player.teamNum} | Faction:{ai.player.faction.ToString()} | Attacking?:{ai.isAttacking} | AttackTarget:{ai.attackTarget} | GatherTarget:{ai.gatherTarget}");
+            Global.Log($"NumAttackersReady: {ai.attackers.Count} | NumAttackersNeeded:{GetDesiredArmySize(ai)}");
+        }
+
         if (ai.isAttacking)
         {
             if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] We are in attack mode!"); }
-            if (ai.attackers.Count < GetDesiredArmySize(ai) * 0.2)
+            if (ai.attackers.Count <= GetDesiredArmySize(ai) * 0.5)
             {
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Army dead, retreating."); }
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new gather target"); }
@@ -291,7 +316,7 @@ public partial class AIManager : Node
                 ai.hasGatherTarget = true;
                 ai.isAttacking = false;
                 ai.hasAttackTarget = false;
-                ai.attackTarget = new Hex();
+                ai.attackTarget = Hex.nullHex;
                 Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
             }
             else if (Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget].district.health <= 0)
@@ -300,7 +325,6 @@ public partial class AIManager : Node
                 Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.attackTarget;
                 ai.attackTarget = FindAttackTarget(ai, unit);
-                
             }
         }
         else if (!ai.isAttacking)
@@ -327,22 +351,23 @@ public partial class AIManager : Node
             }
             if (FindClosestAnyEnemyInRange(ai, unit.hex, 2, out Hex target))
             {
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}]UNIT: {unit.id} Soldier attacking nearby enemy."); }
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}]UNIT: {unit.id} Soldier attacking nearby enemy at {target}"); }
                 MilitaryUnitMoveOrAttack(ai, unit, target);
             }
+            /*
             else if (unit.currentPath != null && unit.currentPath.Count != 0)
             {
                 continue;
-            }
+            }*/
             else if (ai.isAttacking)
             {
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Moving soldier to attack point."); }
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] UNIT: {unit.id} Moving soldier to attack point {ai.attackTarget}"); }
                 MilitaryUnitMoveOrAttack(ai, unit, ai.attackTarget);
             }
             else
             {
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}]  UNIT: {unit.id} Moving soldier to gather point."); }
-                MilitaryUnitMoveOrAttack(ai, Global.gameManager.game.unitDictionary[attacker], ai.gatherTarget);
+                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}]  UNIT: {unit.id} Moving soldier to gather point {ai.gatherTarget}"); }
+                MilitaryUnitMoveOrAttack(ai, unit, ai.gatherTarget);
             }
         }
     }
@@ -356,6 +381,8 @@ public partial class AIManager : Node
             if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex}"); }
             if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] With district {h.district.districtType} that has health {h.district.health}."); }
             Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+            ai.hasAttackTarget = true;
+            ai.isAttacking = true;
             return target;
         }
         else
@@ -369,8 +396,11 @@ public partial class AIManager : Node
                     if (!target.Equals(Hex.nullHex))
                     {
                         GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[target];
-                        if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
+                        if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex}"); }
+                        if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] With district {h.district.districtType} that has health {h.district.health}."); }
                         Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+                        ai.hasAttackTarget = true;
+                        ai.isAttacking = true;
                         return target;
                     }
                     else
@@ -382,12 +412,16 @@ public partial class AIManager : Node
                             randomCityID = Global.gameManager.game.cityDictionary.Keys.ToList()[rng.Next(Global.gameManager.game.cityDictionary.Keys.Count)];
                             randomCity = Global.gameManager.game.cityDictionary[randomCityID];
                         }
+                        ai.hasAttackTarget = true;
+                        ai.isAttacking = true;
                         return randomCity.hex;
                     }
                 }
             }
             
         }
+        ai.hasAttackTarget = false;
+        ai.isAttacking = false;
         return Hex.nullHex;
     }
 
@@ -569,6 +603,7 @@ public partial class AIManager : Node
             if (unit.unitType == "Founder")
             {
                 AIActivateAbility(ai, unit, "SettleCapitalAbility", unit.hex);
+                ai.gatherTarget = unit.hex;
             }
             else
             {
