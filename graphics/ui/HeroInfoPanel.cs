@@ -160,9 +160,15 @@ public partial class HeroInfoPanel : Node3D
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => AbilityButtonPressed(ability);
                 abilityFlowContainer.AddChild(abilityButton);
+                if(ability.combatPower != 0 && hero.attacksLeft <= 0)
+                {
+                    abilityButton.Disabled = true;
+                    continue;
+                }
                 if(ability.currentCharges <= 0)
                 {
                     abilityButton.Disabled = true;
+                    continue;
                 }
                 else
                 {
@@ -171,6 +177,7 @@ public partial class HeroInfoPanel : Node3D
                 if (hero.teamNum != Global.gameManager.game.localPlayerTeamNum)
                 {
                     abilityButton.Disabled = true;
+                    continue;
                 }
                 //check if there are any valid targets
                 List<Hex> hexes = new List<Hex>();
@@ -190,12 +197,14 @@ public partial class HeroInfoPanel : Node3D
                     else
                     {
                         abilityButton.Disabled = true;
+                        continue;
                     }
                 }
 
                 if (hexes.Count <= 0)
                 {
                     abilityButton.Disabled = true;
+                    continue;
                 }
             }
             foreach (HeroAbility heroAbility in hero.heroAbilities)
@@ -254,9 +263,16 @@ public partial class HeroInfoPanel : Node3D
                 tempControl.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill; 
                 heroAbilityFlowContainer.AddChild(tempControl);
                 heroAbilityFlowContainer.AddChild(abilityButton);
+
+                if (heroAbility.ability.combatPower != 0 && hero.attacksLeft <= 0)
+                {
+                    abilityButton.Disabled = true;
+                    continue;
+                }
                 if (heroAbility.ability.currentCharges <= 0 || heroAbility.manaCost[heroAbility.level] > hero.mana || heroAbility.currentCooldown > 0 || heroAbility.level <= 0)
                 {
                     abilityButton.Disabled = true;
+                    continue;
                 }
                 else
                 {
@@ -265,6 +281,7 @@ public partial class HeroInfoPanel : Node3D
                 if (hero.teamNum != Global.gameManager.game.localPlayerTeamNum)
                 {
                     abilityButton.Disabled = true;
+                    continue;
                 }
                 //check if there are any valid targets
                 List<Hex> hexes = new List<Hex>();
@@ -276,7 +293,7 @@ public partial class HeroInfoPanel : Node3D
                     }
                 }
                 //if it is a settle ability check the parameters special
-                /*if ()
+                if (heroAbility.ability.name == "SettleCityAbility" )
                 {
                     if (hero.CanSettleHere(hero.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }, false))
                     {
@@ -286,16 +303,20 @@ public partial class HeroInfoPanel : Node3D
                     {
                         abilityButton.Disabled = true;
                     }
-                }*/
+                }
 
                 if (hexes.Count <= 0)
                 {
                     abilityButton.Disabled = true;
+                    continue;
                 }
             }
             Control tempControl2 = new Control();
             tempControl2.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
             heroAbilityFlowContainer.AddChild(tempControl2);
+        }
+        if(hero != null)
+        {
             UpdateHealthAndMana();
         }
     }

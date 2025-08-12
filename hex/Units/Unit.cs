@@ -127,7 +127,6 @@ public partial class Unit
     {
         if (remainingMovement >= movementSpeed && attacksLeft >= maxAttackCount)
         {
-            GD.Print("heal");
             if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].ownedBy == teamNum)
             {
                 increaseHealth(healingFactor + 5);
@@ -140,10 +139,6 @@ public partial class Unit
             {
                 increaseHealth(healingFactor);
             }
-        }
-        else
-        {
-            GD.Print("no heal? " + remainingMovement + " " + movementSpeed + " " + attacksLeft + " " + maxAttackCount);
         }
         if (fortifying && fortifyStrength < 6)
         {
@@ -369,6 +364,10 @@ public partial class Unit
         if (this is Hero hero)
         {
             hero.IncreaseExperience((int)Math.Round(CalculateDamage(modCombatStrength, unitModCombatStrength, randomFactor)));
+        }
+        if(unit is Hero targetHero)
+        {
+            targetHero.IncreaseExperience((int)Math.Round(CalculateDamage(unitModCombatStrength, modCombatStrength, randomFactor)));
         }
         return !decreaseHealth(CalculateDamage(modCombatStrength, unitModCombatStrength, randomFactor)) & unit.decreaseHealth(CalculateDamage(unitModCombatStrength, modCombatStrength, randomFactor));
 
@@ -780,14 +779,12 @@ public partial class Unit
 
     public bool TryMoveToGameHex(GameHex targetGameHex, TeamManager teamManager)
     {
-        GD.Print("we in");
         if(targetGameHex.units.Any() & !isTargetEnemy)
         {
             GD.Print(targetGameHex.units.Any() + " " + !isTargetEnemy);
             return false;
         }
         float moveCost = TravelCost(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex, teamManager, isTargetEnemy, movementCosts, movementSpeed, movementSpeed-remainingMovement, false);
-        GD.Print(moveCost);
         if(moveCost <= remainingMovement)
         {
             if(isTargetEnemy & targetGameHex.hex.Equals(currentPath.Last()))
@@ -840,9 +837,9 @@ public partial class Unit
                     && Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.isCityCenter 
                     && Global.gameManager.game.teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].teamNum))
                 {
-                    GD.Print("We moved onto it");
                     Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.cityID].DistrictFell();
                 }
+
                 UpdateVision();
                 if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
                 {
@@ -860,6 +857,7 @@ public partial class Unit
                                 { "s", hex.s }
                             };
                     Global.gameManager.graphicManager.CallDeferred("UpdateHexObjectDictionary", previousHexData, id, hexData);
+                    Global.gameManager.graphicManager.CallDeferred("PlayersCheckVisibility", hexData);
 
                 }
                 return true;

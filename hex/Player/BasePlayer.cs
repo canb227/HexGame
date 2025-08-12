@@ -281,7 +281,19 @@ public class BasePlayer
             }
         }
 
-
+        if(ourHeroID != 0)
+        {
+            Hero hero = (Hero)Global.gameManager.game.unitDictionary[ourHeroID];
+            if (hero.respawnCountdown > 0)
+            {
+                hero.respawnCountdown--;
+                if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.uiManager.CallDeferred("UpdateHeroRespawn");
+            }
+            if (hero.respawnCountdown <= 0 && hero.isDead)
+            {
+                hero.RespawnHero();
+            }
+        }
         foreach (int unitID in unitList)
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];

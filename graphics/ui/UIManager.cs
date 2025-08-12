@@ -89,6 +89,8 @@ public partial class UIManager : Node3D
 
     public VBoxContainer heroContainer;
     public Button heroButton;
+    public TextureProgressBar heroRespawnBar;
+    public Label heroRespawnLabel;
     public ProgressBar healthBar;
     public ProgressBar manaBar;
     public Label totalHealthLabel;
@@ -171,12 +173,14 @@ public partial class UIManager : Node3D
 
 
         heroContainer = screenUI.GetNode<VBoxContainer>("HeroContainer");
-        heroButton = screenUI.GetNode<Button>("HeroContainer/SelectHeroButton");
+        heroButton = heroContainer.GetNode<Button>("SelectHeroButton");
         heroButton.Pressed += () => SelectHero();
-        healthBar = screenUI.GetNode<ProgressBar>("HeroContainer/HealthBar");
-        manaBar = screenUI.GetNode<ProgressBar>("HeroContainer/ManaBar");
-        totalHealthLabel = screenUI.GetNode<Label>("HeroContainer/HealthBar/TotalHealth");
-        totalManaLabel = screenUI.GetNode<Label>("HeroContainer/ManaBar/TotalMana");
+        heroRespawnBar = heroButton.GetNode<TextureProgressBar>("Cooldown");
+        heroRespawnLabel = heroButton.GetNode<Label>("CooldownLabel");
+        healthBar = heroContainer.GetNode<ProgressBar>("HealthBar");
+        manaBar = heroContainer.GetNode<ProgressBar>("ManaBar");
+        totalHealthLabel = heroContainer.GetNode<Label>("HealthBar/TotalHealth");
+        totalManaLabel = heroContainer.GetNode<Label>("ManaBar/TotalMana");
         heroContainer.Visible = false;
 
         playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
@@ -296,6 +300,7 @@ public partial class UIManager : Node3D
         {
             Global.gameManager.graphicManager.ClearWaitForTarget();
         }
+        Global.camera.SetHexTarget(Global.gameManager.game.unitDictionary[Global.gameManager.game.localPlayerRef.ourHeroID].hex);
         Global.gameManager.graphicManager.ChangeSelectedObject(Global.gameManager.game.localPlayerRef.ourHeroID, Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.localPlayerRef.ourHeroID]);
     }
 
@@ -490,6 +495,24 @@ public partial class UIManager : Node3D
         }
     }
 
+    public void UpdateHeroRespawn()
+    {
+        if(Global.gameManager.game.localPlayerRef.ourHeroID != 0)
+        {
+            Hero hero = (Hero)(Global.gameManager.game.unitDictionary[Global.gameManager.game.localPlayerRef.ourHeroID]);
+            heroRespawnBar.Value = hero.respawnCountdown;
+            heroRespawnBar.MaxValue = hero.maxRespawnCountdown;
+            if(hero.respawnCountdown <= 0)
+            {
+                heroRespawnLabel.Text = "";
+            }
+            else
+            {
+                heroRespawnLabel.Text = hero.respawnCountdown.ToString();
+            }
+        }
+    }
+
     public void UnitSelected(Unit unit)
     {
         unitInfoPanel.UnitSelected(unit);
@@ -530,6 +553,7 @@ public partial class UIManager : Node3D
     {
         unitInfoPanel.UpdateUnitPanelInfo();
         heroInfoPanel.UpdateHeroPanelInfo();
+        UpdateHeroUIDisplay();
     }
 
     public void CloseCurrentWindow()
@@ -613,6 +637,18 @@ public partial class UIManager : Node3D
         {
             endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/sleep.png");
             endTurnButton.Disabled = true;
+
+            Global.gameManager.graphicManager.UnselectObject();
+            if (Global.gameManager.graphicManager.GetWaitForTargeting())
+            {
+                Global.gameManager.graphicManager.ClearWaitForTarget();
+            }
+            if (Global.gameManager.graphicManager.uiManager.windowOpen || Global.gameManager.graphicManager.uiManager.pauseMenuOpen)
+            {
+                Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
+                Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
+            }
+
             Global.gameManager.EndTurn(Global.gameManager.game.localPlayerTeamNum);
             CloseCurrentWindow();
             //Global.gameManager.game.turnManager.EndCurrentTurn(Global.gameManager.game.localPlayerTeamNum);
@@ -846,6 +882,7 @@ public partial class UIManager : Node3D
         tradeExportButton.Visible = false;
         governmentButton.Visible = false;
         playerList.Visible = false;
+        heroContainer.Visible = false;
     }
     public void ShowGenericUI()
     {
@@ -855,6 +892,7 @@ public partial class UIManager : Node3D
         tradeExportButton.Visible = true;
         governmentButton.Visible = true;
         playerList.Visible = true;
+        heroContainer.Visible = true;
     }
 
     public void NewTurnStarted()

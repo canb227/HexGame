@@ -88,7 +88,7 @@ public partial class UnitInfoPanel : Node3D
         if (unitInfoPanel.Visible && unit != null)
         {
             healthProgressBar.Value = unit.health;
-            healthLabel.Text = unit.health.ToString() + "/100";
+            healthLabel.Text = Math.Round(unit.health).ToString() + "/100";
             movementLabel.Text = unit.remainingMovement.ToString() + "/" + unit.movementSpeed.ToString();
             if (unit.combatStrength > 0)
             {
@@ -120,7 +120,12 @@ public partial class UnitInfoPanel : Node3D
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => AbilityButtonPressed(ability, abilityButton);
                 abilityFlowContainer.AddChild(abilityButton);
-                if(ability.currentCharges <= 0)
+                if (ability.combatPower != 0 && unit.attacksLeft <= 0)
+                {
+                    abilityButton.Disabled = true;
+                    continue;
+                }
+                if (ability.currentCharges <= 0)
                 {
                     abilityButton.Disabled = true;
                 }

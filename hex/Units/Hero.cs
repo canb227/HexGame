@@ -26,6 +26,7 @@ public class Hero : Unit
     public int maxLevel { get; set; }
     public int avaliableSkillPoints { get; set; }
     public int respawnCountdown { get; set; }
+    public int maxRespawnCountdown { get; set; } = 10;
     public bool isDead { get; set; }
 
     public Hero(String heroName, int combatModifier, int id, int teamNum)
@@ -96,8 +97,10 @@ public class Hero : Unit
     public override void onDeathEffects()
     {
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
-        //Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this.id);
-        this.respawnCountdown = 10;
+        Global.gameManager.game.playerDictionary[teamNum].unitList.Remove(this.id);
+        isSleeping = true;
+        isDead = true;
+        this.respawnCountdown = maxRespawnCountdown;
         RemoveVision(true);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
@@ -112,10 +115,9 @@ public class Hero : Unit
         spawnSetupFinished = true;
         targetGameHex.units.Add(id);
         hex = targetGameHex.hex;
-        if(!isRespawn)
-        {
-            Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
-        }
+        Global.gameManager.game.playerDictionary[teamNum].unitList.Add(this.id);
+        isSleeping = false;
+        health = 100;
         RecalculateEffects();
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager)) manager.CallDeferred("NewHero", id);
     }
@@ -126,7 +128,7 @@ public class Hero : Unit
         {
             if (Global.gameManager.game.cityDictionary[cityID].isCapital)
             {
-                Global.gameManager.game.mainGameBoard.gameHexDict[hex].SpawnUnit(this, false, true, true);
+                Global.gameManager.game.mainGameBoard.gameHexDict[Global.gameManager.game.cityDictionary[cityID].hex].SpawnUnit(this, false, true, true);
                 isDead = false;
             }
         }
@@ -134,14 +136,6 @@ public class Hero : Unit
 
     public override void OnTurnStarted(int turnNumber)
     {
-        if(respawnCountdown > 0)
-        {
-            respawnCountdown--;
-        }
-        if (respawnCountdown <= 0 && isDead)
-        {
-            RespawnHero();
-        }
         base.OnTurnStarted(turnNumber);
         mana += manaRegeneration;
         if(mana > maxMana)
@@ -154,6 +148,7 @@ public class Hero : Unit
             {
                 heroAbility.currentCooldown--;
             }
+            heroAbility.ability.ResetAbilityUses();
         }
     }
 

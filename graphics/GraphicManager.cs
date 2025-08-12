@@ -249,6 +249,15 @@ public partial class GraphicManager : Node3D
         Global.gameManager.game.localPlayerRef.visibilityChangedList.Clear();
     }
 
+    public void PlayersCheckVisibility(Godot.Collections.Dictionary hexData)
+    {
+        Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
+        foreach (GraphicObject graphicObj in hexObjectDictionary[hex])
+        {
+            graphicObj.UpdateGraphic(GraphicUpdateType.Visibility);
+        }
+    }
+
     public void StartNewTurn()
     {
         graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id].UpdateGraphic(GraphicUpdateType.Update);

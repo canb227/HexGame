@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cqwb0y8pf7hny"]
+[gd_scene load_steps=21 format=3 uid="uid://cqwb0y8pf7hny"]
 
 [ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="2_n5e1u"]
 [ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="3_6wqba"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="9_pepai"]
 [ext_resource type="Texture2D" uid="uid://cu344k74oa32p" path="res://graphics/ui/icons/government.png" id="10_4wkif"]
 [ext_resource type="Texture2D" uid="uid://bc5l3kr1mfa7d" path="res://graphics/models/baseperson_settler_manface_pix.png" id="12_ltrvr"]
+[ext_resource type="Texture2D" uid="uid://dm8h7adrtwfgy" path="res://graphics/ui/icons/transparentfill400px.png" id="13_i43v1"]
 
 [sub_resource type="Theme" id="Theme_6wqba"]
 default_font_size = 24
@@ -390,17 +391,40 @@ alignment = 2
 [node name="HeroContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 378.0
+offset_left = 531.0
 offset_top = 82.0
-offset_right = 518.0
-offset_bottom = 339.0
+offset_right = 671.0
+offset_bottom = 354.0
 
 [node name="SelectHeroButton" type="Button" parent="HeroContainer"]
-custom_minimum_size = Vector2(0, 185.155)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 icon = ExtResource("12_ltrvr")
 icon_alignment = 1
 expand_icon = true
+
+[node name="Cooldown" type="TextureProgressBar" parent="HeroContainer/SelectHeroButton"]
+offset_right = 140.0
+offset_bottom = 186.0
+max_value = 10.0
+fill_mode = 5
+texture_progress = ExtResource("13_i43v1")
+
+[node name="CooldownLabel" type="Label" parent="HeroContainer/SelectHeroButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HealthBar" type="ProgressBar" parent="HeroContainer"]
 custom_minimum_size = Vector2(0, 32)

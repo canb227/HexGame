@@ -50,19 +50,7 @@
       <MaxLevel>4</MaxLevel>
       <MinLevelToLearn>1</MinLevelToLearn>
       <IsUltimate>False</IsUltimate>
-      <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
-        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
-      </UnitAbility>
-    </Ability>
-    <Ability>
-      <AbilityName>Fireball2</AbilityName>
-      <ManaCost>99, 30,25,25, 20</ManaCost>
-      <Cooldown>99, 3,3,2,1</Cooldown>
-      <Level>0</Level>
-      <MaxLevel>4</MaxLevel>
-      <MinLevelToLearn>1</MinLevelToLearn>
-      <IsUltimate>False</IsUltimate>
-      <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+      <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
       </UnitAbility>
     </Ability>

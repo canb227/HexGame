@@ -109,32 +109,36 @@ public partial class GraphicRuins : GraphicObject
 
     public override void UpdateGraphic(GraphicUpdateType graphicUpdateType)
     {
-        if (graphicUpdateType == GraphicUpdateType.Update || graphicUpdateType == GraphicUpdateType.Visibility)
+        if (IsInstanceValid(this))
         {
-            if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(ancientRuins.hex))
+            if (graphicUpdateType == GraphicUpdateType.Update || graphicUpdateType == GraphicUpdateType.Visibility)
             {
-                greyScaleShaderMaterial.SetShaderParameter("enabled", false);
-                this.Visible = true;
-                icon3D.Visible = true;
-                featureModel.Visible = true;
+                if (Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(ancientRuins.hex))
+                {
+                    greyScaleShaderMaterial.SetShaderParameter("enabled", false);
+                    this.Visible = true;
+                    icon3D.Visible = true;
+                    featureModel.Visible = true;
+                }
+                else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(ancientRuins.hex))
+                {
+                    greyScaleShaderMaterial.SetShaderParameter("enabled", true);
+                    this.Visible = true;
+                    icon3D.Visible = true;
+                    featureModel.Visible = true;
+                }
+                else
+                {
+                    this.Visible = false;
+                    icon3D.Visible = false;
+                    featureModel.Visible = false;
+                }
             }
-            else if (Global.gameManager.game.localPlayerRef.seenGameHexDict.ContainsKey(ancientRuins.hex))
+            if (graphicUpdateType == GraphicUpdateType.Remove)
             {
-                greyScaleShaderMaterial.SetShaderParameter("enabled", true);
-                this.Visible = true;
-                icon3D.Visible = true;
-                featureModel.Visible = true;
+                Global.gameManager.graphicManager.hexObjectDictionary[hex].Remove(this);
+                this.Free();
             }
-            else
-            {
-                this.Visible = false;
-                icon3D.Visible = false;
-                featureModel.Visible = false;
-            }
-        }
-        if(graphicUpdateType == GraphicUpdateType.Remove)
-        {
-            this.QueueFree();
         }
     }
 }
