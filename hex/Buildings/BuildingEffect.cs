@@ -500,7 +500,10 @@ public class BuildingEffect
 
     Yields ShrineEffect(Building building)
     {
-        ((Hero)Global.gameManager.game.unitDictionary[Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].teamNum].ourHeroID]).IncreaseExperience(10);
+        if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].teamNum].ourHeroID != 0)
+        {
+            ((Hero)Global.gameManager.game.unitDictionary[Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].teamNum].ourHeroID]).IncreaseExperience(10);
+        }
         return new Yields();
     }
     Yields BarracksEffect(Building building)
@@ -610,11 +613,14 @@ public class BuildingEffect
         Yields yields = new Yields();
         foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
         {
-            foreach (Building adjacentBuilding in Global.gameManager.game.mainGameBoard.gameHexDict[hex].district?.buildings)
+            if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
             {
-                if (building.name == "Farm")
+                foreach (Building adjacentBuilding in Global.gameManager.game.mainGameBoard.gameHexDict[hex].district?.buildings)
                 {
-                    yields.food += 1;
+                    if (building.name == "Farm")
+                    {
+                        yields.food += 1;
+                    }
                 }
             }
         }

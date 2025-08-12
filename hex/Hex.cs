@@ -24,6 +24,7 @@ public struct Point
 
 public struct Hex
 {
+    public static readonly Hex nullHex = new Hex(-1, -1, 2);
     public Hex(int q, int r, int s)
     {
         this.q = q;

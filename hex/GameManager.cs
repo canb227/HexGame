@@ -459,7 +459,7 @@ public partial class GameManager : Node
         }
         else
         {
-            Global.Log("Network (or loopback) move command recevied, executing.");
+            //Global.Log("Network (or loopback) move command recevied, executing.");
         }
 
 

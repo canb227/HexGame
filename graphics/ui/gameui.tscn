@@ -397,15 +397,16 @@ offset_right = 671.0
 offset_bottom = 354.0
 
 [node name="SelectHeroButton" type="Button" parent="HeroContainer"]
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(64, 128)
 layout_mode = 2
 icon = ExtResource("12_ltrvr")
 icon_alignment = 1
 expand_icon = true
 
 [node name="Cooldown" type="TextureProgressBar" parent="HeroContainer/SelectHeroButton"]
+layout_mode = 0
 offset_right = 140.0
-offset_bottom = 186.0
+offset_bottom = 200.0
 max_value = 10.0
 fill_mode = 5
 texture_progress = ExtResource("13_i43v1")

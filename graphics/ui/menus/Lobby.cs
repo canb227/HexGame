@@ -231,7 +231,7 @@ public partial class Lobby : Control
         }
         foreach (string faction in Enum.GetNames(typeof(FactionType)))
         {
-            if (!faction.Equals("All"))
+            if (!faction.Equals("All") && !FactionLoader.IsFactionMinor((FactionType)Enum.Parse(typeof(FactionType), faction)))
             {
                 PlayerListItem.GetNode<OptionButton>("factionselect").AddItem(faction);
             }

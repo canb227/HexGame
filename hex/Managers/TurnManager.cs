@@ -54,8 +54,8 @@ public class TurnManager
                 //{
                 //    Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAITurn(ai));
                 //}
-
-                Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns());
+                Global.gameManager.AIManager.RunAllAITurns();
+                //Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns());
             }
         }
     }

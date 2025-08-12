@@ -505,7 +505,6 @@ public static class AIUtils
     }
     public static Hex FindClosestEnemyDistrict(AI ai, Unit unit)
     {
-
         float distanceToClosestCity = float.MaxValue;
         City cityTarget = null;
         foreach (int cityID in Global.gameManager.game.cityDictionary.Keys)
@@ -528,9 +527,9 @@ public static class AIUtils
         }
         if (cityTarget == null)
         {
-            return unit.hex;
+            return Hex.nullHex;
         }
-        Hex target = new Hex();
+        Hex target = Hex.nullHex;
         float distanceToClosestDistrict = float.MaxValue;
         foreach (District district in cityTarget.districts)
         {

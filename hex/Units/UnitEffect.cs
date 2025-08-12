@@ -238,7 +238,27 @@ public class UnitEffect
             new City(Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum, cityName, true, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
             unit.decreaseHealth(99999.0f);
             //auto spawn hero
-            Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+            if(Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Humans)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+            }
+            if (Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Orcs)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+            }
+            if (Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Elves)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+            }
+            if (Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Beastfolk)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+            }
+            if (Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Hobbits)
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+            }
+
             return true;
         }
         return false;

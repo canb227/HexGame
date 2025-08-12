@@ -80,7 +80,7 @@ public partial class AIManager : Node
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "] Picking Strategies based on personality"); }
         switch (ai.player.faction)
         {
-            case FactionType.Human:
+            case FactionType.Humans:
                 ai.personality = PickMajorAIPersonality(ai,ai.player.faction);
                 switch (ai.personality)
                 {
@@ -300,9 +300,12 @@ public partial class AIManager : Node
                 Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.attackTarget;
                 ai.attackTarget = FindClosestEnemyDistrict(ai, unit);
-                GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
-                if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
-                Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+                if (!ai.attackTarget.Equals(Hex.nullHex))
+                {
+                    GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
+                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
+                    Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+                }
             }
         }
         else if (!ai.isAttacking)
@@ -314,7 +317,7 @@ public partial class AIManager : Node
                 Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.gatherTarget;
                 ai.attackTarget = FindClosestEnemyDistrict(ai, Global.gameManager.game.unitDictionary[-ai.player.teamNum]);
-                if (!ai.attackTarget.Equals(new Hex()))
+                if (!ai.attackTarget.Equals(Hex.nullHex))
                 {
                     GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
                     if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }

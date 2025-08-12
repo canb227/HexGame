@@ -55,7 +55,7 @@ public class BasePlayer
     public bool isAI { get; set; } = false;
     public bool isEncampment { get; set; } = false;
     public int teamNum { get; set; }
-    public FactionType faction { get; set; } = FactionType.Human;
+    public FactionType faction { get; set; } = FactionType.Humans;
     public bool turnFinished { get; set; }
     public List<int> unitList { get; set; } = new();
     public List<int> cityList { get; set; } = new();

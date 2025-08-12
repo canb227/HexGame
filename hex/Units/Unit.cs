@@ -495,7 +495,6 @@ public partial class Unit
 
     public void increaseHealth(float amount)
     {
-        GD.Print("HEAL BY: " + amount);
         health += amount;
         health = Math.Min(health, 100.0f);
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
@@ -1102,7 +1101,7 @@ public partial class Unit
                 if (cost_so_far[current] > 10000)
                 {
                     totalCost = cost_so_far[current];
-                    GD.Print("Pathfind fail1");
+                    //GD.Print("Pathfind fail1");
                     return new List<Hex>();
                 }
                 List<Hex> path = new List<Hex>();
