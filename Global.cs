@@ -211,7 +211,7 @@ public partial class Global : Node
         if (ImGui.Button("Skip 5 turns"))
         {
             gameManager.SkipPlayerTurns = Global.gameManager.game.localPlayerTeamNum;
-            gameManager.TurnsToSkip = 10;
+            gameManager.TurnsToSkip = 5;
         }
         if (ImGui.Button("Skip 10 turns"))
         {
@@ -226,7 +226,7 @@ public partial class Global : Node
         if (ImGui.Button("Skip 50 turns"))
         {
             gameManager.SkipPlayerTurns = Global.gameManager.game.localPlayerTeamNum;
-            gameManager.TurnsToSkip = 20;
+            gameManager.TurnsToSkip = 50;
         }
         if (ImGui.Button("Skip 100 turns"))
         {
