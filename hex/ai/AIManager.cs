@@ -299,13 +299,8 @@ public partial class AIManager : Node
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Attack t dead, retargeting."); }
                 Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.attackTarget;
-                ai.attackTarget = FindClosestEnemyDistrict(ai, unit);
-                if (!ai.attackTarget.Equals(Hex.nullHex))
-                {
-                    GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
-                    Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
-                }
+                ai.attackTarget = FindAttackTarget(ai, unit);
+                
             }
         }
         else if (!ai.isAttacking)
@@ -316,16 +311,7 @@ public partial class AIManager : Node
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Army size hit, starting attack."); }
                 Unit unit = new Unit("Scout", 0, -ai.player.teamNum, ai.player.teamNum);
                 unit.hex = ai.gatherTarget;
-                ai.attackTarget = FindClosestEnemyDistrict(ai, Global.gameManager.game.unitDictionary[-ai.player.teamNum]);
-                if (!ai.attackTarget.Equals(Hex.nullHex))
-                {
-                    GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
-                    ai.isAttacking = true;
-                    if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] Choosing new attack t"); }
-                    Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
-                }
-
+                ai.attackTarget = FindAttackTarget(ai, unit);
             }
         }
 
@@ -361,6 +347,46 @@ public partial class AIManager : Node
         }
     }
 
+    private Hex FindAttackTarget(AI ai, Unit unit)
+    {
+        Hex target = FindClosestEnemyDistrict(ai, unit);
+        if (!ai.attackTarget.Equals(Hex.nullHex))
+        {
+            GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
+            if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
+            Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+            return target;
+        }
+        else
+        {
+            foreach (var city in ai.player.cityList) 
+            {
+                if (Global.gameManager.game.cityDictionary[city].isCapital)
+                {
+                    unit.hex = Global.gameManager.game.cityDictionary[city].hex;
+                    target = FindClosestEnemyDistrict(ai, unit);
+                    if (!ai.attackTarget.Equals(Hex.nullHex))
+                    {
+                        GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
+                        if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
+                        Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
+                        return target;
+                    }
+                    else
+                    {
+                        City randomCity = Global.gameManager.game.cityDictionary[rng.Next(Global.gameManager.game.cityDictionary.Keys.Count)];
+                        while (!IsEnemy(ai.player.teamNum,randomCity.teamNum))
+                        {
+                            randomCity = Global.gameManager.game.cityDictionary[rng.Next(Global.gameManager.game.cityDictionary.Keys.Count)];
+                        }
+                        return randomCity.hex;
+                    }
+                }
+            }
+            
+        }
+        return Hex.nullHex;
+    }
 
     private void HandleDefenderUnitsForCity(AI ai, int cityID)
     {
@@ -446,7 +472,7 @@ public partial class AIManager : Node
 
     private void HandleDefenderUnitsForAllCities(AI ai)
     {
-        foreach (int cityID in ai.player.cityList)
+        foreach (int cityID in ai.player.cityList.ToList())
         {
             HandleDefenderUnitsForCity(ai, cityID);
         }
