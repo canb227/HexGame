@@ -20,6 +20,8 @@ public partial class GameManager : Node
     public Game game;
     public AudioManager audioManager = new();
     public bool gameStarted = false;
+    public int SkipPlayerTurns = -1;
+    internal int TurnsToSkip = 1;
 
     public GameManager()
     {
@@ -432,6 +434,19 @@ public partial class GameManager : Node
         if (game.teamManager.relationships.ContainsKey(2))
         {
             //game.turnManager.EndCurrentTurn(2);
+        }
+
+        if (SkipPlayerTurns!=-1)
+        {
+            if (TurnsToSkip > 0)
+            {
+                game.turnManager.EndCurrentTurn(SkipPlayerTurns);
+                TurnsToSkip--;
+            }
+            else
+            {
+                SkipPlayerTurns = -1;
+            }
         }
 
         List<int> waitingForPlayerList = game.turnManager.CheckTurnStatus();

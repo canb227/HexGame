@@ -16,6 +16,8 @@ public partial class Global : Node
     public const bool DISABLE_STEAM_DEBUG = false;
     public static ulong clientID = 0;
 
+    public static bool SilenceLogs = false;
+
     //Steam Callbacks
     protected Callback<GameRichPresenceJoinRequested_t> m_GameRichPresenceJoinRequested;
 
@@ -119,6 +121,7 @@ public partial class Global : Node
 
     public static void Log(string message, bool addTimestamp = true, LogLevel logLevel = LogLevel.Debug)
     {
+        if (Global.SilenceLogs) return;
         String messagePrefix = "[NULL]";
         switch (logLevel)
         {
@@ -205,9 +208,51 @@ public partial class Global : Node
             }
             
         }
+        if (ImGui.Button("Skip 5 turns"))
+        {
+            gameManager.SkipPlayerTurns = Global.gameManager.game.localPlayerTeamNum;
+            gameManager.TurnsToSkip = 10;
+        }
+        if (ImGui.Button("Skip 10 turns"))
+        {
+            gameManager.SkipPlayerTurns = Global.gameManager.game.localPlayerTeamNum;
+            gameManager.TurnsToSkip = 10;
+        }
+        if (ImGui.Button("Skip 20 turns"))
+        {
+            gameManager.SkipPlayerTurns = Global.gameManager.game.localPlayerTeamNum;
+            gameManager.TurnsToSkip = 20;
+        }
+        if (ImGui.Button("Skip 50 turns"))
+        {
+            gameManager.SkipPlayerTurns = Global.gameManager.game.localPlayerTeamNum;
+            gameManager.TurnsToSkip = 20;
+        }
+        if (ImGui.Button("Skip 100 turns"))
+        {
+            gameManager.SkipPlayerTurns = Global.gameManager.game.localPlayerTeamNum;
+            gameManager.TurnsToSkip = 100;
+        }
         if (ImGui.Button("Close Debug Menu"))
         {
             ShowDebugConsole = false;
+        }
+
+        if(ImGui.Button("SilenceAllLogs"))
+        {
+            Global.SilenceLogs = true;
+        }
+        if(ImGui.Button("SilenceAILogs"))
+        {
+            Global.gameManager.AIManager.AIDEBUG = false;
+        }
+        if (ImGui.Button("UnSilenceAllLogs"))
+        {
+            Global.SilenceLogs = false;
+        }
+        if (ImGui.Button("UnSilenceAILogs"))
+        {
+            Global.gameManager.AIManager.AIDEBUG = true;
         }
         ImGui.End();
     }

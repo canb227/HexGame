@@ -14,7 +14,7 @@ using static AIUtils;
 public partial class AIManager : Node
 {
     const bool AITURNENDFALLBACK = false;
-    const bool AIDEBUG = true; 
+    public bool AIDEBUG = true; 
     public List<AI> aiList = new List<AI>();
     Random rng = new Random();
     double AIEndTurnFrequency = 10f;
@@ -217,10 +217,7 @@ public partial class AIManager : Node
         foreach (int unitID in ai.player.unitList.ToList())
         {
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
-            if (unit.currentPath != null && unit.currentPath.Count!=0)
-            {
-                continue;
-            }
+
             if ((unit.unitClass & UnitClass.Combat) ==UnitClass.Combat)
             {
                 foreach (Hex hex in unit.hex.WrappingNeighbors(left, right, bottom))
@@ -236,7 +233,10 @@ public partial class AIManager : Node
                     }
                 }
             }
-
+            if (unit.currentPath != null && unit.currentPath.Count != 0)
+            {
+                continue;
+            }
             if (ai.allDefenders.Contains(unitID))
             {
                 if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] This unitName: {unit.name} with type {unit.unitType} is a defender, skipping general handling."); }
@@ -350,10 +350,11 @@ public partial class AIManager : Node
     private Hex FindAttackTarget(AI ai, Unit unit)
     {
         Hex target = FindClosestEnemyDistrict(ai, unit);
-        if (!ai.attackTarget.Equals(Hex.nullHex))
+        if (!target.Equals(Hex.nullHex))
         {
-            GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
-            if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
+            GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[target];
+            if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex}"); }
+            if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] With district {h.district.districtType} that has health {h.district.health}."); }
             Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
             return target;
         }
@@ -365,19 +366,21 @@ public partial class AIManager : Node
                 {
                     unit.hex = Global.gameManager.game.cityDictionary[city].hex;
                     target = FindClosestEnemyDistrict(ai, unit);
-                    if (!ai.attackTarget.Equals(Hex.nullHex))
+                    if (!target.Equals(Hex.nullHex))
                     {
-                        GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[ai.attackTarget];
+                        GameHex h = Global.gameManager.game.mainGameBoard.gameHexDict[target];
                         if (AIDEBUG) { Global.Log($"[AI#{ai.player.teamNum}] New Attack Target: {h.hex} with district {h.district.districtType} that has health {h.district.health}."); }
                         Global.gameManager.game.unitDictionary.Remove(-ai.player.teamNum);
                         return target;
                     }
                     else
                     {
-                        City randomCity = Global.gameManager.game.cityDictionary[rng.Next(Global.gameManager.game.cityDictionary.Keys.Count)];
+                        int randomCityID = Global.gameManager.game.cityDictionary.Keys.ToList()[rng.Next(Global.gameManager.game.cityDictionary.Keys.Count)];
+                        City randomCity = Global.gameManager.game.cityDictionary[randomCityID];
                         while (!IsEnemy(ai.player.teamNum,randomCity.teamNum))
                         {
-                            randomCity = Global.gameManager.game.cityDictionary[rng.Next(Global.gameManager.game.cityDictionary.Keys.Count)];
+                            randomCityID = Global.gameManager.game.cityDictionary.Keys.ToList()[rng.Next(Global.gameManager.game.cityDictionary.Keys.Count)];
+                            randomCity = Global.gameManager.game.cityDictionary[randomCityID];
                         }
                         return randomCity.hex;
                     }
