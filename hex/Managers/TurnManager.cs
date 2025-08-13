@@ -1,9 +1,10 @@
+using Godot;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static AIUtils;
 
@@ -54,8 +55,28 @@ public class TurnManager
                 //{
                 //    Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAITurn(ai));
                 //}
-                Global.gameManager.AIManager.RunAllAITurns();
-                //Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns());
+                //Global.gameManager.AIManager.RunAllAITurns();
+                Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns())
+                .ContinueWith(t =>
+                {
+                    if (t.Exception != null)
+                    {
+                        foreach (var ex in t.Exception.Flatten().InnerExceptions)
+                        {
+                            Console.WriteLine($"AI error: {ex.Message}");
+                        }
+                        foreach(Player player in Global.gameManager.game.playerDictionary.Values)
+                        {
+                            if(!player.turnFinished)
+                            {
+                                Global.gameManager.EndTurn(player.teamNum);
+                            }
+                        }
+                        //Global.gameManager.SaveGame(OS.GetUserDataDir() + "/saves/testsave.txt");
+                        throw t.Exception;
+                    }
+                }, TaskContinuationOptions.OnlyOnFaulted);
+
             }
         }
     }

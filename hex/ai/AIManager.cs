@@ -14,7 +14,7 @@ using static AIUtils;
 public partial class AIManager : Node
 {
     const bool AITURNENDFALLBACK = false;
-    const bool AIDEBUG = true; 
+    const bool AIDEBUG = false; 
     public List<AI> aiList = new List<AI>();
     Random rng = new Random();
     double AIEndTurnFrequency = 10f;

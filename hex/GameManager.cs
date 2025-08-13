@@ -318,7 +318,7 @@ public partial class GameManager : Node
         }
         spawnHex = candidates[new Random().Next(candidates.Count)];
 
-        foreach (Hex hex in spawnHex.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        foreach (Hex hex in spawnHex.WrappingRange(6, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
             if(hex.WrapDistance(spawnHex) < Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn)
             {
