@@ -60,7 +60,7 @@ public partial class Unit
     public int fortifyStrength { get; set; }
     public string IconPath { get; set; }
 
-    public int FailedConsecutiveMovements = 0;
+    public int FailedConsecutiveMovements { get; set; } = 0;
     public Unit(String unitType, int combatModifier, int id, int teamNum)
     {
         this.id = id;

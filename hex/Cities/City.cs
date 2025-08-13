@@ -163,7 +163,12 @@ public partial class City
         }
         foreach (Hex hex in hex.WrappingRange(9, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
-            Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity = hex.WrapDistance(this.hex);
+
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity > hex.WrapDistance(this.hex))
+            {
+                Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestCity = hex.WrapDistance(this.hex);
+            }
+
             if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
                 var data = new Godot.Collections.Dictionary
@@ -911,7 +916,7 @@ public partial class City
 
     public virtual void DistrictFell()
     {
-        GD.Print("DistrictFell");
+        //GD.Print("DistrictFell");
         bool allDistrictsFell = true;
         bool cityCenterOccupied = false;
         Unit takingUnit = null;

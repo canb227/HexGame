@@ -55,32 +55,8 @@ public class TurnManager
             if (Global.gameManager.isHost)
             {
                 Global.Log("All non-AI players have gone, running AI turns");
-                //foreach (AI ai in Global.gameManager.AIManager.aiList)
-                //{
-                //    Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAITurn(ai));
-                //}
                 //Global.gameManager.AIManager.RunAllAITurns();
-                Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns())
-                .ContinueWith(t =>
-                {
-                    if (t.Exception != null)
-                    {
-                        foreach (var ex in t.Exception.Flatten().InnerExceptions)
-                        {
-                            Console.WriteLine($"AI error: {ex.Message}");
-                        }
-                        foreach(Player player in Global.gameManager.game.playerDictionary.Values)
-                        {
-                            if(!player.turnFinished)
-                            {
-                                Global.gameManager.EndTurn(player.teamNum);
-                            }
-                        }
-                        //Global.gameManager.SaveGame(OS.GetUserDataDir() + "/saves/testsave.txt");
-                        throw t.Exception;
-                    }
-                }, TaskContinuationOptions.OnlyOnFaulted);
-
+                Task AIThread = Task.Run(() => Global.gameManager.AIManager.RunAllAITurns()); 
             }
         }
     }

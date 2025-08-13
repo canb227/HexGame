@@ -50,7 +50,7 @@ public class GameHex
         this.ownedBy = -1;
         this.owningCityID = -1;
         this.withinCityRange = 0;
-        this.rangeToNearestCity = -1;
+        this.rangeToNearestCity = 10;
         RecalculateYields();
     }
 

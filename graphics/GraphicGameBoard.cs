@@ -562,7 +562,8 @@ public partial class GraphicGameBoard : GraphicObject
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[hex];
         Hex wrapHex = hex.WrapHex();
         int newQ = wrapHex.q + (wrapHex.r >> 1);
-        if(gameHex.withinCityRange > 0)
+        //GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[new Hex(newQ, wrapHex.r, -newQ-wrapHex.r)];
+        if (gameHex.withinCityRange > 0)
         {
             settleRangeImage.SetPixel(newQ, wrapHex.r, new Godot.Color(((float)gameHex.rangeToNearestCity) / 10.0f, 1, 0, 1));
         }
@@ -574,6 +575,24 @@ public partial class GraphicGameBoard : GraphicObject
         settleRangeTexture.Update(settleRangeImage);
 
         //settleRangeTexture.SavePng("settleRangeTexture.png");
+    }
+    public void SetInitialSettleGraphic()
+    {
+        foreach (GameHex gameHex in Global.gameManager.game.mainGameBoard.gameHexDict.Values)
+        {
+            Hex wrapHex = gameHex.hex.WrapHex();
+            int newQ = wrapHex.q + (wrapHex.r >> 1);
+            if (gameHex.withinCityRange > 0)
+            {
+                settleRangeImage.SetPixel(newQ, wrapHex.r, new Godot.Color(((float)gameHex.rangeToNearestCity) / 10.0f, 1, 0, 1));
+            }
+            else
+            {
+                settleRangeImage.SetPixel(newQ, wrapHex.r, new Godot.Color(((float)gameHex.rangeToNearestCity) / 10.0f, 0, 0, 1));
+            }
+        }
+        settleRangeTexture = ImageTexture.CreateFromImage(settleRangeImage);
+        terrainShaderMaterial.SetShaderParameter("settleRangeMap", settleRangeTexture);
     }
 
     public void SetInitialTerritoryGraphic()
@@ -595,17 +614,7 @@ public partial class GraphicGameBoard : GraphicObject
         terrainShaderMaterial.SetShaderParameter("territoryMap", territoryTexture);
     }
 
-    public void SetInitialSettleGraphic()
-    {
-        foreach (GameHex gameHex in Global.gameManager.game.mainGameBoard.gameHexDict.Values)
-        {
-            Hex wrapHex = gameHex.hex.WrapHex();
-            int newQ = wrapHex.q + (wrapHex.r >> 1);
-            settleRangeImage.SetPixel(newQ, wrapHex.r, new Godot.Color(gameHex.rangeToNearestCity/10.0f, 0,0,1));
-        }
-        settleRangeTexture = ImageTexture.CreateFromImage(settleRangeImage);
-        terrainShaderMaterial.SetShaderParameter("settleRangeMap", settleRangeTexture);
-    }
+
 
     public void ShowSettleUI()
     {
