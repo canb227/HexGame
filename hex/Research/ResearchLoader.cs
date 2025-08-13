@@ -161,7 +161,6 @@ public static class ResearchLoader
     {
         if(executeLogic)
         {
-            GD.Print("adding sailing effect to: " + player.teamNum);
             player.unitPlayerEffects.Add(new UnitPlayerEffect("Sailing", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Civilian));
         }
         return "Enable Emarking and Disembarking for all Civilian Units";
@@ -236,7 +235,6 @@ public static class ResearchLoader
     {
         if (executeLogic)
         {
-            GD.Print("adding shipbuilding effect for all units to: " + player.teamNum);
             player.unitPlayerEffects.Add(new UnitPlayerEffect("Shipbuilding", new UnitEffect("EnableEmbarkDisembark"), UnitClass.Land));
         }
         return "Enable Emarking and Disembarking for all Land Units";

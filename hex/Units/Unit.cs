@@ -944,7 +944,6 @@ public partial class Unit
                         moveCost += movementCosts[TerrainMoveType.Coral];
                     }
                 }
-                moveCost = movementCosts[TerrainMoveType.Coast];
             }
             else //second hex is on land so we are disembarking
             {
@@ -1001,7 +1000,6 @@ public partial class Unit
                             moveCost += movementCosts[TerrainMoveType.Coral];
                         }
                     }
-                    moveCost = movementCosts[TerrainMoveType.Coast];
                 }
             }
             else //second hex is on land
@@ -1106,7 +1104,7 @@ public partial class Unit
         {
             if (current.Equals(end))
             {
-                if (cost_so_far[current] > 10000)
+                if (cost_so_far[current] > 100)
                 {
                     totalCost = cost_so_far[current];
                     //GD.Print("Pathfind fail1");
