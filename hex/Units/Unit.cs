@@ -59,6 +59,8 @@ public partial class Unit
     public bool fortifying { get; set; }
     public int fortifyStrength { get; set; }
     public string IconPath { get; set; }
+
+    public int FailedConsecutiveMovements = 0;
     public Unit(String unitType, int combatModifier, int id, int teamNum)
     {
         this.id = id;
@@ -892,8 +894,14 @@ public partial class Unit
             GameHex nextHex = Global.gameManager.game.mainGameBoard.gameHexDict[currentPath[0]];
             if (!TryMoveToGameHex(nextHex, teamManager))
             {
+                FailedConsecutiveMovements++;
+                if (FailedConsecutiveMovements > 3)
+                {
+                    Global.Log($"Unit movement failed {FailedConsecutiveMovements} times in a row!",true,Global.LogLevel.Error);
+                }
                 return false;
             }
+            FailedConsecutiveMovements = 0;
             currentPath.Remove(nextHex.hex);
         }
         return true;

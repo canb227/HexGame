@@ -237,6 +237,10 @@ public partial class Lobby : Control
             }
 
         }
+        for (int i = 1; i<MAXTEAMS; i++)
+        {
+            PlayerListItem.GetNode<OptionButton>("teamselect").AddItem(i.ToString());
+        }
         if (self || (ai && isHost))
         {
             PlayerListItem.GetNode<CheckButton>("ReadyButton").Toggled += (index) => onReadyChanged(index, id);

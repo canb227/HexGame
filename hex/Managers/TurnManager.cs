@@ -36,13 +36,17 @@ public class TurnManager
     }
     public void EndCurrentTurn(int teamNum)
     {
-        Global.Log("Attempting to end turn of " +teamNum);
+        
+        
+        if (Global.gameManager.SkipPlayerTurns == -1) Global.Log("Attempting to end turn of " + teamNum);
+        
+
         if (!Global.gameManager.game.playerDictionary[teamNum].turnFinished)
         {
             Global.gameManager.game.playerDictionary[teamNum].OnTurnEnded(currentTurn);
             Global.Log("Ended end turn of " +teamNum);
         }
-        Global.Log($"Still wating for {CheckTurnStatus().Count} players to end turn! (numAI: {Global.gameManager.game.numAI}");
+        if (Global.gameManager.SkipPlayerTurns == -1) Global.Log($"Still wating for {CheckTurnStatus().Count} players to end turn! (numAI: {Global.gameManager.game.numAI}");
         if (CheckTurnStatus().Count == Global.gameManager.game.numAI)
         {
             //run gameboard hex based logic (volcanos and stuff?)
