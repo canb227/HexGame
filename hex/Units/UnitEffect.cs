@@ -40,8 +40,9 @@ public class UnitEffect
         this.priority = priority;
     }
 
-    public UnitEffect(String functionName)
+    public UnitEffect(String functionName, int level=0)
     {
+        this.effectLevel = level;
         this.functionName = functionName;
     }
     
@@ -56,10 +57,15 @@ public class UnitEffect
     public float effectMagnitude { get; set; } = 0f;
     public int priority { get; set; } = 0;
     public String functionName { get; set; } = "";
+    public int effectLevel { get; set; } = 0;
 
 
     public bool Apply(int unitID, int level = 0, float combatPower = 0.0f, GameHex abilityTarget = null)
     {
+        if(level == 0)
+        {
+            level = effectLevel;
+        }
         if (functionName != "")
         {
             return ProcessFunctionString(functionName, unitID, level, combatPower, abilityTarget);
@@ -145,34 +151,34 @@ public class UnitEffect
         //effects
 
         //abilities
-        if(functionString == "SettleCapitalAbility")
+        if (functionString == "SettleCapitalAbility")
         {
             return SettleCapitalAbility(Global.gameManager.game.unitDictionary[unitID], "CapitalCityName");
         }
-        else if(functionString == "SettleCityAbility")
+        else if (functionString == "SettleCityAbility")
         {
             return SettleCity(Global.gameManager.game.unitDictionary[unitID], "SettledCityName");
         }
-        else if(functionString == "ScoutVisionAbility")
+        else if (functionString == "ScoutVisionAbility")
         {
             Global.gameManager.game.unitDictionary[unitID].sightRange += 1;
             Global.gameManager.game.unitDictionary[unitID].UpdateVision();
             return true;
         }
-        else if(functionString == "RangedAttack")
+        else if (functionString == "RangedAttack")
         {
             return RangedAttack(Global.gameManager.game.unitDictionary[unitID], combatPower, abilityTarget);
         }
-        else if(functionString == "BombardAttack")
+        else if (functionString == "BombardAttack")
         {
             return BombardAttack(Global.gameManager.game.unitDictionary[unitID], combatPower, abilityTarget);
         }
-        else if(functionString == "EnableEmbarkDisembark")
+        else if (functionString == "EnableEmbarkDisembark")
         {
             EnableEmbarkDisembark(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
-        else if(functionString == "Fortify")
+        else if (functionString == "Fortify")
         {
             Fortify(Global.gameManager.game.unitDictionary[unitID]);
             return true;
@@ -222,6 +228,10 @@ public class UnitEffect
         else if (functionString == "Leap")
         {
             return Leap(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
+        else if (functionString == "ForTheHorde")
+        {
+            return ForTheHorde(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
         }
         else if (functionString == "PinShot")
         {
@@ -612,6 +622,63 @@ public class UnitEffect
         else
         {
             throw new Exception("Ability Leap is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
+        }
+    }
+
+    public bool ForTheHorde(Unit unit, int level, GameHex target)
+    {
+        if (level == 0)
+        {
+            throw new Exception("Ability ForTheHorde is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            float randomFactor = (float)new Random(target.hex.q + target.hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble();
+            //25% chance
+            if(randomFactor <= 0.25)
+            {
+                Unit tempUnit = new Unit("Warrior", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum);
+                if (!target.SpawnUnit(tempUnit, false, true))
+                {
+                    tempUnit.decreaseHealth(99999.9f);
+                    if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit.id);
+                }
+            }
+            return true;
+        }
+        else if (level == 2)
+        {
+            float randomFactor = (float)new Random(target.hex.q + target.hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble();
+            //66% chance
+            if (randomFactor <= 0.25)
+            {
+                Unit tempUnit = new Unit("Warrior", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum);
+                if (!target.SpawnUnit(tempUnit, false, true))
+                {
+                    tempUnit.decreaseHealth(99999.9f);
+                    if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit.id);
+                }
+            }
+            return true;
+        }
+        else if (level == 3)
+        {
+            float randomFactor = (float)new Random(target.hex.q + target.hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble();
+            //100% chance
+            if (randomFactor <= 0.25)
+            {
+                Unit tempUnit = new Unit("Warrior", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum);
+                if (!target.SpawnUnit(tempUnit, false, true))
+                {
+                    tempUnit.decreaseHealth(99999.9f);
+                    if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit.id);
+                }
+            }
+            return true;
+        }
+        else
+        {
+            throw new Exception("Ability ForTheHorde is not Level 0,1,2,3" + unit.name + " " + unit.hex);
         }
     }
 

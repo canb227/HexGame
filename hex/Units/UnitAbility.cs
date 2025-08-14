@@ -60,6 +60,13 @@ public class UnitAbility
         return this.effect;
     }
 
+    public UnitEffect GetUnitEffectWithLevel(int level)
+    {
+        this.effect = new UnitEffect(name, level);
+        name = effect.functionName;
+        return this.effect;
+    }
+
     public bool ActivateAbility(GameHex abilityTarget, int level = 0)
     {
         if (this.effect == null)

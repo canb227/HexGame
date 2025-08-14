@@ -193,14 +193,14 @@
         </UnitAbility>
       </Ability>
       <Ability>
-        <AbilityName>ONLY BULK!</AbilityName>
+        <AbilityName>FOR THE HORDE!</AbilityName>
         <ManaCost>99, 0, 0, 0, 0</ManaCost>
         <Cooldown>99, 0,0,0,0</Cooldown>
         <Level>0</Level>
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Bulk" UsageCount="0" Range="0" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="ForTheHorde" UsageCount="0" Range="0" IconPath="graphics/ui/icons/rangeattack.png">
           <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>

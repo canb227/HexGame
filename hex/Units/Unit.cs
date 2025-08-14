@@ -57,6 +57,7 @@ public partial class Unit
     public List<Hex> visibleHexes { get; set; } = new();
     public List<UnitEffect> effects { get; set; } = new();
     public List<UnitAbility> abilities { get; set; } = new();
+    public Dictionary<string, UnitEffect> onKillEffects { get; set; } = new();
     public bool isTargetEnemy { get; set; }
     public bool isSleeping { get; set; }
     public bool isSkipping { get; set; }
@@ -385,8 +386,16 @@ public partial class Unit
         {
             targetHero.IncreaseExperience((int)Math.Round(CalculateDamage(unitModCombatStrength, modCombatStrength, randomFactor)));
         }
-        return !decreaseHealth(CalculateDamage(modCombatStrength, unitModCombatStrength, randomFactor)) & unit.decreaseHealth(CalculateDamage(unitModCombatStrength, modCombatStrength, randomFactor));
-
+        bool targetDiedWeLived = !decreaseHealth(CalculateDamage(modCombatStrength, unitModCombatStrength, randomFactor)) & unit.decreaseHealth(CalculateDamage(unitModCombatStrength, modCombatStrength, randomFactor));
+        if(targetDiedWeLived)
+        {
+            //trigger on kill passives?
+            foreach (UnitEffect unitEffect in unit.onKillEffects.Values)
+            {
+                unitEffect.Apply(this.id, 0, 0, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
+            }
+        }
+        return targetDiedWeLived;
     }
 
     public bool AttackTarget(GameHex targetGameHex, float moveCost, TeamManager teamManager, int bonusCombatPower = 0)

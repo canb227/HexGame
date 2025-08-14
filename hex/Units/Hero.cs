@@ -220,6 +220,23 @@ public class Hero : Unit
                 healingOverTime += 3;
             }
         }
+        else if(heroAbility.ability.name == "ForTheHorde")
+        {
+            if(heroAbility.level == 1)
+            {
+                onKillEffects.Add("ForTheHorde", heroAbility.ability.GetUnitEffectWithLevel(1));
+            }
+            else if(heroAbility.level == 2)
+            {
+                onKillEffects.Remove("ForTheHorde");
+                onKillEffects.Add("ForTheHorde", heroAbility.ability.GetUnitEffectWithLevel(2));
+            }
+            else if(heroAbility.level == 3)
+            {
+                onKillEffects.Remove("ForTheHorde");
+                onKillEffects.Add("ForTheHorde", heroAbility.ability.GetUnitEffectWithLevel(3));
+            }
+        }
     }
 
 
