@@ -162,7 +162,63 @@ public class Hero : Unit
         {
             experience -= experienceToLevelUp[level];
             level++;
+            combatStrength = Mathf.Round(baseCombatStrength * (1 + (level / 8)));
             avaliableSkillPoints++;
+            Global.gameManager.graphicManager.uiManager.UpdateHeroUIDisplay();
+        }
+    }
+
+    public void ProcessPassiveEffect(HeroAbility heroAbility)
+    {
+        if(heroAbility.ability.name == "MysticRegeneration")
+        {
+            if (heroAbility.level == 1)
+            {
+                manaRegeneration += 5;
+                baseManaRegeneration += 5;
+                maxMana += 10;
+                baseMaxMana += 10;
+            }
+            else if (heroAbility.level == 2)
+            {
+                manaRegeneration += 5;
+                baseManaRegeneration += 5;
+                maxMana += 10;
+                baseMaxMana += 10;
+            }
+            else if (heroAbility.level == 3)
+            {
+                manaRegeneration += 5;
+                baseManaRegeneration += 5;
+                maxMana += 10;
+                baseMaxMana += 10;
+            }
+            else if (heroAbility.level == 4)
+            {
+                manaRegeneration += 5;
+                baseManaRegeneration += 5;
+                maxMana += 10;
+                baseMaxMana += 10;
+            }
+        }
+        else if(heroAbility.ability.name == "Blood?")
+        {
+            if(heroAbility.level == 1)
+            {
+                healingOverTime += 3;
+            }
+            else if(heroAbility.level == 2)
+            {
+                healingOverTime += 3;
+            }
+            else if (heroAbility.level == 3)
+            {
+                healingOverTime += 3;
+            }
+            else if (heroAbility.level == 4)
+            {
+                healingOverTime += 3;
+            }
         }
     }
 

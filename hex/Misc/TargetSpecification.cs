@@ -167,6 +167,12 @@ public class TargetSpecification
             bool validUnit = false;
             foreach (String unitType in ValidUnitTypes)
             {
+                if(gameHex.units.Count == 0 && unitType == "None")
+                {
+                    validUnit = true;
+                    GD.Print("no unit here so its allowed");
+                    break;
+                }
                 foreach (int unitID in gameHex.units)
                 {
                     Unit unit = Global.gameManager.game.unitDictionary[unitID];

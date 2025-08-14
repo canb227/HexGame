@@ -149,7 +149,7 @@ public partial class HeroInfoPanel : Node3D
 
             foreach (UnitAbility ability in hero.abilities)
             {
-                if(ability.name == "RangedAttack" || ability.name == "BombardAttack")
+                if (ability.name == "RangedAttack" || ability.name == "BombardAttack")
                 {
                     rangedStrengthContainer.Visible = true;
                     rangedStrengthLabel.Text = ability.combatPower.ToString();
@@ -158,7 +158,7 @@ public partial class HeroInfoPanel : Node3D
                     rangedStrengthLabel.Visible = true;
                 }
                 Button abilityButton = new Button();
-                abilityButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://"+ability.iconPath);
+                abilityButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://" + ability.iconPath);
                 abilityButton.IconAlignment = HorizontalAlignment.Center;
                 abilityButton.ExpandIcon = true;
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
@@ -166,11 +166,11 @@ public partial class HeroInfoPanel : Node3D
                 abilityFlowContainer.AddChild(abilityButton);
 
                 abilityButton.Disabled = false;
-                if(ability.combatPower != 0 && hero.attacksLeft <= 0)
+                if (ability.combatPower != 0 && hero.attacksLeft <= 0)
                 {
                     abilityButton.Disabled = true;
                 }
-                if(ability.currentCharges <= 0)
+                if (ability.currentCharges <= 0)
                 {
                     abilityButton.Disabled = true;
                 }
@@ -187,9 +187,9 @@ public partial class HeroInfoPanel : Node3D
                         hexes.Add(hex);
                     }
                 }
-                if(ability.name == "SettleCityAbility" || ability.name == "SettleCapitalAbility")
+                if (ability.name == "SettleCityAbility" || ability.name == "SettleCapitalAbility")
                 {
-                    if(!hero.CanSettleHere(hero.hex, 3, new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, false))
+                    if (!hero.CanSettleHere(hero.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }, false))
                     {
                         abilityButton.Disabled = true;
                     }
@@ -256,6 +256,12 @@ public partial class HeroInfoPanel : Node3D
                 tempControl.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill; 
                 heroAbilityFlowContainer.AddChild(tempControl);
                 heroAbilityFlowContainer.AddChild(abilityButton);
+
+                if (heroAbility.cooldown[heroAbility.level] == 0)
+                {
+                    abilityButton.Disabled = true;
+                    continue;
+                }
 
                 if (heroAbility.ability.combatPower != 0 && hero.attacksLeft <= 0)
                 {

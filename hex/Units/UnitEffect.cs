@@ -6,6 +6,7 @@ using System.Data;
 using Godot;
 using System.IO;
 using NetworkMessages;
+using Steamworks;
 
 public enum UnitEffectType
 {
@@ -206,6 +207,30 @@ public class UnitEffect
         {
             return Fireball(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
         }
+        else if (functionString == "Blink")
+        {
+            return Blink(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
+        else if (functionString == "Banish")
+        {
+            return Banish(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
+        else if (functionString == "Chop")
+        {
+            return Chop(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
+        else if (functionString == "Leap")
+        {
+            return Leap(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
+        else if (functionString == "PinShot")
+        {
+            return PinShot(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
+        else if (functionString == "Recall")
+        {
+            return Recall(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
         throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in UnitEffect");
     }
     public bool SettleCapitalAbility(Unit unit, String cityName)
@@ -399,6 +424,322 @@ public class UnitEffect
         else
         {
             throw new Exception("Ability Fireball is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
+        }
+    }
+    public bool Blink(Unit unit, int level, GameHex target)
+    {
+        if (level == 0)
+        {
+            throw new Exception("Ability Blink is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            return unit.TrySetGameHex(target);
+        }
+        else if (level == 2)
+        {
+            return unit.TrySetGameHex(target);
+        }
+        else if (level == 3)
+        {
+            return unit.TrySetGameHex(target);
+        }
+        else if (level == 4)
+        {
+            return unit.TrySetGameHex(target);
+        }
+        else
+        {
+            throw new Exception("Ability Blink is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
+        }
+    }
+
+    public bool Banish(Unit unit, int level, GameHex target)
+    {
+        if (level == 0)
+        {
+            throw new Exception("Ability Banish is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            if(target.units.Any())
+            {
+                Unit targetUnit = Global.gameManager.game.unitDictionary[target.units[0]];
+                City targetCity = null;
+                foreach (int cityID in Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList)
+                {
+                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList[cityID]];
+                    if (temp.isCapital)
+                    {
+                        targetCity = temp;
+                        break;
+                    }
+                }
+                return targetUnit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
+            }
+            return false;
+        }
+        else if (level == 2)
+        {
+            if (target.units.Any())
+            {
+                Unit targetUnit = Global.gameManager.game.unitDictionary[target.units[0]];
+                City targetCity = null;
+                foreach (int cityID in Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList)
+                {
+                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList[cityID]];
+                    if (temp.isCapital)
+                    {
+                        targetCity = temp;
+                        break;
+                    }
+                }
+                return targetUnit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
+            }
+            return false;
+        }
+        else if (level == 3)
+        {
+            if (target.units.Any())
+            {
+                Unit targetUnit = Global.gameManager.game.unitDictionary[target.units[0]];
+                City targetCity = null;
+                foreach (int cityID in Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList)
+                {
+                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList[cityID]];
+                    if (temp.isCapital)
+                    {
+                        targetCity = temp;
+                        break;
+                    }
+                }
+                return targetUnit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
+            }
+            return false;
+        }
+        else
+        {
+            throw new Exception("Ability Banish is not Level 0,1,2,3" + unit.name + " " + unit.hex);
+        }
+    }
+
+    public bool Chop(Unit unit, int level, GameHex target)
+    {
+        if (level == 0)
+        {
+            throw new Exception("Ability Chop is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            if (target.units.Any())
+            {
+                Unit targetUnit = Global.gameManager.game.unitDictionary[target.units[0]];
+                targetUnit.ApplyBleed(1, 10);
+            }
+            return unit.RangedAttackTarget(target, 10, Global.gameManager.game.teamManager);
+        }
+        else if (level == 2)
+        {
+            if (target.units.Any())
+            {
+                Unit targetUnit = Global.gameManager.game.unitDictionary[target.units[0]];
+                targetUnit.ApplyBleed(2, 10);
+            }
+            return unit.RangedAttackTarget(target, 10, Global.gameManager.game.teamManager);
+        }
+        else if (level == 3)
+        {
+            if (target.units.Any())
+            {
+                Unit targetUnit = Global.gameManager.game.unitDictionary[target.units[0]];
+                targetUnit.ApplyBleed(2, 15);
+            }
+            return unit.RangedAttackTarget(target, 10, Global.gameManager.game.teamManager);
+        }
+        else if (level == 4)
+        {
+            if (target.units.Any())
+            {
+                Unit targetUnit = Global.gameManager.game.unitDictionary[target.units[0]];
+                targetUnit.ApplyBleed(3, 15);
+            }
+            return unit.RangedAttackTarget(target, 10, Global.gameManager.game.teamManager);
+        }
+        else
+        {
+            throw new Exception("Ability Chop is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
+        }
+    }
+
+    public bool Leap(Unit unit, int level, GameHex target)
+    {
+        if (level == 0)
+        {
+            throw new Exception("Ability Leap is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            if(!unit.AttackTarget(target, 0, Global.gameManager.game.teamManager, 0))
+            { return false; }
+            if (!unit.TrySetGameHex(target))
+            { return false; }
+            return true;
+        }
+        else if (level == 2)
+        {
+            if (!unit.AttackTarget(target, 0, Global.gameManager.game.teamManager, 2))
+            { return false; }
+            if (!unit.TrySetGameHex(target))
+            { return false; }
+            return true;
+        }
+        else if (level == 3)
+        {
+            if (!unit.AttackTarget(target, 0, Global.gameManager.game.teamManager, 5))
+            { return false; }
+            if (!unit.TrySetGameHex(target))
+            { return false; }
+            return true;
+        }
+        else if (level == 4)
+        {
+            if (!unit.AttackTarget(target, 0, Global.gameManager.game.teamManager, 7))
+            { return false; }
+            if (!unit.TrySetGameHex(target))
+            { return false; }
+            return true;
+        }
+        else
+        {
+            throw new Exception("Ability Leap is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
+        }
+    }
+
+    public bool PinShot(Unit unit, int level, GameHex target)
+    {
+        if (level == 0)
+        {
+            throw new Exception("Ability PinShot is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            if(target.units.Any())
+            {
+                Global.gameManager.game.unitDictionary[target.units[0]].remainingMovement = 0;
+            }
+            return unit.RangedAttackTarget(target, 20, Global.gameManager.game.teamManager);
+        }
+        else if (level == 2)
+        {
+            if (target.units.Any())
+            {
+                Global.gameManager.game.unitDictionary[target.units[0]].remainingMovement = 0;
+            }
+            return unit.RangedAttackTarget(target, 26, Global.gameManager.game.teamManager);
+        }
+        else if (level == 3)
+        {
+            if (target.units.Any())
+            {
+                Global.gameManager.game.unitDictionary[target.units[0]].remainingMovement = 0;
+            }
+            return unit.RangedAttackTarget(target, 32, Global.gameManager.game.teamManager);
+        }
+        else if (level == 4)
+        {
+            if (target.units.Any())
+            {
+                Global.gameManager.game.unitDictionary[target.units[0]].remainingMovement = 0;
+            }
+            return unit.RangedAttackTarget(target, 40, Global.gameManager.game.teamManager);
+        }
+        else
+        {
+            throw new Exception("Ability PinShot is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
+        }
+    }
+
+    public bool Recall(Unit unit, int level, GameHex target)
+    {
+        if (level == 0)
+        {
+            throw new Exception("Ability Recall is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            if (Global.gameManager.game.playerDictionary[unit.teamNum].cityList.Any())
+            {
+                City targetCity = null;
+                foreach (int cityID in Global.gameManager.game.playerDictionary[unit.teamNum].cityList)
+                {
+                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[unit.teamNum].cityList[cityID]];
+                    if (temp.isCapital)
+                    {
+                        targetCity = temp;
+                        break;
+                    }
+                }
+                return unit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
+            }
+            return false;
+        }
+        else if (level == 2)
+        {
+            if (Global.gameManager.game.playerDictionary[unit.teamNum].cityList.Any())
+            {
+                City targetCity = null;
+                foreach (int cityID in Global.gameManager.game.playerDictionary[unit.teamNum].cityList)
+                {
+                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[unit.teamNum].cityList[cityID]];
+                    if (temp.isCapital)
+                    {
+                        targetCity = temp;
+                        break;
+                    }
+                }
+                return unit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
+            }
+            return false;
+        }
+        else if (level == 3)
+        {
+            if (Global.gameManager.game.playerDictionary[unit.teamNum].cityList.Any())
+            {
+                City targetCity = null;
+                foreach (int cityID in Global.gameManager.game.playerDictionary[unit.teamNum].cityList)
+                {
+                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[unit.teamNum].cityList[cityID]];
+                    if (temp.isCapital)
+                    {
+                        targetCity = temp;
+                        break;
+                    }
+                }
+                return unit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
+            }
+            return false;
+        }
+        else if (level == 4)
+        {
+            if (Global.gameManager.game.playerDictionary[unit.teamNum].cityList.Any())
+            {
+                City targetCity = null;
+                foreach (int cityID in Global.gameManager.game.playerDictionary[unit.teamNum].cityList)
+                {
+                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[unit.teamNum].cityList[cityID]];
+                    if (temp.isCapital)
+                    {
+                        targetCity = temp;
+                        break;
+                    }
+                }
+                return unit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
+            }
+            return false;
+        }
+        else
+        {
+            throw new Exception("Ability Recall is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
         }
     }
 }

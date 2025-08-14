@@ -262,15 +262,36 @@ public partial class PolicyPanel : Control
             {
                 if(policyCard.isMilitary)
                 {
-                    unassignedMilitarySlots--;
+                    if (unassignedMilitarySlots <= 0)
+                    {
+                        unassignedHeroicSlots--;
+                    }
+                    else
+                    {
+                        unassignedMilitarySlots--;
+                    }
                 }
                 else if(policyCard.isEconomic)
                 {
-                    unassignedEconomicSlots--;
+                    if (unassignedEconomicSlots <= 0)
+                    {
+                        unassignedHeroicSlots--;
+                    }
+                    else
+                    {
+                        unassignedEconomicSlots--;
+                    }
                 }
                 else if(policyCard.isDiplomatic)
                 {
-                    unassignedDiplomaticSlots--;
+                    if (unassignedDiplomaticSlots <= 0)
+                    {
+                        unassignedHeroicSlots--;
+                    }
+                    else
+                    {
+                        unassignedDiplomaticSlots--;
+                    }
                 }
                 else if(policyCard.isHeroic)
                 {

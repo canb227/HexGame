@@ -287,7 +287,6 @@ public partial class GraphicManager : Node3D
         selectedObject = newSelectedObject;
         selectedObjectID = newID;
         selectedObject.Selected();
-
     }
 
     public void UnselectObject()

@@ -243,9 +243,8 @@ public partial class HexGameCamera : Camera3D
                     {
                         if(graphicCity.spawnWaitingBuilding)
                         {
-                            //TODO networked command
-                            graphicCity.city.PurchaseBuilding(wrapHex, graphicCity.waitingBuildingName, BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].GoldCost);
-                            //graphicCity.city.BuildOnHex(wrapHex, graphicCity.waitingBuildingName);
+                            //networked command
+                            Global.gameManager.PurchaseBuilding(graphicCity.waitingBuildingName, wrapHex, graphicCity.city.id);
                         }
                         else
                         {

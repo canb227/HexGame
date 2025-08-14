@@ -49,6 +49,8 @@ public partial class Unit
     public int maxAttackCount { get; set; } = 1;
     public int attacksLeft { get; set; } = 1;
     public int healingFactor { get; set; }
+    //healingOverTime refers to healing applied by abilities and isnt related to afk passive healing
+    public int healingOverTime { get; set; }
     public int teamNum { get; set; }
     public UnitClass unitClass { get; set; }
     public List<Hex>? currentPath { get; set; } = new();
@@ -62,6 +64,8 @@ public partial class Unit
     public bool fortifying { get; set; }
     public int fortifyStrength { get; set; }
     public string IconPath { get; set; }
+    public int bleedDuration { get; set; }
+    public int bleedStrength { get; set; }
 
     public int FailedConsecutiveMovements { get; set; } = 0;
     public Unit(String unitType, int combatModifier, int id, int teamNum)
@@ -130,7 +134,8 @@ public partial class Unit
 
     public virtual void OnTurnStarted(int turnNumber)
     {
-        if (remainingMovement >= movementSpeed && attacksLeft >= maxAttackCount)
+        //bleeding prevent passive regen
+        if (remainingMovement >= movementSpeed && attacksLeft >= maxAttackCount && bleedDuration <= 0)
         {
             if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].ownedBy == teamNum)
             {
@@ -152,6 +157,12 @@ public partial class Unit
             {
                 fortifyStrength = 6;
             }
+        }
+        //take DOT damage
+        if(bleedDuration > 0)
+        {
+            bleedDuration--;
+            decreaseHealth(bleedStrength);
         }
         foreach (UnitAbility ability in abilities)
         {
@@ -330,20 +341,20 @@ public partial class Unit
         return 30 * (float)Math.Exp(x);
     }
 
-    private bool DistrictCombat(GameHex targetGameHex)
+    private bool DistrictCombat(GameHex targetGameHex, int bonusCombatPower=0)
     {
         //we use our hex q,r and turn number to generate a random seed that is the same on all machines
         float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f; 
         if(this is Hero hero)
         {
-            hero.IncreaseExperience((int)Math.Round(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength(), randomFactor)));
+            hero.IncreaseExperience((int)Math.Round(CalculateDamage(combatStrength+bonusCombatPower, targetGameHex.district.GetCombatStrength(), randomFactor)));
         }
-        return !decreaseHealth(CalculateDamage(combatStrength, targetGameHex.district.GetCombatStrength(), randomFactor)) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength, randomFactor));
+        return !decreaseHealth(CalculateDamage(combatStrength+bonusCombatPower, targetGameHex.district.GetCombatStrength(), randomFactor)) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength, randomFactor));
     }
 
-    private bool UnitCombat(GameHex targetGameHex, Unit unit)
+    private bool UnitCombat(GameHex targetGameHex, Unit unit, int bonusCombatPower=0)
     {
-        float modCombatStrength = combatStrength;
+        float modCombatStrength = combatStrength + bonusCombatPower;
         float unitModCombatStrength = unit.combatStrength;
         //anti-cavalry check
         if ((unitClass & UnitClass.AntiCavalry) != 0 && (unit.unitClass & UnitClass.Cavalry) != 0)
@@ -378,7 +389,7 @@ public partial class Unit
 
     }
 
-    public bool AttackTarget(GameHex targetGameHex, float moveCost, TeamManager teamManager)
+    public bool AttackTarget(GameHex targetGameHex, float moveCost, TeamManager teamManager, int bonusCombatPower = 0)
     {
         fortifying = false;
         fortifyStrength = 0;
@@ -391,7 +402,7 @@ public partial class Unit
         if (targetGameHex.district != null && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum) && targetGameHex.district.health > 0.0f)
         {
             SetAttacksLeft(attacksLeft - 1);
-            return DistrictCombat(targetGameHex);;
+            return DistrictCombat(targetGameHex, bonusCombatPower);;
         }
         if (targetGameHex.units.Any())
         {
@@ -401,7 +412,7 @@ public partial class Unit
                 //combat math TODO
                 //if we didn't die and the enemy has died we can move in otherwise atleast one of us should poof
                 SetAttacksLeft(attacksLeft - 1);
-                return UnitCombat(targetGameHex, unit);
+                return UnitCombat(targetGameHex, unit, bonusCombatPower);
             }
             return false;
         }
@@ -781,11 +792,67 @@ public partial class Unit
         return true;
     }
 
+    public void ApplyBleed(int duration, int strength)
+    {
+        if(strength >= bleedStrength)
+        {
+            bleedDuration = duration;
+            bleedStrength = strength;
+        }
+    }
+
+    public bool TrySetGameHex(GameHex targetGameHex, bool flexible = false)
+    {
+        if (targetGameHex.units.Any() || movementCosts[(TerrainMoveType)targetGameHex.terrainType] > 100 || movementCosts[(TerrainMoveType)targetGameHex.terrainType] < 0 
+            || (targetGameHex.district != null
+                && targetGameHex.district.health > 0
+                && !Global.gameManager.game.teamManager.GetAllies(teamNum).Contains(Global.gameManager.game.cityDictionary[targetGameHex.district.cityID].teamNum)))
+        {
+            if (flexible)
+            {
+                foreach (Hex rangeHex in hex.WrappingRange(3, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom).OrderBy(h => hex.Distance(h)))
+                {
+                    if (TrySetGameHex(targetGameHex, flexible))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        else if (movementCosts[(TerrainMoveType)targetGameHex.terrainType] < 100 && movementCosts[(TerrainMoveType)targetGameHex.terrainType] >= 0)
+        {
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);
+            Hex previousHex = hex;
+            hex = targetGameHex.hex;
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Add(this.id);
+            UpdateVision();
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+            {
+                manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Move);
+                var previousHexData = new Godot.Collections.Dictionary
+                            {
+                                { "q", previousHex.q },
+                                { "r", previousHex.r },
+                                { "s", previousHex.s }
+                            };
+                var hexData = new Godot.Collections.Dictionary
+                            {
+                                { "q", hex.q },
+                                { "r", hex.r },
+                                { "s", hex.s }
+                            };
+                Global.gameManager.graphicManager.CallDeferred("UpdateHexObjectDictionary", previousHexData, id, hexData);
+            }
+            return true;
+        }
+        return false;
+    }
+
     public bool TryMoveToGameHex(GameHex targetGameHex, TeamManager teamManager)
     {
         if(targetGameHex.units.Any() & !isTargetEnemy)
         {
-            GD.Print(targetGameHex.units.Any() + " " + !isTargetEnemy);
             return false;
         }
         float moveCost = TravelCost(Global.gameManager.game.mainGameBoard.gameHexDict[hex].hex, targetGameHex.hex, teamManager, isTargetEnemy, movementCosts, movementSpeed, movementSpeed-remainingMovement, false);

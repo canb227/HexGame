@@ -56,6 +56,58 @@
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
+      <Ability>
+        <AbilityName>Blink</AbilityName>
+        <ManaCost>99, 25, 25, 25, 20</ManaCost>
+        <Cooldown>99, 4,3,2,2</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="Blink" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <TargetSpecification AllowsAlly="true" TargetTiles="true" TargetRuralBuildings="true" TargetUrbanBuildings="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" >
+            <ValidUnitTypes>
+              <UnitType Name = "None"/>
+            </ValidUnitTypes>
+            <ValidTerrainTypes>
+              <TerrainType Name = "Flat" />
+              <TerrainType Name = "Rough" />
+            </ValidTerrainTypes>
+          </TargetSpecification>
+        </UnitAbility>
+      </Ability>
+      <Ability>
+        <AbilityName>MysticRegeneration</AbilityName>
+        <ManaCost>99, 0, 0, 0, 0</ManaCost>
+        <Cooldown>99, 0,0,0,0</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="MysticRegeneration" UsageCount="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        </UnitAbility>
+      </Ability>
+      <Ability>
+        <AbilityName>Banish</AbilityName>
+        <ManaCost>99, 40, 40, 40</ManaCost>
+        <Cooldown>99, 5,4,3</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>3</MaxLevel>
+        <MinLevelToLearn>6</MinLevelToLearn>
+        <IsUltimate>True</IsUltimate>
+        <UnitAbility Name="Banish" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <TargetSpecification AllowsAlly="true" AllowsEnemy="true" TargetUnits="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true" >
+            <ValidUnitTypes>
+              <UnitType Name = "None"/>
+            </ValidUnitTypes>
+            <ValidTerrainTypes>
+              <TerrainType Name = "Flat" />
+              <TerrainType Name = "Rough" />
+            </ValidTerrainTypes>
+          </TargetSpecification>
+        </UnitAbility>
+      </Ability>
     </HeroAbilities>
   </Hero>
 
@@ -105,15 +157,51 @@
     </Unit>
     <HeroAbilities>
       <Ability>
-        <AbilityName>Fireball</AbilityName>
-        <ManaCost>99, 30,25,25, 20</ManaCost>
+        <AbilityName>CHOP!</AbilityName>
+        <ManaCost>99, 20, 20, 15, 15</ManaCost>
         <Cooldown>99, 3,3,2,1</Cooldown>
         <Level>0</Level>
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
-          <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <UnitAbility Name="Chop" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        </UnitAbility>
+      </Ability>
+      <Ability>
+        <AbilityName>LEAP!</AbilityName>
+        <ManaCost>99, 25, 25, 20, 15</ManaCost>
+        <Cooldown>99, 4,4,3,2</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="Leap" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        </UnitAbility>
+      </Ability>
+      <Ability>
+        <AbilityName>BLOOD?!</AbilityName>
+        <ManaCost>99, 0, 0, 0, 0</ManaCost>
+        <Cooldown>99, 0,0,0,0</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="Blood?" UsageCount="0" Range="0" IconPath="graphics/ui/icons/rangeattack.png">
+          <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        </UnitAbility>
+      </Ability>
+      <Ability>
+        <AbilityName>ONLY BULK!</AbilityName>
+        <ManaCost>99, 0, 0, 0, 0</ManaCost>
+        <Cooldown>99, 0,0,0,0</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="Bulk" UsageCount="0" Range="0" IconPath="graphics/ui/icons/rangeattack.png">
+          <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
     </HeroAbilities>
@@ -152,9 +240,6 @@
           <TargetSpecification TargetSelf="true" AllowsAnyBuilding="true" AllowsAnyUnit="true" AllowsAnyResource="true" AllowsAnyFeature="true" AllowsAnyTerrain="true" RequiresAncientRuins="true">
           </TargetSpecification>
         </Ability>
-        <Ability Name="RangedAttack" CombatPower="15.0" UsageCount="1" Range="2" IconPath="graphics/ui/icons/rangeattack.png">
-          <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
-        </Ability>
         <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
           <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
             <ValidTerrainTypes>
@@ -168,15 +253,27 @@
     </Unit>
     <HeroAbilities>
       <Ability>
-        <AbilityName>Fireball</AbilityName>
-        <ManaCost>99, 30,25,25, 20</ManaCost>
-        <Cooldown>99, 3,3,2,1</Cooldown>
+        <AbilityName>Pinning Shot</AbilityName>
+        <ManaCost>99, 25, 20, 15, 10</ManaCost>
+        <Cooldown>99, 1,1,1,1</Cooldown>
         <Level>0</Level>
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="PinShot" UsageCount="1" Range="2" IconPath="graphics/ui/icons/rangeattack.png">
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        </UnitAbility>
+      </Ability>
+            <Ability>
+        <AbilityName>Recall</AbilityName>
+        <ManaCost>99, 50, 30, 10, 0</ManaCost>
+        <Cooldown>99, 5, 4, 3, 2</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="Recall" UsageCount="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
         </UnitAbility>
       </Ability>
     </HeroAbilities>

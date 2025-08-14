@@ -253,9 +253,8 @@ public partial class ConstructionItem : PanelContainer
         }
         if (isUnit)
         {
-            //TODO networked command
-            city.PurchaseUnit(city.hex, name, UnitLoader.unitsDict[name].GoldCost);
-            //Global.gameManager.SpawnUnit(name, Global.gameManager.game.localPlayerTeamNum, city.hex, false, true);
+            //networked command
+            Global.gameManager.PurchaseUnit(name, city.id);
         }
     }
 

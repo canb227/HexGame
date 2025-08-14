@@ -1099,22 +1099,24 @@ public partial class City
         }
     }
 
-    public void PurchaseBuilding(Hex hex, string buildingType, int goldCost)
+    public void PurchaseBuilding(Hex hex, string buildingType)
     {
-        Global.gameManager.game.playerDictionary[teamNum].goldTotal -= goldCost;
+        Global.gameManager.game.playerDictionary[teamNum].goldTotal -= BuildingLoader.buildingsDict[buildingType].GoldCost;
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
+            manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
             manager.uiManager.Update(UIElement.gold);
         }
         BuildOnHex(hex, buildingType);
     }
 
-    public void PurchaseUnit(Hex hex, string unitType, int goldCost)
+    public void PurchaseUnit(string unitType)
     {
-        Global.gameManager.game.playerDictionary[teamNum].goldTotal -= goldCost;
+        Global.gameManager.game.playerDictionary[teamNum].goldTotal -= UnitLoader.unitsDict[unitType].GoldCost;
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
+            manager.uiManager.cityInfoPanel.UpdateCityPanelInfo();
             manager.uiManager.Update(UIElement.gold);
         }
         int combatModifier = 0;

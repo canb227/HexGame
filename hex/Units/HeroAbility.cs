@@ -43,6 +43,11 @@ public class HeroAbility
         {
             level++;
             hero.avaliableSkillPoints--;
+            if (cooldown[level] == 0)
+            {
+                //ability is passive so add the passive effect
+                hero.ProcessPassiveEffect(this);
+            }
             return true;
         }
         return false;
