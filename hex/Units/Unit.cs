@@ -1,11 +1,13 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Data;
-using System.Formats.Asn1;
 using Godot;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Formats.Asn1;
 using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using static System.Net.Mime.MediaTypeNames;
 public enum TerrainMoveType
 {
@@ -25,6 +27,7 @@ public enum TerrainMoveType
 [Serializable]
 public partial class Unit
 {
+    public string Type => GetType().Name; // "Unit" or "Hero"
     public String name { get; set; }
     public int id { get; set; }
     public String unitType { get; set; }

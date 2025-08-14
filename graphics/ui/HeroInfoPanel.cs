@@ -13,7 +13,6 @@ public partial class HeroInfoPanel : Node3D
     public PanelContainer heroInfoPanel;
 
     public TextureRect unitImage;
-    public ProgressBar healthProgressBar;
 
     public TextureRect healthIcon;
     public Label healthLabel;
@@ -52,6 +51,7 @@ public partial class HeroInfoPanel : Node3D
     private ProgressBar topLeftManaBar;
     private Label topLeftTotalHealthLabel;
     private Label topLeftTotalManaLabel;
+    private Label heroLabel;
 
     public HeroInfoPanel(ProgressBar topLeftHealthBar, ProgressBar topLeftManaBar, Label topLeftTotalHealthLabel, Label topLeftTotalManaLabel)
     {
@@ -63,7 +63,6 @@ public partial class HeroInfoPanel : Node3D
         heroInfoPanel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/HeroInfoPanel.tscn").Instantiate<PanelContainer>();
 
         unitImage = heroInfoPanel.GetNode<TextureRect>("UnitHFlow/HBoxContainer/UnitImage");
-        healthProgressBar = heroInfoPanel.GetNode<ProgressBar>("UnitHFlow/HBoxContainer/UnitImage/HealthProgressBar");
 
         healthLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitStatContainer/HealthContainer/HealthLabel");
 
@@ -89,6 +88,7 @@ public partial class HeroInfoPanel : Node3D
         healthBar = heroInfoPanel.GetNode<ProgressBar>("UnitHFlow/VBoxContainer/HealthBar");
         manaBar = heroInfoPanel.GetNode<ProgressBar>("UnitHFlow/VBoxContainer/ManaBar");
         experienceBar = heroInfoPanel.GetNode<ProgressBar>("UnitHFlow/VBoxContainer/ExperienceBar");
+        heroLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitImage/HeroName");
 
         heroAbilityButtonScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/HeroAbilityButton.tscn");
 
@@ -117,6 +117,11 @@ public partial class HeroInfoPanel : Node3D
 
     public void UpdateHeroPanelInfo()
     {
+        if(hero != null)
+        {
+            heroLabel.Text = hero.name;
+            unitImage.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + hero.heroImagePath);
+        }
         foreach (var child in abilityFlowContainer.GetChildren())
         {
             child.QueueFree();
@@ -127,7 +132,6 @@ public partial class HeroInfoPanel : Node3D
         }
         if (heroInfoPanel.Visible && hero != null)
         {
-            healthProgressBar.Value = Math.Round(hero.health);
             healthLabel.Text = Math.Round(hero.health).ToString() + "/100";
             movementLabel.Text = hero.remainingMovement.ToString() + "/" + hero.movementSpeed.ToString();
             if (hero.combatStrength > 0)
@@ -160,24 +164,19 @@ public partial class HeroInfoPanel : Node3D
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => AbilityButtonPressed(ability);
                 abilityFlowContainer.AddChild(abilityButton);
+
+                abilityButton.Disabled = false;
                 if(ability.combatPower != 0 && hero.attacksLeft <= 0)
                 {
                     abilityButton.Disabled = true;
-                    continue;
                 }
                 if(ability.currentCharges <= 0)
                 {
                     abilityButton.Disabled = true;
-                    continue;
-                }
-                else
-                {
-                    abilityButton.Disabled = false;
                 }
                 if (hero.teamNum != Global.gameManager.game.localPlayerTeamNum)
                 {
                     abilityButton.Disabled = true;
-                    continue;
                 }
                 //check if there are any valid targets
                 List<Hex> hexes = new List<Hex>();
@@ -190,21 +189,15 @@ public partial class HeroInfoPanel : Node3D
                 }
                 if(ability.name == "SettleCityAbility" || ability.name == "SettleCapitalAbility")
                 {
-                    if(hero.CanSettleHere(hero.hex, 3, new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, false))
-                    {
-                        abilityButton.Disabled = false;
-                    }
-                    else
+                    if(!hero.CanSettleHere(hero.hex, 3, new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, false))
                     {
                         abilityButton.Disabled = true;
-                        continue;
                     }
                 }
 
                 if (hexes.Count <= 0)
                 {
                     abilityButton.Disabled = true;
-                    continue;
                 }
             }
             foreach (HeroAbility heroAbility in hero.heroAbilities)

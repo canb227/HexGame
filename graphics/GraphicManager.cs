@@ -323,7 +323,7 @@ public partial class GraphicManager : Node3D
     public void RemoveRuins(Godot.Collections.Dictionary hexData)
     {
         Hex hex = new Hex((int)hexData["q"], (int)hexData["r"], (int)hexData["s"]);
-        foreach (GraphicObject graphicObj in hexObjectDictionary[hex])
+        foreach (GraphicObject graphicObj in hexObjectDictionary[hex].ToList())
         {
             if (IsInstanceValid(graphicObj) && graphicObj is GraphicRuins)
             {

@@ -1,12 +1,13 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Data;
 using Godot;
-using System.Reflection;
 using NetworkMessages;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -1098,6 +1099,55 @@ public partial class City
         }
     }
 
+    public void PurchaseBuilding(Hex hex, string buildingType, int goldCost)
+    {
+        Global.gameManager.game.playerDictionary[teamNum].goldTotal -= goldCost;
+
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.uiManager.Update(UIElement.gold);
+        }
+        BuildOnHex(hex, buildingType);
+    }
+
+    public void PurchaseUnit(Hex hex, string unitType, int goldCost)
+    {
+        Global.gameManager.game.playerDictionary[teamNum].goldTotal -= goldCost;
+        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.uiManager.Update(UIElement.gold);
+        }
+        int combatModifier = 0;
+        if (UnitLoader.unitsDict.TryGetValue(unitType, out UnitInfo unitInfo))
+        {
+            //class check for adding building modifiers
+            if ((unitInfo.Class & UnitClass.Infantry) == UnitClass.Infantry)
+            {
+                combatModifier = infantryProductionCombatModifier;
+            }
+            else if ((unitInfo.Class & UnitClass.Cavalry) == UnitClass.Cavalry)
+            {
+                combatModifier = cavalryProductionCombatModifier;
+            }
+            else if ((unitInfo.Class & UnitClass.Naval) == UnitClass.Naval)
+            {
+                combatModifier = navalProductionCombatModifier;
+            }
+
+            //strongest unit check
+            if (unitInfo.CombatPower > Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt)
+            {
+                Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt = unitInfo.CombatPower + combatModifier;
+            }
+        }
+        Unit tempUnit = new Unit(unitType, combatModifier, Global.gameManager.game.GetUniqueID(teamNum), teamNum);
+        if (!Global.gameManager.game.mainGameBoard.gameHexDict[hex].SpawnUnit(tempUnit, false, true))
+        {
+            tempUnit.decreaseHealth(99999.9f);
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager1)) manager1.NewUnit(tempUnit.id);
+        }
+    }
+
     public void BuildDefenseOnHex(Hex hex, Building building)
     {
         if(Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
@@ -1433,6 +1483,7 @@ public partial class City
         Global.gameManager.game.cityDictionary.Remove(id);
 
     }
+
     // For terrain types
     public void AddFlatYields(GameHex gameHex)
     {

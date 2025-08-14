@@ -8,6 +8,7 @@ public struct HeroInfo
     public UnitInfo unitInfo;
     public int mana;
     public int manaRegeneration;
+    public string heroImagePath;
     public int maxLevel;
     public int[] experienceToLevelUp;
     public List<HeroAbility> heroAbilities;
@@ -27,22 +28,27 @@ public static class HeroLoader
     public static Dictionary<string, HeroInfo> LoadHeroData(string xmlPath)
     {
         XDocument xmlDoc = XDocument.Load(xmlPath);
-        return xmlDoc.Descendants("Hero")
-            .ToDictionary(
-                h => h.Attribute("Name")?.Value ?? throw new Exception("Missing Hero Name"),
-                h => new HeroInfo
-                {
-                    unitInfo = ParseUnitInfo(h.Element("Unit")),
-                    mana = int.TryParse(h.Attribute("Mana")?.Value, out var mana) ? mana : 0,
-                    manaRegeneration = int.TryParse(h.Attribute("ManaRegeneration")?.Value, out var regen) ? regen : 0,
-                    maxLevel = int.TryParse(h.Attribute("MaxLevel")?.Value, out var maxLevel) ? maxLevel : 1,
-                    experienceToLevelUp = h.Element("ExperienceToLevelUp")?.Value
-                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(x => int.TryParse(x.Trim(), out var val) ? val : 0)
-                        .ToArray(),
-                    heroAbilities = h.Element("HeroAbilities")?.Elements("Ability")?.Select(ParseHeroAbility).ToList() ?? new List<HeroAbility>()
-                }
-            );
+
+        var heroElements = xmlDoc.Root?.Elements("Hero")
+            ?? throw new Exception("Missing <Heroes> root or <Hero> elements");
+
+        return heroElements.ToDictionary(
+            h => h.Attribute("Name")?.Value ?? throw new Exception("Missing Hero Name"),
+            h => new HeroInfo
+            {
+                unitInfo = ParseUnitInfo(h.Element("Unit")),
+                mana = int.TryParse(h.Attribute("Mana")?.Value, out var mana) ? mana : 0,
+                manaRegeneration = int.TryParse(h.Attribute("ManaRegeneration")?.Value, out var regen) ? regen : 0,
+                maxLevel = int.TryParse(h.Attribute("MaxLevel")?.Value, out var maxLevel) ? maxLevel : 1,
+                heroImagePath = h.Attribute("HeroImagePath")?.Value ?? "",
+                experienceToLevelUp = h.Element("ExperienceToLevelUp")?.Value
+                    .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => int.TryParse(x.Trim(), out var val) ? val : 0)
+                    .ToArray(),
+                heroAbilities = h.Element("HeroAbilities")?.Elements("Ability")?.Select(ParseHeroAbility).ToList()
+                    ?? new List<HeroAbility>()
+            }
+        );
     }
     private static UnitInfo ParseUnitInfo(XElement r)
     {

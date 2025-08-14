@@ -472,8 +472,15 @@ public partial class GraphicGameBoard : GraphicObject
         {
             foreach (int unitID in gameBoard.gameHexDict[hex].units)
             {
-                Unit unit = Global.gameManager.game.unitDictionary[unitID];
-                Global.gameManager.graphicManager.NewUnit(unit.id);
+                if(Global.gameManager.game.unitDictionary[unitID] is Hero hero)
+                {
+                    Global.gameManager.graphicManager.NewHero(hero.id);
+                }
+                else
+                {
+                    Unit unit = Global.gameManager.game.unitDictionary[unitID];
+                    Global.gameManager.graphicManager.NewUnit(unit.id);
+                }
             }
         }
     }

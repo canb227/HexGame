@@ -24,6 +24,7 @@ public class Hero : Unit
     public int[] experienceToLevelUp { get; set; }
     public int level { get; set; }
     public int maxLevel { get; set; }
+    public string heroImagePath { get; set; }
     public int avaliableSkillPoints { get; set; }
     public int respawnCountdown { get; set; }
     public int maxRespawnCountdown { get; set; } = 10;
@@ -48,6 +49,7 @@ public class Hero : Unit
             this.baseManaRegeneration = heroInfo.manaRegeneration;
             this.maxLevel = heroInfo.maxLevel;
             this.experienceToLevelUp = heroInfo.experienceToLevelUp;
+            this.heroImagePath = heroInfo.heroImagePath;
             foreach (HeroAbility heroAbility in heroInfo.heroAbilities)
             {
                 UnitAbility ability = new UnitAbility(id, heroAbility.ability.name, heroAbility.ability.combatPower, heroAbility.ability.maxChargesPerTurn, heroAbility.ability.range, heroAbility.ability.validTargetTypes, heroAbility.ability.iconPath);
@@ -94,6 +96,7 @@ public class Hero : Unit
         }
     }
 
+    public Hero() { }
     public override void onDeathEffects()
     {
         Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Remove(this.id);

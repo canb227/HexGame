@@ -12,14 +12,14 @@ using System.Xml.Linq;
 [Serializable]
 public class HeroAbility
 {
-    public UnitAbility ability;
-    public int currentCooldown;
-    public int[] manaCost;
-    public int[] cooldown;
-    public int level;
-    public int maxLevel;
-    public int minLevelToLearn;
-    public bool isUltimate;
+    public UnitAbility ability { get; set; }
+    public int currentCooldown { get; set; }
+    public int[] manaCost { get; set; }
+    public int[] cooldown { get; set; }
+    public int level { get; set; }
+    public int maxLevel { get; set; }
+    public int minLevelToLearn { get; set; }
+    public bool isUltimate { get; set; }
     public HeroAbility(UnitAbility ability, int[] manaCost, int[] cooldown, int level, int maxLevel, int minLevelToLearn, bool isUltimate)
     {
         this.ability = ability;

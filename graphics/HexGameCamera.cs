@@ -241,7 +241,17 @@ public partial class HexGameCamera : Camera3D
                 {
                     if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex], BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].DistrictType))
                     {
-                        Global.gameManager.AddToProductionQueue(graphicCity.city.id, graphicCity.waitingBuildingName, wrapHex); //networked command
+                        if(graphicCity.spawnWaitingBuilding)
+                        {
+                            //TODO networked command
+                            graphicCity.city.PurchaseBuilding(wrapHex, graphicCity.waitingBuildingName, BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].GoldCost);
+                            //graphicCity.city.BuildOnHex(wrapHex, graphicCity.waitingBuildingName);
+                        }
+                        else
+                        {
+                            Global.gameManager.AddToProductionQueue(graphicCity.city.id, graphicCity.waitingBuildingName, wrapHex); //networked command
+                        }
+
                         graphicCity.waitingBuildingName = "";
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }

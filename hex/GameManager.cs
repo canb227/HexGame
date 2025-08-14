@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 
@@ -23,8 +24,35 @@ public partial class GameManager : Node
     public int SkipPlayerTurns = -1;
     internal int TurnsToSkip = 1;
 
+    JsonSerializerOptions options;
+
     public GameManager()
     {
+        options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new HexJsonConverter() },
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver
+            {
+                Modifiers =
+                {
+                    ti =>
+                    {
+                        if (ti.Type == typeof(Unit))
+                        {
+                            ti.PolymorphismOptions = new JsonPolymorphismOptions
+                            {
+                                TypeDiscriminatorPropertyName = "$type",
+                                DerivedTypes =
+                                {
+                                    new JsonDerivedType(typeof(Hero), "hero")
+                                }
+                            };
+                        }
+                    }
+                }
+            }
+        };
         instance = this;
         Global.gameManager = this;
         game = new Game();
@@ -42,11 +70,6 @@ public partial class GameManager : Node
         {
             Global.Log($"AI#{ai.player.teamNum}: turn finished?: {ai.player.turnFinished}");
         }
-        JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            Converters = { new HexJsonConverter() }
-        };
         string json = JsonSerializer.Serialize(game, options);
         Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Write);
         fileAccess.StorePascalString(json);
@@ -56,22 +79,12 @@ public partial class GameManager : Node
 
     public string SaveGameRaw()
     {
-        JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            Converters = { new HexJsonConverter() }
-        };
         string json = JsonSerializer.Serialize(game, options);
         return json;
     }
 
     public string SaveGameRaw(Game game)
     {
-        JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            Converters = { new HexJsonConverter() }
-        };
         string json = JsonSerializer.Serialize(game, options);
         return json;
     }
@@ -85,11 +98,6 @@ public partial class GameManager : Node
     {
         Global.Log("Loading Game from file: " + filePath);
         Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
-        JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            Converters = { new HexJsonConverter() }
-        };
         Game retVal = JsonSerializer.Deserialize<Game>(fileAccess.GetPascalString(), options);
         fileAccess.Close();
         return retVal;
@@ -97,11 +105,6 @@ public partial class GameManager : Node
 
     public Game LoadGameRaw(string rawSave)
     {
-        JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            Converters = { new HexJsonConverter() }
-        };
         Game retVal = JsonSerializer.Deserialize<Game>(rawSave, options);
         return retVal;
     }
@@ -1129,6 +1132,8 @@ public partial class GameManager : Node
             throw;
         }
     }
+
+
 
     public void StartGameForReal()
     {

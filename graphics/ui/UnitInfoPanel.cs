@@ -120,18 +120,15 @@ public partial class UnitInfoPanel : Node3D
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => AbilityButtonPressed(ability, abilityButton);
                 abilityFlowContainer.AddChild(abilityButton);
+
+                abilityButton.Disabled = false;
                 if (ability.combatPower != 0 && unit.attacksLeft <= 0)
                 {
                     abilityButton.Disabled = true;
-                    continue;
                 }
                 if (ability.currentCharges <= 0)
                 {
                     abilityButton.Disabled = true;
-                }
-                else
-                {
-                    abilityButton.Disabled = false;
                 }
                 if (unit.teamNum != Global.gameManager.game.localPlayerTeamNum)
                 {
@@ -148,11 +145,7 @@ public partial class UnitInfoPanel : Node3D
                 }
                 if(ability.name == "SettleCityAbility" || ability.name == "SettleCapitalAbility")
                 {
-                    if(unit.CanSettleHere(unit.hex, 3, new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, false))
-                    {
-                        abilityButton.Disabled = false;
-                    }
-                    else
+                    if(!unit.CanSettleHere(unit.hex, 3, new List<TerrainType>(){ TerrainType.Flat, TerrainType.Rough}, false))
                     {
                         abilityButton.Disabled = true;
                     }

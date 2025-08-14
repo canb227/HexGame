@@ -1,7 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://brvg4epx2qy8r"]
+[gd_scene load_steps=18 format=3 uid="uid://brvg4epx2qy8r"]
 
 [ext_resource type="Theme" uid="uid://bisny7m3sfn3s" path="res://graphics/ui/centerunitbox.tres" id="1_um0ud"]
-[ext_resource type="Texture2D" uid="uid://bfcrwhffwupfj" path="res://graphics/models/baseperson_remesh3_manface_pix.png" id="2_7ax3b"]
 [ext_resource type="Texture2D" uid="uid://bq5djh0c6qljc" path="res://graphics/ui/icons/health.png" id="3_dhko0"]
 [ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="4_3wh2m"]
 [ext_resource type="Texture2D" uid="uid://dcc6q0l8asjgm" path="res://graphics/ui/icons/sword.png" id="5_25fbj"]
@@ -60,20 +59,10 @@ layout_mode = 2
 
 [node name="UnitImage" type="TextureRect" parent="UnitHFlow/HBoxContainer"]
 clip_contents = true
-custom_minimum_size = Vector2(0, 128)
+custom_minimum_size = Vector2(115, 128)
 layout_mode = 2
-texture = ExtResource("2_7ax3b")
 expand_mode = 3
 stretch_mode = 6
-
-[node name="HealthProgressBar" type="ProgressBar" parent="UnitHFlow/HBoxContainer/UnitImage"]
-layout_mode = 2
-anchor_right = 1.005
-offset_left = -0.0880127
-offset_top = -1.0
-offset_right = -0.107414
-offset_bottom = 26.0
-grow_horizontal = 2
 
 [node name="TextureRect" type="TextureRect" parent="UnitHFlow/HBoxContainer/UnitImage"]
 layout_mode = 1
@@ -91,6 +80,17 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HeroName" type="Label" parent="UnitHFlow/HBoxContainer/UnitImage"]
+custom_minimum_size = Vector2(117.09, 0)
+layout_mode = 2
+offset_right = 1.0
+offset_bottom = 23.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "HorkinDeez"
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -244,19 +244,19 @@ public class UnitEffect
             }
             if (Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Orcs)
             {
-                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Gorb", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
             }
             if (Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Elves)
             {
-                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Silvana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
             }
             if (Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Beastfolk)
             {
-                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Horkin", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
             }
             if (Global.gameManager.game.playerDictionary[unit.teamNum].faction == FactionType.Hobbits)
             {
-                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Arcana", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
+                Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex].SpawnUnit(new Hero("Billy", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum), false, true);
             }
 
             return true;

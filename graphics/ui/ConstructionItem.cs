@@ -1,5 +1,6 @@
 ﻿using Godot;
 using Google.Protobuf.WellKnownTypes;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime;
+using System.Xml.Linq;
 
 public partial class ConstructionItem : PanelContainer
 {
@@ -18,12 +20,15 @@ public partial class ConstructionItem : PanelContainer
     private Label turnsToBuild;
     private HBoxContainer EffectListBox;
     private Label ProductionCost;
+    private TextureRect CostIcon;
 
+    private bool isPurchase;
     
 
 
-    public ConstructionItem(City city, String name, bool isBuilding, bool isUnit)
+    public ConstructionItem(City city, String name, bool isBuilding, bool isUnit, bool isPurchase)
     {
+        this.isPurchase = isPurchase;
         this.city = city;
         constructionItem = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/ProductionItem.tscn").Instantiate<Button>();
         objectIcon = constructionItem.GetNode<TextureRect>("ObjectIcon");
@@ -31,8 +36,18 @@ public partial class ConstructionItem : PanelContainer
         turnsToBuild = constructionItem.GetNode<Label>("TurnsToBuildBox/TurnsToBuild");
         EffectListBox = constructionItem.GetNode<HBoxContainer>("EffectListBox");
         ProductionCost = constructionItem.GetNode<Label>("HBoxContainer/ProductionCost");
+        CostIcon = constructionItem.GetNode<TextureRect>("HBoxContainer/TextureRect");
 
-        constructionItem.Pressed += () => AddItemToQueue(name, isBuilding, isUnit);
+        if(isPurchase)
+        {
+            turnsToBuild.Visible = false;
+            CostIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/gold.png");
+            constructionItem.Pressed += () => PurchaseItem(name, isBuilding, isUnit);
+        }
+        else
+        {
+            constructionItem.Pressed += () => AddItemToQueue(name, isBuilding, isUnit);
+        }
 
 
         if (isBuilding)
@@ -52,11 +67,12 @@ public partial class ConstructionItem : PanelContainer
 
     public void UpdateUnitItem(UnitInfo unitInfo, String name)
     {
-        if (Global.gameManager.game.mainGameBoard.gameHexDict[city.hex].ValidHexToSpawn(unitInfo, false, true))
+        constructionItem.Disabled = false;
+        if (!Global.gameManager.game.mainGameBoard.gameHexDict[city.hex].ValidHexToSpawn(unitInfo, false, true))
         {
-            constructionItem.Disabled = false;
+            constructionItem.Disabled = true;
         }
-        else
+        if (UnitLoader.unitsDict[name].GoldCost > Global.gameManager.game.localPlayerRef.goldTotal && isPurchase)
         {
             constructionItem.Disabled = true;
         }
@@ -68,7 +84,14 @@ public partial class ConstructionItem : PanelContainer
             prodCost = unitInfo.ProductionCost + 30 * Global.gameManager.game.playerDictionary[city.teamNum].settlerCount;
         }
         turnsToBuild.Text = Math.Ceiling(prodCost / city.CalculateProductionForSpecificItem(name)).ToString();
-        ProductionCost.Text = prodCost.ToString();
+        if(isPurchase)
+        {
+            ProductionCost.Text = unitInfo.GoldCost.ToString();
+        }
+        else
+        {
+            ProductionCost.Text = prodCost.ToString();
+        }
         if (unitInfo.MovementSpeed > 0)
         {
             HBoxContainer effectBox = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/EffectBox.tscn").Instantiate<HBoxContainer>();
@@ -91,6 +114,7 @@ public partial class ConstructionItem : PanelContainer
 
     public void UpdateBuildingItem(BuildingInfo buildingInfo, String itemName)
     {
+        constructionItem.Disabled = false;
         if (BuildingLoader.buildingsDict[itemName].PerCity != 0)
         {
             int count = city.CountString(itemName);
@@ -107,6 +131,10 @@ public partial class ConstructionItem : PanelContainer
             }
         }
         if (Global.gameManager.game.builtWonders.Contains(itemName))
+        {
+            constructionItem.Disabled = true;
+        }
+        if (BuildingLoader.buildingsDict[itemName].GoldCost > Global.gameManager.game.localPlayerRef.goldTotal && isPurchase)
         {
             constructionItem.Disabled = true;
         }
@@ -143,14 +171,22 @@ public partial class ConstructionItem : PanelContainer
             {
                 constructionItem.Disabled = true;
             }
-            else
-            {
-                constructionItem.Disabled = false;
-            }
         }
 
         turnsToBuild.Text = Math.Ceiling(buildingInfo.ProductionCost / (city.yields.production + city.productionOverflow)).ToString();
-        ProductionCost.Text = buildingInfo.ProductionCost.ToString();
+        if (isPurchase)
+        {
+            ProductionCost.Text = buildingInfo.GoldCost.ToString();
+        }
+        else
+        {
+            ProductionCost.Text = buildingInfo.ProductionCost.ToString();
+        }
+
+        if(buildingInfo.GoldCost > Global.gameManager.game.playerDictionary[city.teamNum].goldTotal)
+        {
+
+        }
 
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + buildingInfo.IconPath);
         objectName.Text = itemName;
@@ -197,12 +233,29 @@ public partial class ConstructionItem : PanelContainer
         }
         if (isBuilding)
         {
-            ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[city.id]).GenerateBuildingTargetingPrompt(name);
+            ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[city.id]).GenerateBuildingTargetingPrompt(name, false);
         }
         if (isUnit)
         {
-            //city.AddToQueue(name, city.hex);
             Global.gameManager.AddToProductionQueue(city.id, name, city.hex); //networked command
+        }
+    }
+
+    private void PurchaseItem(String name, bool isBuilding, bool isUnit)
+    {
+        if (Global.gameManager.game.localPlayerRef.turnFinished)
+        {
+            return;
+        }
+        if (isBuilding)
+        {
+            ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[city.id]).GenerateBuildingTargetingPrompt(name, true);
+        }
+        if (isUnit)
+        {
+            //TODO networked command
+            city.PurchaseUnit(city.hex, name, UnitLoader.unitsDict[name].GoldCost);
+            //Global.gameManager.SpawnUnit(name, Global.gameManager.game.localPlayerTeamNum, city.hex, false, true);
         }
     }
 

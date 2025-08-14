@@ -49,6 +49,12 @@ public partial class CityInfoPanel : Node3D
             private VBoxContainer BuildingsBox;
          private ScrollContainer Purchase;
           private VBoxContainer PurchaseBox;
+        private Button PurchaseUnitsButton;
+        private TextureRect PurchaseUnitArrowImage;
+        private VBoxContainer PurchaseUnitsBox;
+        private Button PurchaseBuildingsButton;
+        private TextureRect PurchaseBuildingArrowImage;
+        private VBoxContainer PurchaseBuildingsBox;
       private PanelContainer ProductionQueuePanel;
        private VBoxContainer ProductionQueue;
         private Label OffsetLabel;
@@ -112,6 +118,12 @@ public partial class CityInfoPanel : Node3D
 
         Purchase = cityUI.GetNode<ScrollContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase");
         PurchaseBox = cityUI.GetNode<VBoxContainer>("CityInfoPanel/CityInfoBox/ConstructionTabBox/Purchase/PurchaseBox");
+        PurchaseUnitsButton = PurchaseBox.GetNode<Button>("UnitsButton");
+        PurchaseUnitArrowImage = PurchaseBox.GetNode<TextureRect>("UnitsButton/UnitArrowImage");
+        PurchaseUnitsBox = PurchaseBox.GetNode<VBoxContainer>("UnitsBox");
+        PurchaseBuildingsButton = PurchaseBox.GetNode<Button>("BuildingsButton");
+        PurchaseBuildingArrowImage = PurchaseBox.GetNode<TextureRect>("BuildingsButton/BuildingArrowImage");
+        PurchaseBuildingsBox = PurchaseBox.GetNode<VBoxContainer>("BuildingsBox");
 
 
         ProductionQueuePanel = cityUI.GetNode<PanelContainer>("ProductionQueuePanel");
@@ -122,6 +134,9 @@ public partial class CityInfoPanel : Node3D
         CloseCityInfoButton.Pressed += () => Global.gameManager.graphicManager.UnselectObject();
         BuildingsButton.Pressed += () => ToggleBuildingsBoxVisibility();
         UnitsButton.Pressed += () => ToggleUnitBoxVisibility();
+
+        PurchaseBuildingsButton.Pressed += () => TogglePurchaseBuildingsBoxVisibility();
+        PurchaseUnitsButton.Pressed += () => TogglePurchaseUnitBoxVisibility();
 
 
         cityDetails = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/CityDetailsPanel.tscn").Instantiate<HBoxContainer>();
@@ -158,6 +173,18 @@ public partial class CityInfoPanel : Node3D
     {
         UnitsBox.Visible = !UnitsBox.Visible;
         UnitArrowImage.FlipV = !UnitArrowImage.FlipV;
+    }
+
+    public void TogglePurchaseBuildingsBoxVisibility()
+    {
+        PurchaseBuildingsBox.Visible = !PurchaseBuildingsBox.Visible;
+        PurchaseBuildingArrowImage.FlipV = !PurchaseBuildingArrowImage.FlipV;
+    }
+
+    public void TogglePurchaseUnitBoxVisibility()
+    {
+        PurchaseUnitsBox.Visible = !PurchaseUnitsBox.Visible;
+        PurchaseUnitArrowImage.FlipV = !PurchaseUnitArrowImage.FlipV;
     }
 
 
@@ -232,39 +259,9 @@ public partial class CityInfoPanel : Node3D
 
                 if (city.teamNum == Global.gameManager.game.localPlayerTeamNum)
                 {
-                    foreach (Control child in UnitsBox.GetChildren())
-                    {
-                        child.QueueFree();
-                    }
-                    foreach (Control child in BuildingsBox.GetChildren())
-                    {
-                        child.QueueFree();
-                    }
                     RenameCityButton.Disabled = false;
-                    foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedUnits)
-                    {
-                        if (itemName != "")
-                        {
-                            if(itemName == "Settler")
-                            {
-                                if(city.naturalPopulation < 3)
-                                {
-                                    //must be pop 3 or higher to build settlers as a human player
-                                    continue;
-                                }
-                            }
-                            ConstructionItem item = new ConstructionItem(city, itemName, false, true);
-                            UnitsBox.AddChild(item);
-                        }
-                    }
-                    foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedBuildings)
-                    {
-                        if (itemName != "" && !itemName.Contains("District"))
-                        {
-                            ConstructionItem item = new ConstructionItem(city, itemName, true, false);
-                            BuildingsBox.AddChild(item);
-                        }
-                    }
+                    PrepareUnitBuildingList(UnitsBox, BuildingsBox, false);
+                    PrepareUnitBuildingList(PurchaseUnitsBox, PurchaseBuildingsBox, true);
                 }
                 else
                 {
@@ -302,6 +299,48 @@ public partial class CityInfoPanel : Node3D
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void PrepareUnitBuildingList(VBoxContainer UnitsBox, VBoxContainer BuildingsBox, bool isPurchase)
+    {
+        foreach (Control child in UnitsBox.GetChildren())
+        {
+            child.QueueFree();
+        }
+        foreach (Control child in BuildingsBox.GetChildren())
+        {
+            child.QueueFree();
+        }
+        foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedUnits)
+        {
+            if (itemName != "")
+            {
+                if (itemName == "Settler")
+                {
+                    if (city.naturalPopulation < 3)
+                    {
+                        //must be pop 3 or higher to build settlers as a human player
+                        continue;
+                    }
+                }
+                ConstructionItem item = new ConstructionItem(city, itemName, false, true, isPurchase);
+                if (!isPurchase || UnitLoader.unitsDict[itemName].GoldCost != 0)
+                {
+                    UnitsBox.AddChild(item);
+                }
+            }
+        }
+        foreach (String itemName in Global.gameManager.game.playerDictionary[city.teamNum].allowedBuildings)
+        {
+            if (itemName != "" && !itemName.Contains("District"))
+            {
+                ConstructionItem item = new ConstructionItem(city, itemName, true, false, isPurchase);
+                if (!isPurchase || BuildingLoader.buildingsDict[itemName].GoldCost != 0)
+                {
+                    BuildingsBox.AddChild(item);
+                } 
             }
         }
     }

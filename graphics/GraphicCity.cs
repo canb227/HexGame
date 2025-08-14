@@ -11,6 +11,7 @@ public partial class GraphicCity : GraphicObject
     public List<GraphicBuilding> graphicBuildings;
     public CityWorldUI cityWorldUI;
     public String waitingBuildingName;
+    public bool spawnWaitingBuilding;
     public bool waitingToGrow;
     public GraphicCity(City city, Layout layout)
     {
@@ -120,7 +121,7 @@ public partial class GraphicCity : GraphicObject
         }*/
     }
 
-    public void GenerateBuildingTargetingPrompt(String buildingName)
+    public void GenerateBuildingTargetingPrompt(String buildingName, bool spawnBuilding)
     {
         BuildingInfo buildingInfo = BuildingLoader.buildingsDict[buildingName];
         List<Hex> hexes = city.ValidUrbanBuildHexes(buildingInfo.TerrainTypes, BuildingLoader.buildingsDict[buildingName].DistrictType);
@@ -128,6 +129,7 @@ public partial class GraphicCity : GraphicObject
         {
             Global.gameManager.graphicManager.SetWaitForTargeting(true);
             waitingBuildingName = buildingName;
+            spawnWaitingBuilding = spawnBuilding;
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.HideCityInfoPanel();
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
