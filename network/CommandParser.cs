@@ -164,6 +164,12 @@ using System.Threading.Tasks;
             case "LevelUpAbility":
                 Global.gameManager.LevelUpAbility(command.LevelUpAbililty.HeroID, command.LevelUpAbililty.AbilityName, false);
                 break;
+            case "PurchaseUnit":
+                Global.gameManager.PurchaseUnit(command.PurchaseUnit.UnitType, command.PurchaseUnit.CityID, false);
+                break;
+            case "PurchaseBuilding":
+                Global.gameManager.PurchaseBuilding(command.PurchaseBuilding.BuildingType, new Hex(command.PurchaseBuilding.Location.Q, command.PurchaseBuilding.Location.R, command.PurchaseBuilding.Location.S), command.PurchaseBuilding.CityID, false);
+                break;
             default:
                 Global.Log($"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
                 throw new Exception(prefix + $"The command type {command.CommandType} is not supported. This breaks gamestate so hes dead jim.");
@@ -679,6 +685,40 @@ using System.Threading.Tasks;
         command.Sender = Global.clientID;
         command.LevelUpAbililty = levelUpAbility;
         command.CommandType = "LevelUpAbility";
+
+        return command;
+    }
+
+    internal static Command ConstructPurchaseUnitCommand(string unitType, int cityID)
+    {
+        PurchaseUnit purchaseUnit = new();
+        purchaseUnit.UnitType = unitType;
+        purchaseUnit.CityID = cityID;
+
+        Command command = new();
+        command.Sender = Global.clientID;
+        command.PurchaseUnit = purchaseUnit;
+        command.CommandType = "PurchaseUnit";
+
+        return command;
+    }
+
+    internal static Command ConstructPurchaseBuildingCommand(string buildingType, Hex location, int cityID)
+    {
+        PurchaseBuilding purchaseBuilding = new();
+        purchaseBuilding.BuildingType = buildingType;
+        purchaseBuilding.CityID = cityID;
+
+        NetworkMessages.Hex hex = new NetworkMessages.Hex();
+        hex.Q = location.q;
+        hex.R = location.r;
+        hex.S = location.s;
+        purchaseBuilding.Location = hex;
+
+        Command command = new();
+        command.Sender = Global.clientID;
+        command.PurchaseBuilding = purchaseBuilding;
+        command.CommandType = "PurchaseBuilding";
 
         return command;
     }

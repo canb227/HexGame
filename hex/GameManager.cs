@@ -1133,7 +1133,45 @@ public partial class GameManager : Node
         }
     }
 
+    public void PurchaseUnit(string unitType, int cityID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructPurchaseUnitCommand(unitType, cityID));
+            return;
+        }
 
+        try
+        {
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            city.PurchaseUnit(unitType);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error buying unit: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
+
+    public void PurchaseBuilding(string buildingType, Hex location, int cityID, bool local = true)
+    {
+        if (local)
+        {
+            Global.networkPeer.CommandAllPeersAndSelf(CommandParser.ConstructPurchaseBuildingCommand(buildingType, location, cityID));
+            return;
+        }
+
+        try
+        {
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            city.PurchaseBuilding(location,buildingType);
+        }
+        catch (Exception e)
+        {
+            Global.Log("Error buying building: " + e.Message); //TODO - Potential Desync
+            throw;
+        }
+    }
 
     public void StartGameForReal()
     {

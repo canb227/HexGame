@@ -96,9 +96,25 @@ message Command
 		CapturedCityChoice CapturedCityChoice = 30;
 		CapturedEncampmentChoice CapturedEncampmentChoice = 31;
 		LevelUpAbility LevelUpAbililty = 32;
+		PurchaseUnit PurchaseUnit = 33;
+		PurchaseBuilding PurchaseBuilding = 34;
 	}
 	uint64 sender = 99;
 }
+
+message PurchaseUnit
+{
+	string unitType = 1;
+	int32 cityID = 2;
+}
+
+message PurchaseBuilding
+{
+	string buildingType = 1;
+	int32 cityID = 2;
+	Hex location = 3;
+}
+
 message LevelUpAbility
 {
 	int32 heroID = 1;
