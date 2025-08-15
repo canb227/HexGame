@@ -208,6 +208,10 @@ public partial class HeroInfoPanel : Node3D
                 abilityButton.ExpandIcon = true;
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => HeroAbilityButtonPressed(heroAbility);
+                if (heroAbility.cooldown[heroAbility.level] == 0 && heroAbility.level > 0)
+                {
+                    abilityButton.AddThemeColorOverride("theme_override_colors/icon_disabled_color", Godot.Colors.White);
+                }
                 abilityButton.Call("add_tooltipstring", heroAbility.ability.name + ": " + heroAbility.ability.description);
 
 

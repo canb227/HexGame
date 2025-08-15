@@ -52,7 +52,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/fireball.png">
           <Description>
           Deals ranged damage to a target based on the level of the spell.
           Combat Power: 20 / 26 / 32 / 40
@@ -71,7 +71,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Blink" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Blink" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/blink.png">
           <Description>
           Teleport to a selected hex within 2 range.
           Mana Cost:      35 / 30 / 25 / 20
@@ -96,7 +96,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="MysticRegeneration" UsageCount="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="MysticRegeneration" UsageCount="1" IconPath="graphics/ui/icons/heroes/mysticregeneration.png">
           <Description>
           Passively boosts Arcana's Mana Regeneration and Max Mana.
           Mana Regeneration:      5 / 10 / 15 / 20
@@ -113,7 +113,7 @@
         <MaxLevel>3</MaxLevel>
         <MinLevelToLearn>6</MinLevelToLearn>
         <IsUltimate>True</IsUltimate>
-        <UnitAbility Name="Banish" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Banish" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/banish.png">
           <Description>
           Banish selected unit, returning them to near their capital city.
           Mana Cost:      40 / 40 / 40
@@ -187,7 +187,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Chop" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Chop" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/chop.png">
           <Description>
           Deals minor damage to a target and inflicting a bleed based on the level of the spell. 
           (Bleeds are a damage over time debuff that prevent natural healing and deals flat percentage health damage)
@@ -209,7 +209,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Leap" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Leap" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/leap.png">
           <Description>
           Leap onto an enemy immediately melee attacking them with a bonus, landing nearby after.
           Combat Power Bonus: 0 / 2 / 5 / 7
@@ -228,7 +228,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Blood?" UsageCount="0" Range="0" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Blood?" UsageCount="0" Range="0" IconPath="graphics/ui/icons/heroes/blood.png">
           <Description>
           Passively boosts Gorb's Health Regeneration (this regeneration is not affected by normal regeneration rules).
           Health Regeneration:      3 / 6 / 9 / 12
@@ -244,7 +244,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="ForTheHorde" UsageCount="0" Range="0" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="ForTheHorde" UsageCount="0" Range="0" IconPath="graphics/ui/icons/heroes/forthehorde.png">
           <Description>
           Passively grants Gorb a chance to spawn a friendly warrior when killing an enemy while attacking.
           Chance to spawn a warrior:      25% / 66% / 100%
@@ -308,7 +308,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="PinShot" UsageCount="1" Range="2" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="PinShot" UsageCount="1" Range="2" IconPath="graphics/ui/icons/heroes/pinshot.png">
           <Description>
           Deals ranged damage to a target based on the level of the skill. Additionally removes any movement the target has left for the turn.
           Combat Power: 20 / 26 / 32 / 40
@@ -327,7 +327,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Recall" UsageCount="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Recall" UsageCount="1" IconPath="graphics/ui/icons/heroes/recall.png">
           <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
         </UnitAbility>
       </Ability>
