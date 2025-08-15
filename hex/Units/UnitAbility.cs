@@ -11,6 +11,7 @@ using System.IO;
 public class UnitAbility
 {
     public String name { get; set; }
+    public string description { get; set; }
     private UnitEffect effect { get; set; }
     public int usingUnitID { get; set; }
     public float combatPower { get; set; }
@@ -20,11 +21,12 @@ public class UnitAbility
     public String iconPath { get; set; }
     public TargetSpecification validTargetTypes { get; set; }
 
-    public UnitAbility(int usingUnitID, string abilityName, float combatPower = 0.0f, int maxChargesPerTurn = 1, int range = 0, TargetSpecification validTargetTypes = null, String iconPath = "")
+    public UnitAbility(int usingUnitID, string abilityName, string description="", float combatPower = 0.0f, int maxChargesPerTurn = 1, int range = 0, TargetSpecification validTargetTypes = null, String iconPath = "")
     {
         this.usingUnitID = usingUnitID;
         this.effect = new UnitEffect(abilityName);
         name = abilityName;
+        this.description = description;
         this.iconPath = iconPath;
         this.combatPower = combatPower;
         this.maxChargesPerTurn = maxChargesPerTurn;

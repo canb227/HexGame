@@ -61,7 +61,7 @@ layout_mode = 2
 clip_contents = true
 custom_minimum_size = Vector2(115, 128)
 layout_mode = 2
-expand_mode = 3
+expand_mode = 1
 stretch_mode = 6
 
 [node name="TextureRect" type="TextureRect" parent="UnitHFlow/HBoxContainer/UnitImage"]

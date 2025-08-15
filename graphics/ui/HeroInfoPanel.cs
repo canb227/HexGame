@@ -208,6 +208,9 @@ public partial class HeroInfoPanel : Node3D
                 abilityButton.ExpandIcon = true;
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => HeroAbilityButtonPressed(heroAbility);
+                abilityButton.Call("add_tooltipstring", heroAbility.ability.name + ": " + heroAbility.ability.description);
+
+
                 Button levelupButton = abilityButton.GetNode<Button>("LevelUpButton");
                 TextureProgressBar cooldownBar = abilityButton.GetNode<TextureProgressBar>("Cooldown");
                 cooldownBar.Value = heroAbility.currentCooldown;

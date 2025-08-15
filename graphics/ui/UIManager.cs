@@ -527,6 +527,7 @@ public partial class UIManager : Node3D
     {
         Hero hero = (Hero) Global.gameManager.game.unitDictionary[Global.gameManager.game.localPlayerRef.ourHeroID];
         heroContainer.Visible = true;
+        heroButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://" + hero.heroImagePath);
         healthBar.Value = Math.Round(hero.health);
         healthBar.MaxValue = 100;
         manaBar.Value = hero.mana;

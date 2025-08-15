@@ -52,7 +52,7 @@ public class Hero : Unit
             this.heroImagePath = heroInfo.heroImagePath;
             foreach (HeroAbility heroAbility in heroInfo.heroAbilities)
             {
-                UnitAbility ability = new UnitAbility(id, heroAbility.ability.name, heroAbility.ability.combatPower, heroAbility.ability.maxChargesPerTurn, heroAbility.ability.range, heroAbility.ability.validTargetTypes, heroAbility.ability.iconPath);
+                UnitAbility ability = new UnitAbility(id, heroAbility.ability.name, heroAbility.ability.description, heroAbility.ability.combatPower, heroAbility.ability.maxChargesPerTurn, heroAbility.ability.range, heroAbility.ability.validTargetTypes, heroAbility.ability.iconPath);
                 heroAbilities.Add(new HeroAbility(ability, heroAbility.manaCost, heroAbility.cooldown, heroAbility.level, heroAbility.maxLevel, heroAbility.minLevelToLearn, heroAbility.isUltimate));
             }
 
@@ -164,7 +164,7 @@ public class Hero : Unit
             level++;
             combatStrength = Mathf.Round(baseCombatStrength * (1 + (level / 8)));
             avaliableSkillPoints++;
-            Global.gameManager.graphicManager.uiManager.UpdateHeroUIDisplay();
+            Global.gameManager.graphicManager.uiManager.CallDeferred("UpdateHeroUIDisplay");
         }
     }
 

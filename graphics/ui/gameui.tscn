@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="9_6wqba"]
 [ext_resource type="Texture2D" uid="uid://fm8yovjbmu6w" path="res://graphics/ui/icons/star.png" id="9_pepai"]
 [ext_resource type="Texture2D" uid="uid://cu344k74oa32p" path="res://graphics/ui/icons/government.png" id="10_4wkif"]
-[ext_resource type="Texture2D" uid="uid://bc5l3kr1mfa7d" path="res://graphics/models/baseperson_settler_manface_pix.png" id="12_ltrvr"]
+[ext_resource type="Texture2D" uid="uid://bws6lhun55qeo" path="res://graphics/ui/icons/heroes/arcana.png" id="12_i43v1"]
 [ext_resource type="Texture2D" uid="uid://dm8h7adrtwfgy" path="res://graphics/ui/icons/transparentfill400px.png" id="13_i43v1"]
 
 [sub_resource type="Theme" id="Theme_6wqba"]
@@ -393,13 +393,13 @@ layout_mode = 1
 anchors_preset = -1
 offset_left = 531.0
 offset_top = 82.0
-offset_right = 671.0
+offset_right = 637.0
 offset_bottom = 354.0
 
 [node name="SelectHeroButton" type="Button" parent="HeroContainer"]
 custom_minimum_size = Vector2(64, 128)
 layout_mode = 2
-icon = ExtResource("12_ltrvr")
+icon = ExtResource("12_i43v1")
 icon_alignment = 1
 expand_icon = true
 

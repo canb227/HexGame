@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://btwcsbftioqps"]
+[gd_scene load_steps=6 format=3 uid="uid://btwcsbftioqps"]
 
 [ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="1_q3f10"]
+[ext_resource type="Script" uid="uid://coqwnstoj346c" path="res://addons/tooltips_pro/scripts/tooltip_trigger.gd" id="2_2rr7c"]
 [ext_resource type="Texture2D" uid="uid://br6im7ewhsnpk" path="res://graphics/ui/icons/transparentfill.png" id="2_s2x5q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s2x5q"]
@@ -17,6 +18,7 @@ offset_bottom = 65.0
 icon = ExtResource("1_q3f10")
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("2_2rr7c")
 
 [node name="LevelUpButton" type="Button" parent="."]
 layout_mode = 1

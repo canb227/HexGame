@@ -478,7 +478,7 @@ public class UnitEffect
                 City targetCity = null;
                 foreach (int cityID in Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList)
                 {
-                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList[cityID]];
+                    City temp = Global.gameManager.game.cityDictionary[cityID];
                     if (temp.isCapital)
                     {
                         targetCity = temp;
@@ -497,7 +497,7 @@ public class UnitEffect
                 City targetCity = null;
                 foreach (int cityID in Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList)
                 {
-                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList[cityID]];
+                    City temp = Global.gameManager.game.cityDictionary[cityID];
                     if (temp.isCapital)
                     {
                         targetCity = temp;
@@ -516,7 +516,7 @@ public class UnitEffect
                 City targetCity = null;
                 foreach (int cityID in Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList)
                 {
-                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[targetUnit.teamNum].cityList[cityID]];
+                    City temp = Global.gameManager.game.cityDictionary[cityID];
                     if (temp.isCapital)
                     {
                         targetCity = temp;
@@ -650,7 +650,7 @@ public class UnitEffect
         {
             float randomFactor = (float)new Random(target.hex.q + target.hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble();
             //66% chance
-            if (randomFactor <= 0.25)
+            if (randomFactor <= 0.66)
             {
                 Unit tempUnit = new Unit("Warrior", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum);
                 if (!target.SpawnUnit(tempUnit, false, true))
@@ -665,7 +665,7 @@ public class UnitEffect
         {
             float randomFactor = (float)new Random(target.hex.q + target.hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble();
             //100% chance
-            if (randomFactor <= 0.25)
+            if (randomFactor <= 1.0)
             {
                 Unit tempUnit = new Unit("Warrior", 0, Global.gameManager.game.GetUniqueID(unit.teamNum), unit.teamNum);
                 if (!target.SpawnUnit(tempUnit, false, true))
@@ -739,7 +739,7 @@ public class UnitEffect
                 City targetCity = null;
                 foreach (int cityID in Global.gameManager.game.playerDictionary[unit.teamNum].cityList)
                 {
-                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[unit.teamNum].cityList[cityID]];
+                    City temp = Global.gameManager.game.cityDictionary[cityID];
                     if (temp.isCapital)
                     {
                         targetCity = temp;
@@ -757,7 +757,7 @@ public class UnitEffect
                 City targetCity = null;
                 foreach (int cityID in Global.gameManager.game.playerDictionary[unit.teamNum].cityList)
                 {
-                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[unit.teamNum].cityList[cityID]];
+                    City temp = Global.gameManager.game.cityDictionary[cityID];
                     if (temp.isCapital)
                     {
                         targetCity = temp;
@@ -775,7 +775,7 @@ public class UnitEffect
                 City targetCity = null;
                 foreach (int cityID in Global.gameManager.game.playerDictionary[unit.teamNum].cityList)
                 {
-                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[unit.teamNum].cityList[cityID]];
+                    City temp = Global.gameManager.game.cityDictionary[cityID];
                     if (temp.isCapital)
                     {
                         targetCity = temp;
@@ -793,7 +793,7 @@ public class UnitEffect
                 City targetCity = null;
                 foreach (int cityID in Global.gameManager.game.playerDictionary[unit.teamNum].cityList)
                 {
-                    City temp = Global.gameManager.game.cityDictionary[Global.gameManager.game.playerDictionary[unit.teamNum].cityList[cityID]];
+                    City temp = Global.gameManager.game.cityDictionary[cityID];
                     if (temp.isCapital)
                     {
                         targetCity = temp;

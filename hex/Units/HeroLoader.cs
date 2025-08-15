@@ -80,13 +80,14 @@ public static class HeroLoader
             Abilities = r.Element("Abilities")?.Elements("Ability").ToDictionary(
                 a => a.Attribute("Name").Value,
                 a => (
+                    a.Element("Description")?.Value?.Trim() ?? "",
                     float.TryParse(a.Attribute("CombatPower")?.Value, out var cp) ? cp : 0,
                     int.TryParse(a.Attribute("UsageCount")?.Value, out var uc) ? uc : 1,
                     int.TryParse(a.Attribute("Range")?.Value, out var range) ? range : 0,
                     ParseTargetSpecification(a.Element("TargetSpecification")),
                     a.Attribute("IconPath")?.Value ?? ""
                 )
-            ) ?? new Dictionary<string, (float, int, int, TargetSpecification?, string)>()
+            ) ?? new Dictionary<string, (string, float, int, int, TargetSpecification?, string)>()
         };
     }
     private static HeroAbility ParseHeroAbility(XElement abilityElement)
@@ -117,6 +118,7 @@ public static class HeroLoader
         return new UnitAbility
         {
             name = element.Attribute("Name")?.Value ?? "Unnamed Ability",
+            description = element.Element("Description")?.Value ?? "",
             combatPower = float.TryParse(element.Attribute("CombatPower")?.Value, out var cp) ? cp : 0f,
             maxChargesPerTurn = int.TryParse(element.Attribute("UsageCount")?.Value, out var uc) ? uc : 1,
             range = int.TryParse(element.Attribute("Range")?.Value, out var range) ? range : 0,

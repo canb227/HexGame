@@ -53,6 +53,13 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Deals ranged damage to a target based on the level of the spell.
+          Combat Power: 20 / 26 / 32 / 40
+          Mana Cost:      35 / 30 / 25 / 20
+          Cooldown:       3  /  3 /  2 /  1
+          Must Target Enemies
+          </Description>
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -65,6 +72,11 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="Blink" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Teleport to a selected hex within 2 range.
+          Mana Cost:      35 / 30 / 25 / 20
+          Cooldown:       4  /  3 /  2 /  2
+          </Description>
           <TargetSpecification AllowsAlly="true" TargetTiles="true" TargetRuralBuildings="true" TargetUrbanBuildings="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" >
             <ValidUnitTypes>
               <UnitType Name = "None"/>
@@ -85,6 +97,11 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="MysticRegeneration" UsageCount="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Passively boosts Arcana's Mana Regeneration and Max Mana.
+          Mana Regeneration:      5 / 10 / 15 / 20
+          Maximum Mana:       10  /  20 /  30 /  40
+          </Description>
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -97,6 +114,12 @@
         <MinLevelToLearn>6</MinLevelToLearn>
         <IsUltimate>True</IsUltimate>
         <UnitAbility Name="Banish" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Banish selected unit, returning them to near their capital city.
+          Mana Cost:      40 / 40 / 40
+          Cooldown:       5  /  4 /  3
+          Must Target Allies or Enemies
+          </Description>
           <TargetSpecification AllowsAlly="true" AllowsEnemy="true" TargetUnits="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true" >
             <ValidUnitTypes>
               <UnitType Name = "None"/>
@@ -165,6 +188,16 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="Chop" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Deals minor damage to a target and inflicting a bleed based on the level of the spell. 
+          (Bleeds are a damage over time debuff that prevent natural healing and deals flat percentage health damage)
+          Combat Power: 10 / 10 / 10 / 10
+          Bleed Damage Percentage: 10 / 10 / 15 / 15
+          Bleed Damage Duration: 1 / 2 / 2 / 3 
+          Mana Cost:      20 / 20 / 15 / 15
+          Cooldown:       3  /  3 /  2 /  1
+          Must Target Enemies
+          </Description>
           <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -177,6 +210,13 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="Leap" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Leap onto an enemy immediately melee attacking them with a bonus, landing nearby after.
+          Combat Power Bonus: 0 / 2 / 5 / 7
+          Mana Cost:      25 / 25 / 20 / 15
+          Cooldown:       4  /  4 /  3 /  2
+          Must Target Enemies
+          </Description>
           <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -189,6 +229,10 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="Blood?" UsageCount="0" Range="0" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Passively boosts Gorb's Health Regeneration (this regeneration is not affected by normal regeneration rules).
+          Health Regeneration:      3 / 6 / 9 / 12
+          </Description>
           <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -201,6 +245,10 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="ForTheHorde" UsageCount="0" Range="0" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Passively grants Gorb a chance to spawn a friendly warrior when killing an enemy while attacking.
+          Chance to spawn a warrior:      25% / 66% / 100%
+          </Description>
           <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -261,6 +309,13 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="PinShot" UsageCount="1" Range="2" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Deals ranged damage to a target based on the level of the skill. Additionally removes any movement the target has left for the turn.
+          Combat Power: 20 / 26 / 32 / 40
+          Mana Cost:      25 / 20 / 15 / 10
+          Cooldown:       1  /  1 /  1 /  1
+          Must Target Enemies
+          </Description>
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>

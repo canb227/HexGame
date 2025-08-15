@@ -40,7 +40,7 @@ public struct UnitInfo
     public Dictionary<TerrainMoveType, float> MovementCosts { get; set; }
     public Dictionary<TerrainMoveType, float> SightCosts { get; set; }
     public List<String> Effects { get; set; }
-    public Dictionary<string, (float CombatPower, int UsageCount, int Range, TargetSpecification? Specification, String iconName)> Abilities { get; set; }
+    public Dictionary<string, (string description, float CombatPower, int UsageCount, int Range, TargetSpecification? Specification, String iconName)> Abilities { get; set; }
 }
 
 public static class UnitLoader
@@ -87,13 +87,14 @@ public static class UnitLoader
                         a => a.Attribute("Name")?.Value ?? throw new Exception("Invalid Ability Name"),
                         a =>
                         (
+                            a.Element("Description")?.Value?.Trim() ?? "",
                             float.TryParse(a.Attribute("CombatPower")?.Value, out var combatPower) ? combatPower : 0,
                             int.TryParse(a.Attribute("UsageCount")?.Value, out var usageCount) ? usageCount : 1,
                             int.TryParse(a.Attribute("Range")?.Value, out var range) ? range : 0,
                             ParseTargetSpecification(a.Element("TargetSpecification")),
                             a.Attribute("IconPath")?.Value ?? ""
                         )
-                    ) ?? new Dictionary<string, (float, int, int, TargetSpecification?, String)>(),
+                    ) ?? new Dictionary<string, (string, float, int, int, TargetSpecification?, String)>(),
                 }
             );
         return UnitData;
