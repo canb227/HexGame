@@ -368,6 +368,8 @@ public partial class UIManager : Node3D
                 resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[resourceType].IconPath); ;
                 Label resourceAmount = new();
                 resourceAmount.Text = Global.gameManager.game.localPlayerRef.resourceStockpiles[resourceType].ToString();
+                resourcesContainer.AddChild(resourceIcon);
+                resourcesContainer.AddChild(resourceAmount);
             }
         }
 

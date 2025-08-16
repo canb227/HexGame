@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime;
+using System.Security.AccessControl;
 using System.Xml.Linq;
 
 public partial class ConstructionItem : PanelContainer
@@ -22,6 +23,8 @@ public partial class ConstructionItem : PanelContainer
     private Label ProductionCost;
     private TextureRect CostIcon;
 
+    private HBoxContainer CostContainer;
+
     private bool isPurchase;
     
 
@@ -35,8 +38,9 @@ public partial class ConstructionItem : PanelContainer
         objectName = constructionItem.GetNode<Label>("ObjectName");
         turnsToBuild = constructionItem.GetNode<Label>("TurnsToBuildBox/TurnsToBuild");
         EffectListBox = constructionItem.GetNode<HBoxContainer>("EffectListBox");
-        ProductionCost = constructionItem.GetNode<Label>("HBoxContainer/ProductionCost");
-        CostIcon = constructionItem.GetNode<TextureRect>("HBoxContainer/TextureRect");
+        CostContainer = constructionItem.GetNode<HBoxContainer>("CostContainer");
+        ProductionCost = constructionItem.GetNode<Label>("CostContainer/ProductionCost");
+        CostIcon = constructionItem.GetNode<TextureRect>("CostContainer/TextureRect");
 
         if(isPurchase)
         {
@@ -58,6 +62,19 @@ public partial class ConstructionItem : PanelContainer
         if(isUnit)
         {
             UnitInfo unitInfo = UnitLoader.unitsDict[name];
+            if (unitInfo.StrategicResource != ResourceType.None && unitInfo.StrategicResourceCost > 0)
+            {
+                TextureRect resourceIcon = new();
+                resourceIcon.ExpandMode = TextureRect.ExpandModeEnum.FitWidth;
+                resourceIcon.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
+                resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[unitInfo.StrategicResource].IconPath); ;
+                Label resourceAmount = new();
+                resourceAmount.Text = unitInfo.StrategicResourceCost.ToString();
+                Control spacer = new();
+                CostContainer.AddChild(spacer);
+                CostContainer.AddChild(resourceIcon);
+                CostContainer.AddChild(resourceAmount);
+            }
             UpdateUnitItem(unitInfo, name);
         }
         //constructionItem.Pressed += () => city.AddToQueue();
@@ -78,7 +95,8 @@ public partial class ConstructionItem : PanelContainer
         }
         if (unitInfo.StrategicResourceCost > 0 && unitInfo.StrategicResource != ResourceType.None)
         {
-            if (Global.gameManager.game.playerDictionary[city.teamNum].resourceStockpiles[unitInfo.StrategicResource] < unitInfo.StrategicResourceCost)
+            if (!Global.gameManager.game.playerDictionary[city.teamNum].resourceStockpiles.ContainsKey(unitInfo.StrategicResource) 
+                || Global.gameManager.game.playerDictionary[city.teamNum].resourceStockpiles[unitInfo.StrategicResource] < unitInfo.StrategicResourceCost)
             {
                 constructionItem.Disabled = true;
             }
