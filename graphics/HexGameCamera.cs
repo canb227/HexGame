@@ -94,6 +94,7 @@ public partial class HexGameCamera : Camera3D
             {
                 Global.gameManager.graphicManager.uiManager.CloseCurrentWindow();
                 Global.gameManager.graphicManager.uiManager.ShowGenericUIAfterTargeting();
+                Global.gameManager.graphicManager.uiManager.HideExpandBuildingLabel();
                 GetViewport().SetInputAsHandled();
             }
             else if (districtPickerPanelOpen)
@@ -106,11 +107,13 @@ public partial class HexGameCamera : Camera3D
                 if (Global.gameManager.graphicManager.GetWaitForTargeting())
                 {
                     Global.gameManager.graphicManager.ClearWaitForTarget();
+                    Global.gameManager.graphicManager.uiManager.HideExpandBuildingLabel();
                     GetViewport().SetInputAsHandled();
                 }
                 else if (Global.gameManager.graphicManager.selectedObject != null)
                 {
                     Global.gameManager.graphicManager.UnselectObject();
+                    Global.gameManager.graphicManager.uiManager.HideExpandBuildingLabel();
                     GetViewport().SetInputAsHandled();
                 }
             }
@@ -223,7 +226,6 @@ public partial class HexGameCamera : Camera3D
                     if (graphicCity.city.ValidExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
                         Global.gameManager.ExpandToHex(graphicCity.city.id, wrapHex);//networked command
-                        //graphicCity.city.ExpandToHex(wrapHex);
                         graphicCity.waitingToGrow = false;
                         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
                         Global.gameManager.graphicManager.ClearWaitForTarget();
@@ -243,21 +245,24 @@ public partial class HexGameCamera : Camera3D
                     {
                         if(graphicCity.spawnWaitingBuilding)
                         {
-                            //networked command
+                            //networked command for purchase
                             Global.gameManager.PurchaseBuilding(graphicCity.waitingBuildingName, wrapHex, graphicCity.city.id);
                         }
                         else
                         {
-                            Global.gameManager.AddToProductionQueue(graphicCity.city.id, graphicCity.waitingBuildingName, wrapHex); //networked command
+                            //networked command for production
+                            Global.gameManager.AddToProductionQueue(graphicCity.city.id, graphicCity.waitingBuildingName, wrapHex);
                         }
 
                         graphicCity.waitingBuildingName = "";
+                        Global.gameManager.graphicManager.uiManager.HideExpandBuildingLabel();
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                     }
                 }
             }
             else
             {
+                Global.gameManager.graphicManager.uiManager.HideExpandBuildingLabel();
                 Global.gameManager.graphicManager.ClearWaitForTarget();
             }
         }

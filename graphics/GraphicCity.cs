@@ -133,6 +133,8 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.HideCityInfoPanel();
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
+            Global.gameManager.graphicManager.uiManager.SetAndShowExpandBuildingLabel("Currently Building: " + buildingName);
+
             foreach (Hex hex in hexes)
             {
                 Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.DarkGreen, "");
@@ -166,6 +168,7 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.HideCityInfoPanel();
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
+            Global.gameManager.graphicManager.uiManager.SetAndShowExpandBuildingLabel("Select a hex to expand to\nOR\nSelect a hex to urbanize into a district");
             foreach(Hex hex in hexes)
             {
                 Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.DarkGreen, "");

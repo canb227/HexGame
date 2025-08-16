@@ -65,6 +65,8 @@ public partial class UIManager : Node3D
 
     public HBoxContainer playerList;
 
+    public Label expandBuildingLabel;
+
     public UnitInfoPanel unitInfoPanel;
     public HeroInfoPanel heroInfoPanel;
     public CityInfoPanel cityInfoPanel;
@@ -171,6 +173,9 @@ public partial class UIManager : Node3D
         governmentButton.Pressed += () => GovernmentButtonPressed();
 
         actionQueue = screenUI.GetNode<VBoxContainer>("ActionQueueScrollBox/ActionQueue");
+
+        expandBuildingLabel = screenUI.GetNode<Label>("LayerHelper/ExpandBuildingLabel");
+        expandBuildingLabel.Visible = false;
 
         waitingOnYouPanel = screenUI.GetNode<PanelContainer>("LayerHelper/EndTurnButton/WaitingOnPlayerPanel");
         waitingOnYouPanel.Visible = false;
@@ -682,6 +687,17 @@ public partial class UIManager : Node3D
             //Global.gameManager.game.turnManager.EndCurrentTurn(Global.gameManager.game.localPlayerTeamNum);
             return;
         }
+    }
+
+    public void SetAndShowExpandBuildingLabel(string text)
+    {
+        expandBuildingLabel.Visible = true;
+        expandBuildingLabel.Text = text;
+    }
+
+    public void HideExpandBuildingLabel()
+    {
+        expandBuildingLabel.Visible = false;
     }
 
     private void UpdateEndTurnButton()

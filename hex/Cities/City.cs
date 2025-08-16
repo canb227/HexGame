@@ -1201,7 +1201,11 @@ public partial class City
                 };
                 manager.CallDeferred("UpdateHex", data); 
                 manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
-                manager.CallDeferred("ClearWaitForTarget");
+                if(teamNum == Global.gameManager.game.localPlayerTeamNum)
+                {
+                    manager.CallDeferred("ClearWaitForTarget");
+                    manager.uiManager.CallDeferred("HideExpandBuildingLabel");
+                }
             }
         }
         else
@@ -1222,7 +1226,11 @@ public partial class City
                 RecalculateYields();
                 if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
                 {
-                    manager.CallDeferred("ClearWaitForTarget");
+                    if (teamNum == Global.gameManager.game.localPlayerTeamNum)
+                    {
+                        manager.CallDeferred("ClearWaitForTarget");
+                        manager.uiManager.CallDeferred("HideExpandBuildingLabel");
+                    }
                 }
             }
         }
