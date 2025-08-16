@@ -159,7 +159,7 @@ public partial class GraphicUnit : GraphicObject
     public void GenerateTargetingPrompt(UnitAbility ability)
     {
         List<Hex> hexes = new List<Hex>();
-        foreach(Hex hex in unit.hex.WrappingRange(ability.range+1, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        foreach(Hex hex in unit.hex.WrappingRange(ability.range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
         {
             if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], unit))
             {

@@ -648,6 +648,17 @@ public partial class City
                     continue;
                 }
             }
+            else if (UnitLoader.unitsDict.ContainsKey(queueItem.itemName))
+            {
+                UnitInfo unitInfo = UnitLoader.unitsDict[queueItem.itemName];
+                if (unitInfo.StrategicResourceCost > 0 && unitInfo.StrategicResource != ResourceType.None)
+                {
+                    if (Global.gameManager.game.playerDictionary[teamNum].resourceStockpiles[unitInfo.StrategicResource] < unitInfo.StrategicResourceCost)
+                    {
+                        toRemove.Add(queueItem);
+                    }
+                }
+            }
         }
         foreach (ProductionQueueType item in toRemove)
         {
@@ -692,6 +703,8 @@ public partial class City
                         {
                             Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt = unitInfo.CombatPower + combatModifier;
                         }
+                        //reduce stockpile by strategic resource cost
+                        ReduceStrategicStockpile(unitInfo);
                     }
                     Unit tempUnit = new Unit(productionQueue[0].itemName, combatModifier , Global.gameManager.game.GetUniqueID(teamNum), teamNum);
                     if (!Global.gameManager.game.mainGameBoard.gameHexDict[productionQueue[0].targetHex].SpawnUnit(tempUnit, false, true))
@@ -1141,7 +1154,10 @@ public partial class City
             {
                 Global.gameManager.game.playerDictionary[teamNum].strongestUnitBuilt = unitInfo.CombatPower + combatModifier;
             }
+            //reduce stockpile by strategic resource cost
+            ReduceStrategicStockpile(unitInfo);
         }
+
         Unit tempUnit = new Unit(unitType, combatModifier, Global.gameManager.game.GetUniqueID(teamNum), teamNum);
         if (!Global.gameManager.game.mainGameBoard.gameHexDict[hex].SpawnUnit(tempUnit, false, true))
         {
@@ -1156,6 +1172,14 @@ public partial class City
         {
             Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.AddDefense(building);
             building.districtHex = Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.hex;
+        }
+    }
+
+    public void ReduceStrategicStockpile(UnitInfo unitInfo)
+    {
+        if (unitInfo.StrategicResourceCost > 0)
+        {
+            Global.gameManager.game.playerDictionary[teamNum].resourceStockpiles[unitInfo.StrategicResource] -= unitInfo.StrategicResourceCost;
         }
     }
 

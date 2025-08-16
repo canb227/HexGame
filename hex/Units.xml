@@ -329,7 +329,7 @@
     </SightCosts>
   </Unit>
 
-  <Unit Name="Horseman" Class="Combat, Land, Cavalry, Classical" ProductionCost="80" GoldCost="320" MovementSpeed="4.0" SightRange="2.0" CombatPower="36.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Horseman.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Horseman" Class="Combat, Land, Cavalry, Classical" ProductionCost="80" GoldCost="320" StrategicResource="Horses" StrategicResourceCost="20" MovementSpeed="4.0" SightRange="2.0" CombatPower="36.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Horseman.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -356,7 +356,7 @@
     </SightCosts>
   </Unit>
 
-  <Unit Name="Swordman" Class="Combat, Land, Infantry, Classical" ProductionCost="90" GoldCost="360" MovementSpeed="2.0" SightRange="2.0" CombatPower="35.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Swordman" Class="Combat, Land, Infantry, Classical" ProductionCost="90" GoldCost="360" StrategicResource="Iron" StrategicResourceCost="20" MovementSpeed="2.0" SightRange="2.0" CombatPower="35.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -588,7 +588,7 @@
     </Abilities>
   </Unit>
 
-  <Unit Name="Knight" Class="Combat, Land, Cavalry, Classical" ProductionCost="220" GoldCost="880" MovementSpeed="4.0" SightRange="2.0" CombatPower="50.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Knight.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Knight" Class="Combat, Land, Cavalry, Classical" ProductionCost="220" GoldCost="880" StrategicResource="Iron" StrategicResourceCost="20" MovementSpeed="4.0" SightRange="2.0" CombatPower="50.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Knight.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />
@@ -675,7 +675,7 @@
     </SightCosts>
   </Unit>
 
-  <Unit Name="Courser" Class="Combat, Land, Cavalry, Classical" ProductionCost="200" GoldCost="800" MovementSpeed="5.0" SightRange="2.0" CombatPower="46.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Courser.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+  <Unit Name="Courser" Class="Combat, Land, Cavalry, Classical" ProductionCost="200" GoldCost="800" StrategicResource="Horses" StrategicResourceCost="20" MovementSpeed="5.0" SightRange="2.0" CombatPower="46.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Courser.png" ModelPath="graphics/models/baseperson_remesh3.glb">
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
       <TerrainMoveType Name="Rough" Value="2" />

@@ -28,6 +28,8 @@ public struct UnitInfo
     public FactionType Faction { get; set; }
     public int ProductionCost { get; set; }
     public int GoldCost { get; set; }
+    public ResourceType StrategicResource { get; set; }
+    public int StrategicResourceCost { get; set; }
     public float MovementSpeed { get; set; }
     public float SightRange { get; set; }
     public float CombatPower { get; set; }
@@ -65,6 +67,8 @@ public static class UnitLoader
                     Faction = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
                     ProductionCost = int.TryParse(r.Attribute("ProductionCost")?.Value, out var productionCost) ? productionCost : 0,
                     GoldCost = int.TryParse(r.Attribute("GoldCost")?.Value, out var goldCost) ? goldCost : 0,
+                    StrategicResource = Enum.TryParse<ResourceType>(r.Attribute("StrategicResource")?.Value, out var strategicResource) ? strategicResource : ResourceType.None,
+                    StrategicResourceCost = int.TryParse(r.Attribute("StrategicResourceCost")?.Value, out var strategicResourceCost) ? strategicResourceCost : 0,
                     MovementSpeed = float.TryParse(r.Attribute("MovementSpeed")?.Value, out var movementSpeed) ? movementSpeed : 0.0f,
                     SightRange = float.TryParse(r.Attribute("SightRange")?.Value, out var sightRange) ? sightRange : 0.0f,
                     CombatPower = float.TryParse(r.Attribute("CombatPower")?.Value, out var combatPower) ? combatPower : 0.0f,

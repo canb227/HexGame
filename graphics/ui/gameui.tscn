@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://cqwb0y8pf7hny"]
+[gd_scene load_steps=22 format=3 uid="uid://cqwb0y8pf7hny"]
 
 [ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="2_n5e1u"]
 [ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="3_6wqba"]
 [ext_resource type="Texture2D" uid="uid://d0do4lbonkkx3" path="res://graphics/ui/icons/happiness.png" id="4_6wqba"]
 [ext_resource type="Texture2D" uid="uid://v8ieeb82fsx8" path="res://graphics/ui/icons/influence.png" id="5_pepai"]
+[ext_resource type="Texture2D" uid="uid://bq7emg7dgloi7" path="res://graphics/ui/icons/resources/iron.png" id="6_q6whi"]
 [ext_resource type="Texture2D" uid="uid://4d6apwd8mjye" path="res://graphics/ui/icons/researchButton.png" id="7_6wqba"]
 [ext_resource type="Texture2D" uid="uid://brrh1cw1vxfxn" path="res://graphics/ui/icons/science.png" id="7_e1iin"]
 [ext_resource type="Texture2D" uid="uid://drtkka4c7ph0x" path="res://graphics/ui/icons/clock.png" id="8_6wqba"]
@@ -67,75 +68,93 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_pepai")
 [node name="TopBar" type="HBoxContainer" parent="LayerHelper/PanelContainer"]
 layout_mode = 2
 
-[node name="Resources" type="HBoxContainer" parent="LayerHelper/PanelContainer/TopBar"]
+[node name="Yields" type="HBoxContainer" parent="LayerHelper/PanelContainer/TopBar"]
 layout_mode = 2
 
-[node name="GoldIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="GoldIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 layout_mode = 2
 texture = ExtResource("2_n5e1u")
 expand_mode = 2
 
-[node name="GoldLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="GoldLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
-[node name="GoldPerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="GoldPerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
-[node name="ScienceIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="ScienceIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 layout_mode = 2
 texture = ExtResource("7_e1iin")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="SciencePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="SciencePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
-[node name="CultureIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="CultureIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 layout_mode = 2
 texture = ExtResource("3_6wqba")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="CulturePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="CulturePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
-[node name="HappinessIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="HappinessIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 layout_mode = 2
 texture = ExtResource("4_6wqba")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="HappinessLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="HappinessLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
-[node name="HappinessPerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="HappinessPerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
-[node name="HappinessNeededForGoldenAge" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="HappinessNeededForGoldenAge" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
-[node name="InfluenceIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="InfluenceIcon" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 layout_mode = 2
 texture = ExtResource("5_pepai")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="InfluenceLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="InfluenceLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
-[node name="InfluencePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+[node name="InfluencePerTurnLabel" type="Label" parent="LayerHelper/PanelContainer/TopBar/Yields"]
 z_index = 1
 layout_mode = 2
 
 [node name="Control" type="Control" parent="LayerHelper/PanelContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Resources" type="HBoxContainer" parent="LayerHelper/PanelContainer/TopBar"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+layout_mode = 2
+texture = ExtResource("6_q6whi")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="LayerHelper/PanelContainer/TopBar/Resources"]
+layout_mode = 2
+text = "30"
+
+[node name="Control2" type="Control" parent="LayerHelper/PanelContainer/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3
 

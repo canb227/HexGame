@@ -76,6 +76,13 @@ public partial class ConstructionItem : PanelContainer
         {
             constructionItem.Disabled = true;
         }
+        if (unitInfo.StrategicResourceCost > 0 && unitInfo.StrategicResource != ResourceType.None)
+        {
+            if (Global.gameManager.game.playerDictionary[city.teamNum].resourceStockpiles[unitInfo.StrategicResource] < unitInfo.StrategicResourceCost)
+            {
+                constructionItem.Disabled = true;
+            }
+        }
         objectIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + unitInfo.IconPath);
         objectName.Text = name;
         float prodCost = unitInfo.ProductionCost;

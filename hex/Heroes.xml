@@ -71,7 +71,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Blink" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/blink.png">
+        <UnitAbility Name="Blink" UsageCount="1" Range="2" IconPath="graphics/ui/icons/heroes/blink.png">
           <Description>
           Teleport to a selected hex within 2 range.
           Mana Cost:      35 / 30 / 25 / 20
@@ -209,7 +209,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Leap" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/leap.png">
+        <UnitAbility Name="Leap" UsageCount="1" Range="2" IconPath="graphics/ui/icons/heroes/leap.png">
           <Description>
           Leap onto an enemy immediately melee attacking them with a bonus, landing nearby after.
           Combat Power Bonus: 0 / 2 / 5 / 7
@@ -327,7 +327,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Recall" UsageCount="1" IconPath="graphics/ui/icons/heroes/recall.png">
+        <UnitAbility Name="Recall" UsageCount="1" IconPath="graphics/ui/icons/heroes/recallsd.png">
           <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
         </UnitAbility>
       </Ability>
@@ -348,7 +348,7 @@
         <TerrainMoveType Name="River" Value="0" />
         <TerrainMoveType Name="Road" Value="0.5" />
         <TerrainMoveType Name="Coral" Value="1" />
-        <TerrainMoveType Name="Embark" Value="-1" />
+        <TerrainMoveType Name="Embark" Value="-1" />sd
         <TerrainMoveType Name="Disembark" Value="-1" />
       </MovementCosts>
       <SightCosts>

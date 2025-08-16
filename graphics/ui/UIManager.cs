@@ -96,6 +96,8 @@ public partial class UIManager : Node3D
     public Label totalHealthLabel;
     public Label totalManaLabel;
 
+    public HBoxContainer resourcesContainer;
+
 
 
     public VBoxContainer actionQueue;
@@ -126,17 +128,19 @@ public partial class UIManager : Node3D
         this.layout = layout;
         screenUI = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/gameui.tscn").Instantiate<Control>();
 
-        goldLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/GoldLabel");
-        goldPerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/GoldPerTurnLabel");
-        sciencePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/SciencePerTurnLabel");
-        culturePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/CulturePerTurnLabel");
-        happinessLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/HappinessLabel");
-        happinessPerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/HappinessPerTurnLabel");
-        influenceLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/InfluenceLabel");
-        influencePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/InfluencePerTurnLabel");
+        goldLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/GoldLabel");
+        goldPerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/GoldPerTurnLabel");
+        sciencePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/SciencePerTurnLabel");
+        culturePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/CulturePerTurnLabel");
+        happinessLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/HappinessLabel");
+        happinessPerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/HappinessPerTurnLabel");
+        influenceLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/InfluenceLabel");
+        influencePerTurnLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/InfluencePerTurnLabel");
         turnNumberLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/GameInfo/TurnLabel");
         topBarPanel = screenUI.GetNode<PanelContainer>("LayerHelper/PanelContainer");
-        goldenAgeLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Resources/HappinessNeededForGoldenAge");
+        goldenAgeLabel = screenUI.GetNode<Label>("LayerHelper/PanelContainer/TopBar/Yields/HappinessNeededForGoldenAge");
+
+        resourcesContainer = screenUI.GetNode<HBoxContainer>("LayerHelper/PanelContainer/TopBar/Resources");
 
         menuButton = screenUI.GetNode<Button>("LayerHelper/PanelContainer/TopBar/GameInfo/MenuButton");
 
@@ -346,6 +350,27 @@ public partial class UIManager : Node3D
         influenceLabel.Text = Math.Round(Global.gameManager.game.localPlayerRef.GetInfluenceTotal()).ToString() + " ";
         influencePerTurnLabel.Text = "(+" + Math.Round(Global.gameManager.game.localPlayerRef.GetInfluencePerTurn()).ToString() + ")  ";
         turnNumberLabel.Text = " " + Global.gameManager.game.turnManager.currentTurn;
+
+
+        //TODO this shouldnt clear them each time
+        foreach(var child in resourcesContainer.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        foreach(ResourceType resourceType in Global.gameManager.game.localPlayerRef.resourceStockpiles.Keys)
+        {
+            if (resourceType != ResourceType.None)
+            {
+                TextureRect resourceIcon = new();
+                resourceIcon.ExpandMode = TextureRect.ExpandModeEnum.FitWidth;
+                resourceIcon.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
+                resourceIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + ResourceLoader.resources[resourceType].IconPath); ;
+                Label resourceAmount = new();
+                resourceAmount.Text = Global.gameManager.game.localPlayerRef.resourceStockpiles[resourceType].ToString();
+            }
+        }
+
 
         UpdateHeroUIDisplay();
         UpdateUnitUIDisplay();

@@ -68,6 +68,9 @@ public class BasePlayer
     public HashSet<DiplomacyAction> diplomaticActionHashSet { get; set; } = new();
     public Dictionary<Hex, ResourceType> unassignedResources { get; set; } = new();
     public Dictionary<Hex, ResourceType> globalResources { get; set; } = new();
+    public Dictionary<ResourceType, int> resourceStockpiles { get; set; } = new();
+    public int resourceStockpileRate { get; set; } = 2;
+    public int resourceStockpileMax { get; set; } = 60;
     public Dictionary<Hex, ResourceType> hiddenGlobalResources { get; set;} = new();
     public GovernmentType government { get; set; } = GovernmentType.None;
     public HashSet<GovernmentType> avaliableGovernments { get; set;} = new();
@@ -292,6 +295,17 @@ public class BasePlayer
             if (hero.respawnCountdown <= 0 && hero.isDead)
             {
                 hero.RespawnHero();
+            }
+        }
+        foreach(ResourceType resourceType in globalResources.Values)
+        {
+            if(resourceStockpiles.ContainsKey(resourceType))
+            {
+                resourceStockpiles[resourceType] += resourceStockpileRate;
+            }
+            else
+            {
+                resourceStockpiles.Add(resourceType, resourceStockpileRate);
             }
         }
         foreach (int unitID in unitList)

@@ -34,7 +34,7 @@ public partial class Unit
     public Dictionary<TerrainMoveType, float> movementCosts { get; set; } = new();
     public Dictionary<TerrainMoveType, float> sightCosts { get; set; } = new();
     public Hex hex { get; set; }
-    public float movementSpeed { get; set; } = 2.0f;
+    public float movementSpeed { get; set; }
     public float remainingMovement { get; set; }
     public float sightRange { get; set; } = 3.0f;
     public float health { get; set; } = 100.0f;
