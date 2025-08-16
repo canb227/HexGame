@@ -450,7 +450,16 @@ public partial class Unit
         {
             hero.IncreaseExperience((int)Math.Round(CalculateDamage(rangedPower, unit.combatStrength, randomFactor)));
         }
-        return unit.decreaseHealth(CalculateDamage(rangedPower, unit.combatStrength, randomFactor));
+        bool targetDiedWeLived = !unit.decreaseHealth(CalculateDamage(rangedPower, unit.combatStrength, randomFactor));
+        if (targetDiedWeLived)
+        {
+            //trigger on kill passives
+            foreach (UnitEffect unitEffect in unit.onKillEffects.Values)
+            {
+                unitEffect.Apply(this.id, 0, 0, Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex]);
+            }
+        }
+        return targetDiedWeLived;
     }
 
     public bool RangedAttackTarget(GameHex targetGameHex, float rangedPower, TeamManager teamManager)

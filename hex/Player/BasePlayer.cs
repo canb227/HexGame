@@ -59,6 +59,7 @@ public class BasePlayer
     public bool turnFinished { get; set; }
     public List<int> unitList { get; set; } = new();
     public List<int> cityList { get; set; } = new();
+    public bool canChangeGovernment { get; set; } = true;
     public List<UnitPlayerEffect> unitPlayerEffects { get; set; } = new();
     public List<BuildingPlayerEffect> buildingPlayerEffects { get; set; } = new();
     public HashSet<String> allowedBuildings { get; set; } = new();
@@ -128,6 +129,28 @@ public class BasePlayer
     public Godot.Color teamColor { get; set; }
     public StandardMaterial3D playerTerritoryMaterial;
     public Theme theme;
+
+    public void SetCanChangeGovernment(bool canChangeGovernment)
+    {
+        this.canChangeGovernment = canChangeGovernment;
+        if(canChangeGovernment)
+        {
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+            {
+                manager.uiManager.UpdateEndTurnButton();
+                manager.uiManager.assignGovernment = true;
+            }
+            
+        }
+        else
+        {
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+            {
+                manager.uiManager.UpdateEndTurnButton();
+                manager.uiManager.assignGovernment = false;
+            }
+        }
+    }
 
 
     public void SetBaseHexYields()

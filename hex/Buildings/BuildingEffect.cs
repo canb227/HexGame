@@ -407,6 +407,12 @@ public class BuildingEffect
     }
     Yields TempleEffect(Building building)
     {
+        if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].teamNum].ourHeroID != 0)
+        {
+            Hero hero = ((Hero)Global.gameManager.game.unitDictionary[Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[building.districtHex].district.cityID].teamNum].ourHeroID]);
+            hero.IncreaseExperience(10);
+            hero.mana += 5;
+        }
         return new Yields(); 
     }
     Yields GardenEffect(Building building)

@@ -26,8 +26,9 @@ public partial class PolicyPanel : Control
     private Label CurrentGovernmentTitle;
     private Label CurrentGovernmentDescription;
 
-    private Label AvaliableGovernmentLabel;
     private VBoxContainer AvaliableGovernmentVBox;
+    private Panel GovernmentUnavailablePanel;
+    private Button UnlockGovernmentButton;
 
     //government popup
     private Control GovernmentSwitchPanel;
@@ -72,8 +73,13 @@ public partial class PolicyPanel : Control
         CurrentGovernmentTitle = policyControl.GetNode<Label>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/CurrentGovernmentTitle");
         CurrentGovernmentDescription = policyControl.GetNode<Label>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/CurrentGovernmentDescription");
 
-        AvaliableGovernmentLabel = policyControl.GetNode<Label>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/GarovernmentSelectionScroll/AvaliableGovernmentVBox/AvaliableGovernmentLabel");
-        AvaliableGovernmentVBox = policyControl.GetNode<VBoxContainer>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/GarovernmentSelectionScroll/AvaliableGovernmentVBox");
+        AvaliableGovernmentVBox = policyControl.GetNode<VBoxContainer>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/PanelContainer/GovernmentScrollBox/AvaliableGovernmentVBox");
+
+
+        GovernmentUnavailablePanel = policyControl.GetNode<Panel>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/PanelContainer/GovUnavaliablePanel");
+        UnlockGovernmentButton = policyControl.GetNode<Button>("PolicyPanel/PolicyHBox/GovernmentMarginBox/VBoxContainer/PanelContainer/GovUnavaliablePanel/UnlockGovernmentButton");
+        UnlockGovernmentButton.Pressed += () => UnlockGovernmentButtonPressed();
+
 
         //we make the buttons for avaliable governments
 
@@ -195,6 +201,16 @@ public partial class PolicyPanel : Control
     {
         GovernmentSwitchPanel.Visible = false;
         governmentPickerOpen = false;
+    }
+
+    private void UnlockGovernmentButtonPressed()
+    {
+        if(Global.gameManager.game.localPlayerRef.influenceTotal >= 200)
+        {
+            Global.gameManager.game.localPlayerRef.AddInfluence(-200);
+            Global.gameManager.game.localPlayerRef.SetCanChangeGovernment(true);
+            UpdatePolicyPanel();
+        }
     }
 
 
@@ -329,6 +345,14 @@ public partial class PolicyPanel : Control
 
 
             //government section
+            if(Global.gameManager.game.localPlayerRef.canChangeGovernment)
+            {
+                GovernmentUnavailablePanel.Visible = false;
+            }
+            else
+            {
+                GovernmentUnavailablePanel.Visible = true;
+            }
             CurrentGovernmentIcon.Texture = PlayerEffect.GetGovernmentTypeIcon(Global.gameManager.game.localPlayerRef.government);
             CurrentGovernmentTitle.Text = PlayerEffect.GetGovernmentTypeTitle(Global.gameManager.game.localPlayerRef.government);
             CurrentGovernmentDescription.Text = PlayerEffect.GetGovernmentTypeDescription(Global.gameManager.game.localPlayerRef.government);
@@ -354,6 +378,10 @@ public partial class PolicyPanel : Control
                     govButton.CustomMinimumSize = new Vector2(64, 64);
                     govButton.SizeFlagsHorizontal = SizeFlags.Fill;
                     govButton.Pressed += () => OpenGovernmentSwitchPanel(governmentType);
+                    if(!Global.gameManager.game.localPlayerRef.canChangeGovernment)
+                    {
+                        //govButton.Disabled = true;
+                    }
                     AvaliableGovernmentVBox.AddChild(govButton);
                 }
             }

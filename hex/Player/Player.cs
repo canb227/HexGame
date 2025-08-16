@@ -515,6 +515,7 @@ public class Player : BasePlayer
             foreach (GovernmentType governmentType in ResearchLoader.researchesDict[researchType].GovernmentUnlocks)
             {
                 avaliableGovernments.Add(governmentType);
+                Global.gameManager.game.localPlayerRef.SetCanChangeGovernment(true);
             }
         }
         foreach (String effect in ResearchLoader.researchesDict[researchType].Effects)
@@ -634,6 +635,7 @@ public class Player : BasePlayer
             foreach (GovernmentType governmentType in CultureResearchLoader.researchesDict[researchType].GovernmentUnlocks)
             {
                 avaliableGovernments.Add(governmentType);
+                Global.gameManager.game.localPlayerRef.SetCanChangeGovernment(true);
             }
         }
         foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)
@@ -750,6 +752,10 @@ public class Player : BasePlayer
         Global.gameManager.game.playerDictionary[teamNum].unassignedPolicyCards.Remove(policyCard);
 
         policyCard.AddEffect(this.teamNum);
+        if (teamNum == Global.gameManager.game.localPlayerTeamNum && Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.uiManager.policyPanel.UpdatePolicyPanel();
+        }
     }
 
     public void UnassignPolicyCard(int policyCardID)
@@ -757,6 +763,10 @@ public class Player : BasePlayer
         PolicyCard policyCard = PolicyCardLoader.GetPolicyCard(policyCardID);
         Global.gameManager.game.playerDictionary[teamNum].activePolicyCards.Remove(policyCard);
         Global.gameManager.game.playerDictionary[teamNum].unassignedPolicyCards.Add(policyCard);
+        if (teamNum == Global.gameManager.game.localPlayerTeamNum && Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
+        {
+            manager.uiManager.policyPanel.UpdatePolicyPanel();
+        }
     }
 
     public void AddGold(float gold)

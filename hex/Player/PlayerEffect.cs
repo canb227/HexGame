@@ -41,52 +41,57 @@ public static class PlayerEffect
 
     public static void SetGovernment(BasePlayer player, GovernmentType governmentType)
     {
-        //if they had a government remove its effects
-        if (player.government == GovernmentType.Tribal)
+        if(player.canChangeGovernment)
         {
-            PlayerEffect.RemoveTribalGovernmentEffect(player);
-        }
-        else if (player.government == GovernmentType.Autocracy)
-        {
-            PlayerEffect.RemoveAutocracyGovernmentEffect(player);
-        }
-        else if (player.government == GovernmentType.ClassicalRepublic)
-        {
-            PlayerEffect.RemoveClassicalRepublicGovernmentEffect(player);
-        }
-        else if (player.government == GovernmentType.Oligarchy)
-        {
-            PlayerEffect.RemoveOligarchyGovernmentEffect(player);
-        }
-        else if (player.government == GovernmentType.Monarchy)
-        {
-            PlayerEffect.RemoveMonarchyGovernmentEffect(player);
-        }
+            //if they had a government remove its effects
+            if (player.government == GovernmentType.Tribal)
+            {
+                PlayerEffect.RemoveTribalGovernmentEffect(player);
+            }
+            else if (player.government == GovernmentType.Autocracy)
+            {
+                PlayerEffect.RemoveAutocracyGovernmentEffect(player);
+            }
+            else if (player.government == GovernmentType.ClassicalRepublic)
+            {
+                PlayerEffect.RemoveClassicalRepublicGovernmentEffect(player);
+            }
+            else if (player.government == GovernmentType.Oligarchy)
+            {
+                PlayerEffect.RemoveOligarchyGovernmentEffect(player);
+            }
+            else if (player.government == GovernmentType.Monarchy)
+            {
+                PlayerEffect.RemoveMonarchyGovernmentEffect(player);
+            }
 
-        //set the new government
-        player.government = governmentType;
+            //set the new government
+            player.government = governmentType;
+
+            //add effects of the new government
+            if (player.government == GovernmentType.Tribal)
+            {
+                PlayerEffect.AddTribalGovernmentEffect(player);
+            }
+            else if (player.government == GovernmentType.Autocracy)
+            {
+                PlayerEffect.AddAutocracyGovernmentEffect(player);
+            }
+            else if (player.government == GovernmentType.ClassicalRepublic)
+            {
+                PlayerEffect.AddClassicalRepublicGovernmentEffect(player);
+            }
+            else if (player.government == GovernmentType.Oligarchy)
+            {
+                PlayerEffect.AddOligarchyGovernmentEffect(player);
+            }
+            else if (player.government == GovernmentType.Monarchy)
+            {
+                PlayerEffect.AddMonarchyGovernmentEffect(player);
+            }
+            player.SetCanChangeGovernment(false);
+        }
         
-        //add effects of the new government
-        if (player.government == GovernmentType.Tribal)
-        {
-            PlayerEffect.AddTribalGovernmentEffect(player);
-        }
-        else if(player.government == GovernmentType.Autocracy)
-        {
-            PlayerEffect.AddAutocracyGovernmentEffect(player);
-        }
-        else if (player.government == GovernmentType.ClassicalRepublic)
-        {
-            PlayerEffect.AddClassicalRepublicGovernmentEffect(player);
-        }
-        else if (player.government == GovernmentType.Oligarchy)
-        {
-            PlayerEffect.AddOligarchyGovernmentEffect(player);
-        }
-        else if (player.government == GovernmentType.Monarchy)
-        {
-            PlayerEffect.AddMonarchyGovernmentEffect(player);
-        }
     }
 
 

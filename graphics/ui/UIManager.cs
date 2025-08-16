@@ -116,6 +116,7 @@ public partial class UIManager : Node3D
     public bool pickCulture;
 
     public bool assignResource;
+    public bool assignGovernment;
 
     public bool readyToGrow;
     public bool cityNeedsProduction;
@@ -597,25 +598,27 @@ public partial class UIManager : Node3D
         }
         else
         {
-            windowOpen = false;
-            researchTreePanel.Visible = false;
-            cultureResearchTreePanel.Visible = false;
-            resourcePanel.Visible = false;
-            tradeExportPanel.Visible = false;
             if (policyPanel.governmentPickerOpen)
             {
                 policyPanel.CloseGovernmentSwitchPanel();
+                windowOpen = true;
             }
             else
             {
                 policyPanel.Visible = false;
+                windowOpen = false;
+                researchTreePanel.Visible = false;
+                cultureResearchTreePanel.Visible = false;
+                resourcePanel.Visible = false;
+                tradeExportPanel.Visible = false;
+                tradeRoutePickerPanel.Visible = false;
+                diplomacyPanel.Visible = false;
+                encampementTakenPopUp.Visible = false;
+                cityTakenPopUp.Visible = false;
+                eventSelectionPanel.Visible = false;
+                ShowGenericUI();
             }
-            tradeRoutePickerPanel.Visible = false;
-            diplomacyPanel.Visible = false;
-            encampementTakenPopUp.Visible = false;
-            cityTakenPopUp.Visible = false;
-            eventSelectionPanel.Visible = false;
-            ShowGenericUI();
+
         }
     }
     private void endTurnButtonPressed()
@@ -638,6 +641,11 @@ public partial class UIManager : Node3D
         if (assignResource)
         {
             ResourcePanelButtonPressed();
+            return;
+        }
+        if(assignGovernment)
+        {
+            GovernmentButtonPressed();
             return;
         }
         if (readyToGrow)
@@ -700,7 +708,7 @@ public partial class UIManager : Node3D
         expandBuildingLabel.Visible = false;
     }
 
-    private void UpdateEndTurnButton()
+    public void UpdateEndTurnButton()
     {
         if (Global.gameManager.game.localPlayerRef.queuedResearch.Count == 0)
         {
@@ -731,6 +739,17 @@ public partial class UIManager : Node3D
             cityNeedsProduction = false;
             targetCity = null;
             waitingForOrders = false;
+            return;
+        }
+
+        if(assignGovernment)
+        {
+            endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/government.png");
+            readyToGrow = false;
+            cityNeedsProduction = false;
+            targetCity = null;
+            waitingForOrders = false;
+            assignResource = false;
             return;
         }
 
