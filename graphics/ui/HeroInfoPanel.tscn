@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://brvg4epx2qy8r"]
+[gd_scene load_steps=19 format=3 uid="uid://brvg4epx2qy8r"]
 
 [ext_resource type="Theme" uid="uid://bisny7m3sfn3s" path="res://graphics/ui/centerunitbox.tres" id="1_um0ud"]
+[ext_resource type="Texture2D" uid="uid://c8rvd3u1lw628" path="res://graphics/ui/icons/heroes/silvana.png" id="2_7ax3b"]
 [ext_resource type="Texture2D" uid="uid://bq5djh0c6qljc" path="res://graphics/ui/icons/health.png" id="3_dhko0"]
 [ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="4_3wh2m"]
 [ext_resource type="Texture2D" uid="uid://dcc6q0l8asjgm" path="res://graphics/ui/icons/sword.png" id="5_25fbj"]
@@ -61,6 +62,7 @@ layout_mode = 2
 clip_contents = true
 custom_minimum_size = Vector2(115, 128)
 layout_mode = 2
+texture = ExtResource("2_7ax3b")
 expand_mode = 1
 stretch_mode = 6
 

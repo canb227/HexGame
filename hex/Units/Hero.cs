@@ -153,6 +153,7 @@ public class Hero : Unit
             }
             heroAbility.ability.ResetAbilityUses();
         }
+        Global.gameManager.graphicManager.uiManager.UpdateHeroUIDisplay();
     }
 
     public void IncreaseExperience(int experienceToAdd)

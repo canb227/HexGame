@@ -139,7 +139,7 @@ public partial class PolicyPanel : Control
             //networked message
             Global.gameManager.UnassignPolicyCard(teamNum, PolicyCardLoader.policyCardXMLDictionary[currentCard.policyCard.title]);
             currentCard = null;
-            UpdatePolicyPanel();
+
         }
     }
     public void AssignCurrentPolicyCard(int teamNum, GraphicPolicyCard targetCard)

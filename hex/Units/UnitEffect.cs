@@ -241,6 +241,10 @@ public class UnitEffect
         {
             return Recall(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
         }
+        else if (functionString == "Onewiththeforest")
+        {
+            return Onewiththeforest(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
         throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in UnitEffect");
     }
     public bool SettleCapitalAbility(Unit unit, String cityName)
@@ -746,6 +750,7 @@ public class UnitEffect
                         break;
                     }
                 }
+                unit.increaseHealth(10);
                 return unit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
             }
             return false;
@@ -764,6 +769,7 @@ public class UnitEffect
                         break;
                     }
                 }
+                unit.increaseHealth(15);
                 return unit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
             }
             return false;
@@ -782,6 +788,7 @@ public class UnitEffect
                         break;
                     }
                 }
+                unit.increaseHealth(15);
                 return unit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
             }
             return false;
@@ -800,6 +807,7 @@ public class UnitEffect
                         break;
                     }
                 }
+                unit.increaseHealth(20);
                 return unit.TrySetGameHex(Global.gameManager.game.mainGameBoard.gameHexDict[targetCity.hex], true);
             }
             return false;
@@ -807,6 +815,58 @@ public class UnitEffect
         else
         {
             throw new Exception("Ability Recall is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
+        }
+    }
+
+    public bool Onewiththeforest(Unit unit, int level, GameHex target)
+    {
+        if (level == 0)
+        {
+            throw new Exception("Ability OWTF is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+            if (gameHex.featureSet.Contains(FeatureType.Forest))
+            {
+                return false;
+            }
+            gameHex.AddTerrainFeature(FeatureType.Forest);
+            return true;
+        }
+        else if (level == 2)
+        {
+            GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+            if (gameHex.featureSet.Contains(FeatureType.Forest))
+            {
+                return false;
+            }
+            gameHex.AddTerrainFeature(FeatureType.Forest);
+            return true;
+        }
+        else if (level == 3)
+        {
+            GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+            if (gameHex.featureSet.Contains(FeatureType.Forest))
+            {
+                return false;
+            }
+            gameHex.AddTerrainFeature(FeatureType.Forest);
+            return true;
+        }
+        else if (level == 4)
+        {
+            GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+            if (gameHex.featureSet.Contains(FeatureType.Forest))
+            {
+                return false;
+            }
+            gameHex.AddTerrainFeature(FeatureType.Forest);
+            return true;
+        }
+        else
+        {
+            throw new Exception("Ability OWTF is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
         }
     }
 }

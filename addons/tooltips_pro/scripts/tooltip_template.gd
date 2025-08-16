@@ -211,7 +211,9 @@ func tween_out():
 	tween = create_tween()
 	tween.set_ease(tween_out_ease_type)
 	tween.tween_property(self, "scale", Vector2.ZERO, tween_out_duration)
-	await get_tree().create_timer(tween_out_duration).timeout
+	var tree := get_tree()
+	if tree:
+		await tree.create_timer(tween_out_duration).timeout
 
 
 func _on_mouse_entered() -> void:

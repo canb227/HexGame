@@ -310,7 +310,8 @@
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="PinShot" UsageCount="1" Range="2" IconPath="graphics/ui/icons/heroes/pinshot.png">
           <Description>
-          Deals ranged damage to a target based on the level of the skill. Additionally removes any movement the target has left for the turn.
+          Deals ranged damage to a target based on the level of the skill. 
+          Additionally removes any movement the target has left for the turn.
           Combat Power: 20 / 26 / 32 / 40
           Mana Cost:      25 / 20 / 15 / 10
           Cooldown:       1  /  1 /  1 /  1
@@ -319,7 +320,7 @@
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
-            <Ability>
+      <Ability>
         <AbilityName>Recall</AbilityName>
         <ManaCost>99, 50, 30, 10, 0</ManaCost>
         <Cooldown>99, 5, 4, 3, 2</Cooldown>
@@ -327,7 +328,30 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Recall" UsageCount="1" IconPath="graphics/ui/icons/heroes/recallsd.png">
+        <UnitAbility Name="Recall" UsageCount="1" IconPath="graphics/ui/icons/heroes/recall.png">
+          <Description>
+          Teleport Silvana safely back to her capital city and heal.
+          Heal Power:     10 / 15 / 15 / 20
+          Mana Cost:      50 / 30 / 10 / 0
+          Cooldown:       5  /  4 /  3 /  2
+          </Description>
+          <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
+        </UnitAbility>
+      </Ability>
+      <Ability>
+        <AbilityName>One With The Forest</AbilityName>
+        <ManaCost>99, 50, 40, 30, 20</ManaCost>
+        <Cooldown>99, 10, 8, 6, 4</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="Onewiththeforest" UsageCount="1" IconPath="graphics/ui/icons/heroes/onewiththeforest.png">
+          <Description>
+          Creates a forest on the tile Silvana is currently standing, if there isn't one already.
+          Mana Cost:      50 / 40 / 30 / 20
+          Cooldown:       10  /  8 /  6 /  4
+          </Description>
           <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
         </UnitAbility>
       </Ability>
