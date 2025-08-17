@@ -91,7 +91,7 @@ public static class PolicyCardLoader
         policyCardXMLDictionary.Add("WarStories", 7);
         unitEffectList.Clear();
         buildingEffectList.Clear();
-        policyCardDictionary.Add(7, new PolicyCard("WarStories", "+2 Military Experience Per Turn for Your Hero.", buildingEffectList, unitEffectList, false, false, false, true));
+        policyCardDictionary.Add(7, new PolicyCard("WarStories", "Does Nothing. RIP Bozo", buildingEffectList, unitEffectList, false, false, false, true));
 
         //State Workforce
         policyCardXMLDictionary.Add("Servitude", 8);
@@ -128,13 +128,13 @@ public static class PolicyCardLoader
         unitEffectList.Clear();
         buildingEffectList.Clear();
 
-        policyCardDictionary.Add(13, new PolicyCard("Inspiration", "+2 Intellectual Experience Per Turn for Your Hero.", buildingEffectList, unitEffectList, false, false, false, true));
+        policyCardDictionary.Add(13, new PolicyCard("Inspiration", "Does Nothing. RIP Bozo", buildingEffectList, unitEffectList, false, false, false, true));
 
         policyCardXMLDictionary.Add("Revelation", 14);
         unitEffectList.Clear();
         buildingEffectList.Clear();
 
-        policyCardDictionary.Add(14, new PolicyCard("Revelation", "+2 Economic Experience Per Turn for Your Hero.", buildingEffectList, unitEffectList, false, false, false, true));
+        policyCardDictionary.Add(14, new PolicyCard("Revelation", "Does Nothing. RIP Bozo", buildingEffectList, unitEffectList, false, false, false, true));
 
         //Recreation
 
@@ -143,7 +143,7 @@ public static class PolicyCardLoader
         unitEffectList.Clear();
         buildingEffectList.Clear();
 
-        policyCardDictionary.Add(15, new PolicyCard("CharismaticLeader", "+2 Diplomatic Experience Per Turn for Your Hero.", buildingEffectList, unitEffectList, false, false, true, false));
+        policyCardDictionary.Add(15, new PolicyCard("CharismaticLeader", "Does Nothing. RIP Bozo", buildingEffectList, unitEffectList, false, false, true, false));
 
         policyCardXMLDictionary.Add("DiplomaticLeague", 16);
         unitEffectList.Clear();
@@ -156,7 +156,7 @@ public static class PolicyCardLoader
         unitEffectList.Clear();
         buildingEffectList.Clear();
 
-        policyCardDictionary.Add(17, new PolicyCard("LiteraryTradition", "+2 Cultural Experience Per Turn for Your Hero.", buildingEffectList, unitEffectList, false, false, false, true));
+        policyCardDictionary.Add(17, new PolicyCard("LiteraryTradition", "Does Nothing. RIP Bozo", buildingEffectList, unitEffectList, false, false, false, true));
 
         //Military Training
         policyCardXMLDictionary.Add("Veterancy", 18);

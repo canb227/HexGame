@@ -355,6 +355,23 @@
           <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
         </UnitAbility>
       </Ability>
+      <Ability>
+        <AbilityName>One With The Forest</AbilityName>
+        <ManaCost>99, 50, 40, 30</ManaCost>
+        <Cooldown>99, 10, 8, 6</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>3</MaxLevel>
+        <MinLevelToLearn>6</MinLevelToLearn>
+        <IsUltimate>True</IsUltimate>
+        <UnitAbility Name="Onewiththeforest" UsageCount="1" IconPath="graphics/ui/icons/heroes/onewiththeforest.png">
+          <Description>
+          Creates a forest on the tile Silvana is currently standing, if there isn't one already.
+          Mana Cost:      50 / 40 / 30 / 20
+          Cooldown:       10  /  8 /  6 /  4
+          </Description>
+          <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
+        </UnitAbility>
+      </Ability>
     </HeroAbilities>
   </Hero>
 
