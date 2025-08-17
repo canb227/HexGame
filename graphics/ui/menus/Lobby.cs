@@ -620,7 +620,7 @@ public partial class Lobby : Control
         lobbyMessage.MessageType = "loadgame";
 
         GameDataMessage message = new GameDataMessage();
-        message.SaveString = Global.gameManager.ReadSave(path);
+        message.SaveString = Global.gameManager.ReadSave(trimmedPath);
         message.SaveSize = message.SaveString.Length;
         message.Savename = trimmedPath;
 
