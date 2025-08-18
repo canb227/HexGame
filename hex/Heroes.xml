@@ -242,8 +242,8 @@
         <Cooldown>99, 0,0,0,0</Cooldown>
         <Level>0</Level>
         <MaxLevel>4</MaxLevel>
-        <MinLevelToLearn>1</MinLevelToLearn>
-        <IsUltimate>False</IsUltimate>
+        <MinLevelToLearn>6</MinLevelToLearn>
+        <IsUltimate>True</IsUltimate>
         <UnitAbility Name="ForTheHorde" UsageCount="0" Range="0" IconPath="graphics/ui/icons/heroes/forthehorde.png">
           <Description>
           Passively grants Gorb a chance to spawn a friendly warrior when killing an enemy while attacking.

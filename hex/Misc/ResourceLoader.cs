@@ -294,37 +294,44 @@ public static class ResourceLoader
     // 15% more gold in city
     static void ApplyJadeEffect(City city)
     {
+        city.yields.gold *= 1.15f;
     }
 
-    // +2 food
+    // +3 food
     static void ApplyWheatEffect(City city)
     {
-        city.yields.food += 2;
+        city.yields.food += 3;
     }
 
     // 10% more culture in city
     static void ApplySilkEffect(City city)
     {
+        city.yields.culture *= 1.1f;
     }
 
     // 10% more science in city
     static void ApplyCoffeeEffect(City city)
     {
+        city.yields.science *= 1.1f;
     }
 
     // 15% off units purchased with gold
     static void ApplySilverEffect(City city)
     {
+        city.yields.production += 1;
+        city.yields.gold += 3;
     }
 
     // 15% off buildings purchased with gold
     static void ApplyGoldEffect(City city)
     {
+        city.yields.gold += 4;
     }
 
     // Allow 3 more resources to be assigned to this city
     static void ApplyCamelsEffect(City city)
     {
+        city.maxResourcesHeld += 3;
     }
 
     // Effect TBD
@@ -335,46 +342,68 @@ public static class ResourceLoader
     // Effect TBD
     static void ApplySheepEffect(City city)
     {
+        city.yields.food += 1;
+        city.yields.production += 1;
     }
 
     // Effect TBD
     static void ApplyMarbleEffect(City city)
     {
+        city.yields.production += 1;
+        city.yields.gold += 2;
+        city.yields.culture += 1;
+        city.yields.happiness += 1;
     }
 
     // Effect TBD
     static void ApplyDatesEffect(City city)
     {
+        city.yields.food += 2;
+        city.yields.happiness += 2;
     }
 
     // Effect TBD
     static void ApplySaltEffect(City city)
     {
+        city.yields.food += 2;
+        city.yields.gold += 2;
     }
 
     // Effect TBD
     static void ApplyRubberEffect(City city)
     {
+        city.yields.production += 2;
+        city.yields.science += 2;
     }
 
     // Effect TBD
     static void ApplyIvoryEffect(City city)
     {
+        city.yields.production += 1;
+        city.yields.gold += 1;
+        city.yields.culture += 1;
+        city.yields.happiness += 1;
     }
 
     // Effect TBD
     static void ApplyCottonEffect(City city)
     {
+        city.yields.food += 1;
+        city.yields.gold += 2;
     }
 
     // Effect TBD
     static void ApplyTobaccoEffect(City city)
     {
+        city.yields.gold += 2;
+        city.yields.science += 1;
+        city.yields.culture += 1;
     }
 
     // Effect TBD
     static void ApplyStoneEffect(City city)
     {
+        city.yields.production += 2;
     }
 
 }

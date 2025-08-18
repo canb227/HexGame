@@ -137,7 +137,10 @@ public class BasePlayer
         {
             if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
-                manager.uiManager.UpdateEndTurnButton();
+                if (Global.gameManager.game.localPlayerTeamNum == teamNum)
+                {
+                    manager.uiManager.UpdateEndTurnButton();
+                }
                 manager.uiManager.assignGovernment = true;
             }
             
@@ -146,7 +149,10 @@ public class BasePlayer
         {
             if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
             {
-                manager.uiManager.UpdateEndTurnButton();
+                if (Global.gameManager.game.localPlayerTeamNum == teamNum)
+                {
+                    manager.uiManager.UpdateEndTurnButton();
+                }
                 manager.uiManager.assignGovernment = false;
             }
         }

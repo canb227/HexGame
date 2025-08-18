@@ -381,9 +381,15 @@ public class UnitEffect
             if (ancientRuins != null)
             {
                 ancientRuins.activeEvent = true;
-                Global.gameManager.graphicManager.uiManager.EventSelectionPopUp(ancientRuins);
+                if(Global.gameManager.game.localPlayerTeamNum == unit.teamNum)
+                {
+                    Global.gameManager.graphicManager.uiManager.EventSelectionPopUp(ancientRuins);
+                }
             }
-            Global.gameManager.graphicManager.CallDeferred("UnselectObject");
+            if (Global.gameManager.game.localPlayerTeamNum == unit.teamNum)
+            {
+                Global.gameManager.graphicManager.CallDeferred("UnselectObject");
+            }
         }
         if (unit is Hero hero)
         {
