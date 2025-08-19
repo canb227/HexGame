@@ -122,7 +122,7 @@ public partial class UnitInfoPanel : Node3D
                 abilityFlowContainer.AddChild(abilityButton);
 
                 abilityButton.Disabled = false;
-                if (ability.combatPower != 0 && unit.attacksLeft <= 0)
+                if (ability.combatPower != null && ability.combatPower.Any() && unit.attacksLeft <= 0)
                 {
                     abilityButton.Disabled = true;
                 }

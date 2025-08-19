@@ -78,16 +78,17 @@ public static class HeroLoader
             ) ?? new Dictionary<TerrainMoveType, float>(),
             Effects = r.Element("Effects")?.Elements("Effect").Select(e => e.Value).ToList() ?? new List<string>(),
             Abilities = r.Element("Abilities")?.Elements("Ability").ToDictionary(
-                a => a.Attribute("Name").Value,
-                a => (
+                a => a.Attribute("Name")?.Value ?? throw new Exception("Invalid Ability Name"),
+                a =>
+                (
                     a.Element("Description")?.Value?.Trim() ?? "",
-                    float.TryParse(a.Attribute("CombatPower")?.Value, out var cp) ? cp : 0,
-                    int.TryParse(a.Attribute("UsageCount")?.Value, out var uc) ? uc : 1,
+                    a.Attribute("CombatPower")?.Value.Split(',').Select(val => float.TryParse(val.Trim(), out var cp) ? cp : 0.0f).ToList(),
+                    int.TryParse(a.Attribute("UsageCount")?.Value, out var usageCount) ? usageCount : 1,
                     int.TryParse(a.Attribute("Range")?.Value, out var range) ? range : 0,
                     ParseTargetSpecification(a.Element("TargetSpecification")),
                     a.Attribute("IconPath")?.Value ?? ""
                 )
-            ) ?? new Dictionary<string, (string, float, int, int, TargetSpecification?, string)>()
+            ) ?? new Dictionary<string, (string, List<float>, int, int, TargetSpecification?, String)>(),
         };
     }
     private static HeroAbility ParseHeroAbility(XElement abilityElement)
@@ -119,7 +120,7 @@ public static class HeroLoader
         {
             name = element.Attribute("Name")?.Value ?? "Unnamed Ability",
             description = element.Element("Description")?.Value ?? "",
-            combatPower = float.TryParse(element.Attribute("CombatPower")?.Value, out var cp) ? cp : 0f,
+            combatPower = element.Element("CombatPower")?.Value.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(val => float.TryParse(val.Trim(), out var cp) ? cp : 0.0f).ToList() ?? new List<float>(),
             maxChargesPerTurn = int.TryParse(element.Attribute("UsageCount")?.Value, out var uc) ? uc : 1,
             range = int.TryParse(element.Attribute("Range")?.Value, out var range) ? range : 0,
             validTargetTypes = ParseTargetSpecification(element.Element("TargetSpecification")),

@@ -100,6 +100,22 @@ public partial class UIManager : Node3D
 
     public HBoxContainer resourcesContainer;
 
+    public PanelContainer combatPreviewPanel;
+    public Label yourName;
+    public Label yourStrengthLabel;
+    public VBoxContainer yourCombatStrengthEffectBox;
+    public ColorRect yourLifeBackground;
+    public ColorRect yourDamageTaken;
+    public ColorRect yourLifeRemaining;
+    public Label theirName;
+    public Label theirStrengthLabel;
+    public VBoxContainer theirCombatStrengthEffectBox;
+    public ColorRect theirLifeBackground;
+    public ColorRect theirDamageTaken;
+    public ColorRect theirLifeRemaining;
+    public Label battleResultLabel;
+
+    public bool combatPreviewVisible;
 
 
     public VBoxContainer actionQueue;
@@ -192,6 +208,22 @@ public partial class UIManager : Node3D
         totalHealthLabel = heroContainer.GetNode<Label>("HealthBar/TotalHealth");
         totalManaLabel = heroContainer.GetNode<Label>("ManaBar/TotalMana");
         heroContainer.Visible = false;
+
+        combatPreviewPanel = screenUI.GetNode<PanelContainer>("CombatPreviewPanel");
+        combatPreviewPanel.Visible = false;
+        yourName = combatPreviewPanel.GetNode<Label>("VBoxContainer/HBoxContainer/VBoxContainer/YourUnitName");
+        theirName = combatPreviewPanel.GetNode<Label>("VBoxContainer/HBoxContainer/VBoxContainer2/TheirName");
+        yourStrengthLabel = combatPreviewPanel.GetNode<Label>("VBoxContainer/HBoxContainer/VBoxContainer/YourStrengthLabel");
+        yourCombatStrengthEffectBox = combatPreviewPanel.GetNode<VBoxContainer>("VBoxContainer/HBoxContainer/VBoxContainer/YourCombatStrengthEffectBox");
+        yourLifeBackground = combatPreviewPanel.GetNode<ColorRect>("VBoxContainer/HBoxContainer/YourHealthBar/LifeBackground");
+        yourDamageTaken = combatPreviewPanel.GetNode<ColorRect>("VBoxContainer/HBoxContainer/YourHealthBar/DamageTaken");
+        yourLifeRemaining = combatPreviewPanel.GetNode<ColorRect>("VBoxContainer/HBoxContainer/YourHealthBar/RemainingHealth");
+        theirStrengthLabel = combatPreviewPanel.GetNode<Label>("VBoxContainer/HBoxContainer/VBoxContainer2/TheirStrengthLabel");
+        theirCombatStrengthEffectBox = combatPreviewPanel.GetNode<VBoxContainer>("VBoxContainer/HBoxContainer/VBoxContainer2/TheirCombatStrengthEffectBox");
+        theirLifeBackground = combatPreviewPanel.GetNode<ColorRect>("VBoxContainer/HBoxContainer/TheirLifeBar/LifeBackground");
+        theirDamageTaken = combatPreviewPanel.GetNode<ColorRect>("VBoxContainer/HBoxContainer/TheirLifeBar/DamageTaken");
+        theirLifeRemaining = combatPreviewPanel.GetNode<ColorRect>("VBoxContainer/HBoxContainer/TheirLifeBar/RemainingHealth");
+        battleResultLabel = combatPreviewPanel.GetNode<Label>("VBoxContainer/BattleResultLabel");
 
         playerList = screenUI.GetNode<HBoxContainer>("PlayerList");
         foreach (Player player in Global.gameManager.game.playerDictionary.Values)
@@ -342,6 +374,242 @@ public partial class UIManager : Node3D
             waitingOnYouPanel.Visible = true;
         }
         ShowGenericUI();
+    }
+
+    public void ShowAndUpdateCombatPreview(GraphicUnit graphicUnit, Unit targetUnit, District targetDistrict, int bonusCombatStrength=0, UnitAbility ability=null, int level=0)
+    {
+        combatPreviewPanel.Visible = true;
+        combatPreviewVisible = true;
+        yourName.Text = graphicUnit.unit.name;
+        if (targetDistrict != null && targetDistrict.health > 0)
+        {
+            //yours
+            yourStrengthLabel.Text = graphicUnit.unit.CalculateCombatStrength(bonusCombatStrength, null, Global.gameManager.game.cityDictionary[targetDistrict.cityID].teamNum).ToString();
+            foreach (var child in yourCombatStrengthEffectBox.GetChildren())
+            {
+                child.Free();
+            }
+            //
+            //anti-cavalry check
+            if ((graphicUnit.unit.unitClass & UnitClass.AntiCavalry) != 0 && (graphicUnit.unit.unitClass & UnitClass.Cavalry) != 0)
+            {
+                Label antiCavalry = new();
+                antiCavalry.Text = "+7 vs Cavalry";
+                yourCombatStrengthEffectBox.AddChild(antiCavalry);
+            }
+
+            //anti-encampment bonus check
+            if (Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[targetDistrict.cityID].teamNum].isEncampment && Global.gameManager.game.playerDictionary[graphicUnit.unit.teamNum].bonusAgainstEncampments > 0)
+            {
+                Label antiEncampment = new();
+                antiEncampment.Text = "+"+ Global.gameManager.game.playerDictionary[graphicUnit.unit.teamNum].bonusAgainstEncampments+" vs Encampments";
+                yourCombatStrengthEffectBox.AddChild(antiEncampment);
+            }
+
+
+            yourLifeBackground.CustomMinimumSize = new Vector2(16, 180); //tempUnit.waitingAbility.name
+            float damageTaken = graphicUnit.unit.CalculateDamage(graphicUnit.unit.CalculateCombatStrength(bonusCombatStrength, null, Global.gameManager.game.cityDictionary[targetDistrict.cityID].teamNum), targetDistrict.GetCombatStrength(), 1.0f);
+            float unitHealthPercentage = (graphicUnit.unit.health) / 100.0f;
+            float unitHealthRemainigPercentage = (graphicUnit.unit.health - damageTaken) / 100.0f;
+            if (ability != null)
+            {
+                yourDamageTaken.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
+                yourLifeRemaining.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
+            }
+            else
+            {
+                yourDamageTaken.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
+                yourLifeRemaining.CustomMinimumSize = new Vector2(16, unitHealthRemainigPercentage * 180f);
+            }
+
+            //theirs
+            theirName.Text = Global.gameManager.game.cityDictionary[targetDistrict.cityID].name;
+            theirStrengthLabel.Text = targetDistrict.GetCombatStrength().ToString();
+            foreach (var child in theirCombatStrengthEffectBox.GetChildren())
+            {
+                child.Free();
+            }
+            theirLifeBackground.CustomMinimumSize = new Vector2(16, 180);
+            float damageTaken2 = 0.0f;
+            if (ability != null && ability.combatPower.Any())
+            {
+                float abilityPower = ability.combatPower[level];
+                if(ability.name == "BombardAttack")
+                {
+                    Label bombardLabel = new();
+                    bombardLabel.Text = "+10 From Bombard Attack";
+                    yourCombatStrengthEffectBox.AddChild(bombardLabel);
+                    abilityPower += 10;
+                }
+                damageTaken2 = graphicUnit.unit.CalculateDamage(targetDistrict.GetCombatStrength(), abilityPower, 1.0f);
+            }
+            else
+            {
+                damageTaken2 = graphicUnit.unit.CalculateDamage(targetDistrict.GetCombatStrength(), graphicUnit.unit.CalculateCombatStrength(bonusCombatStrength, null, Global.gameManager.game.cityDictionary[targetDistrict.cityID].teamNum), 1.0f);
+            }
+            unitHealthPercentage = (targetDistrict.health) / targetDistrict.maxHealth;
+            theirDamageTaken.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
+            unitHealthRemainigPercentage = (targetDistrict.health - damageTaken2) / targetDistrict.maxHealth;
+            theirLifeRemaining.CustomMinimumSize = new Vector2(16, unitHealthRemainigPercentage * 180f);
+            //result evaluation
+            if (ability != null)
+            {
+                battleResultLabel.Text = "Ranged Attack";
+                battleResultLabel.LabelSettings.FontColor = Godot.Colors.Yellow;
+            }
+            else if (targetDistrict.health - damageTaken2 <= 0 && graphicUnit.unit.health - damageTaken <= 0)
+            {
+                battleResultLabel.Text = "Draw";
+                battleResultLabel.LabelSettings.FontColor = Godot.Colors.Yellow;
+            }
+            else if (targetDistrict.health - damageTaken2 > 0 && graphicUnit.unit.health - damageTaken <= 0)
+            {
+                battleResultLabel.Text = "Defeat";
+                battleResultLabel.LabelSettings.FontColor = Godot.Colors.Red;
+            }
+            else if (targetDistrict.health - damageTaken2 <= 0 && graphicUnit.unit.health - damageTaken > 0)
+            {
+                battleResultLabel.Text = "Victory";
+                battleResultLabel.LabelSettings.FontColor = Godot.Colors.Green;
+            }
+            else
+            {
+                float differenceRatio = (damageTaken2 - damageTaken) / damageTaken;
+
+                if (differenceRatio >= 0.5)
+                {
+                    battleResultLabel.Text = "Victory";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.Green;
+                }
+                else if (differenceRatio >= 0.2)
+                {
+                    battleResultLabel.Text = "Minor Victory";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.GreenYellow;
+                }
+                else if (differenceRatio >= -0.2)
+                {
+                    battleResultLabel.Text = "Draw";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.Yellow;
+                }
+                else if (differenceRatio >= -0.5)
+                {
+                    battleResultLabel.Text = "Minor Defeat";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.Orange;
+                }
+                else
+                {
+                    battleResultLabel.Text = "Defeat";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.Red;
+                }
+            }
+        }
+        else if (targetUnit != null)
+        {
+            //yours
+            yourStrengthLabel.Text = graphicUnit.unit.CalculateCombatStrength(bonusCombatStrength, targetUnit, targetUnit.teamNum).ToString();
+            foreach (var child in yourCombatStrengthEffectBox.GetChildren())
+            {
+                child.Free();
+            }
+            yourLifeBackground.CustomMinimumSize = new Vector2(16, 180);
+            float damageTaken = graphicUnit.unit.CalculateDamage(graphicUnit.unit.CalculateCombatStrength(bonusCombatStrength, targetUnit, targetUnit.teamNum), targetUnit.CalculateCombatStrength(0, graphicUnit.unit, graphicUnit.unit.teamNum), 1.0f);
+            float unitHealthPercentage = (graphicUnit.unit.health) / 100.0f;
+            float unitHealthRemainigPercentage = (graphicUnit.unit.health - damageTaken) / 100.0f;
+            if (ability != null)
+            {
+                yourDamageTaken.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
+                yourLifeRemaining.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
+            }
+            else
+            {
+                yourDamageTaken.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
+                yourLifeRemaining.CustomMinimumSize = new Vector2(16, unitHealthRemainigPercentage * 180f);
+            }
+
+            //theirs
+            theirName.Text = targetUnit.name;
+            theirStrengthLabel.Text = targetUnit.CalculateCombatStrength(0, graphicUnit.unit, graphicUnit.unit.teamNum).ToString();
+            foreach (var child in theirCombatStrengthEffectBox.GetChildren())
+            {
+                child.Free();
+            }
+            theirLifeBackground.CustomMinimumSize = new Vector2(16, 180);
+            float theirUnitHealthPercentage = (targetUnit.health) / 100.0f;
+            theirDamageTaken.CustomMinimumSize = new Vector2(16, theirUnitHealthPercentage * 180f);
+            float theirDamageTaken2 = 0.0f;
+            if (ability != null && ability.combatPower.Any())
+            {
+                float abilityPower = ability.combatPower[level];
+                theirDamageTaken2 = targetUnit.CalculateDamage(targetUnit.CalculateCombatStrength(0, graphicUnit.unit, graphicUnit.unit.teamNum), abilityPower, 1.0f);
+            }
+            else
+            {
+                theirDamageTaken2 = targetUnit.CalculateDamage(targetUnit.CalculateCombatStrength(0, graphicUnit.unit, graphicUnit.unit.teamNum), graphicUnit.unit.CalculateCombatStrength(bonusCombatStrength, targetUnit, targetUnit.teamNum), 1.0f);
+            }
+            float theirUnitHealthRemainigPercentage = (targetUnit.health - theirDamageTaken2) / 100.0f;
+            theirLifeRemaining.CustomMinimumSize = new Vector2(16, theirUnitHealthRemainigPercentage * 180f);
+
+            //result evaluation
+            if(ability != null)
+            {
+                battleResultLabel.Text = "Ranged Attack";
+                battleResultLabel.LabelSettings.FontColor = Godot.Colors.Yellow;
+            }
+            else if (targetUnit.health - theirDamageTaken2 <= 0 && graphicUnit.unit.health - damageTaken <= 0)
+            {
+                battleResultLabel.Text = "Draw";
+                battleResultLabel.LabelSettings.FontColor = Godot.Colors.Yellow;
+            }
+            else if (targetUnit.health - theirDamageTaken2 > 0 && graphicUnit.unit.health - damageTaken <= 0)
+            {
+                battleResultLabel.Text = "Defeat";
+                battleResultLabel.LabelSettings.FontColor = Godot.Colors.Red;
+            }
+            else if (targetUnit.health - theirDamageTaken2 <= 0 && graphicUnit.unit.health - damageTaken > 0)
+            {
+                battleResultLabel.Text = "Victory";
+                battleResultLabel.LabelSettings.FontColor = Godot.Colors.Green;
+            }
+            else
+            {
+                float differenceRatio = (theirDamageTaken2 - damageTaken) / damageTaken;
+
+
+                if (differenceRatio >= 0.5)
+                {
+                    battleResultLabel.Text = "Victory";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.Green;
+                }
+                else if (differenceRatio >= 0.2)
+                {
+                    battleResultLabel.Text = "Minor Victory";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.GreenYellow;
+                }
+                else if (differenceRatio >= -0.2)
+                {
+                    battleResultLabel.Text = "Draw";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.Yellow;
+                }
+                else if (differenceRatio >= -0.5)
+                {
+                    battleResultLabel.Text = "Minor Defeat";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.Orange;
+                }
+                else
+                {
+                    battleResultLabel.Text = "Defeat";
+                    battleResultLabel.LabelSettings.FontColor = Godot.Colors.Red;
+                }
+            }
+        }
+
+
+    }
+
+    public void HideCombatPreview()
+    {
+        combatPreviewPanel.Visible = false;
+        combatPreviewVisible = false;
     }
 
     public void UpdateAll()

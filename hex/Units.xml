@@ -209,6 +209,7 @@
     <Abilities>
       <Ability Name="RangedAttack" CombatPower="15.0" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>15</CombatPower>
       </Ability>
       <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
         <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
@@ -248,8 +249,9 @@
       <TerrainMoveType Name="Coral" Value="1" />
     </SightCosts>
     <Abilities>
-      <Ability Name="RangedAttack" CombatPower="25.0" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
+      <Ability Name="RangedAttack" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>25</CombatPower>
       </Ability>
       <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
         <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
@@ -420,8 +422,9 @@
       <TerrainMoveType Name="Coral" Value="1" />
     </SightCosts>
     <Abilities>
-      <Ability Name="RangedAttack" CombatPower="25.0" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+      <Ability Name="RangedAttack" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>25</CombatPower>
       </Ability>
     </Abilities>
   </Unit>
@@ -453,6 +456,7 @@
     </SightCosts>
     <Abilities>
       <Ability Name="BombardAttack" CombatPower="35.0" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
+        <CombatPower>35</CombatPower>
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
       </Ability>
     </Abilities>
@@ -523,8 +527,9 @@
       <TerrainMoveType Name="Coral" Value="1" />
     </SightCosts>
     <Abilities>
-      <Ability Name="RangedAttack" CombatPower="40.0" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
+      <Ability Name="RangedAttack" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>40</CombatPower>
       </Ability>
       <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
         <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
@@ -564,7 +569,8 @@
       <TerrainMoveType Name="Coral" Value="1" />
     </SightCosts>
     <Abilities>
-      <Ability Name="RangedAttack" CombatPower="30.0" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+      <Ability Name="RangedAttack" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+        <CombatPower>30</CombatPower>
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
       </Ability>
       <Ability Name="ScoutVisionAbility" UsageCount="1" IconPath="graphics/ui/icons/shoe.png">
@@ -643,6 +649,7 @@
     <Abilities>
       <Ability Name="BombardAttack" CombatPower="45.0" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
         <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>45</CombatPower>
       </Ability>
     </Abilities>
   </Unit>

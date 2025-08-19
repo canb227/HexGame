@@ -1,9 +1,11 @@
 using Godot;
-using NetworkMessages;
-using System.Collections.Generic;
-using System;
 using Google.Protobuf.WellKnownTypes;
+using NetworkMessages;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
+using static AIUtils;
 
 [GlobalClass]
 public partial class HexGameCamera : Camera3D
@@ -29,6 +31,8 @@ public partial class HexGameCamera : Camera3D
     private float duration;
 
     public bool districtPickerPanelOpen;
+
+    public Hex hoverHex;
 
     private DistrictPickerPanel districtPickerPanel;
 
@@ -84,6 +88,80 @@ public partial class HexGameCamera : Camera3D
         zoomOffset = this.Position.Y;
         
         this.zoomAmount = Mathf.Lerp(this.zoomAmount, 0f, 0.5f);
+
+        //calculate cursor position
+        Vector2 mouse_pos = GetViewport().GetMousePosition();
+        Vector3 origin = this.ProjectRayOrigin(mouse_pos);
+
+        Vector3 direction = this.ProjectRayNormal(mouse_pos);
+        float distance = -origin.Y / direction.Y;
+        Vector3 position = origin + direction * distance;
+
+        /*            GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+                    GD.Print(ggb.Vector3ToHeightMapVal(position));*/
+
+        Point point = new Point(position.Z, position.X);
+        //GD.Print(point.x + ", " + point.y);
+        FractionalHex fHex = Global.layout.PixelToHex(point);
+        hoverHex =  fHex.HexRound().WrapHex();
+        if (Global.gameManager.game.mainGameBoard.gameHexDict.ContainsKey(hoverHex))
+        {
+            if (Global.gameManager.graphicManager.selectedObject is GraphicUnit graphicUnit)
+            {
+                if (Global.gameManager.graphicManager.GetWaitForTargeting() && ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.combatPower != null && ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.combatPower != null && ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.combatPower.Any())
+                {
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.health > 0
+                    && Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.cityID].teamNum))
+                    {
+                        Global.gameManager.graphicManager.uiManager.ShowAndUpdateCombatPreview(graphicUnit, null, Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district, 0, ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility);
+                    }
+                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].units.Any())
+                    {
+                        Unit targetUnit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].units[0]];
+                        if (Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(targetUnit.teamNum))
+                        {
+                            Global.gameManager.graphicManager.uiManager.ShowAndUpdateCombatPreview(graphicUnit, targetUnit, null, 0, ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility);
+                        }
+                        else if (Global.gameManager.graphicManager.uiManager.combatPreviewVisible)
+                        {
+                            Global.gameManager.graphicManager.uiManager.HideCombatPreview();
+                        }
+                    }
+                    else if (Global.gameManager.graphicManager.uiManager.combatPreviewVisible)
+                    {
+                        Global.gameManager.graphicManager.uiManager.HideCombatPreview();
+                    }
+                }
+                else
+                {
+                    if (Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.health > 0
+                    && Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.cityID].teamNum))
+                    {
+                        Global.gameManager.graphicManager.uiManager.ShowAndUpdateCombatPreview(graphicUnit, null, Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district);
+                    }
+                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].units.Any())
+                    {
+                        Unit targetUnit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].units[0]];
+                        if (Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(targetUnit.teamNum))
+                        {
+                            Global.gameManager.graphicManager.uiManager.ShowAndUpdateCombatPreview(graphicUnit, targetUnit, null);
+                        }
+                        else if (Global.gameManager.graphicManager.uiManager.combatPreviewVisible)
+                        {
+                            Global.gameManager.graphicManager.uiManager.HideCombatPreview();
+                        }
+                    }
+                    else if (Global.gameManager.graphicManager.uiManager.combatPreviewVisible)
+                    {
+                        Global.gameManager.graphicManager.uiManager.HideCombatPreview();
+                    }
+                }
+            }
+        }
+        else if(Global.gameManager.graphicManager.uiManager.combatPreviewVisible)
+        {
+            Global.gameManager.graphicManager.uiManager.HideCombatPreview();
+        }
     }
 
     public override void _Input(InputEvent iEvent)
@@ -124,20 +202,7 @@ public partial class HexGameCamera : Camera3D
     {
         if (!blockClick && iEvent is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsPressed())
         {
-            Vector2 mouse_pos = GetViewport().GetMousePosition();
-            Vector3 origin = this.ProjectRayOrigin(mouse_pos);
 
-            Vector3 direction = this.ProjectRayNormal(mouse_pos);
-            float distance = -origin.Y / direction.Y;
-            Vector3 position = origin + direction * distance;
-
-/*            GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-            GD.Print(ggb.Vector3ToHeightMapVal(position));*/
-
-            Point point = new Point(position.Z, position.X);
-            //GD.Print(point.x + ", " + point.y);
-            FractionalHex fHex = Global.layout.PixelToHex(point);
-            Hex hex = fHex.HexRound();
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
                 /* GD.Print("You just clicked!");
@@ -147,13 +212,13 @@ public partial class HexGameCamera : Camera3D
                 //AIUtils.FindClosestAnyEnemyInRange(Global.gameManager.AIManager.aiList[0], hex, 2, out target);
                 //Global.Log($"CLOSEST ENEMY (OF AI 0), WITHIN RANGE 2 IS AT: {target}");
                 //Global.Log($"THIS TILE I CLICKED - IS IT SAFE?: {AIUtils.IsSafeHex(Global.gameManager.AIManager.aiList[0], hex)}");
-                ProcessHexLeftClick(hex);
+                ProcessHexLeftClick(hoverHex);
 
             }
             else if (mouseButtonEvent.ButtonIndex == MouseButton.Right)
             {
                 /*GD.Print("Right mouse button clicked");*/
-                ProcessHexRightClick(hex);
+                ProcessHexRightClick(hoverHex);
             }
         }
         if (iEvent is InputEventMouseMotion mouseMotionEvent)
@@ -187,13 +252,13 @@ public partial class HexGameCamera : Camera3D
         }
     }
 
-    private void ProcessHexLeftClick(Hex hex)
+    private void ProcessHexLeftClick(Hex wrapHex)
     {
         //Global.gameManager.audioManager.PlayAudio("res://audio/soundeffects/LastPlayer.wav");
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        Hex wrapHex = hex.WrapHex();
-        Global.Log(wrapHex.ToString());
-        Global.Log(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex].rangeToNearestSpawn.ToString());
+
+        //Global.Log(wrapHex.ToString());
+        //Global.Log(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex].rangeToNearestSpawn.ToString());
         if(Global.gameManager.game.localPlayerRef.turnFinished)
         {
             return;
@@ -300,14 +365,8 @@ public partial class HexGameCamera : Camera3D
         return hex.q + (hex.r >> 1);
     }
 
-    private void ProcessHexRightClick(Hex hex)
+    private void ProcessHexRightClick(Hex wrapHex)
     {
-        Hex wrapHex = hex.WrapHex();
-        GameHex wrappedHex = Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex];
-//        GameHex unwrappedHex = Global.gameManager.game.mainGameBoard.gameHexDict[hex];
-        Global.Log("Hex: " + hex + " | Wrapped to: " + wrapHex);
-        //GD.Print("Wrapped Hex Info|TerrainType: " + wrappedHex.terrainType);
-       // GD.Print("Unwrapped Hex Info|TerrainType: " + unwrappedHex.terrainType);
         if (Global.gameManager.graphicManager.selectedObject != null)
         {
             Global.gameManager.graphicManager.selectedObject.ProcessRightClick(wrapHex);

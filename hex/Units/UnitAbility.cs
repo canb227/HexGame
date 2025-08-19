@@ -1,11 +1,12 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Data;
-using System.Formats.Asn1;
 using Godot;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Formats.Asn1;
 using System.IO;
+using System.Linq;
+using static AIUtils;
 
 [Serializable]
 public class UnitAbility
@@ -14,14 +15,14 @@ public class UnitAbility
     public string description { get; set; }
     private UnitEffect effect { get; set; }
     public int usingUnitID { get; set; }
-    public float combatPower { get; set; }
+    public List<float> combatPower { get; set; } = new();
     public int currentCharges { get; set; }
     public int maxChargesPerTurn { get; set; } //-1 means no reset... we use the charge then its gone I think is the idea
     public int range { get; set; }
     public String iconPath { get; set; }
     public TargetSpecification validTargetTypes { get; set; }
 
-    public UnitAbility(int usingUnitID, string abilityName, string description="", float combatPower = 0.0f, int maxChargesPerTurn = 1, int range = 0, TargetSpecification validTargetTypes = null, String iconPath = "")
+    public UnitAbility(int usingUnitID, string abilityName, string description="", List<float> combatPower = null, int maxChargesPerTurn = 1, int range = 0, TargetSpecification validTargetTypes = null, String iconPath = "")
     {
         this.usingUnitID = usingUnitID;
         this.effect = new UnitEffect(abilityName);
@@ -83,7 +84,15 @@ public class UnitAbility
             {
                 manager.CallDeferred("Update2DUI", (int)UIElement.unitDisplay);
             }
-            return effect.Apply(usingUnitID, level, combatPower, abilityTarget);
+            if(combatPower.Any())
+            {
+                return effect.Apply(usingUnitID, level, combatPower[level], abilityTarget);
+            }
+            else
+            {
+                return effect.Apply(usingUnitID, level, 0, abilityTarget);
+            }
+
         }
         return false;
     }

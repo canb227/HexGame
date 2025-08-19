@@ -1,0 +1,180 @@
+[gd_scene load_steps=6 format=3 uid="uid://1inxhnm7k0nm"]
+
+[sub_resource type="Gradient" id="Gradient_q6whi"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dt5iw"]
+gradient = SubResource("Gradient_q6whi")
+width = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_hpdo4"]
+font_size = 12
+
+[sub_resource type="Gradient" id="Gradient_33m4h"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4ulap"]
+gradient = SubResource("Gradient_33m4h")
+width = 3
+
+[node name="CombatPreviewPanel" type="PanelContainer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -545.0
+offset_top = -198.0
+offset_right = -180.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="BattleResultLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "MAJOR VICTORY?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="YourUnitName" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Warrior?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_dt5iw")
+
+[node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="YourStrengthLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Your Strength: 20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="YourCombatStrengthEffectBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/YourCombatStrengthEffectBox"]
+layout_mode = 2
+text = "  vs Encampents: +7"
+label_settings = SubResource("LabelSettings_hpdo4")
+
+[node name="YourHealthBar" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 8
+
+[node name="LifeBackground" type="ColorRect" parent="VBoxContainer/HBoxContainer/YourHealthBar"]
+custom_minimum_size = Vector2(16, 180)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0, 0, 0, 1)
+
+[node name="DamageTaken" type="ColorRect" parent="VBoxContainer/HBoxContainer/YourHealthBar"]
+custom_minimum_size = Vector2(16, 180)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(1, 0, 0, 1)
+
+[node name="RemainingHealth" type="ColorRect" parent="VBoxContainer/HBoxContainer/YourHealthBar"]
+custom_minimum_size = Vector2(16, 180)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0, 0.705863, 1.15514e-06, 1)
+
+[node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture1D_4ulap")
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.1
+
+[node name="TheirLifeBar" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 8
+
+[node name="LifeBackground" type="ColorRect" parent="VBoxContainer/HBoxContainer/TheirLifeBar"]
+custom_minimum_size = Vector2(16, 180)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0, 0, 0, 1)
+
+[node name="DamageTaken" type="ColorRect" parent="VBoxContainer/HBoxContainer/TheirLifeBar"]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(1, 0, 0, 1)
+
+[node name="RemainingHealth" type="ColorRect" parent="VBoxContainer/HBoxContainer/TheirLifeBar"]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0, 0.705863, 1.15514e-06, 1)
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TheirName" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Warrior?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_dt5iw")
+
+[node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="TheirStrengthLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Their Strength: 20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="TheirCombatStrengthEffectBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2/TheirCombatStrengthEffectBox"]
+layout_mode = 2
+text = "  vs Encampents: +7"
+label_settings = SubResource("LabelSettings_hpdo4")

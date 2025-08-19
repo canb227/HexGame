@@ -353,29 +353,31 @@ public partial class Unit
         return !decreaseHealth(CalculateDamage(combatStrength+bonusCombatPower, targetGameHex.district.GetCombatStrength(), randomFactor)) & targetGameHex.district.decreaseHealth(CalculateDamage(targetGameHex.district.GetCombatStrength(), combatStrength, randomFactor));
     }
 
-    private bool UnitCombat(GameHex targetGameHex, Unit unit, int bonusCombatPower=0)
+    public float CalculateCombatStrength(float bonusCombatPower, Unit targetUnit, int targetTeamNum)
     {
-        float modCombatStrength = combatStrength + bonusCombatPower;
-        float unitModCombatStrength = unit.combatStrength;
-        //anti-cavalry check
-        if ((unitClass & UnitClass.AntiCavalry) != 0 && (unit.unitClass & UnitClass.Cavalry) != 0)
+        float calculatedCombatStrength = combatStrength + bonusCombatPower;
+        if(targetUnit != null)
         {
-            modCombatStrength += 7;
-        }
-        else if ((unit.unitClass & UnitClass.AntiCavalry) != 0 && (unitClass & UnitClass.Cavalry) != 0)
-        {
-            unitModCombatStrength += 7;
+            //anti-cavalry check
+            if ((unitClass & UnitClass.AntiCavalry) != 0 && (targetUnit.unitClass & UnitClass.Cavalry) != 0)
+            {
+                calculatedCombatStrength += 7;
+            }
         }
 
         //anti-encampment bonus check
-        if (Global.gameManager.game.playerDictionary[unit.teamNum].isEncampment)
+        if (Global.gameManager.game.playerDictionary[targetTeamNum].isEncampment)
         {
-            modCombatStrength += Global.gameManager.game.playerDictionary[teamNum].bonusAgainstEncampments;
+            calculatedCombatStrength += Global.gameManager.game.playerDictionary[teamNum].bonusAgainstEncampments;
         }
-        if (Global.gameManager.game.playerDictionary[teamNum].isEncampment)
-        {
-            unitModCombatStrength += Global.gameManager.game.playerDictionary[unit.teamNum].bonusAgainstEncampments;
-        }
+        return calculatedCombatStrength;
+    }
+
+    private bool UnitCombat(GameHex targetGameHex, Unit unit, int bonusCombatPower=0)
+    {
+        float modCombatStrength = CalculateCombatStrength(bonusCombatPower, unit, unit.teamNum);
+        float unitModCombatStrength = unit.CalculateCombatStrength(0, this, teamNum);
+
         //we use our hex q,r and turn number to generate a random seed that is the same on all machines
         float randomFactor = (float)new Random(hex.q + hex.r + Global.gameManager.game.turnManager.currentTurn).NextDouble() * 0.4f + 0.8f;
         if (this is Hero hero)

@@ -52,7 +52,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/fireball.png">
+        <UnitAbility Name="Fireball"  UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/fireball.png">
           <Description>
           Deals ranged damage to a target based on the level of the spell.
           Combat Power: 20 / 26 / 32 / 40
@@ -60,6 +60,7 @@
           Cooldown:       3  /  3 /  2 /  1
           Must Target Enemies
           </Description>
+          <CombatPower>0,20,26,32,40</CombatPower>
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -187,7 +188,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Chop" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/chop.png">
+        <UnitAbility Name="Chop" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/chop.png">
           <Description>
           Deals minor damage to a target and inflicting a bleed based on the level of the spell. 
           (Bleeds are a damage over time debuff that prevent natural healing and deals flat percentage health damage)
@@ -198,6 +199,7 @@
           Cooldown:       3  /  3 /  2 /  1
           Must Target Enemies
           </Description>
+          <CombatPower>0,10,10,10,10</CombatPower>
           <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -317,6 +319,7 @@
           Cooldown:       1  /  1 /  1 /  1
           Must Target Enemies
           </Description>
+          <CombatPower>20,26,32,40</CombatPower>
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -428,7 +431,8 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <CombatPower>10,10,10,10</CombatPower>
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>
@@ -488,7 +492,8 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Fireball" CombatPower="10.0" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+        <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <CombatPower>10,10,10,10</CombatPower>
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>

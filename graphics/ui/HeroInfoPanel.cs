@@ -166,7 +166,7 @@ public partial class HeroInfoPanel : Node3D
                 abilityFlowContainer.AddChild(abilityButton);
 
                 abilityButton.Disabled = false;
-                if (ability.combatPower != 0 && hero.attacksLeft <= 0)
+                if (ability.combatPower != null && ability.combatPower.Any() && hero.attacksLeft <= 0)
                 {
                     abilityButton.Disabled = true;
                 }
@@ -270,7 +270,7 @@ public partial class HeroInfoPanel : Node3D
                     continue;
                 }
 
-                if (heroAbility.ability.combatPower != 0 && hero.attacksLeft <= 0)
+                if (heroAbility.ability.combatPower != null && heroAbility.ability.combatPower.Any() && hero.attacksLeft <= 0)
                 {
                     abilityButton.Disabled = true;
                     continue;
