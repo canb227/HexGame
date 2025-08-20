@@ -73,8 +73,6 @@ public partial class GraphicUnit : GraphicObject
     private void InstantiateUnit(Unit unit)
     {
         UnitLoader.unitsDict.TryGetValue(unit.unitType, out UnitInfo unitInfo);
-        GD.Print(unit.name);
-        GD.Print(unitInfo.ModelPaths.Any());
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + unitInfo.ModelPaths[Global.gameManager.game.playerDictionary[unit.teamNum].faction]).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
         GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
