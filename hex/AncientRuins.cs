@@ -682,7 +682,8 @@ public static class AncientRuinsLoader
                 }
             }
         };
-
+        AddEventsRecursive(collapsedObservatory, ruinsEventDict);
+        eventStartPoints.Add(collapsedObservatory);
     }
 
     public static RuinsEvent PickWeightedEvent(List<RuinsEvent> candidates, AncientRuins ancientRuins)
