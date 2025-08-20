@@ -441,6 +441,7 @@ public partial class UIManager : Node3D
                     yourCombatStrengthEffectBox.AddChild(bombardLabel);
                     abilityPower += 10;
                 }
+                yourStrengthLabel.Text = abilityPower.ToString();
                 damageTaken2 = graphicUnit.unit.CalculateDamage(targetDistrict.GetCombatStrength(), abilityPower, 1.0f);
             }
             else
@@ -519,6 +520,7 @@ public partial class UIManager : Node3D
             {
                 yourDamageTaken.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
                 yourLifeRemaining.CustomMinimumSize = new Vector2(16, unitHealthPercentage * 180f);
+
             }
             else
             {
@@ -541,6 +543,8 @@ public partial class UIManager : Node3D
             {
                 float abilityPower = ability.combatPower[level];
                 theirDamageTaken2 = targetUnit.CalculateDamage(targetUnit.CalculateCombatStrength(0, graphicUnit.unit, graphicUnit.unit.teamNum), abilityPower, 1.0f);
+                yourStrengthLabel.Text = abilityPower.ToString();
+
             }
             else
             {

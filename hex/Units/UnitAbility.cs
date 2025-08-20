@@ -84,7 +84,7 @@ public class UnitAbility
             {
                 manager.CallDeferred("Update2DUI", (int)UIElement.unitDisplay);
             }
-            if(combatPower.Any())
+            if(combatPower != null && combatPower.Any())
             {
                 return effect.Apply(usingUnitID, level, combatPower[level], abilityTarget);
             }

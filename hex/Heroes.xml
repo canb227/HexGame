@@ -2,7 +2,13 @@
 <Heroes>
   <Hero Name="Arcana" Mana="100" ManaRegeneration="5" MaxLevel="18" HeroImagePath="graphics/ui/icons/heroes/arcana.png">
     <ExperienceToLevelUp>0, 100, 200, 260, 300, 340, 380, 400, 450, 500, 600, 650, 700, 750, 800, 850, 900, 950, 0</ExperienceToLevelUp>
-      <Unit Name="Scout" Class="Combat, Land, Recon, Classical" ProductionCost="0" GoldCost="0" MovementSpeed="2.0" SightRange="2.0" CombatPower="15.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/shoe.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+      <Unit Name="Arcana" Class="Combat, Land, Recon, Classical" ProductionCost="0" GoldCost="0" MovementSpeed="2.0" SightRange="2.0" CombatPower="15.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/star.png" >
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Elves" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
+    </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
         <TerrainMoveType Name="Rough" Value="2" />
@@ -138,7 +144,13 @@
   <!-- Orc Heroes -->
   <Hero Name="Gorb" Mana="100" ManaRegeneration="5" MaxLevel="18" HeroImagePath="graphics/ui/icons/heroes/gorb.png">
     <ExperienceToLevelUp>0, 100, 200, 260, 300, 340, 380, 400, 450, 500, 600, 650, 700, 750, 800, 850, 900, 950, 0</ExperienceToLevelUp>
-    <Unit Name="Warrior" Class="Combat, Land, Infantry, Classical" ProductionCost="999" GoldCost="999" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/Warrior_2.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+    <Unit Name="Gorb" Class="Combat, Land, Infantry, Classical" ProductionCost="999" GoldCost="999" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/star.png" >
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+    </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
         <TerrainMoveType Name="Rough" Value="2" />
@@ -260,7 +272,13 @@
   <!-- Elf Heroes -->
   <Hero Name="Silvana" Mana="100" ManaRegeneration="5" MaxLevel="18" HeroImagePath="graphics/ui/icons/heroes/silvana.png">
     <ExperienceToLevelUp>0, 100, 200, 260, 300, 340, 380, 400, 450, 500, 600, 650, 700, 750, 800, 850, 900, 950, 0</ExperienceToLevelUp>
-      <Unit Name="Archer" Class="Combat, Land, Ranged, Classical" ProductionCost="0" GoldCost="0" MovementSpeed="2.0" SightRange="2.0" CombatPower="15.0" HealingFactor="10" MaintenanceCost="0" ZoneOfControl="false" IconPath="graphics/ui/icons/Archer.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+    <Unit Name="Silvana" Class="Combat, Land, Ranged, Classical" ProductionCost="0" GoldCost="0" MovementSpeed="2.0" SightRange="2.0" CombatPower="15.0" HealingFactor="10" MaintenanceCost="0" ZoneOfControl="false" IconPath="graphics/ui/icons/star.png" >
+      <ModelPaths>
+        <Model Faction="All" Path="graphics/models/units/elf/bowperson_elf.glb" />
+        <Model Faction="Humans" Path="graphics/models/units/elf/bowperson_elf.glb" />
+        <Model Faction="Elves" Path="graphics/models/units/elf/bowperson_elf.glb" />
+        <Model Faction="Orcs" Path="graphics/models/units/elf/bowperson_elf.glb" />
+      </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
         <TerrainMoveType Name="Rough" Value="2" />
@@ -381,7 +399,13 @@
   <!-- Beastfolk Heroes -->
   <Hero Name="Horkin" Mana="100" ManaRegeneration="5" MaxLevel="18" HeroImagePath="graphics/ui/icons/heroes/horkin.png">
     <ExperienceToLevelUp>0, 100, 200, 260, 300, 340, 380, 400, 450, 500, 600, 650, 700, 750, 800, 850, 900, 950, 0</ExperienceToLevelUp>
-    <Unit Name="Warrior" Class="Combat, Land, Infantry, Classical" ProductionCost="999" GoldCost="999" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/Warrior_2.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+    <Unit Name="Horkin" Class="Combat, Land, Infantry, Classical" ProductionCost="999" GoldCost="999" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/star.png" >
+      <ModelPaths>
+        <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Elves" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
+      </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
         <TerrainMoveType Name="Rough" Value="2" />
@@ -442,7 +466,13 @@
   <!--Hobbit Heroes -->
   <Hero Name="Billy" Mana="100" ManaRegeneration="5" MaxLevel="18" HeroImagePath="graphics/ui/icons/heroes/billy.png">
     <ExperienceToLevelUp>0, 100, 200, 260, 300, 340, 380, 400, 450, 500, 600, 650, 700, 750, 800, 850, 900, 950, 0</ExperienceToLevelUp>
-    <Unit Name="Scout" Class="Combat, Land, Recon, Classical" ProductionCost="0" GoldCost="0" MovementSpeed="3.0" SightRange="2.0" CombatPower="10.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/shoe.png" ModelPath="graphics/models/baseperson_remesh3.glb">
+    <Unit Name="Billy" Class="Combat, Land, Recon, Classical" ProductionCost="0" GoldCost="0" MovementSpeed="3.0" SightRange="2.0" CombatPower="10.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/star.png" >
+      <ModelPaths>
+        <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Elves" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
+      </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
         <TerrainMoveType Name="Rough" Value="2" />

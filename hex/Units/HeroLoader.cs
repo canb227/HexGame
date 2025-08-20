@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Xml.Linq;
 
 public struct HeroInfo
@@ -34,19 +35,32 @@ public static class HeroLoader
 
         return heroElements.ToDictionary(
             h => h.Attribute("Name")?.Value ?? throw new Exception("Missing Hero Name"),
-            h => new HeroInfo
+            h =>
             {
-                unitInfo = ParseUnitInfo(h.Element("Unit")),
-                mana = int.TryParse(h.Attribute("Mana")?.Value, out var mana) ? mana : 0,
-                manaRegeneration = int.TryParse(h.Attribute("ManaRegeneration")?.Value, out var regen) ? regen : 0,
-                maxLevel = int.TryParse(h.Attribute("MaxLevel")?.Value, out var maxLevel) ? maxLevel : 1,
-                heroImagePath = h.Attribute("HeroImagePath")?.Value ?? "",
-                experienceToLevelUp = h.Element("ExperienceToLevelUp")?.Value
-                    .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                    .Select(x => int.TryParse(x.Trim(), out var val) ? val : 0)
-                    .ToArray(),
-                heroAbilities = h.Element("HeroAbilities")?.Elements("Ability")?.Select(ParseHeroAbility).ToList()
-                    ?? new List<HeroAbility>()
+                var unitElement = h.Element("Unit");
+                var unitInfo = ParseUnitInfo(unitElement);
+
+                // Add to unitsDict if not already present
+                var unitName = unitInfo.UnitName;
+                if (!UnitLoader.unitsDict.ContainsKey(unitName))
+                {
+                    UnitLoader.unitsDict[unitName] = unitInfo;
+                }
+
+                return new HeroInfo
+                {
+                    unitInfo = unitInfo,
+                    mana = int.TryParse(h.Attribute("Mana")?.Value, out var mana) ? mana : 0,
+                    manaRegeneration = int.TryParse(h.Attribute("ManaRegeneration")?.Value, out var regen) ? regen : 0,
+                    maxLevel = int.TryParse(h.Attribute("MaxLevel")?.Value, out var maxLevel) ? maxLevel : 1,
+                    heroImagePath = h.Attribute("HeroImagePath")?.Value ?? "",
+                    experienceToLevelUp = h.Element("ExperienceToLevelUp")?.Value
+                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => int.TryParse(x.Trim(), out var val) ? val : 0)
+                        .ToArray(),
+                    heroAbilities = h.Element("HeroAbilities")?.Elements("Ability")?.Select(ParseHeroAbility).ToList()
+                        ?? new List<HeroAbility>()
+                };
             }
         );
     }
@@ -67,7 +81,12 @@ public static class HeroLoader
             ZoneOfControl = bool.TryParse(r.Attribute("ZoneOfControl")?.Value, out var zoneOfControl) && zoneOfControl,
             IgnoreZoneOfControl = bool.TryParse(r.Attribute("IgnoreZoneOfControl")?.Value, out var ignoreZoc) && ignoreZoc,
             IconPath = r.Attribute("IconPath")?.Value ?? "",
-            ModelPath = r.Attribute("ModelPath")?.Value ?? "",
+            ModelPaths = r.Element("ModelPaths")?.Elements("Model")
+                        .Where(m => m.Attribute("Faction") != null && m.Attribute("Path") != null)
+                        .ToDictionary(
+                            m => Enum.TryParse<FactionType>(m.Attribute("Faction")?.Value, out var faction) ? faction : FactionType.All,
+                            m => m.Attribute("Path")?.Value ?? ""
+                        ) ?? new Dictionary<FactionType, string>(),
             MovementCosts = r.Element("MovementCosts")?.Elements("TerrainMoveType").ToDictionary(
                 m => Enum.Parse<TerrainMoveType>(m.Attribute("Name").Value),
                 m => float.TryParse(m.Attribute("Value")?.Value, out var value) ? value : 0.0f

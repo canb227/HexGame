@@ -38,7 +38,7 @@ public struct UnitInfo
     public bool ZoneOfControl { get; set; }
     public bool IgnoreZoneOfControl { get; set; }
     public String IconPath { get; set; }
-    public String ModelPath {  get; set; }
+    public Dictionary<FactionType, string> ModelPaths { get; set; }
     public Dictionary<TerrainMoveType, float> MovementCosts { get; set; }
     public Dictionary<TerrainMoveType, float> SightCosts { get; set; }
     public List<String> Effects { get; set; }
@@ -77,7 +77,12 @@ public static class UnitLoader
                     ZoneOfControl = bool.TryParse(r.Attribute("ZoneOfControl")?.Value, out var zoneOfControl) ? zoneOfControl : true,
                     IgnoreZoneOfControl = bool.TryParse(r.Attribute("ZoneOfControl")?.Value, out var ignoreZoneOfControl) ? ignoreZoneOfControl : false,
                     IconPath = r.Attribute("IconPath")?.Value ?? "",
-                    ModelPath = r.Attribute("ModelPath")?.Value ?? "",
+                    ModelPaths = r.Element("ModelPaths")?.Elements("Model")
+                        .Where(m => m.Attribute("Faction") != null && m.Attribute("Path") != null)
+                        .ToDictionary(
+                            m => Enum.TryParse<FactionType>(m.Attribute("Faction")?.Value, out var faction) ? faction : FactionType.All,
+                            m => m.Attribute("Path")?.Value ?? ""
+                        ) ?? new Dictionary<FactionType, string>(),
                     MovementCosts = r.Element("MovementCosts")?.Elements("TerrainMoveType").ToDictionary(
                         m => Enum.TryParse<TerrainMoveType>(m.Attribute("Name")?.Value, out var terrainType) ? terrainType : throw new Exception("Invalid TerrainMoveType"),
                         m => float.TryParse(m.Attribute("Value")?.Value, out var movementCost) ? movementCost : 0.0f
