@@ -96,7 +96,7 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -142,9 +142,9 @@
   <Unit Name="Warrior" Class="Combat, Land, Infantry, Classical" ProductionCost="40" GoldCost="160" MovementSpeed="2.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/Warrior.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -189,7 +189,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
-      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+      <Model Faction="Goblins" Path="graphics/models/galley.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
@@ -219,9 +219,9 @@
   <Unit Name="Slinger" Class="Combat, Land, Ranged, Classical" ProductionCost="35" GoldCost="140" MovementSpeed="2.0" SightRange="2.0" CombatPower="5.0" HealingFactor="10" MaintenanceCost="1" ZoneOfControl="false" IconPath="graphics/ui/icons/slinger.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/bow_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/bowperson_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/bow_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -268,9 +268,9 @@
   <Unit Name="Archer" Class="Combat, Land, Ranged, Classical" ProductionCost="60" GoldCost="240" MovementSpeed="2.0" SightRange="2.0" CombatPower="15.0" HealingFactor="10" MaintenanceCost="1" ZoneOfControl="false" IconPath="graphics/ui/icons/Archer.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/bow_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/bowperson_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/bow_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -318,9 +318,9 @@
   <Unit Name="Spearman" Class="Combat, Land, Infantry, AntiCavalry, Classical" ProductionCost="65" GoldCost="260" MovementSpeed="2.0" SightRange="2.0" CombatPower="25.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/Spearman.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -363,9 +363,9 @@
   <Unit Name="Chariot" Class="Combat, Land, Cavalry, Classical" ProductionCost="65" GoldCost="260" MovementSpeed="2.0" SightRange="2.0" CombatPower="28.0" HealingFactor="10" MaintenanceCost="1" IconPath="graphics/ui/icons/Chariot.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -397,9 +397,9 @@
   <Unit Name="Horseman" Class="Combat, Land, Cavalry, Classical" ProductionCost="80" GoldCost="320" StrategicResource="Horses" StrategicResourceCost="20" MovementSpeed="4.0" SightRange="2.0" CombatPower="36.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Horseman.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -431,9 +431,9 @@
   <Unit Name="Swordman" Class="Combat, Land, Infantry, Classical" ProductionCost="90" GoldCost="360" StrategicResource="Iron" StrategicResourceCost="20" MovementSpeed="2.0" SightRange="2.0" CombatPower="35.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/sword.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -479,7 +479,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
-      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+      <Model Faction="Goblins" Path="graphics/models/galley.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
@@ -518,7 +518,7 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -557,9 +557,9 @@
   <Unit Name="Polearm" Class="Combat, Land, Infantry, AntiCavalry, Classical" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="45.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Polearm.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -602,9 +602,9 @@
   <Unit Name="Crossbowman" Class="Combat, Land, Ranged, Classical" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="30.0" HealingFactor="10" MaintenanceCost="3" ZoneOfControl="false" IconPath="graphics/ui/icons/Crossbow.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/bow_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/bowperson_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/bow_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -651,9 +651,9 @@
   <Unit Name="Skirmisher" Class="Combat, Land, Recon, Classical" ProductionCost="150" GoldCost="600" MovementSpeed="3.0" SightRange="2.0" CombatPower="20.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/shoe.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -709,9 +709,9 @@
   <Unit Name="Knight" Class="Combat, Land, Cavalry, Classical" ProductionCost="220" GoldCost="880" StrategicResource="Iron" StrategicResourceCost="20" MovementSpeed="4.0" SightRange="2.0" CombatPower="50.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Knight.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -745,7 +745,7 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -786,7 +786,7 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -818,9 +818,9 @@
   <Unit Name="Courser" Class="Combat, Land, Cavalry, Classical" ProductionCost="200" GoldCost="800" StrategicResource="Horses" StrategicResourceCost="20" MovementSpeed="5.0" SightRange="2.0" CombatPower="46.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Courser.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -854,7 +854,7 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -898,7 +898,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
-      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+      <Model Faction="Goblins" Path="graphics/models/galley.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
