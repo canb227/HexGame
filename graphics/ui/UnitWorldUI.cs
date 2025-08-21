@@ -56,7 +56,7 @@ public partial class UnitWorldUI : Node3D
         Transform3D newTransform = Transform;
         Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
         GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        newTransform.Origin = new Vector3((float)hexPoint.y, ggb.Vector3ToHeightMapVal(node.Transform.Origin)+7, (float)hexPoint.x); //TODO
+        newTransform.Origin = new Vector3((float)hexPoint.y, ggb.Vector3ToHeightMapVal()+7, (float)hexPoint.x); //TODO
         Transform = newTransform;
         Update();
     }
