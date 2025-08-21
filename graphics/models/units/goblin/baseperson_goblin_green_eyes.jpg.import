@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ct012vulgosnh"
-path.s3tc="res://.godot/imported/settler_elf_green_eyes.jpg-d62b52f470bdce037bfc2930bd265205.s3tc.ctex"
+uid="uid://3oklji1k8s04"
+path.s3tc="res://.godot/imported/baseperson_goblin_green_eyes.jpg-3f9a13b752e07da4b5fdf504b7a0b6cb.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://graphics/models/settler_elf_green_eyes.jpg"
-dest_files=["res://.godot/imported/settler_elf_green_eyes.jpg-d62b52f470bdce037bfc2930bd265205.s3tc.ctex"]
+source_file="res://graphics/models/units/goblin/baseperson_goblin_green_eyes.jpg"
+dest_files=["res://.godot/imported/baseperson_goblin_green_eyes.jpg-3f9a13b752e07da4b5fdf504b7a0b6cb.s3tc.ctex"]
 
 [params]
 

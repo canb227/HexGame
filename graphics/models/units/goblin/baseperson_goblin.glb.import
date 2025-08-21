@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://csmvxjis4fmmy"
-path="res://.godot/imported/settler_elf.glb-8ef2f690349bf2b53cadf817e4bcaccf.scn"
+uid="uid://crckek1d6gw55"
+path="res://.godot/imported/baseperson_goblin.glb-efcefee747b4bffbfa0d5adfe05f5000.scn"
 
 [deps]
 
-source_file="res://graphics/models/settler_elf.glb"
-dest_files=["res://.godot/imported/settler_elf.glb-8ef2f690349bf2b53cadf817e4bcaccf.scn"]
+source_file="res://graphics/models/units/goblin/baseperson_goblin.glb"
+dest_files=["res://.godot/imported/baseperson_goblin.glb-efcefee747b4bffbfa0d5adfe05f5000.scn"]
 
 [params]
 

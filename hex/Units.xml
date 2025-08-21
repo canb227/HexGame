@@ -5,6 +5,7 @@
       <Model Faction="Humans" Path="graphics/models/units/baseperson_settler.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/settler_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/settler_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -50,6 +51,7 @@
       <Model Faction="Humans" Path="graphics/models/units/baseperson_settler.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/settler_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/settler_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -95,12 +97,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
-    </ModelPaths>
-    <ModelPaths>
-      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -148,6 +145,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -191,6 +189,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
@@ -223,6 +222,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -271,6 +271,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -320,6 +321,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -364,6 +366,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="0.5" />
@@ -397,6 +400,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -430,6 +434,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -474,6 +479,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
@@ -513,6 +519,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -553,6 +560,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -597,6 +605,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -645,6 +654,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -702,6 +712,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -735,6 +746,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -775,6 +787,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -808,6 +821,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -841,6 +855,7 @@
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/orc/baseperson_orc.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="1" />
@@ -883,6 +898,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
       <TerrainMoveType Name="Flat" Value="9999" />
