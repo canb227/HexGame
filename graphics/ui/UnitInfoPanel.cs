@@ -108,8 +108,10 @@ public partial class UnitInfoPanel : Node3D
                 if(ability.name == "RangedAttack" || ability.name == "BombardAttack")
                 {
                     rangedStrengthContainer.Visible = true;
-                    rangedStrengthLabel.Text = ability.combatPower.ToString();
-
+                    if(ability.combatPower.Any())
+                    {
+                        rangedStrengthLabel.Text = ability.combatPower[0].ToString();
+                    }
                     rangeContainer.Visible = true;
                     rangedStrengthLabel.Visible = true;
                 }
