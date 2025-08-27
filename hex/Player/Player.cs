@@ -515,19 +515,20 @@ public class Player : BasePlayer
             foreach (GovernmentType governmentType in ResearchLoader.researchesDict[researchType].GovernmentUnlocks)
             {
                 avaliableGovernments.Add(governmentType);
-                Global.gameManager.game.localPlayerRef.SetCanChangeGovernment(true);
+                this.SetCanChangeGovernment(true);
             }
         }
         foreach (String effect in ResearchLoader.researchesDict[researchType].Effects)
         {
             ResearchLoader.ProcessFunctionString(effect, this);
         }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+        if(teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
-            manager2.uiManager.CallDeferred("UpdateResearchUI");
-
-            
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+            {
+                manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
+                manager2.uiManager.CallDeferred("UpdateResearchUI");
+            }
         }
     }
 
@@ -564,7 +565,6 @@ public class Player : BasePlayer
                 queuedCultureResearch.Add(new ResearchQueueType(researchType, CultureResearchLoader.tierCostDict[CultureResearchLoader.researchesDict[researchType].Tier], CultureResearchLoader.tierCostDict[CultureResearchLoader.researchesDict[researchType].Tier])); //apply cost mod TODO
             }
         }
-
         TopologicalSort(researchType);
         if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
@@ -635,17 +635,20 @@ public class Player : BasePlayer
             foreach (GovernmentType governmentType in CultureResearchLoader.researchesDict[researchType].GovernmentUnlocks)
             {
                 avaliableGovernments.Add(governmentType);
-                Global.gameManager.game.localPlayerRef.SetCanChangeGovernment(true);
+                this.SetCanChangeGovernment(true);
             }
         }
         foreach (String effect in CultureResearchLoader.researchesDict[researchType].Effects)
         {
             CultureResearchLoader.ProcessFunctionString(effect, this);
         }
-        if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+        if (teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
-            manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
-            manager2.uiManager.CallDeferred("UpdateResearchUI");
+            if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager2))
+            {
+                manager2.CallDeferred("Update2DUI", (int)UIElement.endTurnButton);
+                manager2.uiManager.CallDeferred("UpdateResearchUI");
+            }
         }
     }
     

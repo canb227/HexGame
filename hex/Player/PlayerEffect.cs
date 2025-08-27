@@ -166,7 +166,8 @@ public static class PlayerEffect
         player.diplomaticPolicySlots += 1;
         player.heroicPolicySlots += 1;
         player.buildingPlayerEffects.Add(new BuildingPlayerEffect("ClassicalRepublic", new BuildingEffect("ClassicalRepublicEffect"), "")); //+ 1 Happiness for each urban district
-        //player.?.Add(("ClassicalRepublic"), "+10% hero xp gain");
+        Hero hero = ((Hero)Global.gameManager.game.unitDictionary[player.ourHeroID]);
+        hero.experienceMultiplier += 0.1f;
         foreach (int unitID in player.unitList)
         {
             Global.gameManager.game.unitDictionary[unitID].RecalculateEffects();
@@ -175,6 +176,7 @@ public static class PlayerEffect
         {
             Global.gameManager.game.cityDictionary[cityID].RecalculateYields();
         }
+
     }
     static void RemoveClassicalRepublicGovernmentEffect(BasePlayer player)
     {
@@ -183,6 +185,8 @@ public static class PlayerEffect
         player.heroicPolicySlots -= 1;
         RemovePlayerBuildingEffects("ClassicalRepublic", player);
         RemovePlayerUnitEffects("ClassicalRepublic", player);
+        Hero hero = ((Hero)Global.gameManager.game.unitDictionary[player.ourHeroID]);
+        hero.experienceMultiplier -= 0.1f;
         foreach (int unitID in player.unitList)
         {
             Global.gameManager.game.unitDictionary[unitID].RecalculateEffects();

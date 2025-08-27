@@ -111,14 +111,14 @@ public partial class HexGameCamera : Camera3D
                 if (Global.gameManager.graphicManager.GetWaitForTargeting() && ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.combatPower != null && ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.combatPower != null && ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.combatPower.Any())
                 {
                     if (Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.health > 0
-                    && Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.cityID].teamNum))
+                    && Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.cityID].teamNum) && Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hoverHex))
                     {
                         Global.gameManager.graphicManager.uiManager.ShowAndUpdateCombatPreview(graphicUnit, null, Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district, 0, ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility);
                     }
                     else if (Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].units.Any())
                     {
                         Unit targetUnit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].units[0]];
-                        if (Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(targetUnit.teamNum))
+                        if (Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(targetUnit.teamNum) && Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hoverHex))
                         {
                             Global.gameManager.graphicManager.uiManager.ShowAndUpdateCombatPreview(graphicUnit, targetUnit, null, 0, ((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility);
                         }
@@ -135,14 +135,15 @@ public partial class HexGameCamera : Camera3D
                 else
                 {
                     if (Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district != null && Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.health > 0
-                    && Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.cityID].teamNum))
+                    && Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(Global.gameManager.game.cityDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district.cityID].teamNum)
+                    && Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hoverHex))
                     {
                         Global.gameManager.graphicManager.uiManager.ShowAndUpdateCombatPreview(graphicUnit, null, Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].district);
                     }
                     else if (Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].units.Any())
                     {
                         Unit targetUnit = Global.gameManager.game.unitDictionary[Global.gameManager.game.mainGameBoard.gameHexDict[hoverHex].units[0]];
-                        if (Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(targetUnit.teamNum))
+                        if (Global.gameManager.game.teamManager.GetEnemies(graphicUnit.unit.teamNum).Contains(targetUnit.teamNum) && Global.gameManager.game.localPlayerRef.visibleGameHexDict.ContainsKey(hoverHex))
                         {
                             Global.gameManager.graphicManager.uiManager.ShowAndUpdateCombatPreview(graphicUnit, targetUnit, null);
                         }

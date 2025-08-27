@@ -1137,6 +1137,7 @@ public partial class UIManager : Node3D
         policyPanel.Visible = true;
         policyPanel.UpdatePolicyPanel();
         HideGenericUI();
+        assignGovernment = false;
     }
     
 

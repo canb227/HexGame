@@ -332,7 +332,7 @@ public partial class HeroInfoPanel : Node3D
         currentLevelLabel.Text = hero.level.ToString();
         totalHealthLabel.Text = Math.Round(hero.health) + "/" + "100";
         totalManaLabel.Text = hero.mana + "/" + hero.maxMana ;
-        perTurnHealthLabel.Text = "(+"+hero.healingFactor+")";
+        perTurnHealthLabel.Text = "(+"+(hero.healingFactor+hero.healingOverTime)+")";
         perTurnManaLabel.Text = "(+" + hero.manaRegeneration + ")";
         healthBar.Value = Math.Round(hero.health);
         healthBar.MaxValue = 100;

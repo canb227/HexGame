@@ -21,6 +21,7 @@ public class Hero : Unit
     public int baseMana { get; set; }
     public int baseManaRegeneration { get; set; }
     public int experience { get; set; }
+    public float experienceMultiplier { get; set; } = 1;
     public int[] experienceToLevelUp { get; set; }
     public int level { get; set; }
     public int maxLevel { get; set; }
@@ -158,7 +159,7 @@ public class Hero : Unit
 
     public void IncreaseExperience(int experienceToAdd)
     {
-        experience += experienceToAdd;
+        experience += (int)Math.Round(experienceToAdd * experienceMultiplier);
         if (experience >= experienceToLevelUp[level])
         {
             experience -= experienceToLevelUp[level];
