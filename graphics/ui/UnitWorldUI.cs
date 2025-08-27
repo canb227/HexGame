@@ -52,12 +52,6 @@ public partial class UnitWorldUI : Node3D
         unitWorldUI.Theme = Global.gameManager.game.playerDictionary[unit.teamNum].theme;
 
         UpdateUnitIconBackground();
-
-        Transform3D newTransform = Transform;
-        Point hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
-        GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
-        newTransform.Origin = new Vector3((float)hexPoint.y, ggb.Vector3ToHeightMapVal()+7, (float)hexPoint.x); //TODO
-        Transform = newTransform;
         Update();
     }
 
@@ -137,7 +131,6 @@ public partial class UnitWorldUI : Node3D
         }
         unitHealthBar.AddThemeStyleboxOverride("fill", styleBox);
 
-        Transform3D newTransform = Transform;
         Point hexPoint;
         if ((Global.gameManager.graphicManager.graphicObjectDictionary.ContainsKey(Global.gameManager.game.mainGameBoard.id)))
         {
@@ -147,7 +140,17 @@ public partial class UnitWorldUI : Node3D
         {
             hexPoint = Global.gameManager.graphicManager.layout.HexToPixel(unit.hex);
         }
-        newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
+        Transform3D newTransform = Transform;
+        GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
+        if (Global.gameManager.graphicManager.graphicObjectDictionary.ContainsKey(unit.id))
+        {
+            GraphicUnit gUnit = (GraphicUnit)(Global.gameManager.graphicManager.graphicObjectDictionary[unit.id]);
+            newTransform.Origin = new Vector3((float)hexPoint.y, ggb.Vector3ToHeightMapVal(gUnit.node3D.Transform.Origin) + 7, (float)hexPoint.x); //TODO
+        }
+        else
+        {
+            newTransform.Origin = new Vector3((float)hexPoint.y, 8, (float)hexPoint.x);
+        }
         Transform = newTransform;
         if (unit.teamNum == Global.gameManager.game.localPlayerTeamNum && unit.remainingMovement > 0 && unit.currentPath.Count == 0 && !unit.isSleeping && !unit.isSkipping)
         {

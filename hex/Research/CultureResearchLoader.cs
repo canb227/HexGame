@@ -102,7 +102,7 @@ public static class CultureResearchLoader
         {
             player.exportCap += 1;
         }
-        return "Unlocks exporting of surplus to food from a city to another.";
+        return "Unlocks exporting of surplus food from one city to another.";
     }
 
     static string PenmanshipShareMapEffect(Player player, bool executeLogic)
