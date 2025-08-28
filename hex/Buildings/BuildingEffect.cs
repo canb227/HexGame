@@ -136,6 +136,7 @@ public class BuildingEffect
             { "MineEffect", MineEffect },
             { "LumbermillEffect", LumbermillEffect },
             { "FishingBoatEffect", FishingBoatEffect },
+            { "RuralEffect", RuralEffect },
             { "RefineryEffect", RefineryEffect },
             { "IndustryEffect", IndustryEffect },
             { "CommerceEffect", CommerceEffect },
@@ -245,6 +246,10 @@ public class BuildingEffect
     }
 
     //district base buildings
+    Yields RuralEffect(Building building)
+    {
+        return new Yields();
+    }
     Yields RefineryEffect(Building building)
     {
         Yields yields = new Yields();

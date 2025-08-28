@@ -88,7 +88,6 @@ public partial class Building
 
     public void DestroyBuilding()
     {
-        districtHex = new Hex(0,0,0);
         if(BuildingLoader.buildingsDict[buildingType].Wonder)
         {
             Global.gameManager.game.builtWonders.Remove(buildingType);
@@ -96,7 +95,15 @@ public partial class Building
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {
             manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Remove);
+            var data = new Godot.Collections.Dictionary
+                {
+                    { "q", districtHex.q },
+                    { "r", districtHex.r },
+                    { "s", districtHex.s }
+                };
+            manager.CallDeferred("UpdateHex", data);
         }
+        districtHex = new Hex(0, 0, 0);
     }
 
     public void Raze()
