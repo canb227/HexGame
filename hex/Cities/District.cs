@@ -288,7 +288,11 @@ public partial class District
         maxBuildings += 99;
         this.districtType = districtType;
         isUrban = true;
-        if (districtType == DistrictType.refinement)
+        if (districtType == DistrictType.town)
+        {
+            AddBuilding(new Building("TownDistrict", hex, false));
+        }
+        else if (districtType == DistrictType.refinement)
         {
             AddBuilding(new Building("RefineryDistrict", hex, false));
         }
@@ -323,6 +327,14 @@ public partial class District
         else if (districtType == DistrictType.military)
         {
             AddBuilding(new Building("MilitaristicDistrict", hex, false));
+        }
+        //remove any improvements
+        foreach (Building building in buildings.ToList())
+        {
+            if (building.name == "Farm" || building.name == "Mine" || building.name == "Lumberyard" || building.name == "Pasture" || building.name == "FishingBoat" || building.name == "RuralDistrict")
+            {
+                RemoveBuilding(building);
+            }
         }
     }
 

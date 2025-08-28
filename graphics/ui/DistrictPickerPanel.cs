@@ -28,7 +28,25 @@ public partial class DistrictPickerPanel : Control
 
         foreach (DistrictType type in Global.gameManager.game.playerDictionary[targetGraphicCity.city.teamNum].allowedDistricts)
         {
-            if (type == DistrictType.refinement && BuildingLoader.buildingsDict["RefineryDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType) )
+            if (type == DistrictType.town && BuildingLoader.buildingsDict["TownDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType))
+            {
+                Button button = new Button();
+                button.Text = "Town District";
+                button.Pressed += () => PrepareToBuildOnHex(DistrictType.town); ;
+                districtTypeVBox.AddChild(button);
+                Label description = new();
+                description.HorizontalAlignment = HorizontalAlignment.Center;
+                description.Text = "+1 of the respective resource for each adjacent urban district\n(i.e. an adjacent scientific district will grant +1 science)";
+                districtTypeVBox.AddChild(description);
+                TextureRect textureRect = new();
+                textureRect.CustomMinimumSize = new Vector2(2, 2);
+                GradientTexture1D temp = new GradientTexture1D();
+                temp.Gradient = new();
+                temp.Gradient.Colors = new Godot.Color[] { Godot.Colors.Black };
+                textureRect.Texture = temp;
+                districtTypeVBox.AddChild(textureRect);
+            }
+            else if (type == DistrictType.refinement && BuildingLoader.buildingsDict["RefineryDistrict"].TerrainTypes.Contains(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex].terrainType) )
             {
                 Button button = new Button();
                 button.Text = "Refining District";
@@ -141,7 +159,7 @@ public partial class DistrictPickerPanel : Control
     private void PrepareToBuildOnHex(DistrictType districtType)
     {
         Global.gameManager.DevelopDistrict(targetGraphicCity.city.id, targetHex, districtType);//networked command
-        targetGraphicCity.waitingToGrow = false;
+        targetGraphicCity.waitingToUrbanize = false;
         Global.gameManager.graphicManager.Update2DUI(UIElement.endTurnButton);
         Global.gameManager.graphicManager.ClearWaitForTarget();
         this.QueueFree();

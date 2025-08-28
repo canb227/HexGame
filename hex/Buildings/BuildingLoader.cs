@@ -7,6 +7,7 @@ public enum DistrictType
 {
     citycenter,
     rural,
+    town,
     production,
     gold,
     science,
@@ -89,7 +90,8 @@ public static class BuildingLoader
     {
         Dictionary<DistrictType, BuildingInfo> temp = new();
         temp.Add(DistrictType.citycenter, buildingDict["CityCenter"]);
-        temp.Add(DistrictType.rural, buildingDict["Farm"]);
+        temp.Add(DistrictType.rural, buildingDict["RuralDistrict"]);
+        temp.Add(DistrictType.town, buildingDict["TownDistrict"]);
         temp.Add(DistrictType.refinement, buildingDict["RefineryDistrict"]);
         temp.Add(DistrictType.production, buildingDict["IndustryDistrict"]);
         temp.Add(DistrictType.gold, buildingDict["CommerceDistrict"]);

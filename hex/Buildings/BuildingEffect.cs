@@ -137,6 +137,7 @@ public class BuildingEffect
             { "LumbermillEffect", LumbermillEffect },
             { "FishingBoatEffect", FishingBoatEffect },
             { "RuralEffect", RuralEffect },
+            { "TownEffect", TownEffect },
             { "RefineryEffect", RefineryEffect },
             { "IndustryEffect", IndustryEffect },
             { "CommerceEffect", CommerceEffect },
@@ -147,6 +148,7 @@ public class BuildingEffect
             { "HarborEffect", HarborEffect },
             { "MilitaristicEffect", MilitaristicEffect },
             { "GranaryEffect", GranaryEffect },
+            { "HutEffect", HutEffect },
             { "DockWarehouseEffect", DockWarehouseEffect },
             { "StoneCutterWarehouseEffect", StoneCutterWarehouseEffect },
             { "ArenaEffect", ArenaEffect },
@@ -249,6 +251,47 @@ public class BuildingEffect
     Yields RuralEffect(Building building)
     {
         return new Yields();
+    }
+    Yields TownEffect(Building building)
+    {
+        Yields yields = new Yields();
+        foreach (Hex hex in building.districtHex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.production))
+            {
+                yields.production += 1;
+            }
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.gold))
+            {
+                yields.gold += 1;
+            }
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.science))
+            {
+                yields.science += 1;
+            }
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.culture))
+            {
+                yields.culture += 1;
+            }
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.happiness))
+            {
+                yields.happiness += 1;
+            }
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.heroic))
+            {
+                yields.influence += 1;
+            }
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.dock))
+            {
+                yields.food += 1;
+            }
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null && (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district.districtType == DistrictType.military))
+            {
+                yields.gold += 1;
+            }
+        }
+        building.yields += yields;
+        return yields;
     }
     Yields RefineryEffect(Building building)
     {
@@ -393,6 +436,10 @@ public class BuildingEffect
     Yields GranaryEffect(Building building)
     {
         return new Yields(); 
+    }
+    Yields HutEffect(Building building)
+    {
+        return new Yields();
     }
     Yields DockWarehouseEffect(Building building)
     {

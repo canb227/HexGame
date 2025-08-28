@@ -297,7 +297,11 @@ public partial class HexGameCamera : Camera3D
                         Global.gameManager.graphicManager.ClearWaitForTarget();
                         Global.gameManager.graphicManager.UnselectObject();
                     }
-                    else if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
+
+                }
+                else if(graphicCity.waitingToUrbanize)
+                {
+                    if (graphicCity.city.ValidUrbanExpandHex(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast }, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex]))
                     {
                         districtPickerPanel = new DistrictPickerPanel(wrapHex, graphicCity);
                         Global.gameManager.graphicManager.AddChild(districtPickerPanel);
@@ -309,7 +313,7 @@ public partial class HexGameCamera : Camera3D
                 {
                     if (graphicCity.city.ValidUrbanBuildHex(BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].TerrainTypes, Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex], BuildingLoader.buildingsDict[graphicCity.waitingBuildingName].DistrictType))
                     {
-                        if(graphicCity.spawnWaitingBuilding)
+                        if (graphicCity.spawnWaitingBuilding)
                         {
                             //networked command for purchase
                             Global.gameManager.PurchaseBuilding(graphicCity.waitingBuildingName, wrapHex, graphicCity.city.id);

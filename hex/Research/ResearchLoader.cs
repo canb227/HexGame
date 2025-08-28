@@ -100,6 +100,7 @@ public static class ResearchLoader
     static Dictionary<String, Func<Player, bool, string>> effectFunctions = new Dictionary<string, Func<Player, bool, string>>
         {
             { "AgricultureEffect", AgricultureEffect },
+            { "ThatchingEffect", ThatchingEffect },
             { "SailingEffect", SailingEffect },
             { "PotteryEffect", PotteryEffect },
             { "AnimalHusbandryEffect", AnimalHusbandryEffect },
@@ -154,6 +155,10 @@ public static class ResearchLoader
         }
     }
     static string AgricultureEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+    static string ThatchingEffect(Player player, bool executeLogic)
     {
         return "";
     }

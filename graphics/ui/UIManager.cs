@@ -135,6 +135,7 @@ public partial class UIManager : Node3D
     public bool assignGovernment;
 
     public bool readyToGrow;
+    public bool readyToUrbanize;
     public bool cityNeedsProduction;
 
     public bool waitingForOrders = true;
@@ -930,6 +931,17 @@ public partial class UIManager : Node3D
             Global.camera.SetHexTarget(targetCity.hex);
             return;
         }
+        else if (readyToUrbanize)
+        {
+            researchTreePanel.Visible = false;
+            cultureResearchTreePanel.Visible = false;
+            resourcePanel.Visible = false;
+            HideGenericUI();
+            ((GraphicCity)Global.gameManager.graphicManager.graphicObjectDictionary[targetCity.id]).GenerateUrbanizeTargetingPrompt();
+            Global.camera.SetHexTarget(targetCity.hex);
+            return;
+            
+        }
         else if (cityNeedsProduction)
         {
             researchTreePanel.Visible = false;
@@ -1008,6 +1020,7 @@ public partial class UIManager : Node3D
         {
             endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/star.png");
             readyToGrow = false;
+            readyToUrbanize = false;
             cityNeedsProduction = false;
             targetCity = null;
             waitingForOrders = false;
@@ -1018,6 +1031,7 @@ public partial class UIManager : Node3D
         {
             endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/government.png");
             readyToGrow = false;
+            readyToUrbanize = false;
             cityNeedsProduction = false;
             targetCity = null;
             waitingForOrders = false;
@@ -1035,6 +1049,18 @@ public partial class UIManager : Node3D
                 foundCity = city;
                 endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/house.png");
                 readyToGrow = true;
+                readyToUrbanize = false;
+                targetCity = city;
+                waitingForOrders = false;
+                cityNeedsProduction = false;
+                return;
+            }
+            if (city.readyToUrbanize > 0)
+            {
+                foundCity = city;
+                endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/production.png");
+                readyToGrow = false;
+                readyToUrbanize = true;
                 targetCity = city;
                 waitingForOrders = false;
                 cityNeedsProduction = false;
@@ -1044,6 +1070,7 @@ public partial class UIManager : Node3D
             {
                 endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/gears.png");
                 readyToGrow = false;
+                readyToUrbanize = false;
                 cityNeedsProduction = true;
                 targetCity = city;
                 waitingForOrders = false;
@@ -1060,6 +1087,7 @@ public partial class UIManager : Node3D
             {
                 endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/moveicon.png");
                 readyToGrow = false;
+                readyToUrbanize = false;
                 cityNeedsProduction = false;
                 targetCity = null;
                 waitingForOrders = true;
@@ -1075,6 +1103,7 @@ public partial class UIManager : Node3D
 
         endTurnButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://graphics/ui/icons/skipturn.png");
         readyToGrow = false;
+        readyToUrbanize = false;
         cityNeedsProduction = false;
         targetCity = null;
         waitingForOrders = false;

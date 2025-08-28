@@ -14,6 +14,18 @@
         </Effects>
     </Research>  
     <!-- Tier 1 -->
+    <Research Name="Thatching" Tier="1" VisualSlot="1" IconPath="graphics/ui/icons/science.png">
+        <Requirements>
+            <ResearchType>Agriculture</ResearchType>
+        </Requirements>
+        <BuildingUnlocks>
+            <BuildingType Name="Hut" />
+        </BuildingUnlocks>
+        <Effects>
+            <Effect Name="ThatchingEffect" />
+        </Effects>
+    </Research>
+
     <Research Name="Pottery" Tier="1" VisualSlot="4" IconPath="graphics/ui/icons/science.png">
         <Requirements>
             <ResearchType>Agriculture</ResearchType>
@@ -69,7 +81,7 @@
 
     <Research Name="Astrology" Tier="2" VisualSlot="1" IconPath="graphics/ui/icons/science.png">
         <Requirements>
-            <ResearchType>Agriculture</ResearchType>
+            <ResearchType>Thatching</ResearchType>
         </Requirements>
         <BuildingUnlocks>
             <BuildingType Name="HeroicDistrict" />
