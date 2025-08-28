@@ -448,15 +448,40 @@
     </Unit>
     <HeroAbilities>
       <Ability>
-        <AbilityName>Fireball</AbilityName>
-        <ManaCost>99, 30,25,25, 20</ManaCost>
+        <AbilityName>ClawSwipe</AbilityName>
+        <ManaCost>99, 25,25,25,25</ManaCost>
         <Cooldown>99, 3,3,2,1</Cooldown>
         <Level>0</Level>
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="Fireball" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
-          <CombatPower>10,10,10,10</CombatPower>
+        <UnitAbility Name="ClawSwipe" UsageCount="1" Range="1" IconPath="graphics/ui/icons/clawswipe.png">
+                    <Description>
+          Deals ranged damage to a target and a random enemy adjacent to the caster.
+          Combat Power: 15 / 20 / 25 / 30
+          Mana Cost:      25 / 25 / 25 / 25
+          Cooldown:       3  /  3 /  2 /  1
+          Must Target Enemies
+          </Description>
+          <CombatPower>0,15,20,25,30</CombatPower>
+          <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        </UnitAbility>
+      </Ability>
+      <Ability>
+      <AbilityName>PactLeader</AbilityName>
+        <ManaCost>99, 0, 0, 0, 0</ManaCost>
+        <Cooldown>99, 0,0,0,0</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="PactLeader" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
+          <Description>
+          Provide a bonuses to all allies within 1 hex, including Horkin.
+          Combat Power Bonus: 3 / 4 / 5 / 6
+          Movement Speed Bonus: 0 / 0 / 1 / 1
+          Range:            1 / 1 / 1 / 1
+          </Description>
           <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
         </UnitAbility>
       </Ability>

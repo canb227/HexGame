@@ -245,6 +245,11 @@ public class UnitEffect
         {
             return Onewiththeforest(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
         }
+        else if (functionString == "ClawSwipe")
+        {
+            return ClawSwipe(Global.gameManager.game.unitDictionary[unitID], level, abilityTarget);
+        }
+
         throw new NotImplementedException("The Effect Function: " + functionString + " does not exist, implement it in UnitEffect");
     }
     public bool SettleCapitalAbility(Unit unit, String cityName)
@@ -873,6 +878,56 @@ public class UnitEffect
         else
         {
             throw new Exception("Ability OWTF is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
+        }
+    }
+
+    public bool ClawSwipe(Unit unit, int level, GameHex target)
+    {
+        //find our cleave target for any level of the ability
+        List<Hex> options = new();
+        foreach (Hex hex in unit.hex.WrappingNeighbors(Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].units.Any())
+            {
+                foreach (int unitID in Global.gameManager.game.mainGameBoard.gameHexDict[hex].units)
+                {
+                    if (Global.gameManager.game.teamManager.GetEnemies(unit.teamNum).Contains(Global.gameManager.game.unitDictionary[unitID].teamNum))
+                    {
+                        options.Add(hex);
+                    }
+                }
+            }
+        }
+        Random random = new Random(target.hex.q + target.hex.r + Global.gameManager.game.turnManager.currentTurn);
+        Hex targetHex = options[random.Next(options.Count)];
+
+        if (level == 0)
+        {
+            throw new Exception("Ability ClawSwipe is Level 0 " + unit.name + " " + unit.hex);
+        }
+        else if (level == 1)
+        {
+            unit.RangedAttackTarget(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex], 15, Global.gameManager.game.teamManager);
+            return unit.RangedAttackTarget(target, 15, Global.gameManager.game.teamManager);
+        }
+        else if (level == 2)
+        {
+            unit.RangedAttackTarget(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex], 20, Global.gameManager.game.teamManager);
+            return unit.RangedAttackTarget(target, 20, Global.gameManager.game.teamManager);
+        }
+        else if (level == 3)
+        {
+            unit.RangedAttackTarget(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex], 25, Global.gameManager.game.teamManager);
+            return unit.RangedAttackTarget(target, 25, Global.gameManager.game.teamManager);
+        }
+        else if (level == 4)
+        {
+            unit.RangedAttackTarget(Global.gameManager.game.mainGameBoard.gameHexDict[targetHex], 30, Global.gameManager.game.teamManager);
+            return unit.RangedAttackTarget(target, 30, Global.gameManager.game.teamManager);
+        }
+        else
+        {
+            throw new Exception("Ability ClawSwipe is not Level 0,1,2,3,4" + unit.name + " " + unit.hex);
         }
     }
 }
