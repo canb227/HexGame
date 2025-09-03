@@ -125,7 +125,7 @@
     </SightCosts>
     <Abilities>
       <Ability Name="BuildFarm" UsageCount="1" IconPath="graphics/ui/icons/house.png">
-        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyFeature="true" AllowsAnyResource="true" >
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyResource="true" >
         <ValidBuildingTypes>
             <BuildingType Name = "RuralDistrict" />
           </ValidBuildingTypes>
@@ -133,10 +133,13 @@
             <TerrainType Name = "Flat" />
             <TerrainType Name = "Rough" />
           </ValidTerrainTypes>
+          <InvalidFeatureTypes>
+            <FeatureType Name = "Forest"/>
+          </InvalidFeatureTypes>
         </TargetSpecification>
       </Ability>
       <Ability Name="BuildMine" UsageCount="1" IconPath="graphics/ui/icons/pickaxe.png">
-        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyFeature="true" AllowsAnyResource="true" >
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyResource="true" >
           <ValidBuildingTypes>
             <BuildingType Name = "RuralDistrict" />
           </ValidBuildingTypes>
@@ -144,28 +147,32 @@
             <TerrainType Name = "Flat" />
             <TerrainType Name = "Rough" />
           </ValidTerrainTypes>
+          <InvalidFeatureTypes>
+            <FeatureType Name = "Forest"/>
+          </InvalidFeatureTypes>
         </TargetSpecification>
       </Ability>
       <Ability Name="BuildPasture" UsageCount="1" IconPath="graphics/ui/icons/Horseman.png">
-        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyFeature="true" AllowsAnyResource="true" >
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" >
           <ValidBuildingTypes>
             <BuildingType Name = "RuralDistrict" />
           </ValidBuildingTypes>
-          <ValidTerrainTypes>
-            <TerrainType Name = "Flat" />
-            <TerrainType Name = "Rough" />
-          </ValidTerrainTypes>
+          <ValidResourceTypes>
+            <ResourceType Name = "Horses" />
+            <ResourceType Name = "Sheep" />
+            <ResourceType Name = "Ivory" />
+            <ResourceType Name = "Camels" />
+          </ValidResourceTypes>
         </TargetSpecification>
       </Ability>
       <Ability Name="BuildLumberyard" UsageCount="1" IconPath="graphics/ui/icons/Polearm.png">
-        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyFeature="true" AllowsAnyResource="true" >
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyTerrain="true" AllowsAnyResource="true" >
           <ValidBuildingTypes>
             <BuildingType Name = "RuralDistrict" />
           </ValidBuildingTypes>
-          <ValidTerrainTypes>
-            <TerrainType Name = "Flat" />
-            <TerrainType Name = "Rough" />
-          </ValidTerrainTypes>
+          <ValidFeatureTypes>
+            <FeatureType Name = "Forest" />
+          </ValidFeatureTypes>
         </TargetSpecification>
       </Ability>
       <Ability Name="BuildFishingBoat" UsageCount="1" IconPath="graphics/ui/icons/boat.png">

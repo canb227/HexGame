@@ -34,6 +34,8 @@ public class TargetSpecification
     public bool AllowsAnyFeature { get; set; } = false;
     public bool RequiresAFeature { get; set; } = false;
 
+    public HashSet<FeatureType> InvalidFeatureTypes { get; set; } = new HashSet<FeatureType>();
+
     public bool AllowsAlly { get; set; } = false;
     public bool AllowsEnemy { get; set; } = false;
     public bool AllowsNeutral { get; set; } = false;
@@ -51,27 +53,40 @@ public class TargetSpecification
         {
             return false;
         }
-        if(!AllowsAnyFeature)
+        if (!AllowsAnyFeature)
         {
-            if (ValidFeatureTypes.Count == 0)
+            if (ValidFeatureTypes.Count == 0 && InvalidFeatureTypes.Count == 0)
             {
-                throw new Exception("Must define ValidFeatureTypes (none is an option) or set AllowsAnyFeature to true for import: " + castingUnit.name);
+                throw new Exception("Must define ValidFeatureTypes or InvalidFeatureTypes (none is an option) or set AllowsAnyFeature to true for import: " + castingUnit.name);
             }
-            bool validFeature = false;
-            foreach(FeatureType featureType in gameHex.featureSet)
+            foreach (FeatureType featureType in gameHex.featureSet)
             {
-                foreach (FeatureType featureType2 in  ValidFeatureTypes)
+                foreach (FeatureType featureType2 in InvalidFeatureTypes)
                 {
                     if (featureType == featureType2)
                     {
-                        validFeature = true;
-                        break;
+                        return false;
                     }
                 }
             }
-            if(!validFeature)
+            if (ValidFeatureTypes.Count != 0)
             {
-                return false;
+                bool validFeature = false;
+                foreach (FeatureType featureType in gameHex.featureSet)
+                {
+                    foreach (FeatureType featureType2 in ValidFeatureTypes)
+                    {
+                        if (featureType == featureType2)
+                        {
+                            validFeature = true;
+                            break;
+                        }
+                    }
+                }
+                if (!validFeature)
+                {
+                    return false;
+                }
             }
         }
         if (!AllowsAnyResource)

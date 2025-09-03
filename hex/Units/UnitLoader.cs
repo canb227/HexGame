@@ -42,7 +42,7 @@ public struct UnitInfo
     public Dictionary<TerrainMoveType, float> MovementCosts { get; set; }
     public Dictionary<TerrainMoveType, float> SightCosts { get; set; }
     public List<String> Effects { get; set; }
-    public Dictionary<string, (string description, List<float> CombatPower, int UsageCount, int Range, TargetSpecification? Specification, String iconName)> Abilities { get; set; }
+    public Dictionary<string, (string description, bool isUnlocked, List<float> CombatPower, int UsageCount, int Range, TargetSpecification? Specification, String iconName)> Abilities { get; set; }
 }
 
 public static class UnitLoader
@@ -97,13 +97,14 @@ public static class UnitLoader
                         a =>
                         (
                             a.Element("Description")?.Value?.Trim() ?? "",
+                            bool.TryParse(a.Attribute("IsUnlocked")?.Value, out var isUnlocked) ? isUnlocked : true,
                             a.Element("CombatPower")?.Value.Split(',').Select(val => float.TryParse(val.Trim(), out var cp) ? cp : 0.0f).ToList() ?? new List<float>(),
                             int.TryParse(a.Attribute("UsageCount")?.Value, out var usageCount) ? usageCount : 1,
                             int.TryParse(a.Attribute("Range")?.Value, out var range) ? range : 0,
                             ParseTargetSpecification(a.Element("TargetSpecification")),
                             a.Attribute("IconPath")?.Value ?? ""
                         )
-                    ) ?? new Dictionary<string, (string, List<float>, int, int, TargetSpecification?, String)>(),
+                    ) ?? new Dictionary<string, (string, bool, List<float>, int, int, TargetSpecification?, String)>(),
                 }
             );
         return UnitData;
@@ -161,6 +162,10 @@ public static class UnitLoader
             .ToHashSet() ?? new HashSet<ResourceType>();
 
         targetSpecification.ValidFeatureTypes = targetSpecElement.Element("ValidFeatureTypes")?.Elements("FeatureType")
+            .Select(t => Enum.TryParse<FeatureType>(t.Attribute("Name")?.Value, out var featureType) ? featureType : throw new Exception("Invalid FeatureType"))
+            .ToHashSet() ?? new HashSet<FeatureType>();
+
+        targetSpecification.InvalidFeatureTypes = targetSpecElement.Element("InvalidFeatureTypes")?.Elements("FeatureType")
             .Select(t => Enum.TryParse<FeatureType>(t.Attribute("Name")?.Value, out var featureType) ? featureType : throw new Exception("Invalid FeatureType"))
             .ToHashSet() ?? new HashSet<FeatureType>();
 

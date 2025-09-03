@@ -1,6 +1,7 @@
 <Buildings>
 <!--Start Non-Buildables-->
   <Building Name="Palace" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="2.0" ProductionYield="2.0" GoldYield="5.0" ScienceYield="2.0" CultureYield="2.0" HappinessYield="3.0" InfluenceYield="2.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Palace provides basic yields to your capital city.</Description>
     <Effects>
       <Effect Name="WaterSupplyEffect" />
       <Effect Name="AncientWallEffect" />
@@ -15,6 +16,7 @@
   </Building>
 
   <Building Name="CityCenter" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="2.0" ProductionYield="2.0" GoldYield="2.0" ScienceYield="1.0" CultureYield="1.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
+    <Description>The City Center Provides basic yields to the city.</Description>
     <Effects>
       <Effect Name="WaterSupplyEffect" />
       <Effect Name="CityCenterWallEffect" />
@@ -29,6 +31,7 @@
   </Building>
   
   <Building Name="Farm" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/farm.glb">
+    <Description>A tile improvement to provide extra food.</Description>
     <Effects>
       <Effect Name="FarmEffect" />
     </Effects>
@@ -42,6 +45,7 @@
   </Building>
 
     <Building Name="Pasture" DistrictType="rural" ProductionCost="1" GoldCost="0" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+    <Description>A tile improvement to provide extra production.</Description>
     <Effects>
       <Effect Name="PastureEffect" />
     </Effects>
@@ -55,6 +59,7 @@
   </Building>
 
   <Building Name="Mine" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/mine.glb">
+    <Description>A tile improvement to provide extra production.</Description>
     <Effects>
       <Effect Name="MineEffect" />
     </Effects>
@@ -68,6 +73,7 @@
   </Building>
 
   <Building Name="Lumbermill" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+    <Description>A tile improvement for forests to provide extra production.</Description>
     <Effects>
       <Effect Name="LumbermillEffect" />
     </Effects>
@@ -81,6 +87,7 @@
   </Building>
 
   <Building Name="FishingBoat" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/fishingboat.glb">
+    <Description>A tile improvement for coastal tiles to provide extra food.</Description>
     <Effects>
       <Effect Name="FishingBoatEffect" />
     </Effects>
@@ -94,6 +101,7 @@
   </Building>
 
   <Building Name="RuralDistrict" DistrictType="rural" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/refinerydistrict.png" ModelPath="graphics/models/ruraldistrict.glb">
+    <Description>The rural district is where your citizens work to gather basic yields.</Description>
     <Effects>
       <Effect Name="RuralEffect" />
     </Effects>
@@ -104,6 +112,8 @@
   </Building>
 
   <Building Name="TownDistrict" DistrictType="town" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/refinerydistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The town district works well as a hub of urban development, 
+    gaining benefits for each adjacent urban district.</Description>
     <Effects>
       <Effect Name="TownEffect" />
     </Effects>
@@ -114,6 +124,8 @@
   </Building>
 
   <Building Name="RefineryDistrict" DistrictType="refinement" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/refinerydistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Refinery District grant a flat food bonus for each adjacent rural tile 
+    and houses structures that improve the yields from all tile improvements in a city</Description>
     <Effects>
       <Effect Name="RefineryEffect" />
     </Effects>
@@ -124,6 +136,7 @@
   </Building>
 
   <Building Name="IndustryDistrict" DistrictType="production" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/industrydistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Industry District provides bonus production and houses production and power generating structures.</Description>
     <Effects>
       <Effect Name="IndustryEffect" />
     </Effects>
@@ -134,6 +147,7 @@
   </Building>
 
   <Building Name="CommerceDistrict" DistrictType="gold" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="1.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/golddistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Commerce District provides bonus gold and houses wealth generating structures and additional slots for resources.</Description>
     <Effects>
       <Effect Name="CommerceEffect" />
     </Effects>
@@ -144,6 +158,7 @@
   </Building>
 
   <Building Name="CampusDistrict" DistrictType="science" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="1.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/campusdistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Campus District provides bonus science and houses science generating structures.</Description>
     <Effects>
       <Effect Name="CampusEffect" />
     </Effects>
@@ -154,6 +169,7 @@
   </Building>
 
   <Building Name="CulturalDistrict" DistrictType="culture" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/culturaldistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Cultural District provides bonus culture and houses culture generating structures.</Description>
     <Effects>
       <Effect Name="CulturalEffect" />
     </Effects>
@@ -164,6 +180,7 @@
   </Building>
 
   <Building Name="EntertainmentDistrict" DistrictType="happiness" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/entertainmentdistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Entertainment District provides bonus happiness and houses happiness generating structures.</Description>
     <Effects>
       <Effect Name="EntertainmentEffect" />
     </Effects>
@@ -174,6 +191,7 @@
   </Building>
 
   <Building Name="HeroicDistrict" DistrictType="heroic" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/heroicdistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Heroic District provides bonuses to your hero and houses structures granting influence and additional hero focused bonuses.</Description>
     <Effects>
       <Effect Name="HeroicDistrictEffect" />
     </Effects>
@@ -183,7 +201,8 @@
     </TerrainTypes>
   </Building>
 
-    <Building Name="HarborDistrict" DistrictType="dock" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="1.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/harbordistrict.png" ModelPath="graphics/models/fishingboat.glb">
+  <Building Name="HarborDistrict" DistrictType="dock" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="0.0" GoldYield="1.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/harbordistrict.png" ModelPath="graphics/models/fishingboat.glb">
+    <Description>The Harbor District provides bonus yields to coastal tiles and houses coastal focused structures.</Description>
     <Effects>
       <Effect Name="HarborEffect" />
     </Effects>
@@ -193,6 +212,7 @@
   </Building>
 
     <Building Name="MilitaristicDistrict" DistrictType="military" ProductionCost="0" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/militaristicdistrict.png" ModelPath="graphics/models/huts.glb">
+    <Description>The Militaristic District provides influence and houses structures that grant bonus combat strength to trained units.</Description>
     <Effects>
       <Effect Name="MilitaristicEffect" />
     </Effects>
@@ -206,6 +226,7 @@
   
 
   <Building Name="Granary" DistrictType="citycenter" ProductionCost="40" GoldCost="200" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +2 food per turn.  Place in City Center.</Description>
     <Effects>
       <Effect Name="GranaryEffect" />
     </Effects>
@@ -216,6 +237,7 @@
   </Building>
 
   <Building Name="Hut" DistrictType="town" ProductionCost="70" GoldCost="280" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +2 happiness per turn. Place in Town District.</Description>
     <Effects>
       <Effect Name="HutEffect"/>
     </Effects>
@@ -226,6 +248,7 @@
   </Building>
 
   <Building Name="Shrine" DistrictType="heroic" ProductionCost="70" GoldCost="280" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants 10 experience to your hero per turn. Place in Heroic District.</Description>
     <Effects>
       <Effect Name="ShrineEffect"/>
     </Effects>
@@ -236,6 +259,7 @@
   </Building>
 
   <Building Name="Library" DistrictType="science" ProductionCost="90" GoldCost="360" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="2.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/library.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +2 science per turn. Place in Science District.</Description>
     <Effects>
       <Effect Name="LibraryEffect" />
     </Effects>
@@ -247,6 +271,7 @@
 
   
   <Building Name="AncientWalls" DistrictType="citycenter" ProductionCost="80" GoldCost="400" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/ancientwalls.png" ModelPath="graphics/models/granary.glb">
+    <Description>Increases the maximum health of the city by +50.</Description>
     <Effects>
       <Effect Name="AncientWallEffect" />
     </Effects>
@@ -258,6 +283,7 @@
   </Building>
 
   <Building Name="Reservoir" DistrictType="refinement" ProductionCost="90" GoldCost="360" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants +1 food yield to each farm in the city. Place in Refinement District.</Description>
     <Effects>
       <Effect Name="ReservoirEffect" />
     </Effects>
@@ -268,6 +294,8 @@
   </Building>
 
   <Building Name="Barracks" DistrictType="military" ProductionCost="90" GoldCost="360" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +1 production yield and +1 combat strength to each Infantry unit trained in this city.
+    Place in Militaristic District.</Description>
     <Effects>
       <Effect Name="BarracksEffect"/>
     </Effects>
@@ -278,6 +306,7 @@
   </Building>
 
   <Building Name="Watermill" DistrictType="citycenter" ProductionCost="90" GoldCost="360" FoodYield="1.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +1 production yield and +1 food yield per turn. Place in City Center.</Description>
     <Effects>
       <Effect Name="WatermillEffect"/>
     </Effects>
@@ -288,6 +317,8 @@
   </Building>
 
   <Building Name="Lighthouse" DistrictType="dock" ProductionCost="90" GoldCost="360" FoodYield="1.0" ProductionYield="0.0" GoldYield="1.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants +1 food yield to all coastal tiles in the city and +1 combat strength to trained naval units.
+    Place in Dock District.</Description>
     <Effects>
       <Effect Name="LighthouseEffect"/>
     </Effects>
@@ -297,6 +328,8 @@
   </Building>
 
   <Building Name="Market" DistrictType="gold" ProductionCost="120" GoldCost="480" FoodYield="0.0" ProductionYield="0.0" GoldYield="3.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="1.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants a flat +3 gold per turn and provides 1 extra resource slot in this city.
+    Place in Gold District.</Description>
     <Effects>
       <Effect Name="MarketEffect"/>
     </Effects>
@@ -307,6 +340,8 @@
   </Building>
 
   <Building Name="Stables" DistrictType="military" ProductionCost="120" GoldCost="480" FoodYield="0.0" ProductionYield="1.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +1 production yield and +1 combat strength to each Cavalry unit trained in this city.
+     Place in Military District.</Description>
     <Effects>
       <Effect Name="StablesEffect"/>
     </Effects>
@@ -317,6 +352,7 @@
   </Building>
 
   <Building Name="Stonecutter" DistrictType="refinement" ProductionCost="90" GoldCost="480" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants +1 production yield to each mine in the city. Place in Refinement District.</Description>
     <Effects>
       <Effect Name="StonecutterEffect" />
     </Effects>
@@ -327,6 +363,7 @@
   </Building>
 
   <Building Name="Aqueduct" DistrictType="citycenter" ProductionCost="160" GoldCost="640" FoodYield="2.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="4.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants a flat +2 food per turn and +4 happiness per turn.  Place in City Center.</Description>
     <Effects>
       <Effect Name="AqueductEffect"/>
     </Effects>
@@ -337,6 +374,7 @@
   </Building>
 
   <Building Name="Workshop" DistrictType="production" ProductionCost="195" GoldCost="780" FoodYield="0.0" ProductionYield="3.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants a flat +3 production per turn. Place in Production District.</Description>
     <Effects>
       <Effect Name="WorkshopEffect"/>
     </Effects>
@@ -347,6 +385,7 @@
   </Building>
 
   <Building Name="University" DistrictType="science" ProductionCost="250" GoldCost="1000" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="4.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="2" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants a flat +4 science per turn. Place in Science District.</Description>
     <Effects>
       <Effect Name="UniversityEffect"/>
     </Effects>
@@ -357,6 +396,7 @@
   </Building>
 
   <Building Name="Lumberyard" DistrictType="refinement" ProductionCost="200" GoldCost="800" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants a +1 production bonus to all lumbermills.</Description>
     <Effects>
       <Effect Name="LumberyardEffect" />
     </Effects>
@@ -367,6 +407,7 @@
   </Building>
 
   <Building Name="Armory" DistrictType="military" ProductionCost="195" GoldCost="780" FoodYield="0.0" ProductionYield="3.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="2" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +3 production yield and +1 influence per turn.  Place in Militaristic District.</Description>
     <Effects>
       <Effect Name="ArmoryEffect"/>
     </Effects>
@@ -388,6 +429,7 @@
 
  <!-- Culture Research Buildings -->
   <Building Name="Monument" DistrictType="citycenter" ProductionCost="60" GoldCost="240" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/monument.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +1 culture yield and +1 influence per turn. Place in City Center.</Description>
     <Effects>
       <Effect Name="MonumentEffect"/>
     </Effects>
@@ -397,6 +439,7 @@
     </TerrainTypes>
   </Building>
   <Building Name="Arena" DistrictType="happiness" ProductionCost="150" GoldCost="600" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="3.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/monument.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +3 happiness per turn. Place in Happiness District.</Description>
     <Effects>
       <Effect Name="ArenaEffect"/>
     </Effects>
@@ -406,6 +449,7 @@
     </TerrainTypes>
   </Building>
   <Building Name="Temple" DistrictType="heroic" ProductionCost="120" GoldCost="480" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="1.0" PerCity="1" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/monument.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +1 influence per turn and +10 experience to your hero and regenerate 5 mana per turn for them. Place in Heroic District.</Description>
     <Effects>
       <Effect Name="TempleEffect"/>
     </Effects>
@@ -415,6 +459,7 @@
     </TerrainTypes>
   </Building>
   <Building Name="Ampitheater" DistrictType="culture" ProductionCost="150" GoldCost="600" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="2.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="1.0" PerCity="0" PerPlayer="0" Wonder="False" IconPath="graphics/ui/icons/ampitheater.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants flat +1 culture yield and +1 influence per turn. Place in Cultural District.</Description>
     <Effects>
       <Effect Name="AmpitheaterEffect"/>
     </Effects>
@@ -427,7 +472,8 @@
 
 <!-- World Wonders -->
 
-  <Building Name="HangingGardens" DistrictType="rural" ProductionCost="180" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="True" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+  <Building Name="HangingGardens" DistrictType="rural" ProductionCost="180" GoldCost="0" FoodYield="4.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="True" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants +4 food per turn and +2 happiness per turn. No Special Effect Yet.</Description>
     <Effects>
       <Effect Name="HangingGardensEffect" />
     </Effects>
@@ -437,6 +483,7 @@
   </Building>
 
   <Building Name="Stonehenge" DistrictType="rural" ProductionCost="200" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="4.0" HappinessYield="2.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="True" IconPath="graphics/ui/icons/house.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants +4 Culture per turn. No Special Effect Yet.</Description>
     <Effects>
       <Effect Name="StonehengeEffect" />
     </Effects>
@@ -447,6 +494,7 @@
 
   
   <Building Name="Colossus" DistrictType="rural" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="3.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants +3 Gold Per turn. Grants 1 additional trade route.</Description>
     <Effects>
       <Effect Name="ColossusEffect"/>
     </Effects>
@@ -457,6 +505,7 @@
   </Building>
 
   <Building Name="Petra" DistrictType="rural" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>Grants +2 food, +2 gold, +1 production to all desert tiles.</Description>
     <Effects>
       <Effect Name="PetraEffect"/>
     </Effects>
@@ -467,6 +516,7 @@
   </Building>
 
   <Building Name="TerracottaArmy" DistrictType="rural" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>No Special Effect Yet.</Description>
     <Effects>
       <Effect Name="TerracottaArmyEffect"/>
     </Effects>
@@ -477,6 +527,7 @@
   </Building>
 
   <Building Name="MachuPicchu" DistrictType="rural" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="4.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>+4 Gold Per turn. No Special Effect Yet.</Description>
     <Effects>
       <Effect Name="MachuPicchuEffect"/>
     </Effects>
@@ -486,6 +537,7 @@
   </Building>
 
   <Building Name="Oracle" DistrictType="rural" ProductionCost="290" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="1.0" HappinessYield="0.0" InfluenceYield="1.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>+1 Culture Per Turn. No Special Effect Yet.</Description>
     <Effects>
       <Effect Name="OracleEffect"/>
     </Effects>
@@ -496,6 +548,7 @@
   </Building>
 
   <Building Name="Colosseum" DistrictType="rural" ProductionCost="400" GoldCost="0" FoodYield="0.0" ProductionYield="0.0" GoldYield="0.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="4.0" InfluenceYield="0.0" MaintenanceCost="0" PerCity="0" PerPlayer="0" Wonder="True" IconPath="graphics/ui/icons/granary.png" ModelPath="graphics/models/granary.glb">
+    <Description>+4 Happiness per turn. No Special Effect Yet.</Description>
     <Effects>
       <Effect Name="ColosseumEffect"/>
     </Effects>
@@ -507,6 +560,7 @@
 
 <!-- NPC Buildings -->
   <Building Name="GoblinDen" DistrictType="citycenter" ProductionCost="0" GoldCost="0" FoodYield="1.0" ProductionYield="1.0" GoldYield="2.0" ScienceYield="0.0" CultureYield="0.0" HappinessYield="0.0" InfluenceYield="0.0" MaintenanceCost="0.0" PerCity="1" PerPlayer="1" Wonder="False" IconPath="graphics/ui/icons/star.png" ModelPath="graphics/models/huts.glb">
+    <Description>The central den of a goblin encampment.</Description>
     <Effects>
       <Effect Name="GoblinDenEffect" />
     </Effects>

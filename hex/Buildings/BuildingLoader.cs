@@ -34,6 +34,7 @@ public struct BuildingInfo
     public bool isFactionUnique;
     public String IconPath;
     public String ModelPath;
+    public String Description;
     public List<String> Effects;
     public List<TerrainType> TerrainTypes;
 }
@@ -79,6 +80,7 @@ public static class BuildingLoader
                     Wonder = bool.Parse(r.Attribute("Wonder").Value),
                     IconPath = r.Attribute("IconPath")?.Value ?? "",
                     ModelPath = r.Attribute("ModelPath")?.Value ?? "",
+                    Description = r.Element("Description")?.Value?.Trim() ?? "",
                     Effects = r.Element("Effects").Elements("Effect").Select(e => e.Attribute("Name").Value).ToList(),
                     TerrainTypes = r.Element("TerrainTypes").Elements("TerrainType").Select(t => Enum.Parse<TerrainType>(t.Value)).ToList(),
                 }

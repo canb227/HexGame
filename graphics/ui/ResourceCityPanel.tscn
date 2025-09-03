@@ -3,10 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://8sieeeac3bqy" path="res://graphics/ui/icons/food.png" id="1_k402p"]
 [ext_resource type="Texture2D" uid="uid://cb3r2h5cvpaus" path="res://graphics/ui/icons/gears.png" id="2_rli61"]
 [ext_resource type="Texture2D" uid="uid://d3s5lmevkobml" path="res://graphics/ui/icons/gold.png" id="3_gcvtf"]
-[ext_resource type="Texture2D" uid="uid://b7ulvuy1yq2v6" path="res://graphics/ui/flask.png" id="4_umvle"]
+[ext_resource type="Texture2D" uid="uid://brrh1cw1vxfxn" path="res://graphics/ui/icons/science.png" id="4_2psfo"]
 [ext_resource type="Texture2D" uid="uid://d05rri8kix4yk" path="res://graphics/ui/icons/culture.png" id="5_gi2je"]
-[ext_resource type="Texture2D" uid="uid://bvusgiiabcvj3" path="res://graphics/ui/happy.png" id="6_uol27"]
-[ext_resource type="Texture2D" uid="uid://bf2s0ji0womei" path="res://graphics/ui/influence.png" id="7_h68oy"]
+[ext_resource type="Texture2D" uid="uid://d0do4lbonkkx3" path="res://graphics/ui/icons/happiness.png" id="6_k402p"]
+[ext_resource type="Texture2D" uid="uid://v8ieeb82fsx8" path="res://graphics/ui/icons/influence.png" id="7_rli61"]
 
 [sub_resource type="Gradient" id="Gradient_4cju7"]
 colors = PackedColorArray(0.0728426, 0.0728426, 0.0728426, 1, 0.404511, 0.404511, 0.404511, 1)
@@ -73,7 +73,7 @@ text = "999.0"
 
 [node name="ScienceIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
 layout_mode = 2
-texture = ExtResource("4_umvle")
+texture = ExtResource("4_2psfo")
 expand_mode = 2
 stretch_mode = 5
 
@@ -95,7 +95,7 @@ text = "999.0"
 
 [node name="HappinessIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
 layout_mode = 2
-texture = ExtResource("6_uol27")
+texture = ExtResource("6_k402p")
 expand_mode = 2
 stretch_mode = 5
 
@@ -106,7 +106,7 @@ text = "999.0"
 
 [node name="InfluenceIcon" type="TextureRect" parent="MarginContainer/CityBox/Resources"]
 layout_mode = 2
-texture = ExtResource("7_h68oy")
+texture = ExtResource("7_rli61")
 expand_mode = 2
 stretch_mode = 5
 

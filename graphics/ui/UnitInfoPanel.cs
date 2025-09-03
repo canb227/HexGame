@@ -35,6 +35,9 @@ public partial class UnitInfoPanel : Node3D
 
     public FlowContainer abilityFlowContainer;
 
+    private PackedScene abilityButtonScene;
+
+
     public UnitInfoPanel()
     {
         unitInfoPanel = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/UnitInfoPanel.tscn").Instantiate<PanelContainer>();
@@ -56,6 +59,8 @@ public partial class UnitInfoPanel : Node3D
         rangeLabel = unitInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitStatContainer/RangeContainer/RangeLabel");
 
         abilityFlowContainer = unitInfoPanel.GetNode<FlowContainer>("UnitHFlow/AbilityFlowContainer");
+
+        abilityButtonScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/AbilityButton.tscn");
 
         AddChild(unitInfoPanel);
     }
@@ -105,7 +110,31 @@ public partial class UnitInfoPanel : Node3D
 
             foreach (UnitAbility ability in unit.abilities)
             {
-                if(ability.name == "RangedAttack" || ability.name == "BombardAttack")
+                if (!ability.isUnlocked)
+                {
+                    continue;
+                }
+                if (ability.name == "BuildFarm" && !Global.gameManager.game.playerDictionary[unit.teamNum].buildFarms)
+                {
+                    continue;
+                }
+                if (ability.name == "BuildMine" && !Global.gameManager.game.playerDictionary[unit.teamNum].buildMines)
+                {
+                    continue;
+                }
+                if (ability.name == "BuildPasture" && !Global.gameManager.game.playerDictionary[unit.teamNum].buildPastures)
+                {
+                    continue;
+                }
+                if (ability.name == "BuildLumberyard" && !Global.gameManager.game.playerDictionary[unit.teamNum].buildLumbermills)
+                {
+                    continue;
+                }
+                if (ability.name == "BuildFishingBoat" && !Global.gameManager.game.playerDictionary[unit.teamNum].buildFishingBoats)
+                {
+                    continue;
+                }
+                if (ability.name == "RangedAttack" || ability.name == "BombardAttack")
                 {
                     rangedStrengthContainer.Visible = true;
                     if(ability.combatPower.Any())
@@ -115,12 +144,13 @@ public partial class UnitInfoPanel : Node3D
                     rangeContainer.Visible = true;
                     rangedStrengthLabel.Visible = true;
                 }
-                Button abilityButton = new Button();
+                Button abilityButton = abilityButtonScene.Instantiate<Button>();
                 abilityButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://"+ability.iconPath);
                 abilityButton.IconAlignment = HorizontalAlignment.Center;
                 abilityButton.ExpandIcon = true;
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => AbilityButtonPressed(ability, abilityButton);
+                abilityButton.Call("add_tooltipstring", ability.name);
                 abilityFlowContainer.AddChild(abilityButton);
 
                 abilityButton.Disabled = false;

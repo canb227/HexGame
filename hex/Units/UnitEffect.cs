@@ -392,6 +392,8 @@ public class UnitEffect
 
     public bool BuildFarm(Unit unit)
     {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
         //find the district on this tile and add building to it, or something so we can "work on a building?"
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
         if(gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
@@ -426,6 +428,8 @@ public class UnitEffect
     }
     public bool BuildMine(Unit unit)
     {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
         //find the district on this tile and add building to it, or something so we can "work on a building?"
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
         if (gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
@@ -460,6 +464,8 @@ public class UnitEffect
     }
     public bool BuildPasture(Unit unit)
     {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
         //find the district on this tile and add building to it, or something so we can "work on a building?"
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
         if (gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
@@ -494,6 +500,8 @@ public class UnitEffect
     }
     public bool BuildLumberyard(Unit unit)
     {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
         //find the district on this tile and add building to it, or something so we can "work on a building?"
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
         if (gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
@@ -528,6 +536,8 @@ public class UnitEffect
     }
     public bool BuildFishingBoat(Unit unit)
     {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
         //find the district on this tile and add building to it, or something so we can "work on a building?"
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
         if (gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
@@ -563,6 +573,8 @@ public class UnitEffect
 
     public bool RemoveImprovement(Unit unit)
     {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
         //find the district on this tile and add building to it, or something so we can "work on a building?"
         bool removed = false;
         GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];

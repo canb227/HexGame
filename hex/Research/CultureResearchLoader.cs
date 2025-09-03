@@ -89,11 +89,19 @@ public static class CultureResearchLoader
     }
     static string TribalDominionEffect(Player player, bool executeLogic)
     {
-        return "";
+        if(executeLogic)
+        {
+            player.buildFarms = true;
+        }
+        return "Enable the building of Farms by workers.";
     }
     static string CraftsmanshipEffect(Player player, bool executeLogic)
     {
-        return "";
+        if(executeLogic)
+        {
+            player.buildMines = true;
+        }
+        return "Enable the building of Mines by workers.";
     }
 
     static string PenmanshipExportEffect(Player player, bool executeLogic)
@@ -225,7 +233,7 @@ public static class CultureResearchLoader
         {
 
         }
-        return "Reveals Buried Runes to be Explored by your Hero for Greater Rewards.";
+        return "Reveals Deeply Buried Ruins to be Explored by your Hero for Greater Rewards.";
     }
     static string IndustrialInsightEndEraEffect(Player player, bool executeLogic)
     {

@@ -331,7 +331,7 @@ public partial class ResearchTreePanel : Control
         {
             TextureRect buildingIcon = researchEffectScene.Instantiate<TextureRect>();
             buildingIcon.Texture = Godot.ResourceLoader.Load<Texture2D>("res://" + BuildingLoader.buildingsDict[buildingName].IconPath);
-            buildingIcon.Call("add_tooltipstring", "Unlocks " + buildingName);
+            buildingIcon.Call("add_tooltipstring", "Unlocks " + buildingName + ": " + BuildingLoader.buildingsDict[buildingName].Description);
             researchEffects.AddChild(buildingIcon);
         }
 

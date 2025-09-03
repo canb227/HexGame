@@ -613,14 +613,14 @@ public partial class Lobby : Control
         string trimmedPath = path.Substring(path.LastIndexOf("/") + 1);
         Global.Log("File selected: " + trimmedPath);
 
-        Game loaded = Global.gameManager.LoadGame(trimmedPath);
+        Game loaded = Global.gameManager.LoadGame(path);
 
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "loadgame";
 
         GameDataMessage message = new GameDataMessage();
-        message.SaveString = Global.gameManager.ReadSave(trimmedPath);
+        message.SaveString = Global.gameManager.ReadSave(path);
         message.SaveSize = message.SaveString.Length;
         message.Savename = trimmedPath;
 

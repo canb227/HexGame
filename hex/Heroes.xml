@@ -456,7 +456,7 @@
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="ClawSwipe" UsageCount="1" Range="1" IconPath="graphics/ui/icons/clawswipe.png">
-                    <Description>
+          <Description>
           Deals ranged damage to a target and a random enemy adjacent to the caster.
           Combat Power: 15 / 20 / 25 / 30
           Mana Cost:      25 / 25 / 25 / 25
