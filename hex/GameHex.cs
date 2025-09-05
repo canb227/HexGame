@@ -147,6 +147,10 @@ public class GameHex
                 {
                     yields.production += 1;
                 }
+                else if (ResourceLoader.resources[resourceType].ImprovementType == "FishingBoat")
+                {
+                    yields.food += 1;
+                }
             }
         }
         else
@@ -231,6 +235,10 @@ public class GameHex
                 else if (ResourceLoader.resources[resourceType].ImprovementType == "Pasture")
                 {
                     yields.production += 1;
+                }
+                else if (ResourceLoader.resources[resourceType].ImprovementType == "FishingBoat")
+                {
+                    yields.food += 1;
                 }
             }
         }

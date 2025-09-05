@@ -21,6 +21,7 @@ texture = SubResource("GradientTexture2D_qrfle")
 
 [node name="CityPanel" type="PanelContainer"]
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_me6r1")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

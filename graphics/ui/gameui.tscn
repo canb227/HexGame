@@ -208,7 +208,8 @@ text = "Menu"
 
 [node name="ScienceTree" type="Button" parent="LayerHelper"]
 custom_minimum_size = Vector2(256, 64)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 offset_top = 80.0
 offset_right = 264.0
 offset_bottom = 152.0

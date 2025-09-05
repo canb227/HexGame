@@ -146,8 +146,8 @@ public class BasePlayer
                 if (Global.gameManager.game.localPlayerTeamNum == teamNum)
                 {
                     manager.uiManager.UpdateEndTurnButton();
+                    manager.uiManager.assignGovernment = true;
                 }
-                manager.uiManager.assignGovernment = true;
             }
             
         }
@@ -158,8 +158,8 @@ public class BasePlayer
                 if (Global.gameManager.game.localPlayerTeamNum == teamNum)
                 {
                     manager.uiManager.UpdateEndTurnButton();
+                    manager.uiManager.assignGovernment = false;
                 }
-                manager.uiManager.assignGovernment = false;
             }
         }
     }
