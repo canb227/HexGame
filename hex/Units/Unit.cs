@@ -269,7 +269,7 @@ public partial class Unit
 
     public void AddAbility(string abilityName, UnitInfo unitInfo)
     {
-        abilities.Add(new UnitAbility(id, abilityName, unitInfo.Abilities[abilityName].Item1, unitInfo.Abilities[abilityName].Item2, unitInfo.Abilities[abilityName].Item3, unitInfo.Abilities[abilityName].Item4, unitInfo.Abilities[abilityName].Item5, unitInfo.Abilities[abilityName].Item6));
+        abilities.Add(new UnitAbility(id, abilityName, unitInfo.Abilities[abilityName].Item1, unitInfo.Abilities[abilityName].Item2, unitInfo.Abilities[abilityName].Item3, unitInfo.Abilities[abilityName].Item4, unitInfo.Abilities[abilityName].Item5, unitInfo.Abilities[abilityName].Item6, unitInfo.Abilities[abilityName].Item7));
     }
 
     public void AddGenericAbility(string abilityName, string abilityIconPath)

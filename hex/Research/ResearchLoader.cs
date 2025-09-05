@@ -100,13 +100,15 @@ public static class ResearchLoader
     static Dictionary<String, Func<Player, bool, string>> effectFunctions = new Dictionary<string, Func<Player, bool, string>>
         {
             { "AgricultureEffect", AgricultureEffect },
+            { "ThatchingEffect", ThatchingEffect },
             { "SailingEffect", SailingEffect },
+            { "FishingEffect", FishingEffect },
             { "PotteryEffect", PotteryEffect },
             { "AnimalHusbandryEffect", AnimalHusbandryEffect },
             { "IrrigationEffect", IrrigationEffect },
             { "WritingEffect", WritingEffect },
             { "MasonryEffect", MasonryEffect },
-            { "MiningEffect", MiningEffect },
+            { "ChiselingEffect", ChiselingEffect },
             { "AstrologyEffect", AstrologyEffect },
             { "ArcheryEffect", ArcheryEffect },
             { "BronzeWorkingEffect", BronzeWorkingEffect },
@@ -126,6 +128,7 @@ public static class ResearchLoader
             { "StirrupsEffect", StirrupsEffect },
             { "MilitaryEngineeringEffect", MilitaryEngineeringEffect },
             { "CastlesEffect", CastlesEffect },
+            { "ConstructionEffect", ConstructionEffect },
             { "CartographyEffect", CartographyEffect },
             { "CartographyEndEraEffect", CartographyEndEraEffect },
         };
@@ -157,6 +160,19 @@ public static class ResearchLoader
     {
         return "";
     }
+    static string ThatchingEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+
+    static string FishingEffect(Player player, bool executeLogic)
+    {
+        if(executeLogic)
+        {
+            player.buildFishingBoats = true;
+        }
+        return "Enable the building of Fishing Boats by workers.";
+    }
     static string SailingEffect(Player player, bool executeLogic)
     {
         if(executeLogic)
@@ -171,8 +187,11 @@ public static class ResearchLoader
     }
     static string AnimalHusbandryEffect(Player player, bool executeLogic)
     {
-        //player.unitPlayerEffects.Add(("AnimalHusbandry", new UnitEffect(UnitEffectType.MovementSpeed, EffectOperation.Add, 1.0f, 5), UnitClass.Recon));
-        return "";
+        if(executeLogic)
+        {
+            player.buildPastures = true;
+        }
+        return "Enable the building of Pastures by workers.";
     }
     static string IrrigationEffect(Player player, bool executeLogic)
     {
@@ -186,7 +205,7 @@ public static class ResearchLoader
     {
         return "";
     }
-    static string MiningEffect(Player player, bool executeLogic)
+    static string ChiselingEffect(Player player, bool executeLogic)
     {
         return "";
     }
@@ -231,6 +250,11 @@ public static class ResearchLoader
         return "";
     }
 
+    static string ConstructionEffect(Player player, bool executeLogic)
+    {
+        return "";
+    }
+
     static string ShipbuildingEffect(Player player, bool executeLogic)
     {
         if (executeLogic)
@@ -256,7 +280,11 @@ public static class ResearchLoader
 
     static string TimbercraftEffect(Player player, bool executeLogic)
     {
-        return "";
+        if(executeLogic)
+        {
+            player.buildLumbermills = true;
+        }
+        return "Enable the building of Lumbermills by workers.";
     }
 
     static string ApprenticeshipEffect(Player player, bool executeLogic)
@@ -309,18 +337,18 @@ public static class ResearchLoader
 
     static string CartographyEffect(Player player, bool executeLogic)
     {
-        if (executeLogic && player.industrialInsightCulturalResearchCount == 0)
+        if (executeLogic && player.industrialInsightResearchCount == 0)
         {
             player.unitPlayerEffects.Add(new UnitPlayerEffect("CartographyCivilian", new UnitEffect("EnableOceanMovement"), UnitClass.Civilian));
             player.unitPlayerEffects.Add(new UnitPlayerEffect("CartographyCombat", new UnitEffect("EnableOceanMovement"), UnitClass.Combat));
         }
-        return "Grants the ability to move on Ocean tiles.";
+        return "Grants the ability to move on Ocean tiles to all units.";
     }
     static string CartographyEndEraEffect(Player player, bool executeLogic)
     {
         if(executeLogic)
         {
-            player.industrialInsightCulturalResearchCount++;
+            player.industrialInsightResearchCount++;
             player.completedResearches.Remove("Cartography");
         }
         return "Upon completing this research if it is still the Classical Era you may research it again, each time you complete this research you will recieve a bonus.";

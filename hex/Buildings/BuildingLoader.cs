@@ -7,6 +7,7 @@ public enum DistrictType
 {
     citycenter,
     rural,
+    town,
     production,
     gold,
     science,
@@ -33,6 +34,7 @@ public struct BuildingInfo
     public bool isFactionUnique;
     public String IconPath;
     public String ModelPath;
+    public String Description;
     public List<String> Effects;
     public List<TerrainType> TerrainTypes;
 }
@@ -78,6 +80,7 @@ public static class BuildingLoader
                     Wonder = bool.Parse(r.Attribute("Wonder").Value),
                     IconPath = r.Attribute("IconPath")?.Value ?? "",
                     ModelPath = r.Attribute("ModelPath")?.Value ?? "",
+                    Description = r.Element("Description")?.Value?.Trim() ?? "",
                     Effects = r.Element("Effects").Elements("Effect").Select(e => e.Attribute("Name").Value).ToList(),
                     TerrainTypes = r.Element("TerrainTypes").Elements("TerrainType").Select(t => Enum.Parse<TerrainType>(t.Value)).ToList(),
                 }
@@ -89,7 +92,8 @@ public static class BuildingLoader
     {
         Dictionary<DistrictType, BuildingInfo> temp = new();
         temp.Add(DistrictType.citycenter, buildingDict["CityCenter"]);
-        temp.Add(DistrictType.rural, buildingDict["Farm"]);
+        temp.Add(DistrictType.rural, buildingDict["RuralDistrict"]);
+        temp.Add(DistrictType.town, buildingDict["TownDistrict"]);
         temp.Add(DistrictType.refinement, buildingDict["RefineryDistrict"]);
         temp.Add(DistrictType.production, buildingDict["IndustryDistrict"]);
         temp.Add(DistrictType.gold, buildingDict["CommerceDistrict"]);

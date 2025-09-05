@@ -82,6 +82,7 @@ public partial class City
         districts = new();
         naturalPopulation = 1;
         readyToExpand = 0; //we ready to expand for 
+        readyToUrbanize = 0;
         maxDistrictSize = 2; //not used
         baseMaxResourcesHeld = 3;
         foodToGrow = GetFoodToGrowCost();
@@ -143,6 +144,7 @@ public partial class City
     public int baseMaxResourcesHeld{ get; set; }
     public int maxResourcesHeld{ get; set; }
     public int readyToExpand{ get; set; }
+    public int readyToUrbanize { get; set; }
     public int infantryProductionCombatModifier { get; set; } = 0;
     public int cavalryProductionCombatModifier { get; set; } = 0;
     public int navalProductionCombatModifier { get; set; } = 0;
@@ -745,6 +747,11 @@ public partial class City
     {
         naturalPopulation += 1; //we increase naturalPopulation only here, and city size is increased for every building we have, rural or urban
         readyToExpand += 1;
+        //new district every 3 population
+        if(naturalPopulation % 3 == 0)
+        {
+            readyToUrbanize++;
+        }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager3)) manager3.Update2DUI(UIElement.endTurnButton);
         foodToGrow = GetFoodToGrowCost(); //30 + (n-1) x 3 + (n-1) ^ 3.0 we use naturalPopulation so we dont punish the placement of urban buildings
     }
@@ -1222,7 +1229,7 @@ public partial class City
             if(targetDistrict.cityID == this.id)
             {
                 targetDistrict.DevelopDistrict(districtType);
-                readyToExpand -= 1;
+                readyToUrbanize -= 1;
                 RecalculateYields();
                 if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
                 {
@@ -1374,7 +1381,7 @@ public partial class City
                     bool validBuildableDistrict = false;
                     foreach (DistrictType districtType in Global.gameManager.game.playerDictionary[teamNum].allowedDistricts)
                     {
-                        if (BuildingLoader.districtDict[districtType].TerrainTypes.Contains(targetGameHex.terrainType) && districtType != DistrictType.citycenter)
+                        if (BuildingLoader.districtDict[districtType].TerrainTypes.Contains(targetGameHex.terrainType) && districtType != DistrictType.citycenter && districtType != DistrictType.rural)
                         {
                             validBuildableDistrict = true;
                             break;

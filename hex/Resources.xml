@@ -23,5 +23,6 @@
   <Resource Name="Cotton" Description="Grants 1 Food and 2 Gold Per Turn to the City" IconPath="graphics/ui/icons/resources/cotton.png" ModelPath="graphics/models/resources/farm_resource.glb" ImprovementType="Farm" IsGlobal="False" Food="1" Production="0" Gold="2" Science="0" Culture="0" Happiness="0"/>
   <Resource Name="Tobacco" Description="Grants 2 Gold, 1 Science, and 1 Culture Per Turn to the City" IconPath="graphics/ui/icons/resources/tobacco.png" ModelPath="graphics/models/resources/farm_resource.glb" ImprovementType="Farm" IsGlobal="False" Food="0" Production="0" Gold="2" Science="1" Culture="1" Happiness="0"/>
   <Resource Name="Stone" Description="Grants 2 Production Per Turn to the City" IconPath="graphics/ui/icons/resources/stone.png" ModelPath="graphics/models/resources/iron_resource.glb" ImprovementType="Mine" IsGlobal="False" Food="0" Production="2" Gold="0" Science="0" Culture="0" Happiness="0"/>
+  <Resource Name="Fish" Description="Grants 2 Food and 1 Gold Per Turn to the City" IconPath="graphics/ui/icons/resources/fish.png" ModelPath="graphics/models/resources/iron_resource.glb" ImprovementType="FishingBoat" IsGlobal="False" Food="2" Production="0" Gold="1" Science="0" Culture="0" Happiness="0"/>
 </Resources>
 

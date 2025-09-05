@@ -4,6 +4,9 @@
             <PolicyCard Name="Discipline" />
             <PolicyCard Name="UrbanPlanning" />
         </PolicyCardUnlocks>
+        <BuildingUnlocks>
+            <BuildingType Name="TownDistrict" />
+        </BuildingUnlocks>
         <Effects>
             <Effect Name="TribalDominionEffect" />
         </Effects>

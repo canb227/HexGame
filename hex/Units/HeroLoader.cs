@@ -101,13 +101,14 @@ public static class HeroLoader
                 a =>
                 (
                     a.Element("Description")?.Value?.Trim() ?? "",
+                    bool.TryParse(a.Attribute("IsUnlocked")?.Value, out var isUnlocked) ? isUnlocked : true,
                     a.Attribute("CombatPower")?.Value.Split(',').Select(val => float.TryParse(val.Trim(), out var cp) ? cp : 0.0f).ToList(),
                     int.TryParse(a.Attribute("UsageCount")?.Value, out var usageCount) ? usageCount : 1,
                     int.TryParse(a.Attribute("Range")?.Value, out var range) ? range : 0,
                     ParseTargetSpecification(a.Element("TargetSpecification")),
                     a.Attribute("IconPath")?.Value ?? ""
                 )
-            ) ?? new Dictionary<string, (string, List<float>, int, int, TargetSpecification?, String)>(),
+            ) ?? new Dictionary<string, (string, bool, List<float>, int, int, TargetSpecification?, String)>(),
         };
     }
     private static HeroAbility ParseHeroAbility(XElement abilityElement)
@@ -196,6 +197,11 @@ public static class HeroLoader
             .ToHashSet() ?? new HashSet<ResourceType>();
 
         targetSpecification.ValidFeatureTypes = targetSpecElement.Element("ValidFeatureTypes")?.Elements("FeatureType")
+            .Select(t => Enum.TryParse<FeatureType>(t.Attribute("Name")?.Value, out var featureType) ? featureType : throw new Exception("Invalid FeatureType"))
+            .ToHashSet() ?? new HashSet<FeatureType>();
+
+
+        targetSpecification.InvalidFeatureTypes = targetSpecElement.Element("InvalidFeatureTypes")?.Elements("FeatureType")
             .Select(t => Enum.TryParse<FeatureType>(t.Attribute("Name")?.Value, out var featureType) ? featureType : throw new Exception("Invalid FeatureType"))
             .ToHashSet() ?? new HashSet<FeatureType>();
 

@@ -31,6 +31,7 @@ public partial class GraphicManager : Node3D
     {
         districtTypeColorDict.Add(DistrictType.citycenter, Godot.Colors.White);
         districtTypeColorDict.Add(DistrictType.rural, Godot.Colors.LightGreen);
+        districtTypeColorDict.Add(DistrictType.town, Godot.Colors.Gray);
         districtTypeColorDict.Add(DistrictType.refinement, Godot.Colors.DarkOliveGreen);
         districtTypeColorDict.Add(DistrictType.production, Godot.Colors.DarkOrange);
         districtTypeColorDict.Add(DistrictType.gold, Godot.Colors.Yellow);
@@ -40,6 +41,8 @@ public partial class GraphicManager : Node3D
         districtTypeColorDict.Add(DistrictType.heroic, Godot.Colors.LavenderBlush);
         districtTypeColorDict.Add(DistrictType.dock, Godot.Colors.DarkBlue);
         districtTypeColorDict.Add(DistrictType.military, Godot.Colors.DarkRed);
+
+
 
         toBeDeleted = new();
         graphicObjectDictionary = new();
@@ -85,6 +88,7 @@ public partial class GraphicManager : Node3D
     public void NewGameBoard(GameBoard gameBoard)
     {
         GraphicGameBoard graphicGameBoard = new GraphicGameBoard(gameBoard, layout);
+        GD.Print("GAME BOARD ADDEDD");
         AddChild(graphicGameBoard);
         graphicObjectDictionary.Add(graphicGameBoard.gameBoard.id, graphicGameBoard);
     }

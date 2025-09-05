@@ -1,4 +1,5 @@
 using Godot;
+using NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,6 +14,7 @@ public partial class GraphicCity : GraphicObject
     public String waitingBuildingName;
     public bool spawnWaitingBuilding;
     public bool waitingToGrow;
+    public bool waitingToUrbanize;
     public GraphicCity(City city, Layout layout)
     {
         this.city = city;
@@ -151,15 +153,35 @@ public partial class GraphicCity : GraphicObject
         }*/
     }
 
+    public void GenerateUrbanizeTargetingPrompt()
+    {
+        List<Hex> urbanhexes = city.ValidUrbanExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
+
+        if (urbanhexes.Count > 0)
+        {
+            Global.gameManager.graphicManager.ChangeSelectedObject(city.id, this);
+            Global.gameManager.graphicManager.SetWaitForTargeting(true);
+
+            waitingToUrbanize = true;
+            Global.gameManager.graphicManager.uiManager.cityInfoPanel.HideCityInfoPanel();
+            Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
+            Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
+            Global.gameManager.graphicManager.uiManager.SetAndShowExpandBuildingLabel("Select a rural hex to urbanize");
+            foreach (Hex hex in urbanhexes)
+            {
+                Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.Orange, "");
+            }
+        }
+    }
+
     public void GenerateGrowthTargetingPrompt()
     {
         GraphicGameBoard ggb = ((GraphicGameBoard)Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
 
         List<Hex> hexes = city.ValidExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
-        List<Hex> urbanhexes = city.ValidUrbanExpandHexes(new List<TerrainType> { TerrainType.Flat, TerrainType.Rough, TerrainType.Coast });
 
         //rural hexes
-        if(hexes.Count > 0 || urbanhexes.Count > 0)
+        if(hexes.Count > 0)
         {
             Global.gameManager.graphicManager.ChangeSelectedObject(city.id, this);
             Global.gameManager.graphicManager.SetWaitForTargeting(true);
@@ -168,35 +190,12 @@ public partial class GraphicCity : GraphicObject
             Global.gameManager.graphicManager.uiManager.cityInfoPanel.HideCityInfoPanel();
             Global.gameManager.graphicManager.HideAllWorldUIBut(city.id);
             Global.gameManager.graphicManager.uiManager.HideGenericUIForTargeting();
-            Global.gameManager.graphicManager.uiManager.SetAndShowExpandBuildingLabel("Select a hex to expand to\nOR\nSelect a hex to urbanize into a district");
+            Global.gameManager.graphicManager.uiManager.SetAndShowExpandBuildingLabel("Select a hex to expand to");
             foreach(Hex hex in hexes)
             {
                 Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.DarkGreen, "");
             }
-            foreach (Hex hex in urbanhexes)
-            {
-                Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(hex, Godot.Colors.Orange, "");
-            }
         }
-/*        if (hexes.Count > 0)
-        {
-            foreach (Hex hex in hexes)
-            {
-                Hex originHex = ggb.chunkList[ggb.hexToChunkDictionary[hex]].origin;
-                Hex adjustedHex = new Hex(hex.q - originHex.q, hex.r - originHex.r, -(hex.q - originHex.q) - (hex.r - originHex.r));
-                ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(adjustedHex, Godot.Colors.DarkGreen, "RuralGrow" + adjustedHex));
-            }
-        }
-        //urban expand hexes
-        if (urbanhexes.Count > 0)
-        {
-            foreach(Hex hex in urbanhexes)
-            {
-                Hex originHex = ggb.chunkList[ggb.hexToChunkDictionary[hex]].origin;
-                Hex adjustedHex = new Hex(hex.q - originHex.q, hex.r - originHex.r, -(hex.q - originHex.q) - (hex.r - originHex.r));
-                ggb.chunkList[ggb.hexToChunkDictionary[hex]].multiMeshInstance.AddChild(Global.gameManager.graphicManager.GenerateSingleHexSelectionTriangles(adjustedHex, Godot.Colors.Orange, "UrbanGrow"+ adjustedHex));
-            }
-        }*/
     }
 
     public void SetWorldUIVisibility(bool visible)

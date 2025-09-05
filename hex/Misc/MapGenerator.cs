@@ -1,6 +1,7 @@
 using Godot;
 using NetworkMessages;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -632,71 +633,65 @@ public class MapGenerator
                 AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 if (hex.terrainType == TerrainType.Rough)
                 {
-                    if (rng.NextDouble() > 0.9f)
+                    //10% of hexes had resource now its 25% for rough
+                    if (rng.NextDouble() > 0.75f)
                     {
-                        double resourceRoll = rng.NextDouble();
-                        if (resourceRoll < 0.2f)
-                        {
-                            hex.resourceType = ResourceType.Coal;
-                        }
-                        else if (resourceRoll < 0.4f)
-                        {
-                            hex.resourceType = ResourceType.Iron;
-                        }
-                        else if (resourceRoll < 0.6f)
-                        {
-                            hex.resourceType = ResourceType.Salt;
-                        }
-                        else if (resourceRoll < 0.8f)
-                        {
-                            hex.resourceType = ResourceType.Jade;
-                        }
-                        else
-                        {
-                            hex.resourceType = ResourceType.Uranium; // Default to None if no resource found
-                        }
+                        List<ResourceType> roughResources = new();
+                        roughResources.Add(ResourceType.Coal);
+                        roughResources.Add(ResourceType.Iron);
+                        roughResources.Add(ResourceType.Jade);
+                        roughResources.Add(ResourceType.Uranium);
+                        roughResources.Add(ResourceType.Lithium);
+                        roughResources.Add(ResourceType.Sheep);
+                        roughResources.Add(ResourceType.Tobacco);
+                        roughResources.Add(ResourceType.Horses);
+                        roughResources.Add(ResourceType.Niter);
+                        roughResources.Add(ResourceType.Oil);
+                        roughResources.Add(ResourceType.Marble);
+                        roughResources.Add(ResourceType.Salt);
+                        roughResources.Add(ResourceType.Rubber);
+                        roughResources.Add(ResourceType.Coffee);
+                        roughResources.Add(ResourceType.Stone);
+                        hex.resourceType = roughResources[rng.Next(roughResources.Count)];
                     }
                 }
                 if (hex.terrainType == TerrainType.Flat)
                 {
-                    if (rng.NextDouble() > 0.9f)
+                    //10% of hexes had resource now its 25% for flat
+                    if (rng.NextDouble() > 0.75f)
                     {
-                        double resourceRoll = rng.NextDouble();
-                        if (resourceRoll < 0.2f)
-                        {
-                            hex.resourceType = ResourceType.Wheat;
-                        }
-                        else if (resourceRoll < 0.4f)
-                        {
-                            hex.resourceType = ResourceType.Cotton;
-                        }
-                        else if (resourceRoll < 0.6f)
-                        {
-                            hex.resourceType = ResourceType.Sheep;
-                        }
-                        else if (resourceRoll < 0.8f)
-                        {
-                            hex.resourceType = ResourceType.Tobacco;
-                        }
-                        else
-                        {
-                            hex.resourceType = ResourceType.Horses; // Default to None if no resource found
-                        }
+                        List<ResourceType> flatResources = new();
+                        flatResources.Add(ResourceType.Wheat);
+                        flatResources.Add(ResourceType.Cotton);
+                        flatResources.Add(ResourceType.Sheep);
+                        flatResources.Add(ResourceType.Tobacco);
+                        flatResources.Add(ResourceType.Horses);
+                        flatResources.Add(ResourceType.Niter);
+                        flatResources.Add(ResourceType.Oil);
+                        flatResources.Add(ResourceType.Marble);
+                        flatResources.Add(ResourceType.Dates);
+                        flatResources.Add(ResourceType.Silk);
+                        flatResources.Add(ResourceType.Salt);
+                        flatResources.Add(ResourceType.Rubber);
+                        flatResources.Add(ResourceType.Ivory);
+                        flatResources.Add(ResourceType.Camels);
+                        flatResources.Add(ResourceType.Coffee);
+                        flatResources.Add(ResourceType.Stone);
+                        hex.resourceType = flatResources[rng.Next(flatResources.Count)];
                     }
                 }
                 if (hex.terrainType == TerrainType.Coast)
                 {
+                    //10% of hexes had resource now its 10% for coast
                     if (rng.NextDouble() > 0.9f)
                     {
-                        double resourceRoll = rng.NextDouble();
-                        if (resourceRoll < 0.2f)
-                        {
-                            hex.resourceType = ResourceType.None;
-                        }
-                        else
-                        {
-                            hex.resourceType = ResourceType.None; // Default to None if no resource found
-                        }
+                        List<ResourceType> coastResources = new();
+                        coastResources.Add(ResourceType.Salt);
+                        coastResources.Add(ResourceType.Fish);
+                        coastResources.Add(ResourceType.Fish);
+
+                        coastResources.Add(ResourceType.Oil);
+                        hex.resourceType = coastResources[rng.Next(coastResources.Count)];
                     }
 
                 }

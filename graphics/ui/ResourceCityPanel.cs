@@ -39,6 +39,7 @@ public partial class ResourceCityPanel : Control
         InfluenceLabel = CityPanel.GetNode<Label>("MarginContainer/CityBox/Resources/InfluenceLabel");
         ResourceSlotsBox = CityPanel.GetNode<HFlowContainer>("MarginContainer/CityBox/ResourceSlotsBox");
         UpdateResourceCityPanel();
+        this.SizeFlagsVertical = SizeFlags.ExpandFill;
     }
 
 

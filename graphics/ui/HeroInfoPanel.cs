@@ -46,6 +46,7 @@ public partial class HeroInfoPanel : Node3D
     public FlowContainer heroAbilityFlowContainer;
 
     private PackedScene heroAbilityButtonScene;
+    private PackedScene abilityButtonScene;
 
     private ProgressBar topLeftHealthBar;
     private ProgressBar topLeftManaBar;
@@ -91,7 +92,7 @@ public partial class HeroInfoPanel : Node3D
         heroLabel = heroInfoPanel.GetNode<Label>("UnitHFlow/HBoxContainer/UnitImage/HeroName");
 
         heroAbilityButtonScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/HeroAbilityButton.tscn");
-
+        abilityButtonScene = Godot.ResourceLoader.Load<PackedScene>("res://graphics/ui/AbilityButton.tscn");
         AddChild(heroInfoPanel);
         heroInfoPanel.Visible = false;
     }
@@ -149,6 +150,10 @@ public partial class HeroInfoPanel : Node3D
 
             foreach (UnitAbility ability in hero.abilities)
             {
+                if(!ability.isUnlocked)
+                {
+                    continue;
+                }
                 if (ability.name == "RangedAttack" || ability.name == "BombardAttack")
                 {
                     rangedStrengthContainer.Visible = true;
@@ -157,12 +162,13 @@ public partial class HeroInfoPanel : Node3D
                     rangeContainer.Visible = true;
                     rangedStrengthLabel.Visible = true;
                 }
-                Button abilityButton = new Button();
+                Button abilityButton = abilityButtonScene.Instantiate<Button>();
                 abilityButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://" + ability.iconPath);
                 abilityButton.IconAlignment = HorizontalAlignment.Center;
                 abilityButton.ExpandIcon = true;
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
                 abilityButton.Pressed += () => AbilityButtonPressed(ability);
+                abilityButton.Call("add_tooltipstring", ability.name.Trim());
                 abilityFlowContainer.AddChild(abilityButton);
 
                 abilityButton.Disabled = false;
@@ -212,7 +218,7 @@ public partial class HeroInfoPanel : Node3D
                 {
                     abilityButton.AddThemeColorOverride("theme_override_colors/icon_disabled_color", Godot.Colors.White);
                 }
-                abilityButton.Call("add_tooltipstring", heroAbility.ability.name + ": " + heroAbility.ability.description);
+                abilityButton.Call("add_tooltipstring", heroAbility.ability.name.Trim() + ": " + heroAbility.ability.description.Trim());
 
 
                 Button levelupButton = abilityButton.GetNode<Button>("LevelUpButton");

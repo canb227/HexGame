@@ -13,6 +13,7 @@ public class UnitAbility
 {
     public String name { get; set; }
     public string description { get; set; }
+    public bool isUnlocked { get; set; }
     private UnitEffect effect { get; set; }
     public int usingUnitID { get; set; }
     public List<float> combatPower { get; set; } = new();
@@ -22,12 +23,13 @@ public class UnitAbility
     public String iconPath { get; set; }
     public TargetSpecification validTargetTypes { get; set; }
 
-    public UnitAbility(int usingUnitID, string abilityName, string description="", List<float> combatPower = null, int maxChargesPerTurn = 1, int range = 0, TargetSpecification validTargetTypes = null, String iconPath = "")
+    public UnitAbility(int usingUnitID, string abilityName, string description="", bool isUnlocked=true, List<float> combatPower = null, int maxChargesPerTurn = 1, int range = 0, TargetSpecification validTargetTypes = null, String iconPath = "")
     {
         this.usingUnitID = usingUnitID;
         this.effect = new UnitEffect(abilityName);
         name = abilityName;
         this.description = description;
+        this.isUnlocked = isUnlocked;
         this.iconPath = iconPath;
         this.combatPower = combatPower;
         this.maxChargesPerTurn = maxChargesPerTurn;

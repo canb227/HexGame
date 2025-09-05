@@ -36,8 +36,14 @@ public partial class District
         {
             isResource = true;
         }
-        AddBuilding(new Building(initialString, hex, isResource));
-
+        if(isCityCenter)
+        {
+            AddBuilding(new Building(initialString, hex, false));
+        }
+        else
+        {
+            AddBuilding(new Building(initialString, hex, isResource));
+        }
         var data = new Godot.Collections.Dictionary
                 {
                     { "q", hex.q },
@@ -96,12 +102,13 @@ public partial class District
         else
         {
             districtType = DistrictType.rural;
+            AddBuilding(new Building("RuralDistrict", hex, false));
             bool isResource = false;
             if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
             {
                 AddResource();
                 isResource = true;
-                if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Lumbermill")
+                /*if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Lumbermill")
                 {
                     AddBuilding(new Building("Lumbermill", hex, isResource));
                 }
@@ -120,9 +127,9 @@ public partial class District
                 else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "FishingBoar")
                 {
                     AddBuilding(new Building("FishingBoat", hex, isResource));
-                }
+                }*/
             }
-            else
+            /*else
             {
                 if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].featureSet.Contains(FeatureType.Forest))
                 {
@@ -151,9 +158,8 @@ public partial class District
                         AddBuilding(new Building("FishingBoat", hex, isResource));
                     }
                 }
-            }
+            }*/
             
-
         }
         this.isUrban = isUrban;
         if(isUrban)
@@ -282,7 +288,11 @@ public partial class District
         maxBuildings += 99;
         this.districtType = districtType;
         isUrban = true;
-        if (districtType == DistrictType.refinement)
+        if (districtType == DistrictType.town)
+        {
+            AddBuilding(new Building("TownDistrict", hex, false));
+        }
+        else if (districtType == DistrictType.refinement)
         {
             AddBuilding(new Building("RefineryDistrict", hex, false));
         }
@@ -318,6 +328,14 @@ public partial class District
         {
             AddBuilding(new Building("MilitaristicDistrict", hex, false));
         }
+        //remove any improvements
+        foreach (Building building in buildings.ToList())
+        {
+            if (building.name == "Farm" || building.name == "Mine" || building.name == "Lumberyard" || building.name == "Pasture" || building.name == "FishingBoat" || building.name == "RuralDistrict")
+            {
+                RemoveBuilding(building);
+            }
+        }
     }
 
     public int CountString(String buildingType)
@@ -351,6 +369,12 @@ public partial class District
                 building.PrepareYieldRecalculate();
             }
         }
+    }
+
+    public void RemoveBuilding(Building building)
+    {
+        buildings.Remove(building);
+        building.Raze();
     }
 
     public void AddBuilding(Building building)

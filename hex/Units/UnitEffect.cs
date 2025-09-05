@@ -183,6 +183,36 @@ public class UnitEffect
             Fortify(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
+        else if (functionString == "BuildFarm")
+        {
+            BuildFarm(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
+        else if (functionString == "BuildMine")
+        {
+            BuildMine(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
+        else if (functionString == "BuildPasture")
+        {
+            BuildPasture(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
+        else if (functionString == "BuildLumberyard")
+        {
+            BuildLumberyard(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
+        else if (functionString == "BuildFishingBoat")
+        {
+            BuildFishingBoat(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
+        else if (functionString == "RemoveImprovement")
+        {
+            RemoveImprovement(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
         else if (functionString == "Sleep")
         {
             Sleep(Global.gameManager.game.unitDictionary[unitID]);
@@ -359,6 +389,210 @@ public class UnitEffect
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");
         return true;
     }
+
+    public bool BuildFarm(Unit unit)
+    {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
+        //find the district on this tile and add building to it, or something so we can "work on a building?"
+        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+        if(gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
+        {
+            bool validDistrict = false;
+            bool noBuilding = true;
+            //must build on a rural district
+            foreach(Building building in gameHex.district.buildings)
+            {
+                if(building.name == "RuralDistrict")
+                {
+                    validDistrict = true;
+                    continue;
+                }
+                else
+                {
+                    noBuilding = false;
+                    break;
+                }
+            }
+            if(validDistrict && noBuilding)
+            {
+                gameHex.district.AddBuilding(new Building("Farm", gameHex.hex, Global.gameManager.game.mainGameBoard.gameHexDict[gameHex.hex].resourceType != ResourceType.None));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+    public bool BuildMine(Unit unit)
+    {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
+        //find the district on this tile and add building to it, or something so we can "work on a building?"
+        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+        if (gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
+        {
+            bool validDistrict = false;
+            bool noBuilding = true;
+            //must build on a rural district
+            foreach (Building building in gameHex.district.buildings)
+            {
+                if (building.name == "RuralDistrict")
+                {
+                    validDistrict = true;
+                    continue;
+                }
+                else
+                {
+                    noBuilding = false;
+                    break;
+                }
+            }
+            if (validDistrict && noBuilding)
+            {
+                gameHex.district.AddBuilding(new Building("Mine", gameHex.hex, Global.gameManager.game.mainGameBoard.gameHexDict[gameHex.hex].resourceType != ResourceType.None));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+    public bool BuildPasture(Unit unit)
+    {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
+        //find the district on this tile and add building to it, or something so we can "work on a building?"
+        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+        if (gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
+        {
+            bool validDistrict = false;
+            bool noBuilding = true;
+            //must build on a rural district
+            foreach (Building building in gameHex.district.buildings)
+            {
+                if (building.name == "RuralDistrict")
+                {
+                    validDistrict = true;
+                    continue;
+                }
+                else
+                {
+                    noBuilding = false;
+                    break;
+                }
+            }
+            if (validDistrict && noBuilding)
+            {
+                gameHex.district.AddBuilding(new Building("Pasture", gameHex.hex, Global.gameManager.game.mainGameBoard.gameHexDict[gameHex.hex].resourceType != ResourceType.None));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+    public bool BuildLumberyard(Unit unit)
+    {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
+        //find the district on this tile and add building to it, or something so we can "work on a building?"
+        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+        if (gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
+        {
+            bool validDistrict = false;
+            bool noBuilding = true;
+            //must build on a rural district
+            foreach (Building building in gameHex.district.buildings)
+            {
+                if (building.name == "RuralDistrict")
+                {
+                    validDistrict = true;
+                    continue;
+                }
+                else
+                {
+                    noBuilding = false;
+                    break;
+                }
+            }
+            if (validDistrict && noBuilding)
+            {
+                gameHex.district.AddBuilding(new Building("Lumbermill", gameHex.hex, Global.gameManager.game.mainGameBoard.gameHexDict[gameHex.hex].resourceType != ResourceType.None));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+    public bool BuildFishingBoat(Unit unit)
+    {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
+        //find the district on this tile and add building to it, or something so we can "work on a building?"
+        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+        if (gameHex.district != null && Global.gameManager.game.teamManager.GetAllies(gameHex.ownedBy).Contains(unit.teamNum))
+        {
+            bool validDistrict = false;
+            bool noBuilding = true;
+            //must build on a rural district
+            foreach (Building building in gameHex.district.buildings)
+            {
+                if (building.name == "RuralDistrict")
+                {
+                    validDistrict = true;
+                    continue;
+                }
+                else
+                {
+                    noBuilding = false;
+                    break;
+                }
+            }
+            if (validDistrict && noBuilding)
+            {
+                gameHex.district.AddBuilding(new Building("FishingBoat", gameHex.hex, Global.gameManager.game.mainGameBoard.gameHexDict[gameHex.hex].resourceType != ResourceType.None));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public bool RemoveImprovement(Unit unit)
+    {
+        unit.remainingMovement = 0;
+        unit.decreaseHealth(50);
+        //find the district on this tile and add building to it, or something so we can "work on a building?"
+        bool removed = false;
+        GameHex gameHex = Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex];
+        if (gameHex.district != null && gameHex.ownedBy == unit.teamNum)
+        {
+            //must build on a rural district
+            foreach (Building building in gameHex.district.buildings)
+            {
+                if (building.name == "Farm" || building.name == "Mine" || building.name == "Lumberyard" || building.name == "Pasture" || building.name == "FishingBoat")
+                {
+                    gameHex.district.RemoveBuilding(building);
+                    removed = true;
+                }
+            }
+        }
+        return removed;
+    }
+
     public bool Sleep(Unit unit)
     {
         unit.isSleeping = true;

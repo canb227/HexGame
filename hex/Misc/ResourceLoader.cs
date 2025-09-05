@@ -30,6 +30,7 @@ public enum ResourceType
     Cotton = 'q',
     Tobacco = 't',
     Stone = 'z',
+    Fish = 'f',
 }
 
 public struct ResourceInfo
@@ -78,7 +79,8 @@ public static class ResourceLoader
         { "e", ResourceType.Coffee },
         { "q", ResourceType.Cotton },
         { "t", ResourceType.Tobacco },
-        { "z", ResourceType.Stone }
+        { "z", ResourceType.Stone },
+        { "f", ResourceType.Fish }
     };
     
     static ResourceLoader()
@@ -108,7 +110,8 @@ public static class ResourceLoader
             { ResourceType.Coffee, "ApplyCoffeeEffect" },
             { ResourceType.Cotton, "ApplyCottonEffect" },
             { ResourceType.Tobacco, "ApplyTobaccoEffect" },
-            { ResourceType.Stone, "ApplyStoneEffect" }
+            { ResourceType.Stone, "ApplyStoneEffect" },
+            { ResourceType.Fish, "ApplyFishEffect" }
         };
 
 
@@ -248,6 +251,10 @@ public static class ResourceLoader
         else if (functionString.Equals("ApplyStoneEffect"))
         {
             ApplyStoneEffect(Global.gameManager.game.cityDictionary[cityID]);
+        }
+        else if (functionString.Equals("ApplyFishEffect"))
+        {
+            ApplyFishEffect(Global.gameManager.game.cityDictionary[cityID]);
         }
         else
         {
@@ -404,6 +411,12 @@ public static class ResourceLoader
     static void ApplyStoneEffect(City city)
     {
         city.yields.production += 2;
+    }
+
+    static void ApplyFishEffect(City city)
+    {
+        city.yields.food += 2;
+        city.yields.gold += 1;
     }
 
 }

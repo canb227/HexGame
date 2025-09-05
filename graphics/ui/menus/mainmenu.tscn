@@ -99,6 +99,21 @@ grow_vertical = 0
 text = "Credits:
 Placeholder Art: Artgerm"
 
+[node name="Label" type="Label" parent="Label"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -8.990001
+anchor_top = -21.000002
+anchor_right = -8.990001
+anchor_bottom = -21.000002
+offset_left = -1.9199219
+offset_top = -1.9998779
+offset_right = 190.08008
+offset_bottom = 47.000122
+grow_horizontal = 0
+grow_vertical = 0
+text = "Version: 0.0905"
+
 [connection signal="pressed" from="b_play" to="." method="onPlayButtonPressed"]
 [connection signal="pressed" from="b_options" to="." method="onOptionsButtonPressed"]
 [connection signal="pressed" from="b_quit" to="." method="onExitButtonPressed"]

@@ -92,6 +92,12 @@ public class BasePlayer
     public Yields coralYields { get; set; } = new();
     public Yields wetlandYields { get; set; } = new();
 
+    //allowed worker buildings
+    public bool buildFarms { get; set; } = false;
+    public bool buildMines { get; set; } = false;
+    public bool buildPastures { get; set; } = false;
+    public bool buildFishingBoats { get; set; } = false;
+    public bool buildLumbermills { get; set; } = false;
     
 
     public List<PolicyCard> unassignedPolicyCards { get; set; } = new();
@@ -140,8 +146,8 @@ public class BasePlayer
                 if (Global.gameManager.game.localPlayerTeamNum == teamNum)
                 {
                     manager.uiManager.UpdateEndTurnButton();
+                    manager.uiManager.assignGovernment = true;
                 }
-                manager.uiManager.assignGovernment = true;
             }
             
         }
@@ -152,8 +158,8 @@ public class BasePlayer
                 if (Global.gameManager.game.localPlayerTeamNum == teamNum)
                 {
                     manager.uiManager.UpdateEndTurnButton();
+                    manager.uiManager.assignGovernment = false;
                 }
-                manager.uiManager.assignGovernment = false;
             }
         }
     }

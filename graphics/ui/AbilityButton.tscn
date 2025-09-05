@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://crwyd1bayejyx"]
+
+[ext_resource type="Texture2D" uid="uid://dousrkdb75a8x" path="res://graphics/ui/icons/moveicon.png" id="1_0siop"]
+[ext_resource type="Script" uid="uid://coqwnstoj346c" path="res://addons/tooltips_pro/scripts/tooltip_trigger.gd" id="2_30ud7"]
+[ext_resource type="Texture2D" uid="uid://br6im7ewhsnpk" path="res://graphics/ui/icons/transparentfill.png" id="3_1rfjj"]
+
+[node name="AbilityButton" type="Button"]
+custom_minimum_size = Vector2(64, 64)
+offset_top = 1.0
+offset_right = 64.0
+offset_bottom = 65.0
+icon = ExtResource("1_0siop")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("2_30ud7")
+
+[node name="Cooldown" type="TextureProgressBar" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+max_value = 4.0
+value = 3.0
+fill_mode = 5
+texture_progress = ExtResource("3_1rfjj")
+
+[node name="CooldownLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
