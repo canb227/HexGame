@@ -112,7 +112,7 @@ offset_right = 190.08008
 offset_bottom = 47.000122
 grow_horizontal = 0
 grow_vertical = 0
-text = "Version: 0.093"
+text = "Version: 0.0905"
 
 [connection signal="pressed" from="b_play" to="." method="onPlayButtonPressed"]
 [connection signal="pressed" from="b_options" to="." method="onOptionsButtonPressed"]
