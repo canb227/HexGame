@@ -138,6 +138,18 @@ public partial class NetworkPeer : Node
         HandshakeMessageReceivedEvent += OnHandshakeMessageReceived;
 
         PeerListStabilityChangedEvent += OnPeerListStabilityChangedEvent;
+
+        int kb = 1024;
+        int defaultMax = 512 * kb;
+        int mb = 1024 * kb;
+        int max = 16 * mb;
+        nint ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(int)));
+
+        Marshal.WriteInt32(ptr, max);
+        SteamNetworkingUtils.SetConfigValue(ESteamNetworkingConfigValue.k_ESteamNetworkingConfig_SendBufferSize, ESteamNetworkingConfigScope.k_ESteamNetworkingConfig_Global, new nint(), ESteamNetworkingConfigDataType.k_ESteamNetworkingConfig_Int32, ptr);
+        SteamNetworkingUtils.SetConfigValue(ESteamNetworkingConfigValue.k_ESteamNetworkingConfig_RecvMaxMessageSize, ESteamNetworkingConfigScope.k_ESteamNetworkingConfig_Global, new nint(), ESteamNetworkingConfigDataType.k_ESteamNetworkingConfig_Int32, ptr);
+        SteamNetworkingUtils.SetConfigValue(ESteamNetworkingConfigValue.k_ESteamNetworkingConfig_RecvBufferSize, ESteamNetworkingConfigScope.k_ESteamNetworkingConfig_Global, new nint(), ESteamNetworkingConfigDataType.k_ESteamNetworkingConfig_Int32, ptr);
+
     }
 
     private void OnPeerListStabilityChangedEvent(bool isStable)
