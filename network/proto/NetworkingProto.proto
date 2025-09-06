@@ -39,7 +39,7 @@ message GameDataMessage
 {
 	string savename = 1;
 	int64 saveSize = 2;
-	string saveString = 3;
+	bytes saveCompressedBytes = 4;
 }
 
 message LobbyStatus

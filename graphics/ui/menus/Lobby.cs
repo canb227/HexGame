@@ -1,9 +1,11 @@
 using Godot;
-using System;
-using Steamworks;
-using System.Collections.Generic;
+using Google.Protobuf;
 using NetworkMessages;
+using Steamworks;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 public partial class Lobby : Control
 {
@@ -354,7 +356,11 @@ public partial class Lobby : Control
                 }
                 break;
             case "loadgame":
-                Global.Log($"Stashing game from host. Save file name:{lobbyMessage.GameDataMessage.Savename} with file size: {lobbyMessage.GameDataMessage.SaveSize} ");
+                Global.Log($"Stashing game from host. Save file name:{lobbyMessage.GameDataMessage.Savename} with claimed size: {lobbyMessage.GameDataMessage.SaveSize} ");
+                Godot.FileAccess file = Godot.FileAccess.Open(OS.GetUserDataDir() + "/saves/MPsave.txt", Godot.FileAccess.ModeFlags.WriteRead);
+                file.StoreBuffer(lobbyMessage.GameDataMessage.SaveCompressedBytes.ToByteArray());
+                file.Close();
+                Global.Log($"Game stashed with file size: {lobbyMessage.GameDataMessage.SaveSize} ");
                 saveGameData = lobbyMessage.GameDataMessage;
                 GetNode<Label>("NewGameStatus").Text = "GAME LOADED";
                 //GetNode<ColorRect>("newgamehide").Visible = true;
@@ -484,7 +490,15 @@ public partial class Lobby : Control
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
-        Global.gameManager.game = Global.gameManager.LoadGameRaw(saveGameData.SaveString);
+
+        Godot.FileAccess file = Godot.FileAccess.Open(OS.GetUserDataDir() + "/saves/MPsave.txt", Godot.FileAccess.ModeFlags.Read);
+
+        Global.Log($"Loading stashed game file. File is {file.GetLength()} bytes long (actually loading {(long)file.GetLength()} bytes)");
+        byte[] compressedBytes = file.GetBuffer((long)file.GetLength());
+        string JSONString =  Global.gameManager.CompressedToString(compressedBytes);
+        Global.Log($"Uncompressed save is size: {Encoding.UTF8.GetBytes(JSONString).Length}");
+        Global.gameManager.game = Global.gameManager.StringToGame(JSONString);
+
         Global.Log($"Save string loaded succesfully. Searching for my team out of total {Global.gameManager.game.teamNumToPlayerID.Keys.Count}.");
         int myTeamNum = -1;
         foreach (int teamNum in Global.gameManager.game.teamNumToPlayerID.Keys)
@@ -613,15 +627,16 @@ public partial class Lobby : Control
         string trimmedPath = path.Substring(path.LastIndexOf("/") + 1);
         Global.Log("File selected: " + trimmedPath);
 
-        Game loaded = Global.gameManager.LoadGame(path);
+        Godot.FileAccess fileCompressed = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
+        byte[] compressedBytes = fileCompressed.GetBuffer((long)fileCompressed.GetLength());
 
         LobbyMessage lobbyMessage = new LobbyMessage();
         lobbyMessage.Sender = Global.clientID;
         lobbyMessage.MessageType = "loadgame";
 
         GameDataMessage message = new GameDataMessage();
-        message.SaveString = Global.gameManager.ReadSave(path);
-        message.SaveSize = message.SaveString.Length;
+        message.SaveCompressedBytes = ByteString.CopyFrom(compressedBytes);
+        message.SaveSize = message.SaveCompressedBytes.Length;
         message.Savename = trimmedPath;
 
         lobbyMessage.GameDataMessage = message;

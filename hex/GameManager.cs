@@ -1,12 +1,19 @@
 using Godot;
 using NetworkMessages;
+using Steamworks;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using String = System.String;
 
 
 [GlobalClass]
@@ -61,6 +68,7 @@ public partial class GameManager : Node
     }
 
 
+    /*
     public void SaveGame(String filePath)
     {
         Global.Log("So you're saving the game, time to dump some data.");
@@ -70,47 +78,182 @@ public partial class GameManager : Node
         {
             Global.Log($"AI#{ai.player.teamNum}: turn finished?: {ai.player.turnFinished}");
         }
-        string json = JsonSerializer.Serialize(game, options);
-        Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Write);
-        fileAccess.StorePascalString(json);
-        fileAccess.Close();
-        GD.Print("Game data saved to file: " + filePath);
+        byte[] json = JsonSerializer.SerializeToUtf8Bytes(game, options);
+
+
     }
 
-    public string SaveGameRaw()
+    public byte[] SaveGameRaw()
     {
-        string json = JsonSerializer.Serialize(game, options);
-        return json;
+        byte[] json = JsonSerializer.SerializeToUtf8Bytes(game, options);
+        using (var compressedStream = new MemoryStream())
+        {
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+            {
+                zipStream.Write(json, 0, json.Length);
+            }
+            return compressedStream.ToArray();
+        }
     }
 
-    public string SaveGameRaw(Game game)
+    public byte[] SaveGameRaw(Game game)
     {
-        string json = JsonSerializer.Serialize(game, options);
-        return json;
+        byte[] json = JsonSerializer.SerializeToUtf8Bytes(game, options);
+        using (var compressedStream = new MemoryStream())
+        {
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+            {
+                zipStream.Write(json, 0, json.Length);
+                zipStream.Close();
+                return compressedStream.ToArray();
+            }
+
+        }
     }
 
-    public string ReadSave(String filePath)
+    public byte[] ReadSave(String filePath)
     {
         Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
-        return fileAccess.GetPascalString();
+        return fileAccess.GetBuffer((long)fileAccess.GetLength());
     }
+
+
     public Game LoadGame(String filePath)
     {
         Global.Log("Loading Game from file: " + filePath);
         Godot.FileAccess fileAccess = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
-        Game retVal = JsonSerializer.Deserialize<Game>(fileAccess.GetPascalString(), options);
-        fileAccess.Close();
-        return retVal;
+
+        byte[] compressedBytes = fileAccess.GetBuffer((long)fileAccess.GetLength());
+        using (var compressedStream = new MemoryStream(compressedBytes))
+        {
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+            {
+                using (var jsonUTF8 = new MemoryStream())
+                {
+                    zipStream.CopyTo(jsonUTF8);
+                    Game retVal = JsonSerializer.Deserialize<Game>(jsonUTF8);
+                    fileAccess.Close();
+                    return retVal;
+                }
+
+            }
+        }
     }
 
-    public Game LoadGameRaw(string rawSave)
+    public Game LoadGameRaw(byte[] rawSave)
     {
-        Game retVal = JsonSerializer.Deserialize<Game>(rawSave, options);
-        return retVal;
+        byte[] compressedBytes = rawSave;
+        using (var compressedStream = new MemoryStream(compressedBytes))
+        {
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+            {
+                using (var jsonUTF8 = new MemoryStream())
+                {
+                    zipStream.CopyTo(jsonUTF8);
+                    Game retVal = JsonSerializer.Deserialize<Game>(jsonUTF8);
+                    return retVal;
+                }
+
+            }
+        }
+    }*/
+
+    public byte[] GameToUTF8(Game game)
+    {
+        return JsonSerializer.SerializeToUtf8Bytes(game, options);
+    }
+
+    public Game UTF8ToGame(byte[] UTF8)
+    {
+        return JsonSerializer.Deserialize<Game>(UTF8, options);
     }
 
 
+    public string GameToString(Game game)
+    {
+        return JsonSerializer.Serialize(game, options);
+    }
 
+    public Game StringToGame(string str)
+    {
+        return JsonSerializer.Deserialize<Game>(str, options);
+    }
+
+    public byte[] UTF8ToCompressed(byte[] UTF8Bytes)
+    {
+        MemoryStream compressedBytesStream = new MemoryStream();
+        GZipStream gZipStream = new GZipStream(compressedBytesStream, CompressionMode.Compress);
+        gZipStream.Write(UTF8Bytes);
+        return compressedBytesStream.ToArray();
+    }
+
+    public byte[] CompressedToUTF8(byte[] compressedBytes)
+    {
+        MemoryStream compressedBytesStream = new MemoryStream(compressedBytes);
+        MemoryStream decompressedBytesStream = new MemoryStream();
+        GZipStream gZipStream = new GZipStream(compressedBytesStream, CompressionMode.Decompress);
+        gZipStream.CopyTo(decompressedBytesStream);
+        return decompressedBytesStream.ToArray();
+    }
+
+    public byte[] CompressString(string str)
+    {
+
+
+        Global.Log($"Attempting string compression... | og string length: {str.Length}");
+        MemoryStream compressedBytesStream = new MemoryStream();
+        GZipStream gZipStream = new GZipStream(compressedBytesStream, CompressionMode.Compress);
+        byte[] stringBytes = Encoding.UTF8.GetBytes(str);
+        Global.Log($"String is {stringBytes.Length} bytes long.");
+        gZipStream.Write(stringBytes);
+        gZipStream.Flush();
+        byte[] result = compressedBytesStream.ToArray();
+        Global.Log($"Compressed string is {result.Length} bytes long.");
+        return result;
+    }
+
+    public string CompressedToString(byte[] compressedBytes)
+    {
+        MemoryStream compressedBytesStream = new MemoryStream(compressedBytes);
+        MemoryStream decompressedBytesStream = new MemoryStream();
+        GZipStream gZipStream = new GZipStream(compressedBytesStream, CompressionMode.Decompress);
+        gZipStream.CopyTo(decompressedBytesStream);
+        return Encoding.UTF8.GetString(decompressedBytesStream.ToArray());
+    }
+
+    public void SaveGameToDisk(string filePath)
+    {
+        string JSONString = GameToString(game);
+
+        Global.Log($"Storing uncompressed save as a PascalString file for debug purposes...");
+        Global.Log($"Uncompressed save is length {JSONString.Length} size: {Encoding.UTF8.GetBytes(JSONString).Length}");
+        Godot.FileAccess uncompressedStringWriter = Godot.FileAccess.Open(filePath + "NOTCOMPRESSEDSTRING.txt", Godot.FileAccess.ModeFlags.WriteRead);
+        uncompressedStringWriter.StorePascalString(JSONString);
+        Global.Log($"Uncompressed save PascalString FILE is size: {uncompressedStringWriter.GetLength()}");
+        uncompressedStringWriter.Close();
+
+
+        Global.Log($"Compressing save for storage and transmission...");
+        Godot.FileAccess compressedStringWriter = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.WriteRead);
+        byte[] compressedStringBytes = CompressString(JSONString);
+        Global.Log($"Compressed save is size: {compressedStringBytes.Length}");
+        compressedStringWriter.StoreBuffer(compressedStringBytes);
+        Global.Log($"Compressed save FILE is size: {compressedStringWriter.GetLength()}");
+        compressedStringWriter.Close();
+
+        Global.Log($"Reloading compressed save for debug");
+        Godot.FileAccess compressedStringReader = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
+        byte[] compressedBytes = compressedStringReader.GetBuffer((long)compressedStringReader.GetLength());
+        Global.Log($"Reloaded compressed save is size {compressedBytes.Length}");
+        string uncompressedLoadedJSONString = CompressedToString(compressedBytes);
+        Global.Log($"Reloaded UNcompressed save is length {uncompressedLoadedJSONString.Length} size {Encoding.UTF8.GetBytes(uncompressedLoadedJSONString).Length}");
+        compressedStringReader.Close();
+
+        Godot.FileAccess uncompressedStringWriter2 = Godot.FileAccess.Open(filePath + "UNCOMPRESSED_STRING.txt", Godot.FileAccess.ModeFlags.WriteRead);
+        uncompressedStringWriter2.StorePascalString(uncompressedLoadedJSONString);
+        uncompressedStringWriter2.Close();
+
+    }
 
     public void startGame(int teamNum)
     {
@@ -370,7 +513,7 @@ public partial class GameManager : Node
         Layout pointyReal = new Layout(Layout.pointy, new Point(10, 10), new Point(0, 0));
         Layout pointy = new Layout(Layout.pointy, new Point(-10, 10), new Point(0, 0));
         Global.layout = pointy;
-        game = LoadGame(savePath);
+        //game = LoadGameFromDisk(savePath);
         game.localPlayerTeamNum = teamNum;
         InitGraphics(game, Global.layout);
         Global.menuManager.ClearMenus();
