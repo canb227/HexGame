@@ -1,6 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxb6md4upmoe3"]
+[gd_scene load_steps=5 format=3 uid="uid://bxb6md4upmoe3"]
 
 [ext_resource type="Script" uid="uid://qyy4tl8r8aun" path="res://graphics/ui/menus/Mainmenu.cs" id="1_osleq"]
+
+[sub_resource type="Gradient" id="Gradient_osleq"]
+offsets = PackedFloat32Array(0, 0.5608919, 0.88164663, 1)
+colors = PackedColorArray(0.047557615, 0.047557667, 0.04755763, 1, 0.1728327, 0.17283267, 0.17283267, 1, 0.29586652, 0.2958665, 0.2958665, 1, 0.60933006, 0.6093301, 0.60933006, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_y4nfi"]
+gradient = SubResource("Gradient_osleq")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_773cy"]
 font_size = 66
@@ -14,14 +23,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_osleq")
 
-[node name="bg" type="ColorRect" parent="."]
+[node name="bg" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.164058, 0.157242, 0.151379, 1)
+texture = SubResource("GradientTexture2D_y4nfi")
+expand_mode = 2
 
 [node name="b_play" type="Button" parent="."]
 layout_mode = 1
@@ -87,17 +97,17 @@ vertical_alignment = 1
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
 offset_left = -192.0
-offset_top = -49.0
+offset_bottom = 75.0
 grow_horizontal = 0
-grow_vertical = 0
-text = "Credits:
-Placeholder Art: Artgerm"
+text = "Placeholder Art: 
+Artgerm
+Valve
+"
+horizontal_alignment = 2
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 1

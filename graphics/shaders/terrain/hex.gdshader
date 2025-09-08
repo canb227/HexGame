@@ -64,7 +64,7 @@ void vertex() {
 
     //heightmap data
     VERTEX.y += max(visData.r, visData.g) * (texture(heightMap, vec2( ((-hexWorldPos.z)/widthDiv/chunkCount), (hexWorldPos.x)/heightDiv)).r * 20.0);// * texture(terrainInfo, hexValue.xy).r;
-
+    hexWorldPos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
     //normal calculation
 
     
@@ -102,37 +102,34 @@ void fragment() {
     vec4 oceanTexture = texture(waterTex, UV+time*0.01);//vec4 oceanTexture = vec4(0.0, 0.0, 0.54509, 1.0); // rgb(0,0,139)
     oceanTexture = vec4(oceanTexture.r*0.5, oceanTexture.g*0.5, oceanTexture.b+1.0, oceanTexture.a);
 
-    if(terrainData.g > 0.0) //r is temp g is type  .1 desert .2 plains .3 grass .4 tundra .5 artic
+    if(terrainData.r > 0.0) //desert
     {
-        if(terrainData.r > 0.0) //desert
-        {
-            NORMAL = texture(sandNorm, UV).rgb;
-            terrainColor = texture(sandTex, UV).rgb;
-        }
-        if(terrainData.r > 0.15) //plains
-        {
-            float blendfactor = 0.5;
-            NORMAL = mix(texture(sandNorm, UV), texture(grassNorm, UV), blendfactor).rgb;
-            terrainColor = mix(texture(sandTex, UV), texture(grassTex, UV), blendfactor).rgb;
-        }
-        if(terrainData.r > 0.25) //grasslands
-        {
-            NORMAL = texture(grassNorm, UV).rgb;
-            terrainColor = texture(grassTex, UV).rgb;
-        }
-        if(terrainData.r > 0.35) //tundra
-        {
-            float blendfactor = 0.5;
-            NORMAL = mix(texture(snowNorm, UV), texture(grassNorm, UV), blendfactor).rgb;
-            terrainColor = mix(texture(snowTex, UV), texture(grassTex, UV), blendfactor).rgb;
-        }
-        if(terrainData.r > 0.45) //artic
-        {
-            NORMAL = texture(snowNorm, UV).rgb;
-            terrainColor = texture(snowTex, UV).rgb;
-        }
+        NORMAL = texture(sandNorm, UV).rgb;
+        terrainColor = texture(sandTex, UV).rgb;
     }
-    if(terrainData.g > 0.19)
+    if(terrainData.r > 0.15) //plains
+    {
+        float blendfactor = 0.5;
+        NORMAL = mix(texture(sandNorm, UV), texture(grassNorm, UV), blendfactor).rgb;
+        terrainColor = mix(texture(sandTex, UV), texture(grassTex, UV), blendfactor).rgb;
+    }
+    if(terrainData.r > 0.25) //grasslands
+    {
+        NORMAL = texture(grassNorm, UV).rgb;
+        terrainColor = texture(grassTex, UV).rgb;
+    }
+    if(terrainData.r > 0.35) //tundra
+    {
+        float blendfactor = 0.5;
+        NORMAL = mix(texture(snowNorm, UV), texture(grassNorm, UV), blendfactor).rgb;
+        terrainColor = mix(texture(snowTex, UV), texture(grassTex, UV), blendfactor).rgb;
+    }
+    if(terrainData.r > 0.45) //artic
+    {
+        NORMAL = texture(snowNorm, UV).rgb;
+        terrainColor = texture(snowTex, UV).rgb;
+    }
+    if(hexWorldPos.y > 0.1)
     {
         if(terrainData.r > 0.0) //desert
         {
@@ -164,7 +161,7 @@ void fragment() {
             terrainColor = mix(texture(snowTex, UV), texture(hillTex, UV), blendfactor).rgb;
         }
     }
-    if(terrainData.g > 0.29)
+    if(hexWorldPos.y > 2.0)
     {
         if(terrainData.r > 0.0)
         {
