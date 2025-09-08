@@ -474,11 +474,13 @@ public partial class GraphicGameBoard : GraphicObject
             {
                 if(Global.gameManager.game.unitDictionary[unitID] is Hero hero)
                 {
+                    GD.Print("HERO: " + hero.name);
                     Global.gameManager.graphicManager.NewHero(hero.id);
                 }
                 else
                 {
                     Unit unit = Global.gameManager.game.unitDictionary[unitID];
+                    GD.Print("UNIT: " + unit.name);
                     Global.gameManager.graphicManager.NewUnit(unit.id);
                 }
             }

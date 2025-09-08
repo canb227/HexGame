@@ -3,12 +3,12 @@
   <Hero Name="Arcana" Mana="100" ManaRegeneration="5" MaxLevel="18" HeroImagePath="graphics/ui/icons/heroes/arcana.png">
     <ExperienceToLevelUp>0, 100, 200, 260, 300, 340, 380, 400, 450, 500, 600, 650, 700, 750, 800, 850, 900, 950, 0</ExperienceToLevelUp>
       <Unit Name="Arcana" Class="Combat, Land, Recon, Classical" ProductionCost="0" GoldCost="0" MovementSpeed="2.0" SightRange="2.0" CombatPower="15.0" HealingFactor="10" MaintenanceCost="0" IconPath="graphics/ui/icons/star.png" >
-    <ModelPaths>
-      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Elves" Path="graphics/models/baseperson_remesh3.glb" />
-      <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
-    </ModelPaths>
+      <ModelPaths>
+        <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Elves" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
+      </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
         <TerrainMoveType Name="Rough" Value="2" />

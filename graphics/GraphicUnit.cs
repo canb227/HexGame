@@ -72,7 +72,15 @@ public partial class GraphicUnit : GraphicObject
 
     private void InstantiateUnit(Unit unit)
     {
-        UnitLoader.unitsDict.TryGetValue(unit.unitType, out UnitInfo unitInfo);
+        UnitInfo unitInfo = new();
+        if (unit is Hero hero)
+        {
+            unitInfo = HeroLoader.heroDict[hero.name].unitInfo;
+        }
+        else
+        {
+            UnitLoader.unitsDict.TryGetValue(unit.unitType, out unitInfo);
+        }
         node3D = Godot.ResourceLoader.Load<PackedScene>("res://" + unitInfo.ModelPaths[Global.gameManager.game.playerDictionary[unit.teamNum].faction]).Instantiate<Node3D>();
         Transform3D newTransform = node3D.Transform;
         GraphicGameBoard ggb = (GraphicGameBoard)(Global.gameManager.graphicManager.graphicObjectDictionary[Global.gameManager.game.mainGameBoard.id]);
@@ -81,7 +89,7 @@ public partial class GraphicUnit : GraphicObject
         node3D.Transform = newTransform;
         Global.gameManager.graphicManager.hexObjectDictionary[unit.hex].Add(this);
         AddChild(node3D);
-        if(unit.name == "Founder" && unit.teamNum == Global.gameManager.game.localPlayerTeamNum)
+        if((unit.name == "Founder" || unit is Hero) && unit.teamNum == Global.gameManager.game.localPlayerTeamNum)
         {
             Global.camera.SetHexTarget(unit.hex);
         }
