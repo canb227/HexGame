@@ -329,9 +329,10 @@ public partial class GameManager : Node
     {
         for (int i = 0; i < Global.gameManager.game.mainGameBoard.gameHexDict.Count() / 80; i++)
         {
-            Hex spawnHex = PickRandomValidHex();
+            Hex spawnHex = PickRandomValidHexAwayFromRuin(3);
             int eventIndex = new Random().Next(AncientRuinsLoader.eventStartPoints.Count);
             SpawnRuin(spawnHex, eventIndex);
+
         }
     }
 
@@ -482,7 +483,7 @@ public partial class GameManager : Node
         List<Hex> list = new List<Hex>();
         foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
         {
-            if (game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn >= range && (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat || game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough) && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null && game.mainGameBoard.gameHexDict[hex].resourceType == ResourceType.None)
+            if (game.mainGameBoard.gameHexDict[hex].rangeToNearestSpawn >= range && (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat || game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough) && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null)
             {
                 list.Add(hex);
             }
@@ -491,6 +492,22 @@ public partial class GameManager : Node
         Random rng = new Random();
         return list[rng.Next(list.Count)];
     }
+
+    public Hex PickRandomValidHexAwayFromRuin(int range)
+    {
+        List<Hex> list = new List<Hex>();
+        foreach (Hex hex in game.mainGameBoard.gameHexDict.Keys)
+        {
+            if (game.mainGameBoard.gameHexDict[hex].rangeToNearestRuin >= range && (game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat || game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough) && game.mainGameBoard.gameHexDict[hex].units.Count == 0 && game.mainGameBoard.gameHexDict[hex].district == null && game.mainGameBoard.gameHexDict[hex].resourceType == ResourceType.None)
+            {
+                list.Add(hex);
+            }
+        }
+
+        Random rng = new Random();
+        return list[rng.Next(list.Count)];
+    }
+
 
     public Hex PickRandomValidHex()
     {
@@ -1375,6 +1392,13 @@ public partial class GameManager : Node
 
         try
         {
+            foreach (Hex hex in location.WrappingRange(4, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+            {
+                if (hex.WrapDistance(location) < Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestRuin)
+                {
+                    Global.gameManager.game.mainGameBoard.gameHexDict[hex].rangeToNearestRuin = hex.WrapDistance(location);
+                }
+            }
             new AncientRuins(location, AncientRuinsLoader.eventStartPoints[eventIndex].eventID);
         }
         catch (Exception e)
