@@ -5,7 +5,7 @@
             <PolicyCard Name="UrbanPlanning" />
         </PolicyCardUnlocks>
         <BuildingUnlocks>
-            <BuildingType Name="TownDistrict" />
+            <BuildingType Name="RefineryDistrict" />
         </BuildingUnlocks>
         <Effects>
             <Effect Name="TribalDominionEffect" />

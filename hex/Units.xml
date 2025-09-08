@@ -1,5 +1,5 @@
 <Units>
-  <Unit Name="Founder" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="4.0" CombatPower="10.0" HealingFactor="20" ZoneOfControl="false" IconPath="graphics/ui/icons/star.png">
+  <Unit Name="Founder" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="4.0" CombatPower="10.0" HealingFactor="20" ZoneOfControl="false" IconPath="graphics/ui/icons/house.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/units/baseperson_settler.glb" />
       <Model Faction="Humans" Path="graphics/models/units/baseperson_settler.glb" />
@@ -45,7 +45,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Settler" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="2.0" CombatPower="5.0" HealingFactor="10" MaintenanceCost="1" ZoneOfControl="false" IconPath="graphics/ui/icons/star.png">
+  <Unit Name="Settler" Class="Civilian, Land" Faction="Human" ProductionCost="50" GoldCost="250" MovementSpeed="3.0" SightRange="2.0" CombatPower="5.0" HealingFactor="10" MaintenanceCost="1" ZoneOfControl="false" IconPath="graphics/ui/icons/house.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/units/baseperson_settler.glb" />
       <Model Faction="Humans" Path="graphics/models/units/baseperson_settler.glb" />

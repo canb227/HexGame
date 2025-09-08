@@ -160,82 +160,108 @@ public class MapGenerator
 
         for (int r = 0; r < mapHeight; r++)
         {
-            int r_offset = r >> 1; //same as (int)Math.Floor(r/2.0f)
+            int r_offset = r >> 1;
             for (int q = 0 - r_offset; q < mapWidth - r_offset; q++)
             {
 
                 AbstractHex aHex = new AbstractHex();
                 aHex.hex = new Hex(q, r, -q - r);
                 aHex.resourceType = ResourceType.None;
-                aHex.terrainTemperature = AssignTemperature(r);
+                aHex.terrainTemperature = AssignTemperature(q, r);
                 aHex.terrainType = TerrainType.Ocean;
                 aHex.features = new List<FeatureType>();
-                //Global.debugLog("Created hex at (" + r + "," + q + ")");
-
-
                 Hex indexHex = new Hex(q, r, -q - r);
-                /*
-                 *                 if (r==0)
-                {
-                    Global.debugLog("Top Row Q: " + q);
-                }
-                if (r == 6)
-                {
-                    Global.debugLog("r=6 Q: " + q);
-                }
-                Hex badHex = new Hex(45, 6, -45 - 6);
-                if (badHex.Equals(indexHex))
-                {
-                    Global.debugLog("Bad Hex Inits!" + indexHex);
-                }*/
                 abstractHexGrid.Add(aHex.hex, aHex);
             }
         }
-
+        SmoothTemperatures(abstractHexGrid, 2);
 
     }
 
-    private TerrainTemperature AssignTemperature(int y)
+    private void SmoothTemperatures(Dictionary<Hex, AbstractHex> grid, int iterations)
     {
-        TerrainTemperature retval;
-        if (y < 0.1f * mapHeight)
-        { 
-            //top of map
-            retval = TerrainTemperature.Arctic;
-        }
-        else if (y<0.2f*mapHeight)
+        for (int iter = 0; iter < iterations; iter++)
         {
-            retval = TerrainTemperature.Tundra;
+            // Copy current state
+            var newTemps = new Dictionary<Hex, TerrainTemperature>();
+
+            foreach (var kv in grid)
+            {
+                Hex hex = kv.Key;
+                AbstractHex aHex = kv.Value;
+
+                // Get neighbors
+                List<Hex> neighbors = hex.WrappingNeighbors(0, mapWidth, mapHeight).ToList();
+
+                // Count neighbor temperatures
+                var counts = new Dictionary<TerrainTemperature, int>();
+                foreach (var n in neighbors)
+                {
+                    if (grid.ContainsKey(n))
+                    {
+                        var temp = grid[n].terrainTemperature;
+                        if (!counts.ContainsKey(temp))
+                            counts[temp] = 0;
+                        counts[temp]++;
+                    }
+                }
+
+                // Pick most common neighbor temperature
+                TerrainTemperature mostCommon = aHex.terrainTemperature;
+                int maxCount = 0;
+                foreach (var c in counts)
+                {
+                    if (c.Value > maxCount)
+                    {
+                        maxCount = c.Value;
+                        mostCommon = c.Key;
+                    }
+                }
+
+                newTemps[hex] = mostCommon;
+            }
+            // Apply smoothed temperatures
+            foreach (var kv in newTemps)
+            {
+                AbstractHex temp = grid[kv.Key];
+                temp.terrainTemperature = kv.Value;
+                grid[kv.Key] = temp;
+            }
         }
-        else if (y < 0.3f * mapHeight)
-        {
-            retval = TerrainTemperature.Grassland;
-        }
-        else if (y < 0.45f * mapHeight)
-        {
-            retval = TerrainTemperature.Plains;
-        }
-        else if (y < 0.55f * mapHeight)
-        {
-            retval = TerrainTemperature.Desert;
-        }
-        else if (y < 0.70f * mapHeight)
-        {
-            retval = TerrainTemperature.Plains;
-        }
-        else if (y < 0.8f * mapHeight)
-        {
-            retval = TerrainTemperature.Grassland;
-        }
-        else if (y < 0.9f * mapHeight)
-        {
-            retval = TerrainTemperature.Tundra;
-        }
+    }
+
+
+    private TerrainTemperature AssignTemperature(int x, int y)
+    {
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.SetFrequency(0.05f); // smaller = bigger clumps
+        noise.SetSeed(1); // keep consistent maps
+
+        float noiseValue = (noise.GetNoise2D(x, y) + 1f) / 2f;
+        float latitudeFactor = (float)y / mapHeight;
+        // Blend noise into latitude
+        float noiseInfluence = 0.35f; // how much noise affects temperature
+        float temperatureSeed = latitudeFactor + (noiseValue - 0.5f) * noiseInfluence;
+
+        // Assign temperature
+        if (temperatureSeed < 0.10f)
+            return TerrainTemperature.Arctic;
+        else if (temperatureSeed < 0.25f)
+            return TerrainTemperature.Tundra;
+        else if (temperatureSeed < 0.40f)
+            return TerrainTemperature.Grassland;
+        else if (temperatureSeed < 0.48f)
+            return TerrainTemperature.Plains;
+        else if (temperatureSeed < 0.52f)
+            return TerrainTemperature.Desert;
+        else if (temperatureSeed < 0.60f)
+            return TerrainTemperature.Plains;
+        else if (temperatureSeed < 0.75f)
+            return TerrainTemperature.Grassland;
+        else if (temperatureSeed < 0.90f)
+            return TerrainTemperature.Tundra;
         else
-        {
-            retval = TerrainTemperature.Arctic;
-        }
-        return retval;
+            return TerrainTemperature.Arctic;
     }
 
     public void debugCoasts()
@@ -325,14 +351,6 @@ public class MapGenerator
                 
                 // Randomly assign features
                 hex.features.Clear();
-                if (rnd.NextDouble() < 0.5)
-                {
-                    hex.features.Add(FeatureType.Forest);
-                }
-                if (rnd.NextDouble() < 0.3)
-                {
-                    hex.features.Add(FeatureType.River);
-                }
                 
                 abstractHexGrid[new Hex(q,r,-q-r)] = hex;
             }
@@ -402,7 +420,7 @@ public class MapGenerator
         noise.FractalOctaves = 6;
         noise.FractalGain = 0.75f;
        
-        for (int r = (int)Math.Ceiling(mapHeight * 0.05); r < (int)Math.Floor(mapHeight * 0.95); r++)
+        for (int r = 2; r < mapHeight-3; r++)
         {
             int r_offset = r >> 1;
             for (int q = 2 - r_offset ; q < startingRegionSizeWidth - r_offset; q++)
@@ -415,7 +433,7 @@ public class MapGenerator
             }
         }
 
-        for (int r = (int)Math.Ceiling(mapHeight * 0.05); r < (int)Math.Floor(mapHeight * 0.95); r++)
+        for (int r = r = 2; r < mapHeight - 3; r++)
         {
             int r_offset = r >> 1;
             for (int q = startingRegionSizeWidth+2 - r_offset; q < mapWidth-2 - r_offset; q++)
@@ -596,10 +614,40 @@ public class MapGenerator
                 AbstractHex hex = abstractHexGrid[new Hex(q,r,-q-r)];
                 if (hex.terrainType == TerrainType.Flat || hex.terrainType == TerrainType.Rough)
                 {
-                    if (rng.NextDouble() < 0.5f)
+                    if (hex.terrainTemperature == TerrainTemperature.Arctic)
                     {
-                        //Global.debugLog("added tree");
-                        hex.features.Add(FeatureType.Forest);
+                        if (false)
+                        {
+                            hex.features.Add(FeatureType.Forest);
+                        }
+                    }
+                    else if (hex.terrainTemperature == TerrainTemperature.Tundra)
+                    {
+                        if (rng.NextDouble() < 0.1f)
+                        {
+                            hex.features.Add(FeatureType.Forest);
+                        }
+                    }
+                    else if (hex.terrainTemperature == TerrainTemperature.Grassland)
+                    {
+                        if (rng.NextDouble() < 0.15f)
+                        {
+                            hex.features.Add(FeatureType.Forest);
+                        }
+                    }
+                    else if (hex.terrainTemperature == TerrainTemperature.Plains)
+                    {
+                        if (rng.NextDouble() < 0.1f)
+                        {
+                            hex.features.Add(FeatureType.Forest);
+                        }
+                    }
+                    else if (hex.terrainTemperature == TerrainTemperature.Desert)
+                    {
+                        if (rng.NextDouble() < 0.05f)
+                        {
+                            hex.features.Add(FeatureType.Forest);
+                        }
                     }
                 }
                 if (hex.terrainTemperature == TerrainTemperature.Grassland && hex.terrainType == TerrainType.Flat)

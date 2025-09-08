@@ -19,6 +19,7 @@
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
         <BuildingUnlocks>
+            <BuildingType Name="TownDistrict" />
             <BuildingType Name="Hut" />
         </BuildingUnlocks>
         <Effects>
@@ -58,7 +59,6 @@
             <ResearchType>Agriculture</ResearchType>
         </Requirements>
         <BuildingUnlocks>
-            <BuildingType Name="RefineryDistrict" />
             <BuildingType Name="Stonecutter" />
         </BuildingUnlocks>
         <Effects>
@@ -125,7 +125,6 @@
             <ResearchType>Pottery</ResearchType>
         </Requirements>
         <BuildingUnlocks>
-            <BuildingType Name="RefineryDistrict" />
             <BuildingType Name="Reservoir" />
             <BuildingType Name="HangingGardens" />
         </BuildingUnlocks>

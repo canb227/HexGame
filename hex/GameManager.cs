@@ -327,7 +327,7 @@ public partial class GameManager : Node
 
     private void SpawnRuins()
     {
-        for (int i = 0; i < Global.gameManager.game.playerDictionary.Count * 4; i++)
+        for (int i = 0; i < Global.gameManager.game.mainGameBoard.gameHexDict.Count() / 80; i++)
         {
             Hex spawnHex = PickRandomValidHex();
             int eventIndex = new Random().Next(AncientRuinsLoader.eventStartPoints.Count);
@@ -339,7 +339,7 @@ public partial class GameManager : Node
     private void SpawnEncampments()
     {
         int teamNumCounter = Global.gameManager.game.playerDictionary.Keys.Count+1;
-        int count = (int) Mathf.Floor(Global.gameManager.game.playerDictionary.Count * 1.5f);
+        int count = Global.gameManager.game.mainGameBoard.gameHexDict.Count()/200;//(int) Mathf.Floor(Global.gameManager.game.playerDictionary.Count * 1.5f);
         for (int i = 0; i < count; i ++)
         {
             Hex spawnHex = PickRandomValidHexAwayFromSpawn(4);
