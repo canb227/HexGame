@@ -408,6 +408,70 @@ public class MapGenerator
         return "0";
     }
 
+    private void generatePangeaMap()
+    {
+        int startingRegionSizeWidth = (mapWidth) - 2;
+        int startingRegionSizeHeight = (int)Math.Floor(mapHeight * 0.9);
+        Random rng = new Random();
+        FastNoiseLite noise = new FastNoiseLite();
+        noise.Seed = rng.Next(0, 1000000);
+        noise.NoiseType = FastNoiseLite.NoiseTypeEnum.SimplexSmooth;
+        noise.Frequency = 0.1f;
+        noise.FractalOctaves = 6;
+        noise.FractalGain = 0.75f;
+
+        for (int r = 2; r < mapHeight - 3; r++)
+        {
+            int r_offset = r >> 1;
+            for (int q = 2 - r_offset; q < startingRegionSizeWidth - r_offset; q++)
+            {
+                float noiseValue = noise.GetNoise2D(r, q) / 2 + 0.5f;
+                //Global.debugLog("Noise Value: " + noiseValue);
+                AbstractHex hex = abstractHexGrid[new Hex(q, r, -q - r)];
+                hex.terrainType = NoiseToTerrainType(noiseValue);
+                abstractHexGrid[new Hex(q, r, -q - r)] = hex;
+            }
+        }
+
+        for (int i = 0; i < erosionFactor; i++)
+        {
+            ErodeEdges();
+        }
+
+        GenerateCoasts();
+        ExtendCoasts();
+
+        ErodeMountains();
+        ErodeRough();
+        AddHills();
+        AddLakes();
+
+        switch (mapSize)
+        {
+            case MapSize.Tiny:
+                AddArctic(TINY_ARCTIC_HEIGHT);
+                break;
+            case MapSize.Small:
+                AddArctic(SMALL_ARCTIC_HEIGHT);
+                break;
+            case MapSize.Medium:
+                AddArctic(MEDIUM_ARCTIC_HEIGHT);
+                break;
+            case MapSize.Large:
+                AddArctic(LARGE_ARCTIC_HEIGHT);
+                break;
+            case MapSize.Huge:
+                AddArctic(HUGE_ARCTIC_HEIGHT);
+                break;
+            default:
+                break;
+        }
+
+        AddFeatures();
+        AddResources();
+
+    }
+
     private void generateContinentsMap()
     {
         int startingRegionSizeWidth = (mapWidth / 2)-2;
@@ -927,7 +991,7 @@ public class MapGenerator
                 generateContinentsMap();
                 break;
             case MapType.Pangea:
-                generateContinentsMap();
+                generatePangeaMap();
                 break;
             case MapType.DebugSquare:
                 debugSquare();
