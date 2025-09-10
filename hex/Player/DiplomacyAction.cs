@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 [Serializable]
 public class DiplomacyAction
 {
-    public int teamNum;
-    public string actionName;
-    public bool hasDuration;
-    public int duration;
-    public int targetTeamNum;
-    public bool hasQuantity;
-    public int quantity = 0;
+    public int teamNum { get; set; }
+    public string actionName { get; set; }
+    public bool hasDuration { get; set; }
+    public int duration { get; set; }
+    public int targetTeamNum { get; set; }
+    public bool hasQuantity { get; set; }
+    public int quantity { get; set; } = 0;
     public DiplomacyAction(int teamNum, string actionName, bool hasQuantity, bool hasDuration)
     {
         this.teamNum = teamNum;

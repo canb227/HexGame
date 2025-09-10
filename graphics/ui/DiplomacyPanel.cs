@@ -74,6 +74,7 @@ public partial class DiplomacyPanel : Control
         {
             DeclareWar();
         }
+        UpdateDiplomacyPanel(otherTeamNum, currentOffer);
     }
     private void BreakAlliance(int targetTeamNum)
     {

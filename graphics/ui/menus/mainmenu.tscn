@@ -113,7 +113,7 @@ horizontal_alignment = 2
 layout_mode = 1
 offset_right = 192.0
 offset_bottom = 49.0
-text = "Version: 0.0908"
+text = "Version: 0.0910"
 
 [connection signal="pressed" from="b_play" to="." method="onPlayButtonPressed"]
 [connection signal="pressed" from="b_options" to="." method="onOptionsButtonPressed"]
