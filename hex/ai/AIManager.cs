@@ -547,7 +547,7 @@ public partial class AIManager : Node
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Ranged Military subroutine"); }
         List<Hex> validMoves = unit.MovementRange().Keys.ToList<Hex>();
         Hex target;
-        UnitAbility rangedAttack = unit.abilities.FirstOrDefault(a => a.name.Equals("RangedAttack"));
+        UnitAbility rangedAttack = Global.gameManager.game.unitAbilities[unit.abilities.Keys.FirstOrDefault(a => a.Equals("RangedAttack"))];
 
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Using RANDOM_AGGRESSIVE ranged military strategy"); }
         if (AIDEBUG) { Global.Log("[AI#" + ai.player.teamNum + "][UNIT:" + unit.id + "] Searching for t within range 6"); }

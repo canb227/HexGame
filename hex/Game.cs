@@ -19,6 +19,7 @@ public class Game
     public Dictionary<int, City> cityDictionary { get; set; } = new();
     public Dictionary<int, Unit> unitDictionary { get; set; } = new();
     public HashSet<String> builtWonders { get; set; } = new();
+    public Dictionary<string, UnitAbility> unitAbilities { get; set; } = new();
     public TeamManager teamManager { get; set; }
     public TurnManager turnManager { get; set; }
     private int currentID = 0;

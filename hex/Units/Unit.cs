@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Formats.Asn1;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using static System.Net.Mime.MediaTypeNames;
@@ -56,7 +57,7 @@ public partial class Unit
     public List<Hex>? currentPath { get; set; } = new();
     public List<Hex> visibleHexes { get; set; } = new();
     public List<UnitEffect> effects { get; set; } = new();
-    public List<UnitAbility> abilities { get; set; } = new();
+    public Dictionary<string, int> abilities { get; set; } = new();
     public Dictionary<string, UnitEffect> onKillEffects { get; set; } = new();
     public bool isTargetEnemy { get; set; }
     public bool isSleeping { get; set; }
@@ -165,9 +166,13 @@ public partial class Unit
             bleedDuration--;
             decreaseHealth(bleedStrength);
         }
-        foreach (UnitAbility ability in abilities)
+        foreach (string abilityName in abilities.Keys)
         {
-            ability.ResetAbilityUses();
+            UnitAbility ability = Global.gameManager.game.unitAbilities[abilityName];
+            if (ability.maxChargesPerTurn > -1)
+            {
+                abilities[abilityName] = ability.maxChargesPerTurn;
+            }
         }
         isSkipping = false;
         SetRemainingMovement(movementSpeed);
@@ -186,11 +191,12 @@ public partial class Unit
     public void SetAttacksLeft(int attacksLeft)
     {
         this.attacksLeft = attacksLeft;
-        foreach (UnitAbility ability in abilities)
+        foreach (string abilityName in abilities.Keys)
         {
+            UnitAbility ability = Global.gameManager.game.unitAbilities[abilityName];
             if (ability.name.EndsWith("Attack"))
             {
-                ability.currentCharges = attacksLeft;
+                abilities[abilityName] = attacksLeft;
             }
         }
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
@@ -269,7 +275,15 @@ public partial class Unit
 
     public void AddAbility(string abilityName, UnitInfo unitInfo)
     {
-        abilities.Add(new UnitAbility(id, abilityName, unitInfo.Abilities[abilityName].Item1, unitInfo.Abilities[abilityName].Item2, unitInfo.Abilities[abilityName].Item3, unitInfo.Abilities[abilityName].Item4, unitInfo.Abilities[abilityName].Item5, unitInfo.Abilities[abilityName].Item6, unitInfo.Abilities[abilityName].Item7));
+        if(Global.gameManager.game.unitAbilities.ContainsKey(abilityName))
+        {
+            abilities.Add(abilityName, Global.gameManager.game.unitAbilities[abilityName].maxChargesPerTurn);
+        }
+        else
+        {
+            Global.gameManager.game.unitAbilities.Add(abilityName, new UnitAbility(abilityName, unitInfo.Abilities[abilityName].Item1, unitInfo.Abilities[abilityName].Item2, unitInfo.Abilities[abilityName].Item3, unitInfo.Abilities[abilityName].Item4, unitInfo.Abilities[abilityName].Item5, unitInfo.Abilities[abilityName].Item6, unitInfo.Abilities[abilityName].Item7));
+            abilities.Add(abilityName, Global.gameManager.game.unitAbilities[abilityName].maxChargesPerTurn);
+        }
     }
 
     public void AddGenericAbility(string abilityName, string abilityIconPath)
@@ -278,22 +292,30 @@ public partial class Unit
         validTargetTypes.TargetSelf = true; validTargetTypes.AllowsAnyUnit = true; validTargetTypes.AllowsAnyBuilding = true;
         validTargetTypes.AllowsAnyTerrain = true; validTargetTypes.AllowsAnyResource = true; validTargetTypes.AllowsAlly = true;
         validTargetTypes.AllowsAnyFeature = true;
-        abilities.Add(new UnitAbility(id, abilityName , validTargetTypes: validTargetTypes, iconPath: abilityIconPath));
-    }
-
-    public void UseAbilities()
-    {
-        for (int i = 0; i < abilities.Count; i++)
+        if (Global.gameManager.game.unitAbilities.ContainsKey(abilityName))
         {
-            var ability = abilities[i];
-            if (ability.currentCharges >= 1)
-            {
-                ability.GetUnitEffect().Apply(id);
-                ability.currentCharges -= 1; // Update the tuple directly
-                abilities[i] = ability; // Write the modified tuple back to the list
-            }
+            abilities.Add(abilityName, Global.gameManager.game.unitAbilities[abilityName].maxChargesPerTurn);
+        }
+        else
+        {
+            Global.gameManager.game.unitAbilities.Add(abilityName, new UnitAbility(abilityName, validTargetTypes: validTargetTypes, iconPath: abilityIconPath)  );
+            abilities.Add(abilityName, Global.gameManager.game.unitAbilities[abilityName].maxChargesPerTurn);
         }
     }
+
+    //public void UseAbilities()
+    //{
+    //    for (int i = 0; i < abilities.Count; i++)
+    //    {
+    //        var ability = abilities[i];
+    //        if (ability.currentCharges >= 1)
+    //        {
+    //            ability.GetUnitEffect().Apply(id);
+    //            ability.currentCharges -= 1; // Update the tuple directly
+    //            abilities[i] = ability; // Write the modified tuple back to the list
+    //        }
+    //    }
+    //}
 
     public bool CanSettleHere(Hex hex, int range, List<TerrainType> allowedTerrainTypes, bool logging = false)
     {
@@ -1130,14 +1152,18 @@ public partial class Unit
             }
         }
         //check for districts, your districts OK, all others are a no no, unless attacking enemy OR its dead
-        if(secondHex.district != null && Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum != teamNum)
+        if (secondHex.district != null)
         {
-            if(!(isTargetEnemy && teamManager.GetEnemies(teamNum).Contains(Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum)) && secondHex.district.health > 0)
+            var districtTeam = Global.gameManager.game.cityDictionary[secondHex.district.cityID].teamNum;
+            bool isDistrictEnemy = teamManager.GetEnemies(teamNum).Contains(districtTeam);
+
+            // Add cost unless target is enemy AND district is enemy AND health > 0
+            if (!(isTargetEnemy && isDistrictEnemy && secondHex.district.health > 0))
             {
                 moveCost += 12121212;
             }
         }
-        if(moveCost < 9999)
+        if (moveCost < 9999)
         {
             moveCost = Math.Min(moveCost, unitMovementSpeed);
         }

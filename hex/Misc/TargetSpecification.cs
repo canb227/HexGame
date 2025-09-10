@@ -185,7 +185,6 @@ public class TargetSpecification
                 if(gameHex.units.Count == 0 && unitType == "None")
                 {
                     validUnit = true;
-                    GD.Print("no unit here so its allowed");
                     break;
                 }
                 foreach (int unitID in gameHex.units)

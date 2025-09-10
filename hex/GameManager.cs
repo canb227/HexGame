@@ -589,15 +589,15 @@ public partial class GameManager : Node
         {
             return;
         }
-        if (game.teamManager.relationships.ContainsKey(0) && game.localPlayerTeamNum!=0)
+/*        if (game.teamManager.relationships.ContainsKey(0) && game.localPlayerTeamNum!=0)
         {
             //game.turnManager.EndCurrentTurn(0);
-        }
+        }*/
 
-        if (game.teamManager.relationships.ContainsKey(2))
+/*        if (game.teamManager.relationships.ContainsKey(2))
         {
             //game.turnManager.EndCurrentTurn(2);
-        }
+        }*/
 
         if (SkipPlayerTurns!=-1)
         {
@@ -704,14 +704,14 @@ public partial class GameManager : Node
             return;
         }
         //find the ability like normal and check hero abilities if we didnt find it
-        UnitAbility ability = unit.abilities.Find(x => x.name == AbilityName);
+        UnitAbility ability = game.unitAbilities[AbilityName];
         int level = 0;
-        if (ability == null)
+        if (unit is Hero hero)
         {
-            if (unit is Hero hero)
+            HeroAbility heroAbility = hero.heroAbilities.Find(x => x.abilityName == AbilityName);
+            if (heroAbility != null)
             {
-                HeroAbility heroAbility = hero.heroAbilities.Find(x => x.ability.name == AbilityName);
-                ability = heroAbility.ability;
+                ability = game.unitAbilities[heroAbility.abilityName];
                 level = heroAbility.level;
             }
         }
@@ -723,13 +723,13 @@ public partial class GameManager : Node
 
         try
         {
-            ability.ActivateAbility(target, level);
-            if (unit is Hero hero)
+            ability.ActivateAbility(unitID ,target, level);
+            if (unit is Hero hero2)
             {
-                HeroAbility heroAbility = hero.heroAbilities.Find(x => x.ability.name == AbilityName);
+                HeroAbility heroAbility = hero2.heroAbilities.Find(x => x.abilityName == AbilityName);
                 if (heroAbility != null)
                 {
-                    hero.mana -= heroAbility.manaCost[heroAbility.level];
+                    hero2.mana -= heroAbility.manaCost[heroAbility.level];
                     heroAbility.currentCooldown = heroAbility.cooldown[heroAbility.level];
                 }
             }
@@ -1475,7 +1475,7 @@ public partial class GameManager : Node
             Unit unit = Global.gameManager.game.unitDictionary[heroID];
             if (unit is Hero hero)
             {
-                HeroAbility heroAbility = hero.heroAbilities.Find(x => x.ability.name == abilityName);
+                HeroAbility heroAbility = hero.heroAbilities.Find(x => x.abilityName == abilityName);
                 heroAbility.LevelUpAbility(hero);
                 Global.gameManager.graphicManager.uiManager.UpdateHeroUIDisplay();
             }

@@ -53,8 +53,8 @@ public class Hero : Unit
             this.heroImagePath = heroInfo.heroImagePath;
             foreach (HeroAbility heroAbility in heroInfo.heroAbilities)
             {
-                UnitAbility ability = new UnitAbility(id, heroAbility.ability.name, heroAbility.ability.description, heroAbility.ability.isUnlocked, heroAbility.ability.combatPower, heroAbility.ability.maxChargesPerTurn, heroAbility.ability.range, heroAbility.ability.validTargetTypes, heroAbility.ability.iconPath);
-                heroAbilities.Add(new HeroAbility(ability, heroAbility.manaCost, heroAbility.cooldown, heroAbility.level, heroAbility.maxLevel, heroAbility.minLevelToLearn, heroAbility.isUltimate));
+                
+                heroAbilities.Add(new HeroAbility(heroAbility.abilityName, Global.gameManager.game.unitAbilities[heroAbility.abilityName].maxChargesPerTurn, heroAbility.manaCost, heroAbility.cooldown, heroAbility.level, heroAbility.maxLevel, heroAbility.minLevelToLearn, heroAbility.isUltimate));
             }
 
             Global.gameManager.game.unitDictionary.TryAdd(id, this);
@@ -152,7 +152,7 @@ public class Hero : Unit
             {
                 heroAbility.currentCooldown--;
             }
-            heroAbility.ability.ResetAbilityUses();
+            heroAbility.usageCount = Global.gameManager.game.unitAbilities[heroAbility.abilityName].maxChargesPerTurn;
         }
         Global.gameManager.graphicManager.uiManager.UpdateHeroUIDisplay();
     }
@@ -172,7 +172,7 @@ public class Hero : Unit
 
     public void ProcessPassiveEffect(HeroAbility heroAbility)
     {
-        if(heroAbility.ability.name == "MysticRegeneration")
+        if(heroAbility.abilityName == "MysticRegeneration")
         {
             if (heroAbility.level == 1)
             {
@@ -203,7 +203,7 @@ public class Hero : Unit
                 baseMaxMana += 10;
             }
         }
-        else if(heroAbility.ability.name == "Blood?")
+        else if(heroAbility.abilityName == "Blood?")
         {
             if(heroAbility.level == 1)
             {
@@ -222,21 +222,24 @@ public class Hero : Unit
                 healingOverTime += 3;
             }
         }
-        else if(heroAbility.ability.name == "ForTheHorde")
+        else if(heroAbility.abilityName == "ForTheHorde")
         {
             if(heroAbility.level == 1)
             {
-                onKillEffects.Add("ForTheHorde", heroAbility.ability.GetUnitEffectWithLevel(1));
+                UnitAbility ability = Global.gameManager.game.unitAbilities[heroAbility.abilityName];
+                onKillEffects.Add("ForTheHorde", ability.GetUnitEffectWithLevel(1));
             }
             else if(heroAbility.level == 2)
             {
                 onKillEffects.Remove("ForTheHorde");
-                onKillEffects.Add("ForTheHorde", heroAbility.ability.GetUnitEffectWithLevel(2));
+                UnitAbility ability = Global.gameManager.game.unitAbilities[heroAbility.abilityName];
+                onKillEffects.Add("ForTheHorde", ability.GetUnitEffectWithLevel(2));
             }
             else if(heroAbility.level == 3)
             {
                 onKillEffects.Remove("ForTheHorde");
-                onKillEffects.Add("ForTheHorde", heroAbility.ability.GetUnitEffectWithLevel(3));
+                UnitAbility ability = Global.gameManager.game.unitAbilities[heroAbility.abilityName];
+                onKillEffects.Add("ForTheHorde", ability.GetUnitEffectWithLevel(3));
             }
         }
     }

@@ -12,7 +12,6 @@ public enum DiplomaticState
 [Serializable]
 public class TeamManager
 {
-    public Dictionary<int, Dictionary<int, int>> relationships { get; set; } = new Dictionary<int, Dictionary<int, int>>();
     public Dictionary<int, Dictionary<int, DiplomaticState>> diplomaticStates { get; set; } = new();
     public Dictionary<int, DiplomacyDeal> pendingDeals { get; set; } = new();
 
@@ -35,33 +34,29 @@ public class TeamManager
     {
         Dictionary<int, int> newTeam = new();
         Dictionary<int, DiplomaticState> newStates = new();
-        foreach(int oldTeamNum in relationships.Keys)
+        foreach(int oldTeamNum in diplomaticStates.Keys)
         {
-            relationships[oldTeamNum].Add(newTeamNum, defaultRelationship);
             diplomaticStates[oldTeamNum].Add(newTeamNum, DiplomaticState.Peace);
 
             newTeam.Add(oldTeamNum, defaultRelationship);
             newStates.Add(oldTeamNum, DiplomaticState.Peace);
         }
-        relationships.Add(newTeamNum, newTeam);
         diplomaticStates.Add(newTeamNum, newStates);
     }
-    public void SetRelationship(int team1, int team2, int relationship)
+/*    public void SetRelationship(int team1, int team2, int relationship)
     {
-        if (!relationships.ContainsKey(team1) || !relationships.ContainsKey(team2))
+        if (!diplomaticStates.ContainsKey(team1) || !diplomaticStates.ContainsKey(team2))
         {
             throw new Exception("One or both teams do not exist.");
         }
 
-        relationships[team1][team2] = relationship;
-
 
         //relationships[team2][team1] = relationship; //for symmetric relationships
-    }
+    }*/
 
     public void SetDiplomaticState(int team1, int team2, DiplomaticState diplomaticState)
     {
-        if (!relationships.ContainsKey(team1) || !relationships.ContainsKey(team2))
+        if (!diplomaticStates.ContainsKey(team1) || !diplomaticStates.ContainsKey(team2))
         {
             throw new Exception("One or both teams do not exist.");
         }
@@ -126,7 +121,7 @@ public class TeamManager
         return DiplomaticState.War; // Default state for missing teams
     }
 
-    public int GetRelationship(int team1, int team2)
+/*    public int GetRelationship(int team1, int team2)
     {
         if (relationships.ContainsKey(team1) && relationships[team1].ContainsKey(team2))
         {
@@ -134,7 +129,7 @@ public class TeamManager
         }
 
         return -99; // Default relationship
-    }
+    }*/
 
 
     public List<int> GetAllies(int teamId)

@@ -244,7 +244,7 @@ public static class AIUtils
     {
         if ((unit.unitClass & UnitClass.Ranged) == UnitClass.Ranged)
         {
-            UnitAbility rangedAttack = unit.abilities.FirstOrDefault(a => a.name.Equals("RangedAttack"));
+            UnitAbility rangedAttack = Global.gameManager.game.unitAbilities[unit.abilities.Keys.FirstOrDefault(a => a.Equals("RangedAttack"))];
             if (IsRangedAttackableHex(ai, hex))
             {
                 if (hex.WrapDistance(unit.hex) <= rangedAttack.range)

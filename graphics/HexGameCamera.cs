@@ -277,9 +277,10 @@ public partial class HexGameCamera : Camera3D
         {
             if (Global.gameManager.graphicManager.selectedObject is GraphicUnit)
             {
-                if (((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex], Global.gameManager.game.unitDictionary[((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.usingUnitID]))
+                GraphicUnit tempUnit = ((GraphicUnit)Global.gameManager.graphicManager.selectedObject);
+                if (((GraphicUnit)Global.gameManager.graphicManager.selectedObject).waitingAbility.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[wrapHex], tempUnit.unit)
+                    && wrapHex.WrapDistance(tempUnit.unit.hex) <= tempUnit.waitingAbility.range)
                 {
-                    GraphicUnit tempUnit = ((GraphicUnit)Global.gameManager.graphicManager.selectedObject);
                     Global.gameManager.ActivateAbility(tempUnit.unit.id, tempUnit.waitingAbility.name, wrapHex); //networked command
                     Global.gameManager.graphicManager.ClearWaitForTarget();
                 }

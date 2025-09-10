@@ -113,9 +113,13 @@ public static class HeroLoader
     }
     private static HeroAbility ParseHeroAbility(XElement abilityElement)
     {
+        var unitAbilityElement = abilityElement.Element("UnitAbility");
+        var unitAbility = ParseUnitAbility(unitAbilityElement);
+
+        Global.gameManager.game.unitAbilities.TryAdd(unitAbility.name, unitAbility);
         return new HeroAbility
         {
-            ability = ParseUnitAbility(abilityElement.Element("UnitAbility")),
+            abilityName = unitAbility.name,
             manaCost = abilityElement.Element("ManaCost")?.Value
                         .Split(",", StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => int.TryParse(s.Trim(), out var val) ? val : 0)

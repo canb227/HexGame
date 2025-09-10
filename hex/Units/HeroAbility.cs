@@ -12,7 +12,9 @@ using System.Xml.Linq;
 [Serializable]
 public class HeroAbility
 {
-    public UnitAbility ability { get; set; }
+    
+    public string abilityName { get; set; }
+    public int usageCount { get; set; }
     public int currentCooldown { get; set; }
     public int[] manaCost { get; set; }
     public int[] cooldown { get; set; }
@@ -20,9 +22,10 @@ public class HeroAbility
     public int maxLevel { get; set; }
     public int minLevelToLearn { get; set; }
     public bool isUltimate { get; set; }
-    public HeroAbility(UnitAbility ability, int[] manaCost, int[] cooldown, int level, int maxLevel, int minLevelToLearn, bool isUltimate)
+    public HeroAbility(string abilityName, int usageCount, int[] manaCost, int[] cooldown, int level, int maxLevel, int minLevelToLearn, bool isUltimate)
     {
-        this.ability = ability;
+        this.abilityName = abilityName;
+        this.usageCount = usageCount;
         this.manaCost = manaCost;
         this.cooldown = cooldown;
         this.currentCooldown = 0;

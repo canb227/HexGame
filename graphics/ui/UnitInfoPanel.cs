@@ -108,8 +108,9 @@ public partial class UnitInfoPanel : Node3D
             rangeContainer.Visible = false;
             rangedStrengthContainer.Visible = false;
 
-            foreach (UnitAbility ability in unit.abilities)
+            foreach (string abilityName in unit.abilities.Keys)
             {
+                UnitAbility ability = Global.gameManager.game.unitAbilities[abilityName];
                 if (!ability.isUnlocked)
                 {
                     continue;
@@ -158,7 +159,7 @@ public partial class UnitInfoPanel : Node3D
                 {
                     abilityButton.Disabled = true;
                 }
-                if (ability.currentCharges <= 0)
+                if (unit.abilities[abilityName] <= 0)
                 {
                     abilityButton.Disabled = true;
                 }
@@ -203,7 +204,7 @@ public partial class UnitInfoPanel : Node3D
         }
         else if (ability.validTargetTypes.TargetSelf)
         {
-            if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[Global.gameManager.game.unitDictionary[ability.usingUnitID].hex], Global.gameManager.game.unitDictionary[ability.usingUnitID]))
+            if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[unit.hex], unit))
             {
                 Global.gameManager.ActivateAbility(unit.id, ability.name, unit.hex); //networked command
             }

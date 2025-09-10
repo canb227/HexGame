@@ -148,8 +148,9 @@ public partial class HeroInfoPanel : Node3D
             rangeContainer.Visible = false;
             rangedStrengthContainer.Visible = false;
 
-            foreach (UnitAbility ability in hero.abilities)
+            foreach (string abilityName in hero.abilities.Keys)
             {
+                UnitAbility ability = Global.gameManager.game.unitAbilities[abilityName];
                 if(!ability.isUnlocked)
                 {
                     continue;
@@ -176,7 +177,7 @@ public partial class HeroInfoPanel : Node3D
                 {
                     abilityButton.Disabled = true;
                 }
-                if (ability.currentCharges <= 0)
+                if (hero.abilities[abilityName] <= 0)
                 {
                     abilityButton.Disabled = true;
                 }
@@ -208,8 +209,9 @@ public partial class HeroInfoPanel : Node3D
             }
             foreach (HeroAbility heroAbility in hero.heroAbilities)
             {
+                UnitAbility ability = Global.gameManager.game.unitAbilities[heroAbility.abilityName];
                 Button abilityButton = heroAbilityButtonScene.Instantiate<Button>();
-                abilityButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://" + heroAbility.ability.iconPath);
+                abilityButton.Icon = Godot.ResourceLoader.Load<Texture2D>("res://" + ability.iconPath);
                 abilityButton.IconAlignment = HorizontalAlignment.Center;
                 abilityButton.ExpandIcon = true;
                 abilityButton.CustomMinimumSize = new Vector2(64, 64);
@@ -218,7 +220,7 @@ public partial class HeroInfoPanel : Node3D
                 {
                     abilityButton.AddThemeColorOverride("theme_override_colors/icon_disabled_color", Godot.Colors.White);
                 }
-                abilityButton.Call("add_tooltipstring", heroAbility.ability.name.Trim() + ": " + heroAbility.ability.description.Trim());
+                abilityButton.Call("add_tooltipstring", heroAbility.abilityName.Trim() + ": " + ability.description.Trim());
 
 
                 Button levelupButton = abilityButton.GetNode<Button>("LevelUpButton");
@@ -276,12 +278,12 @@ public partial class HeroInfoPanel : Node3D
                     continue;
                 }
 
-                if (heroAbility.ability.combatPower != null && heroAbility.ability.combatPower.Any() && hero.attacksLeft <= 0)
+                if (ability.combatPower != null && ability.combatPower.Any() && hero.attacksLeft <= 0)
                 {
                     abilityButton.Disabled = true;
                     continue;
                 }
-                if (heroAbility.ability.currentCharges <= 0 || heroAbility.manaCost[heroAbility.level] > hero.mana || heroAbility.currentCooldown > 0 || heroAbility.level <= 0)
+                if (heroAbility.usageCount <= 0 || heroAbility.manaCost[heroAbility.level] > hero.mana || heroAbility.currentCooldown > 0 || heroAbility.level <= 0)
                 {
                     abilityButton.Disabled = true;
                     continue;
@@ -297,15 +299,15 @@ public partial class HeroInfoPanel : Node3D
                 }
                 //check if there are any valid targets
                 List<Hex> hexes = new List<Hex>();
-                foreach (Hex hex in hero.hex.WrappingRange(heroAbility.ability.range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+                foreach (Hex hex in hero.hex.WrappingRange(ability.range, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
                 {
-                    if (heroAbility.ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], hero))
+                    if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hex], hero))
                     {
                         hexes.Add(hex);
                     }
                 }
                 //if it is a settle ability check the parameters special
-                if (heroAbility.ability.name == "SettleCityAbility" )
+                if (heroAbility.abilityName == "SettleCityAbility" )
                 {
                     if (hero.CanSettleHere(hero.hex, 3, new List<TerrainType>() { TerrainType.Flat, TerrainType.Rough }, false))
                     {
@@ -365,7 +367,7 @@ public partial class HeroInfoPanel : Node3D
         }
         else if (ability.validTargetTypes.TargetSelf)
         {
-            if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[Global.gameManager.game.unitDictionary[ability.usingUnitID].hex], Global.gameManager.game.unitDictionary[ability.usingUnitID]))
+            if (ability.validTargetTypes.IsHexValidTarget(Global.gameManager.game.mainGameBoard.gameHexDict[hero.hex], hero))
             {
                 Global.gameManager.ActivateAbility(hero.id, ability.name, hero.hex); //networked command
             }
@@ -379,7 +381,7 @@ public partial class HeroInfoPanel : Node3D
         {
             return;
         }
-        AbilityButtonPressed(heroAbility.ability);
+        AbilityButtonPressed(Global.gameManager.game.unitAbilities[heroAbility.abilityName]);
         return;
     }
 
@@ -390,7 +392,7 @@ public partial class HeroInfoPanel : Node3D
             return;
         }
         //ability.LevelUpAbility(hero);
-        Global.gameManager.LevelUpAbility(hero.id, ability.ability.name);
+        Global.gameManager.LevelUpAbility(hero.id, ability.abilityName);
         return;
     }
 
