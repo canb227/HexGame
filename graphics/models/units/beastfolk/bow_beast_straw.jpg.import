@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3ea2a5m3mhvq"
-path.s3tc="res://.godot/imported/granary_oldwood.jpg-762984f296ad93d58a617014b7a16511.s3tc.ctex"
+uid="uid://ctbwpnl6wb3c0"
+path.s3tc="res://.godot/imported/bow_beast_straw.jpg-72173e711e8c1618fda6df2a0a41669e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "f65981e7a66730665378f07b4ed8fd44"
+"md5": "ee1afadc0e59064d1bea44545e0b828f"
 }
 
 [deps]
 
-source_file="res://graphics/models/granary_oldwood.jpg"
-dest_files=["res://.godot/imported/granary_oldwood.jpg-762984f296ad93d58a617014b7a16511.s3tc.ctex"]
+source_file="res://graphics/models/units/beastfolk/bow_beast_straw.jpg"
+dest_files=["res://.godot/imported/bow_beast_straw.jpg-72173e711e8c1618fda6df2a0a41669e.s3tc.ctex"]
 
 [params]
 

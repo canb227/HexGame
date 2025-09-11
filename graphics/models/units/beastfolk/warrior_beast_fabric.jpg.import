@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3ea2a5m3mhvq"
-path.s3tc="res://.godot/imported/granary_oldwood.jpg-762984f296ad93d58a617014b7a16511.s3tc.ctex"
+uid="uid://c5e7efdmg5ymk"
+path.s3tc="res://.godot/imported/warrior_beast_fabric.jpg-61f3c8d4b935142c0319d636982c153a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "f65981e7a66730665378f07b4ed8fd44"
+"md5": "d7f0fd2da301eb453e3f2b640eb6de52"
 }
 
 [deps]
 
-source_file="res://graphics/models/granary_oldwood.jpg"
-dest_files=["res://.godot/imported/granary_oldwood.jpg-762984f296ad93d58a617014b7a16511.s3tc.ctex"]
+source_file="res://graphics/models/units/beastfolk/warrior_beast_fabric.jpg"
+dest_files=["res://.godot/imported/warrior_beast_fabric.jpg-61f3c8d4b935142c0319d636982c153a.s3tc.ctex"]
 
 [params]
 

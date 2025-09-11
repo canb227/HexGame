@@ -4,7 +4,8 @@
       <Model Faction="All" Path="graphics/models/units/baseperson_settler.glb" />
       <Model Faction="Humans" Path="graphics/models/units/baseperson_settler.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/settler_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/units/orc/settler_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/settler_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -50,7 +51,8 @@
       <Model Faction="All" Path="graphics/models/units/baseperson_settler.glb" />
       <Model Faction="Humans" Path="graphics/models/units/baseperson_settler.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/settler_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/units/orc/settler_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />      
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/settler_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -96,7 +98,8 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -208,7 +211,8 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -253,6 +257,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -297,6 +302,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/galley.glb" />
       <Model Faction="Goblins" Path="graphics/models/galley.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -330,6 +336,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/bow_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/bowperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/bow_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/bow_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -379,6 +386,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/bow_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/bowperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/bow_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/bow_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -429,6 +437,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -474,6 +483,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/horse_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -508,6 +518,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/horse_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -542,6 +553,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -587,6 +599,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/galley.glb" />
       <Model Faction="Goblins" Path="graphics/models/galley.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -626,7 +639,8 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -668,6 +682,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -713,6 +728,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/bow_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/bowperson_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/bow_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/bow_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -762,6 +778,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -820,6 +837,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/horse_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -853,7 +871,8 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -894,7 +913,8 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -929,6 +949,7 @@
       <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
       <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/horse_beast.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -962,7 +983,8 @@
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
       <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
-      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
       <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
     </ModelPaths>
     <MovementCosts>
@@ -1006,6 +1028,7 @@
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
       <Model Faction="Elves" Path="graphics/models/galley.glb" />
       <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/galley.glb" />
       <Model Faction="Goblins" Path="graphics/models/galley.glb" />
     </ModelPaths>
     <MovementCosts>

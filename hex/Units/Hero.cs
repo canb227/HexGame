@@ -242,6 +242,28 @@ public class Hero : Unit
                 onKillEffects.Add("ForTheHorde", ability.GetUnitEffectWithLevel(3));
             }
         }
+        else if (heroAbility.abilityName == "PactLeader")
+        {
+            if (heroAbility.level == 1)
+            {
+                combatStrength += 3;
+                baseCombatStrength += 3;
+            }
+            else if (heroAbility.level == 2)
+            {
+                combatStrength += 2;
+                baseCombatStrength += 2;
+            }
+            else if (heroAbility.level == 3)
+            {
+                movementSpeed += 1;
+            }
+            else if (heroAbility.level == 4)
+            {
+                combatStrength += 2;
+                baseCombatStrength += 2;
+            }
+        }
     }
 
 

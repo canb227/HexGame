@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3ea2a5m3mhvq"
-path.s3tc="res://.godot/imported/granary_oldwood.jpg-762984f296ad93d58a617014b7a16511.s3tc.ctex"
+uid="uid://cctnxrqhwb4j5"
+path.s3tc="res://.godot/imported/horse_beast_pngtree-brown-colored-horse-fur-texture-image_13781446.png-e667e7da8268a6d75f51c1f81824d11a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "f65981e7a66730665378f07b4ed8fd44"
+"md5": "fed40bb6134392fefc691fa150f6320d"
 }
 
 [deps]
 
-source_file="res://graphics/models/granary_oldwood.jpg"
-dest_files=["res://.godot/imported/granary_oldwood.jpg-762984f296ad93d58a617014b7a16511.s3tc.ctex"]
+source_file="res://graphics/models/units/beastfolk/horse_beast_pngtree-brown-colored-horse-fur-texture-image_13781446.png"
+dest_files=["res://.godot/imported/horse_beast_pngtree-brown-colored-horse-fur-texture-image_13781446.png-e667e7da8268a6d75f51c1f81824d11a.s3tc.ctex"]
 
 [params]
 

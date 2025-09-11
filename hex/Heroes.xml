@@ -7,7 +7,7 @@
         <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
         <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
         <Model Faction="Elves" Path="graphics/models/baseperson_remesh3.glb" />
-        <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
       </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
@@ -150,6 +150,7 @@
       <Model Faction="Humans" Path="graphics/models/units/orc/warrior_orc.glb" />
       <Model Faction="Elves" Path="graphics/models/units/orc/warrior_orc.glb" />
       <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
     </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
@@ -376,23 +377,6 @@
           <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
         </UnitAbility>
       </Ability>
-      <Ability>
-        <AbilityName>One With The Forest</AbilityName>
-        <ManaCost>99, 50, 40, 30</ManaCost>
-        <Cooldown>99, 10, 8, 6</Cooldown>
-        <Level>0</Level>
-        <MaxLevel>3</MaxLevel>
-        <MinLevelToLearn>6</MinLevelToLearn>
-        <IsUltimate>True</IsUltimate>
-        <UnitAbility Name="Onewiththeforest" UsageCount="1" IconPath="graphics/ui/icons/heroes/onewiththeforest.png">
-          <Description>
-          Creates a forest on the tile Silvana is currently standing, if there isn't one already.
-          Mana Cost:      50 / 40 / 30 / 20
-          Cooldown:       10  /  8 /  6 /  4
-          </Description>
-          <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true" AllowsAnyTerrain="true"/>
-        </UnitAbility>
-      </Ability>
     </HeroAbilities>
   </Hero>
 
@@ -405,6 +389,7 @@
         <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
         <Model Faction="Elves" Path="graphics/models/baseperson_remesh3.glb" />
         <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
       </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
@@ -455,7 +440,7 @@
         <MaxLevel>4</MaxLevel>
         <MinLevelToLearn>1</MinLevelToLearn>
         <IsUltimate>False</IsUltimate>
-        <UnitAbility Name="ClawSwipe" UsageCount="1" Range="1" IconPath="graphics/ui/icons/clawswipe.png">
+        <UnitAbility Name="ClawSwipe" UsageCount="1" Range="1" IconPath="graphics/ui/icons/heroes/clawswipe.png">
           <Description>
           Deals ranged damage to a target and a random enemy adjacent to the caster.
           Combat Power: 15 / 20 / 25 / 30
@@ -468,6 +453,25 @@
         </UnitAbility>
       </Ability>
       <Ability>
+        <AbilityName>LEAP!</AbilityName>
+        <ManaCost>99, 25, 25, 20, 15</ManaCost>
+        <Cooldown>99, 4,4,3,2</Cooldown>
+        <Level>0</Level>
+        <MaxLevel>4</MaxLevel>
+        <MinLevelToLearn>1</MinLevelToLearn>
+        <IsUltimate>False</IsUltimate>
+        <UnitAbility Name="Leap" UsageCount="1" Range="2" IconPath="graphics/ui/icons/heroes/leap.png">
+          <Description>
+          Leap onto an enemy immediately melee attacking them with a bonus, landing nearby after.
+          Combat Power Bonus: 0 / 2 / 5 / 7
+          Mana Cost:      25 / 25 / 20 / 15
+          Cooldown:       4  /  4 /  3 /  2
+          Must Target Enemies
+          </Description>
+          <TargetSpecification TargetUnits="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        </UnitAbility>
+      </Ability>
+      <Ability>
       <AbilityName>PactLeader</AbilityName>
         <ManaCost>99, 0, 0, 0, 0</ManaCost>
         <Cooldown>99, 0,0,0,0</Cooldown>
@@ -477,8 +481,8 @@
         <IsUltimate>False</IsUltimate>
         <UnitAbility Name="PactLeader" UsageCount="1" Range="1" IconPath="graphics/ui/icons/rangeattack.png">
           <Description>
-          Provide a bonuses to all allies within 1 hex, including Horkin.
-          Combat Power Bonus: 3 / 4 / 5 / 6
+          Provide bonuses to Horkin (TODO all allies within 1 hex, including Horkin).
+          Combat Power Bonus: 3 / 5 / 5 / 7
           Movement Speed Bonus: 0 / 0 / 1 / 1
           Range:            1 / 1 / 1 / 1
           </Description>
@@ -496,7 +500,8 @@
         <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
         <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
         <Model Faction="Elves" Path="graphics/models/baseperson_remesh3.glb" />
-        <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />
+        <Model Faction="Orcs" Path="graphics/models/baseperson_remesh3.glb" />      
+        <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
       </ModelPaths>
       <MovementCosts>
         <TerrainMoveType Name="Flat" Value="1" />
