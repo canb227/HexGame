@@ -28,6 +28,9 @@ public partial class District
     public int maxDefenses { get; set; } = 1;
     public int turnsUntilHealing { get; set; } = 0;
 
+    public int avaliablePower { get; set; } = 0;
+    public int powerDemand { get; set; } = 0;
+
     public District(GameHex gameHex, String initialString, bool isCityCenter, bool isUrban, int cityID, bool isEncampment = false)
     {
         SetupDistrict(gameHex, isCityCenter, isUrban, cityID, !isEncampment);
@@ -61,6 +64,33 @@ public partial class District
     public District()
     {
 
+    }
+    public void OnTurnStartedPowerDemand()
+    {
+        foreach (Building building in buildings)
+        {
+            building.OnTurnStartedPowerDemand();
+        }
+    }
+    public void OnTurnStartedPowerSupply()
+    {
+        foreach(Building building in buildings)
+        {
+            building.OnTurnStartedPowerSupply();
+        }
+    }
+
+    public void ReceivePower(int power)
+    {
+        powerDemand -= power;
+        foreach(Building building in buildings)
+        {
+            if(building.PoweredCost > 0 && power > building.PoweredCost)
+            {
+                building.CurrentlyPowered = true;
+                power -= building.PoweredCost;
+            }
+        }
     }
     protected void SetupDistrict(GameHex gameHex, bool isCityCenter, bool isUrban, int cityID, bool claimSurronding = true)
     {

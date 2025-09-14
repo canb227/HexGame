@@ -286,7 +286,7 @@ public static class PolicyCardLoader
         unitEffectList.Clear();
         buildingEffectList.Clear();
 
-        policyCardDictionary.Add(37, new PolicyCard("GothicArchitecture", "+20% Production Towards Industrial and Earlier World Wonders.", buildingEffectList, unitEffectList, false, true, false, false));
+        policyCardDictionary.Add(37, new PolicyCard("GothicArchitecture", "+20% Production Towards Revolutionary and Earlier World Wonders.", buildingEffectList, unitEffectList, false, true, false, false));
 
     }
 

@@ -127,7 +127,7 @@ public partial class UnitInfoPanel : Node3D
                 {
                     continue;
                 }
-                if (ability.name == "BuildLumberyard" && !Global.gameManager.game.playerDictionary[unit.teamNum].buildLumbermills)
+                if (ability.name == "BuildLumberMill" && !Global.gameManager.game.playerDictionary[unit.teamNum].buildLumbermills)
                 {
                     continue;
                 }

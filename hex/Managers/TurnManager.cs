@@ -27,6 +27,9 @@ public class TurnManager
         {
             player.OnTurnStarted(currentTurn);
         }
+
+        //check if the era has ended
+
         if(Global.gameManager.game.mainGameBoard != null)
         {
             Global.gameManager.game.mainGameBoard.OnTurnStarted(currentTurn);

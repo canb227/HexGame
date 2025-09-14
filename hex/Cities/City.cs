@@ -122,6 +122,7 @@ public partial class City
     public float foodToGrow{ get; set; }
     public float foodStockpile{ get; set; }
     public float productionOverflow{ get; set; }
+    public int factoriesInRange { get; set; }
     public Yields flatYields{ get; set; }
     public Yields roughYields{ get; set; }
     public Yields mountainYields{ get; set; }
@@ -547,6 +548,22 @@ public partial class City
             manager.CallDeferred("UpdateGraphic", id, (int)GraphicUpdateType.Update);
         }
     }
+
+    public void OnTurnStartedPowerDemand(int turnNumber)
+    {
+        foreach (District district in districts)
+        {
+            district.OnTurnStartedPowerDemand();
+        }
+    }
+    public void OnTurnStartedPowerSupply(int turnNumber)
+    {
+        foreach (District district in districts)
+        {
+            district.OnTurnStartedPowerSupply();
+        }
+    }
+
 
     public void OnTurnStarted(int turnNumber)
     {
@@ -998,10 +1015,6 @@ public partial class City
         navalProductionCombatModifier = 0;
         additionalTradeRoutes = 0;
         //SetBaseHexYields();
-        foreach (Hex hex in heldHexes)
-        {
-            Global.gameManager.game.mainGameBoard.gameHexDict[hex].RecalculateYields();
-        }
         foreach (District district in districts)
         {
             district.PrepareYieldRecalculate();
@@ -1010,6 +1023,10 @@ public partial class City
         {
             district.RecalculateYields();
             myYields += Global.gameManager.game.mainGameBoard.gameHexDict[district.hex].yields;
+        }
+        foreach (Hex hex in heldHexes)
+        {
+            Global.gameManager.game.mainGameBoard.gameHexDict[hex].RecalculateYields();
         }
         foreach (ResourceType resource in heldResources.Values)
         {
@@ -1031,6 +1048,7 @@ public partial class City
         myYields.happiness *= Global.gameManager.game.playerDictionary[teamNum].happinessDifficultyModifier;
         myYields.influence *= Global.gameManager.game.playerDictionary[teamNum].influenceDifficultyModifier;
 
+        
         yields.happiness += -0.5f * naturalPopulation;
         myYields.food -= naturalPopulation * 0.25f;
         yields += myYields;
@@ -1070,6 +1088,27 @@ public partial class City
             }
         }
 
+        //add production boost from nearby powered buildings, we do it here because they may be from other cities, could rework with another start turn step
+        foreach (Hex hex in hex.WrappingRange(6, Global.gameManager.game.mainGameBoard.left, Global.gameManager.game.mainGameBoard.right, Global.gameManager.game.mainGameBoard.top, Global.gameManager.game.mainGameBoard.bottom))
+        {
+            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].district != null)
+            {
+                District foundDistrict = Global.gameManager.game.mainGameBoard.gameHexDict[hex].district;
+                if (Global.gameManager.game.cityDictionary[foundDistrict.cityID].teamNum == teamNum)
+                {
+                    foreach (Building building in foundDistrict.buildings)
+                    {
+                        if (building.name == "Factory")
+                        {
+                            if(building.CurrentlyPowered)
+                            {
+                                yields.production += 3;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         if (Global.gameManager.TryGetGraphicManager(out GraphicManager manager))
         {

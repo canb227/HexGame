@@ -30,21 +30,25 @@ public class DiplomacyAction
         {
             GiveGold(targetTeamNum, quantity);
         }
-        if (actionName == "Give Gold Per Turn")
+        else if (actionName == "Give Gold Per Turn")
         {
             StartGoldPerTurn(targetTeamNum, quantity, duration);
         }
-        if (actionName == "Make Peace")
+        else if (actionName == "Make Peace")
         {
             MakePeace(targetTeamNum);
         }
-        if(actionName == "Make Alliance")
+        else if (actionName == "Make Alliance")
         {
             MakeAlliance(targetTeamNum);
         }
-        if(actionName == "Share Map")
+        else if(actionName == "Share Map")
         {
             ShareMap(targetTeamNum);
+        }
+        else
+        {
+
         }
     }
 

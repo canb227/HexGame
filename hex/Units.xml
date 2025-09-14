@@ -675,7 +675,6 @@
     </Abilities>
   </Unit>
 
-  <!-- Need Anti-Cavalry Effect TODO-->
   <Unit Name="Polearm" Class="Combat, Land, Infantry, AntiCavalry, Classical" ProductionCost="180" GoldCost="720" MovementSpeed="2.0" SightRange="2.0" CombatPower="45.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Polearm.png">
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
@@ -1022,7 +1021,7 @@
       </Ability>
     </Abilities>
   </Unit>
-  <Unit Name="Caravel" Class="Combat, Naval, Industrial" ProductionCost="240" GoldCost="960" MovementSpeed="4.0" SightRange="3.0" CombatPower="55.0" HealingFactor="10" ZoneOfControl="false" IconPath="graphics/ui/icons/boat.png" >
+  <Unit Name="Caravel" Class="Combat, Naval, Revolutionary" ProductionCost="240" GoldCost="960" MovementSpeed="4.0" SightRange="3.0" CombatPower="55.0" HealingFactor="10" ZoneOfControl="false" IconPath="graphics/ui/icons/boat.png" >
     <ModelPaths>
       <Model Faction="All" Path="graphics/models/galley.glb" />
       <Model Faction="Humans" Path="graphics/models/galley.glb" />
@@ -1040,6 +1039,719 @@
       <TerrainMoveType Name="Forest" Value="9999" />
       <TerrainMoveType Name="River" Value="0" />
       <TerrainMoveType Name="Road" Value="9999" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+  </Unit>
+
+  <Unit Name="Musketman" Class="Combat, Land, Infantry, Revolutionary" ProductionCost="240" GoldCost="960" StrategicResource="Niter" StrategicResourceCost="20" MovementSpeed="2.0" SightRange="2.0" CombatPower="55.0" HealingFactor="10" MaintenanceCost="4" IconPath="graphics/ui/icons/sword.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="0.5" />
+      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
+      </Ability>
+    </Abilities>
+  </Unit>
+  
+  <Unit Name="Frigate" Class="Combat, Naval, Ranged, Revolutionary" ProductionCost="280" GoldCost="1120" MovementSpeed="4.0" SightRange="2.0" CombatPower="45.0" HealingFactor="10" ZoneOfControl="false" IconPath="graphics/ui/icons/boat.png" >
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/galley.glb" />
+      <Model Faction="Humans" Path="graphics/models/galley.glb" />
+      <Model Faction="Elves" Path="graphics/models/galley.glb" />
+      <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/galley.glb" />
+      <Model Faction="Goblins" Path="graphics/models/galley.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="9999" />
+      <TerrainMoveType Name="Rough" Value="9999" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="9999" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="9999" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="RangedAttack" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>55</CombatPower>
+      </Ability>
+    </Abilities>
+  </Unit>
+  <Unit Name="Bombard" Class="Combat, Land, Siege, Revolutionary" ProductionCost="280" GoldCost="1120" MovementSpeed="2.0" SightRange="2.0" CombatPower="45.0" HealingFactor="10" MaintenanceCost="4" ZoneOfControl="false" IconPath="graphics/ui/icons/Trebuchet.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="BombardAttack" CombatPower="55.0" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>55</CombatPower>
+      </Ability>
+    </Abilities>
+  </Unit>
+  <Unit Name="PikeAndShot" Class="Combat, Land, Infantry, AntiCavalry, Revolutionary" ProductionCost="250" GoldCost="1000" MovementSpeed="2.0" SightRange="2.0" CombatPower="55.0" HealingFactor="10" MaintenanceCost="4" IconPath="graphics/ui/icons/Polearm.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
+      </Ability>
+    </Abilities>
+  </Unit>
+  <Unit Name="FieldCannon" Class="Combat, Land, Ranged, Revolutionary" ProductionCost="330" GoldCost="1320" MovementSpeed="2.0" SightRange="2.0" CombatPower="50.0" HealingFactor="10" MaintenanceCost="5" ZoneOfControl="false" IconPath="graphics/ui/icons/Crossbow.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/bow_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/bowperson_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/bow_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/bow_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="RangedAttack" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>60</CombatPower>
+      </Ability>
+      <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
+      </Ability>
+    </Abilities>
+  </Unit>
+
+  <Unit Name="Cuirassier" Class="Combat, Land, Cavalry, Revolutionary" ProductionCost="330" GoldCost="1320" StrategicResource="Iron" StrategicResourceCost="20" MovementSpeed="4.0" SightRange="2.0" CombatPower="64.0" HealingFactor="10" MaintenanceCost="2" IconPath="graphics/ui/icons/Knight.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/horse_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+  </Unit>
+
+  <Unit Name="Cavalry" Class="Combat, Land, Cavalry, Revolutionary" ProductionCost="330" GoldCost="1320" StrategicResource="Horses" StrategicResourceCost="20" MovementSpeed="5.0" SightRange="2.0" CombatPower="62.0" HealingFactor="10" MaintenanceCost="5" IconPath="graphics/ui/icons/Courser.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/horse_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+  </Unit>
+  <Unit Name="LineInfantry" Class="Combat, Land, Infantry, Revolutionary" ProductionCost="360" GoldCost="1440" StrategicResource="Niter" StrategicResourceCost="20" MovementSpeed="2.0" SightRange="2.0" CombatPower="65.0" HealingFactor="10" MaintenanceCost="5" IconPath="graphics/ui/icons/sword.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="0.5" />
+      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
+      </Ability>
+    </Abilities>
+  </Unit>
+  <Unit Name="Ironclad" Class="Combat, Naval, Revolutionary" ProductionCost="380" GoldCost="1520" StrategicResource="Coal" StrategicResourceCost="20" MovementSpeed="5.0" SightRange="3.0" CombatPower="70.0" HealingFactor="10" ZoneOfControl="false" IconPath="graphics/ui/icons/boat.png" >
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/galley.glb" />
+      <Model Faction="Humans" Path="graphics/models/galley.glb" />
+      <Model Faction="Elves" Path="graphics/models/galley.glb" />
+      <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/galley.glb" />
+      <Model Faction="Goblins" Path="graphics/models/galley.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="9999" />
+      <TerrainMoveType Name="Rough" Value="9999" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="9999" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="9999" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+  </Unit>
+  <Unit Name="Medic" Class="Combat, Land, Revolutionary" ProductionCost="370" GoldCost="1480" MovementSpeed="2.0" SightRange="2.0" CombatPower="30.0" HealingFactor="15" MaintenanceCost="2" IconPath="graphics/ui/icons/shoe.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="MedicalAttention" UsageCount="1" IconPath="graphics/ui/icons/health.png">
+        <TargetSpecification TargetUnits="true" AllowsAlly="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+      </Ability>
+    </Abilities>
+  </Unit>
+
+  <Unit Name="Ranger" Class="Combat, Land, Recon, Classical" ProductionCost="380" GoldCost="1520" MovementSpeed="3.0" SightRange="2.0" CombatPower="55.0" HealingFactor="10" MaintenanceCost="5" IconPath="graphics/ui/icons/shoe.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="RangedAttack" UsageCount="1" Range="1" IconPath="graphics/ui/rangeattack.png">
+        <CombatPower>60</CombatPower>
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+      </Ability>
+      <Ability Name="ScoutVisionAbility" UsageCount="1" IconPath="graphics/ui/icons/shoe.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyBuilding="true" AllowsAnyUnit="true" AllowsAnyResource="true" AllowsAnyFeature="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
+      </Ability>
+      <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
+      </Ability>
+    </Abilities>
+  </Unit>
+  <Unit Name="Submarine" Class="Combat, Naval, Recon, Revolutionary" ProductionCost="480" GoldCost="1920" MovementSpeed="3.0" SightRange="2.0" CombatPower="65.0" HealingFactor="10" ZoneOfControl="false" IconPath="graphics/ui/icons/boat.png" >
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/galley.glb" />
+      <Model Faction="Humans" Path="graphics/models/galley.glb" />
+      <Model Faction="Elves" Path="graphics/models/galley.glb" />
+      <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/galley.glb" />
+      <Model Faction="Goblins" Path="graphics/models/galley.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="9999" />
+      <TerrainMoveType Name="Rough" Value="9999" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="9999" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="9999" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="RangedAttack" UsageCount="1" Range="2" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>75</CombatPower>
+      </Ability>
+    </Abilities>
+  </Unit>
+  <Unit Name="Infantry" Class="Combat, Land, Infantry, Revolutionary" ProductionCost="430" GoldCost="1720" StrategicResource="Oil" StrategicResourceCost="20" MovementSpeed="2.0" SightRange="2.0" CombatPower="75.0" HealingFactor="10" MaintenanceCost="6" IconPath="graphics/ui/icons/sword.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="0.5" />
+      <TerrainMoveType Name="Ocean" Value="0.5" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
+      </Ability>
+    </Abilities>
+  </Unit>
+  <Unit Name="Artillery" Class="Combat, Land, Siege, Revolutionary" ProductionCost="430" GoldCost="1720" StrategicResource="Oil" StrategicResourceCost="20" MovementSpeed="2.0" SightRange="2.0" CombatPower="60.0" HealingFactor="10" MaintenanceCost="6" ZoneOfControl="false" IconPath="graphics/ui/icons/Trebuchet.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Elves" Path="graphics/models/baseperson_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/baseperson_orc.glb" /> 
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/baseperson_beastperson.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="BombardAttack" CombatPower="80.0" UsageCount="1" Range="3" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>80</CombatPower>
+      </Ability>
+    </Abilities>
+  </Unit>
+
+  <Unit Name="Battleship" Class="Combat, Naval, Ranged, Revolutionary" ProductionCost="430" GoldCost="1720" MovementSpeed="5.0" SightRange="2.0" CombatPower="60.0" HealingFactor="10" ZoneOfControl="false" IconPath="graphics/ui/icons/boat.png" >
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/galley.glb" />
+      <Model Faction="Humans" Path="graphics/models/galley.glb" />
+      <Model Faction="Elves" Path="graphics/models/galley.glb" />
+      <Model Faction="Orcs" Path="graphics/models/galley.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/galley.glb" />
+      <Model Faction="Goblins" Path="graphics/models/galley.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="9999" />
+      <TerrainMoveType Name="Rough" Value="9999" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="9999" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="9999" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="RangedAttack" UsageCount="1" Range="3" IconPath="graphics/ui/rangeattack.png">
+        <TargetSpecification TargetUnits="true" TargetUrbanBuildings="true" AllowsEnemy="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyTerrain="true" AllowsAnyFeature="true" AllowsAnyResource="true"/>
+        <CombatPower>70</CombatPower>
+      </Ability>
+    </Abilities>
+  </Unit>
+    <Unit Name="ATCrew" Class="Combat, Land, Infantry, AntiCavalry, Revolutionary" ProductionCost="400" GoldCost="1600" MovementSpeed="2.0" SightRange="2.0" CombatPower="75.0" HealingFactor="10" MaintenanceCost="4" IconPath="graphics/ui/icons/Polearm.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/warrior_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/warrior_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/warrior_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/warrior_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+      <TerrainMoveType Name="Embark" Value="-1" />
+      <TerrainMoveType Name="Disembark" Value="-1" />
+    </MovementCosts>
+    <SightCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="1" />
+      <TerrainMoveType Name="Ocean" Value="1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
+      <TerrainMoveType Name="Coral" Value="1" />
+    </SightCosts>
+    <Abilities>
+      <Ability Name="Fortify" UsageCount="1" IconPath="graphics/ui/icons/fortify.png">
+        <TargetSpecification TargetSelf="true" AllowsAnyUnit="true" AllowsAnyBuilding="true" AllowsAnyFeature="true" AllowsAnyResource="true">
+          <ValidTerrainTypes>
+            <TerrainType Name = "Flat" />
+            <TerrainType Name = "Rough" />
+            <TerrainType Name = "Mountain" />
+          </ValidTerrainTypes>
+        </TargetSpecification>
+      </Ability>
+    </Abilities>
+  </Unit>
+  <Unit Name="Tank" Class="Combat, Land, Cavalry, Revolutionary" ProductionCost="480" GoldCost="1920" StrategicResource="Oil" StrategicResourceCost="20" MovementSpeed="4.0" SightRange="2.0" CombatPower="85.0" HealingFactor="10" MaintenanceCost="6" IconPath="graphics/ui/icons/Knight.png">
+    <ModelPaths>
+      <Model Faction="All" Path="graphics/models/baseperson_remesh3.glb" />
+      <Model Faction="Humans" Path="graphics/models/units/human/horse_human.glb" />
+      <Model Faction="Elves" Path="graphics/models/units/elf/horseman_elf.glb" />
+      <Model Faction="Orcs" Path="graphics/models/units/orc/horseman_orc.glb" />
+      <Model Faction="Beastfolk" Path="graphics/models/units/beastfolk/horse_beast.glb" />
+      <Model Faction="Goblins" Path="graphics/models/units/goblin/baseperson_goblin.glb" />
+    </ModelPaths>
+    <MovementCosts>
+      <TerrainMoveType Name="Flat" Value="1" />
+      <TerrainMoveType Name="Rough" Value="2" />
+      <TerrainMoveType Name="Mountain" Value="9999" />
+      <TerrainMoveType Name="Coast" Value="-1" />
+      <TerrainMoveType Name="Ocean" Value="-1" />
+      <TerrainMoveType Name="Forest" Value="1" />
+      <TerrainMoveType Name="River" Value="0" />
+      <TerrainMoveType Name="Road" Value="0.5" />
       <TerrainMoveType Name="Coral" Value="1" />
       <TerrainMoveType Name="Embark" Value="-1" />
       <TerrainMoveType Name="Disembark" Value="-1" />

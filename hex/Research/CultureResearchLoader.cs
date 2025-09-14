@@ -9,6 +9,28 @@ public static class CultureResearchLoader
     public static Dictionary<int, int> tierCostDict;
 
 
+    public static void UpdateResearchCosts()
+    {
+        foreach (var tier in tierCostDict)
+        {
+            if (tier.Key <= Global.gameManager.game.eraManager.highestClassicalTier)
+            {
+                int temp = (int)(tier.Value * Global.gameManager.game.eraManager.eraResearchCostModifier[EraType.Classical]);
+                tierCostDict[tier.Key] = temp;
+            }
+            else if (tier.Key <= Global.gameManager.game.eraManager.highestRevolutionaryTier)
+            {
+                int temp = (int)(tier.Value * Global.gameManager.game.eraManager.eraResearchCostModifier[EraType.Revolutionary]);
+                tierCostDict[tier.Key] = temp;
+            }
+            else if (tier.Key <= Global.gameManager.game.eraManager.highestModernTier)
+            {
+                int temp = (int)(tier.Value * Global.gameManager.game.eraManager.eraResearchCostModifier[EraType.Modern]);
+                tierCostDict[tier.Key] = temp;
+            }
+        }
+    }
+
     static CultureResearchLoader()
     {
         string xmlPath = "hex/CultureResearches.xml";
@@ -60,8 +82,8 @@ public static class CultureResearchLoader
         { "MedievalFairesEffect", MedievalFairesEffect },
         { "GuildsEffect", GuildsEffect },
         { "DivineRightEffect", DivineRightEffect },
-        { "IndustrialInsightEffect", IndustrialInsightEffect },
-        { "IndustrialInsightEndEraEffect", IndustrialInsightEndEraEffect },
+        { "RevolutionaryInsightEffect", RevolutionaryInsightEffect },
+        { "RevolutionaryInsightEndEraEffect", RevolutionaryInsightEndEraEffect },
         { "FutureTechEffect", FutureTechEffect },
 
     };
@@ -227,7 +249,7 @@ public static class CultureResearchLoader
         return "";
     }
 
-    static string IndustrialInsightEffect(Player player, bool executeLogic)
+    static string RevolutionaryInsightEffect(Player player, bool executeLogic)
     {
         if(executeLogic)
         {
@@ -235,12 +257,13 @@ public static class CultureResearchLoader
         }
         return "Reveals Deeply Buried Ruins to be Explored by your Hero for Greater Rewards.";
     }
-    static string IndustrialInsightEndEraEffect(Player player, bool executeLogic)
+    static string RevolutionaryInsightEndEraEffect(Player player, bool executeLogic)
     {
         if(executeLogic)
         {
-            player.industrialInsightCulturalResearchCount++;
-            player.completedCultureResearches.Remove("IndustrialInsight");
+            player.revolutionaryInsightCulturalResearchCount++;
+            Global.gameManager.game.eraManager.revolutionaryEraResearchCount++;
+            player.completedCultureResearches.Remove("RevolutionaryInsight");
         }
         return "Upon completing this research if it is still the Classical Era you may research it again, each time you complete this research you will recieve a bonus.";
     }

@@ -348,6 +348,18 @@ public class BasePlayer
             Unit unit = Global.gameManager.game.unitDictionary[unitID];
             unit.OnTurnStarted(turnNumber);
         }
+        //OnTurnStartedPowerDemand allows us to calculate power demand from all districts
+        foreach (int cityID in cityList)
+        {
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            city.OnTurnStartedPowerDemand(turnNumber);
+        }
+        //OnTurnStartedPowerSupply allows us to supply power to districts
+        foreach (int cityID in cityList)
+        {
+            City city = Global.gameManager.game.cityDictionary[cityID];
+            city.OnTurnStartedPowerSupply(turnNumber);
+        }
         foreach (int cityID in cityList)
         {
             City city = Global.gameManager.game.cityDictionary[cityID];

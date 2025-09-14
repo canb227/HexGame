@@ -21,6 +21,7 @@ public class Game
     public HashSet<String> builtWonders { get; set; } = new();
     public Dictionary<string, UnitAbility> unitAbilities { get; set; } = new();
     public TeamManager teamManager { get; set; }
+    public EraManager eraManager { get; set; }
     public TurnManager turnManager { get; set; }
     private int currentID = 0;
 
@@ -49,6 +50,7 @@ public class Game
         this.unitDictionary = new();
         this.turnManager = new TurnManager();
         this.teamManager = new TeamManager();
+        this.eraManager = new EraManager();
         mainGameBoard = new();
         builtWonders = new();
         this.localPlayerTeamNum = localPlayerTeamNum;

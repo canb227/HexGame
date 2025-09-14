@@ -198,9 +198,9 @@ public class UnitEffect
             BuildPasture(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
-        else if (functionString == "BuildLumberyard")
+        else if (functionString == "BuildLumberMill")
         {
-            BuildLumberyard(Global.gameManager.game.unitDictionary[unitID]);
+            BuildLumberMill(Global.gameManager.game.unitDictionary[unitID]);
             return true;
         }
         else if (functionString == "BuildFishingBoat")
@@ -236,6 +236,11 @@ public class UnitEffect
         else if (functionString == "EnableOceanMovement")
         {
             EnableOceanMovement(Global.gameManager.game.unitDictionary[unitID]);
+            return true;
+        }
+        else if (functionString == "MedicalAttention")
+        {
+            MedicalAttention(Global.gameManager.game.unitDictionary[unitID], abilityTarget);
             return true;
         }
         //hero abilities
@@ -498,7 +503,7 @@ public class UnitEffect
         }
         return false;
     }
-    public bool BuildLumberyard(Unit unit)
+    public bool BuildLumberMill(Unit unit)
     {
         unit.remainingMovement = 0;
         unit.decreaseHealth(50);
@@ -606,6 +611,15 @@ public class UnitEffect
         unit.isSkipping = true;
         unit.CancelMovement();
         Global.gameManager.graphicManager.CallDeferred("UnselectObject");
+        return true;
+    }
+
+    public bool MedicalAttention(Unit unit, GameHex abilityTarget)
+    {
+        if(abilityTarget.units.Any())
+        {
+            Global.gameManager.game.unitDictionary[abilityTarget.units[0]].increaseHealth(20);
+        }
         return true;
     }
 

@@ -110,8 +110,8 @@ public class Player : BasePlayer
     public Dictionary<string, (UnitClass, float)> unitClassProductionBoosts { get; set; } = new();
 
     //era seperator research and culture counts
-    public int industrialInsightCulturalResearchCount { get; set; } = 0;
-    public int industrialInsightResearchCount { get; set; } = 0;
+    public int revolutionaryInsightCulturalResearchCount { get; set; } = 0;
+    public int revolutionaryInsightResearchCount { get; set; } = 0;
 
 
 

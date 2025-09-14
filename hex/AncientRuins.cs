@@ -18,7 +18,7 @@ public enum RuinTier
 {
     basic, //seen at start of game
     buried, //unlocked at end of classical culture
-    hidden //unlocked at end of industrial culture
+    hidden //unlocked at end of revolutionary culture
 }
 
 public enum RuinEffect

@@ -26,6 +26,8 @@ public struct BuildingInfo
     public FactionType FactionType;
     public int ProductionCost;
     public int GoldCost;
+    public bool Powered;
+    public int PoweredCost;
     public Yields yields;
     public float MaintenanceCost;
     public int PerCity;
@@ -64,6 +66,8 @@ public static class BuildingLoader
                     FactionType = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
                     ProductionCost = int.Parse(r.Attribute("ProductionCost").Value),
                     GoldCost = int.Parse(r.Attribute("GoldCost").Value),
+                    Powered = bool.Parse(r.Attribute("Powered")?.Value ?? "false"),
+                    PoweredCost = int.Parse(r.Attribute("PoweredCost")?.Value ?? "0"),
                     yields = new Yields
                     {
                         food = float.Parse(r.Attribute("FoodYield").Value),

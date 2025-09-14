@@ -6,6 +6,7 @@ using System.Xml.Linq;
 
 public struct ResearchInfo
 {
+    public EraType Era;
     public int Tier;
     public FactionType FactionType;
     public int VisualSlot;
@@ -24,6 +25,27 @@ public static class ResearchLoader
     public static Dictionary<String, ResearchInfo> researchesDict;
     public static Dictionary<int, int> tierCostDict;
 
+    public static void UpdateResearchCosts()
+    {
+        foreach(var tier in tierCostDict)
+        {
+            if(tier.Key <= Global.gameManager.game.eraManager.highestClassicalTier)
+            {
+                int temp = (int)(tier.Value * Global.gameManager.game.eraManager.eraResearchCostModifier[EraType.Classical]);
+                tierCostDict[tier.Key] = temp;
+            }
+            else if (tier.Key <= Global.gameManager.game.eraManager.highestRevolutionaryTier)
+            {
+                int temp = (int)(tier.Value * Global.gameManager.game.eraManager.eraResearchCostModifier[EraType.Revolutionary]);
+                tierCostDict[tier.Key] = temp;
+            }
+            else if (tier.Key <= Global.gameManager.game.eraManager.highestModernTier)
+            {
+                int temp = (int)(tier.Value * Global.gameManager.game.eraManager.eraResearchCostModifier[EraType.Modern]);
+                tierCostDict[tier.Key] = temp;
+            }
+        }
+    }
 
     static ResearchLoader()
     {
@@ -49,7 +71,6 @@ public static class ResearchLoader
         tierCostDict.Add(16, 1850);
         tierCostDict.Add(17, 2155);
         tierCostDict.Add(18, 2500);
-
     }
         
     public static Dictionary<String, ResearchInfo> LoadResearchData(string xmlPath)
@@ -63,6 +84,7 @@ public static class ResearchLoader
                 r => r.Attribute("Name")?.Value ?? throw new InvalidOperationException("Missing 'Name' attribute"),
                 r => new ResearchInfo
                 {
+                    Era = (EraType)Enum.Parse(typeof(EraType), r.Attribute("Era")?.Value ?? throw new InvalidOperationException("Missing 'Era' attribute")),
                     Tier = int.Parse(r.Attribute("Tier")?.Value ?? "0"),
                     FactionType = Enum.TryParse<FactionType>(r.Attribute("Class")?.Value, out var factionType) ? factionType : FactionType.All,
                     VisualSlot = int.Parse(r.Attribute("VisualSlot")?.Value ?? "0"),
@@ -131,6 +153,15 @@ public static class ResearchLoader
             { "ConstructionEffect", ConstructionEffect },
             { "CartographyEffect", CartographyEffect },
             { "CartographyEndEraEffect", CartographyEndEraEffect },
+            { "GunpowderEffect", GunpowderEffect },
+            { "PrintingEffect", PrintingEffect },
+            {"SiegeTacticsEffect", SiegeTacticsEffect },
+            {"ScientificTheoryEffect", ScientificTheoryEffect },
+            {"ScientificTheoryResearchAgreementsEffect", ScientificTheoryResearchAgreementsEffect },
+            {"SteamPowerEffect", SteamPowerEffect },
+            {"ReplaceablePartsFarmFoodBonus", ReplaceablePartsFarmFoodBonus },
+            {"ReplaceablePartsPastureProductionBonus", ReplaceablePartsPastureProductionBonus},
+            {"SteelEffect", SteelEffect },
         };
 
     public static string ProcessFunctionString(String functionString, Player player)
@@ -337,7 +368,7 @@ public static class ResearchLoader
 
     static string CartographyEffect(Player player, bool executeLogic)
     {
-        if (executeLogic && player.industrialInsightResearchCount == 0)
+        if (executeLogic && player.revolutionaryInsightResearchCount == 0)
         {
             player.unitPlayerEffects.Add(new UnitPlayerEffect("CartographyCivilian", new UnitEffect("EnableOceanMovement"), UnitClass.Civilian));
             player.unitPlayerEffects.Add(new UnitPlayerEffect("CartographyCombat", new UnitEffect("EnableOceanMovement"), UnitClass.Combat));
@@ -348,9 +379,94 @@ public static class ResearchLoader
     {
         if(executeLogic)
         {
-            player.industrialInsightResearchCount++;
+            player.revolutionaryInsightResearchCount++;
+            Global.gameManager.game.eraManager.revolutionaryEraResearchCount++;
             player.completedResearches.Remove("Cartography");
         }
         return "Upon completing this research if it is still the Classical Era you may research it again, each time you complete this research you will recieve a bonus.";
+    }
+    static string GunpowderEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("Gunpowder", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Mine"));
+        }
+        return "+1 Production to all Mines.";
+    }
+
+    static string PrintingEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+            player.diplomaticActionHashSet.Add(new DiplomacyAction(player.teamNum, "Trade Research", false, false)); //TODO
+        }
+        return "TODO Unlocks the ability to trade researches with other teams.";
+    }
+    static string SiegeTacticsEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+        }
+        return "TODO Allows Military Engineers to build forts (improvement that grants +5 combat strength to occupying unit).";
+    }
+    static string ScientificTheoryEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("Gunpowder", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Lumbermill"));
+        }
+        return "+1 Production to all lumbermills.";
+    }
+    static string ScientificTheoryResearchAgreementsEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+            player.diplomaticActionHashSet.Add(new DiplomacyAction(player.teamNum, "Research Agreement", false, false)); //TODO
+        }
+        return "Allows player to make Research Agreements with other players (TODO).";
+    }
+
+    static string SteamPowerEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+        }
+        return "TODO Allows Military Engineers to build railroads (improvement that makes the move cost of a tile 0.25).";
+    }
+    static string ReplaceablePartsFarmFoodBonus(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("ReplaceablePartsFarmAdjacency", new BuildingEffect("ReplaceablePartsFarmAdjacency"), "Pasture"));
+        }
+        return "+1 food yield to farms for each 2 adjacent farms.";
+    }
+    static string ReplaceablePartsPastureProductionBonus(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+            player.buildingPlayerEffects.Add(new BuildingPlayerEffect("ReplaceablePartsPasture", new BuildingEffect(BuildingEffectType.ProductionYield, EffectOperation.Add, 1.0f, 5), "Pasture"));
+        }
+        return "+1 Production to all pastures.";
+    }
+    static string SteelEffect(Player player, bool executeLogic)
+    {
+        if (executeLogic)
+        {
+            foreach(int city in player.cityList)
+            {
+                foreach (District district in Global.gameManager.game.cityDictionary[city].districts)
+                {
+                    if(district.isCityCenter)
+                    {
+                        district.AddBuilding(new Building("ModernWalls", district.hex, false));
+                        player.allowedBuildings.Remove("AncientWalls");
+                        player.allowedBuildings.Remove("MedievalWalls");
+                        player.allowedBuildings.Remove("RenaissanceWalls");
+                    }
+                }
+            }
+        }
+        return "Adds Modern Walls to all cities, replacing all prior walls defensive aspect.";
     }
 }
