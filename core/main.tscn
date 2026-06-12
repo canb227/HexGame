@@ -1,20 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhg68s18q50f"]
+[gd_scene format=3 uid="uid://bhg68s18q50f"]
 
-[ext_resource type="Script" uid="uid://b1fdl0bx5xtlv" path="res://network/NetworkPeer.cs" id="1_xiose"]
-[ext_resource type="Script" uid="uid://om7sllrdrhje" path="res://graphics/ui/menus/MenuManager.cs" id="2_r77kf"]
-[ext_resource type="Script" uid="uid://bir6bmai6qh0e" path="res://hex/GameManager.cs" id="3_3gdo0"]
+[ext_resource type="Script" uid="uid://c6e267r544yns" path="res://network/NetworkPeer.cs" id="1_xiose"]
+[ext_resource type="Script" uid="uid://1abenr3f6mu5" path="res://graphics/ui/menus/MenuManager.cs" id="2_r77kf"]
+[ext_resource type="Script" uid="uid://c0qough8yvgue" path="res://hex/GameManager.cs" id="3_3gdo0"]
 [ext_resource type="PackedScene" uid="uid://dnnuohdigjyac" path="res://graphics/ui/menus/lobby.tscn" id="4_csopv"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1045445425]
 
-[node name="NetworkPeer" type="Node" parent="."]
+[node name="NetworkPeer" type="Node" parent="." unique_id=340752567]
 script = ExtResource("1_xiose")
 
-[node name="MenuManager" type="Node" parent="."]
+[node name="MenuManager" type="Node" parent="." unique_id=1691504909]
 script = ExtResource("2_r77kf")
 
-[node name="GameManager" type="Node" parent="."]
+[node name="GameManager" type="Node" parent="." unique_id=703799330]
 script = ExtResource("3_3gdo0")
 
-[node name="Lobby" parent="." instance=ExtResource("4_csopv")]
+[node name="Lobby" parent="." unique_id=1858634251 instance=ExtResource("4_csopv")]
 visible = false
