@@ -489,6 +489,10 @@ public class UnitEffect
             if (validDistrict && noBuilding)
             {
                 gameHex.district.AddBuilding(new Building("Pasture", gameHex.hex, Global.gameManager.game.mainGameBoard.gameHexDict[gameHex.hex].resourceType != ResourceType.None));
+                if (Global.gameManager.game.mainGameBoard.gameHexDict[gameHex.hex].resourceType != ResourceType.None)
+                {
+                    gameHex.district.AddResource();
+                }
                 return true;
             }
             else

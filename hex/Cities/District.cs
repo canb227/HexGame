@@ -103,63 +103,6 @@ public partial class District
         {
             districtType = DistrictType.rural;
             AddBuilding(new Building("RuralDistrict", hex, false));
-            bool isResource = false;
-            if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType != ResourceType.None)
-            {
-                AddResource();
-                isResource = true;
-                /*if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Lumbermill")
-                {
-                    AddBuilding(new Building("Lumbermill", hex, isResource));
-                }
-                else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Farm")
-                {
-                    AddBuilding(new Building("Farm", hex, isResource));
-                }
-                else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Pasture")
-                {
-                    AddBuilding(new Building("Pasture", hex, isResource));
-                }
-                else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "Mine")
-                {
-                    AddBuilding(new Building("Mine", hex, isResource));
-                }
-                else if (ResourceLoader.resources[Global.gameManager.game.mainGameBoard.gameHexDict[hex].resourceType].ImprovementType == "FishingBoar")
-                {
-                    AddBuilding(new Building("FishingBoat", hex, isResource));
-                }*/
-            }
-            /*else
-            {
-                if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].featureSet.Contains(FeatureType.Forest))
-                {
-                    AddBuilding(new Building("Lumbermill", hex, isResource));
-                }
-                else
-                {
-                    if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Flat)
-                    {
-                        AddBuilding(new Building("Farm", hex, isResource));
-                    }
-                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Rough)
-                    {
-                        AddBuilding(new Building("Mine", hex, isResource));
-                    }
-                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Mountain)
-                    {
-                        AddBuilding(new Building("Mine", hex, isResource));
-                    }
-                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Coast)
-                    {
-                        AddBuilding(new Building("FishingBoat", hex, isResource));
-                    }
-                    else if (Global.gameManager.game.mainGameBoard.gameHexDict[hex].terrainType == TerrainType.Ocean)
-                    {
-                        AddBuilding(new Building("FishingBoat", hex, isResource));
-                    }
-                }
-            }*/
-            
         }
         this.isUrban = isUrban;
         if(isUrban)
@@ -544,6 +487,13 @@ public partial class District
 
     public void RemoveLostResource()
     {
+        if(buildings.Any())
+        {
+            foreach(Building building in buildings)
+            {
+                
+            }
+        }
         Global.gameManager.game.playerDictionary[Global.gameManager.game.cityDictionary[cityID].teamNum].RemoveLostResource(hex);
     }
 }

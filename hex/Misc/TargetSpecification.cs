@@ -39,6 +39,7 @@ public class TargetSpecification
     public bool AllowsAlly { get; set; } = false;
     public bool AllowsEnemy { get; set; } = false;
     public bool AllowsNeutral { get; set; } = false;
+    public bool RequiresOwned { get; set; } = false; //setup for targetself only right now
     public bool RequiresAncientRuins { get; set; } = false;
 
 
@@ -215,6 +216,13 @@ public class TargetSpecification
         //now check self, unit, ruralbuilding, urban building, can return early if we find a valid case since we checked all other hex requirements
         if (TargetSelf)
         {
+            if(RequiresOwned)
+            {
+                if (gameHex.ownedBy != castingUnit.teamNum)
+                {
+                    return false;
+                }
+            }
             return true;
         }
         //check if we can target empty tiles

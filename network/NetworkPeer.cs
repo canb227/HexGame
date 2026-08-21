@@ -591,5 +591,3 @@ public partial class NetworkPeer : Node
         SendMessageToPeer(id, lobbyMessage, LOBBY_CHANNEL);
     }
 }
-
-
